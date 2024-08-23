@@ -26,7 +26,7 @@ const config: Config = {
   // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: "en",
-    locales: ["en"],
+    locales: ["en", "ja"],
   },
 
   presets: [
@@ -62,6 +62,10 @@ const config: Config = {
           sidebarId: "tutorialSidebar",
           position: "left",
           label: "Docs",
+        },
+        {
+          type: "localeDropdown",
+          position: "right",
         },
         {
           href: "https://github.com/mbc-net/mbc-cqrs-serverless",
