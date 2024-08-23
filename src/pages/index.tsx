@@ -1,42 +1,41 @@
-import clsx from 'clsx';
-import Link from '@docusaurus/Link';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import Layout from '@theme/Layout';
-import HomepageFeatures from '@site/src/components/HomepageFeatures';
-import Heading from '@theme/Heading';
+import clsx from "clsx";
+import Link from "@docusaurus/Link";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import Layout from "@theme/Layout";
+import HomepageFeatures from "@site/src/components/HomepageFeatures";
+import Heading from "@theme/Heading";
 
-import styles from './index.module.css';
-
-function HomepageHeader() {
-  const {siteConfig} = useDocusaurusContext();
-  return (
-    <header className={clsx('hero hero--primary', styles.heroBanner)}>
-      <div className="container">
-        <Heading as="h1" className="hero__title">
-          {siteConfig.title}
-        </Heading>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
-        <div className={styles.buttons}>
-          <Link
-            className="button button--secondary button--lg"
-            to="/docs/intro">
-            Docusaurus Tutorial - 5min ⏱️
-          </Link>
-        </div>
-      </div>
-    </header>
-  );
-}
+import styles from "./index.module.css";
 
 export default function Home(): JSX.Element {
-  const {siteConfig} = useDocusaurusContext();
+  const { siteConfig } = useDocusaurusContext();
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
-      <HomepageHeader />
-      <main>
-        <HomepageFeatures />
+      title={`${siteConfig.title}`}
+      description="Unleash the power of scalable, resilient serverless applications with CQRS on AWS"
+    >
+      <main className={clsx(styles.fullScreen)}>
+        <div className={clsx(styles.container)}>
+          <Heading as="h2" className={clsx(styles.textCenter)}>
+            Welcome to <br /> the MBC CQRS serverless framework documentation!
+          </Heading>
+          <p className={clsx(styles.textCenter)}>
+            This framework provides core functionalities for implementing the
+            Command Query Responsibility Segregation (CQRS) pattern within AWS
+            serverless architectures, powered by the incredible NestJS
+            framework. It simplifies the development of highly scalable and
+            decoupled systems that can handle complex business logic and
+            high-volume data processing.
+          </p>
+          <div className={styles.buttons}>
+            <Link
+              className="button button--secondary button--lg"
+              to="/docs/intro"
+            >
+              Getting Started
+            </Link>
+          </div>
+        </div>
       </main>
     </Layout>
   );

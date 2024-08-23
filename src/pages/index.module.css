@@ -3,11 +3,20 @@
  * and scoped locally.
  */
 
-.heroBanner {
-  padding: 4rem 0;
-  text-align: center;
-  position: relative;
+.fullScreen {
+  flex-grow: 1;
+  display: flex;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   overflow: hidden;
+  max-width: 996px;
+  margin: 0 auto;
+  gap: 2rem;
 }
 
 @media screen and (max-width: 996px) {
@@ -20,4 +29,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.textCenter {
+  text-align: center;
 }
