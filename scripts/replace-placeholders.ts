@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
+
 const fallbackLanguage = "en";
 
 function replacePlaceholders(
@@ -8,33 +9,25 @@ function replacePlaceholders(
 ): string {
   Object.keys(content).forEach((key) => {
     const placeholder = `{{${key}}}`;
-    template = template.replace(new RegExp(placeholder, "g"), content[key]);
+    if (content[key]) {
+      template = template.replace(new RegExp(placeholder, "g"), content[key]);
+    }
+    const placeholderMeta = `{ { ${key} } }`;
+    if (content[key]) {
+      template = template.replace(
+        new RegExp(placeholderMeta, "g"),
+        content[key]
+      );
+    }
   });
   return template;
 }
 
-function saveMarkdownToFile(
-  content: string,
-  outputDirName: string,
-  filename: string
-) {
-  const outputDir = path.join(__dirname, outputDirName);
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
-  }
-
-  const outputFile = path.join(__dirname, outputDirName, filename);
-
-  fs.writeFileSync(outputFile, content, "utf8");
-}
-
 function replace(language: string, isFallback: boolean = false) {
   // Define the directories for markdown files and JSON data
-  const docsDir = path.join(
+  const outputDir = path.join(
     __dirname,
-    isFallback
-      ? `../i18n/${language}/docusaurus-plugin-content-docs/current`
-      : "../docs"
+    `../i18n/${language}/docusaurus-plugin-content-docs/current`
   );
   const dataDir = path.join(
     __dirname,
@@ -43,7 +36,7 @@ function replace(language: string, isFallback: boolean = false) {
 
   // Get all markdown files in the docs directory
   const markdownFiles = fs
-    .readdirSync(docsDir)
+    .readdirSync(outputDir)
     .filter((file) => file.endsWith(".md"));
 
   markdownFiles.forEach((markdownFile) => {
@@ -59,25 +52,20 @@ function replace(language: string, isFallback: boolean = false) {
       >;
 
       // Load the markdown template
-      const templateFile = path.join(docsDir, markdownFile);
+      const templateFile = path.join(outputDir, markdownFile);
       let template = fs.readFileSync(templateFile, "utf8");
 
       // Replace placeholders with corresponding content from JSON
       template = replacePlaceholders(template, content);
 
       // Save the output back to the markdown file or a new one
-      saveMarkdownToFile(
-        template,
-        `../i18n/${language}/docusaurus-plugin-content-docs/current`,
-        markdownFile
-      );
+      const outputFile = path.join(outputDir, markdownFile);
+      fs.writeFileSync(outputFile, template, "utf8");
 
-      console.log(`Processed ${markdownFile} successfully`);
+      console.log(`Processed ${language}/${markdownFile} successfully`);
     } else {
       console.log(
-        `${
-          isFallback ? "Fallback" : ""
-        }:::JSON file not found for ${markdownFile}, skipping...`
+        `JSON file not found for ${language}/${markdownFile}, skipping...`
       );
     }
   });
@@ -92,12 +80,26 @@ if (!language) {
   process.exit(1);
 }
 
+const templateDir = path.join(__dirname, `../docs`);
+
+const outputDir = path.join(
+  __dirname,
+  `../i18n/${language}/docusaurus-plugin-content-docs/current`
+);
+
+// Ensure the output directory exists
+if (!fs.existsSync(outputDir)) {
+  fs.mkdirSync(outputDir, { recursive: true });
+}
+
+fs.cpSync(templateDir, outputDir, { recursive: true });
+
 console.log(`Update content for ${language} language`);
 replace(language);
 
-console.log(
-  `Fallback content for ${language} language. Using ${fallbackLanguage} `
-);
 if (language !== fallbackLanguage) {
+  console.log(
+    `Fallback content for ${language} language. Using ${fallbackLanguage} `
+  );
   replace(language, true);
 }

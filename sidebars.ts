@@ -24,7 +24,7 @@ const sidebars: SidebarsConfig = {
         type: "doc",
         id: "getting-started",
       },
-      items: [],
+      items: ["installation"],
     },
   ],
 };
