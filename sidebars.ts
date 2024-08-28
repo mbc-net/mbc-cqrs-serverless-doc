@@ -24,8 +24,92 @@ const sidebars: SidebarsConfig = {
         type: "doc",
         id: "getting-started",
       },
-      items: ["installation"],
+      items: ["installation", "project-structure"],
     },
+    {
+      type: "category",
+      label: "Build your application",
+      link: {
+        type: "doc",
+        id: "build-your-application",
+      },
+      items: [
+        "authentication",
+        "controllers",
+        "modules",
+        {
+          type: "category",
+          label: "Handle event",
+          link: {
+            type: "doc",
+            id: "handle-event",
+          },
+          items: ["custom-event", "data-sync-event"],
+        },
+        {
+          type: "category",
+          label: "Configuring",
+          link: {
+            type: "doc",
+            id: "configuring",
+          },
+          items: [
+            "environment-variables",
+            "absolute_imports_and_module_path_aliases",
+          ],
+        },
+        {
+          type: "category",
+          label: "Testing",
+          link: {
+            type: "doc",
+            id: "testing",
+          },
+          items: ["unit-test", "e2e-test"],
+        },
+      ],
+    },
+    "cli",
+    {
+      type: "category",
+      label: "Recipes",
+      link: {
+        type: "doc",
+        id: "recipes",
+      },
+      items: ["prisma", "dynamodb", "sequence"],
+    },
+    {
+      type: "category",
+      label: "API reference",
+      link: {
+        type: "doc",
+        id: "api-reference",
+      },
+      items: [
+        {
+          type: "category",
+          label: "CommandModule",
+          link: {
+            type: "doc",
+            id: "command-module",
+          },
+          items: ["command-service", "data-service"],
+        },
+        {
+          type: "category",
+          label: "NotificationModule",
+          link: {
+            type: "doc",
+            id: "notification-module",
+          },
+          items: ["email-service"],
+        },
+        "interfaces",
+      ],
+    },
+    "showcase",
+    "glossary",
   ],
 };
 

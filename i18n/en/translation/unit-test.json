@@ -1,0 +1,15 @@
+{
+  "description": "Learn how to write unit test",
+  "title": "Unit test",
+  "intro_text": "To summarize the steps for writing a unit test, there are five main steps:",
+  "step_1": "Create an event (API gateway event, S3 event, etc.).",
+  "step_2": "Mock/init necessary data/service.",
+  "step_3": "Pass the event to `serverlessExpressInstance`.",
+  "step_4": "Check data is correct or not",
+  "step_5": "Clean data",
+  "scaffolds_intro": "Here is the scaffolds default unit tests for applications:",
+  "scaffold_1": "Line 1-16: import dependencies",
+  "scaffold_2": "Line 19-60: before each test, mock serverlessExpressInstance/necessary dependencies and create table.",
+  "scaffold_3": "Line 62-71: write test",
+  "scaffold_4": "Line 73-76: after each test, close app, clean up data"
+}
