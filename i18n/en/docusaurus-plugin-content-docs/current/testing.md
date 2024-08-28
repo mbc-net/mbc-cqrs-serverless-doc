@@ -14,3 +14,9 @@ Such tests often span a variety of types, including unit tests, end-to-end (e2e)
 - effortlessly mock AWS services
 
 See the guides below to learn how to write test:
+
+```mdx-code-block
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList />
+```
