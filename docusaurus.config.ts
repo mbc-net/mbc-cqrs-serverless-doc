@@ -4,11 +4,11 @@ import type * as Preset from "@docusaurus/preset-classic";
 
 const config: Config = {
   title: "MBC CQRS serverless",
-  tagline: "Dinosaurs are cool",
+  tagline: "MBC CQRS serverless Document",
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
-  url: "https://your-docusaurus-site.example.com",
+  url: "https://mbc-net.github.io/mbc-cqrs-serverless-doc",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: "/",
@@ -16,7 +16,7 @@ const config: Config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: "mbc-net", // Usually your GitHub org/user name.
-  projectName: "mbc-cqrs-serverless", // Usually your repo name.
+  projectName: "mbc-cqrs-serverless-doc", // Usually your repo name.
 
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
@@ -37,7 +37,7 @@ const config: Config = {
           sidebarPath: "./sidebars.ts",
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: "https://github.com/mbc-net/mbc-cqrs-serverless",
+          editUrl: "https://github.com/mbc-net/mbc-cqrs-serverless-doc",
         },
         blog: false,
         theme: {
@@ -68,7 +68,7 @@ const config: Config = {
           position: "right",
         },
         {
-          href: "https://github.com/mbc-net/mbc-cqrs-serverless",
+          href: "https://github.com/mbc-net/mbc-cqrs-serverless-doc",
           label: "GitHub",
           position: "right",
         },
