@@ -1,0 +1,12 @@
+{
+  "Prisma related recipes.": "",
+  "Prisma": "",
+  "In MBC CQRS serverless, we use prisma as an ORM. It helps developers more productive when working with databases.": "",
+  "A common scenario when working with Prisma is needing to make changes to the database, such as creating tables, updating fields in tables, etc. Follow these steps:": "",
+  "Update prisma/schema.prisma file.": "",
+  "For local development, create and apply migrations with command npm run migrate:dev.": "",
+  "For local development, please make sure to set the correct `DATABASE_URL` environment variable.": "",
+  "You could view [prisma-client documentation](https://www.prisma.io/docs/orm/prisma-client) for more information": "",
+  "Design table convention": "",
+  "When creating an RDS table that maps to a DynamoDB table, ensure you add the necessary fields and indexes to the RDS table accordingly.": ""
+}
