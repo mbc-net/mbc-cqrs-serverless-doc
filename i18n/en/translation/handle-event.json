@@ -1,12 +1,11 @@
 {
-  "description": "Handle event",
-  "title": "Handle event",
-  "intro_text": "Currently, we support customizing six types of events. There are:",
-  "event_type_1": "[SNS event](https://docs.aws.amazon.com/lambda/latest/dg/with-sns.html#sns-sample-event)",
-  "event_type_2": "[SQS event](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#example-standard-queue-message-event)",
-  "event_type_3": "[DynamoDB event](https://docs.aws.amazon.com/lambda/latest/dg/with-ddb.html#events-sample-dynamodb)",
-  "event_type_4": "Event Bridge event",
-  "event_type_5": "Step function event",
-  "event_type_6": "[S3 event](https://docs.aws.amazon.com/lambda/latest/dg/with-s3.html)",
-  "guide_intro": "This guide will help you create a custom event and register a handler for it."
+  "Handle event": "Handle event",
+  "Currently, we support customizing six types of events. There are:": "Currently, we support customizing six types of events. There are:",
+  "[SNS event](https://docs.aws.amazon.com/lambda/latest/dg/with-sns.html#sns-sample-event)": "[SNS event](https://docs.aws.amazon.com/lambda/latest/dg/with-sns.html#sns-sample-event)",
+  "[SQS event](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#example-standard-queue-message-event)": "[SQS event](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#example-standard-queue-message-event)",
+  "[DynamoDB event](https://docs.aws.amazon.com/lambda/latest/dg/with-ddb.html#events-sample-dynamodb)": "[DynamoDB event](https://docs.aws.amazon.com/lambda/latest/dg/with-ddb.html#events-sample-dynamodb)",
+  "Event Bridge event": "Event Bridge event",
+  "Step function event": "Step function event",
+  "[S3 event](https://docs.aws.amazon.com/lambda/latest/dg/with-s3.html)": "[S3 event](https://docs.aws.amazon.com/lambda/latest/dg/with-s3.html)",
+  "This guide will help you create a custom event and register a handler for it.": "This guide will help you create a custom event and register a handler for it."
 }

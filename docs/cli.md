@@ -1,18 +1,18 @@
 ---
-description: { { description } }
+description: { { CLI } }
 ---
 
-# {{title}}
+# {{CLI}}
 
-{{intro_text}}
+{{The mbc-cqrs-serverless CLI allows you to create new project.}}
 
-{{commands_intro}}
+{{To get a list of the available CLI commands, run the following command:}}
 
 ```bash
 mbc -h
 ```
 
-{{command_output}}
+{{The output should look like this:}}
 
 ```bash
 Usage: mbc [options] [command]

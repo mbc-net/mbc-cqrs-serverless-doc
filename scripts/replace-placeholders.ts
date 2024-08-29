@@ -8,11 +8,11 @@ function replacePlaceholders(
   content: Record<string, string>
 ): string {
   Object.keys(content).forEach((key) => {
-    const placeholder = `{{${key}}}`;
+    const placeholder = `{{${key.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, `.`)}}}`;
     if (content[key]) {
       template = template.replace(new RegExp(placeholder, "g"), content[key]);
     }
-    const placeholderMeta = `{ { ${key} } }`;
+    const placeholderMeta = `{ { ${key.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, `.`)} } }`;
     if (content[key]) {
       template = template.replace(
         new RegExp(placeholderMeta, "g"),

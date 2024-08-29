@@ -1,29 +1,29 @@
 ---
-description: { { description } }
+description: { { Learn how to use CommandModule. } }
 ---
 
-# {{title}}
+# {{CommandModule}}
 
-![{{img_alt}}](./images/CommandModule.png)
+![{{CommandModule structure}}](./images/CommandModule.png)
 
-## {{description_title}}
+## {{Description}}
 
-{{description_text}}
+{{The `CommandModule` is a dynamic module used to register data sync handlers and provide some services associated with the table name.}}
 
-## {{method_title}}
+## {{Methods}}
 
-### {{register_method_title}}
+### {{*static* `register(option)`}}
 
-{{register_method_intro}}
+{{When import this module, you must provide a specific option for use. The option has 4 properties that you can configure:}}
 
-| {{property_name}}                | {{property_description}}              |
+| {{Properties}}                | {{Description}}              |
 | -------------------------------- | ------------------------------------- |
-| `tableName: string`              | {{tableName_description}}             |
-| `skipError?: boolean`            | {{skipError_description}}             |
-| `dataSyncHandlers?: Type[]`      | {{dataSyncHandlers_description}}      |
-| `disableDefaulHandler?: boolean` | {{disableDefaultHandler_description}} |
+| `tableName: string`              | {{provide table name}}             |
+| `skipError?: boolean`            | {{If set to `true`, it will skip errors from previous commands.}}             |
+| `dataSyncHandlers?: Type[]`      | {{register data sync handler}}      |
+| `disableDefaulHandler?: boolean` | {{If set to `true`, it will reset default data sync handlers}} |
 
-{{example_text}}
+{{For example:}}
 
 ```ts
 CommandModule.register({
@@ -32,4 +32,4 @@ CommandModule.register({
 });
 ```
 
-{{example_description}}
+{{Here, the `CommandModule` registers with the `cat` table name and provides the `CatDataSyncRdsHandler` to the data sync handlers.}}

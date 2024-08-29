@@ -1,8 +1,7 @@
 {
-  "description": "Showcase",
-  "title": "Showcase",
-  "showcase_1": "①埼玉大学",
-  "showcase_2": "②日商非特恵",
-  "showcase_3": "③スマート見積り",
-  "showcase_4": "④スマート契約"
+  "Showcase": "Showcase",
+  "①埼玉大学": "①埼玉大学",
+  "②日商非特恵": "②日商非特恵",
+  "③スマート見積り": "③スマート見積り",
+  "④スマート契約": "④スマート契約"
 }

@@ -1,38 +1,38 @@
 ---
-description: { { description } }
+description: { { Installation } }
 ---
 
-# {{title}}
+# {{Installation}}
 
-{{system_requirements_title}}:
+{{System Requirements}}:
 
-- {{requirement_1}}
-- {{requirement_2}}
-- {{requirement_3}}
-- {{requirement_4}}
-- {{requirement_5}}
+- {{[Node.js](https://nodejs.org/en/download/package-manager)}}
+- {{[JQ cli](https://jqlang.github.io/jq/download/)}}
+- {{[AWS cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)}}
+- {{[Docker](https://docs.docker.com/engine/install/)}}
+- {{macOS and Linux are supported.}}
 
-## {{automatic_installation_title}}
+## {{Automatic Installation}}
 
-{{automatic_installation_description}}
+{{To get started, you can scaffold the project with the [mbc-cqrs-severless CLI](./cli.md). To scaffold the project with the mbc-cqrs-severless CLI, run the following commands. This will create a new project directory, and populate the directory with the initial core mbc-cqrs-severless files and supporting modules, creating a conventional base structure for your project.}}
 
 ```bash
 npm i -g @mbc-cqrs-severless/cli
 mbc new project-name
 ```
 
-{{new_user_suggestion}}
+{{If you're new to mbc-cqrs-serverless, see the [project structure](./project-structure.md) docs for an overview of all the possible files and folders in your application.}}
 
-## {{development_server_title}}
+## {{Run the Development Server}}
 
-1. {{dev_step_1}}
-2. {{dev_step_2}}
-3. {{dev_step_3}}
-4. {{dev_step_4}}
-5. {{dev_step_5}}
-6. {{dev_step_6}}
+1. {{Run `cp .env.local .env` to create the environment variables file.}}
+2. {{Run `npm install` to install the required dependencies.}}
+3. {{Run `npm run build` to the build project using development mode.}}
+4. {{Open in other terminal session and run `npm run offline:docker`}}
+5. {{Open in other terminal session and run `npm run migrate` to migrate RDS and dynamoDB table}}
+6. {{Finally, run `npm run offline:sls` to start serverless offline mode.}}
 
-{{server_start_output}}
+{{After the server runs successfully, you can see:}}
 
 ```bash
 DEBUG[serverless-offline-sns][adapter]: successfully subscribed queue "http://localhost:9324/101010101010/notification-queue" to topic: "arn:aws:sns:ap-northeast-1:101010101010:MySnsTopic"
@@ -63,27 +63,27 @@ Configuring JWT Authorization: ANY /{proxy+}
 Server ready: http://localhost:3000 🚀
 ```
 
-{{endpoints_suggestion}}:
+{{You can also use several endpoints}}:
 
-- {{endpoint_1}}
-- {{endpoint_2}}
-- {{endpoint_3}}
-- {{endpoint_4}}
-- {{endpoint_5}}
-- {{endpoint_6}}
-- {{endpoint_7}}
-- {{endpoint_8}}
-- {{endpoint_9}}
-- {{endpoint_10}}
-- {{endpoint_11}}
-- {{endpoint_12}}
-- {{endpoint_13}}
-- {{endpoint_14}}
-- {{endpoint_15}}
+- {{API gateway: http://localhost:3000}}
+- {{Offline Lambda Server: http://localhost:4000}}
+- {{HTTP for lambda: http://localhost:3002}}
+- {{Step functions: http://localhost:8083}}
+- {{DynamoDB: http://localhost:8000}}
+- {{DynamoDB admin: http://localhost:8001}}
+- {{SNS: http://localhost:4002}}
+- {{SQS: http://localhost:9324}}
+- {{SQS admin: http://localhost:9325}}
+- {{Localstack: http://localhost:4566}}
+- {{AppSync: http://localhost:4001}}
+- {{Cognito: http://localhost:9229}}
+- {{EventBridge: http://localhost:4010}}
+- {{Simple Email Service: http://localhost:8005}}
+- {{Run `npx prisma studio` to open studio web: http://localhost:5000}}
 
 :::note
 
-{{setup_note}}
+{{In the local environment, if you have trouble with the `npm run migrate` command or cannot log in with local Cognito, you will need to add more permissions to files and folders using the command below:}}
 
 ```bash
 sudo chmod -R 777 ./infra-local/cognito-local

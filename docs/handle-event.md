@@ -1,19 +1,19 @@
 ---
-description: { { description } }
+description: { { Handle event } }
 ---
 
-# {{title}}
+# {{Handle event}}
 
-{{intro_text}}
+{{Currently, we support customizing six types of events. There are:}}
 
-- {{event_type_1}}
-- {{event_type_2}}
-- {{event_type_3}}
-- {{event_type_4}}
-- {{event_type_5}}
-- {{event_type_6}}
+- {{[SNS event](https://docs.aws.amazon.com/lambda/latest/dg/with-sns.html#sns-sample-event)}}
+- {{[SQS event](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#example-standard-queue-message-event)}}
+- {{[DynamoDB event](https://docs.aws.amazon.com/lambda/latest/dg/with-ddb.html#events-sample-dynamodb)}}
+- {{Event Bridge event}}
+- {{Step function event}}
+- {{[S3 event](https://docs.aws.amazon.com/lambda/latest/dg/with-s3.html)}}
 
-{{guide_intro}}
+{{This guide will help you create a custom event and register a handler for it.}}
 
 ```mdx-code-block
 import DocCardList from '@theme/DocCardList';

@@ -1,0 +1,9 @@
+{
+  "EmailService": "",
+  "Description": "",
+  "This service is designed to send emails using [AWS SES (Simple Email Service)](https://aws.amazon.com/ses/).": "",
+  "Methods": "",
+  "*async* `sendEmail(msg: EmailNotification)`": "",
+  "Composes an email message and immediately queues it for sending.": "",
+  "For example:": ""
+}

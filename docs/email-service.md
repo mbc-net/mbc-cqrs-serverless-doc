@@ -1,20 +1,20 @@
 ---
-description: { { description } }
+description: { { EmailService } }
 ---
 
-# {{title}}
+# {{EmailService}}
 
-## {{description_title}}
+## {{Description}}
 
-{{description_text}}
+{{This service is designed to send emails using [AWS SES (Simple Email Service)](https://aws.amazon.com/ses/).}}
 
-## {{methods_title}}
+## {{Methods}}
 
-### {{sendEmail_method_title}}
+### {{*async* `sendEmail(msg: EmailNotification)`}}
 
-{{sendEmail_method_description}}
+{{Composes an email message and immediately queues it for sending.}}
 
-{{sendEmail_example}}
+{{For example:}}
 
 ```ts
 const email = "cat@example.com";

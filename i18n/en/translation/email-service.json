@@ -1,10 +1,9 @@
 {
-  "description": "EmailService",
-  "title": "EmailService",
-  "description_title": "Description",
-  "description_text": "This service is designed to send emails using [AWS SES (Simple Email Service)](https://aws.amazon.com/ses/).",
-  "methods_title": "Methods",
-  "sendEmail_method_title": "*async* `sendEmail(msg: EmailNotification)`",
-  "sendEmail_method_description": "Composes an email message and immediately queues it for sending.",
-  "sendEmail_example": "For example: "
+  "EmailService": "EmailService",
+  "Description": "Description",
+  "This service is designed to send emails using [AWS SES (Simple Email Service)](https://aws.amazon.com/ses/).": "This service is designed to send emails using [AWS SES (Simple Email Service)](https://aws.amazon.com/ses/).",
+  "Methods": "Methods",
+  "*async* `sendEmail(msg: EmailNotification)`": "*async* `sendEmail(msg: EmailNotification)`",
+  "Composes an email message and immediately queues it for sending.": "Composes an email message and immediately queues it for sending.",
+  "For example:": "For example:"
 }

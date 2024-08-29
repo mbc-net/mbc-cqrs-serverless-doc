@@ -1,17 +1,17 @@
 ---
-description: { { description } }
+description: { { Learn how to add and validate your environment variables in your application. } }
 ---
 
-# {{title}}
+# {{Environment Variables}}
 
-{{intro}}
+{{MBC CQRS serverless framework comes with built-in support for environment variables, which allows you to do the following:}}
 
-- {{toc_list_1}}
-- {{toc_list_2}}
+- {{Use `.env` to load environment variables}}
+- {{Validate environment variables}}
 
 ## Loading Environment Variables
 
-{{loading_details}}
+{{MBC CQRS serverless framework has built-in support for loading environment variables from `.env*` files into `process.env.`}}
 
 ```
 TODO:
@@ -74,12 +74,12 @@ DATABASE_URL="mysql://root:RootCqrs@localhost:3306/cqrs?schema=public&connection
 
 ## Validate Environment Variables
 
-{{validation_intro}}
+{{It is standard practice to throw an exception during application startup if required environment variables haven't been provided or if they don't meet certain validation rules. The `@mbc-cqrs-serverless/core` package makes this easy to do.}}
 
-{{validation_details}}
+{{First, we have to define:}}
 
-- {{validation_step_1}}
-- {{validation_step_2}}
+- {{a class with validation constraints,}}
+- {{extend the EnvironmentVariables class.}}
 
 ```ts
 // env.validation.ts
@@ -94,7 +94,7 @@ export class EnvValidation extends EnvironmentVariables {
 }
 ```
 
-{{validation_usage}}
+{{With this in place, you pass the `EnvValidation` class as a configuration argument of the `createHandler` function, as follows:}}
 
 ```ts
 import { createHandler } from "@mbc-cqrs-severless/core";
