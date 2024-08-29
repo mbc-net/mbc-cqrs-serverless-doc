@@ -1,0 +1,19 @@
+{
+  "description": "Learn how to use CommandService.",
+  "title": "CommandService",
+  "description_title": "Description",
+  "description_text": "The methods of this service are primarily used to manipulate the command table.",
+  "usage_example": "In the example for the method below, assume you import the `CommandModule` into your module as follows:",
+  "usage_result": "Then, the `CommandService` and `DataService` will be ready for injection into other services for your use.",
+  "method_title": "Methods",
+  "publish_method_title": "*async* `publish(input: CommandInputModel, opts: ICommandOptions)`",
+  "publish_method_intro": "Utilize this method to publish a full command, as it will insert the data directly into the **command** table.",
+  "publish_method_example": "For example, you can publish a new cat command as bellow:",
+  "publish_method_return": "The method returns the command data.",
+  "publishPartialUpdate_method_title": "*async* `publishPartialUpdate( input: CommandPartialInputModel, opts?: ICommandOptions)`",
+  "publishPartialUpdate_method_intro": "This method allows you to create new command data based on the previous command.",
+  "publishPartialUpdate_method_example": "For example, you want to update cat's name:",
+  "publishPartialUpdate_method_return": "The method returns the command data.",
+  "reSyncData_method_title": "async reSyncData()",
+  "reSyncData_method_usage": "If you want to reapply the data sync handler, this method is designed for you to use. You only need to call the function as follows:"
+}
