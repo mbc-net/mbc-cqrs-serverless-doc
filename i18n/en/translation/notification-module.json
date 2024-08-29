@@ -1,8 +1,0 @@
-{
-  "description": "Lean how to use NotificationModule",
-  "title": "NotificationModule",
-  "image_alt": "NotificationModule alt",
-  "description_title": "Description",
-  "description_text": "The `NotificationModule` exports the `EmailService`, and the MBC CQRS framework makes it easy to use with minimal configuration. You only need to set bellow environment variables:",
-  "env_vars_intro": "This module is registered with global scope, so you can inject the `EmailService` anywhere in your application."
-}
