@@ -1,16 +1,16 @@
 ---
-description: { { description } }
+description: { { Sequence setup and usage. } }
 ---
 
-# {{title}}
+# {{Sequence}}
 
-{{intro_text}}
+{{Sequence is **dynamic modules**. It's used for generating sequence in your application.}}
 
-{{customization_intro}}
+{{The solution for customizing the behavior of the `SequenceModule` is to pass it an options `object` in the static `register()` method. The options object is only contain one property:}}
 
-- {{option_1}}
+- {{`enableController`: enable or disable default sequence controller.}}
 
-{{example_intro}}
+{{We will create a simple example demonstrating how to use the sequence module and customize authentication for the sequence controller.}}
 
 ```ts
 // seq.controller.ts
@@ -41,9 +41,9 @@ import { SeqController } from "./seq.controller";
 export class SeqModule {}
 ```
 
-{{usage_intro}}
+{{Beside controller, we can directly use `SequenceService` to generating sequence by injecting service.}}
 
-{{service_method_description}}
+{{The `SequenceService` have only one public method:}}
 
 ```ts
 async genNewSequence(
@@ -54,8 +54,8 @@ async genNewSequence(
   )
 ```
 
-{{dto_properties_intro}}
+{{You can modify the behavior of the function by providing a `GenSequenceDto` object with certain properties:}}
 
-- {{property_1}}
-- {{property_2}}
-- {{property_3}}
+- {{`date?: Date`: By default, the function uses the current date, but if a specific date is provided, it will generate the sequence for that date instead.}}
+- {{`rotateBy?: RotateByEnum`: You can select one of five values from the RotateByEnum: fiscal_yearly, yearly, monthly, daily, and none. By default, the none type is used.}}
+- {{`tenantCode` and `typeCode`: You must provide the tenant code to identify the tenant and the type code for the intended purpose of usage.}}

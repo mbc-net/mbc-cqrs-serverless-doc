@@ -14,7 +14,7 @@ This service is designed to send emails using [AWS SES (Simple Email Service)](h
 
 Composes an email message and immediately queues it for sending.
 
-For example: 
+For example:
 
 ```ts
 const email = "cat@example.com";

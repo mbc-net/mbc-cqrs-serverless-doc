@@ -1,5 +1,4 @@
 {
-  "description": "API reference",
-  "title": "API reference",
-  "intro_text": "The MBC CQRS framework API reference is divided into the following sections. This document will concentrate on the most commonly used APIs that are essential for building your application."
+  "API reference": "API reference",
+  "The MBC CQRS framework API reference is divided into the following sections. This document will concentrate on the most commonly used APIs that are essential for building your application.": "The MBC CQRS framework API reference is divided into the following sections. This document will concentrate on the most commonly used APIs that are essential for building your application."
 }

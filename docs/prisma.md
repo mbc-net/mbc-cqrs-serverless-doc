@@ -1,19 +1,19 @@
 ---
-description: { { description } }
+description: { { Prisma related recipes. } }
 ---
 
-# {{title}}
+# {{Prisma}}
 
-{{intro_text}}
+{{In MBC CQRS serverless, we use prisma as an ORM. It helps developers more productive when working with databases.}}
 
-{{common_scenario_intro}}
+{{A common scenario when working with Prisma is needing to make changes to the database, such as creating tables, updating fields in tables, etc. Follow these steps:}}
 
-1. {{step_1}}
-2. {{step_2}}
+1. {{Update prisma/schema.prisma file.}}
+2. {{For local development, create and apply migrations with command npm run migrate:dev.}}
 
 :::warning
 
-{{database_url_warning}}
+{{For local development, please make sure to set the correct `DATABASE_URL` environment variable.}}
 
 ```bash
 # Example
@@ -22,11 +22,11 @@ DATABASE_URL="postgresql://root:RootCqrs@localhost:5432/cqrs?schema=public"
 
 :::
 
-> {{prisma_ref}}
+> {{You could view [prisma-client documentation](https://www.prisma.io/docs/orm/prisma-client) for more information}}
 
-## {{design_convention_title}}
+## {{Design table convention}}
 
-{{design_convention_intro}}
+{{When creating an RDS table that maps to a DynamoDB table, ensure you add the necessary fields and indexes to the RDS table accordingly.}}
 
 ```ts
 id         String   @id

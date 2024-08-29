@@ -1,23 +1,23 @@
 ---
-description: {{description}}
+description: {{Learn how to write unit test}}
 ---
 
-# {{title}}
+# {{Unit test}}
 
-{{intro_text}}
+{{To summarize the steps for writing a unit test, there are five main steps:}}
 
-- {{step_1}}
-- {{step_2}}
-- {{step_3}}
-- {{step_4}}
-- {{step_5}}
+- {{Create an event (API gateway event, S3 event, etc.).}}
+- {{Mock/init necessary data/service.}}
+- {{Pass the event to `serverlessExpressInstance`.}}
+- {{Check data is correct or not}}
+- {{Clean data}}
 
-{{scaffolds_intro}}
+{{Here is the scaffolds default unit tests for applications:}}
 
-- {{scaffold_1}}
-- {{scaffold_2}}
-- {{scaffold_3}}
-- {{scaffold_4}}
+- {{Line 1-16: import dependencies}}
+- {{Line 19-60: before each test, mock serverlessExpressInstance/necessary dependencies and create table.}}
+- {{Line 62-71: write test}}
+- {{Line 73-76: after each test, close app, clean up data}}
 
 ```ts
 import 'aws-sdk-client-mock-jest'

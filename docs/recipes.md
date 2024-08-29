@@ -1,10 +1,10 @@
 ---
-description: { { description } }
+description: { { Recipes } }
 ---
 
-# {{title}}
+# {{Recipes}}
 
-{{intro_text}}
+{{In depth recipes for common tasks}}
 
 ```mdx-code-block
 import DocCardList from '@theme/DocCardList';

@@ -1,10 +1,13 @@
 import * as fs from "fs";
 import * as path from "path";
 
+const fallbackLanguage = "en";
+
 // Utility function to extract placeholders from the markdown template
 function extractPlaceholders(
   template: string,
-  currentPlaceholder: any
+  currentPlaceholder: any,
+  language: string
 ): Record<string, string> {
   const regex = /\{\s*\{\s*(.*?)\s*\}\s*\}/g;
   const placeholders: Record<string, string> = {};
@@ -12,10 +15,14 @@ function extractPlaceholders(
 
   while ((match = regex.exec(template)) !== null) {
     const placeholder = match[1].trim();
-    if (currentPlaceholder[placeholder]) {
-      placeholders[placeholder] = currentPlaceholder[placeholder];
+    if (language === fallbackLanguage) {
+      placeholders[placeholder] = placeholder;
     } else {
-      placeholders[placeholder] = "";
+      if (currentPlaceholder[placeholder]) {
+        placeholders[placeholder] = currentPlaceholder[placeholder];
+      } else {
+        placeholders[placeholder] = "";
+      }
     }
   }
 
@@ -60,7 +67,11 @@ markdownFiles.forEach((markdownFile) => {
   }
 
   // Extract placeholders from the template
-  const placeholders = extractPlaceholders(template, currentPlaceholder);
+  const placeholders = extractPlaceholders(
+    template,
+    currentPlaceholder,
+    language
+  );
 
   // Save the placeholders to the JSON file
   fs.writeFileSync(outputFile, JSON.stringify(placeholders, null, 2), "utf8");

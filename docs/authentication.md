@@ -1,32 +1,30 @@
 ---
-description: { { description } }
+description: { { Learn how to use and customize authentication and authorization. } }
 ---
 
-# {{title}}
+# {{Authentication}}
 
-{{intro_text}}
+{{Understanding authentication is crucial for protecting your application's data. This page will guide you through what mbc-cqrs-serverless features to use to implement auth.}}
 
-{{concepts_intro}}
+{{Before starting, it helps to break down the process into three concepts:}}
 
-1. **{{auth_concept}}**: {{auth_description}}
+1. **{{Authentication}}**: {{Verifies if the user is who they say they are. It requires the user to prove their identity with something they have, such as a username and password.}}
 
-2. **{{session_concept}}**: {{session_description}}
+2. **{{Session Management}}**: {{Tracks the user's auth state across requests.}}
 
-3. **{{authorization_concept}}**: {{authorization_description}}
+3. **{{Authorization}}**: {{Decides what routes and data the user can access.}}
 
-{{examples_intro}}
+{{The examples on this page walk through an [Amazon Cognito](https://aws.amazon.com/cognito/) app client, you can invoke API operations for authentication and authorization of your users.}}
 
-<!-- ![{{image_alt_text}}]({{image_url}}) -->
+## {{Authentication}}
 
-## {{auth_section_title}}
+{{We recommend you use [AWS Amplify](https://docs.amplify.aws/nextjs/) to integrate Amazon Cognito with your web and mobile apps. <br/> Once authenticated, the server will issue a JWT that can be sent as a [bearer token](https://datatracker.ietf.org/doc/html/rfc6750) in an authorization header on subsequent requests to prove authentication.}}
 
-{{auth_section_text}}
+## {{Authorization}}
 
-## {{authorization_section_title}}
+{{Once a user is authenticated, you can implement authorization to control what the user can access and do within your application. Authorization is orthogonal and independent from authentication. However, authorization requires an authentication mechanism. <br/> We use optimistic types of authorization check: Checks if the user is authorized to access a route or perform an action using the session data stored in the cookie. Specifically, we implement Role-Based Access Control (RBAC).}}
 
-{{authorization_section_text}}
-
-{{role_enum_intro}}
+{{First, let's create a Role enum representing roles in the system:}}
 
 ```ts
 // role.enum.ts
@@ -41,11 +39,11 @@ export enum Role {
 
 :::tip
 
-{{role_enum_hint}}
+{{In more sophisticated systems, you may store roles within a database, or pull them from the external authentication provider.}}
 
 :::
 
-{{role_enum_usage}}
+{{Now that we have a custom Roles enum, we can use it to any route handler.}}
 
 ```ts
 @Post()
@@ -58,7 +56,7 @@ async create(
 }
 ```
 
-{{context_helper_function_intro}}
+{{Then, we create a helper function that extracts information from the context.}}
 
 ```ts
 // Event body example
@@ -111,7 +109,7 @@ export const getUserContext = (
 };
 ```
 
-{{custom_role_guard_intro}}
+{{Finally, we create a CustomRoleGuard class which will compare the roles assigned to the current user to the actual roles required by the current route being processed.}}
 
 ```ts
 import { RolesGuard } from "@mbc-cqrs-severless/core";

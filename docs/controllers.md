@@ -1,16 +1,16 @@
 ---
-description: { { description } }
+description: { { Learn the fundamentals of routing. } }
 ---
 
-# {{title}}
+# {{Controllers}}
 
-{{intro_text}}
+{{Controllers are responsible for handling incoming **requests** and returning **responses** to the client.}}
 
-{{ref_text}}
+{{Defining a controller in the MBC Serverless Framework is the same as in Nest.js, so please refer to this section using the [provided link](https://docs.nestjs.com/controllers).}}
 
 :::note
 
-{{invoke_context_note}}
+{{To get the invoke context, you can provide the following argument in the controller function.}}
 
 ```ts
 @INVOKE_CONTEXT() invokeContext: IInvoke,
@@ -18,7 +18,7 @@ description: { { description } }
 
 :::
 
-{{example_intro}}
+{{In the following example we'll use the `@Controller()` decorator, which is required to define a basic controller; `@Auth(ROLE.ADMIN)` decorator, which is specified for authorization purpose; and `@ApiTags('cat')` to attach a controller to a specific tag.}}
 
 ```ts
 @Auth(ROLE.ADMIN)

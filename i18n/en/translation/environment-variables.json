@@ -1,13 +1,13 @@
 {
-  "description": "Learn how to add and validate your environment variables in your application.",
-  "title": "Environment Variables",
-  "intro": "MBC CQRS serverless framework comes with built-in support for environment variables, which allows you to do the following:",
-  "toc_list_1": "Use `.env` to load environment variables",
-  "toc_list_2": "Validate environment variables",
-  "loading_details": "MBC CQRS serverless framework has built-in support for loading environment variables from `.env*` files into `process.env.`",
-  "validation_intro": "It is standard practice to throw an exception during application startup if required environment variables haven't been provided or if they don't meet certain validation rules. The `@mbc-cqrs-serverless/core` package makes this easy to do.",
-  "validation_details": "First, we have to define:",
-  "validation_step_1": "a class with validation constraints,",
-  "validation_step_2": "extend the EnvironmentVariables class.",
-  "validation_usage": "With this in place, you pass the `EnvValidation` class as a configuration argument of the `createHandler` function, as follows:"
+  "Learn how to add and validate your environment variables in your application.": "Learn how to add and validate your environment variables in your application.",
+  "Environment Variables": "Environment Variables",
+  "MBC CQRS serverless framework comes with built-in support for environment variables, which allows you to do the following:": "MBC CQRS serverless framework comes with built-in support for environment variables, which allows you to do the following:",
+  "Use `.env` to load environment variables": "Use `.env` to load environment variables",
+  "Validate environment variables": "Validate environment variables",
+  "MBC CQRS serverless framework has built-in support for loading environment variables from `.env*` files into `process.env.`": "MBC CQRS serverless framework has built-in support for loading environment variables from `.env*` files into `process.env.`",
+  "It is standard practice to throw an exception during application startup if required environment variables haven't been provided or if they don't meet certain validation rules. The `@mbc-cqrs-serverless/core` package makes this easy to do.": "It is standard practice to throw an exception during application startup if required environment variables haven't been provided or if they don't meet certain validation rules. The `@mbc-cqrs-serverless/core` package makes this easy to do.",
+  "First, we have to define:": "First, we have to define:",
+  "a class with validation constraints,": "a class with validation constraints,",
+  "extend the EnvironmentVariables class.": "extend the EnvironmentVariables class.",
+  "With this in place, you pass the `EnvValidation` class as a configuration argument of the `createHandler` function, as follows:": "With this in place, you pass the `EnvValidation` class as a configuration argument of the `createHandler` function, as follows:"
 }

@@ -1,12 +1,12 @@
 {
-  "description": "DynamoDB related recipes",
-  "title": "DynamoDB",
-  "intro_text": "In the MBC CQRS serverless, DynamoDB tables are organized into three classes based on their purpose.",
-  "table_1": "`tasks` table: store information about long-running tasks",
-  "table_2": "`sequences` table: holds sequence data",
-  "table_3": "other tables: can be divided into three types: command tables (with a `-command` postfix in name), data tables (with a `-data` postfix in name), and history tables (with `-history` posfix in name). You only need to specify the table name, add the name in `prisma/dynamodbs/cqrs.json`, and the command below will create the table for you.",
-  "table_definition_intro": "The table definition is store in `prisma/dynamodbs` folder.",
-  "local_development_intro": "For local development, run `npm run migrate:ddb` to migrate dynamo table.",
-  "migrate_hint": "You can apply migrate both dynamoDB and RDS with singe command: `npm run migrate`.",
-  "actions_ref": "For actions base on Dynamodb, please refer to the [Sequence](./sequence.md) and [CommandModule](./command-module.md) sections."
+  "DynamoDB related recipes": "DynamoDB related recipes",
+  "DynamoDB": "DynamoDB",
+  "In the MBC CQRS serverless, DynamoDB tables are organized into three classes based on their purpose.": "In the MBC CQRS serverless, DynamoDB tables are organized into three classes based on their purpose.",
+  "`tasks` table: store information about long-running tasks": "`tasks` table: store information about long-running tasks",
+  "`sequences` table: holds sequence data": "`sequences` table: holds sequence data",
+  "other tables: can be divided into three types: command tables (with a `-command` postfix in name), data tables (with a `-data` postfix in name), and history tables (with `-history` posfix in name). You only need to specify the table name, add the name in `prisma/dynamodbs/cqrs.json`, and the command below will create the table for you.": "other tables: can be divided into three types: command tables (with a `-command` postfix in name), data tables (with a `-data` postfix in name), and history tables (with `-history` posfix in name). You only need to specify the table name, add the name in `prisma/dynamodbs/cqrs.json`, and the command below will create the table for you.",
+  "The table definition is store in `prisma/dynamodbs` folder.": "The table definition is store in `prisma/dynamodbs` folder.",
+  "For local development, run `npm run migrate:ddb` to migrate dynamo table.": "For local development, run `npm run migrate:ddb` to migrate dynamo table.",
+  "You can apply migrate both dynamoDB and RDS with singe command: `npm run migrate`.": "You can apply migrate both dynamoDB and RDS with singe command: `npm run migrate`.",
+  "For actions base on Dynamodb, please refer to the [Sequence](./sequence.md) and [CommandModule](./command-module.md) sections.": "For actions base on Dynamodb, please refer to the [Sequence](./sequence.md) and [CommandModule](./command-module.md) sections."
 }

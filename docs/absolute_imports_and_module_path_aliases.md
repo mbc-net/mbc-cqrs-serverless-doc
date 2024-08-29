@@ -1,12 +1,12 @@
 ---
-description: { { description } }
+description: { { Configure module path aliases that allow you to remap certain import paths. } }
 ---
 
-# {{title}}
+# {{Absolute Imports and Module Path Aliases}}
 
-{{intro_text}}
+{{MBC CQRS serverless framework has in-built support for the `"paths"` and `"baseUrl"` options of `tsconfig.json` file.}}
 
-{{alias_usage_example_text}}
+{{These options allow you to alias project directories to absolute paths, making it easier to import modules. For example:}}
 
 ```ts
 // before
@@ -16,11 +16,11 @@ import { Role } from "../../../auth/role.enum";
 import { Role } from "@/auth/role.enum";
 ```
 
-## {{absolute_imports_title}}
+## {{Absolute Imports}}
 
-{{absolute_imports_intro}}
+{{The `baseUrl` configuration option allows you to import directly from the root of the project.}}
 
-{{absolute_imports_example_text}}
+{{An example of this configuration:}}
 
 ```json
 # tsconfig.json
@@ -33,11 +33,11 @@ TODO:
 }
 ```
 
-## {{module_aliases_title}}
+## {{Module Aliases}}
 
-{{module_aliases_intro}}
+{{In addition to configuring the `baseUrl` path, you can use the "paths" option to "alias" module paths.}}
 
-{{module_aliases_example_text}}
+{{For example, the following configuration maps `@/auth/*` to `auth/*`:}}
 
 ```json
 # tsconfig.json

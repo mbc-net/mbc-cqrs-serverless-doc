@@ -1,14 +1,14 @@
 ---
-description: { { description } }
+description: { { Learn how to create a custom event in your application and register a handler to respond to this event. } }
 ---
 
-# {{title}}
+# {{Custom event}}
 
-{{intro_text}}
+{{This guide will walk you through the process of creating a custom event in your application and registering a handler to respond to this event. Events are a powerful way to decouple your application’s logic, allowing different parts of your system to communicate without being tightly integrated.}}
 
-{{event_creation_intro}}
+{{First, you need to create a custom event that implements the `IEvent` interface from `@mbc-cqrs-serverless/core`. Depending on the event, you should typically implement a second interface from the `aws-lambda` library, such as `SNSEventRecord`, `SQSRecord`, `DynamoDBRecord`, `EventBridgeEvent`, `S3EventRecord`, etc.}}
 
-{{event_creation_details}}
+{{In the following example, we will create a custom S3 event and register this event handler.}}
 
 ```ts
 // custom-s3-import.event
@@ -52,7 +52,7 @@ export class CustomS3EventRecord implements IEvent, S3EventRecord {
 }
 ```
 
-{{event_handler_intro}}
+{{With `CustomS3EventRecord` in place, you can now create a handler for this event.}}
 
 ```ts
 // custom-s3.event.handler.ts
@@ -72,9 +72,9 @@ export class CustomS3EventHandler
 }
 ```
 
-{{event_handler_details}}
+{{As you can see, `CustomS3EventHandler` is a class annotated with the `@EventHandler(T)` decorator and implements the `IEventHandler<T>` interface.}}
 
-{{event_factory_intro}}
+{{Finally, you need to create a CustomEventFactory that extends `DefaultEventFactory` and is annotated with the `@EventFactory()` decorator.}}
 
 ```ts
 import {
@@ -105,7 +105,7 @@ export class CustomEventFactory extends DefaultEventFactory {
 }
 ```
 
-{{event_factory_details}}
+{{Similarly, you could override other methods of the `DefaultEventFactory` class to create and handle custom events.}}
 
 ```ts
 transformSqs(event: SQSEvent): Promise<IEvent[]>;

@@ -1,7 +1,6 @@
 {
-  "description": "CLI",
-  "title": "CLI",
-  "intro_text": "The mbc-cqrs-serverless CLI allows you to create new project.",
-  "commands_intro": "To get a list of the available CLI commands, run the following command:",
-  "command_output": "The output should look like this:"
+  "CLI": "CLI",
+  "The mbc-cqrs-serverless CLI allows you to create new project.": "The mbc-cqrs-serverless CLI allows you to create new project.",
+  "To get a list of the available CLI commands, run the following command:": "To get a list of the available CLI commands, run the following command:",
+  "The output should look like this:": "The output should look like this:"
 }
