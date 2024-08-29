@@ -1,31 +1,31 @@
 ---
-description: Getting started
+description: はじめに
 ---
 
-# Introduction
+# はじめに
 
-Welcome to the MBC CQRS serverless framework documentation!
+MBC CQRS サーバレスフレームワークのドキュメントにようこそ
 
-## What is MBC CQRS serverless framework?
+## MBC CQRS サーバレスフレームワークとは？
 
-This framework provides core functionalities for implementing the Command Query Responsibility Segregation (CQRS) pattern within AWS serverless architectures, powered by the incredible NestJS framework. It simplifies the development of highly scalable and decoupled systems that can handle complex business logic and high-volume data processing.
+このフレームワークは、AWSサーバーレスアーキテクチャ内でCommand Query Responsibility Segregation (CQRS) パターンを実装するための基本機能を提供し、優れたNestJSフレームワークによって強化されています。複雑なビジネスロジックや大量のデータ処理に対応できる、高度にスケーラブルで疎結合なシステムの開発を簡素化します。
 
-## Main features
+## 主な機能
 
-| features | Description |
+| 機能 | 説明 |
 | ---------------------------- | ---------------------------- |
-| CQRS framework for AWS serverless          | - Structured approach for separating commands and queries. <br/>- Integration with AWS services like Cognito, API Gateway, Lambda, DynamoDB, SNS, and SQS, StepFuction, RDS ⚡    |
-| Event-driven architecture          | - Leverages event sourcing and messaging for asynchronous communication <br/>- Enables loose coupling and independent scaling of components    |
-| Command and query handlers          | - Provides abstractions for handling commands and queries <br/>- Facilitates business logic implementation and data persistence    |
-| Asynchronous communication          | - Supports event publishing and message passing for inter-component communication    |
-| Data consistency and integrity          | - Ensures data consistency through event sourcing and optimistic locking <br/>- Enforces data integrity with validation and constraints    |
-| Experience a harmonious symphony of CQRS and NestJS          | - **Modular structure**: Organize CQRS components with NestJS's elegant modularity.<br/> Dependency injection: Simplify dependency management and embrace loose coupling with NestJS's DI system <br/>- **TypeScript support**: Write type-safe, crystal-clear code with built-in TypeScript <br/>- **Testing and error handling**: Build confidence with comprehensive testing and robust error handling, courtesy of NestJS <br/>- **Ecosystem compatibility**: Tap into the vast NestJS universe of modules and libraries to expand possibilities    |
-| Local Development          | - **Embrace agility**: Experience rapid iteration and experimentation in a local environment, without the need for constant cloud deployment.<br/>- **Debugging bliss**: Debug with ease using your favorite tools and techniques, gaining deeper insights into your application's behavior. <br/>- **Cost-effective exploration**: Explore and refine your CQRS implementation locally, without incurring AWS costs during development.    |
+| CQRSフレームワーク for AWS サーバレス          | - コマンドとクエリを分離するための構造化されたアプローチ。<br />- Cognito、API Gateway、Lambda、DynamoDB、SNS、SQS、StepFuction、RDS などの AWS サービスとの統合 ⚡    |
+| イベント駆動アーキテクチャ          | - 非同期通信にイベントソーシング、メッセージングを活用<br />疎結合で独立したスケーリング可能なコンポーネント    |
+| コマンド・クエリーハンドラー          | - コマンドとクエリの抽象化処理<br />- 容易なビジネスロジック及びデータの永続化    |
+| 非同期通信          | - コンポーネント間通信のためのイベント発行とメッセージの発行をサポート    |
+| データの一貫性と完全性          | - イベントソーシングと楽観的ロックによりデータの一貫性を確保<br />- 検証と制約によるデータの整合性を強制    |
+| CQRSとNestJSの調和          | - **モジュール構造**: NestJS の洗練されたモジュール性で CQRS コンポーネントを体系づけます。<br/> 依存性注入: 依存関係の管理を簡素化し、NestJS の DI システムとの疎結合を採用します <br/>- **TypeScriptサポート**: タイプセーフな書き込み、TypeScript が組み込まれた非常に明確なコード <br/>- **テストとエラー処理**: NestJS による包括的なテストと堅牢なエラー処理で信頼性を構築します。 <br/>- **エコシステムの互換性**: タップモジュールとライブラリの広大な NestJS ユニバースに統合して可能性を広げる    |
+| ローカル開発          | - **俊敏性を実現**: 開発をするためにクラウドを継続的にデプロイする必要が無くローカル環境で迅速な反復と実験を行うことが出来ます<br/>- **デバッグの利便性**: お気に入りのツールとテクニックを利用して簡単にデバッグをして、アプリケーションの動作についてより深い洞察を得ることが出来ます。<br/>- **高い費用対効果**: AWS費用を発生することなくCQRSをローカル開発環境で実装することが可能です。    |
 
-## How to Use These Docs
+## ドキュメントについて
 
-On the left side of the screen, you'll find the docs navbar. The pages of the docs are organized sequentially, you can follow them step-by-step when building your application. However, you can read them in any order or skip to the pages that apply to your case.
+画面の左側にドキュメント ナビゲーション バーがあります。ドキュメントのページは順番に整理されており、アプリケーションを構築するときにステップごとに従えます。ただし、任意の順序で読んだり、ケースに該当するページにスキップしたりすることもできます。
 
-On the right side of the screen, you'll see a table of contents that makes it easier to navigate between sections of a page. If you need to quickly find a page, you can use the search bar at the top, or the search shortcut (Ctrl+K or Cmd+K).
+画面の右側には、ページのセクション間を簡単に移動できる目次が表示されます。ページをすばやく見つける必要がある場合は、上部の検索バーまたは検索ショートカット (Ctrl+K または Cmd+K) を使用できます。
 
-To get started, checkout the [Installation](./installation.md) guide.
+開始するには [インストール](./installation.md) ガイドを確認してください。
