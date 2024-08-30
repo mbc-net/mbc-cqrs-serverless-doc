@@ -8,6 +8,18 @@ This website serves as the official documentation for [the MBC CQRS Serverless F
 $ npm install
 ```
 
+### Local Development
+
+```
+$ npm run start:watch
+
+or
+
+$ npm run start:watch -- --locale {{country-code}}
+```
+
+This command starts a local development server. Most changes are reflected live without having to restart the server.
+
 ### Build
 
 ```
@@ -30,30 +42,26 @@ After the build command, you can run a local server that will serve your website
 
 1. Append country code to `i18n.locales` in docusaurus.config.ts.
 
-2. Run command `npm run translate:extract-placeholder {{country-code}}` and `npm run write-translations -- --locale {{country-code}}`: extract the translation JSON file in the `i18n/{{country-code}}` folder
-
-3. Translate
-
-4. Run command `npm run translate:replace-placeholders {{country-code}}`: create docs for the language (if key is not translated, the content will fallback to EN language).
+2. Edit the content using the translation JSON file in the `i18n/{{country-code}}` folder
 
 #### Write documentation
 
-1. Create .md file in docs/ and write with placeholder
+1. Run command `npm run start:watch -- --locale {{country-code}}`
 
-2. Edit sidebar.ts file. For more information, please follow this guide: https://docusaurus.io/docs/sidebar/items
+2. Create .md file in docs/ and write with placeholder
 
-3. Run command `npm run translate:extract-placeholder`: extract the translation JSON file in the `i18n` folder
+3. Edit sidebar.ts file. For more information, please follow this guide: https://docusaurus.io/docs/sidebar/items
 
 4. Update the JSON for translation.
 
-5. Run command `npm run translate:replace-placeholders`
+5. Run command `npm run build` and `npm run serve`: build static website and serve website in local
 
-6. Run command `npm run build` and `npm run serve`: build static website and serve website in local
-
-7. Check result.
+6. Check result.
 
 We can summary the contributing process as the bellow image:
 
 <p align="center">
-  <img src="./static/img/contributing.png" />
+  <img width="250px" src="./static/img/contributing.png" />
 </p>
+
+Note: Extract the theme translation JSON file with command: `npm run write-translations -- --locale {{country-code}}`

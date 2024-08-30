@@ -68,12 +68,6 @@ function replace(language: string, isFallback: boolean = false) {
       // Save the output back to the markdown file or a new one
       const outputFile = path.join(outputDir, markdownFile);
       fs.writeFileSync(outputFile, template, "utf8");
-
-      console.log(`Processed ${language}/${markdownFile} successfully`);
-    } else {
-      console.log(
-        `JSON file not found for ${language}/${markdownFile}, skipping...`
-      );
     }
   });
 }
@@ -108,9 +102,6 @@ languages.forEach((language) => {
   replace(language);
 
   if (language !== fallbackLanguage) {
-    console.log(
-      `Fallback content for ${language} language. Using ${fallbackLanguage} `
-    );
     replace(language, true);
   }
 });

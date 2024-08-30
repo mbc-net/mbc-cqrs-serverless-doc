@@ -1,6 +1,7 @@
 import config from "../docusaurus.config";
 import * as fs from "fs";
 import * as path from "path";
+import _ from "lodash";
 
 const fallbackLanguage = "en";
 
@@ -45,6 +46,8 @@ if (!inputLanguages) {
 const templatesDir = path.join(__dirname, "../docs");
 
 languages.forEach((language) => {
+  console.log(`Extract the translation JSON file for ${language} language`);
+
   const outputDir = path.join(__dirname, `../i18n/${language}/translation`);
 
   // Ensure the output directory exists
@@ -81,11 +84,13 @@ languages.forEach((language) => {
       language
     );
 
-    // Save the placeholders to the JSON file
-    fs.writeFileSync(outputFile, JSON.stringify(placeholders, null, 2), "utf8");
-
-    console.log(
-      `Extracted placeholders from ${markdownFile} and saved to ${outputFile}`
-    );
+    if (_.isEqual(currentPlaceholder, placeholders) == false) {
+      // Save the placeholders to the JSON file
+      fs.writeFileSync(
+        outputFile,
+        JSON.stringify(placeholders, null, 2),
+        "utf8"
+      );
+    }
   });
 });
