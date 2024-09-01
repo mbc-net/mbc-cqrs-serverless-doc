@@ -1,5 +1,7 @@
+import config from "../docusaurus.config";
 import * as fs from "fs";
 import * as path from "path";
+import _ from "lodash";
 
 const fallbackLanguage = "en";
 
@@ -31,52 +33,64 @@ function extractPlaceholders(
 
 // Get the language from the command-line arguments
 const args = process.argv.slice(2);
-const language = args[0];
+const inputLanguages = args[0];
+let languages = [];
 
-if (!language) {
-  console.error("Please specify a language, e.g., 'en' or 'ja'.");
-  process.exit(1);
+if (!inputLanguages) {
+  languages = [...config.i18n.locales];
+} else {
+  languages.push(inputLanguages);
 }
 
 // Define the directory for markdown templates and the output directory for JSON files
 const templatesDir = path.join(__dirname, "../docs");
-const outputDir = path.join(__dirname, `../i18n/${language}/translation`);
 
-// Ensure the output directory exists
-if (!fs.existsSync(outputDir)) {
-  fs.mkdirSync(outputDir, { recursive: true });
-}
+languages.forEach((language) => {
+  console.log(`Extract the translation JSON file for ${language} language`);
 
-// Get all markdown template files in the templates directory
-const markdownFiles = fs
-  .readdirSync(templatesDir)
-  .filter((file) => file.endsWith(".md"));
+  const outputDir = path.join(__dirname, `../i18n/${language}/translation`);
 
-markdownFiles.forEach((markdownFile) => {
-  // Load the markdown template
-  const templateFile = path.join(templatesDir, markdownFile);
-  const template = fs.readFileSync(templateFile, "utf8");
-
-  // Generate the corresponding JSON output file
-  const outputFile = path.join(outputDir, markdownFile.replace(".md", ".json"));
-
-  let currentPlaceholder = {};
-
-  if (fs.existsSync(outputFile)) {
-    currentPlaceholder = JSON.parse(fs.readFileSync(outputFile, "utf8"));
+  // Ensure the output directory exists
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
   }
 
-  // Extract placeholders from the template
-  const placeholders = extractPlaceholders(
-    template,
-    currentPlaceholder,
-    language
-  );
+  // Get all markdown template files in the templates directory
+  const markdownFiles = fs
+    .readdirSync(templatesDir)
+    .filter((file) => file.endsWith(".md"));
 
-  // Save the placeholders to the JSON file
-  fs.writeFileSync(outputFile, JSON.stringify(placeholders, null, 2), "utf8");
+  markdownFiles.forEach((markdownFile) => {
+    // Load the markdown template
+    const templateFile = path.join(templatesDir, markdownFile);
+    const template = fs.readFileSync(templateFile, "utf8");
 
-  console.log(
-    `Extracted placeholders from ${markdownFile} and saved to ${outputFile}`
-  );
+    // Generate the corresponding JSON output file
+    const outputFile = path.join(
+      outputDir,
+      markdownFile.replace(".md", ".json")
+    );
+
+    let currentPlaceholder = {};
+
+    if (fs.existsSync(outputFile)) {
+      currentPlaceholder = JSON.parse(fs.readFileSync(outputFile, "utf8"));
+    }
+
+    // Extract placeholders from the template
+    const placeholders = extractPlaceholders(
+      template,
+      currentPlaceholder,
+      language
+    );
+
+    if (_.isEqual(currentPlaceholder, placeholders) == false) {
+      // Save the placeholders to the JSON file
+      fs.writeFileSync(
+        outputFile,
+        JSON.stringify(placeholders, null, 2),
+        "utf8"
+      );
+    }
+  });
 });

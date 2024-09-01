@@ -1,3 +1,4 @@
+import config from "../docusaurus.config";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -8,11 +9,17 @@ function replacePlaceholders(
   content: Record<string, string>
 ): string {
   Object.keys(content).forEach((key) => {
-    const placeholder = `{{${key.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, `.`)}}}`;
+    const placeholder = `{{${key.replace(
+      /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi,
+      `.`
+    )}}}`;
     if (content[key]) {
       template = template.replace(new RegExp(placeholder, "g"), content[key]);
     }
-    const placeholderMeta = `{ { ${key.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, `.`)} } }`;
+    const placeholderMeta = `{ { ${key.replace(
+      /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi,
+      `.`
+    )} } }`;
     if (content[key]) {
       template = template.replace(
         new RegExp(placeholderMeta, "g"),
@@ -61,45 +68,40 @@ function replace(language: string, isFallback: boolean = false) {
       // Save the output back to the markdown file or a new one
       const outputFile = path.join(outputDir, markdownFile);
       fs.writeFileSync(outputFile, template, "utf8");
-
-      console.log(`Processed ${language}/${markdownFile} successfully`);
-    } else {
-      console.log(
-        `JSON file not found for ${language}/${markdownFile}, skipping...`
-      );
     }
   });
 }
 
 // Get the language from the command-line arguments
 const args = process.argv.slice(2);
-const language = args[0];
+const inputLanguages = args[0];
+let languages = [];
 
-if (!language) {
-  console.error("Please specify a language, e.g., 'en' or 'ja'.");
-  process.exit(1);
+if (!inputLanguages) {
+  languages = [...config.i18n.locales];
+} else {
+  languages.push(inputLanguages);
 }
 
 const templateDir = path.join(__dirname, `../docs`);
 
-const outputDir = path.join(
-  __dirname,
-  `../i18n/${language}/docusaurus-plugin-content-docs/current`
-);
-
-// Ensure the output directory exists
-if (!fs.existsSync(outputDir)) {
-  fs.mkdirSync(outputDir, { recursive: true });
-}
-
-fs.cpSync(templateDir, outputDir, { recursive: true });
-
-console.log(`Update content for ${language} language`);
-replace(language);
-
-if (language !== fallbackLanguage) {
-  console.log(
-    `Fallback content for ${language} language. Using ${fallbackLanguage} `
+languages.forEach((language) => {
+  const outputDir = path.join(
+    __dirname,
+    `../i18n/${language}/docusaurus-plugin-content-docs/current`
   );
-  replace(language, true);
-}
+
+  // Ensure the output directory exists
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
+
+  fs.cpSync(templateDir, outputDir, { recursive: true });
+
+  console.log(`Update content for ${language} language`);
+  replace(language);
+
+  if (language !== fallbackLanguage) {
+    replace(language, true);
+  }
+});
