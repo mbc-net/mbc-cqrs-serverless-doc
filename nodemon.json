@@ -10,5 +10,5 @@
   "verbose": false,
   "watch": ["docs", "src", "i18n", "sidebars.ts", "docusaurus.config.ts"],
   "ext": "js,tsx,md,json",
-  "exec": "npm run translate:extract-placeholder && npm run translate:replace-placeholders && docusaurus start --no-open"
+  "exec": "npm run translate:extract-placeholder && npm run translate:replace-placeholders"
 }
