@@ -15,7 +15,7 @@ $ npm run start:watch
 
 or
 
-$ npm run start:watch -- --locale {{country-code}}
+$ npm run start:watch {{country-code}}
 ```
 
 This command starts a local development server. Most changes are reflected live without having to restart the server.
