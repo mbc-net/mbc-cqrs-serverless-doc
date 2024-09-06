@@ -108,7 +108,6 @@ const sidebars: SidebarsConfig = {
         "interfaces",
       ],
     },
-    "showcase",
     "glossary",
   ],
 };
