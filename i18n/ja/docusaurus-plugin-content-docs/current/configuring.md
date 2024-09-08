@@ -1,10 +1,10 @@
 ---
-description: Configuring
+description: 設定
 ---
 
-# Configuring
+# 設定
 
-MBC CQRS serverless framework allows you to customize your project to meet specific requirements. This includes integrations with TypeScript, ESlint, and more, as well as internal configuration options such as Absolute Imports and Environment Variables.
+MBC CQRS サーバーレス フレームワークを使用すると、特定の要件を満たすようにプロジェクトをカスタマイズできます。これには、TypeScript、ESlint などとの統合に加え、絶対インポートや環境変数などの内部構成オプションが含まれます。
 
 ```mdx-code-block
 import DocCardList from '@theme/DocCardList';

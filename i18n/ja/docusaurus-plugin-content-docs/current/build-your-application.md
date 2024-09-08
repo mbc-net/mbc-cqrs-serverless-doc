@@ -1,10 +1,10 @@
 ---
-description: Building your application
+description: アプリケーションを構築する
 ---
 
-# Building your application
+# アプリケーションを構築する
 
-MBC CQRS serverless provides the core functionalities to create backend application. This guides explain how to use these features and how to customize your application's behavior.
+MBC CQRS serveless はバックエンドアプリケーションを作成するためのコア機能を提供します。このガイドではこれらの機能の使用方法とアプリケーションの動作をカスタマイズする方法について説明します。
 
 ```mdx-code-block
 import DocCardList from '@theme/DocCardList';

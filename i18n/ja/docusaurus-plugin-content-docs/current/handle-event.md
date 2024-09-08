@@ -1,10 +1,10 @@
 ---
-description: Handle event
+description: イベント処理
 ---
 
-# Handle event
+# イベント処理
 
-Currently, we support customizing six types of events. There are:
+現在、MBC CQRS serverlss では以下6種類のイベントをサポートしております。
 
 - [SNS event](https://docs.aws.amazon.com/lambda/latest/dg/with-sns.html#sns-sample-event)
 - [SQS event](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#example-standard-queue-message-event)
@@ -13,7 +13,7 @@ Currently, we support customizing six types of events. There are:
 - Step function event
 - [S3 event](https://docs.aws.amazon.com/lambda/latest/dg/with-s3.html)
 
-This guide will help you create a custom event and register a handler for it.
+このガイドはカスタムイベントを作成し、そのイベントハンドラーを登録するのに役立ちます。
 
 ```mdx-code-block
 import DocCardList from '@theme/DocCardList';

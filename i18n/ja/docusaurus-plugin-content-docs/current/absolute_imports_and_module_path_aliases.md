@@ -1,12 +1,12 @@
 ---
-description: Configure module path aliases that allow you to remap certain import paths.
+description: 特定のインポート パスを再マップできるようにするモジュール パス エイリアスを構成します。
 ---
 
-# Absolute Imports and Module Path Aliases
+# 絶対パスインポートとモジュールパスエイリアス
 
-MBC CQRS serverless framework has in-built support for the `"paths"` and `"baseUrl"` options of `tsconfig.json` file.
+MBC CQRS serverless フレームワークには、`tsconfig.json` ファイルの `"paths"` および `"baseUrl"` オプションのサポートが組み込まれています。
 
-These options allow you to alias project directories to absolute paths, making it easier to import modules. For example:
+これらのオプションを使用すると、プロジェクト ディレクトリに絶対パスのエイリアスを付けることができ、モジュールのインポートが容易になります。例えば：
 
 ```ts
 // before
@@ -16,11 +16,11 @@ import { Role } from "../../../auth/role.enum";
 import { Role } from "@/auth/role.enum";
 ```
 
-## Absolute Imports
+## 絶対パスインポート
 
-The `baseUrl` configuration option allows you to import directly from the root of the project.
+「baseUrl」設定オプションを使用すると、プロジェクトのルートから直接インポートできます。
 
-An example of this configuration:
+以下が設定例です。
 
 ```json
 # tsconfig.json
@@ -33,11 +33,12 @@ TODO:
 }
 ```
 
-## Module Aliases
+## モジュールエイリアス
 
-In addition to configuring the `baseUrl` path, you can use the "paths" option to "alias" module paths.
 
-For example, the following configuration maps `@/auth/*` to `auth/*`:
+「baseUrl」パスの設定に加えて、「paths」オプションを使用してモジュール パスを「エイリアス」することもできます。
+
+たとえば、次の設定は `@/auth/*` を `auth/*` にマップします。
 
 ```json
 # tsconfig.json

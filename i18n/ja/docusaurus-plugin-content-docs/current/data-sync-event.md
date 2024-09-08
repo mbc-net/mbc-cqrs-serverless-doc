@@ -1,14 +1,15 @@
 ---
-description: Learn how to create and register data sync handler.
+description: データ同期ハンドラーを作成して登録する方法を学習します。
 ---
 
-# Data sync event
+# データ同期イベント
 
-The data sync event is a particularly significant custom event because it is one of the most commonly registered events within the application. Handlers for this event play a crucial role in ensuring data consistency and synchronization between different databases. For example, a handler might be responsible for syncing data from DynamoDB to RDS, sending registration emails, and executing other related tasks that maintain the integrity and flow of data across the application.
+データ同期イベントは、アプリケーション内で最も一般的に登録されるイベントの 1 つであるため、特に重要なカスタム イベントです。このイベントのハンドラーは、異なるデータベース間のデータの一貫性と同期を確保する上で重要な役割を果たします。たとえば、ハンドラーは、DynamoDB から RDS へのデータの同期、登録メールの送信、およびアプリケーション全体のデータの整合性とフローを維持するその他の関連タスクの実行を担当する場合があります。
 
-To make working with the data sync event easier, we've created several helper utilities that are ready for you to use. By using these pre-built utilities, you can streamline your development process, reduce the amount of custom code needed, and ensure that your event handlers are efficient and reliable.
 
-By convention, you create a class that implements `IDataSyncHandler` and then override the up and down methods as below example:
+データ同期イベントの操作を簡単にするために、すぐに使用できるいくつかのヘルパー ユーティリティを作成しました。これらの事前に構築されたユーティリティを使用すると、開発プロセスを合理化し、必要なカスタム コードの量を削減し、イベント ハンドラーの効率性と信頼性を確保できます。
+
+慣例により、以下の例のように、`IDataSyncHandler` を実装するクラスを作成し、up メソッドと down メソッドをオーバーライドします。
 
 ```ts
 import { CommandModel, IDataSyncHandler } from "@mbc-cqrs-severless/core";
@@ -32,7 +33,7 @@ export class CatDataSyncRdsHandler implements IDataSyncHandler {
 }
 ```
 
-Then, you register this handler to `CommandModule`:
+次に、このハンドラーを `CommandModule` に登録します。
 
 ```ts
 @Module({

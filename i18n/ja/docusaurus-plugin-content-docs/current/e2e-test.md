@@ -1,19 +1,20 @@
 ---
-description: Learn how to write e2e test
+description: e2e(エンドツーエンド)の方法を学びましょう。
 ---
 
-# End-to-end test
+# e2e(エンドツーエンド)テスト
 
-Unlike unit testing, which focuses on individual modules and classes, end-to-end (e2e) testing covers the interaction of classes and modules at a more aggregate level -- closer to the kind of interaction that end-users will have with the production system. As an application grows, it becomes hard to manually test the end-to-end behavior of each API endpoint. Automated end-to-end tests help us ensure that the overall behavior of the system is correct and meets project requirements.
+個々のモジュールやクラスに焦点を当てた単体テストとは異なり、エンドツーエンド (e2e) テストは、クラスとモジュールの相互作用をより集合的なレベルでカバーします。これは、エンドユーザーが本番環境と行う相互作用に近いものです。システム。アプリケーションが成長するにつれて、各 API エンドポイントのエンドツーエンドの動作を手動でテストすることが困難になります。自動化されたエンドツーエンド テストは、システムの全体的な動作が正しく、プロジェクトの要件を満たしていることを確認するのに役立ちます。
 
 e2e testing tests the API in a real environment, so there’s no need to mock any services. To summarize, there are five main steps for writing an e2e test:
 
-- Create necessary data.
-- Make API calls using the Supertest library to simulate HTTP requests.
-- Check data is correct or not
-- Clean data
+- 必要なデータを作成します。
+- Supertest ライブラリを使用して API 呼び出しを行い、HTTP リクエストをシミュレートします。
+- データが正しいかどうかを確認してください
+- データをクリアする
 
-Here is the scaffolds default e2e tests for applications:
+
+これはアプリケーションのスキャフォールドのデフォルトの e2e テストです
 
 ```ts
 import { removeSortKeyVersion } from "@mbc-cqrs-severless/core";

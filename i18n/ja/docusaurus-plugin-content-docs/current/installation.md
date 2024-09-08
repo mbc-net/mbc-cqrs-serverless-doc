@@ -1,10 +1,10 @@
 ---
-description: Installation
+description: インストール
 ---
 
-# Installation
+# インストール
 
-System Requirements:
+システム要件:
 
 - [Node.js](https://nodejs.org/en/download/package-manager)
 - [JQ cli](https://jqlang.github.io/jq/download/)
@@ -12,27 +12,27 @@ System Requirements:
 - [Docker](https://docs.docker.com/engine/install/)
 - macOS and Linux are supported.
 
-## Automatic Installation
+## 自動インストール
 
-To get started, you can scaffold the project with the [mbc-cqrs-severless CLI](./cli.md). To scaffold the project with the mbc-cqrs-severless CLI, run the following commands. This will create a new project directory, and populate the directory with the initial core mbc-cqrs-severless files and supporting modules, creating a conventional base structure for your project.
+まずはじめに [mbc-cqrs-severless CLI](./cli.md) を使用してプロジェクトの土台を作ります。mbc-cqrs-severless CLI を使用してプロジェクトの土台を生成するには次のコマンドを実行します。次のコマンドを実行することにより、新しいプロジェクトディレクトリが作成されて、作成されたディレクトリに初期状態の mbc-cqrs-severless ファイルとサポートモジュールが追加されます。プロジェクトの基本構造が作成されます。
 
 ```bash
 npm i -g @mbc-cqrs-severless/cli
 mbc new project-name
 ```
 
-If you're new to mbc-cqrs-serverless, see the [project structure](./project-structure.md) docs for an overview of all the possible files and folders in your application.
+mbc-cqrs-serverless を使用して新しいプロジェクトを作成した際は、[プロジェクト構造](./project-structure.md) のドキュメントを参照してアプリケーションないで使用出来る全てのファイルとフォルダーの概要を確認して下さい。
 
-## Run the Development Server
+## 開発用サーバの実行
 
-1. Run `cp .env.local .env` to create the environment variables file.
-2. Run `npm install` to install the required dependencies.
-3. Run `npm run build` to the build project using development mode.
-4. Open in other terminal session and run `npm run offline:docker`
-5. Open in other terminal session and run `npm run migrate` to migrate RDS and dynamoDB table
-6. Finally, run `npm run offline:sls` to start serverless offline mode.
+1. `cp .env.local .env` コマンドを実行して環境ファイルを作成します。
+2. `npm install` コマンドを実行して必要なモジュールをインストールします。
+3. `npm run build` コマンドを実行して開発モードでビルドします。
+4. 別のターミナルを開いて `npm run offline:docker` コマンドを実行し、開発用サーバをDockerで実行します。
+5. 別のターミナルを開いて `npm run migrate` コマンドを実行し開発サーバ内のRDS及びDynamoDBをマイグレーとします。
+6. 最後に `npm run offline:sls` コマンドを実行して serverless offline mode を実行します。
 
-After the server runs successfully, you can see:
+サーバの起動が完了したら次のようなメッセージを確認する事が出来ます。
 
 ```bash
 DEBUG[serverless-offline-sns][adapter]: successfully subscribed queue "http://localhost:9324/101010101010/notification-queue" to topic: "arn:aws:sns:ap-northeast-1:101010101010:MySnsTopic"
@@ -63,7 +63,7 @@ Configuring JWT Authorization: ANY /{proxy+}
 Server ready: http://localhost:3000 🚀
 ```
 
-You can also use several endpoints:
+次のサービスのエンドポイントが起動します。:
 
 - API gateway: http://localhost:3000
 - Offline Lambda Server: http://localhost:4000
@@ -79,11 +79,11 @@ You can also use several endpoints:
 - Cognito: http://localhost:9229
 - EventBridge: http://localhost:4010
 - Simple Email Service: http://localhost:8005
-- Run `npx prisma studio` to open studio web: http://localhost:5000
+- `npx prisma studio` を実行して prisma studio を起動します。 エンドポイント: http://localhost:5000
 
 :::note
 
-In the local environment, if you have trouble with the `npm run migrate` command or cannot log in with local Cognito, you will need to add more permissions to files and folders using the command below:
+ローカル開発環境で `npm run migrate` コマンドやローカルの Cognito にログイン出来ない場合は次のコマンドを使用してファイルやフォルダーにアクセス権を設定する必要があります。
 
 ```bash
 sudo chmod -R 777 ./infra-local/cognito-local

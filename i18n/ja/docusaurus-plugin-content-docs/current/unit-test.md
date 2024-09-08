@@ -1,23 +1,23 @@
 ---
-description: Learn how to write unit test
+description: 単体テストの書き方を学びます。
 ---
 
-# Unit test
+# 単体テスト
 
-To summarize the steps for writing a unit test, there are five main steps:
+単体テストを作成する手順を要約すると、次の 5 つの主な手順があります。
 
-- Create an event (API gateway event, S3 event, etc.).
-- Mock/init necessary data/service.
-- Pass the event to `serverlessExpressInstance`.
-- Check data is correct or not
-- Clean data
+- イベント（API Gatewayイベント、S3イベントなど）を作成します。
+- 必要なデータ/サービスをモック/初期化します。
+- イベントを「serverlessExpressInstance」に渡します。
+- データが正しいかどうかを確認してください
+- データをクリアする
 
-Here is the scaffolds default unit tests for applications:
+アプリケーションの scaffold のデフォルトの単体テストは次のとおりです。
 
-- Line 1-16: import dependencies
-- Line 19-60: before each test, mock serverlessExpressInstance/necessary dependencies and create table.
-- Line 62-71: write test
-- Line 73-76: after each test, close app, clean up data
+- 1 ～ 16 行目: 依存関係のインポート
+- 19 ～ 60 行目: 各テストの前に、serverlessExpressInstance/必要な依存関係をモックし、テーブルを作成します。
+- 62～71行目：テスト本体
+- 行 73 ～ 76: 各テストの後にアプリを閉じ、データをクリーンアップします
 
 ```ts
 import 'aws-sdk-client-mock-jest'

@@ -1,52 +1,52 @@
 ---
-description: Project structure
+description: プロジェクト構造 
 ---
 
-# Project structure
+# プロジェクト構造 
 
-## MBC CQRS serverless Project Structure
+## MBC CQRS serverless プロジェクトの構造
 
-This page provides an overview of the project structure of a mbc-cqrs-serverless application. It covers top-level files and folders, configuration files.
+このページでは mbc-cqrs-serverless アプリケーションのプロジェクトの構造を説明します。プロジェクトルートディレクトリのファイルとディレクトリ、構成ファイルについて説明します。
 
-### Top-level folders
+### プロジェクトルートのディレクトリ
 
-Top-level folders are used to organize your application's code, infrastructure for local development, data migration, and testing.
+最上位のディレクトリはローカル開発、データマイグレーション、テスト用のディレクトリから構成されています。
 
 | <!-- -->    | <!-- -->                    |
 | ----------- | --------------------------- |
-| infra-local | Infrastructure runs in a local environment |
-| prisma      | Configuration for your Prisma ORM and dynamoDB table      |
-| src         | Application source folder         |
-| test        | Configuration for e2e Jest testing and manual API tests        |
+| infra-local | ローカル開発のためのインフラ実行基盤 |
+| prisma      | Prisma ORM、DynamoDBテーブルの設定      |
+| src         | アプリケーションソースフォルダ         |
+| test        | E2Eテスト、APIテスト等の設定        |
 
-### Top-level files
+### プロジェクトルートディレクトリ内のファイル
 
-Top-level files are used to configure your application, manage dependencies, and define environment variables.
+プロジェクトルートディレクトリ内のファイルはアプリケーション設定、依存関係の管理、環境設定ファイルの定義等を行っています。
 
 | <!-- -->            | <!-- -->                       |
 | ------------------- | ------------------------------ |
-| .env                | Environment variables            |
-| .env.local          | Local environment variables      |
-| .eslintrc.js        | Configuration file for ESLint       |
-| .gitignore          | Specifies files and directories that Git should ignore      |
-| .prettierrc         | Configure Prettier's code formatting rules     |
-| jest.config.js      | Configuration for Jest testing    |
-| nest-cli.json       | Nest.js plugins configuration       |
-| package-lock.json   | Lockfile that holds information on the dependencies installed   |
-| package.json        | Project dependencies and scripts        |
-| README.md           | Information about a project, including its description, installation instruction, and usage guidelines         |
-| tsconfig.build.json | Configuration TypeScript compiler options |
-| tsconfig.json       | Configuration file for TypeScript       |
+| .env                | 環境設定ファイル            |
+| .env.local          | ローカル開発用環境設定ファイル      |
+| .eslintrc.js        | ESLint 設定ファイル       |
+| .gitignore          | .gitignore ファイル      |
+| .prettierrc         | Prettier のコード整形ルール設定ファイル     |
+| jest.config.js      | Jest 用テスト設定ファイル    |
+| nest-cli.json       | Node.js プラグイン設定ファイル       |
+| package-lock.json   | package.json のロックファイル   |
+| package.json        | プロジェクトの依存モジュール及び、スクリプトファイル        |
+| README.md           | プロジェクトの説明、インストール方法、ガイドライン等を記載したファイル         |
+| tsconfig.build.json | TypeScript コンパイラーオプション設定ファイル |
+| tsconfig.json       | TypeScript 設定ファイル       |
 
-## Application module conventions
+## アプリケーションモジュールの規約
 
-The following file conventions are used to define new module in src folder.
+次の記述は、src ディレクトリ内に新しいモジュールを定義する際の規約です。
 
 | <!-- -->             | folder | <!-- -->                        |
 | -------------------- | ------ | ------------------------------- |
-| dto                  | folder | Define the DTO (Data Transfer Object) schema. A DTO is an object that defines how the data will be sent over the network.      |
-| entities             | folder | Define the business object. |
-| handler              | folder | Define the data sync handler classes.  |
-| [name].service.ts    | file   | Define business logics.    |
-| [name].controller.ts | file   | Define a controller. |
-| [name].module.ts     | file   | Organizes code relevant for a specific feature, keeping code organized and establishing clear boundaries.     |
+| dto                  | folder | DTO (データ転送オブジェクト) スキーマを定義します。 DTO は、ネットワーク上でデータを送信する方法を定義するオブジェクトです。      |
+| entities             | folder | ビジネスオブジェクトを定義します。 |
+| handler              | folder | データ同期ハンドラークラスを定義します。  |
+| [name].service.ts    | file   | ビジネスロジックを定義します。    |
+| [name].controller.ts | file   | コントローラを定義します。 |
+| [name].module.ts     | file   | 特定の機能に関するコード記述します。整理した状態を保ち明確な境界を確立します。     |

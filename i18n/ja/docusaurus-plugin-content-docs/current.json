@@ -4,7 +4,7 @@
     "description": "The label for version current"
   },
   "sidebar.tutorialSidebar.category.Getting Started": {
-    "message": "はじめる",
+    "message": "はじめに",
     "description": "The label for category Getting Started in sidebar tutorialSidebar"
   },
   "sidebar.tutorialSidebar.category.Build your application": {
@@ -12,7 +12,7 @@
     "description": "The label for category Build your application in sidebar tutorialSidebar"
   },
   "sidebar.tutorialSidebar.category.Handle event": {
-    "message": "イベントを処理する",
+    "message": "イベント処理",
     "description": "The label for category Handle event in sidebar tutorialSidebar"
   },
   "sidebar.tutorialSidebar.category.Configuring": {

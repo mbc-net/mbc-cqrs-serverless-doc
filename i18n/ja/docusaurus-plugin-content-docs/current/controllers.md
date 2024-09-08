@@ -1,16 +1,16 @@
 ---
-description: Learn the fundamentals of routing.
+description: ルーティングの基礎を学びます。
 ---
 
-# Controllers
+# コントローラ
 
-Controllers are responsible for handling incoming **requests** and returning **responses** to the client.
+コントローラーは、受信した **リクエスト**を処理し、**レスポンス**をクライアントに返す責務があります。
 
-Defining a controller in the MBC Serverless Framework is the same as in Nest.js, so please refer to this section using the [provided link](https://docs.nestjs.com/controllers).
+MBC サーバーレス フレームワークでのコントローラーの定義は Nest.js の場合と同じであるため、[Nest.js内のリンク](https://docs.nestjs.com/controllers) を使用してこのセクションを参照してください。
 
 :::note
 
-To get the invoke context, you can provide the following argument in the controller function.
+コントローラ内で呼び出されたコンテキストを使用するには次の関数で取得します。
 
 ```ts
 @INVOKE_CONTEXT() invokeContext: IInvoke,
@@ -18,7 +18,7 @@ To get the invoke context, you can provide the following argument in the control
 
 :::
 
-In the following example we'll use the `@Controller()` decorator, which is required to define a basic controller; `@Auth(ROLE.ADMIN)` decorator, which is specified for authorization purpose; and `@ApiTags('cat')` to attach a controller to a specific tag.
+次の例では、基本的なコントローラーを定義するために必要な `@Controller()` デコレーターを使用します。 基本コントローラに `@Auth(ROLE.ADMIN)` デコレータを認可の目的で指定します。そして `@ApiTags('cat')` を使用してコントローラーを特定のタグにアタッチします。
 
 ```ts
 @Auth(ROLE.ADMIN)

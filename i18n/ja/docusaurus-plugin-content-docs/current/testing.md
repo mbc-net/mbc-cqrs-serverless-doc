@@ -1,19 +1,19 @@
 ---
-description: Testing
+description: テスト
 ---
 
-# Testing
+# テスト
 
-Automated testing is considered an essential part of any serious software development effort. Automation makes it easy to repeat individual tests or test suites quickly and easily during development. This helps ensure that releases meet quality and performance goals. Automation helps increase coverage and provides a faster feedback loop to developers. Automation both increases the productivity of individual developers and ensures that tests are run at critical development lifecycle junctures, such as source code control check-in, feature integration, and version release.
+自動テストは、本格的なソフトウェア開発作業において不可欠な部分であると考えられています。自動化により、開発中に個々のテストやテスト スイートを迅速かつ簡単に繰り返すことができます。これにより、リリースが品質とパフォーマンスの目標を確実に満たすことができます。自動化は対象範囲を拡大し、開発者へのより迅速なフィードバック ループを提供します。自動化により、個々の開発者の生産性が向上し、ソース コード管理のチェックイン、機能統合、バージョン リリースなどの重要な開発ライフサイクルの節目でテストが確実に実行されるようになります。
 
-Such tests often span a variety of types, including unit tests, end-to-end (e2e) tests, integration tests, and so on. While the benefits are unquestionable, it can be tedious to set them up. MBC CQRS serverless strives to promote development best practices, including effective testing, so it includes features such as the following to help developers and teams build and automate tests. MBC CQRS serverless:
+このようなテストは、単体テスト、エンドツーエンド (e2e) テスト、統合テストなど、さまざまな種類にまたがることがよくあります。その利点に疑いの余地はありませんが、その設定は面倒な場合があります。 MBC CQRS serverlessは、効果的なテストを含む開発のベスト プラクティスの促進に努めているため、開発者やチームがテストを構築および自動化するのに役立つ次のような機能が含まれています。 MBC CQRS serverless:
 
-- provides default tooling (such as a test runner that builds an isolated module/application loader)
-- provides integration with [Jest](https://github.com/facebook/jest) and [Supertest](https://github.com/ladjs/supertest) out-of-the-box, while remaining agnostic to testing tools
-- makes the Nest dependency injection system available in the testing environment for easily mocking components
-- effortlessly mock AWS services
+- デフォルトのツール (分離されたモジュール/アプリケーション ローダーを構築するテスト ランナーなど) を提供します。
+- [Jest](https://github.com/facebook/jest) および [Supertest](https://github.com/ladjs/supertest) との統合をすぐに使用できるように提供しますが、テスト ツールには依存しません。
+- Nest 依存関係注入システムをテスト環境で使用して、コンポーネントを簡単にモックできるようにします。
+- AWS サービスを簡単にモックする
 
-See the guides below to learn how to write test:
+テストの作成方法については、以下のガイドを参照してください。
 
 ```mdx-code-block
 import DocCardList from '@theme/DocCardList';

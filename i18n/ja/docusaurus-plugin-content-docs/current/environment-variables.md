@@ -1,17 +1,17 @@
 ---
-description: Learn how to add and validate your environment variables in your application.
+description: アプリケーションに環境変数を追加して検証する方法を学びます。
 ---
 
-# Environment Variables
+# 環境変数
 
-MBC CQRS serverless framework comes with built-in support for environment variables, which allows you to do the following:
+MBC CQRS サーバーレス フレームワークには、環境変数のサポートが組み込まれており、次のことが可能になります。
 
-- Use `.env` to load environment variables
-- Validate environment variables
+- `.env` を使用して環境変数をロードします
+- 環境変数を検証する
 
 ## Loading Environment Variables
 
-MBC CQRS serverless framework has built-in support for loading environment variables from `.env*` files into `process.env.`
+MBC CQRS serverless フレームワークには、環境変数を `.env*` ファイルから `process.env` にロードするためのサポートが組み込まれています。
 
 ```
 TODO:
@@ -74,12 +74,12 @@ DATABASE_URL="mysql://root:RootCqrs@localhost:3306/cqrs?schema=public&connection
 
 ## Validate Environment Variables
 
-It is standard practice to throw an exception during application startup if required environment variables haven't been provided or if they don't meet certain validation rules. The `@mbc-cqrs-serverless/core` package makes this easy to do.
+必要な環境変数が指定されていない場合、または環境変数が特定の検証ルールを満たしていない場合、アプリケーションの起動中に例外をスローするのが標準的な方法です。 `@mbc-cqrs-serverless/core` パッケージを使用すると、これを簡単に行うことができます。
 
-First, we have to define:
+まずはじめに定義しなければいけないもの
 
-- a class with validation constraints,
-- extend the EnvironmentVariables class.
+- 検証制約のあるクラス
+- EnvironmentVariables 拡張クラス
 
 ```ts
 // env.validation.ts
@@ -94,7 +94,7 @@ export class EnvValidation extends EnvironmentVariables {
 }
 ```
 
-With this in place, you pass the `EnvValidation` class as a configuration argument of the `createHandler` function, as follows:
+これを配置したら、次のように `EnvValidation` クラスを `createHandler` 関数の構成引数として渡します。
 
 ```ts
 import { createHandler } from "@mbc-cqrs-severless/core";

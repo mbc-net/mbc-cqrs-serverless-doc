@@ -1,14 +1,14 @@
 ---
-description: Learn how to create modules.
+description: モジュールの作成方法を学びます。
 ---
 
-# Modules
+# モジュール
 
-A module is a class annotated with a `@Module()` decorator. The `@Module()` decorator provides metadata that organize the application structure.
+モジュールは、`@Module()` デコレータで注釈が付けられたクラスです。 `@Module()` デコレーターは、アプリケーション構造を編成するメタデータを提供します。
 
-Defining a module in the MBC Serverless Framework is the same as in Nest.js, so please refer to this section using [the provided link](https://docs.nestjs.com/modules).
+MBC サーバーレス フレームワークでのモジュールの定義は Nest.js の場合と同じであるため、[Nest.js内のリンク](https://docs.nestjs.com/modules) を使用してこのセクションを参照してください。
 
-In the example below, the `CatModule` defines the `CatController`, provides and exports the `CatService`, and imports `CommandModule`. The `CommandModule` is a dynamic module that allows registering `tableName` and `dataSyncHandlers`, with options to enable or disable `skipError` and `disableDefaultHandler`.
+以下の例では、`CatModule` は `CatController` を定義し、`CatService` を提供およびエクスポートし、`CommandModule` をインポートします。 `CommandModule` は、`skipError` および `disableDefaultHandler` を有効または無効にするオプションを使用して、`tableName` および `dataSyncHandlers` を登録できる動的モジュールです。
 
 ```ts
 @Module({
@@ -25,4 +25,4 @@ In the example below, the `CatModule` defines the `CatController`, provides and 
 export class CatModule {}
 ```
 
-For more details about the `CommandModule`, please refer to the [API reference](./command-module.md) section.
+「`CommandModule` の詳細については、[API リファレンス](./command-module.md) セクションを参照してください。
