@@ -37,7 +37,7 @@ const config: Config = {
           sidebarPath: "./sidebars.ts",
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: "https://github.com/mbc-net/mbc-cqrs-serverless-doc/edit/master",
+          // editUrl: "https://github.com/mbc-net/mbc-cqrs-serverless-doc/edit/master",
         },
         blog: false,
         theme: {
@@ -68,7 +68,7 @@ const config: Config = {
           position: "right",
         },
         {
-          href: "https://github.com/mbc-net/mbc-cqrs-serverless-doc",
+          href: "https://github.com/mbc-net/mbc-cqrs-serverless",
           label: "GitHub",
           position: "right",
         },
