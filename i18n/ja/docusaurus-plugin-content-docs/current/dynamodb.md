@@ -1,23 +1,23 @@
 ---
-description: DynamoDB related recipes
+description: DynamoDB関連のレシピ。
 ---
 
 # DynamoDB
 
-In the MBC CQRS serverless, DynamoDB tables are organized into three classes based on their purpose.
+MBC CQRS サーバーレスでは、DynamoDB テーブルは目的に基づいて 3 つのクラスに編成されます。
 
-- `tasks` table: store information about long-running tasks
-- `sequences` table: holds sequence data
-- other tables: can be divided into three types: command tables (with a `-command` postfix in name), data tables (with a `-data` postfix in name), and history tables (with `-history` posfix in name). You only need to specify the table name, add the name in `prisma/dynamodbs/cqrs.json`, and the command below will create the table for you.
+- `tasks` テーブル: 長時間実行されるタスクに関する情報を保存します。
+- `sequences` テーブル: シーケンス データを保持します。
+- その他のテーブル: コマンド テーブル (名前に `-command` 接尾辞が付いている)、データ テーブル (名前に `-data` 接尾辞が付いている)、および履歴テーブル (名前に `-history` 接尾辞が付いている) の 3 つのタイプに分類できます。 ）。テーブル名を指定し、`prisma/dynamodbs/cqrs.json` に名前を追加するだけで、以下のコマンドでテーブルが作成されます。
 
-The table definition is store in `prisma/dynamodbs` folder.
+テーブル定義は `prisma/dynamodbs` ディレクトリに保存されます。
 
-For local development, run `npm run migrate:ddb` to migrate dynamo table.
+ローカル開発の場合は、「npm run merge:ddb」を実行してDynamoDBテーブルを移行します。
 
 :::note
 
-You can apply migrate both dynamoDB and RDS with singe command: `npm run migrate`.
+`npm run merge` の1 つのコマンドで、DynamoDB と RDS の両方の移行を適用できます。
 
 :::
 
-> For actions base on Dynamodb, please refer to the [Sequence](./sequence.md) and [CommandModule](./command-module.md) sections.
+> DynamoDB に基づくアクションについては、[Sequence](./sequence.md) および [CommandModule](./command-module.md) セクションを参照してください。

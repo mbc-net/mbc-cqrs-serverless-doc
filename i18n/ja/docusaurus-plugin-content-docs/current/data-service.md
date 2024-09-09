@@ -1,22 +1,22 @@
 ---
-description: Learn how to use DataService.
+description: データサービスの使用方法を学びましょう。
 ---
 
 # DataService
 
-## Description
+## 説明
 
-The methods of this service are primarily used to query data from the data table.
+このサービスのメソッドは主に、データテーブルのデータを検索するために使用されます。
 
-Before jumping into the example, you need to set up the CommandModule as described in [the previous section](./command-module.md).
+例に移る前に、[前のセクション](./command-module.md) で説明されているように CommandModule をセットアップする必要があります。
 
-## Methods
+## メソッド
 
 ### *async* `getItem(key: DetailKey)`
 
-The `getItem` method returns a set of attributes for the item with the given detail/primary key. If there is no matching item, `getItem` does not return any data and there will be no item element in the response.
+`getItem` メソッドは、指定された詳細キー/主キーを持つアイテムの属性のセットを返します。一致するアイテムがない場合、`getItem` はデータを返さず、応答には item 要素がありません。
 
-Example:
+例
 
 ```ts
 const item = await this.dataService.getItem(detailDto);
@@ -29,22 +29,22 @@ return new CatDataEntity(item as CatDataEntity);
 
 ### *async* `listItemsByPk( pk: string, opts?: ...)`
 
-The `listItemsByPk` method returns one or more items.
+`listItemsByPk` メソッドは 1 つ以上の項目を返します。
 
-There are two common usage:
+使い方は2つあります
 
-- List all item by primary key (`pk`)
+- Primary Key (`pk`) ごとにすべての項目をリストします。
 
-Example:
+例
 
 ```ts
 const res = await this.dataService.listItemsByPk(pk);
 return new CatListEntity(res as CatListEntity);
 ```
 
-- List items by primary key (`pk`) and use a filter expression on the sort key (`sk`).
+- Primary Key (`pk`) によって項目をリストし、ソートキー (`sk`) でフィルター式を使用します。
 
-For example, if you want to get an item by its primary key (`pk`), where the sort key (`sk`)starts with the value `CAT#` and limit 100 item.
+たとえば、Primary Key (`pk`) によって項目を取得したい場合、ソートキー (`sk`) は値 `CAT#` で始まり、項目数は 100 に制限されます。
 
 ```ts
 const query = {

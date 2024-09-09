@@ -1,14 +1,14 @@
 ---
-description: Lean how to use NotificationModule
+description: NotificationModule について学びましょう。
 ---
 
 # NotificationModule
 
-![NotificationModule alt](./images/NotificationModule.png)
+![NotificationModuleの代替](./images/NotificationModule.png)
 
-## Description
+## 説明
 
-The `NotificationModule` exports the `EmailService`, and the MBC CQRS framework makes it easy to use with minimal configuration. You only need to set bellow environment variables:
+「NotificationModule」は「EmailService」をエクスポートし、MBC CQRS serverless フレームワークにより最小限の構成で簡単に使用できるようになります。以下の環境変数を設定するだけで済みます。
 
 ```bash
 SES_ENDPOINT=
@@ -16,4 +16,4 @@ SES_REGION=
 SES_FROM_EMAIL=
 ```
 
-This module is registered with global scope, so you can inject the `EmailService` anywhere in your application.
+このモジュールはグローバル スコープで登録されているため、アプリケーションのどこにでも「EmailService」を挿入できます。

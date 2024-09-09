@@ -1,4 +1,4 @@
 {
-  "API reference": "",
-  "The MBC CQRS framework API reference is divided into the following sections. This document will concentrate on the most commonly used APIs that are essential for building your application.": ""
+  "API reference": "APIリファレンス",
+  "The MBC CQRS framework API reference is divided into the following sections. This document will concentrate on the most commonly used APIs that are essential for building your application.": "MBC CQRS serverless フレームワーク API リファレンスは次のセクションに分かれています。このドキュメントでは、アプリケーションの構築に不可欠で最も一般的に使用される API に焦点を当てます。"
 }

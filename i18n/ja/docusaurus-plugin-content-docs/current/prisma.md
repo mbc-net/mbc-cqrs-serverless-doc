@@ -1,19 +1,19 @@
 ---
-description: Prisma related recipes.
+description: Prisma関連のレシピ。
 ---
 
 # Prisma
 
-In MBC CQRS serverless, we use prisma as an ORM. It helps developers more productive when working with databases.
+MBC CQRS サーバーレスでは、ORM として Prisma を使用します。これは、開発者がデータベースを操作する際の生産性を高めるのに役立ちます。
 
-A common scenario when working with Prisma is needing to make changes to the database, such as creating tables, updating fields in tables, etc. Follow these steps:
+Prisma を使用する場合の一般的なシナリオでは、テーブルの作成、テーブル内のフィールドの更新など、データベースに変更を加える必要があります。次の手順を行います。
 
-1. Update prisma/schema.prisma file.
-2. For local development, create and apply migrations with command npm run migrate:dev.
+1. prisma/schema.prisma ファイルを更新します。
+2. ローカル開発の場合は、npm run merge:dev コマンドを実行してしてマイグレーションファイルを作成し、適用します。
 
 :::warning
 
-For local development, please make sure to set the correct `DATABASE_URL` environment variable.
+ローカル開発の場合は、正しい「DATABASE_URL」環境変数を設定してください。
 
 ```bash
 # Example
@@ -22,11 +22,11 @@ DATABASE_URL="postgresql://root:RootCqrs@localhost:5432/cqrs?schema=public"
 
 :::
 
-> You could view [prisma-client documentation](https://www.prisma.io/docs/orm/prisma-client) for more information
+> 詳細については、[prisma-client ドキュメント](https://www.prisma.io/docs/orm/prisma-client) をご覧ください。
 
-## Design table convention
+## テーブル設計の規則
 
-When creating an RDS table that maps to a DynamoDB table, ensure you add the necessary fields and indexes to the RDS table accordingly.
+DynamoDB テーブルにマップする RDS テーブルを作成するときは、必要なフィールドとインデックスをそれに応じて RDS テーブルに追加してください。
 
 ```ts
 id         String   @id

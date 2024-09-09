@@ -1,16 +1,16 @@
 ---
-description: Sequence setup and usage.
+description: シーケンスのセットアップと使用方法。
 ---
 
-# Sequence
+# シーケンス
 
-Sequence is **dynamic modules**. It's used for generating sequence in your application.
+シーケンスは **動的モジュール** です。アプリケーションで番号を採番する際に使用されます。
 
-The solution for customizing the behavior of the `SequenceModule` is to pass it an options `object` in the static `register()` method. The options object is only contain one property:
+`SequenceModule` の動作をカスタマイズする解決策は、静的な `register()` メソッドでオプションの `object` を渡すことです。オプション オブジェクトには、プロパティが 1 つだけ含まれています。
 
-- `enableController`: enable or disable default sequence controller.
+- `enableController`: デフォルトのシーケンスコントローラーを有効または無効にします。
 
-We will create a simple example demonstrating how to use the sequence module and customize authentication for the sequence controller.
+シーケンス モジュールの使用方法とシーケンス コントローラーの認証のカスタマイズ方法を示す簡単な例を作成します。
 
 ```ts
 // seq.controller.ts
@@ -41,9 +41,9 @@ import { SeqController } from "./seq.controller";
 export class SeqModule {}
 ```
 
-Beside controller, we can directly use `SequenceService` to generating sequence by injecting service.
+コントローラーのほかに、`SequenceService` を直接使用して、サービスを注入することでシーケンスを生成できます。
 
-The `SequenceService` have only one public method:
+`SequenceService` にはパブリック メソッドが 1 つだけあります。
 
 ```ts
 async genNewSequence(
@@ -54,8 +54,8 @@ async genNewSequence(
   )
 ```
 
-You can modify the behavior of the function by providing a `GenSequenceDto` object with certain properties:
+`GenSequenceDto` オブジェクトに特定のプロパティを指定することで、関数の動作を変更できます。
 
-- `date?: Date`: By default, the function uses the current date, but if a specific date is provided, it will generate the sequence for that date instead.
-- `rotateBy?: RotateByEnum`: You can select one of five values from the RotateByEnum: fiscal_yearly, yearly, monthly, daily, and none. By default, the none type is used.
-- `tenantCode` and `typeCode`: You must provide the tenant code to identify the tenant and the type code for the intended purpose of usage.
+- date?: Date`: デフォルトでは、関数は現在の日付を使用しますが、特定の日付が指定された場合は、代わりにその日付をベースに採番します。
+- `rotateBy?: RotateByEnum`: RotateByEnum から 5 つの値 (fical_yearly、yearly、monthly、daily、none) のいずれかを選択できます。デフォルトでは、none タイプが使用されます。
+- `tenantCode` および `typeCode`: テナントを識別するためのテナント コードと、使用目的に応じた種別コードを指定する必要があります。

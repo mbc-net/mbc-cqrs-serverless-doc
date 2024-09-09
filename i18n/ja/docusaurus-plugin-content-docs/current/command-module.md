@@ -1,29 +1,29 @@
 ---
-description: Learn how to use CommandModule.
+description: CommandModule の使用方法を学びましょう。
 ---
 
 # CommandModule
 
-![CommandModule structure](./images/CommandModule.png)
+![CommandModule の構造](./images/CommandModule.png)
 
-## Description
+## 説明
 
-The `CommandModule` is a dynamic module used to register data sync handlers and provide some services associated with the table name.
+「CommandModule」は、データ同期ハンドラーを登録し、テーブル名に関連付けられたいくつかのサービスを提供するために使用される動的モジュールです。
 
-## Methods
+## メソッド
 
 ### *static* `register(option)`
 
-When import this module, you must provide a specific option for use. The option has 4 properties that you can configure:
+このモジュールをインポートするときは、使用する特定のオプションを指定する必要があります。このオプションには、構成できる 4 つのプロパティがあります。
 
-| Properties                | Description              |
+| プロパティ                | 説明              |
 | -------------------------------- | ------------------------------------- |
-| `tableName: string`              | provide table name             |
-| `skipError?: boolean`            | If set to `true`, it will skip errors from previous commands.             |
-| `dataSyncHandlers?: Type[]`      | register data sync handler      |
-| `disableDefaulHandler?: boolean` | If set to `true`, it will reset default data sync handlers |
+| `tableName: string`              | テーブル名を指定します。             |
+| `skipError?: boolean`            | 「true」に設定すると、前のコマンドからのエラーがスキップされます。             |
+| `dataSyncHandlers?: Type[]`      | データ同期ハンドラーを登録する      |
+| `disableDefaulHandler?: boolean` | 「true」に設定すると、デフォルトのデータ同期ハンドラーがリセットされます。 |
 
-For example:
+例
 
 ```ts
 CommandModule.register({
@@ -32,4 +32,4 @@ CommandModule.register({
 });
 ```
 
-Here, the `CommandModule` registers with the `cat` table name and provides the `CatDataSyncRdsHandler` to the data sync handlers.
+ここで、`CommandModule` は `cat` テーブル名を登録し、データ同期ハンドラーに `CatDataSyncRdsHandler` を提供します。

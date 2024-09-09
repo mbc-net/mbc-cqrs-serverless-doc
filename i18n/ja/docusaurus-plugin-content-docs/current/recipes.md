@@ -1,10 +1,10 @@
 ---
-description: Recipes
+description: レシピ
 ---
 
-# Recipes
+# レシピ
 
-In depth recipes for common tasks
+一般的なタスクの詳細なレシピ
 
 ```mdx-code-block
 import DocCardList from '@theme/DocCardList';

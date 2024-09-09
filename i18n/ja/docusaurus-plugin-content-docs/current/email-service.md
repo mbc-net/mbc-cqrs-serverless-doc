@@ -4,17 +4,17 @@ description: EmailService
 
 # EmailService
 
-## Description
+## 説明
 
-This service is designed to send emails using [AWS SES (Simple Email Service)](https://aws.amazon.com/ses/).
+このサービスは、[AWS SES (Simple Email Service)](https://aws.amazon.com/ses/) を使用してメールを送信するように設計されています。
 
-## Methods
+## メソッド
 
 ### *async* `sendEmail(msg: EmailNotification)`
 
-Composes an email message and immediately queues it for sending.
+電子メール メッセージを作成し、送信のためにすぐにキューに入れます。
 
-For example:
+例
 
 ```ts
 const email = "cat@example.com";

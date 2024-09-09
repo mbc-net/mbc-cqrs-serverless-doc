@@ -13,7 +13,6 @@ e2e testing tests the API in a real environment, so there’s no need to mock an
 - データが正しいかどうかを確認してください
 - データをクリアする
 
-
 これはアプリケーションのスキャフォールドのデフォルトの e2e テストです
 
 ```ts

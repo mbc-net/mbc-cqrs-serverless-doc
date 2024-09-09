@@ -7,5 +7,5 @@
   "Make API calls using the Supertest library to simulate HTTP requests.": "Supertest ライブラリを使用して API 呼び出しを行い、HTTP リクエストをシミュレートします。",
   "Check data is correct or not": "データが正しいかどうかを確認してください",
   "Clean data": "データをクリアする",
-  "Here is the scaffolds default e2e tests for applications:": "\nこれはアプリケーションのスキャフォールドのデフォルトの e2e テストです"
+  "Here is the scaffolds default e2e tests for applications:": "これはアプリケーションのスキャフォールドのデフォルトの e2e テストです"
 }

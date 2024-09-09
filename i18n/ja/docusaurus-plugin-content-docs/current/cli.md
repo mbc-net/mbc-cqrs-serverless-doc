@@ -4,15 +4,15 @@ description: CLI
 
 # CLI
 
-The mbc-cqrs-serverless CLI allows you to create new project.
+mbc-cqrs-serverless CLI を使用すると、新しいプロジェクトを作成できます。
 
-To get a list of the available CLI commands, run the following command:
+使用可能な CLI コマンドのリストを取得するには、次のコマンドを実行します。
 
 ```bash
 mbc -h
 ```
 
-The output should look like this:
+出力は次のようになります。
 
 ```bash
 Usage: mbc [options] [command]
