@@ -1,6 +1,6 @@
 {
   "Handle event": "イベント処理",
-  "Currently, we support customizing six types of events. There are:": "現在、MBC CQRS serverlss では以下6種類のイベントをサポートしております。",
+  "Currently, we support customizing six types of events. There are:": "現在、MBC CQRS サーバーレスフレームワークでは以下6種類のイベントをサポートしております。",
   "[SNS event](https://docs.aws.amazon.com/lambda/latest/dg/with-sns.html#sns-sample-event)": "",
   "[SQS event](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#example-standard-queue-message-event)": "",
   "[DynamoDB event](https://docs.aws.amazon.com/lambda/latest/dg/with-ddb.html#events-sample-dynamodb)": "",

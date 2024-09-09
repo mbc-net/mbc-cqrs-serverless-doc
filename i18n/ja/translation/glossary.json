@@ -1,6 +1,6 @@
 {
   "Glossary": "用語集",
-  "This is a glossary of the core terms in mbc-cqrs-serverless framework.": "これは、mbc-cqrs-serverless フレームワークの中心となる用語の用語集です。",
+  "This is a glossary of the core terms in mbc-cqrs-serverless framework.": "これは、MBC CQRS サーバーレスフレームワークの中心となる用語の用語集です。",
   "Design patterns": "デザインパターン",
   "CQRS": "",
   "The command query responsibility segregation (CQRS) pattern separates the data mutation, or the command part of a system, from the query part. You can use the CQRS pattern to separate updates and queries if they have different requirements for throughput, latency, or consistency. The CQRS pattern splits the application into two parts—the command side and the query side. The command side handles create, update, and delete requests. The query side runs the query part by using the read replicas.": "コマンド クエリ責任分離 (CQRS) パターンは、データの変更、つまりシステムのコマンド部分をクエリ部分から分離します。スループット、レイテンシ、一貫性などの要件が異なる場合は、CQRS パターンを使用して更新とクエリを分離できます。 CQRS パターンは、アプリケーションをコマンド側とクエリ側の 2 つの部分に分割します。コマンド側は、作成、更新、削除のリクエストを処理します。クエリ側はリードレプリカを使用してクエリ部分を実行します。",

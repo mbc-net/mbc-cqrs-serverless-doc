@@ -4,7 +4,7 @@ description: イベント処理
 
 # イベント処理
 
-現在、MBC CQRS serverlss では以下6種類のイベントをサポートしております。
+現在、MBC CQRS サーバーレスフレームワークでは以下6種類のイベントをサポートしております。
 
 - [SNS event](https://docs.aws.amazon.com/lambda/latest/dg/with-sns.html#sns-sample-event)
 - [SQS event](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#example-standard-queue-message-event)

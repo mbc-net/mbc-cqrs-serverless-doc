@@ -4,7 +4,7 @@ description: CLI
 
 # CLI
 
-mbc-cqrs-serverless CLI を使用すると、新しいプロジェクトを作成できます。
+MBC CQRS サーバーレスフレームワーク CLI を使用すると、新しいプロジェクトを作成できます。
 
 使用可能な CLI コマンドのリストを取得するには、次のコマンドを実行します。
 

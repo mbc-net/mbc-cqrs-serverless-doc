@@ -1,7 +1,7 @@
 {
   "Project structure": "プロジェクト構造 ",
-  "MBC CQRS serverless Project Structure": "MBC CQRS serverless プロジェクトの構造",
-  "This page provides an overview of the project structure of a mbc-cqrs-serverless application. It covers top-level files and folders, configuration files.": "このページでは mbc-cqrs-serverless アプリケーションのプロジェクトの構造を説明します。プロジェクトルートディレクトリのファイルとディレクトリ、構成ファイルについて説明します。",
+  "MBC CQRS serverless Project Structure": "MBC CQRS サーバーレスフレームワーク プロジェクトの構造",
+  "This page provides an overview of the project structure of a mbc-cqrs-serverless application. It covers top-level files and folders, configuration files.": "このページでは MBC CQRS サーバーレスフレームワークのプロジェクトの構造を説明します。プロジェクトルートディレクトリのファイルとディレクトリ、構成ファイルについて説明します。",
   "Top-level folders": "プロジェクトルートのディレクトリ",
   "Top-level folders are used to organize your application's code, infrastructure for local development, data migration, and testing.": "最上位のディレクトリはローカル開発、データマイグレーション、テスト用のディレクトリから構成されています。",
   "Infrastructure runs in a local environment": "ローカル開発のためのインフラ実行基盤",

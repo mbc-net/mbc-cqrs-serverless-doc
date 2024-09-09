@@ -1,7 +1,7 @@
 {
   "Learn how to use and customize authentication and authorization.": "認証と認可の使用方法とカスタマイズ方法を学びます。",
   "Authentication": "認証",
-  "Understanding authentication is crucial for protecting your application's data. This page will guide you through what mbc-cqrs-serverless features to use to implement auth.": "認証を理解することは、アプリケーションのデータを保護するために重要です。このページでは、認証を実装するためにどの mbc-cqrs-serverless 機能を使用するかを説明します。",
+  "Understanding authentication is crucial for protecting your application's data. This page will guide you through what mbc-cqrs-serverless features to use to implement auth.": "認証を理解することは、アプリケーションのデータを保護するために重要です。このページでは、認証を実装するためにどのMBC CQRS サーバーレスフレームワーク機能を使用するかを説明します。",
   "Before starting, it helps to break down the process into three concepts:": "開始する前にプロセスを3つの概念に分類すると役立ちます。",
   "Verifies if the user is who they say they are. It requires the user to prove their identity with something they have, such as a username and password.": "ユーザが本人であるかどうかを確認します。ユーザは、ユーザ名やパスワード等自身が持っているもので自分の身元を証明する必要があります。",
   "Session Management": "セッション管理",
