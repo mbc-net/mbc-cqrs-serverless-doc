@@ -38,6 +38,6 @@ Nest (NestJS) は、効率的でスケーラブルな Node.js サーバー側ア
 
 ### Prisma
 
-Prisma is an ORM for Node.js and Typescript that serves as an alternative to writing plain SQL or using other database access tools, such as Knex or Sequelize. It simplifies database access and management by providing developers with a type-safe query builder and auto-generator.
+Prisma は、Node.js および Typescript 用の ORM であり、プレーンな SQL を記述したり、Knex や Sequelize などの他のデータベース アクセス ツールを使用したりする代わりに機能します。タイプセーフなクエリ ビルダーと自動生成機能を開発者に提供することで、データベースのアクセスと管理を簡素化します。
 
-> See: Prisma は、Node.js および Typescript 用の ORM であり、プレーンな SQL を記述したり、Knex や Sequelize などの他のデータベース アクセス ツールを使用したりする代わりに機能します。タイプセーフなクエリ ビルダーと自動生成機能を開発者に提供することで、データベースのアクセスと管理を簡素化します。
+> See: [What is Prisma ORM?](https://www.prisma.io/docs/orm/overview/introduction/what-is-prisma)
