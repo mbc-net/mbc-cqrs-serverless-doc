@@ -11,7 +11,7 @@ description: { { Learn how to create and register data sync handler. } }
 {{By convention, you create a class that implements `IDataSyncHandler` and then override the up and down methods as below example:}}
 
 ```ts
-import { CommandModel, IDataSyncHandler } from "@mbc-cqrs-severless/core";
+import { CommandModel, IDataSyncHandler } from "@mbc-cqrs-serverless/core";
 import { Injectable, Logger } from "@nestjs/common";
 import { PrismaService } from "src/prisma";
 

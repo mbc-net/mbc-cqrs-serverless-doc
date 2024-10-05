@@ -83,7 +83,7 @@ DATABASE_URL="mysql://root:RootCqrs@localhost:3306/cqrs?schema=public&connection
 
 ```ts
 // env.validation.ts
-import { EnvironmentVariables } from "@mbc-cqrs-severless/core";
+import { EnvironmentVariables } from "@mbc-cqrs-serverless/core";
 import { IsUrl } from "class-validator";
 
 export class EnvValidation extends EnvironmentVariables {
@@ -97,7 +97,7 @@ export class EnvValidation extends EnvironmentVariables {
 これを配置したら、次のように `EnvValidation` クラスを `createHandler` 関数の構成引数として渡します。
 
 ```ts
-import { createHandler } from "@mbc-cqrs-severless/core";
+import { createHandler } from "@mbc-cqrs-serverless/core";
 
 import { EnvValidation } from "./env.validation";
 import { MainModule } from "./main.module";

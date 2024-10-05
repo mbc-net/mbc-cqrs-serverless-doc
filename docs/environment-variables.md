@@ -83,7 +83,7 @@ DATABASE_URL="mysql://root:RootCqrs@localhost:3306/cqrs?schema=public&connection
 
 ```ts
 // env.validation.ts
-import { EnvironmentVariables } from "@mbc-cqrs-severless/core";
+import { EnvironmentVariables } from "@mbc-cqrs-serverless/core";
 import { IsUrl } from "class-validator";
 
 export class EnvValidation extends EnvironmentVariables {
@@ -97,7 +97,7 @@ export class EnvValidation extends EnvironmentVariables {
 {{With this in place, you pass the `EnvValidation` class as a configuration argument of the `createHandler` function, as follows:}}
 
 ```ts
-import { createHandler } from "@mbc-cqrs-severless/core";
+import { createHandler } from "@mbc-cqrs-serverless/core";
 
 import { EnvValidation } from "./env.validation";
 import { MainModule } from "./main.module";

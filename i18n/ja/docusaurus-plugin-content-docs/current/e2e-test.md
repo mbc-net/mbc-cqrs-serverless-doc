@@ -16,7 +16,7 @@ e2e(エンドツーエンド) テストでは実際の環境で API をテスト
 これはアプリケーションのスキャフォールドのデフォルトの e2e(エンドツーエンド) テストです
 
 ```ts
-import { removeSortKeyVersion } from "@mbc-cqrs-severless/core";
+import { removeSortKeyVersion } from "@mbc-cqrs-serverless/core";
 import request from "supertest";
 import config from "test/lib/config";
 import { getItem, getTableName, TableType } from "test/lib/dynamo-client";

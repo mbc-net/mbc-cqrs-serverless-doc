@@ -14,7 +14,7 @@ We will create a simple example demonstrating how to use the sequence module and
 
 ```ts
 // seq.controller.ts
-import { SequencesController } from "@mbc-cqrs-severless/sequence";
+import { SequencesController } from "@mbc-cqrs-serverless/sequence";
 import { Controller } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { Auth } from "src/auth/auth.decorator";
@@ -28,7 +28,7 @@ export class SeqController extends SequencesController {}
 
 ```ts
 // seq.module.ts
-import { SequencesModule } from "@mbc-cqrs-severless/sequence";
+import { SequencesModule } from "@mbc-cqrs-serverless/sequence";
 import { Module } from "@nestjs/common";
 
 import { SeqController } from "./seq.controller";

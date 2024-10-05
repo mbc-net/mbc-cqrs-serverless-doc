@@ -12,7 +12,7 @@ In the following example, we will create a custom S3 event and register this eve
 
 ```ts
 // custom-s3-import.event
-import { IEvent } from "@mbc-cqrs-severless/core";
+import { IEvent } from "@mbc-cqrs-serverless/core";
 import { S3EventRecord, S3EventRecordGlacierEventData } from "aws-lambda";
 
 export class CustomS3EventRecord implements IEvent, S3EventRecord {
@@ -56,7 +56,7 @@ With `CustomS3EventRecord` in place, you can now create a handler for this event
 
 ```ts
 // custom-s3.event.handler.ts
-import { EventHandler, IEventHandler } from "@mbc-cqrs-severless/core";
+import { EventHandler, IEventHandler } from "@mbc-cqrs-serverless/core";
 import { Logger } from "@nestjs/common";
 import { CustomS3EventRecord } from "./custom-s3-import.event";
 @EventHandler(CustomS3EventRecord)
@@ -81,7 +81,7 @@ import {
   DefaultEventFactory,
   EventFactory,
   IEvent,
-} from "@mbc-cqrs-severless/core";
+} from "@mbc-cqrs-serverless/core";
 import { Logger } from "@nestjs/common";
 import { S3Event } from "aws-lambda";
 

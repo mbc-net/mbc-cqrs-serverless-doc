@@ -28,7 +28,7 @@ description: 認証と認可の使用方法とカスタマイズ方法を学び�
 
 ```ts
 // role.enum.ts
-import { ROLE_SYSTEM_ADMIN } from "@mbc-cqrs-severless/core";
+import { ROLE_SYSTEM_ADMIN } from "@mbc-cqrs-serverless/core";
 
 export enum Role {
   SYSTEM_ADMIN = ROLE_SYSTEM_ADMIN,
@@ -85,7 +85,7 @@ import {
   HEADER_TENANT_CODE,
   IInvoke,
   UserContext,
-} from "@mbc-cqrs-severless/core";
+} from "@mbc-cqrs-serverless/core";
 import { ExecutionContext } from "@nestjs/common";
 
 export const getUserContext = (
@@ -112,7 +112,7 @@ export const getUserContext = (
 最後に現在のユーザに割り当てられているロールと現在処理中のルートで必要なロールを比較するカスタムロールガードクラスを作成します。
 
 ```ts
-import { RolesGuard } from "@mbc-cqrs-severless/core";
+import { RolesGuard } from "@mbc-cqrs-serverless/core";
 import { ExecutionContext, Injectable } from "@nestjs/common";
 
 import { getUserContext } from "./user.context";

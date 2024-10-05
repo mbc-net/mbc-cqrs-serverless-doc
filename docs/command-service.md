@@ -11,7 +11,7 @@ description: { { Learn how to use CommandService. } }
 {{In the example for the method below, assume you import the `CommandModule` into your module as follows:}}
 
 ```ts
-import { CommandModule } from "@mbc-cqrs-severless/core";
+import { CommandModule } from "@mbc-cqrs-serverless/core";
 import { Module } from "@nestjs/common";
 
 import { CatDataSyncRdsHandler } from "./handler/cat-rds.handler";
@@ -46,7 +46,7 @@ import {
   generateId,
   getCommandSource,
   VERSION_FIRST,
-} from "@mbc-cqrs-severless/core";
+} from "@mbc-cqrs-serverless/core";
 
 // ...
 
@@ -87,7 +87,7 @@ import {
   generateId,
   getCommandSource,
   VERSION_FIRST,
-} from '@mbc-cqrs-severless/core'
+} from '@mbc-cqrs-serverless/core'
 
 // ...
 

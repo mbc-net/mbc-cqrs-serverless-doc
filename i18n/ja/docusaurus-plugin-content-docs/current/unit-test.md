@@ -22,7 +22,7 @@ description: 単体テストの書き方を学びます。
 ```ts
 import 'aws-sdk-client-mock-jest'
 import serverlessExpress from '@codegenie/serverless-express'
-import { AppModule } from '@mbc-cqrs-severless/core'
+import { AppModule } from '@mbc-cqrs-serverless/core'
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import { PrismockClient } from 'prismock'

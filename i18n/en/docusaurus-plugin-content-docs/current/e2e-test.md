@@ -16,7 +16,7 @@ e2e testing tests the API in a real environment, so there’s no need to mock an
 Here is the scaffolds default e2e tests for applications:
 
 ```ts
-import { removeSortKeyVersion } from "@mbc-cqrs-severless/core";
+import { removeSortKeyVersion } from "@mbc-cqrs-serverless/core";
 import request from "supertest";
 import config from "test/lib/config";
 import { getItem, getTableName, TableType } from "test/lib/dynamo-client";

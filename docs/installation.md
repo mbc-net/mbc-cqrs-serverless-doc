@@ -14,7 +14,7 @@ description: { { Installation } }
 
 ## {{Automatic Installation}}
 
-{{To get started, you can scaffold the project with the [mbc-cqrs-severless CLI](./cli.md). To scaffold the project with the mbc-cqrs-severless CLI, run the following commands. This will create a new project directory, and populate the directory with the initial core mbc-cqrs-severless files and supporting modules, creating a conventional base structure for your project.}}
+{{To get started, you can scaffold the project with the [mbc-cqrs-serverless CLI](./cli.md). To scaffold the project with the mbc-cqrs-severless CLI, run the following commands. This will create a new project directory, and populate the directory with the initial core mbc-cqrs-severless files and supporting modules, creating a conventional base structure for your project.}}
 
 ```bash
 npm i -g @mbc-cqrs-severless/cli

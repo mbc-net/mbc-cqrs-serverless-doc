@@ -11,7 +11,7 @@ To make working with the data sync event easier, we've created several helper ut
 By convention, you create a class that implements `IDataSyncHandler` and then override the up and down methods as below example:
 
 ```ts
-import { CommandModel, IDataSyncHandler } from "@mbc-cqrs-severless/core";
+import { CommandModel, IDataSyncHandler } from "@mbc-cqrs-serverless/core";
 import { Injectable, Logger } from "@nestjs/common";
 import { PrismaService } from "src/prisma";
 

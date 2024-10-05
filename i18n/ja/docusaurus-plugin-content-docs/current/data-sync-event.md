@@ -12,7 +12,7 @@ description: データ同期ハンドラーを作成して登録する方法を�
 慣例により、以下の例のように、`IDataSyncHandler` を実装するクラスを作成し、up メソッドと down メソッドをオーバーライドします。
 
 ```ts
-import { CommandModel, IDataSyncHandler } from "@mbc-cqrs-severless/core";
+import { CommandModel, IDataSyncHandler } from "@mbc-cqrs-serverless/core";
 import { Injectable, Logger } from "@nestjs/common";
 import { PrismaService } from "src/prisma";
 

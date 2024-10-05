@@ -28,7 +28,7 @@ description: { { Learn how to use and customize authentication and authorization
 
 ```ts
 // role.enum.ts
-import { ROLE_SYSTEM_ADMIN } from "@mbc-cqrs-severless/core";
+import { ROLE_SYSTEM_ADMIN } from "@mbc-cqrs-serverless/core";
 
 export enum Role {
   SYSTEM_ADMIN = ROLE_SYSTEM_ADMIN,
@@ -85,7 +85,7 @@ import {
   HEADER_TENANT_CODE,
   IInvoke,
   UserContext,
-} from "@mbc-cqrs-severless/core";
+} from "@mbc-cqrs-serverless/core";
 import { ExecutionContext } from "@nestjs/common";
 
 export const getUserContext = (
@@ -112,7 +112,7 @@ export const getUserContext = (
 {{Finally, we create a CustomRoleGuard class which will compare the roles assigned to the current user to the actual roles required by the current route being processed.}}
 
 ```ts
-import { RolesGuard } from "@mbc-cqrs-severless/core";
+import { RolesGuard } from "@mbc-cqrs-serverless/core";
 import { ExecutionContext, Injectable } from "@nestjs/common";
 
 import { getUserContext } from "./user.context";
