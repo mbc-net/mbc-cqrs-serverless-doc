@@ -14,10 +14,10 @@ description: インストール
 
 ## 自動インストール
 
-まずはじめに [mbc-cqrs-serverless CLI](./cli.md) を使用してプロジェクトの土台を作ります。mbc-cqrs-serverless CLI を使用してプロジェクトの土台を生成するには次のコマンドを実行します。次のコマンドを実行することにより、新しいプロジェクトディレクトリが作成されて、作成されたディレクトリに初期状態の MBC CQRSサーバーレスフレームワークファイルとサポートモジュールが追加されます。プロジェクトの基本構造が作成されます。
+To get started, you can scaffold the project with the [mbc-cqrs-serverless CLI](./cli.md). To scaffold the project with the mbc-cqrs-severless CLI, run the following commands. This will create a new project directory, and populate the directory with the initial core mbc-cqrs-severless files and supporting modules, creating a conventional base structure for your project.
 
 ```bash
-npm i -g @mbc-cqrs-serverless/cli
+npm i -g @mbc-cqrs-severless/cli
 mbc new project-name
 ```
 
