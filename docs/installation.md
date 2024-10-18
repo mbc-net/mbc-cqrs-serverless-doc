@@ -10,7 +10,7 @@ description: { { Installation } }
 - {{[JQ cli](https://jqlang.github.io/jq/download/)}}
 - {{[AWS cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)}}
 - {{[Docker](https://docs.docker.com/engine/install/)}}
-- {{macOS and Linux are supported.}}
+- {{windows, macOS and Linux are supported.}}
 
 ## {{Automatic Installation}}
 

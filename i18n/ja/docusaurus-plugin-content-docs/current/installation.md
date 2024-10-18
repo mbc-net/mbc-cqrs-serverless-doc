@@ -10,11 +10,11 @@ description: インストール
 - [JQ cli](https://jqlang.github.io/jq/download/)
 - [AWS cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 - [Docker](https://docs.docker.com/engine/install/)
-- macOSとLinuxをサポートしています。
+- Windows / macOS / Linux をサポートしています。
 
 ## 自動インストール
 
-To get started, you can scaffold the project with the [mbc-cqrs-serverless CLI](./cli.md). To scaffold the project with the mbc-cqrs-severless CLI, run the following commands. This will create a new project directory, and populate the directory with the initial core mbc-cqrs-severless files and supporting modules, creating a conventional base structure for your project.
+まず、[mbc-cqrs-serverless CLI](./cli.md) を使用してプロジェクトをスキャフォールディングします。 mbc-cqrs-severless CLI を使用してプロジェクトをスキャフォールディングするには、次のコマンドを実行します。これにより、新しいプロジェクト ディレクトリが作成され、そのディレクトリに初期コアの mbc-cqrs-severless ファイルとサポート モジュールが追加され、プロジェクトの従来の基本構造が作成されます。
 
 ```bash
 npm i -g @mbc-cqrs-severless/cli
