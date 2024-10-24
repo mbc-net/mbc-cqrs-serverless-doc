@@ -65,3 +65,7 @@ We can summary the contributing process as the bellow image:
 </p>
 
 Note: Extract the theme translation JSON file with command: `npm run write-translations -- --locale {{country-code}}`
+
+## License
+Copyright &copy; 2024, Murakami Business Consulting, Inc. https://www.mbc-net.com/
+This project and sub projects are under the MIT License.
