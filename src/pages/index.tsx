@@ -6,6 +6,7 @@ import Heading from "@theme/Heading";
 
 import styles from "./index.module.css";
 import { translate } from "@docusaurus/Translate";
+import useBaseUrl from '@docusaurus/useBaseUrl'
 
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
@@ -22,7 +23,7 @@ export default function Home(): JSX.Element {
       <main className={clsx(styles.fullScreen)}>
         <div className={clsx(styles.container)}>
           <Heading as="h1" className={clsx(styles.textCenter)}>
-            <img src='img/mbc-cqrs-serverless.png' />
+            <img src={useBaseUrl('/img/mbc-cqrs-serverless.png')} />
             {translate({
               id: "home.welcome",
               message:
