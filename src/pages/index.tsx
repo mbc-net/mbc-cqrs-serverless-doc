@@ -22,6 +22,7 @@ export default function Home(): JSX.Element {
       <main className={clsx(styles.fullScreen)}>
         <div className={clsx(styles.container)}>
           <Heading as="h1" className={clsx(styles.textCenter)}>
+            <img src='img/mbc-cqrs-serverless.png' />
             {translate({
               id: "home.welcome",
               message:

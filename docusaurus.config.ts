@@ -72,6 +72,11 @@ const config: Config = {
           label: "GitHub",
           position: "right",
         },
+        {
+          href: "https://www.mbc-net.com",
+          label: "MBC",
+          position: "right",
+        },
       ],
     },
     footer: {
