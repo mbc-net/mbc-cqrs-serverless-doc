@@ -1,3 +1,4 @@
+![MBC CQRS serverless framework](https://mbc-net.github.io/mbc-cqrs-serverless-doc/img/mbc-cqrs-serverless.png)
 # MBC CQRS serverless documentation
 
 This website serves as the official documentation for [the MBC CQRS Serverless Framework](https://github.com/mbc-net/mbc-cqrs-serverless). It provides comprehensive information and resources to help developers understand and effectively utilize the framework.
