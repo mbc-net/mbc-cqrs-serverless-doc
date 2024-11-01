@@ -25,12 +25,10 @@ mbc-cqrs-serverless を使用して新しいプロジェクトを作成した際
 
 ## 開発用サーバの実行
 
-1. `cp .env.local .env` コマンドを実行して環境ファイルを作成します。
-2. `npm install` コマンドを実行して必要なモジュールをインストールします。
-3. `npm run build` コマンドを実行して開発モードでビルドします。
-4. 別のターミナルを開いて `npm run offline:docker` コマンドを実行し、開発用サーバをDockerで実行します。
-5. 別のターミナルを開いて `npm run migrate` コマンドを実行し開発サーバ内のRDS及びDynamoDBをマイグレーとします。
-6. 最後に `npm run offline:sls` コマンドを実行して serverless offline mode を実行します。
+1. `npm run build` コマンドを実行して開発モードでビルドします。
+2. 別のターミナルを開いて `npm run offline:docker` コマンドを実行し、開発用サーバをDockerで実行します。
+3. 別のターミナルを開いて `npm run migrate` コマンドを実行し開発サーバ内のRDS及びDynamoDBをマイグレーとします。
+4. 最後に `npm run offline:sls` コマンドを実行して serverless offline mode を実行します。
 
 サーバの起動が完了したら次のようなメッセージを確認する事が出来ます。
 

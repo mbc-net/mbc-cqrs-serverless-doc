@@ -10,8 +10,6 @@
   "To get started, you can scaffold the project with the [mbc-cqrs-serverless CLI](./cli.md). To scaffold the project with the mbc-cqrs-serverless CLI, run the following commands. This will create a new project directory, and populate the directory with the initial core mbc-cqrs-serverless files and supporting modules, creating a conventional base structure for your project.": "まず、[mbc-cqrs-serverless CLI](./cli.md) を使用してプロジェクトをスキャフォールディングします。 mbc-cqrs-serverless CLI を使用してプロジェクトをスキャフォールディングするには、次のコマンドを実行します。これにより、新しいプロジェクト ディレクトリが作成され、そのディレクトリに初期コアの mbc-cqrs-serverless ファイルとサポート モジュールが追加され、プロジェクトの従来の基本構造が作成されます。",
   "If you're new to mbc-cqrs-serverless, see the [project structure](./project-structure.md) docs for an overview of all the possible files and folders in your application.": "mbc-cqrs-serverless を使用して新しいプロジェクトを作成した際は、[プロジェクト構造](./project-structure.md) のドキュメントを参照してアプリケーションないで使用出来る全てのファイルとフォルダーの概要を確認して下さい。",
   "Run the Development Server": "開発用サーバの実行",
-  "Run `cp .env.local .env` to create the environment variables file.": "`cp .env.local .env` コマンドを実行して環境ファイルを作成します。",
-  "Run `npm install` to install the required dependencies.": "`npm install` コマンドを実行して必要なモジュールをインストールします。",
   "Run `npm run build` to the build project using development mode.": "`npm run build` コマンドを実行して開発モードでビルドします。",
   "Open in other terminal session and run `npm run offline:docker`": "別のターミナルを開いて `npm run offline:docker` コマンドを実行し、開発用サーバをDockerで実行します。",
   "Open in other terminal session and run `npm run migrate` to migrate RDS and dynamoDB table": "別のターミナルを開いて `npm run migrate` コマンドを実行し開発サーバ内のRDS及びDynamoDBをマイグレーとします。",

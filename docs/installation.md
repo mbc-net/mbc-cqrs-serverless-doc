@@ -25,12 +25,10 @@ mbc new project-name
 
 ## {{Run the Development Server}}
 
-1. {{Run `cp .env.local .env` to create the environment variables file.}}
-2. {{Run `npm install` to install the required dependencies.}}
-3. {{Run `npm run build` to the build project using development mode.}}
-4. {{Open in other terminal session and run `npm run offline:docker`}}
-5. {{Open in other terminal session and run `npm run migrate` to migrate RDS and dynamoDB table}}
-6. {{Finally, run `npm run offline:sls` to start serverless offline mode.}}
+1. {{Run `npm run build` to the build project using development mode.}}
+2. {{Open in other terminal session and run `npm run offline:docker`}}
+3. {{Open in other terminal session and run `npm run migrate` to migrate RDS and dynamoDB table}}
+4. {{Finally, run `npm run offline:sls` to start serverless offline mode.}}
 
 {{After the server runs successfully, you can see:}}
 
