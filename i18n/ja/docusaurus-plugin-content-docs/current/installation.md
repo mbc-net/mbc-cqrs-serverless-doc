@@ -14,10 +14,10 @@ description: インストール
 
 ## 自動インストール
 
-まず、[mbc-cqrs-serverless CLI](./cli.md) を使用してプロジェクトをスキャフォールディングします。 mbc-cqrs-severless CLI を使用してプロジェクトをスキャフォールディングするには、次のコマンドを実行します。これにより、新しいプロジェクト ディレクトリが作成され、そのディレクトリに初期コアの mbc-cqrs-severless ファイルとサポート モジュールが追加され、プロジェクトの従来の基本構造が作成されます。
+まず、[mbc-cqrs-serverless CLI](./cli.md) を使用してプロジェクトをスキャフォールディングします。 mbc-cqrs-serverless CLI を使用してプロジェクトをスキャフォールディングするには、次のコマンドを実行します。これにより、新しいプロジェクト ディレクトリが作成され、そのディレクトリに初期コアの mbc-cqrs-serverless ファイルとサポート モジュールが追加され、プロジェクトの従来の基本構造が作成されます。
 
 ```bash
-npm i -g @mbc-cqrs-severless/cli
+npm i -g @mbc-cqrs-serverless/cli
 mbc new project-name
 ```
 
