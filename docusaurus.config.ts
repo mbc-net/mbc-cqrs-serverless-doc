@@ -44,14 +44,17 @@ const config: Config = {
           customCss: "./src/css/custom.css",
         },
       } satisfies Preset.Options,
-      {
-        googleTagManager: {
-          containerId: "GTM-TCJM8CCL"
-        }
-      }
     ],
   ],
-
+  plugins: [
+    [
+      '@docusaurus/plugin-google-gtag',
+      {
+        trackingID: 'GTM-TCJM8CCL',
+        anonymizeIP: true,
+      },
+    ],
+  ],
   themeConfig: {
     // Replace with your project's social card
     image: "img/logo.png",
