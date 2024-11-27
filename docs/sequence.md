@@ -4,7 +4,23 @@ description: { { Sequence setup and usage. } }
 
 # {{Sequence}}
 
-{{Sequence is **dynamic modules**. It's used for generating sequence in your application.}}
+## 1. {{Purpose}}
+
+{{`SequenceModule`  is a service for managing dynamic sequences in the system using DynamoDB as the primary database.}}
+
+{{This service is designed to:}}
+
+- {{Generate unique sequence numbers based on parameters such as sequence type, tenant, or date.}}
+- {{Automatically reset sequences based on cycles like:}}
+  - {{Daily.}}
+  - {{Monthly.}}
+  - {{Yearly.}}
+  - {{Fiscal Yearly.}}
+
+{{Format sequence numbers according to specific system requirements (e.g., TODO-PERSONAL-72-001).}}
+{{Ensure data consistency and integrity in multi-tenant systems.}}
+## 2. {{Usage}}
+
 
 {{The solution for customizing the behavior of the `SequenceModule` is to pass it an options `object` in the static `register()` method. The options object is only contain one property:}}
 
@@ -54,8 +70,58 @@ async genNewSequence(
   )
 ```
 
-{{You can modify the behavior of the function by providing a `GenSequenceDto` object with certain properties:}}
+{{Generates a new sequence based on the parameters provided in the GenSequenceDto object.}}
 
-- {{`date?: Date`: By default, the function uses the current date, but if a specific date is provided, it will generate the sequence for that date instead.}}
-- {{`rotateBy?: RotateByEnum`: You can select one of five values from the RotateByEnum: fiscal_yearly, yearly, monthly, daily, and none. By default, the none type is used.}}
-- {{`tenantCode` and `typeCode`: You must provide the tenant code to identify the tenant and the type code for the intended purpose of usage.}}
+### {{Parameters}}
+
+{{`dto: GenSequenceDto`}}
+{{The data transfer object that customizes the behavior of the sequence generation. Its properties include:}}
+
+- {{`date?: Date`}}
+  - {{Default: Current date.}}
+  - {{Description: Specifies the date for which the sequence is generated.}}
+
+- {{`rotateBy?: RotateByEnum`}}
+  - {{Default: none.}}
+  - {{Options}}
+    - {{fiscal_yearly}}
+    - {{yearly}}
+    - {{monthly}}
+    - {{daily}}
+    - {{none}}
+  - {{Description: Determines the rotation type for the sequence.}}
+
+- {{`tenantCode: string`}}
+  - {{Required: Yes.}}
+  - {{Description: Identifies the tenant and type code for the intended usage.}}
+  
+- {{`params: SequenceParamsDto`}}
+  - {{Required: Yes.}}
+  - {{Description: Defines parameters to identify the sequence.}}
+    ```ts
+    export class SequenceParamsDto {
+      @IsString()
+      code1: string
+
+      @IsString()
+      code2: string
+
+      @IsOptional()
+      @IsString()
+      code3?: string
+
+      @IsOptional()
+      @IsString()
+      code4?: string
+
+      @IsOptional()
+      @IsString()
+      code5?: string
+
+      constructor(partial: Partial<SequenceParamsDto>) {
+        Object.assign(this, partial)
+      }
+    }
+    ```
+
+
