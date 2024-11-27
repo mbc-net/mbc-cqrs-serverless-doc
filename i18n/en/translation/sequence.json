@@ -38,14 +38,5 @@
   "Required: Yes.": "Required: Yes.",
   "Description: Identifies the tenant and type code for the intended usage.": "Description: Identifies the tenant and type code for the intended usage.",
   "`params: SequenceParamsDto`": "`params: SequenceParamsDto`",
-  "Description: Defines parameters to identify the sequence.": "Description: Defines parameters to identify the sequence.",
-  "`format?: string`": "`format?: string`",
-  "Default: %%no%%.": "Default: %%no%%.",
-  "Description: Specifies a custom format for the sequence. Example format:": "Description: Specifies a custom format for the sequence. Example format:",
-  "`startMonth?: number`": "`startMonth?: number`",
-  "Default: 4 (April).": "Default: 4 (April).",
-  "Description: Specifies the starting month of the fiscal year.": "Description: Specifies the starting month of the fiscal year.",
-  "`registerDate?: Date`": "`registerDate?: Date`",
-  "Default: Not specified.": "Default: Not specified.",
-  "Description: Calculates the fiscal period based on the provided date.": "Description: Calculates the fiscal period based on the provided date."
+  "Description: Defines parameters to identify the sequence.": "Description: Defines parameters to identify the sequence."
 }

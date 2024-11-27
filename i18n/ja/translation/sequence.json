@@ -38,14 +38,5 @@
   "Required: Yes.": "必須: はい。",
   "Description: Identifies the tenant and type code for the intended usage.": "説明: テナントと用途のタイプコードを識別します。",
   "`params: SequenceParamsDto`": "`params: SequenceParamsDto`",
-  "Description: Defines parameters to identify the sequence.": "説明: シーケンスを識別するためのパラメータを定義します。",
-  "`format?: string`": "`format?: string`",
-  "Default: %%no%%.": "デフォルト: %%no%%。",
-  "Description: Specifies a custom format for the sequence. Example format:": "シーケンスのカスタムフォーマットを指定します。例: ",
-  "`startMonth?: number`": "",
-  "Default: 4 (April).": "デフォルト: 4（4月）。",
-  "Description: Specifies the starting month of the fiscal year.": "説明: 会計年度の開始月を指定します。",
-  "`registerDate?: Date`": "",
-  "Default: Not specified.": "デフォルト: 未指定。",
-  "Description: Calculates the fiscal period based on the provided date.": "説明: 提供された日付に基づいて会計期間を計算します。"
+  "Description: Defines parameters to identify the sequence.": "説明: シーケンスを識別するためのパラメータを定義します。"
 }

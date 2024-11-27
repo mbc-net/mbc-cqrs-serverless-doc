@@ -123,18 +123,5 @@ The data transfer object that customizes the behavior of the sequence generation
       }
     }
     ```
-- `format?: string`
-  - Default: %%no%%.
-  - Description: Specifies a custom format for the sequence. Example format:
-  ```
-  %%code1#:0>4%%-%%code2#:0>5%%-%%fiscal_year#:0>2%%-%%no#:0>3%%
-
-- `startMonth?: number`
-  - Default: 4 (April).
-  - Description: Specifies the starting month of the fiscal year.
-
-- `registerDate?: Date`
-  - Default: Not specified.
-  - Description: Calculates the fiscal period based on the provided date.
 
 
