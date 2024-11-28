@@ -6,7 +6,7 @@ description: Learn how to use CommandService.
 
 ## Description
 
-The methods of this service are primarily used to manipulate the command table.
+The `CommandService` is a core component of the framework that facilitates the management and synchronization of commands. It primarily provides methods for publishing both full commands and partial commands, allowing for their processing either synchronously or asynchronously, thereby enhancing the overall efficiency and flexibility of command handling within the system.
 
 In the example for the method below, assume you import the `CommandModule` into your module as follows:
 
@@ -35,9 +35,11 @@ Then, the `CommandService` and `DataService` will be ready for injection into ot
 
 ## Methods
 
-### *async* `publish(input: CommandInputModel, opts: ICommandOptions)`
+### *async* `publishAsync(input: CommandInputModel, options: ICommandOptions)`
 
-Utilize this method to publish a full command, as it will insert the data directly into the **command** table.
+Utilize this method to publish a full command, as it will insert the command data into the **command** table.
+
+The method provides immediate feedback by returning the command data right away, allowing you to proceed without waiting for the command to be processed. Subsequently, the command is handled asynchronously in the background, ensuring that your application remains responsive while the processing occurs.
 
 For example, you can publish a new cat command as bellow:
 
@@ -48,7 +50,151 @@ import {
   VERSION_FIRST,
 } from "@mbc-cqrs-serverless/core";
 
+// class CatCommandDto extends CommandDto {}
+
+const catCommand = new CatCommandDto({
+  pk: catPk,
+  sk: catSk,
+  tenantCode,
+  id: generateId(catPk, catSk),
+  code,
+  type: "CAT",
+  name: attributes.name,
+  version: VERSION_FIRST,
+  attributes,
+});
+
+const commandSource = getCommandSource(
+  basename(__dirname),
+  this.constructor.name,
+  "createCatCommand"
+);
+
+const item = await this.commandService.publishAsync(catCommand, {
+  source: commandSource,
+  invokeContext,
+});
+```
+
+### *async* `publishPartialUpdateAsync( input: CommandPartialInputModel, options?: ICommandOptions)`
+
+This method allows you to create new command data based on the previous command with the same `pk` and `sk` (primary key) values.
+
+As same as the `publishAsync` method, the method immediately returns the updated command data without waiting for the command to be processed.
+
+For example, you want to update cat's name:
+
+```ts
+import { generateId, getCommandSource } from "@mbc-cqrs-serverless/core";
+
 // ...
+
+const catCommand: CommandPartialInputModel = {
+  pk: catPk,
+  sk: catSk,
+  version: storedItem.version,
+  name: attributes.name,
+};
+
+const commandSource = getCommandSource(
+  basename(__dirname),
+  this.constructor.name,
+  "updateCatCommand"
+);
+
+const item = await this.commandService.publishPartialUpdateAsync(catCommand, {
+  source: commandSource,
+  invokeContext,
+});
+```
+
+### *async* `publishSync( input: CommandInputModel, options?: ICommandOptions)`
+
+This method serves as a synchronous counterpart to the `publishAsync` method, meaning that it will halt the execution of the code until the command has been fully processed. This ensures that you receive the result of the command before proceeding with any further operations in your code.
+
+For example:
+
+```ts
+import {
+  generateId,
+  getCommandSource,
+  VERSION_FIRST,
+} from "@mbc-cqrs-serverless/core";
+
+// class CatCommandDto extends CommandDto {}
+
+const catCommand = new CatCommandDto({
+  pk: catPk,
+  sk: catSk,
+  tenantCode,
+  id: generateId(catPk, catSk),
+  code,
+  type: "CAT",
+  name: attributes.name,
+  version: VERSION_FIRST,
+  attributes,
+});
+
+const commandSource = getCommandSource(
+  basename(__dirname),
+  this.constructor.name,
+  "createCatCommandSync"
+);
+
+const item = await this.commandService.publishSync(catCommand, {
+  source: commandSource,
+  invokeContext,
+});
+```
+
+### *async* `publishPartialUpdateSync( input: CommandPartialInputModel, options?: ICommandOptions)`
+
+This method is a synchronous version of the `publishPartialUpdateAsync` method. It will block the execution of the code until the command is processed.
+
+For example, you want to update cat's name:
+
+```ts
+import { generateId, getCommandSource } from "@mbc-cqrs-serverless/core";
+
+// ...
+
+const catCommand: CommandPartialInputModel = {
+  pk: catPk,
+  sk: catSk,
+  version: storedItem.version,
+  name: attributes.name,
+};
+
+const commandSource = getCommandSource(
+  basename(__dirname),
+  this.constructor.name,
+  "updateCatCommandSync"
+);
+
+const item = await this.commandService.publishPartialUpdateSync(catCommand, {
+  source: commandSource,
+  invokeContext,
+});
+```
+
+### *async* `publish(input: CommandInputModel, options: ICommandOptions)` <span class="badge badge--warning">deprecated</span>
+
+:::info
+
+Deprecated, for removal: This API element is subject to removal in a future version. Use [`publishAsync` method](#publishasyncinput-commandinputmodel-options-icommandoptions) instead.
+
+:::
+
+For example, you can publish a new cat command as bellow:
+
+```ts
+import {
+  generateId,
+  getCommandSource,
+  VERSION_FIRST,
+} from "@mbc-cqrs-serverless/core";
+
+// class CatCommandDto extends CommandDto {}
 
 const catCommand = new CatCommandDto({
   pk: catPk,
@@ -76,48 +222,45 @@ const item = await this.commandService.publish(catCommand, {
 
 The method returns the command data.
 
-### *async* `publishPartialUpdate( input: CommandPartialInputModel, opts?: ICommandOptions)`
+### *async* `publishPartialUpdate( input: CommandPartialInputModel, options?: ICommandOptions)` <span class="badge badge--warning">deprecated</span>
+
+:::info
+
+Deprecated, for removal: This API element is subject to removal in a future version. Use [`publishPartialUpdateAsync` method](#publishpartialupdateasync-input-commandpartialinputmodel-options-icommandoptions) instead.
+
+:::
 
 This method allows you to create new command data based on the previous command.
 
 For example, you want to update cat's name:
 
 ```ts
-import {
-  generateId,
-  getCommandSource,
-  VERSION_FIRST,
-} from '@mbc-cqrs-serverless/core'
+import { generateId, getCommandSource } from "@mbc-cqrs-serverless/core";
 
 // ...
 
-  const catCommand = new CatCommandDto({
-    pk: catPk,
-    sk: catSk,
-    tenantCode,
-    id: generateId(catPk, catSk),
-    code,
-    type: 'CAT',
-    name: attributes.name,
-    version: VERSION_FIRST,
-    attributes,
-  })
-  
-  const commandSource = getCommandSource(
-    basename(__dirname),
-    this.constructor.name,
-    'createCatCommand',
-  )
-  
-  const item = await this.commandService.publish(catCommand,{
-    source: commandSource,
-    invokeContext,
-  })
+const catCommand: CommandPartialInputModel = {
+  pk: catPk,
+  sk: catSk,
+  version: storedItem.version,
+  name: attributes.name,
+};
+
+const commandSource = getCommandSource(
+  basename(__dirname),
+  this.constructor.name,
+  "updateCatCommand"
+);
+
+const item = await this.commandService.publishPartialUpdate(catCommand, {
+  source: commandSource,
+  invokeContext,
+});
 ```
 
-The method returns the command data.
+The method returns the updated command data.
 
-### async reSyncData()
+### *async* `reSyncData()`
 
 If you want to reapply the data sync handler, this method is designed for you to use. You only need to call the function as follows:
 
