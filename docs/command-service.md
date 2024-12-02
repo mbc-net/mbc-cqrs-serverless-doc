@@ -181,7 +181,7 @@ const item = await this.commandService.publishPartialUpdateSync(catCommand, {
 
 :::info
 
-{{Deprecated, for removal: This API element is subject to removal in a future version. Use [`publishAsync` method](#publishasyncinput-commandinputmodel-options-icommandoptions) instead.}}
+{{Deprecated, for removal: This API element is subject to removal in a future version. Use [`publishAsync` method](#async-publishasyncinput-commandinputmodel-options-icommandoptions) instead.}}
 
 :::
 
@@ -226,7 +226,7 @@ const item = await this.commandService.publish(catCommand, {
 
 :::info
 
-{{Deprecated, for removal: This API element is subject to removal in a future version. Use [`publishPartialUpdateAsync` method](#publishpartialupdateasync-input-commandpartialinputmodel-options-icommandoptions) instead.}}
+{{Deprecated, for removal: This API element is subject to removal in a future version. Use [`publishPartialUpdateAsync` method](#async-publishpartialupdateasync-input-commandpartialinputmodel-options-icommandoptions) instead.}}
 
 :::
 
