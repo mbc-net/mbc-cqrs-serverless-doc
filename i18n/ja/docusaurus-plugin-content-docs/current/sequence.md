@@ -122,7 +122,7 @@ Generates a new sequence based on the parameters provided in the GenerateFormatt
     }
     ```
 ####  Response
-The return value of this function  has type of `SequenceEntity` as follows:
+この関数の戻り値は次のような `SequenceEntity` 型になります。
   ```ts
   export class SequenceEntity {
     id: string
@@ -136,8 +136,8 @@ The return value of this function  has type of `SequenceEntity` as follows:
   }
   ```
 
-####  Customizable
-By default, the returned data includes the formattedNo field with the format `%%no%%`, where `no` represents the sequence number. If you want to define your own custom format, you can update the master data in DynamoDB with the following parameters:
+####  カスタマイズ方法
+デフォルトでは、返されるデータには、「%%no%%」形式の formattedNo フィールドが含まれます。「no」はシーケンス番号を表します。独自のカスタム形式を定義したい場合は、次のパラメータを使用して DynamoDB のマスター データを更新できます。
 
 - PK: `MASTER${KEY_SEPARATOR}${tenantCode}`
 - SK: ` SEQ${KEY_SEPARATOR}${typeCode}`
@@ -152,35 +152,35 @@ The data structure should be as follows:
     }
   ```
 
-#### Example
+#### 例
 
-For example, if you want to add `code1` to `code5`,  `month`, `day `, `date`, `no` as well as `fiscal_year`, into your format, the format would look like this:
+たとえば、「code1」から「code5」、「month」、「day」、「date」、「no」、および「fiscal_year」をフォーマットに追加する場合、フォーマットは次のようになります。
 ```json
 {
   "format": "%%code2#:0>7%%-%%fiscal_year#:0>2%%-%%code3%%%%no#:0>3%%"
 } 
 ```
-In this format:
-- Variables are written inside `%% <param> %%.`
-- After the #, the length of the variable is specified, indicating the desired length of the field when the formatted sequence number is returned.
-For instance:
+このフォーマットでは:
+- 変数は `%% <param> %%` 内に記述されます。
+- `#` の後に変数の長さを指定し、フォーマットされたシーケンス番号が返されるときに必要なフィールドの長さを示します。
+例えば:
 
-- `%%code2#:0>7%%` ensures code2 is formatted to be 7 characters long, padding with leading zeros if necessary.
-- `%%fiscal_year#:0>2%% `formats fiscal_year to a length of 2 characters.
-- `%%code3%%` represents the code3 value as it is.
-- `%%no#:0>3%%` ensures the sequence number (no) is formatted to be 3 digits long, padded with leading zeros if necessary.
+- `%%code2#:0>7%%` は、code2 が 7 文字の長さにフォーマットされ、必要に応じて先頭にゼロが埋め込まれます。
+- `%%fiscal_year#:0>2%% `は、fiscal_year を 2 文字の長さにフォーマットします。
+- `%%code3%%` は code3 の値をそのまま表します。
+- `%%no#:0>3%%` は、シーケンス番号 (no) が 3 桁の長さにフォーマットされ、必要に応じて先頭にゼロが埋め込まれることを保証します。
 
-If you want to calculate the fiscal_year starting from any specific month, you can add the `startMonth` field. For example, if you want the fiscal year to start from March, the format would look like this:
+特定の月から始まる会計年度を計算したい場合は、「startMonth」フィールドを追加できます。たとえば、会計年度を 3 月から開始する場合、形式は次のようになります。
 ```
 {
   "format": "%%code2#:0>7%%-%%fiscal_year#:0>2%%-%%code3%%%%no#:0>3%%",
   "startMonth": 3
 }
 ```
-In this case:
-- startMonth: Defines the month to start the fiscal year (e.g., 3 for March).
+この場合:
+- startMonth: 会計年度を開始する月を定義します (例: 3 月の場合は 3)。
 
-If you want to calculate the fiscal year starting from a specific date (e.x 2005-01-01), you can add the `registerDate` field, like this:
+特定の日付 (例: 2005-01-01) から始まる会計年度を計算したい場合は、次のように `registerDate` フィールドを追加できます。
 
 ```
 {
@@ -189,24 +189,24 @@ If you want to calculate the fiscal year starting from a specific date (e.x 2005
 }
 ```
 
-In this case
-- registerDate: Defines the exact start date of the fiscal year (e.g., "2005-01-01").
+この場合
+- registerDate: 会計年度の正確な開始日を定義します (例: "2005-01-01")。
 
-This allows you to customize the fiscal year calculation according to your specific business needs.
+これにより、特定のビジネス ニーズに応じて会計年度の計算をカスタマイズできます。
 
-### *async* `getCurrentSequence(key: DetailKey): Promise<DataEntity>` <span class="badge badge--warning">deprecated</span>
+### *async* `getCurrentSequence(key: DetailKey): Promise<DataEntity>` <span class="badge badge--warning">非推奨</span>
 
 :::info
 
-Deprecated, for removal: This API element is subject to removal in a future version.
+非推奨、削除予定: この API 要素は将来のバージョンで削除される可能性があります
 
 :::
 
-### *async* `genNewSequence( dto: GenSequenceDto, options: {invokeContext: IInvoke}): Promise<DataEntity>` <span class="badge badge--warning">deprecated</span>
+### *async* `genNewSequence( dto: GenSequenceDto, options: {invokeContext: IInvoke}): Promise<DataEntity>` <span class="badge badge--warning">非推奨</span>
 
 :::info
 
-Deprecated, for removal: This API element is subject to removal in a future version. Use [`generateSequenceItem` method](#async-generatesequenceitem-dto-generateformattedsequencedto-options-invokecontextiinvoke--promisesequenceentity) instead.
+非推奨、削除予定: この API 要素は将来のバージョンで削除される可能性があります。代わりに [`generateSequenceItem` メソッド](#async-generatesequenceitem-dto-generateformattedsequencedto-options-invokecontextiinvoke--promisesequenceentity) を使用してください
 
 :::
 

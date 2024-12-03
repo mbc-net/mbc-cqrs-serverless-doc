@@ -32,7 +32,7 @@ DynamoDB テーブルにマップする RDS テーブルを作成するときは
 id         String   @id
 cpk        String // コマンド用PK
 csk        String // コマンド用SK
-pk         String // データ用PK, MASTER#unigrab (テナントコード)
+pk         String // データ用PK, MASTER#tenantCode (テナントコード)
 sk         String // データ用SK, マスタ種別コード#マスタコード
 tenantCode String   @map("tenant_code") // テナントコード, 【テナントコードマスタ】
 seq        Int      @default(0) // 並び順, 採番機能を使用する

@@ -4,11 +4,11 @@ description: CommandService の使用方法を学びましょう。
 
 # CommandService
 
-## Description
+## 詳細
 
-The `CommandService` is a core component of the framework that facilitates the management and synchronization of commands. It primarily provides methods for publishing both full commands and partial commands, allowing for their processing either synchronously or asynchronously, thereby enhancing the overall efficiency and flexibility of command handling within the system.
+「CommandService」は、コマンドの管理と同期を容易にするフレームワークのコアコンポーネントです。主に、完全なコマンドと部分的なコマンドの両方を発行する方法を提供し、それらの処理を同期または非同期で行うことができるため、システム内のコマンド処理の全体的な効率と柔軟性が向上します。
 
-In the example for the method below, assume you import the `CommandModule` into your module as follows:
+以下のメソッドの例では、次のように `CommandModule` をモジュールにインポートすると仮定します。
 
 ```ts
 import { CommandModule } from "@mbc-cqrs-serverless/core";
@@ -31,17 +31,17 @@ import { CatService } from "./cat.service";
 export class CatModule {}
 ```
 
-Then, the `CommandService` and `DataService` will be ready for injection into other services for your use.
+これで、`CommandService` と `DataService` を他のサービスに挿入して使用できるようになります。
 
-## Methods
+## メソッド
 
-### *async* `publishAsync(input: CommandInputModel, options: ICommandOptions)`
+### *async* `publishAsync(入力: CommandInputModel、オプション: ICommandOptions)`
 
-Utilize this method to publish a full command, as it will insert the command data into the **command** table.
+このメソッドを使用すると、コマンド データが **command** テーブルに挿入されるため、完全なコマンドを公開できます。
 
-The method provides immediate feedback by returning the command data right away, allowing you to proceed without waiting for the command to be processed. Subsequently, the command is handled asynchronously in the background, ensuring that your application remains responsive while the processing occurs.
+このメソッドはコマンド データをすぐに返すことによって即時フィードバックを提供するため、コマンドの処理を待たずに続行できます。その後、コマンドはバックグラウンドで非同期に処理され、処理中もアプリケーションの応答性が維持されます。
 
-For example, you can publish a new cat command as bellow:
+たとえば、次のように新しい cat コマンドを発行できます。
 
 ```ts
 import {
@@ -78,11 +78,11 @@ const item = await this.commandService.publishAsync(catCommand, {
 
 ### *async* `publishPartialUpdateAsync( input: CommandPartialInputModel, options?: ICommandOptions)`
 
-This method allows you to create new command data based on the previous command with the same `pk` and `sk` (primary key) values.
+この方法を使用すると、同じ `pk` および `sk` (主キー) 値を持つ前のコマンドに基づいて新しいコマンド データを作成できます。
 
-As same as the `publishAsync` method, the method immediately returns the updated command data without waiting for the command to be processed.
+`publishAsync` メソッドと同様に、このメソッドはコマンドの処理を待たずに、更新されたコマンド データをすぐに返します。
 
-For example, you want to update cat's name:
+たとえば、猫の名前を更新したいとします。
 
 ```ts
 import { generateId, getCommandSource } from "@mbc-cqrs-serverless/core";
@@ -110,9 +110,9 @@ const item = await this.commandService.publishPartialUpdateAsync(catCommand, {
 
 ### *async* `publishSync( input: CommandInputModel, options?: ICommandOptions)`
 
-This method serves as a synchronous counterpart to the `publishAsync` method, meaning that it will halt the execution of the code until the command has been fully processed. This ensures that you receive the result of the command before proceeding with any further operations in your code.
+このメソッドは、`publishAsync` メソッドに相当する同期メソッドとして機能します。つまり、コマンドが完全に処理されるまでコードの実行を停止します。これにより、コード内で以降の操作を続行する前にコマンドの結果を確実に受け取ることができます。
 
-For example:
+例えば
 
 ```ts
 import {
@@ -149,9 +149,9 @@ const item = await this.commandService.publishSync(catCommand, {
 
 ### *async* `publishPartialUpdateSync( input: CommandPartialInputModel, options?: ICommandOptions)`
 
-This method is a synchronous version of the `publishPartialUpdateAsync` method. It will block the execution of the code until the command is processed.
+このメソッドは、`publishPartialUpdateAsync` メソッドの同期バージョンです。コマンドが処理されるまでコードの実行がブロックされます。
 
-For example, you want to update cat's name:
+たとえば、猫の名前を更新したいとします。
 
 ```ts
 import { generateId, getCommandSource } from "@mbc-cqrs-serverless/core";
@@ -181,11 +181,11 @@ const item = await this.commandService.publishPartialUpdateSync(catCommand, {
 
 :::info
 
-Deprecated, for removal: This API element is subject to removal in a future version. Use [`publishAsync` method](#async-publishasyncinput-commandinputmodel-options-icommandoptions) instead.
+非推奨、削除予定: この API 要素は将来のバージョンで削除される可能性があります。代わりに [`publishAsync` メソッド](#async-publishasyncinput-commandinputmodel-options-icommandoptions) を使用してください。
 
 :::
 
-For example, you can publish a new cat command as bellow:
+たとえば、次のように新しい cat コマンドを発行できます。
 
 ```ts
 import {
@@ -220,19 +220,20 @@ const item = await this.commandService.publish(catCommand, {
 });
 ```
 
-The method returns the command data.
+このメソッドはコマンド データを返します。
 
-### *async* `publishPartialUpdate( input: CommandPartialInputModel, options?: ICommandOptions)` <span class="badge badge--warning">deprecated</span>
+### *async* `publishPartialUpdate( input: CommandPartialInputModel, options?: ICommandOptions)` <span class="badge badge--warning">非推奨</span>
 
 :::info
 
-Deprecated, for removal: This API element is subject to removal in a future version. Use [`publishPartialUpdateAsync` method](#async-publishpartialupdateasync-input-commandpartialinputmodel-options-icommandoptions) instead.
+
+非推奨、削除予定: この API 要素は将来のバージョンで削除される可能性があります。代わりに [`publishPartialUpdateAsync` メソッド](#async-publishpartialupdateasync-input-commandpartialinputmodel-options-icommandoptions) を使用してください。
 
 :::
 
-This method allows you to create new command data based on the previous command.
+この方法では、以前のコマンドに基づいて新しいコマンド データを作成できます。
 
-For example, you want to update cat's name:
+たとえば、猫の名前を更新したいとします。
 
 ```ts
 import { generateId, getCommandSource } from "@mbc-cqrs-serverless/core";
@@ -258,7 +259,7 @@ const item = await this.commandService.publishPartialUpdate(catCommand, {
 });
 ```
 
-The method returns the updated command data.
+このメソッドは更新されたコマンド データを返します。
 
 ### *async* `reSyncData()`
 
