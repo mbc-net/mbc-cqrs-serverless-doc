@@ -61,7 +61,7 @@ Beside controller, we can directly use `SequenceService` to generating sequence 
 
 The `SequenceService` have three public methods:
 
-### *async* `generateSequenceItem( dto: GenerateFormattedSequenceDto, options?: {invokeContext:IInvoke}):  Promise<SequenceEntity>`
+### *async* `generateSequenceItem( dto: GenerateFormattedSequenceDto, options: {invokeContext:IInvoke}):  Promise<SequenceEntity>`
 
 
 Generates a new sequence based on the parameters provided in the GenerateFormattedSequenceDto object.
@@ -94,7 +94,7 @@ The data transfer object that customizes the behavior of the sequence generation
   - Description: Identifies the tenant and type code for the intended usage.
   
 - `params: SequenceParamsDto`
-  - Required: Yes.
+  - Required: No.
   - Description: Defines parameters to identify the sequence.
     ```ts
     export class SequenceParamsDto {

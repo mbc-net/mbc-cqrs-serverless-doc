@@ -61,7 +61,7 @@ export class SeqModule {}
 
 {{The `SequenceService` have three public methods:}}
 
-### {{*async* `generateSequenceItem( dto: GenerateFormattedSequenceDto, options?: {invokeContext:IInvoke}):  Promise<SequenceEntity>`}}
+### {{*async* `generateSequenceItem( dto: GenerateFormattedSequenceDto, options: {invokeContext:IInvoke}):  Promise<SequenceEntity>`}}
 
 
 {{Generates a new sequence based on the parameters provided in the GenerateFormattedSequenceDto object.}}
@@ -94,7 +94,7 @@ export class SeqModule {}
   - {{Description: Identifies the tenant and type code for the intended usage.}}
   
 - {{`params: SequenceParamsDto`}}
-  - {{Required: Yes.}}
+  - {{Required: No.}}
   - {{Description: Defines parameters to identify the sequence.}}
     ```ts
     export class SequenceParamsDto {

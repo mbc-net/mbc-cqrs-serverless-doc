@@ -61,7 +61,7 @@ export class SeqModule {}
 
 The `SequenceService` have three public methods:
 
-### *async* `generateSequenceItem( dto: GenerateFormattedSequenceDto, options?: {invokeContext:IInvoke}):  Promise<SequenceEntity>`
+### *async* `generateSequenceItem( dto: GenerateFormattedSequenceDto, options: {invokeContext:IInvoke}):  Promise<SequenceEntity>`
 
 
 Generates a new sequence based on the parameters provided in the GenerateFormattedSequenceDto object.
@@ -94,7 +94,7 @@ Generates a new sequence based on the parameters provided in the GenerateFormatt
   - 説明: テナントと用途のタイプコードを識別します。
   
 - `params: SequenceParamsDto`
-  - 必須: はい。
+  - Required: No.
   - 説明: シーケンスを識別するためのパラメータを定義します。
     ```ts
     export class SequenceParamsDto {
