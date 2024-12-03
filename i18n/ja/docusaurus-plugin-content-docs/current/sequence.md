@@ -59,22 +59,16 @@ export class SeqModule {}
 
 コントローラーのほかに、`SequenceService` を直接使用してサービスを注入することでシーケンスを生成できます。
 
-SequenceService には 1 つのパブリックメソッドがあります。
+The `SequenceService` have three public methods:
 
-```ts
-async genNewSequence(
-    dto: GenSequenceDto,
-    opts: {
-      invokeContext: IInvoke
-    },
-  )
-```
+### *async* `generateSequenceItem( dto: GenerateFormattedSequenceDto, options: {invokeContext:IInvoke}):  Promise<SequenceEntity>`
 
-GenSequenceDto オブジェクトで提供されたパラメータに基づいて新しいシーケンスを生成します。
 
-### パラメータ
+Generates a new sequence based on the parameters provided in the GenerateFormattedSequenceDto object.
 
-`dto: GenSequenceDto`
+#### パラメータ
+
+`dto: GenerateFormattedSequenceDto`
 シーケンス生成の動作をカスタマイズするデータ転送オブジェクトです。そのプロパティには以下が含まれます:
 
 - `date?: Date`
@@ -94,9 +88,13 @@ GenSequenceDto オブジェクトで提供されたパラメータに基づい�
 - `tenantCode: string`
   - 必須: はい。
   - 説明: テナントと用途のタイプコードを識別します。
-  
-- `params: SequenceParamsDto`
+
+- `typeCode: string`
   - 必須: はい。
+  - 説明: テナントと用途のタイプコードを識別します。
+  
+- `params?: SequenceParamsDto`
+  - Required: No.
   - 説明: シーケンスを識別するためのパラメータを定義します。
     ```ts
     export class SequenceParamsDto {
@@ -123,5 +121,93 @@ GenSequenceDto オブジェクトで提供されたパラメータに基づい�
       }
     }
     ```
+####  Response
+The return value of this function  has type of `SequenceEntity` as follows:
+  ```ts
+  export class SequenceEntity {
+    id: string
+    no: number
+    formattedNo: string
+    issuedAt: Date
+
+    constructor(partial: Partial<SequenceEntity>) {
+      Object.assign(this, partial)
+    }
+  }
+  ```
+
+####  Customizable
+By default, the returned data includes the formattedNo field with the format `%%no%%`, where `no` represents the sequence number. If you want to define your own custom format, you can update the master data in DynamoDB with the following parameters:
+
+- PK: `MASTER${KEY_SEPARATOR}${tenantCode}`
+- SK: ` SEQ${KEY_SEPARATOR}${typeCode}`
+
+
+The data structure should be as follows:
+  ```json 
+    {
+      "format": "string",
+      "registerTime": "string",
+      "registerMonth": "number"
+    }
+  ```
+
+#### Example
+
+For example, if you want to add `code1` to `code5`,  `month`, `day `, `date`, `no` as well as `fiscal_year`, into your format, the format would look like this:
+```json
+{
+  "format": "%%code2#:0>7%%-%%fiscal_year#:0>2%%-%%code3%%%%no#:0>3%%"
+} 
+```
+In this format:
+- Variables are written inside `%% <param> %%.`
+- After the #, the length of the variable is specified, indicating the desired length of the field when the formatted sequence number is returned.
+For instance:
+
+- `%%code2#:0>7%%` ensures code2 is formatted to be 7 characters long, padding with leading zeros if necessary.
+- `%%fiscal_year#:0>2%% `formats fiscal_year to a length of 2 characters.
+- `%%code3%%` represents the code3 value as it is.
+- `%%no#:0>3%%` ensures the sequence number (no) is formatted to be 3 digits long, padded with leading zeros if necessary.
+
+If you want to calculate the fiscal_year starting from any specific month, you can add the `startMonth` field. For example, if you want the fiscal year to start from March, the format would look like this:
+```
+{
+  "format": "%%code2#:0>7%%-%%fiscal_year#:0>2%%-%%code3%%%%no#:0>3%%",
+  "startMonth": 3
+}
+```
+In this case:
+- startMonth: Defines the month to start the fiscal year (e.g., 3 for March).
+
+If you want to calculate the fiscal year starting from a specific date (e.x 2005-01-01), you can add the `registerDate` field, like this:
+
+```
+{
+  "format": "%%code2#:0>7%%-%%fiscal_year#:0>2%%-%%code3%%%%no#:0>3%%",
+  "registerDate": "2005-01-01"
+}
+```
+
+In this case
+- registerDate: Defines the exact start date of the fiscal year (e.g., "2005-01-01").
+
+This allows you to customize the fiscal year calculation according to your specific business needs.
+
+### *async* `getCurrentSequence(key: DetailKey): Promise<DataEntity>` <span class="badge badge--warning">deprecated</span>
+
+:::info
+
+Deprecated, for removal: This API element is subject to removal in a future version.
+
+:::
+
+### *async* `genNewSequence( dto: GenSequenceDto, options: {invokeContext: IInvoke}): Promise<DataEntity>` <span class="badge badge--warning">deprecated</span>
+
+:::info
+
+Deprecated, for removal: This API element is subject to removal in a future version. Use [`generateSequenceItem` method](#async-generatesequenceitem-dto-generateformattedsequencedto-options-invokecontextiinvoke--promisesequenceentity) instead.
+
+:::
 
 
