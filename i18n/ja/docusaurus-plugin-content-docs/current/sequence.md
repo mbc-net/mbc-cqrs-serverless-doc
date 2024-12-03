@@ -93,7 +93,7 @@ Generates a new sequence based on the parameters provided in the GenerateFormatt
   - 必須: はい。
   - 説明: テナントと用途のタイプコードを識別します。
   
-- `params: SequenceParamsDto`
+- `params?: SequenceParamsDto`
   - Required: No.
   - 説明: シーケンスを識別するためのパラメータを定義します。
     ```ts
@@ -170,27 +170,27 @@ For instance:
 - `%%code3%%` represents the code3 value as it is.
 - `%%no#:0>3%%` ensures the sequence number (no) is formatted to be 3 digits long, padded with leading zeros if necessary.
 
-If you want to calculate the fiscal_year starting from any specific month, you can add the startMonth field. For example, if you want the fiscal year to start from July, the format would look like this:
+If you want to calculate the fiscal_year starting from any specific month, you can add the `startMonth` field. For example, if you want the fiscal year to start from March, the format would look like this:
 ```
 {
   "format": "%%code2#:0>7%%-%%fiscal_year#:0>2%%-%%code3%%%%no#:0>3%%",
-  "startMonth": 7
+  "startMonth": 3
 }
 ```
 In this case:
-- startMonth: Defines the month to start the fiscal year (e.g., 7 for July).
+- startMonth: Defines the month to start the fiscal year (e.g., 3 for March).
 
-If you want to calculate the fiscal year starting from a specific date, you can add the registerDate field, like this:
+If you want to calculate the fiscal year starting from a specific date (e.x 2005-01-01), you can add the `registerDate` field, like this:
 
 ```
 {
   "format": "%%code2#:0>7%%-%%fiscal_year#:0>2%%-%%code3%%%%no#:0>3%%",
-  "registerDate": "2010-01-01"
+  "registerDate": "2005-01-01"
 }
 ```
 
 In this case
-- registerDate: Defines the exact start date of the fiscal year (e.g., "2010-01-01").
+- registerDate: Defines the exact start date of the fiscal year (e.g., "2005-01-01").
 
 This allows you to customize the fiscal year calculation according to your specific business needs.
 
