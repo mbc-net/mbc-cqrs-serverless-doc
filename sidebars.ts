@@ -65,7 +65,7 @@ const sidebars: SidebarsConfig = {
             type: "doc",
             id: "testing",
           },
-          items: ["unit-test", "e2e-test"],
+          items: ["unit-test", "e2e-test", "version-rules"],
         },
       ],
     },
