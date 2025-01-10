@@ -1,0 +1,35 @@
+name: ドキュメントのビルドとテスト
+
+on:
+  pull_request:
+    branches:
+      - master
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Node.jsのセットアップ
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: 依存関係のインストール
+        run: |
+          npm ci
+          npm run write-translations
+          
+      - name: ドキュメントのビルド
+        run: npm run build
+        
+      - name: ビルド成果物の確認
+        run: |
+          if [ ! -d "build" ]; then
+            echo "Error: build directory not found"
+            exit 1
+          fi
