@@ -94,7 +94,7 @@ const sidebars: SidebarsConfig = {
             type: "doc",
             id: "command-module",
           },
-          items: ["command-service", "data-service", "serialization-helpers"],
+          items: ["command-service", "data-service", "serialization", "version-rules"],
         },
         {
           type: "category",
