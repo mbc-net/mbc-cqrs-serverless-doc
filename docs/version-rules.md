@@ -1,5 +1,6 @@
 ---
-description: "Learn about versioning rules and optimistic locking"
+sidebar_position: 5
+description: Learn about versioning rules and optimistic locking
 ---
 
 # Versioning Rules

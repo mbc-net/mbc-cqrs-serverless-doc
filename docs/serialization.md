@@ -1,5 +1,6 @@
 ---
-description: "Learn how to use serialization helpers for data structure conversion."
+sidebar_position: 4
+description: Learn how to use serialization helpers for data structure conversion
 ---
 
 # Serialization Helpers
@@ -10,7 +11,7 @@ The MBC CQRS Serverless Framework provides helper functions for converting betwe
 ## Data Structure Conversion
 
 ### Internal DynamoDB Structure
-```typescript
+```js
 {
   pk: "PROJECT",
   sk: "123",
@@ -25,14 +26,14 @@ The MBC CQRS Serverless Framework provides helper functions for converting betwe
 ```
 
 ### External Flat Structure
-```typescript
+```js
 {
-  "id": "PROJECT#123",    // Combination of pk and sk
-  "code": "123",         // Mainly sk
-  "name": "Test Project", // First level in DynamoDB
-  "details": {           // Flattened from attributes
-    "status": "active",
-    "category": "development"
+  id: "PROJECT#123",    // Combination of pk and sk
+  code: "123",         // Mainly sk
+  name: "Test Project", // First level in DynamoDB
+  details: {           // Flattened from attributes
+    status: "active",
+    category: "development"
   }
 }
 ```
