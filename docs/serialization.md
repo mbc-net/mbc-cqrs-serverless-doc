@@ -11,7 +11,7 @@ The MBC CQRS Serverless Framework provides helper functions for converting betwe
 ## Data Structure Conversion
 
 ### Internal DynamoDB Structure
-```js
+```typescript
 {
   pk: "PROJECT",
   sk: "123",
@@ -26,7 +26,7 @@ The MBC CQRS Serverless Framework provides helper functions for converting betwe
 ```
 
 ### External Flat Structure
-```js
+```typescript
 {
   id: "PROJECT#123",    // Combination of pk and sk
   code: "123",         // Mainly sk

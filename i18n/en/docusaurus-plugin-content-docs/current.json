@@ -1,0 +1,42 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.tutorialSidebar.category.Getting Started": {
+    "message": "Getting Started",
+    "description": "The label for category Getting Started in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Build your application": {
+    "message": "Build your application",
+    "description": "The label for category Build your application in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Handle event": {
+    "message": "Handle event",
+    "description": "The label for category Handle event in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Configuring": {
+    "message": "Configuring",
+    "description": "The label for category Configuring in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Testing": {
+    "message": "Testing",
+    "description": "The label for category Testing in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Recipes": {
+    "message": "Recipes",
+    "description": "The label for category Recipes in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.API reference": {
+    "message": "API reference",
+    "description": "The label for category API reference in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.CommandModule": {
+    "message": "CommandModule",
+    "description": "The label for category CommandModule in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.NotificationModule": {
+    "message": "NotificationModule",
+    "description": "The label for category NotificationModule in sidebar tutorialSidebar"
+  }
+}
