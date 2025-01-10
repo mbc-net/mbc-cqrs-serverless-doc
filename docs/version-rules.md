@@ -1,5 +1,5 @@
 ---
-description: {{Learn about versioning rules and optimistic locking}}
+description: "Learn about versioning rules and optimistic locking"
 ---
 
 # {{Versioning Rules}}
