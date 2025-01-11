@@ -49,9 +49,19 @@ describe("Cat", () => {
 
 ### {{Runner Configuration}}
 
-{{Your workflow needs to be configured with appropriate runner settings based on your environment. The specific `runs-on` configuration should be added according to your infrastructure requirements.
+{{Your workflow needs to be configured with appropriate runner settings based on your environment. For MBC-NET repositories, the runner configuration must be specified exactly as:}}
 
-Note: When using self-hosted runners, ensure proper configuration of labels and permissions based on your environment setup.}}
+```yaml
+runs-on: [self-hosted, linux, ARM64]
+```
+
+{{Important notes:
+- Case sensitivity is critical: 'ARM64' must be uppercase
+- 'linux' must be lowercase
+- All three labels are required
+- The order of labels matters
+
+When using self-hosted runners, ensure proper configuration of labels and permissions based on your environment setup.}}
 
 ### {{Environment Setup}}
 
@@ -77,16 +87,52 @@ Note: When using self-hosted runners, ensure proper configuration of labels and 
 ```
 
 3. {{Docker Container Health Checks}}:
+
+{{Docker コンテナのヘルスチェックは、コンテナの状態を監視するために重要です。ヘルスチェックの設定には、以下の2つのコンテキストを考慮する必要があります：}}
+
+a) {{Docker コンテナ内部からのヘルスチェック}}:
 ```yaml
 services:
   dynamodb-local:
     healthcheck:
-      test: ["CMD", "nc", "-z", "localhost", "8000"]
+      test: ["CMD-SHELL", "curl -f -X POST -H 'Content-Type: application/x-amz-json-1.0' -H 'X-Amz-Target: DynamoDB_20120810.ListTables' -d '{}' http://dynamodb-local:8000 || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 15s
 ```
+
+b) {{GitHub Actions ワークフローからのヘルスチェック}}:
+```yaml
+steps:
+  - name: Wait for DynamoDB
+    run: |
+      attempt=1
+      max_attempts=20
+      until curl -s -f -X POST \
+        -H "Content-Type: application/x-amz-json-1.0" \
+        -H "X-Amz-Target: DynamoDB_20120810.ListTables" \
+        -d "{}" \
+        http://localhost:8000 > /dev/null; do
+        if [ $attempt -eq $max_attempts ]; then
+          echo "DynamoDB failed to start after $max_attempts attempts"
+          exit 1
+        fi
+        echo "Waiting for DynamoDB... (attempt $attempt/$max_attempts)"
+        sleep 15
+        attempt=$((attempt + 1))
+      done
+```
+
+{{注意：
+- Docker コンテナ内部では、サービス名（例：dynamodb-local）を使用してサービスにアクセスします
+- GitHub Actions のワークフローステップでは localhost を使用します（ポートフォワーディングにより）
+- より堅牢なヘルスチェックのために、単純な接続チェック（nc コマンド）ではなく、実際の API コールを使用することを推奨します
+- ネットワークの問題が発生した場合は、以下を確認してください：
+  - Docker Compose のネットワーク設定
+  - ポートマッピングの設定
+  - コンテナ間の名前解決
+  - GitHub Actions ランナーの環境変数}}
 
 ### {{Service Configuration}}
 

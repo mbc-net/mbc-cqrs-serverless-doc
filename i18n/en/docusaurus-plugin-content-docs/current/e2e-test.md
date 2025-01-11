@@ -49,9 +49,19 @@ To automate E2E testing in your CI/CD pipeline, you'll need to set up GitHub Act
 
 ### Runner Configuration
 
-Your workflow needs to be configured with appropriate runner settings based on your environment. The specific `runs-on` configuration should be added according to your infrastructure requirements.
+Your workflow needs to be configured with appropriate runner settings based on your environment. For MBC-NET repositories, the runner configuration must be specified exactly as:
 
-Note: When using self-hosted runners, ensure proper configuration of labels and permissions based on your environment setup.
+```yaml
+runs-on: [self-hosted, linux, ARM64]
+```
+
+Important notes:
+- Case sensitivity is critical: 'ARM64' must be uppercase
+- 'linux' must be lowercase
+- All three labels are required
+- The order of labels matters
+
+When using self-hosted runners, ensure proper configuration of labels and permissions based on your environment setup.
 
 ### Environment Setup
 
@@ -77,16 +87,52 @@ The workflow requires several services and configurations:
 ```
 
 3. Docker Container Health Checks:
+
+Docker container health checks are crucial for monitoring container status. The health check configuration needs to consider two contexts:
+
+a) Health checks from within Docker containers:
 ```yaml
 services:
   dynamodb-local:
     healthcheck:
-      test: ["CMD", "nc", "-z", "localhost", "8000"]
+      test: ["CMD-SHELL", "curl -f -X POST -H 'Content-Type: application/x-amz-json-1.0' -H 'X-Amz-Target: DynamoDB_20120810.ListTables' -d '{}' http://dynamodb-local:8000 || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 15s
 ```
+
+b) Health checks from GitHub Actions workflow:
+```yaml
+steps:
+  - name: Wait for DynamoDB
+    run: |
+      attempt=1
+      max_attempts=20
+      until curl -s -f -X POST \
+        -H "Content-Type: application/x-amz-json-1.0" \
+        -H "X-Amz-Target: DynamoDB_20120810.ListTables" \
+        -d "{}" \
+        http://localhost:8000 > /dev/null; do
+        if [ $attempt -eq $max_attempts ]; then
+          echo "DynamoDB failed to start after $max_attempts attempts"
+          exit 1
+        fi
+        echo "Waiting for DynamoDB... (attempt $attempt/$max_attempts)"
+        sleep 15
+        attempt=$((attempt + 1))
+      done
+```
+
+Notes:
+- Use service names (e.g., dynamodb-local) to access services from within Docker containers
+- Use localhost in GitHub Actions workflow steps (due to port forwarding)
+- Recommend using actual API calls instead of simple connection checks (nc command) for more robust health checking
+- If experiencing network issues, check:
+  - Docker Compose network configuration
+  - Port mapping settings
+  - Container name resolution
+  - GitHub Actions runner environment variables
 
 ### Service Configuration
 
