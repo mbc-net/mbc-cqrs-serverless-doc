@@ -134,7 +134,8 @@ on:
 
 jobs:
   e2e-tests:
-    runs-on: [self-hosted, linux, ARM64]
+    # Configure runs-on based on your environment requirements
+    runs-on: self-hosted  # Adjust according to your infrastructure setup
     
     steps:
       - uses: actions/checkout@v4
