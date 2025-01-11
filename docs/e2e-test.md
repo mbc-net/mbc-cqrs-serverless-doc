@@ -42,3 +42,128 @@ describe("Cat", () => {
   });
 });
 ```
+
+## {{GitHub Actions Setup}}
+
+{{To automate E2E testing in your CI/CD pipeline, you'll need to set up GitHub Actions. Here's a comprehensive guide on configuring GitHub Actions for E2E testing:}}
+
+### {{Runner Configuration}}
+
+{{Your workflow should use a self-hosted runner with the following configuration:}}
+
+```yaml
+runs-on: [self-hosted, linux, ARM64]
+```
+
+{{Note: The case sensitivity is important - 'ARM64' must be uppercase, while 'linux' should be lowercase.}}
+
+### {{Environment Setup}}
+
+{{The workflow requires several services and configurations:}}
+
+1. {{Docker Services}}:
+   - DynamoDB Local
+   - Cognito Local
+   - LocalStack
+   - ElasticMQ
+
+2. {{Directory Permissions}}:
+```yaml
+- name: Set up permissions
+  run: |
+    sudo mkdir -p /var/lib/docker/volumes
+    sudo chmod -R 777 /var/lib/docker/volumes
+    
+    # Create required directories
+    sudo mkdir -p infra-local/docker-data/{.cognito,.dynamodb,.mysql,.localstack,.elasticmq}
+    sudo chown -R $USER:$USER infra-local
+    sudo chmod -R 777 infra-local/docker-data
+```
+
+3. {{Docker Container Health Checks}}:
+```yaml
+services:
+  dynamodb-local:
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "8000"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+```
+
+### {{Service Configuration}}
+
+{{Each service should be configured with:}}
+
+1. {{Proper user permissions in Dockerfile}}:
+```dockerfile
+RUN adduser -D -u 1001 serviceuser && \
+    mkdir -p /app/data && \
+    chown -R serviceuser:serviceuser /app
+USER serviceuser
+```
+
+2. {{Volume management}}:
+```yaml
+volumes:
+  service-data:
+    driver: local
+```
+
+3. {{Health check mechanisms}}:
+```yaml
+healthcheck:
+  test: ["CMD", "nc", "-z", "localhost", "PORT"]
+  interval: 10s
+  timeout: 5s
+  retries: 5
+  start_period: 15s
+```
+
+### {{Workflow Example}}
+
+{{Here's a complete example of a GitHub Actions workflow for E2E testing:}}
+
+```yaml
+name: E2E Tests
+on:
+  push:
+    paths:
+      - 'src/**'
+      - 'test/**'
+      - 'infra/**'
+      - '.github/workflows/**'
+      - 'package.json'
+
+jobs:
+  e2e-tests:
+    runs-on: [self-hosted, linux, ARM64]
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          
+      - name: Set up environment
+        run: |
+          sudo mkdir -p /var/lib/docker/volumes
+          sudo chmod -R 777 /var/lib/docker/volumes
+          
+          # Create required directories
+          sudo mkdir -p infra-local/docker-data/{.cognito,.dynamodb,.mysql,.localstack,.elasticmq}
+          sudo chown -R $USER:$USER infra-local
+          sudo chmod -R 777 infra-local/docker-data
+          
+      - name: Start services
+        run: |
+          docker-compose down -v
+          docker-compose build --no-cache
+          docker-compose up -d
+          
+      - name: Run tests
+        run: npm run test:e2e
+```

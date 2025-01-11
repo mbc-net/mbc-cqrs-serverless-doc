@@ -42,3 +42,128 @@ describe("Cat", () => {
   });
 });
 ```
+
+## GitHub Actions のセットアップ
+
+CI/CD パイプラインで E2E テストを自動化するには、GitHub Actions のセットアップが必要です。以下は、E2E テスト用の GitHub Actions を設定するための包括的なガイドです。
+
+### ランナーの設定
+
+ワークフローでは、以下の設定でセルフホストランナーを使用する必要があります：
+
+```yaml
+runs-on: [self-hosted, linux, ARM64]
+```
+
+注意：大文字・小文字の区別が重要です - 'ARM64' は大文字、'linux' は小文字である必要があります。
+
+### 環境のセットアップ
+
+ワークフローには以下のサービスと設定が必要です：
+
+1. Docker サービス：
+   - DynamoDB Local
+   - Cognito Local
+   - LocalStack
+   - ElasticMQ
+
+2. ディレクトリの権限設定：
+```yaml
+- name: Set up permissions
+  run: |
+    sudo mkdir -p /var/lib/docker/volumes
+    sudo chmod -R 777 /var/lib/docker/volumes
+    
+    # 必要なディレクトリの作成
+    sudo mkdir -p infra-local/docker-data/{.cognito,.dynamodb,.mysql,.localstack,.elasticmq}
+    sudo chown -R $USER:$USER infra-local
+    sudo chmod -R 777 infra-local/docker-data
+```
+
+3. Docker コンテナのヘルスチェック：
+```yaml
+services:
+  dynamodb-local:
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "8000"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+```
+
+### サービスの設定
+
+各サービスは以下の設定が必要です：
+
+1. Dockerfile での適切なユーザー権限：
+```dockerfile
+RUN adduser -D -u 1001 serviceuser && \
+    mkdir -p /app/data && \
+    chown -R serviceuser:serviceuser /app
+USER serviceuser
+```
+
+2. ボリューム管理：
+```yaml
+volumes:
+  service-data:
+    driver: local
+```
+
+3. ヘルスチェックの仕組み：
+```yaml
+healthcheck:
+  test: ["CMD", "nc", "-z", "localhost", "PORT"]
+  interval: 10s
+  timeout: 5s
+  retries: 5
+  start_period: 15s
+```
+
+### ワークフローの例
+
+以下は E2E テスト用の GitHub Actions ワークフローの完全な例です：
+
+```yaml
+name: E2E Tests
+on:
+  push:
+    paths:
+      - 'src/**'
+      - 'test/**'
+      - 'infra/**'
+      - '.github/workflows/**'
+      - 'package.json'
+
+jobs:
+  e2e-tests:
+    runs-on: [self-hosted, linux, ARM64]
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          
+      - name: Set up environment
+        run: |
+          sudo mkdir -p /var/lib/docker/volumes
+          sudo chmod -R 777 /var/lib/docker/volumes
+          
+          # 必要なディレクトリの作成
+          sudo mkdir -p infra-local/docker-data/{.cognito,.dynamodb,.mysql,.localstack,.elasticmq}
+          sudo chown -R $USER:$USER infra-local
+          sudo chmod -R 777 infra-local/docker-data
+          
+      - name: Start services
+        run: |
+          docker-compose down -v
+          docker-compose build --no-cache
+          docker-compose up -d
+          
+      - name: Run tests
+        run: npm run test:e2e
+```
