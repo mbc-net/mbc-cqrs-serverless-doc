@@ -49,13 +49,9 @@ To automate E2E testing in your CI/CD pipeline, you'll need to set up GitHub Act
 
 ### Runner Configuration
 
-Your workflow should use a self-hosted runner with the following configuration:
+Your workflow needs to be configured with appropriate runner settings based on your environment. The specific `runs-on` configuration should be added according to your infrastructure requirements.
 
-```yaml
-runs-on: [self-hosted, linux, ARM64]
-```
-
-Note: The case sensitivity is important - 'ARM64' must be uppercase, while 'linux' should be lowercase.
+Note: When using self-hosted runners, ensure proper configuration of labels and permissions based on your environment setup.
 
 ### Environment Setup
 
