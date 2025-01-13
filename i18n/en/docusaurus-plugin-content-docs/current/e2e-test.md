@@ -42,3 +42,171 @@ describe("Cat", () => {
   });
 });
 ```
+
+## GitHub Actions Setup
+
+To automate E2E testing in your CI/CD pipeline, you'll need to set up GitHub Actions. Here's a comprehensive guide on configuring GitHub Actions for E2E testing:
+
+### Runner Configuration
+
+Your workflow needs to be configured with appropriate runner settings based on your environment. For MBC-NET repositories, the runner configuration must be specified exactly as:
+
+```yaml
+runs-on: [self-hosted, linux, ARM64]
+```
+
+Important notes:
+- Case sensitivity is critical: 'ARM64' must be uppercase
+- 'linux' must be lowercase
+- All three labels are required
+- The order of labels matters
+
+When using self-hosted runners, ensure proper configuration of labels and permissions based on your environment setup.
+
+### Environment Setup
+
+The workflow requires several services and configurations:
+
+1. Docker Services:
+   - DynamoDB Local
+   - Cognito Local
+   - LocalStack
+   - ElasticMQ
+
+2. Directory Permissions:
+```yaml
+- name: Set up permissions
+  run: |
+    sudo mkdir -p /var/lib/docker/volumes
+    sudo chmod -R 777 /var/lib/docker/volumes
+    
+    # Create required directories
+    sudo mkdir -p infra-local/docker-data/{.cognito,.dynamodb,.mysql,.localstack,.elasticmq}
+    sudo chown -R $USER:$USER infra-local
+    sudo chmod -R 777 infra-local/docker-data
+```
+
+3. Docker Container Health Checks:
+
+Docker container health checks are crucial for monitoring container status. The health check configuration needs to consider two contexts:
+
+a) Health checks from within Docker containers:
+```yaml
+services:
+  dynamodb-local:
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f -X POST -H 'Content-Type: application/x-amz-json-1.0' -H 'X-Amz-Target: DynamoDB_20120810.ListTables' -d '{}' http://dynamodb-local:8000 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+```
+
+b) Health checks from GitHub Actions workflow:
+```yaml
+steps:
+  - name: Wait for DynamoDB
+    run: |
+      attempt=1
+      max_attempts=20
+      until curl -s -f -X POST \
+        -H "Content-Type: application/x-amz-json-1.0" \
+        -H "X-Amz-Target: DynamoDB_20120810.ListTables" \
+        -d "{}" \
+        http://localhost:8000 > /dev/null; do
+        if [ $attempt -eq $max_attempts ]; then
+          echo "DynamoDB failed to start after $max_attempts attempts"
+          exit 1
+        fi
+        echo "Waiting for DynamoDB... (attempt $attempt/$max_attempts)"
+        sleep 15
+        attempt=$((attempt + 1))
+      done
+```
+
+Notes:
+- Use service names (e.g., dynamodb-local) to access services from within Docker containers
+- Use localhost in GitHub Actions workflow steps (due to port forwarding)
+- Recommend using actual API calls instead of simple connection checks (nc command) for more robust health checking
+- If experiencing network issues, check:
+  - Docker Compose network configuration
+  - Port mapping settings
+  - Container name resolution
+  - GitHub Actions runner environment variables
+
+### Service Configuration
+
+Each service should be configured with:
+
+1. Proper user permissions in Dockerfile:
+```dockerfile
+RUN adduser -D -u 1001 serviceuser && \
+    mkdir -p /app/data && \
+    chown -R serviceuser:serviceuser /app
+USER serviceuser
+```
+
+2. Volume management:
+```yaml
+volumes:
+  service-data:
+    driver: local
+```
+
+3. Health check mechanisms:
+```yaml
+healthcheck:
+  test: ["CMD", "nc", "-z", "localhost", "PORT"]
+  interval: 10s
+  timeout: 5s
+  retries: 5
+  start_period: 15s
+```
+
+### Workflow Example
+
+Here's a complete example of a GitHub Actions workflow for E2E testing:
+
+```yaml
+name: E2E Tests
+on:
+  push:
+    paths:
+      - 'src/**'
+      - 'test/**'
+      - 'infra/**'
+      - '.github/workflows/**'
+      - 'package.json'
+
+jobs:
+  e2e-tests:
+    # Configure runs-on based on your environment requirements
+    runs-on: self-hosted  # Adjust according to your infrastructure setup
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          
+      - name: Set up environment
+        run: |
+          sudo mkdir -p /var/lib/docker/volumes
+          sudo chmod -R 777 /var/lib/docker/volumes
+          
+          # Create required directories
+          sudo mkdir -p infra-local/docker-data/{.cognito,.dynamodb,.mysql,.localstack,.elasticmq}
+          sudo chown -R $USER:$USER infra-local
+          sudo chmod -R 777 infra-local/docker-data
+          
+      - name: Start services
+        run: |
+          docker-compose down -v
+          docker-compose build --no-cache
+          docker-compose up -d
+          
+      - name: Run tests
+        run: npm run test:e2e
+```
