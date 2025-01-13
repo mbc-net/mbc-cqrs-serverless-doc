@@ -2,25 +2,25 @@
 description: "Learn about the Master Service for managing master data and settings in a multi-tenant environment."
 ---
 
-# {{masterService.title}}
+# {{ masterService.title }}
 
-{{masterService.description}}
+{{ masterService.description }}
 
-## {{masterService.overview.title}}
+## {{ masterService.overview.title }}
 
-{{masterService.overview.description}}
+{{ masterService.overview.description }}
 
-### {{masterService.masterDataService.title}}
-- {{masterService.masterDataService.feature1}}
-- {{masterService.masterDataService.feature2}}
-- {{masterService.masterDataService.feature3}}
-- {{masterService.masterDataService.feature4}}
+### {{ masterService.masterDataService.title }}
+- {{ masterService.masterDataService.feature1 }}
+- {{ masterService.masterDataService.feature2 }}
+- {{ masterService.masterDataService.feature3 }}
+- {{ masterService.masterDataService.feature4 }}
 
-### {{masterService.masterSettingService.title}}
-- {{masterService.masterSettingService.feature1}}
-- {{masterService.masterSettingService.feature2}}
-- {{masterService.masterSettingService.feature3}}
-- {{masterService.masterSettingService.feature4}}
+### {{ masterService.masterSettingService.title }}
+- {{ masterService.masterSettingService.feature1 }}
+- {{ masterService.masterSettingService.feature2 }}
+- {{ masterService.masterSettingService.feature3 }}
+- {{ masterService.masterSettingService.feature4 }}
 
 ## {{masterService.installation.title}}
 
@@ -50,13 +50,13 @@ export class YourService {
 }
 ```
 
-## {{masterService.apiReference.title}}
+## {{ masterService.apiReference.title }}
 
-### {{masterService.apiReference.masterDataService.title}}
+### {{ masterService.apiReference.masterDataService.title }}
 
 #### create(data: CreateMasterDataDto)
 
-{{masterService.apiReference.masterDataService.create.description}}
+{{ masterService.apiReference.masterDataService.create.description }}
 
 ```typescript
 const masterData = await masterDataService.create({
@@ -68,7 +68,7 @@ const masterData = await masterDataService.create({
 
 #### update(id: string, data: UpdateMasterDataDto)
 
-{{masterService.apiReference.masterDataService.update.description}}
+{{ masterService.apiReference.masterDataService.update.description }}
 
 ```typescript
 await masterDataService.update('master-id', {
@@ -77,11 +77,11 @@ await masterDataService.update('master-id', {
 });
 ```
 
-### {{masterService.apiReference.masterSettingService.title}}
+### {{ masterService.apiReference.masterSettingService.title }}
 
 #### createSetting(level: SettingLevel, data: CreateSettingDto)
 
-{{masterService.apiReference.masterSettingService.createSetting.description}}
+{{ masterService.apiReference.masterSettingService.createSetting.description }}
 
 ```typescript
 await masterSettingService.createSetting('tenant', {
@@ -93,29 +93,29 @@ await masterSettingService.createSetting('tenant', {
 
 #### getSettings(userId: string)
 
-{{masterService.apiReference.masterSettingService.getSettings.description}}
+{{ masterService.apiReference.masterSettingService.getSettings.description }}
 
 ```typescript
 const settings = await masterSettingService.getSettings('user-id');
-// {{masterService.apiReference.masterSettingService.getSettings.comment}}
+// {{ masterService.apiReference.masterSettingService.getSettings.comment }}
 ```
 
-## {{masterService.hierarchicalSettings.title}}
+## {{ masterService.hierarchicalSettings.title }}
 
-{{masterService.hierarchicalSettings.description}}
+{{ masterService.hierarchicalSettings.description }}
 
-1. {{masterService.hierarchicalSettings.level1}}
-2. {{masterService.hierarchicalSettings.level2}}
-3. {{masterService.hierarchicalSettings.level3}}
-4. {{masterService.hierarchicalSettings.level4}}
+1. {{ masterService.hierarchicalSettings.level1 }}
+2. {{ masterService.hierarchicalSettings.level2 }}
+3. {{ masterService.hierarchicalSettings.level3 }}
+4. {{ masterService.hierarchicalSettings.level4 }}
 
-{{masterService.hierarchicalSettings.retrievalDescription}}
+{{ masterService.hierarchicalSettings.retrievalDescription }}
 
 ```typescript
 const settings = await masterSettingService.getSettings('user-id');
-// {{masterService.hierarchicalSettings.retrievalComment}}
+// {{ masterService.hierarchicalSettings.retrievalComment }}
 ```
 
-## {{masterService.integration.title}}
+## {{ masterService.integration.title }}
 
-{{masterService.integration.description}} {{masterService.integration.seeAlso}} [{{tenantService.title}}](./tenant-service.md) {{masterService.integration.seeAlsoDetails}}
+{{ masterService.integration.description }} {{ masterService.integration.seeAlso }} [{{ tenantService.title }}](./tenant-service.md) {{ masterService.integration.seeAlsoDetails }}
