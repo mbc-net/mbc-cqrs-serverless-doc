@@ -8,7 +8,7 @@ description: { { Learn about the Master Service for managing master data and set
 
 ## {{Overview}}
 
-{{The Master Service consists of two main components:}}
+{{The Master Service consists of two main components}}
 
 ### {{Master Data Service}}
 - {{Implements CRUD operations for master data entities}}
