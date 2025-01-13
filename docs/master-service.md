@@ -1,30 +1,30 @@
-# Master Service
+# {{translate("masterService.title")}}
 
-The Master Service provides functionality for managing master data and settings in a multi-tenant environment. It supports hierarchical data management across different levels (user, group, tenant, common) and ensures proper data isolation between tenants.
+{{translate("masterService.description")}}
 
-## Overview
+## {{translate("masterService.overview.title")}}
 
-The Master Service consists of two main components:
+{{translate("masterService.overview.description")}}
 
-### Master Data Service
-- Implements CRUD operations for master data entities
-- Provides list and retrieval functionality
-- Includes code validation capabilities
-- Ensures data integrity across tenant boundaries
+### {{translate("masterService.masterDataService.title")}}
+- {{translate("masterService.masterDataService.feature1")}}
+- {{translate("masterService.masterDataService.feature2")}}
+- {{translate("masterService.masterDataService.feature3")}}
+- {{translate("masterService.masterDataService.feature4")}}
 
-### Master Setting Service
-- Implements hierarchical settings management
-- Supports creation of settings at all levels
-- Provides update and delete operations for tenant settings
-- Implements cascading settings retrieval
+### {{translate("masterService.masterSettingService.title")}}
+- {{translate("masterService.masterSettingService.feature1")}}
+- {{translate("masterService.masterSettingService.feature2")}}
+- {{translate("masterService.masterSettingService.feature3")}}
+- {{translate("masterService.masterSettingService.feature4")}}
 
-## Installation
+## {{translate("masterService.installation.title")}}
 
 ```bash
 npm install @mbc-cqrs-serverless/master
 ```
 
-## Basic Usage
+## {{translate("masterService.basicUsage.title")}}
 
 ```typescript
 import { MasterDataService, MasterSettingService } from '@mbc-cqrs-serverless/master';
@@ -46,13 +46,13 @@ export class YourService {
 }
 ```
 
-## API Reference
+## {{translate("masterService.apiReference.title")}}
 
-### MasterDataService
+### {{translate("masterService.apiReference.masterDataService.title")}}
 
 #### create(data: CreateMasterDataDto)
 
-Creates a new master data entity.
+{{translate("masterService.apiReference.masterDataService.create.description")}}
 
 ```typescript
 const masterData = await masterDataService.create({
@@ -64,7 +64,7 @@ const masterData = await masterDataService.create({
 
 #### update(id: string, data: UpdateMasterDataDto)
 
-Updates an existing master data entity.
+{{translate("masterService.apiReference.masterDataService.update.description")}}
 
 ```typescript
 await masterDataService.update('master-id', {
@@ -73,11 +73,11 @@ await masterDataService.update('master-id', {
 });
 ```
 
-### MasterSettingService
+### {{translate("masterService.apiReference.masterSettingService.title")}}
 
 #### createSetting(level: SettingLevel, data: CreateSettingDto)
 
-Creates a new setting at the specified level.
+{{translate("masterService.apiReference.masterSettingService.createSetting.description")}}
 
 ```typescript
 await masterSettingService.createSetting('tenant', {
@@ -89,29 +89,29 @@ await masterSettingService.createSetting('tenant', {
 
 #### getSettings(userId: string)
 
-Retrieves settings for a user, cascading through the hierarchy.
+{{translate("masterService.apiReference.masterSettingService.getSettings.description")}}
 
 ```typescript
 const settings = await masterSettingService.getSettings('user-id');
-// Returns merged settings from user → group → tenant → common levels
+// {{translate("masterService.apiReference.masterSettingService.getSettings.comment")}}
 ```
 
-## Hierarchical Settings Management
+## {{translate("masterService.hierarchicalSettings.title")}}
 
-Settings are managed in a hierarchical structure with four levels:
+{{translate("masterService.hierarchicalSettings.description")}}:
 
-1. User Level: Individual user settings
-2. Group Level: Settings shared by a group of users
-3. Tenant Level: Organization-wide settings
-4. Common Level: System-wide default settings
+1. {{translate("masterService.hierarchicalSettings.level1")}}
+2. {{translate("masterService.hierarchicalSettings.level2")}}
+3. {{translate("masterService.hierarchicalSettings.level3")}}
+4. {{translate("masterService.hierarchicalSettings.level4")}}
 
-Settings are retrieved in a cascading manner, where more specific settings override more general ones:
+{{translate("masterService.hierarchicalSettings.retrievalDescription")}}:
 
 ```typescript
 const settings = await masterSettingService.getSettings('user-id');
-// Result combines settings from all levels, with user-level settings taking precedence
+// {{translate("masterService.hierarchicalSettings.retrievalComment")}}
 ```
 
-## Integration with Tenant Service
+## {{translate("masterService.integration.title")}}
 
-The Master Service works in conjunction with the Tenant Service to ensure proper data isolation and access control. See [Tenant Service](./tenant-service.md) for more details about tenant management.
+{{translate("masterService.integration.description")}} {{translate("masterService.integration.seeAlso")}} [{{translate("tenantService.title")}}](./tenant-service.md) {{translate("masterService.integration.seeAlsoDetails")}}
