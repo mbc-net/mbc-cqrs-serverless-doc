@@ -1,22 +1,22 @@
-# {{translate("tenantService.title")}}
+# {{tenantService.title}}
 
-{{translate("tenantService.description")}}
+{{tenantService.description}}
 
-## {{translate("tenantService.overview.title")}}
+## {{tenantService.overview.title}}
 
-{{translate("tenantService.overview.description")}}:
-- {{translate("tenantService.overview.feature1")}}
-- {{translate("tenantService.overview.feature2")}}
-- {{translate("tenantService.overview.feature3")}}
-- {{translate("tenantService.overview.feature4")}}
+{{tenantService.overview.description}}:
+- {{tenantService.overview.feature1}}
+- {{tenantService.overview.feature2}}
+- {{tenantService.overview.feature3}}
+- {{tenantService.overview.feature4}}
 
-## {{translate("tenantService.installation.title")}}
+## {{tenantService.installation.title}}
 
 ```bash
 npm install @mbc-cqrs-serverless/tenant
 ```
 
-## {{translate("tenantService.basicUsage.title")}}
+## {{tenantService.basicUsage.title}}
 
 ```typescript
 import { TenantService } from '@mbc-cqrs-serverless/tenant';
@@ -31,11 +31,11 @@ export class YourService {
 }
 ```
 
-## {{translate("tenantService.apiReference.title")}}
+## {{tenantService.apiReference.title}}
 
 ### create(data: CreateTenantDto)
 
-{{translate("tenantService.apiReference.create.description")}}
+{{tenantService.apiReference.create.description}}
 
 ```typescript
 const tenant = await tenantService.create({
@@ -47,7 +47,7 @@ const tenant = await tenantService.create({
 
 ### update(id: string, data: UpdateTenantDto)
 
-{{translate("tenantService.apiReference.update.description")}}
+{{tenantService.apiReference.update.description}}
 
 ```typescript
 await tenantService.update('tenant-id', {
@@ -58,7 +58,7 @@ await tenantService.update('tenant-id', {
 
 ### delete(id: string)
 
-{{translate("tenantService.apiReference.delete.description")}}
+{{tenantService.apiReference.delete.description}}
 
 ```typescript
 await tenantService.delete('tenant-id');
@@ -66,7 +66,7 @@ await tenantService.delete('tenant-id');
 
 ### findById(id: string)
 
-{{translate("tenantService.apiReference.findById.description")}}
+{{tenantService.apiReference.findById.description}}
 
 ```typescript
 const tenant = await tenantService.findById('tenant-id');
@@ -74,12 +74,12 @@ const tenant = await tenantService.findById('tenant-id');
 
 ### validateTenantCode(code: string)
 
-{{translate("tenantService.apiReference.validateTenantCode.description")}}
+{{tenantService.apiReference.validateTenantCode.description}}
 
 ```typescript
 const isValid = await tenantService.validateTenantCode('TENANT001');
 ```
 
-## {{translate("tenantService.integration.title")}}
+## {{tenantService.integration.title}}
 
-{{translate("tenantService.integration.description")}} {{translate("tenantService.integration.seeAlso")}} [{{translate("masterService.title")}}](./master-service.md) {{translate("tenantService.integration.seeAlsoDetails")}}
+{{tenantService.integration.description}} {{tenantService.integration.seeAlso}} [{{masterService.title}}](./master-service.md) {{tenantService.integration.seeAlsoDetails}}
