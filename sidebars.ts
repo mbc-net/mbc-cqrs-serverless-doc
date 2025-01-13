@@ -89,6 +89,11 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: "category",
+          label: "Core Services",
+          items: ["tenant-service", "master-service"],
+        },
+        {
+          type: "category",
           label: "CommandModule",
           link: {
             type: "doc",
