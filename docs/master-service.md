@@ -1,5 +1,5 @@
 ---
-description: "{{Learn about the Master Service for managing master data and settings in a multi-tenant environment.}}"
+description: "Learn about the Master Service for managing master data and settings in a multi-tenant environment."
 ---
 
 # {{masterService.title}}
@@ -102,14 +102,14 @@ const settings = await masterSettingService.getSettings('user-id');
 
 ## {{masterService.hierarchicalSettings.title}}
 
-{{masterService.hierarchicalSettings.description}}:
+{{masterService.hierarchicalSettings.description}}
 
 1. {{masterService.hierarchicalSettings.level1}}
 2. {{masterService.hierarchicalSettings.level2}}
 3. {{masterService.hierarchicalSettings.level3}}
 4. {{masterService.hierarchicalSettings.level4}}
 
-{{masterService.hierarchicalSettings.retrievalDescription}}:
+{{masterService.hierarchicalSettings.retrievalDescription}}
 
 ```typescript
 const settings = await masterSettingService.getSettings('user-id');

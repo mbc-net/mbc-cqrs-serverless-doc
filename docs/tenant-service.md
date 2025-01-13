@@ -1,5 +1,5 @@
 ---
-description: "{{Learn about the Tenant Service for managing tenant-level operations in a multi-tenant CQRS architecture.}}"
+description: "Learn about the Tenant Service for managing tenant-level operations in a multi-tenant CQRS architecture."
 ---
 
 # {{tenantService.title}}
@@ -8,7 +8,7 @@ description: "{{Learn about the Tenant Service for managing tenant-level operati
 
 ## {{tenantService.overview.title}}
 
-{{tenantService.overview.description}}:
+{{tenantService.overview.description}}
 - {{tenantService.overview.feature1}}
 - {{tenantService.overview.feature2}}
 - {{tenantService.overview.feature3}}
