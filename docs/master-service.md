@@ -22,13 +22,13 @@ description: "Learn about the Master Service for managing master data and settin
 - {{ master_setting_service_feature_3 }}
 - {{ master_setting_service_feature_4 }}
 
-## {{masterService.installation.title}}
+## {{ installation_title }}
 
 ```bash
 npm install @mbc-cqrs-serverless/master
 ```
 
-## {{masterService.basicUsage.title}}
+## {{ basic_usage_title }}
 
 ```typescript
 import { MasterDataService, MasterSettingService } from '@mbc-cqrs-serverless/master';
