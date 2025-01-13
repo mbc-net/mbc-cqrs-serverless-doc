@@ -73,8 +73,11 @@ After the build command, you can run a local server that will serve your website
    - Provide appropriate Japanese translations as values
    - Test that Japanese translations display correctly
 
-6. Edit sidebar.ts file to include new documentation
-   For more information, please follow this guide: https://docusaurus.io/docs/sidebar/items
+6. Add documentation to navigation menu (Required)
+   - Edit sidebar.ts to include new documentation in appropriate section
+   - All new documentation MUST be added to the navigation menu
+   - Documentation is not considered complete until it appears in the menu
+   - For more information, please follow this guide: https://docusaurus.io/docs/sidebar/items
 
 7. Build and verify:
    ```bash
@@ -92,6 +95,8 @@ Important Notes:
 - Maintain consistent placeholder format across all files
 - Do not modify program source code, only add documentation
 - Test translations with both English and Japanese locales
+- Always add new documentation to the navigation menu in sidebar.ts
+- Documentation is incomplete until it appears in the navigation menu
 
 We can summary the contributing process as the bellow image:
 
