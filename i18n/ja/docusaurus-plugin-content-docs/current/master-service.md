@@ -2,33 +2,33 @@
 description: Learn about the Master Service for managing master data and settings in a multi-tenant environment.
 ---
 
-# Master Service
+# マスターサービス
 
-The Master Service provides functionality for managing master data and settings in a multi-tenant environment
+マスターサービスは、マルチテナント環境でのマスターデータと設定の管理機能を提供します。異なるレベル（ユーザー、グループ、テナント、共通）間での階層的データ管理をサポートし、テナント間の適切なデータ分離を確保します。
 
-## Overview
+## 概要
 
-The Master Service consists of two main components:
+マスターサービスは2つの主要なコンポーネントで構成されています:
 
-### Master Data Service
-- Implements CRUD operations for master data entities
-- Provides list and retrieval functionality
-- Includes code validation capabilities
-- Ensures data integrity across tenant boundaries
+### マスターデータサービス
+- マスターデータエンティティのCRUD操作を実装
+- 一覧表示と取得機能を提供
+- コード検証機能を含む
+- テナント間のデータ整合性を確保
 
-### Master Setting Service
-- Implements hierarchical settings management
-- Supports creation of settings at all levels
-- Provides update and delete operations for tenant settings
-- Implements cascading settings retrieval
+### マスター設定サービス
+- 階層的設定管理を実装
+- すべてのレベルでの設定作成をサポート
+- テナント設定の更新と削除操作を提供
+- 階層的設定の取得を実装
 
-## Installation
+## インストール
 
 ```bash
 npm install @mbc-cqrs-serverless/master
 ```
 
-## Basic Usage
+## 基本的な使用方法
 
 ```typescript
 import { MasterDataService, MasterSettingService } from '@mbc-cqrs-serverless/master';
@@ -50,13 +50,13 @@ export class YourService {
 }
 ```
 
-## API Reference
+## APIリファレンス
 
-### MasterDataService
+### マスターデータサービス
 
 #### create(data: CreateMasterDataDto)
 
-Creates a new master data entity
+新しいマスターデータエンティティを作成します。
 
 ```typescript
 const masterData = await masterDataService.create({
@@ -68,7 +68,7 @@ const masterData = await masterDataService.create({
 
 #### update(id: string, data: UpdateMasterDataDto)
 
-Updates an existing master data entity
+既存のマスターデータエンティティを更新します。
 
 ```typescript
 await masterDataService.update('master-id', {
@@ -77,11 +77,11 @@ await masterDataService.update('master-id', {
 });
 ```
 
-### MasterSettingService
+### マスター設定サービス
 
 #### createSetting(level: SettingLevel, data: CreateSettingDto)
 
-Creates a new setting at the specified level
+指定されたレベルで新しい設定を作成します。
 
 ```typescript
 await masterSettingService.createSetting('tenant', {
@@ -93,29 +93,29 @@ await masterSettingService.createSetting('tenant', {
 
 #### getSettings(userId: string)
 
-Retrieves settings for a user, cascading through the hierarchy
+ユーザーの設定を階層的に取得します。
 
 ```typescript
 const settings = await masterSettingService.getSettings('user-id');
-// Returns merged settings from user → group → tenant → common levels
+// ユーザー → グループ → テナント → 共通レベルからのマージされた設定を返します
 ```
 
-## Hierarchical Settings Management
+## 階層的設定管理
 
-Settings are managed in a hierarchical structure with four levels:
+設定は4つのレベルで階層的に管理されます:
 
-1. User Level: Individual user settings
-2. Group Level: Settings shared by a group of users
-3. Tenant Level: Organization-wide settings
-4. Common Level: System-wide default settings
+1. ユーザーレベル：個々のユーザーの設定
+2. グループレベル：ユーザーグループで共有される設定
+3. テナントレベル：組織全体の設定
+4. 共通レベル：システム全体のデフォルト設定
 
-Settings are retrieved in a cascading manner, where more specific settings override more general ones:
+設定は階層的に取得され、より具体的な設定が一般的な設定よりも優先されます:
 
 ```typescript
 const settings = await masterSettingService.getSettings('user-id');
-// Result combines settings from all levels, with user-level settings taking precedence
+// すべてのレベルの設定を組み合わせ、ユーザーレベルの設定が優先されます
 ```
 
-## Integration with Tenant Service
+## テナントサービスとの統合
 
-The Master Service works in conjunction with the Tenant Service to ensure proper data isolation and access control. See [Tenant Service](./tenant-service.md) for more details about tenant management.
+マスターサービスは、適切なデータ分離とアクセス制御を確保するためにテナントサービスと連携して動作します。. 詳細については [テナントサービス](./tenant-service.md) のテナント管理に関するセクションを参照してください。.

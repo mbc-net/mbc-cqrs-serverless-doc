@@ -47,19 +47,51 @@ After the build command, you can run a local server that will serve your website
 
 #### Write documentation
 
-1. Run command `npm run start:watch -- --locale {{country-code}}`
+1. Create .md files in docs/ directory with English placeholders
+   - Use double curly braces without spaces: `{{placeholder}}` not `{{ placeholder }}`
+   - Always use full English text as placeholders (e.g., `{{Tenant Service}}` not `{{tenantService.title}}`)
+   - Code examples should remain in English for all language versions
+   - Do not modify existing documentation files, only add new ones
 
-2. Create .md file in docs/ and write with placeholder
+2. Run development server with English locale:
+   ```bash
+   npm run start:watch en
+   ```
 
-   Important: Always use English placeholders in Markdown files (e.g., `{{ masterService.title }}` instead of `{{ マスターサービス }}`). This makes it easier to identify when translations are needed, especially when English content changes.
+3. Update English translation JSON files in i18n/en/translation/
+   - Keys must match exactly with placeholders in Markdown files
+   - Use full English text as both keys and values
+   - Verify translations are displaying correctly in the browser
 
-3. Edit sidebar.ts file. For more information, please follow this guide: https://docusaurus.io/docs/sidebar/items
+4. Run development server with Japanese locale:
+   ```bash
+   npm run start:watch ja
+   ```
 
-4. Update the JSON for translation.
+5. Update Japanese translation JSON files in i18n/ja/translation/
+   - Use the same English keys as in the English JSON files
+   - Provide appropriate Japanese translations as values
+   - Test that Japanese translations display correctly
 
-5. Run command `npm run build` and `npm run serve`: build static website and serve website in local
+6. Edit sidebar.ts file to include new documentation
+   For more information, please follow this guide: https://docusaurus.io/docs/sidebar/items
 
-6. Check result.
+7. Build and verify:
+   ```bash
+   npm run build
+   npm run serve
+   ```
+   - Check both English and Japanese versions
+   - Verify all translations are displaying correctly
+   - Ensure code examples remain in English
+
+Important Notes:
+- Always create documentation in the docs/ directory first
+- Remove any auto-generated .md files from i18n/ directory
+- Use English placeholders to make translation needs obvious
+- Maintain consistent placeholder format across all files
+- Do not modify program source code, only add documentation
+- Test translations with both English and Japanese locales
 
 We can summary the contributing process as the bellow image:
 

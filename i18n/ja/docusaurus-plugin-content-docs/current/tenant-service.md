@@ -2,25 +2,25 @@
 description: Learn about the Tenant Service for managing tenant-level operations in a multi-tenant serverless CQRS architecture.
 ---
 
-# Tenant Service
+# テナントサービス
 
-The Tenant Service provides functionality for managing tenant-level operations in a multi-tenant serverless CQRS architecture
+テナントサービスは、マルチテナントサーバーレスCQRSアーキテクチャにおけるテナントレベルの操作を管理する機能を提供します。テナントエンティティの管理、テナント間の適切な分離、およびシステム全体のデータ整合性を維持します。
 
-## Overview
+## 概要
 
-The Tenant Service is designed to:
-- Manage tenant-level entity operations
-- Implement CRUD operations for tenant entities
-- Ensure proper isolation between different tenants
-- Validate tenant codes and maintain tenant integrity
+テナントサービスは以下の機能を提供します:
+- テナントレベルのエンティティ操作の管理
+- テナントエンティティのCRUD操作の実装
+- 異なるテナント間の適切な分離の確保
+- テナントコードの検証とテナントの整合性の維持
 
-## Installation
+## インストール
 
 ```bash
 npm install @mbc-cqrs-serverless/tenant
 ```
 
-## Basic Usage
+## 基本的な使用方法
 
 ```typescript
 import { TenantService } from '@mbc-cqrs-serverless/tenant';
@@ -35,11 +35,11 @@ export class YourService {
 }
 ```
 
-## API Reference
+## APIリファレンス
 
 ### create(data: CreateTenantDto)
 
-Creates a new tenant entity
+新しいテナントエンティティを作成します。
 
 ```typescript
 const tenant = await tenantService.create({
@@ -51,7 +51,7 @@ const tenant = await tenantService.create({
 
 ### update(id: string, data: UpdateTenantDto)
 
-Updates an existing tenant entity
+既存のテナントエンティティを更新します。
 
 ```typescript
 await tenantService.update('tenant-id', {
@@ -62,7 +62,7 @@ await tenantService.update('tenant-id', {
 
 ### delete(id: string)
 
-Deletes a tenant entity
+テナントエンティティを削除します。
 
 ```typescript
 await tenantService.delete('tenant-id');
@@ -70,7 +70,7 @@ await tenantService.delete('tenant-id');
 
 ### findById(id: string)
 
-Retrieves a tenant by ID
+IDによってテナントを取得します。
 
 ```typescript
 const tenant = await tenantService.findById('tenant-id');
@@ -78,12 +78,12 @@ const tenant = await tenantService.findById('tenant-id');
 
 ### validateTenantCode(code: string)
 
-Validates if a tenant code exists and is valid
+テナントコードが存在し、有効であるかを検証します。
 
 ```typescript
 const isValid = await tenantService.validateTenantCode('TENANT001');
 ```
 
-## Integration with Master Settings
+## マスター設定との統合
 
-The Tenant Service integrates with the Master Settings Service to manage tenant-specific configurations See [Master Service](./master-service.md) for more details about managing tenant-specific master data and settings
+テナントサービスは、テナント固有の設定を管理するためにマスター設定サービスと統合されています。 詳細については [マスターサービス](./master-service.md) のテナント固有のマスターデータと設定の管理に関するセクションを参照してください。
