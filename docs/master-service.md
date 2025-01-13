@@ -4,7 +4,7 @@ description: Learn about the Master Service for managing master data and setting
 
 # Master Service
 
-{{The Master Service provides functionality for managing master data and settings in a multi-tenant environment.}} {{It supports hierarchical data management across different levels (user, group, tenant, common) and ensures proper data isolation between tenants.}}
+{{The Master Service provides functionality for managing master data and settings in a multi-tenant environment. It supports hierarchical data management across different levels (user, group, tenant, common) and ensures proper data isolation between tenants.}}
 
 ## {{Overview}}
 

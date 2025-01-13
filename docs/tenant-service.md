@@ -4,7 +4,7 @@ description: Learn about the Tenant Service for managing tenant-level operations
 
 # Tenant Service
 
-{{The Tenant Service provides functionality for managing tenant-level operations in a multi-tenant serverless CQRS architecture.}} {{It handles tenant entity management, ensures proper isolation between tenants, and maintains data integrity across the system.}}
+{{The Tenant Service provides functionality for managing tenant-level operations in a multi-tenant serverless CQRS architecture. It handles tenant entity management, ensures proper isolation between tenants, and maintains data integrity across the system.}}
 
 ## {{Overview}}
 
