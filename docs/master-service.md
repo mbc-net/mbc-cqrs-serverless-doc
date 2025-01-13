@@ -2,33 +2,33 @@
 description: "Learn about the Master Service for managing master data and settings in a multi-tenant environment."
 ---
 
-# {{ master_service_title }}
+# {{master_service_title}}
 
-{{ master_service_description }}
+{{master_service_description}}
 
-## {{ overview_title }}
+## {{overview_title}}
 
-{{ master_service_overview }}
+{{master_service_overview}}
 
-### {{ master_data_service_title }}
-- {{ master_data_service_feature_1 }}
-- {{ master_data_service_feature_2 }}
-- {{ master_data_service_feature_3 }}
-- {{ master_data_service_feature_4 }}
+### {{master_data_service_title}}
+- {{master_data_service_feature_1}}
+- {{master_data_service_feature_2}}
+- {{master_data_service_feature_3}}
+- {{master_data_service_feature_4}}
 
-### {{ master_setting_service_title }}
-- {{ master_setting_service_feature_1 }}
-- {{ master_setting_service_feature_2 }}
-- {{ master_setting_service_feature_3 }}
-- {{ master_setting_service_feature_4 }}
+### {{master_setting_service_title}}
+- {{master_setting_service_feature_1}}
+- {{master_setting_service_feature_2}}
+- {{master_setting_service_feature_3}}
+- {{master_setting_service_feature_4}}
 
-## {{ installation_title }}
+## {{installation_title}}
 
 ```bash
 npm install @mbc-cqrs-serverless/master
 ```
 
-## {{ basic_usage_title }}
+## {{basic_usage_title}}
 
 ```typescript
 import { MasterDataService, MasterSettingService } from '@mbc-cqrs-serverless/master';
@@ -50,13 +50,13 @@ export class YourService {
 }
 ```
 
-## {{ api_reference_title }}
+## {{api_reference_title}}
 
-### {{ master_data_service_title }}
+### {{master_data_service_title}}
 
 #### create(data: CreateMasterDataDto)
 
-{{ create_master_data_description }}
+{{create_master_data_description}}
 
 ```typescript
 const masterData = await masterDataService.create({
@@ -68,7 +68,7 @@ const masterData = await masterDataService.create({
 
 #### update(id: string, data: UpdateMasterDataDto)
 
-{{ update_master_data_description }}
+{{update_master_data_description}}
 
 ```typescript
 await masterDataService.update('master-id', {
@@ -77,11 +77,11 @@ await masterDataService.update('master-id', {
 });
 ```
 
-### {{ master_setting_service_title }}
+### {{master_setting_service_title}}
 
 #### createSetting(level: SettingLevel, data: CreateSettingDto)
 
-{{ create_setting_description }}
+{{create_setting_description}}
 
 ```typescript
 await masterSettingService.createSetting('tenant', {
@@ -93,29 +93,29 @@ await masterSettingService.createSetting('tenant', {
 
 #### getSettings(userId: string)
 
-{{ get_settings_description }}
+{{get_settings_description}}
 
 ```typescript
 const settings = await masterSettingService.getSettings('user-id');
-// {{ get_settings_comment }}
+// {{get_settings_comment}}
 ```
 
-## {{ hierarchical_settings_title }}
+## {{hierarchical_settings_title}}
 
-{{ hierarchical_settings_description }}
+{{hierarchical_settings_description}}
 
-1. {{ user_level_description }}
-2. {{ group_level_description }}
-3. {{ tenant_level_description }}
-4. {{ common_level_description }}
+1. {{user_level_description}}
+2. {{group_level_description}}
+3. {{tenant_level_description}}
+4. {{common_level_description}}
 
-{{ settings_retrieval_description }}
+{{settings_retrieval_description}}
 
 ```typescript
 const settings = await masterSettingService.getSettings('user-id');
-// {{ settings_retrieval_comment }}
+// {{settings_retrieval_comment}}
 ```
 
-## {{ integration_title }}
+## {{integration_title}}
 
-{{ integration_description }} {{ see_also }} [{{ tenant_service_title }}](./tenant-service.md) {{ integration_details }}
+{{integration_description}} {{see_also}} [{{tenant_service_title}}](./tenant-service.md) {{integration_details}}
