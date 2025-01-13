@@ -1,26 +1,26 @@
 ---
-description: {{Learn about the Master Service for managing master data and settings in a multi-tenant environment.}}
+description: Learn about the Master Service for managing master data and settings in a multi-tenant environment.
 ---
 
-# {{master_service_title}}
+# {{Master Service}}
 
-{{master_service_description}}
+{{The Master Service works in conjunction with the Tenant Service to ensure proper data isolation and access control.}}
 
-## {{overview_title}}
+## {{Overview}}
 
-{{master_service_overview}}
+{{The Master Service consists of two main components:}}
 
-### {{master_data_service_title}}
-- {{master_data_service_feature_1}}
-- {{master_data_service_feature_2}}
-- {{master_data_service_feature_3}}
-- {{master_data_service_feature_4}}
+### {{Master Data Service}}
+- {{Implements CRUD operations for master data entities}}
+- {{Provides list and retrieval functionality}}
+- {{Includes code validation capabilities}}
+- {{Ensures data integrity across tenant boundaries}}
 
-### {{master_setting_service_title}}
-- {{master_setting_service_feature_1}}
-- {{master_setting_service_feature_2}}
-- {{master_setting_service_feature_3}}
-- {{master_setting_service_feature_4}}
+### {{Master Setting Service}}
+- {{Implements hierarchical settings management}}
+- {{Supports creation of settings at all levels}}
+- {{Provides update and delete operations for tenant settings}}
+- {{Implements cascading settings retrieval}}
 
 ## {{installation_title}}
 
