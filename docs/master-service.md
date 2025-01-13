@@ -1,3 +1,7 @@
+---
+description: { { masterService.description } }
+---
+
 # {{masterService.title}}
 
 {{masterService.description}}

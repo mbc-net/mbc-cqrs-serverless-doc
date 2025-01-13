@@ -1,3 +1,7 @@
+---
+description: { { tenantService.description } }
+---
+
 # {{tenantService.title}}
 
 {{tenantService.description}}
