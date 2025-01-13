@@ -77,7 +77,7 @@ const sidebars: SidebarsConfig = {
         type: "doc",
         id: "recipes",
       },
-      items: ["prisma", "dynamodb", "sequence"],
+      items: ["prisma", "dynamodb", "sequence", "tenant", "master"],
     },
     {
       type: "category",
