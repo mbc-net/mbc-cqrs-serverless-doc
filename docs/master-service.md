@@ -2,25 +2,25 @@
 description: "Learn about the Master Service for managing master data and settings in a multi-tenant environment."
 ---
 
-# {{Master Service}}
+# {{ masterServiceTitle }}
 
-{{The Master Service provides functionality for managing master data and settings in a multi-tenant environment. It supports hierarchical data management across different levels (user, group, tenant, common) and ensures proper data isolation between tenants.}}
+{{ masterServiceDescription }}
 
-## {{Overview}}
+## {{ overviewTitle }}
 
-{{The Master Service consists of two main components:}}
+{{ masterServiceOverview }}
 
-### {{Master Data Service}}
-- {{Implements CRUD operations for master data entities}}
-- {{Provides list and retrieval functionality}}
-- {{Includes code validation capabilities}}
-- {{Ensures data integrity across tenant boundaries}}
+### {{ masterDataServiceTitle }}
+- {{ masterDataServiceFeature1 }}
+- {{ masterDataServiceFeature2 }}
+- {{ masterDataServiceFeature3 }}
+- {{ masterDataServiceFeature4 }}
 
-### {{Master Setting Service}}
-- {{Implements hierarchical settings management}}
-- {{Supports creation of settings at all levels}}
-- {{Provides update and delete operations for tenant settings}}
-- {{Implements cascading settings retrieval}}
+### {{ masterSettingServiceTitle }}
+- {{ masterSettingServiceFeature1 }}
+- {{ masterSettingServiceFeature2 }}
+- {{ masterSettingServiceFeature3 }}
+- {{ masterSettingServiceFeature4 }}
 
 ## {{masterService.installation.title}}
 
@@ -50,13 +50,13 @@ export class YourService {
 }
 ```
 
-## {{API Reference}}
+## {{ apiReferenceTitle }}
 
-### {{Master Data Service}}
+### {{ masterDataServiceTitle }}
 
 #### create(data: CreateMasterDataDto)
 
-{{Creates a new master data entity.}}
+{{ createMasterDataDescription }}
 
 ```typescript
 const masterData = await masterDataService.create({
@@ -68,7 +68,7 @@ const masterData = await masterDataService.create({
 
 #### update(id: string, data: UpdateMasterDataDto)
 
-{{Updates an existing master data entity.}}
+{{ updateMasterDataDescription }}
 
 ```typescript
 await masterDataService.update('master-id', {
@@ -77,11 +77,11 @@ await masterDataService.update('master-id', {
 });
 ```
 
-### {{Master Setting Service}}
+### {{ masterSettingServiceTitle }}
 
 #### createSetting(level: SettingLevel, data: CreateSettingDto)
 
-{{Creates a new setting at the specified level.}}
+{{ createSettingDescription }}
 
 ```typescript
 await masterSettingService.createSetting('tenant', {
@@ -93,29 +93,29 @@ await masterSettingService.createSetting('tenant', {
 
 #### getSettings(userId: string)
 
-{{Retrieves settings for a user, cascading through the hierarchy.}}
+{{ getSettingsDescription }}
 
 ```typescript
 const settings = await masterSettingService.getSettings('user-id');
-// {{Returns merged settings from user → group → tenant → common levels}}
+// {{ getSettingsComment }}
 ```
 
-## {{Hierarchical Settings Management}}
+## {{ hierarchicalSettingsTitle }}
 
-{{Settings are managed in a hierarchical structure with four levels:}}
+{{ hierarchicalSettingsDescription }}
 
-1. {{User Level: Individual user settings}}
-2. {{Group Level: Settings shared by a group of users}}
-3. {{Tenant Level: Organization-wide settings}}
-4. {{Common Level: System-wide default settings}}
+1. {{ userLevelDescription }}
+2. {{ groupLevelDescription }}
+3. {{ tenantLevelDescription }}
+4. {{ commonLevelDescription }}
 
-{{Settings are retrieved in a cascading manner, where more specific settings override more general ones:}}
+{{ settingsRetrievalDescription }}
 
 ```typescript
 const settings = await masterSettingService.getSettings('user-id');
-// {{Result combines settings from all levels, with user-level settings taking precedence}}
+// {{ settingsRetrievalComment }}
 ```
 
-## {{Integration with Tenant Service}}
+## {{ integrationTitle }}
 
-{{The Master Service works in conjunction with the Tenant Service to ensure proper data isolation and access control.}} {{See}} [{{Tenant Service}}](./tenant-service.md) {{for more details about tenant management.}}
+{{ integrationDescription }} {{ seeAlso }} [{{ tenantServiceTitle }}](./tenant-service.md) {{ integrationDetails }}
