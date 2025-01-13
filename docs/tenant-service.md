@@ -2,25 +2,25 @@
 description: Learn about the Tenant Service for managing tenant-level operations in a multi-tenant serverless CQRS architecture.
 ---
 
-# {{tenantService.title}}
+# { { tenantService.title } }
 
-{{tenantService.description}}
+{ { tenantService.description } }
 
-## {{tenantService.overview.title}}
+## { { tenantService.overview.title } }
 
-{{tenantService.overview.description}}
-- {{tenantService.overview.feature1}}
-- {{tenantService.overview.feature2}}
-- {{tenantService.overview.feature3}}
-- {{tenantService.overview.feature4}}
+{ { tenantService.overview.description } }
+- { { tenantService.overview.feature1 } }
+- { { tenantService.overview.feature2 } }
+- { { tenantService.overview.feature3 } }
+- { { tenantService.overview.feature4 } }
 
-## {{tenantService.installation.title}}
+## { { tenantService.installation.title } }
 
 ```bash
 npm install @mbc-cqrs-serverless/tenant
 ```
 
-## {{tenantService.basicUsage.title}}
+## { { tenantService.basicUsage.title } }
 
 ```typescript
 import { TenantService } from '@mbc-cqrs-serverless/tenant';
@@ -35,11 +35,11 @@ export class YourService {
 }
 ```
 
-## {{tenantService.apiReference.title}}
+## { { tenantService.apiReference.title } }
 
 ### create(data: CreateTenantDto)
 
-{{tenantService.apiReference.create.description}}
+{ { tenantService.apiReference.create.description } }
 
 ```typescript
 const tenant = await tenantService.create({
@@ -51,7 +51,7 @@ const tenant = await tenantService.create({
 
 ### update(id: string, data: UpdateTenantDto)
 
-{{tenantService.apiReference.update.description}}
+{ { tenantService.apiReference.update.description } }
 
 ```typescript
 await tenantService.update('tenant-id', {
@@ -62,7 +62,7 @@ await tenantService.update('tenant-id', {
 
 ### delete(id: string)
 
-{{tenantService.apiReference.delete.description}}
+{ { tenantService.apiReference.delete.description } }
 
 ```typescript
 await tenantService.delete('tenant-id');
@@ -70,7 +70,7 @@ await tenantService.delete('tenant-id');
 
 ### findById(id: string)
 
-{{tenantService.apiReference.findById.description}}
+{ { tenantService.apiReference.findById.description } }
 
 ```typescript
 const tenant = await tenantService.findById('tenant-id');
@@ -78,12 +78,12 @@ const tenant = await tenantService.findById('tenant-id');
 
 ### validateTenantCode(code: string)
 
-{{tenantService.apiReference.validateTenantCode.description}}
+{ { tenantService.apiReference.validateTenantCode.description } }
 
 ```typescript
 const isValid = await tenantService.validateTenantCode('TENANT001');
 ```
 
-## {{tenantService.integration.title}}
+## { { tenantService.integration.title } }
 
-{{tenantService.integration.description}} {{tenantService.integration.seeAlso}} [{{masterService.title}}](./master-service.md) {{tenantService.integration.seeAlsoDetails}}
+{ { tenantService.integration.description } } { { tenantService.integration.seeAlso } } [{ { masterService.title } }](./master-service.md) { { tenantService.integration.seeAlsoDetails } }
