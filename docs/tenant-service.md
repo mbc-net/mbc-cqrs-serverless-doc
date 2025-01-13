@@ -2,17 +2,17 @@
 description: "{{ Learn about the Tenant Service for managing tenant-level operations in a multi-tenant CQRS architecture. }}"
 ---
 
-# {{tenantService.title}}
+# {{ tenantService.title }}
 
-{{tenantService.description}}
+{{ tenantService.description }}
 
-## {{tenantService.overview.title}}
+## {{ tenantService.overview.title }}
 
-{{tenantService.overview.description}}:
-- {{tenantService.overview.feature1}}
-- {{tenantService.overview.feature2}}
-- {{tenantService.overview.feature3}}
-- {{tenantService.overview.feature4}}
+{{ tenantService.overview.description }}:
+- {{ tenantService.overview.feature1 }}
+- {{ tenantService.overview.feature2 }}
+- {{ tenantService.overview.feature3 }}
+- {{ tenantService.overview.feature4 }}
 
 ## {{tenantService.installation.title}}
 
@@ -20,7 +20,7 @@ description: "{{ Learn about the Tenant Service for managing tenant-level operat
 npm install @mbc-cqrs-serverless/tenant
 ```
 
-## {{tenantService.basicUsage.title}}
+## {{ tenantService.basicUsage.title }}
 
 ```typescript
 import { TenantService } from '@mbc-cqrs-serverless/tenant';

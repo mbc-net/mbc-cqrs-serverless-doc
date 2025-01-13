@@ -2,33 +2,33 @@
 description: "{{ Learn about the Master Service for managing master data and settings in a multi-tenant environment. }}"
 ---
 
-# {{masterService.title}}
+# {{ masterService.title }}
 
-{{masterService.description}}
+{{ masterService.description }}
 
-## {{masterService.overview.title}}
+## {{ masterService.overview.title }}
 
-{{masterService.overview.description}}
+{{ masterService.overview.description }}
 
-### {{masterService.masterDataService.title}}
-- {{masterService.masterDataService.feature1}}
-- {{masterService.masterDataService.feature2}}
-- {{masterService.masterDataService.feature3}}
-- {{masterService.masterDataService.feature4}}
+### {{ masterService.masterDataService.title }}
+- {{ masterService.masterDataService.feature1 }}
+- {{ masterService.masterDataService.feature2 }}
+- {{ masterService.masterDataService.feature3 }}
+- {{ masterService.masterDataService.feature4 }}
 
-### {{masterService.masterSettingService.title}}
-- {{masterService.masterSettingService.feature1}}
-- {{masterService.masterSettingService.feature2}}
-- {{masterService.masterSettingService.feature3}}
-- {{masterService.masterSettingService.feature4}}
+### {{ masterService.masterSettingService.title }}
+- {{ masterService.masterSettingService.feature1 }}
+- {{ masterService.masterSettingService.feature2 }}
+- {{ masterService.masterSettingService.feature3 }}
+- {{ masterService.masterSettingService.feature4 }}
 
-## {{masterService.installation.title}}
+## {{ masterService.installation.title }}
 
 ```bash
 npm install @mbc-cqrs-serverless/master
 ```
 
-## {{masterService.basicUsage.title}}
+## {{ masterService.basicUsage.title }}
 
 ```typescript
 import { MasterDataService, MasterSettingService } from '@mbc-cqrs-serverless/master';

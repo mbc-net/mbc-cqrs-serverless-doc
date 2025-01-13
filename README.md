@@ -51,6 +51,8 @@ After the build command, you can run a local server that will serve your website
 
 2. Create .md file in docs/ and write with placeholder
 
+   Important: Always use English placeholders in Markdown files (e.g., `{{ masterService.title }}` instead of `{{ マスターサービス }}`). This makes it easier to identify when translations are needed, especially when English content changes.
+
 3. Edit sidebar.ts file. For more information, please follow this guide: https://docusaurus.io/docs/sidebar/items
 
 4. Update the JSON for translation.
