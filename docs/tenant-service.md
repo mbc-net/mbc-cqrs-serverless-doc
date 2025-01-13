@@ -1,14 +1,14 @@
 ---
-description: Learn about the Tenant Service for managing tenant-level operations in a multi-tenant CQRS architecture.
+description: { { tenantService.description } }
 ---
 
-# {{ tenant_service_title }}
+# {{tenantService.title}}
 
-{{ tenant_service_description }}
+{{tenantService.description}}
 
-## {{ overview_title }}
+## { { tenantService.overview.title } }
 
-{{ tenant_service_overview }}
+{ { tenantService.overview.description } }
 - {{ tenant_service_feature_1 }}
 - {{ tenant_service_feature_2 }}
 - {{ tenant_service_feature_3 }}

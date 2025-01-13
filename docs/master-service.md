@@ -1,14 +1,14 @@
 ---
-description: Learn about the Master Service for managing master data and settings in a multi-tenant environment.
+description: { { masterService.description } }
 ---
 
-# {{Master Service}}
+# {{masterService.title}}
 
-{{The Master Service works in conjunction with the Tenant Service to ensure proper data isolation and access control.}}
+{{masterService.description}}
 
-## {{Overview}}
+## { { masterService.overview.title } }
 
-{{The Master Service consists of two main components}}
+{ { masterService.overview.description } }
 
 ### {{Master Data Service}}
 - {{Implements CRUD operations for master data entities}}
