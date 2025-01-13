@@ -1,5 +1,5 @@
 ---
-description: { { masterService.description } }
+description: "{ { Learn about the Master Service for managing master data and settings in a multi-tenant environment. } }"
 ---
 
 # {{masterService.title}}
