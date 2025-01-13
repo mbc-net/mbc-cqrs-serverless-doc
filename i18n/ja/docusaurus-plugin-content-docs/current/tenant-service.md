@@ -2,25 +2,25 @@
 description: Learn about the Tenant Service for managing tenant-level operations in a multi-tenant serverless CQRS architecture.
 ---
 
-# {{Tenant Service}}
+# Tenant Service
 
-{{The Tenant Service provides functionality for managing tenant-level operations in a multi-tenant serverless CQRS architecture}}
+The Tenant Service provides functionality for managing tenant-level operations in a multi-tenant serverless CQRS architecture
 
-## {{Overview}}
+## Overview
 
-{{The Tenant Service is designed to}}:
-- {{Manage tenant-level entity operations}}
-- {{Implement CRUD operations for tenant entities}}
-- {{Ensure proper isolation between different tenants}}
-- {{Validate tenant codes and maintain tenant integrity}}
+The Tenant Service is designed to:
+- Manage tenant-level entity operations
+- Implement CRUD operations for tenant entities
+- Ensure proper isolation between different tenants
+- Validate tenant codes and maintain tenant integrity
 
-## {{Installation}}
+## Installation
 
 ```bash
 npm install @mbc-cqrs-serverless/tenant
 ```
 
-## {{Basic Usage}}
+## Basic Usage
 
 ```typescript
 import { TenantService } from '@mbc-cqrs-serverless/tenant';
@@ -35,11 +35,11 @@ export class YourService {
 }
 ```
 
-## {{API Reference}}
+## API Reference
 
 ### create(data: CreateTenantDto)
 
-{{Creates a new tenant entity}}
+Creates a new tenant entity
 
 ```typescript
 const tenant = await tenantService.create({
@@ -51,7 +51,7 @@ const tenant = await tenantService.create({
 
 ### update(id: string, data: UpdateTenantDto)
 
-{{Updates an existing tenant entity}}
+Updates an existing tenant entity
 
 ```typescript
 await tenantService.update('tenant-id', {
@@ -62,7 +62,7 @@ await tenantService.update('tenant-id', {
 
 ### delete(id: string)
 
-{{Deletes a tenant entity}}
+Deletes a tenant entity
 
 ```typescript
 await tenantService.delete('tenant-id');
@@ -70,7 +70,7 @@ await tenantService.delete('tenant-id');
 
 ### findById(id: string)
 
-{{Retrieves a tenant by ID}}
+Retrieves a tenant by ID
 
 ```typescript
 const tenant = await tenantService.findById('tenant-id');
@@ -78,12 +78,12 @@ const tenant = await tenantService.findById('tenant-id');
 
 ### validateTenantCode(code: string)
 
-{{Validates if a tenant code exists and is valid}}
+Validates if a tenant code exists and is valid
 
 ```typescript
 const isValid = await tenantService.validateTenantCode('TENANT001');
 ```
 
-## {{Integration with Master Settings}}
+## Integration with Master Settings
 
-{{The Tenant Service integrates with the Master Settings Service to manage tenant-specific configurations}} {{See}} [{{Master Service}}](./master-service.md) {{for more details about managing tenant-specific master data and settings}}
+The Tenant Service integrates with the Master Settings Service to manage tenant-specific configurations See [Master Service](./master-service.md) for more details about managing tenant-specific master data and settings

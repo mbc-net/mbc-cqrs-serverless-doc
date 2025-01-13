@@ -33,7 +33,7 @@ The MBC CQRS Serverless Framework implements optimistic locking using version nu
 ```typescript
 describe('Version Handling', () => {
   it('should handle sequential versions correctly', async () => {
-    // バージョン0で作成
+    // Initial create with version 0
     const createPayload = {
       pk: 'TEST#VERSION',
       sk: 'item#1',
@@ -50,7 +50,7 @@ describe('Version Handling', () => {
     expect(createRes.statusCode).toBe(201)
     expect(createRes.body.version).toBe(1)
 
-    // 正しいバージョンで更新
+    // Update with correct version
     const updatePayload = {
       ...createPayload,
       version: 1,
