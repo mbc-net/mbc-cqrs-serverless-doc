@@ -4,23 +4,23 @@ description: Learn about the Tenant Service for managing tenant-level operations
 
 # Tenant Service
 
-{{The Tenant Service provides functionality for managing tenant-level operations in a multi-tenant serverless CQRS architecture.}} {{It handles tenant entity management, ensures proper isolation between tenants, and maintains data integrity across the system.}}
+{{tenantService.description}}
 
-## {{Overview}}
+## {{tenantService.overview.title}}
 
-{{The Tenant Service is designed to:}}
-- {{Manage tenant-level entity operations}}
-- {{Implement CRUD operations for tenant entities}}
-- {{Ensure proper isolation between different tenants}}
-- {{Validate tenant codes and maintain tenant integrity}}
+{{tenantService.overview.description}}
+- {{tenantService.overview.feature1}}
+- {{tenantService.overview.feature2}}
+- {{tenantService.overview.feature3}}
+- {{tenantService.overview.feature4}}
 
-## {{Installation}}
+## {{tenantService.installation.title}}
 
 ```bash
 npm install @mbc-cqrs-serverless/tenant
 ```
 
-## {{Basic Usage}}
+## {{tenantService.basicUsage.title}}
 
 ```typescript
 import { TenantService } from '@mbc-cqrs-serverless/tenant';
@@ -35,7 +35,7 @@ export class YourService {
 }
 ```
 
-## {{API Reference}}
+## {{tenantService.apiReference.title}}
 
 ### create(data: CreateTenantDto)
 
@@ -84,6 +84,6 @@ const tenant = await tenantService.findById('tenant-id');
 const isValid = await tenantService.validateTenantCode('TENANT001');
 ```
 
-## {{Integration with Master Settings}}
+## {{tenantService.integration.title}}
 
-{{The Tenant Service integrates with the Master Settings Service to manage tenant-specific configurations. See}} [{{Master Service}}](./master-service.md) {{for more details about managing tenant-specific master data and settings.}}
+{{tenantService.integration.description}} {{tenantService.integration.seeAlso}} [{{masterService.title}}](./master-service.md) {{tenantService.integration.seeAlsoDetails}}
