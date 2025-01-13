@@ -72,6 +72,11 @@ const sidebars: SidebarsConfig = {
     "cli",
     {
       type: "category",
+      label: "Packages",
+      items: ["tenant-service", "master-service"],
+    },
+    {
+      type: "category",
       label: "Recipes",
       link: {
         type: "doc",
@@ -87,11 +92,6 @@ const sidebars: SidebarsConfig = {
         id: "api-reference",
       },
       items: [
-        {
-          type: "category",
-          label: "Core Services",
-          items: ["tenant-service", "master-service"],
-        },
         {
           type: "category",
           label: "CommandModule",
