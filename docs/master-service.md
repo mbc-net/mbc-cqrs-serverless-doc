@@ -1,5 +1,5 @@
 ---
-description: "Learn about the Master Service for managing master data and settings in a multi-tenant environment."
+description: {{Learn about the Master Service for managing master data and settings in a multi-tenant environment.}}
 ---
 
 # {{master_service_title}}
