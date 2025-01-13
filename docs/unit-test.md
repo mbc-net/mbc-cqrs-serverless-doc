@@ -1,5 +1,5 @@
 ---
-description: {{Learn how to write unit test}}
+description: Learn how to write unit test
 ---
 
 # {{Unit test}}

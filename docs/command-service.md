@@ -1,5 +1,5 @@
 ---
-description: { { Learn how to use CommandService. } }
+description: Learn how to use CommandService.
 ---
 
 # {{CommandService}}

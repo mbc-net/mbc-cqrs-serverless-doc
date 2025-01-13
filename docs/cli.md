@@ -1,5 +1,5 @@
 ---
-description: { { CLI } }
+description: CLI
 ---
 
 # {{CLI}}

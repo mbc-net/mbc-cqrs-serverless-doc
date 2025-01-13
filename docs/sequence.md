@@ -1,5 +1,5 @@
 ---
-description: { { Sequence setup and usage. } }
+description: Sequence setup and usage.
 ---
 
 # {{Sequence}}

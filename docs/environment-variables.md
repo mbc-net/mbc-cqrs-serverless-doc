@@ -1,5 +1,5 @@
 ---
-description: { { Learn how to add and validate your environment variables in your application. } }
+description: Learn how to add and validate your environment variables in your application.
 ---
 
 # {{Environment Variables}}

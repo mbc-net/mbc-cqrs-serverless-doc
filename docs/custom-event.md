@@ -1,5 +1,5 @@
 ---
-description: { { Learn how to create a custom event in your application and register a handler to respond to this event. } }
+description: Learn how to create a custom event in your application and register a handler to respond to this event.
 ---
 
 # {{Custom event}}

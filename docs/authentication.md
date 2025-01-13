@@ -1,5 +1,5 @@
 ---
-description: { { Learn how to use and customize authentication and authorization. } }
+description: Learn how to use and customize authentication and authorization.
 ---
 
 # {{Authentication}}

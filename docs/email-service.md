@@ -1,5 +1,5 @@
 ---
-description: { { EmailService } }
+description: EmailService
 ---
 
 # {{EmailService}}

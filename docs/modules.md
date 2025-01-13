@@ -1,5 +1,5 @@
 ---
-description: { { Learn how to create modules. } }
+description: Learn how to create modules.
 ---
 
 # {{Modules}}
