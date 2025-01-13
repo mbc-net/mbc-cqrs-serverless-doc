@@ -1,5 +1,5 @@
 ---
-description: API reference
+description: {{API reference}}
 ---
 
 # {{API reference}}

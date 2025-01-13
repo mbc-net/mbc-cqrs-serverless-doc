@@ -1,5 +1,5 @@
 ---
-description: Learn how to use DataService.
+description: { { Learn how to use DataService. } }
 ---
 
 # {{DataService}}

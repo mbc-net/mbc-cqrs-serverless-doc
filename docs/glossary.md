@@ -1,5 +1,5 @@
 ---
-description: Glossary
+description: { { Glossary } }
 ---
 
 # {{Glossary}}

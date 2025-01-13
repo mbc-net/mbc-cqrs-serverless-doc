@@ -1,5 +1,5 @@
 ---
-description: DynamoDB related recipes
+description: { { DynamoDB related recipes } }
 ---
 
 # {{DynamoDB}}

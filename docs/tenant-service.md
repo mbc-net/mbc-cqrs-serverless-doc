@@ -86,4 +86,4 @@ const isValid = await tenantService.validateTenantCode('TENANT001');
 
 ## {{Integration with Master Settings}}
 
-{{The Tenant Service integrates with the Master Settings Service to manage tenant-specific configurations.}} {{See}} [{{Master Service}}](./master-service.md) {{for more details about managing tenant-specific master data and settings.}}
+{{The Tenant Service integrates with the Master Settings Service to manage tenant-specific configurations. See}} [{{Master Service}}](./master-service.md) {{for more details about managing tenant-specific master data and settings.}}

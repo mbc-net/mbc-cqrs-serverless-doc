@@ -1,5 +1,5 @@
 ---
-description: Configure module path aliases that allow you to remap certain import paths.
+description: { { Configure module path aliases that allow you to remap certain import paths. } }
 ---
 
 # {{Absolute Imports and Module Path Aliases}}

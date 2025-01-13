@@ -118,4 +118,4 @@ const settings = await masterSettingService.getSettings('user-id');
 
 ## {{Integration with Tenant Service}}
 
-{{The Master Service works in conjunction with the Tenant Service to ensure proper data isolation and access control.}} {{See}} [{{Tenant Service}}](./tenant-service.md) {{for more details about tenant management.}}
+{{The Master Service works in conjunction with the Tenant Service to ensure proper data isolation and access control. See}} [{{Tenant Service}}](./tenant-service.md) {{for more details about tenant management.}}

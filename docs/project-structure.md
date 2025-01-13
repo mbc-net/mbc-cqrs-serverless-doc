@@ -1,5 +1,5 @@
 ---
-description: Project structure
+description: { { Project structure } }
 ---
 
 # {{Project structure}}

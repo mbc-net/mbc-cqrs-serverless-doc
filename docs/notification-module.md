@@ -1,5 +1,5 @@
 ---
-description: Learn how to use NotificationModule
+description: { { Lean how to use NotificationModule } }
 ---
 
 # {{NotificationModule}}

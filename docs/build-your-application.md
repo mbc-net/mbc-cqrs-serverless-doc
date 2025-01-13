@@ -1,5 +1,5 @@
 ---
-description: Building your application
+description: { { Building your application } }
 ---
 
 # {{Building your application}}

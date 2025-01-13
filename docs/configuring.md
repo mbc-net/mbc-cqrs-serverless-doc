@@ -1,5 +1,5 @@
 ---
-description: Configuring
+description: { { Configuring } }
 ---
 
 # {{Configuring}}
