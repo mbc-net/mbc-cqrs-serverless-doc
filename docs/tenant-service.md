@@ -2,25 +2,25 @@
 description: { { tenantService.description } }
 ---
 
-# {{tenantService.title}}
+# { { tenantService.title } }
 
-{{tenantService.description}}
+{ { tenantService.description } }
 
 ## { { tenantService.overview.title } }
 
 { { tenantService.overview.description } }
-- {{ tenant_service_feature_1 }}
-- {{ tenant_service_feature_2 }}
-- {{ tenant_service_feature_3 }}
-- {{ tenant_service_feature_4 }}
+- { { tenantService.overview.feature1 } }
+- { { tenantService.overview.feature2 } }
+- { { tenantService.overview.feature3 } }
+- { { tenantService.overview.feature4 } }
 
-## {{ installation_title }}
+## { { tenantService.installation.title } }
 
 ```bash
 npm install @mbc-cqrs-serverless/tenant
 ```
 
-## {{ basic_usage_title }}
+## { { tenantService.basicUsage.title } }
 
 ```typescript
 import { TenantService } from '@mbc-cqrs-serverless/tenant';
@@ -35,11 +35,11 @@ export class YourService {
 }
 ```
 
-## {{ api_reference_title }}
+## { { tenantService.apiReference.title } }
 
 ### create(data: CreateTenantDto)
 
-{{ create_tenant_description }}
+{ { tenantService.apiReference.create.description } }
 
 ```typescript
 const tenant = await tenantService.create({
@@ -51,7 +51,7 @@ const tenant = await tenantService.create({
 
 ### update(id: string, data: UpdateTenantDto)
 
-{{ update_tenant_description }}
+{ { tenantService.apiReference.update.description } }
 
 ```typescript
 await tenantService.update('tenant-id', {
@@ -62,7 +62,7 @@ await tenantService.update('tenant-id', {
 
 ### delete(id: string)
 
-{{ delete_tenant_description }}
+{ { tenantService.apiReference.delete.description } }
 
 ```typescript
 await tenantService.delete('tenant-id');
@@ -70,7 +70,7 @@ await tenantService.delete('tenant-id');
 
 ### findById(id: string)
 
-{{ find_tenant_description }}
+{ { tenantService.apiReference.findById.description } }
 
 ```typescript
 const tenant = await tenantService.findById('tenant-id');
@@ -78,12 +78,12 @@ const tenant = await tenantService.findById('tenant-id');
 
 ### validateTenantCode(code: string)
 
-{{ validate_tenant_code_description }}
+{ { tenantService.apiReference.validateTenantCode.description } }
 
 ```typescript
 const isValid = await tenantService.validateTenantCode('TENANT001');
 ```
 
-## {{ tenant_integration_title }}
+## { { tenantService.integration.title } }
 
-{{ tenant_integration_description }} {{ see_also }} [{{ master_service_title }}](./master-service.md) {{ tenant_integration_details }}
+{ { tenantService.integration.description } } { { tenantService.integration.seeAlso } } [{ { masterService.title } }](./master-service.md) { { tenantService.integration.seeAlsoDetails } }

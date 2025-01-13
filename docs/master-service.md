@@ -2,33 +2,33 @@
 description: { { masterService.description } }
 ---
 
-# {{masterService.title}}
+# { { masterService.title } }
 
-{{masterService.description}}
+{ { masterService.description } }
 
 ## { { masterService.overview.title } }
 
 { { masterService.overview.description } }
 
-### {{Master Data Service}}
-- {{Implements CRUD operations for master data entities}}
-- {{Provides list and retrieval functionality}}
-- {{Includes code validation capabilities}}
-- {{Ensures data integrity across tenant boundaries}}
+### { { masterService.masterDataService.title } }
+- { { masterService.masterDataService.feature1 } }
+- { { masterService.masterDataService.feature2 } }
+- { { masterService.masterDataService.feature3 } }
+- { { masterService.masterDataService.feature4 } }
 
-### {{Master Setting Service}}
-- {{Implements hierarchical settings management}}
-- {{Supports creation of settings at all levels}}
-- {{Provides update and delete operations for tenant settings}}
-- {{Implements cascading settings retrieval}}
+### { { masterService.masterSettingService.title } }
+- { { masterService.masterSettingService.feature1 } }
+- { { masterService.masterSettingService.feature2 } }
+- { { masterService.masterSettingService.feature3 } }
+- { { masterService.masterSettingService.feature4 } }
 
-## {{installation_title}}
+## { { masterService.installation.title } }
 
 ```bash
 npm install @mbc-cqrs-serverless/master
 ```
 
-## {{basic_usage_title}}
+## { { masterService.basicUsage.title } }
 
 ```typescript
 import { MasterDataService, MasterSettingService } from '@mbc-cqrs-serverless/master';
@@ -50,13 +50,13 @@ export class YourService {
 }
 ```
 
-## {{api_reference_title}}
+## { { masterService.apiReference.title } }
 
-### {{master_data_service_title}}
+### { { masterService.apiReference.masterDataService.title } }
 
 #### create(data: CreateMasterDataDto)
 
-{{create_master_data_description}}
+{ { masterService.apiReference.masterDataService.create.description } }
 
 ```typescript
 const masterData = await masterDataService.create({
@@ -68,7 +68,7 @@ const masterData = await masterDataService.create({
 
 #### update(id: string, data: UpdateMasterDataDto)
 
-{{update_master_data_description}}
+{ { masterService.apiReference.masterDataService.update.description } }
 
 ```typescript
 await masterDataService.update('master-id', {
@@ -77,11 +77,11 @@ await masterDataService.update('master-id', {
 });
 ```
 
-### {{master_setting_service_title}}
+### { { masterService.apiReference.masterSettingService.title } }
 
 #### createSetting(level: SettingLevel, data: CreateSettingDto)
 
-{{create_setting_description}}
+{ { masterService.apiReference.masterSettingService.createSetting.description } }
 
 ```typescript
 await masterSettingService.createSetting('tenant', {
@@ -93,29 +93,29 @@ await masterSettingService.createSetting('tenant', {
 
 #### getSettings(userId: string)
 
-{{get_settings_description}}
+{ { masterService.apiReference.masterSettingService.getSettings.description } }
 
 ```typescript
 const settings = await masterSettingService.getSettings('user-id');
-// {{get_settings_comment}}
+// { { masterService.apiReference.masterSettingService.getSettings.comment } }
 ```
 
-## {{hierarchical_settings_title}}
+## { { masterService.hierarchicalSettings.title } }
 
-{{hierarchical_settings_description}}
+{ { masterService.hierarchicalSettings.description } }
 
-1. {{user_level_description}}
-2. {{group_level_description}}
-3. {{tenant_level_description}}
-4. {{common_level_description}}
+1. { { masterService.hierarchicalSettings.level1 } }
+2. { { masterService.hierarchicalSettings.level2 } }
+3. { { masterService.hierarchicalSettings.level3 } }
+4. { { masterService.hierarchicalSettings.level4 } }
 
-{{settings_retrieval_description}}
+{ { masterService.hierarchicalSettings.retrievalDescription } }
 
 ```typescript
 const settings = await masterSettingService.getSettings('user-id');
-// {{settings_retrieval_comment}}
+// { { masterService.hierarchicalSettings.retrievalComment } }
 ```
 
-## {{integration_title}}
+## { { masterService.integration.title } }
 
-{{integration_description}} {{see_also}} [{{tenant_service_title}}](./tenant-service.md) {{integration_details}}
+{ { masterService.integration.description } } { { masterService.integration.seeAlso } } [{ { tenantService.title } }](./tenant-service.md) { { masterService.integration.seeAlsoDetails } }
