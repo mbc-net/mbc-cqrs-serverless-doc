@@ -31,8 +31,8 @@ description: Learn about versioning rules and optimistic locking
 ### {{Basic Version Handling}}
 
 ```typescript
-describe('Version Handling', () => {
-  it('should handle sequential versions correctly', async () => {
+describe({{'Version Handling'}}, () => {
+  it({{'should handle sequential versions correctly'}}, async () => {
     // {{Initial create with version 0}}
     const createPayload = {
       pk: 'TEST#VERSION',
@@ -54,7 +54,7 @@ describe('Version Handling', () => {
     const updatePayload = {
       ...createPayload,
       version: 1,
-      name: 'Updated Name',
+      name: {{'Updated Name'}},
     }
 
     const updateRes = await request(config.apiBaseUrl)
@@ -70,29 +70,29 @@ describe('Version Handling', () => {
 ### {{Version Conflict Handling}}
 
 ```typescript
-describe('Version Conflicts', () => {
-  it('should handle concurrent updates correctly', async () => {
+describe({{'Version Conflicts'}}, () => {
+  it({{'should handle concurrent updates correctly'}}, async () => {
     const payload = {
       pk: 'TEST#VERSION',
       sk: 'conflict#1',
       id: 'TEST#VERSION#conflict#1',
-      name: 'Conflict Test',
+      name:{{'Conflict Test'}},
       version: 1,
       type: 'TEST',
     }
 
-    // First update succeeds
+    // {{First update succeeds}}
     const res1 = await request(config.apiBaseUrl)
       .put(`/items/${payload.id}`)
       .send(payload)
 
-    // Second update with same version fails
+    // {{Second update with same version fails}}
     const res2 = await request(config.apiBaseUrl)
       .put(`/items/${payload.id}`)
       .send(payload)
 
     expect(res1.statusCode).toBe(200)
-    expect(res2.statusCode).toBe(409) // Conflict
+    expect(res2.statusCode).toBe(409) // {{Conflict}}
   })
 })
 ```
@@ -100,13 +100,13 @@ describe('Version Conflicts', () => {
 ### {{Independent Version Sequences}}
 
 ```typescript
-describe('Independent Versioning', () => {
-  it('should maintain independent version sequences', async () => {
+describe({{'Independent Versioning'}}, () => {
+  it({{'should maintain independent version sequences'}}, async () => {
     const item1 = {
       pk: 'TEST#SEQ1',
       sk: 'item#1',
       id: 'TEST#SEQ1#item#1',
-      name: 'Sequence 1',
+      name: {{'Sequence 1'}},
       version: 0,
       type: 'TEST',
     }
@@ -115,12 +115,12 @@ describe('Independent Versioning', () => {
       pk: 'TEST#SEQ2',
       sk: 'item#1',
       id: 'TEST#SEQ2#item#1',
-      name: 'Sequence 2',
+      name: {{'Sequence 2'}},
       version: 0,
       type: 'TEST',
     }
 
-    // Both items start at version 1
+    // {{Both items start at version 1}}
     const res1 = await request(config.apiBaseUrl)
       .post('/items')
       .send(item1)
@@ -132,14 +132,14 @@ describe('Independent Versioning', () => {
     expect(res1.body.version).toBe(1)
     expect(res2.body.version).toBe(1)
 
-    // Update first item
+    // {{Update first item}}
     const updateRes = await request(config.apiBaseUrl)
       .put(`/items/${item1.id}`)
       .send({ ...item1, version: 1 })
 
     expect(updateRes.body.version).toBe(2)
 
-    // Second item still at version 1
+    // {{Second item still at version 1}}
     const getRes = await request(config.apiBaseUrl)
       .get(`/items/${item2.id}`)
 

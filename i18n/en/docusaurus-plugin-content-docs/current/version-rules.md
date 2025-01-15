@@ -76,7 +76,7 @@ describe('Version Conflicts', () => {
       pk: 'TEST#VERSION',
       sk: 'conflict#1',
       id: 'TEST#VERSION#conflict#1',
-      name: 'Conflict Test',
+      name:'Conflict Test',
       version: 1,
       type: 'TEST',
     }

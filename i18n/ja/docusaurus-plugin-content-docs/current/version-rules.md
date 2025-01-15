@@ -5,33 +5,33 @@ description: Learn about versioning rules and optimistic locking
 
 # バージョン管理ルール
 
-MBC CQRS サーバーレスフレームワークは、バージョン番号を使用した楽観的ロックを実装し、分散システムでのデータ一貫性を確保します。このガイドでは、バージョン管理ルールを説明し、実装例を提供します。
+MBC CQRS サーバーレスフレームワークは、分散システムでのデータ整合性を確保するために、バージョン番号を使用した楽観的ロックを実装しています。このガイドでは、バージョン管理ルールとその実装例について説明します。
 
 ## 基本ルール
 
-1. 同一PK/SKのシーケンシャルバージョニング   
-   - 同一のPK/SKを持つアイテムは、バージョンを1から順次設定する必要があります。
-   - 各更新でバージョン番号が1増加します。
-   - 指定されたバージョンで最初のリクエストのみが成功します。
-   - 同じバージョンでの後続リクエストは競合エラーで失敗します。
+1. 同一PK/SKの順次バージョン管理   
+   - 同じpk/skの組み合わせを持つアイテムは、バージョン1から順番に設定する必要があります。
+   - 更新ごとにバージョン番号が1ずつインクリメントされます。
+   - 特定のバージョンでは最初のリクエストのみが成功します。
+   - 同じバージョンの後続のリクエストは競合エラーで失敗します。
 
 2. 独立したバージョンシーケンス
-   - 異なるPK/SKの組み合わせごとに、独自のバージョンシーケンスを1から開始します。
-   - バージョンシーケンスは、各PK/SKの組み合わせごとに独立して管理されます。
-   - これにより、異なるアイテムに対する並列操作がバージョン競合なしで可能になります。
+   - 異なるpk/skの組み合わせは、それぞれバージョン1から独自のシーケンスを開始します。
+   - バージョンシーケンスは各pk/skの組み合わせで独立して管理されます。
+   - これにより、異なるアイテムへの並行操作がバージョン競合なく実行可能です。
 
 3. 楽観的ロック
-   - 同一アイテムへの同時更新を防止するために使用されます。
-   - バージョン番号は各更新時に自動的にインクリメントされます。
+   - 同一アイテムへの同時更新を防ぐために使用されます。
+   - バージョン番号は更新ごとに自動的にインクリメントされます。
    - バージョン競合時にConditionalCheckFailedExceptionをスローします。
-   - 分散環境でのデータ一貫性を確保します。
+   - 分散環境でのデータ整合性を確保します。
 
 ## 実装例
 
 ### 基本的なバージョン管理
 
 ```typescript
-describe('Version Handling', () => {
+describe('バージョンの処理', () => {
   it('should handle sequential versions correctly', async () => {
     // バージョン0で初期作成
     const createPayload = {
@@ -54,7 +54,7 @@ describe('Version Handling', () => {
     const updatePayload = {
       ...createPayload,
       version: 1,
-      name: 'Updated Name',
+      name: 'バージョン管理ルール',
     }
 
     const updateRes = await request(config.apiBaseUrl)
@@ -70,29 +70,29 @@ describe('Version Handling', () => {
 ### バージョン競合の処理
 
 ```typescript
-describe('Version Conflicts', () => {
-  it('should handle concurrent updates correctly', async () => {
+describe('バージョン競合', () => {
+  it('同時更新を正しく処理する必要があります, async () => {
     const payload = {
       pk: 'TEST#VERSION',
       sk: 'conflict#1',
       id: 'TEST#VERSION#conflict#1',
-      name: 'Conflict Test',
+      name:'競合テスト,
       version: 1,
       type: 'TEST',
     }
 
-    // First update succeeds
+    // 最初の更新が成功します
     const res1 = await request(config.apiBaseUrl)
       .put(`/items/${payload.id}`)
       .send(payload)
 
-    // Second update with same version fails
+    // 同じバージョンでの2回目の更新は失敗します
     const res2 = await request(config.apiBaseUrl)
       .put(`/items/${payload.id}`)
       .send(payload)
 
     expect(res1.statusCode).toBe(200)
-    expect(res2.statusCode).toBe(409) // Conflict
+    expect(res2.statusCode).toBe(409) // 競合
   })
 })
 ```
@@ -100,13 +100,13 @@ describe('Version Conflicts', () => {
 ### 独立したバージョンシーケンス
 
 ```typescript
-describe('Independent Versioning', () => {
-  it('should maintain independent version sequences', async () => {
+describe('「独立したバージョン管理」', () => {
+  it('「独立したバージョンシーケンスを維持する必要があります」', async () => {
     const item1 = {
       pk: 'TEST#SEQ1',
       sk: 'item#1',
       id: 'TEST#SEQ1#item#1',
-      name: 'Sequence 1',
+      name: シーケンス1,
       version: 0,
       type: 'TEST',
     }
@@ -115,12 +115,12 @@ describe('Independent Versioning', () => {
       pk: 'TEST#SEQ2',
       sk: 'item#1',
       id: 'TEST#SEQ2#item#1',
-      name: 'Sequence 2',
+      name: シーケンス2,
       version: 0,
       type: 'TEST',
     }
 
-    // Both items start at version 1
+    // 両方のアイテムはバージョン1から開始します
     const res1 = await request(config.apiBaseUrl)
       .post('/items')
       .send(item1)
@@ -132,14 +132,14 @@ describe('Independent Versioning', () => {
     expect(res1.body.version).toBe(1)
     expect(res2.body.version).toBe(1)
 
-    // Update first item
+    // 最初のアイテムを更新
     const updateRes = await request(config.apiBaseUrl)
       .put(`/items/${item1.id}`)
       .send({ ...item1, version: 1 })
 
     expect(updateRes.body.version).toBe(2)
 
-    // Second item still at version 1
+    // 2番目のアイテムは依然としてバージョン1のまま
     const getRes = await request(config.apiBaseUrl)
       .get(`/items/${item2.id}`)
 
@@ -150,8 +150,8 @@ describe('Independent Versioning', () => {
 
 ## ベストプラクティス
 
-1. 更新操作には常にバージョン番号を含める
-2. アプリケーションでバージョン競合エラーを適切に処理する
-3. 競合を処理するための適切なリトライ戦略を使用する
-4. リトライには指数バックオフを実装することを検討する
-5. APIドキュメントにバージョン管理を記載する
+1. 更新操作には必ずバージョン番号を含める。
+2. アプリケーションでバージョン競合エラーを適切に処理する。
+3. 競合を処理するための適切なリトライ戦略を使用する。
+4. リトライには指数バックオフを実装することを検討する。
+5. APIドキュメントにバージョン管理を記載する。
