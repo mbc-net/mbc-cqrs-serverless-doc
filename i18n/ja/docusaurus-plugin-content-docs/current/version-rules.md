@@ -3,37 +3,37 @@ sidebar_position: 5
 description: Learn about versioning rules and optimistic locking
 ---
 
-# Versioning Rules
+# バージョン管理ルール
 
-The MBC CQRS Serverless Framework implements optimistic locking using version numbers to ensure data consistency in distributed systems. This guide explains the versioning rules and provides examples of their implementation.
+MBC CQRS サーバーレスフレームワークは、バージョン番号を使用した楽観的ロックを実装し、分散システムでのデータ一貫性を確保します。このガイドでは、バージョン管理ルールを説明し、実装例を提供します。
 
-## Basic Rules
+## 基本ルール
 
-1. Sequential Versioning for Same PK/SK   
-   - Items with the same pk/sk combination must have versions set sequentially starting from 1
-   - Each update increments the version number by 1
-   - Only the first request with a given version will succeed
-   - Subsequent requests with the same version will fail with a conflict error
+1. 同一PK/SKのシーケンシャルバージョニング   
+   - 同一のPK/SKを持つアイテムは、バージョンを1から順次設定する必要があります。
+   - 各更新でバージョン番号が1増加します。
+   - 指定されたバージョンで最初のリクエストのみが成功します。
+   - 同じバージョンでの後続リクエストは競合エラーで失敗します。
 
-2. Independent Version Sequences
-   - Different pk/sk combinations each start their own version sequence from 1
-   - Version sequences are managed independently for each pk/sk combination
-   - This allows parallel operations on different items without version conflicts
+2. 独立したバージョンシーケンス
+   - 異なるPK/SKの組み合わせごとに、独自のバージョンシーケンスを1から開始します。
+   - バージョンシーケンスは、各PK/SKの組み合わせごとに独立して管理されます。
+   - これにより、異なるアイテムに対する並列操作がバージョン競合なしで可能になります。
 
-3. Optimistic Locking
-   - Used to prevent concurrent updates to the same item
-   - Version number is automatically incremented with each update
-   - Throws ConditionalCheckFailedException on version conflicts
-   - Ensures data consistency in distributed environments
+3. 楽観的ロック
+   - 同一アイテムへの同時更新を防止するために使用されます。
+   - バージョン番号は各更新時に自動的にインクリメントされます。
+   - バージョン競合時にConditionalCheckFailedExceptionをスローします。
+   - 分散環境でのデータ一貫性を確保します。
 
-## Implementation Examples
+## 実装例
 
-### Basic Version Handling
+### 基本的なバージョン管理
 
 ```typescript
 describe('Version Handling', () => {
   it('should handle sequential versions correctly', async () => {
-    // バージョン0で作成
+    // バージョン0で初期作成
     const createPayload = {
       pk: 'TEST#VERSION',
       sk: 'item#1',
@@ -67,7 +67,7 @@ describe('Version Handling', () => {
 })
 ```
 
-### Version Conflict Handling
+### バージョン競合の処理
 
 ```typescript
 describe('Version Conflicts', () => {
@@ -97,7 +97,7 @@ describe('Version Conflicts', () => {
 })
 ```
 
-### Independent Version Sequences
+### 独立したバージョンシーケンス
 
 ```typescript
 describe('Independent Versioning', () => {
@@ -148,10 +148,10 @@ describe('Independent Versioning', () => {
 })
 ```
 
-## Best Practices
+## ベストプラクティス
 
-1. Always include version number in update operations
-2. Handle version conflict errors gracefully in your application
-3. Use appropriate retry strategies for handling conflicts
-4. Consider implementing exponential backoff for retries
-5. Document version handling in your API documentation
+1. 更新操作には常にバージョン番号を含める
+2. アプリケーションでバージョン競合エラーを適切に処理する
+3. 競合を処理するための適切なリトライ戦略を使用する
+4. リトライには指数バックオフを実装することを検討する
+5. APIドキュメントにバージョン管理を記載する
