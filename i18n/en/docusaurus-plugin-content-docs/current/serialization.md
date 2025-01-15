@@ -27,8 +27,8 @@ The MBC CQRS Serverless Framework provides helper functions for converting betwe
 ### External Flat Structure
 ```typescript
 {
-  id: "PROJECT#123",    // Combination of pk and sk
-  code: "123",         // Mainly sk
+  id: "PROJECT#123",    // {{ Combination of pk and sk}}
+  code: "123",         // {{ Mainly sk}}
   name: "Test Project", // First level in DynamoDB
   details: {           // Flattened from attributes
     status: "active",

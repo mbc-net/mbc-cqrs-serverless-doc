@@ -37,7 +37,7 @@
   "'Sequence 2'": "シーケンス2",
   "Both items start at version 1": "両方のアイテムはバージョン1から開始します",
   "Update first item": "最初のアイテムを更新",
-  "Second item still at version 1": "2番目のアイテムは依然としてバージョン1のまま",
+  "Second item still at version 1": "2番目のアイテムはまだバージョン1",
   "Best Practices": "ベストプラクティス",
   "1. Always include version number in update operations": "1. 更新操作には必ずバージョン番号を含める。",
   "2. Handle version conflict errors gracefully in your application": "2. アプリケーションでバージョン競合エラーを適切に処理する。",

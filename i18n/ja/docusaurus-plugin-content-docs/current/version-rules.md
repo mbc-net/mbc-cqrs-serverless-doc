@@ -139,7 +139,7 @@ describe('「独立したバージョン管理」', () => {
 
     expect(updateRes.body.version).toBe(2)
 
-    // 2番目のアイテムは依然としてバージョン1のまま
+    // 2番目のアイテムはまだバージョン1
     const getRes = await request(config.apiBaseUrl)
       .get(`/items/${item2.id}`)
 

@@ -24,13 +24,13 @@ MBC CQRS Serverless フレームワークは、DynamoDBの内部構造と外部�
 }
 ```
 
-### External Flat Structure
+### 外部フラット構造
 ```typescript
 {
-  id: "PROJECT#123",    // Combination of pk and sk
-  code: "123",         // Mainly sk
-  name: "Test Project", // First level in DynamoDB
-  details: {           // Flattened from attributes
+  id: "PROJECT#123",    // {{ Combination of pk and sk}}
+  code: "123",         // {{ Mainly sk}}
+  name: "Test Project", // DynamoDBの第1階層
+  details: {           // attributesからフラット化
     status: "active",
     category: "development"
   }
@@ -103,7 +103,7 @@ function deserializeToInternal<T extends CommandEntity | DataEntity>(
 ```
 
 パラメータ
-- `data`: Entity class to instantiate (CommandEntity or DataEntity)
+- `data`: 外部フラット構造
 - `EntityClass`: インスタンス化するエンティティクラス（CommandEntityまたはDataEntity）
 
 戻り値
