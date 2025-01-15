@@ -88,9 +88,9 @@ The workflow requires several services and configurations:
 
 3. Docker Container Health Checks:
 
-Docker container health checks are crucial for monitoring container status. The health check configuration needs to consider two contexts:
+Docker コンテナのヘルスチェックは、コンテナの状態を監視するために重要です。ヘルスチェックの設定には、以下の2つのコンテキストを考慮する必要があります：
 
-a) Health checks from within Docker containers:
+a) Docker コンテナ内部からのヘルスチェック:
 ```yaml
 services:
   dynamodb-local:
@@ -102,7 +102,7 @@ services:
       start_period: 15s
 ```
 
-b) Health checks from GitHub Actions workflow:
+b) GitHub Actions ワークフローからのヘルスチェック:
 ```yaml
 steps:
   - name: Wait for DynamoDB
@@ -124,15 +124,15 @@ steps:
       done
 ```
 
-Notes:
-- Use service names (e.g., dynamodb-local) to access services from within Docker containers
-- Use localhost in GitHub Actions workflow steps (due to port forwarding)
-- Recommend using actual API calls instead of simple connection checks (nc command) for more robust health checking
-- If experiencing network issues, check:
-  - Docker Compose network configuration
-  - Port mapping settings
-  - Container name resolution
-  - GitHub Actions runner environment variables
+注意：
+- Docker コンテナ内部では、サービス名（例：dynamodb-local）を使用してサービスにアクセスします
+- GitHub Actions のワークフローステップでは localhost を使用します（ポートフォワーディングにより）
+- より堅牢なヘルスチェックのために、単純な接続チェック（nc コマンド）ではなく、実際の API コールを使用することを推奨します
+- ネットワークの問題が発生した場合は、以下を確認してください：
+  - Docker Compose のネットワーク設定
+  - ポートマッピングの設定
+  - コンテナ間の名前解決
+  - GitHub Actions ランナーの環境変数
 
 ### Service Configuration
 

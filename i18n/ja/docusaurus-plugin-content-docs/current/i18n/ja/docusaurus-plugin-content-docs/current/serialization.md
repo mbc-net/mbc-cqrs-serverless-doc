@@ -1,12 +1,8 @@
----
-sidebar_position: 4
-description: Learn how to use serialization helpers for data structure conversion
----
-
 # シリアライズヘルパー関数
 
 ## 概要
 MBC CQRS Serverless フレームワークは、DynamoDBの内部構造と外部向けフラット構造の間の変換を行うヘルパー関数を提供します。これらのヘルパーは、型安全性を維持しながら一貫したデータ変換を保証します。
+
 ## データ構造の変換
 
 ### DynamoDBの内部構造
@@ -24,15 +20,15 @@ MBC CQRS Serverless フレームワークは、DynamoDBの内部構造と外部�
 }
 ```
 
-### External Flat Structure
+### 外部向けフラット構造
 ```typescript
 {
-  id: "PROJECT#123",    // Combination of pk and sk
-  code: "123",         // Mainly sk
-  name: "Test Project", // First level in DynamoDB
-  details: {           // Flattened from attributes
-    status: "active",
-    category: "development"
+  "id": "PROJECT#123",    // pkとskの組み合わせ
+  "code": "123",         // 主にsk
+  "name": "Test Project", // DynamoDBの第1階層
+  "details": {           // attributesからフラット化
+    "status": "active",
+    "category": "development"
   }
 }
 ```
@@ -75,7 +71,7 @@ const external = {
 const internal = deserializeToInternal(external, CommandEntity);
 ```
 
-## APIリファレンス
+## API リファレンス
 
 ### serializeToExternal
 ```typescript
@@ -85,13 +81,13 @@ function serializeToExternal<T extends CommandEntity | DataEntity>(
 ): Record<string, any> | null
 ```
 
-パラメータ
+パラメータ:
 - `item`: 内部エンティティ（CommandEntityまたはDataEntity）
 - `options`: オプションのシリアライズ設定
   - `keepAttributes`: 出力にattributesフィールドを保持（デフォルト: false）
   - `flattenDepth`: ネストされたオブジェクトのフラット化の最大深度（デフォルト: 無制限）
 
-戻り値
+戻り値:
 - フラット化された外部構造、または入力がnull/undefinedの場合はnull
 
 ### deserializeToInternal
@@ -102,45 +98,45 @@ function deserializeToInternal<T extends CommandEntity | DataEntity>(
 ): T | null
 ```
 
-パラメータ
-- `data`: Entity class to instantiate (CommandEntity or DataEntity)
+パラメータ:
+- `data`: 外部フラット構造
 - `EntityClass`: インスタンス化するエンティティクラス（CommandEntityまたはDataEntity）
 
-戻り値
+戻り値:
 - 内部エンティティのインスタンス、または入力がnull/undefinedの場合はnull
 
 ## フィールドマッピング
 
 ### メタデータフィールド
 | フィールド | 説明 |
-|-------|-------------|
+|-----------|------|
 | id | 主キー |
-| cpk | コマンドテーブル用の主キー |
-| csk | コマンドテーブル用のソートキー |
-| pk | データテーブル用の主キー |
-| sk | データテーブル用のソートキー |
+| cpk | コマンドテーブル用のpk |
+| csk | コマンドテーブル用のsk |
+| pk | データテーブル用のpk |
+| sk | データテーブル用のsk |
 | tenantCode | テナントコード |
-| type | エンティティタイプ（pkに埋め込む、例：'PROJECT'） |
+| type | 種別（pkの一部に埋め込む、例：PROJECT） |
 | seq | 並び順 |
-| code | コード（skの一部として使用可能） |
+| code | コード（skの一部として使用する可能性あり） |
 | name | 名前 |
-| version | バージョン番号 |
+| version | バージョン |
 | isDeleted | 削除フラグ |
-| createdBy |  作成者のユーザIDまたはユーザ名 |
-| createdIp | 作成者のIPアドレス |
+| createdBy | 作成者のユーザIDまたはユーザ名 |
+| createdIp | 作成者のアクセス元IPアドレス |
 | createdAt | 作成日時 |
-| updatedBy | 更新者のユーザIDまたはユーザ名（作成時に設定） |
-| updatedIp | 更新者のIPアドレス（作成時に設定） |
-| updatedAt | 更新日時（作成時に設定） |
+| updatedBy | 更新者のユーザIDまたはユーザ名（作成時もセット） |
+| updatedIp | 更新者のアクセス元IPアドレス（作成時もセット） |
+| updatedAt | 更新日時（作成時もセット） |
 | description | 説明 |
-| status | ステータス（CQRS処理用） |
-| dueDate | DynamoDBのTTLに使用 |
+| status | ステータス（CQRS用処理ステータス） |
+| dueDate | DynamoDBのTTL等に使用 |
 
 ### シリアライズマッピング
 | 内部フィールド | 外部フィールド | 説明 |
-|---------------|----------------|-------------|
-| pk + sk | id | 一意識別のための結合主キー  |
-| cpk | cpk | コマンドテーブル用の主キー  |
+|--------------|--------------|------|
+| pk + sk | id | 一意識別のための結合主キー |
+| cpk | cpk | コマンドテーブル用の主キー |
 | csk | csk | コマンドテーブル用のソートキー |
 | pk | pk | データテーブル用の主キー |
 | sk | sk | データテーブル用のソートキー |
@@ -151,13 +147,13 @@ function deserializeToInternal<T extends CommandEntity | DataEntity>(
 | name | name | エンティティ名（第1階層のプロパティ） |
 | version | version | 楽観的ロック用のバージョン |
 | isDeleted | isDeleted | 削除フラグ |
-| createdBy | createdBy | 作成者のユーザIDまたはユーザ名  |
-| createdIp | createdIp | 作成者のIPアドレス |
+| createdBy | createdBy | 作成者のユーザID or ユーザ名 |
+| createdIp | createdIp | 作成者のアクセス元IPアドレス |
 | createdAt | createdAt | 作成日時 |
-| updatedBy | updatedBy | 更新者のユーザIDまたはユーザ名 |
-| updatedIp | updatedIp | 更新者のIPアドレス |
+| updatedBy | updatedBy | 更新者のユーザID or ユーザ名 |
+| updatedIp | updatedIp | 更新者のアクセス元IPアドレス |
 | updatedAt | updatedAt | 更新日時 |
-| description | description | 説明 |
-| status | status | CQRS処理ステータス |
-| dueDate | dueDate | DynamoDBのTTLに使用 |
+| description | description | エンティティの説明 |
+| status | status | CQRS用処理ステータス |
+| dueDate | dueDate | DynamoDBのTTL等に使用 |
 | attributes.* | * | 内部構造からフラット化された属性 |

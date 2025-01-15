@@ -47,7 +47,7 @@
   "Customizable": "Customizable",
   "By default, the returned data includes the formattedNo field with the format `%%no%%`, where `no` represents the sequence number. If you want to define your own custom format, you can update the master data in DynamoDB with the following parameters:": "By default, the returned data includes the formattedNo field with the format `%%no%%`, where `no` represents the sequence number. If you want to define your own custom format, you can update the master data in DynamoDB with the following parameters:",
   "`MASTER${KEY_SEPARATOR}${tenantCode}`": "`MASTER${KEY_SEPARATOR}${tenantCode}`",
-  "` SEQ${KEY_SEPARATOR}${typeCode}`": "` SEQ${KEY_SEPARATOR}${typeCode}`",
+  "`MASTER_SETTING${KEY_SEPARATOR}${typeCode}`": "`MASTER_SETTING${KEY_SEPARATOR}${typeCode}`",
   "Example": "Example",
   "For example, if you want to add `code1` to `code5`,  `month`, `day `, `date`, `no` as well as `fiscal_year`, into your format, the format would look like this:": "For example, if you want to add `code1` to `code5`,  `month`, `day `, `date`, `no` as well as `fiscal_year`, into your format, the format would look like this:",
   "In this format": "In this format",

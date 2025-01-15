@@ -2,7 +2,7 @@
 description: Sequence setup and usage.
 ---
 
-# Sequence
+# シークェンス
 
 ## 1. このサービスの目的は、システム内で動的なシーケンスを管理することです。
 
@@ -140,7 +140,7 @@ Generates a new sequence based on the parameters provided in the GenerateFormatt
 デフォルトでは、返されるデータには、「%%no%%」形式の formattedNo フィールドが含まれます。「no」はシーケンス番号を表します。独自のカスタム形式を定義したい場合は、次のパラメータを使用して DynamoDB のマスター データを更新できます。
 
 - PK: `MASTER${KEY_SEPARATOR}${tenantCode}`
-- SK: ` SEQ${KEY_SEPARATOR}${typeCode}`
+- SK: `MASTER_SETTING${KEY_SEPARATOR}${typeCode}`
 
 
 The data structure should be as follows:

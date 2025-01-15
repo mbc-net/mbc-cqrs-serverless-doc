@@ -140,7 +140,7 @@ The return value of this function  has type of `SequenceEntity` as follows:
 By default, the returned data includes the formattedNo field with the format `%%no%%`, where `no` represents the sequence number. If you want to define your own custom format, you can update the master data in DynamoDB with the following parameters:
 
 - PK: `MASTER${KEY_SEPARATOR}${tenantCode}`
-- SK: ` SEQ${KEY_SEPARATOR}${typeCode}`
+- SK: `MASTER_SETTING${KEY_SEPARATOR}${typeCode}`
 
 
 The data structure should be as follows:

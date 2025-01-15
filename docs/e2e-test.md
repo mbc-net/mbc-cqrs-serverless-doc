@@ -55,13 +55,13 @@ describe("Cat", () => {
 runs-on: [self-hosted, linux, ARM64]
 ```
 
-{{Important notes:
-- Case sensitivity is critical: 'ARM64' must be uppercase
-- 'linux' must be lowercase
-- All three labels are required
-- The order of labels matters
+{{Important notes}}:
+- {{Case sensitivity is critical: 'ARM64' must be uppercase}}
+- {{'linux' must be lowercase}}
+- {{All three labels are required}}
+- {{The order of labels matters}}
 
-When using self-hosted runners, ensure proper configuration of labels and permissions based on your environment setup.}}
+{{When using self-hosted runners, ensure proper configuration of labels and permissions based on your environment setup.}}
 
 ### {{Environment Setup}}
 
@@ -124,15 +124,15 @@ steps:
       done
 ```
 
-{{注意：
-- Docker コンテナ内部では、サービス名（例：dynamodb-local）を使用してサービスにアクセスします
-- GitHub Actions のワークフローステップでは localhost を使用します（ポートフォワーディングにより）
-- より堅牢なヘルスチェックのために、単純な接続チェック（nc コマンド）ではなく、実際の API コールを使用することを推奨します
-- ネットワークの問題が発生した場合は、以下を確認してください：
-  - Docker Compose のネットワーク設定
-  - ポートマッピングの設定
-  - コンテナ間の名前解決
-  - GitHub Actions ランナーの環境変数}}
+{{注意}}：
+- {{Docker コンテナ内部では、サービス名（例：dynamodb-local）を使用してサービスにアクセスします}}
+- {{GitHub Actions のワークフローステップでは localhost を使用します（ポートフォワーディングにより）}}
+- {{より堅牢なヘルスチェックのために、単純な接続チェック（nc コマンド）ではなく、実際の API コールを使用することを推奨します}}
+- {{ネットワークの問題が発生した場合は、以下を確認してください：}}
+  - {{Docker Compose のネットワーク設定}}
+  - {{ポートマッピングの設定}}
+  - {{コンテナ間の名前解決}}
+  - {{GitHub Actions ランナーの環境変数}}
 
 ### {{Service Configuration}}
 
