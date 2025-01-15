@@ -3,32 +3,32 @@ sidebar_position: 5
 description: Learn about versioning rules and optimistic locking
 ---
 
-# Versioning Rules
+# {{Versioning Rules}}
 
-The MBC CQRS Serverless Framework implements optimistic locking using version numbers to ensure data consistency in distributed systems. This guide explains the versioning rules and provides examples of their implementation.
+{{The MBC CQRS Serverless Framework implements optimistic locking using version numbers to ensure data consistency in distributed systems. This guide explains the versioning rules and provides examples of their implementation.}}
 
-## Basic Rules
+## {{Basic Rules}}
 
-1. Sequential Versioning for Same PK/SK
-   - Items with the same pk/sk combination must have versions set sequentially starting from 1
-   - Each update increments the version number by 1
-   - Only the first request with a given version will succeed
-   - Subsequent requests with the same version will fail with a conflict error
+{{1. Sequential Versioning for Same PK/SK}}   
+   - {{Items with the same pk/sk combination must have versions set sequentially starting from 1}}
+   - {{Each update increments the version number by 1}}
+   - {{Only the first request with a given version will succeed}}
+   - {{Subsequent requests with the same version will fail with a conflict error}}
 
-2. Independent Version Sequences
-   - Different pk/sk combinations each start their own version sequence from 1
-   - Version sequences are managed independently for each pk/sk combination
-   - This allows parallel operations on different items without version conflicts
+{{2. Independent Version Sequences}}
+   - {{Different pk/sk combinations each start their own version sequence from 1}}
+   - {{Version sequences are managed independently for each pk/sk combination}}
+   - {{This allows parallel operations on different items without version conflicts}}
 
-3. Optimistic Locking
-   - Used to prevent concurrent updates to the same item
-   - Version number is automatically incremented with each update
-   - Throws ConditionalCheckFailedException on version conflicts
-   - Ensures data consistency in distributed environments
+{{3. Optimistic Locking}}
+   - {{Used to prevent concurrent updates to the same item}}
+   - {{Version number is automatically incremented with each update}}
+   - {{Throws ConditionalCheckFailedException on version conflicts}}
+   - {{Ensures data consistency in distributed environments}}
 
-## Implementation Examples
+## {{Implementation Examples}}
 
-### Basic Version Handling
+### {{Basic Version Handling}}
 
 ```typescript
 describe('Version Handling', () => {
@@ -67,7 +67,7 @@ describe('Version Handling', () => {
 })
 ```
 
-### Version Conflict Handling
+### {{Version Conflict Handling}}
 
 ```typescript
 describe('Version Conflicts', () => {
@@ -97,7 +97,7 @@ describe('Version Conflicts', () => {
 })
 ```
 
-### Independent Version Sequences
+### {{Independent Version Sequences}}
 
 ```typescript
 describe('Independent Versioning', () => {
@@ -148,10 +148,10 @@ describe('Independent Versioning', () => {
 })
 ```
 
-## Best Practices
+## {{Best Practices}}
 
-1. Always include version number in update operations
-2. Handle version conflict errors gracefully in your application
-3. Use appropriate retry strategies for handling conflicts
-4. Consider implementing exponential backoff for retries
-5. Document version handling in your API documentation
+{{1. Always include version number in update operations}}
+{{2. Handle version conflict errors gracefully in your application}}
+{{3. Use appropriate retry strategies for handling conflicts}}
+{{4. Consider implementing exponential backoff for retries}}
+{{5. Document version handling in your API documentation}}

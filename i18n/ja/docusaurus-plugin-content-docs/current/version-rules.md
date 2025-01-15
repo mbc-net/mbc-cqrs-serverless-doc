@@ -9,7 +9,7 @@ The MBC CQRS Serverless Framework implements optimistic locking using version nu
 
 ## Basic Rules
 
-1. Sequential Versioning for Same PK/SK
+1. Sequential Versioning for Same PK/SK   
    - Items with the same pk/sk combination must have versions set sequentially starting from 1
    - Each update increments the version number by 1
    - Only the first request with a given version will succeed

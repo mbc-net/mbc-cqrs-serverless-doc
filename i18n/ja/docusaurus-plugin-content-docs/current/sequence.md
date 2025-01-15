@@ -2,7 +2,7 @@
 description: Sequence setup and usage.
 ---
 
-# Sequence
+# シークェンス
 
 ## 1. このサービスの目的は、システム内で動的なシーケンスを管理することです。
 

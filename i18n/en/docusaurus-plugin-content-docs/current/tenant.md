@@ -1,24 +1,26 @@
 ---
-description: Tenant related recipes.
+description: Learn about the Tenant Service for managing tenant-level operations in a multi-tenant serverless CQRS architecture.
 ---
 
 # Tenant
+The Tenant Service provides functionality for managing tenant-level operations in a multi-tenant serverless CQRS architecture
 
-## 1. Purpose
+## Overview
 
-The Tenant Package is designed to create and manage multi-tenancy for the system.
-- Current features include:
-  - Creating a **`COMMON`** tenant shared across the entire system
-  - Creating tenants for individual entities
-  - Editing tenants
-  - Deleting tenants
-  - Adding groups to tenants
-## 2. Usage
+The Tenant Service is designed to:
+- Manage tenant-level entity operations
+- Implement CRUD operations for tenant entities
+- Ensure proper isolation between different tenants
+- Validate tenant codes and maintain tenant integrity
+  
+## Installation
 
-The solution for customizing the behavior of the `TenantModule` is to pass it an options `object` in the static `register()` method. The options object is only contain one property:
+```bash
+npm install @mbc-cqrs-serverless/tenant
+```
+ 
 
-- `enableController`: enable or disable default tenant controller.
-
+## Basic Usage
 
 ```ts 
 import { TenantModule } from '@mbc-cqrs-serverless/tenant'
@@ -31,73 +33,95 @@ import { TenantModule } from '@mbc-cqrs-serverless/tenant'
   exports: [],
 })
 ```
-## The `TenantService` have public methods:
+## API Reference
 
 
 ### `getTenant(key: DetailKey): Promise<DataModel>`
-#### **Description**:
 Retrieves tenant details based on the given key.
 
-#### **Parameters**
-- `key`: `DetailKey`
-  - `sk`: `string`
-  - `pk`: `string`
+``` ts
+const tenant = await tenantService.getTenant({
+  pk: 'TENANT#mbc',
+  sk: 'MASTER',
+});
+```
 
 ### `createCommonTenant(dto: CommonTenantCreateDto, context: { invokeContext: IInvoke }):Promise<CommandModel>`
-#### **Description**:
 Creates a common tenant that is shared across the entire system.
 
-##### Parameters
-- `dto`: `CommonTenantCreateDto`
-  - `name`: `string`
-  - `description?`: `string` 
+``` ts
+const tenant = await tenantService.createCommonTenant({
+
+  name: "Common",
+  description: "describes the tenant "
+});
+```
 
 ### ` createTenant(dto: TenantCreateDto,context: { invokeContext: IInvoke },): Promise<CommandModel>`
-#### **Description**:
+
 Creates a tenant for an individual entity.
 
-##### Parameters
-- `dto`: `TenantCreateDto`
-  - `code`: `string`
-  - `name`: `string`
-  - `description?`: `string` 
+``` ts
+const tenant = await tenantService.createTenant({
+  name: "MBC tenant",
+  code: "mbc",
+  description: "describes the tenant "
+});
+```
 
 ### ` updateTenant(key: DetailKey,dto: TenantUpdateDto,context: { invokeContext: IInvoke }): Promise<CommandModel>`
-#### **Description**:
+
 Updates an existing tenant's details.
 
-##### Parameters
-- `key`: `DetailKey`
-  - `sk`: `string`
-  - `pk`: `string`
-- `dto`: `TenantUpdateDto`
-  - `code`: `string`
-  - `name`: `string`
-  - `description?`: `string` 
-  - `attributes?`: `object`
+
+Creates a tenant for an individual entity.
+
+``` ts
+const tenant = await tenantService.updateTenant(
+  {
+    pk: 'TENANT#mbc',
+    sk: 'MASTER',
+  }
+  {
+    name: "MBC tenant",
+    description: "describes the tenant "
+  }
+);
+```
 
 ###  `deleteTenant(key: DetailKey,context: { invokeContext: IInvoke }): Promise<CommandModel>`
-#### **Description**:
 Deletes a tenant based on the provided key
-##### Parameters
-- `key`: `DetailKey`
-  - `sk`: `string`
-  - `pk`: `string`
 
-### ` addTenantGroup(dto: TenantGroupAddDto,context: { invokeContext: IInvoke }): Promise<CommandModel>`
-#### **Description**:
+``` ts
+const tenant = await tenantService.deleteTenant(
+  {
+    pk: 'TENANT#mbc',
+    sk: 'MASTER',
+  }
+);
+```
+### `addTenantGroup(dto: TenantGroupAddDto,context: { invokeContext: IInvoke }): Promise<CommandModel>`
+
 Adds a group to a specific tenant.
-##### Parameters
-- `dto`: `TenantGroupAddDto`
-  - `tenantCode`: `string`
-  - `groupId`: `string`
-  - `role`: `string` 
+``` ts
+const tenant = await tenantService.addTenantGroup(
+  {
+    tenantCode: "abc",
+    groupId: "19",
+    role: "company"
+  }
+);
+```
 
-### `  customizeSettingGroups(dto: TenantGroupUpdateDto,context: { invokeContext: IInvoke }): Promise<CommandModel>`
-#### **Description**:
+### `customizeSettingGroups(dto: TenantGroupUpdateDto,context: { invokeContext: IInvoke }): Promise<CommandModel>`
 Customizes the settings of groups associated with a tenant.
-##### Parameters
-- `dto`: `TenantGroupUpdateDto`
-  - `tenantCode`: `string`
-  - `settingGroups`: `string[]`
-  - `role`: `string` 
+
+``` ts
+const tenant = await tenantService.customizeSettingGroups(
+  {
+    tenantCode: "mbc",
+    settingGroups: ["19","20"],
+    role: "company"
+  }
+);
+```

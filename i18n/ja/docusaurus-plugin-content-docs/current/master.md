@@ -1,21 +1,40 @@
 ---
-description: Master related recipes.
+description: Learn about the Master Service for managing master data and settings in a multi-tenant environment.
 ---
 
-# Master
+# マスター
 
-## 1. Purpose
 
-The **Master** package provides two primary services to manage different aspects of master-related data and settings:
+マスターサービスは、マルチテナント環境でのマスターデータと設定の管理機能を提供します。
+## 概要
 
-- **MasterDataService**: Responsible for managing data within the master.
-- **MasterSettingService**: Responsible for managing the settings of the master.
+マスターサービスは2つの主要コンポーネントで構成されています。
 
-## 2. Usage
 
-The solution for customizing the behavior of the `MasterModule` is to pass it an options `object` in the static `register()` method. The options object is only contain one property:
+### Master Setting Service
+- 階層的な設定管理を実装
+- すべてのレベルでの設定作成をサポート
+- テナント設定の更新および削除操作を提供
+- 階層的な設定取得を実装
 
-- `enableController`: enable or disable default master controller.
+
+### マスターデータサービス
+- マスターデータエンティティのCRUD操作を実装
+- リストおよび取得機能を提供
+- コード検証機能を含む
+- テナント間のデータ整合性を確保
+
+## インストール
+
+```bash
+npm install @mbc-cqrs-serverless/master
+```
+
+## 基本的な使い方
+
+`MasterModule` の動作をカスタマイズするには、静的な `register()` メソッドでオプションの `object` を渡します。オプションオブジェクトには1つのプロパティのみが含まれます:
+
+- `enableController`: デフォルトのマスターコントローラーを有効または無効にします。
 
 
 ```ts 
@@ -28,138 +47,190 @@ import { MasterModule } from '@mbc-cqrs-serverless/master'
   controllers: [],
   exports: [],
 })
+
 ```
-###  MasterSettingService
 
-The MasterSettingService interface manages settings at various levels (user, group, tenant, common). It allows retrieving, updating, creating, and deleting settings.
+## APIリファレンス
 
-#### `getSetting(dto: GetSettingDto, context: { invokeContext: IInvoke }): Promise<MasterSettingEntity>`
-##### Descriptions
-Retrieves a specific setting based on the provided setting code.
+### マスター設定サービス
+MasterSettingService インターフェースは、ユーザー、グループ、テナント、共通のさまざまなレベルで設定を管理します。設定の取得、更新、作成、削除を可能にします。
 
-##### Parameters
-
-- `dto`: GetSettingDto
-  - `code`: string
+##### `getSetting(dto: GetSettingDto, context: { invokeContext: IInvoke }): Promise<MasterSettingEntity>`
+指定された設定コードに基づいて特定の設定を取得します。
+```ts
+const masterSetting = await this.masterSettingService.getSetting(
+  {
+    code: "service",
+  }
+);
+```
 
 #### `createCommonTenantSetting(dto: CommonSettingDto, context: { invokeContext: IInvoke }): Promise<CommandModel>`
-##### Descriptions
-Creates a common tenant setting that is shared across the system.
-##### Parameters
-- `dto`: CommonSettingDto
-  - `name`: string
-  - `code`: string
-  - `settingValue`: object 
+システム全体で共有される共通のテナント設定を作成します。
+```ts
+const masterSetting = await this.masterSettingService.createGroupSetting(
+  {
+  name: "common setting",
+  code: "service",
+  settingValue: {
+    region: "US",
+    plan: "common"
+  }
+});
+```
 
 #### `createTenantSetting(dto: TenantSettingDto, context: { invokeContext: IInvoke }): Promise<CommandModel>`
-##### Descriptions
-Creates a tenant-specific setting.
-##### Parameters
-- `dto`: TenantSettingDto
-  - `name`: string
-  - `code`: string
-  - `tenantCode`: string
-  - `settingValue`: object 
+テナント固有の設定を作成します。
+```ts
+const masterSetting = await this.masterSettingService.createGroupSetting(
+  {
+  name: "tenant setting",
+  code: "service",
+  tenantCode: "mbc",
+  settingValue: {
+    region: "US",
+    plan: "tenant"
+  }
+});
+```
 
 #### `createGroupSetting(dto: GroupSettingDto, context: { invokeContext: IInvoke }): Promise<CommandModel>`
-##### Descriptions
-Creates a group-specific setting within a tenant.
-##### Parameters
-- `dto`: TenantSettingDto
-  - `name`: string
-  - `code`: string
-  - `tenantCode`: string
-  - `groupId`: string
-  - `settingValue`: object 
-
+テナント内でグループ固有の設定を作成します。
+```ts
+const masterSetting = await this.masterSettingService.createGroupSetting(
+  {
+  name: "group setting",
+  code: "service",
+  tenantCode: "mbc",
+  groupId: "12",
+  settingValue: {
+    region: "US",
+    plan: "USER"
+  }
+});
+```
 #### `createUserSetting(dto: UserSettingDto, context: { invokeContext: IInvoke }): Promise<CommandModel>`
-##### Descriptions
-Creates a user-specific setting within a tenant.
-##### Parameters
-- `dto`: TenantSettingDto
-  - `name`: string
-  - `code`: string
-  - `tenantCode`: string
-  - `userId`: string
-  - `settingValue`: object 
+テナント内でユーザー固有の設定を作成します。
+```ts
+const masterSetting = await this.masterSettingService.createUserSetting(
+  {
+  name: "user setting",
+  code: "service",
+  tenantCode: "mbc",
+  userId: "92ca4f68-9ac6-4080-9ae2-2f02a86206a4",
+  settingValue: {
+    region: "US",
+    plan: "USER"
+  }
+});
+```
 
 
 #### `updateSetting(params: DetailKey, dto: UpdateSettingDto, context: { invokeContext: IInvoke }): Promise<CommandModel>`
-##### Descriptions
-Updates an existing setting.
-##### Parameters
-- `key`: DetailKey
-  - `pk`: string
-  - `sk`: string
-
-- `dto`: UpdateSettingDto
-  - `name`: string
-  - `settingValue`: object 
+既存の設定を更新します。
+```ts
+const masterSetting = await this.masterSettingService.updateSetting(
+  {
+    pk:"MASTER#abc", 
+    sk:"MASTER_SETTING#service"
+  },
+  {
+  name: 'Example Master Setting',
+  settingValue: {
+    homepage: "url",
+    desc: "string"
+  }
+});
+```
 
 #### `deleteSetting(key: DetailKey, context: { invokeContext: IInvoke }): Promise<CommandModel>`
-##### Descriptions
-Deletes a specific setting based on the provided key.
-##### Parameters
+指定されたキーに基づいて特定の設定を削除します。
+```ts
+const masterSetting = await this.masterSettingService.deleteSetting(
+  {
+    pk:"MASTER#abc", 
+    sk:"MASTER_SETTING#service"
+  }
+);
+```
 
-- `key`: DetailKey
-  - `pk`: string
-  - `sk`: string
-
-
-### MasterDataService
-The MasterDataService service provides methods to manage master data and operations. This includes listing, retrieving, creating, updating, and deleting data, as well as checking for the existence of specific codes.
+### マスターデータサービス
+MasterDataService サービスは、マスターデータと操作を管理するためのメソッドを提供します。これには、リスト、取得、作成、更新、削除、および特定のコードの存在確認が含まれます。
 
 #### `list( searchDto: MasterDataSearchDto): Promise<MasterDataListEntity>`
-##### Descriptions
-Lists master data based on the provided search criteria.
-##### Parameters
-- `searchDto`: `MasterDataSearchDto`
- - `tenantCode?`: `string`
- - `settingCode`: `string`
-
+指定された検索条件に基づいてマスターデータをリストします。
+```ts
+const masterData = await this.masterDataService.list(
+  {
+    tenantCode: "mbc",
+    settingCode: "service"
+  }
+);
+```
 
 #### `get(key: DetailDto): Promise<MasterDataEntity>`
-##### Descriptions
-Retrieves specific master data based on the provided key.
-##### Parameters
-- `key`: `DetailDto`
-  - `pk`: `string`
-  - `sk`: `string`
+主キー (pk) およびソートキー (sk) によるマスターデータの取得。
 
+```ts
+const masterData = await this.masterDataService.get(
+  {
+    pk:"MASTER#abc", 
+    sk:"MASTER_DATA#service#01"
+  }
+);
+```
 
-#### `create(createDto: CreateMasterDataDto, context: { invokeContext: IInvoke })`
-##### Descriptions
-Creates new master data.
-##### Parameters
-- `createDto`:`CreateMasterDataDto`
-  -  `tenantCode`:`string`
-  -  `settingCode`: `string`
-  -  `name`: `string`
-  -  `code`: `string`
-  -  `attributes`?: `object`
+  
+#### `create(data: CreateMasterDataDto, context: { invokeContext: IInvoke })`
 
+新しいマスターデータエンティティを作成します。
+
+```ts
+const masterData = await this.masterDataService.create({
+  code: 'MASTER001',
+  name: 'Example Master Data',
+  settingCode: "service",
+  tenantCode: "COMMON",
+  attributes: {
+    homepage: "http://mbc.com",
+    desc: "description for mbc"
+  }
+});
+```
 
 #### `update(key: DetailDto, updateDto: UpdateDataSettingDto, context: { invokeContext: IInvoke })`
-##### Descriptions
-Updates existing master data.
-##### Parameters
-- `key`: `DetailDto`
-  - `pk`: `string`
-  - `sk`: `string`
+既存のマスターデータを更新します。
+
+```ts
+const masterData = await this.masterDataService.update(
+  {
+    pk:"MASTER#abc", 
+    sk:"MASTER_DATA#service#01"
+  },
+  {
+  name: 'Example Master Data',
+  attributes: {
+    homepage: "http://mbc.com",
+    desc: "description for mbc"
+  }
+});
+```
 
 
 #### `delete(key: DetailDto, opts: { invokeContext: IInvoke })`
-##### Descriptions
-Deletes specific master data based on the provided key.
-##### Parameters
-- `key`: `DetailDto`
-  - `pk`: `string`
-  - `sk`: `string`
+指定されたキーに基づいて特定のマスターデータを削除します。
+```ts
+const masterData = await this.masterDataService.delete(
+  {
+    pk:"MASTER#abc", 
+    sk:"MASTER_DATA#service#01"
+  }
+);
+```
 
 #### `checkExistCode(tenantCode: string, type: string, code: string)`
-##### Descriptions
-Checks if a specific code exists within the given tenant and type.
-##### Parameters
-- `tenantCode`:`string`
-- `type`:`string`
-- `code`:`string`
+指定されたテナントとタイプ内で特定のコードが存在するかどうかを確認します。
+
+```ts
+const masterData = await this.masterDataService.checkExistCode("mbc", "service", "01");
+```

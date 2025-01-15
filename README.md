@@ -47,7 +47,7 @@ After the build command, you can run a local server that will serve your website
 
 #### Write documentation
 
-1. Run command `npm run start:watch -- --locale {{country-code}}`
+1. Run command `npm run start:watch {{country-code}}`
 
 2. Create .md file in docs/ and write with placeholder
 

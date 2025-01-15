@@ -1,6 +1,6 @@
 {
   "Sequence setup and usage.": "",
-  "Sequence": "",
+  "Sequence": "シークェンス",
   "Purpose": "このサービスの目的は、システム内で動的なシーケンスを管理することです。",
   "`SequenceModule`  is a service for managing dynamic sequences in the system using DynamoDB as the primary database.": "`SequenceModule` は、DynamoDB を主要なデータベースとして使用してシステム内で動的なシーケンスを管理するためのサービスです。",
   "This service is designed to:": "このサービスは次の目的で設計されています:",

@@ -43,50 +43,50 @@ describe("Cat", () => {
 });
 ```
 
-## GitHub Actions のセットアップ
+## GitHub Actions Setup
 
-CI/CD パイプラインで E2E テストを自動化するには、GitHub Actions のセットアップが必要です。以下は、E2E テスト用の GitHub Actions を設定するための包括的なガイドです。
+To automate E2E testing in your CI/CD pipeline, you'll need to set up GitHub Actions. Here's a comprehensive guide on configuring GitHub Actions for E2E testing:
 
-### ランナーの設定
+### Runner Configuration
 
-ワークフローは、環境に応じて適切なランナー設定を行う必要があります。MBC-NET のリポジトリでは、ランナーの設定は以下のように正確に指定する必要があります：
+Your workflow needs to be configured with appropriate runner settings based on your environment. For MBC-NET repositories, the runner configuration must be specified exactly as:
 
 ```yaml
 runs-on: [self-hosted, linux, ARM64]
 ```
 
-重要な注意点：
-- 大文字・小文字の区別が重要：'ARM64' は大文字でなければなりません
-- 'linux' は小文字でなければなりません
-- 3つのラベルすべてが必要です
-- ラベルの順序は重要です
+Important notes:
+- Case sensitivity is critical: 'ARM64' must be uppercase
+- 'linux' must be lowercase
+- All three labels are required
+- The order of labels matters
 
-セルフホストランナーを使用する場合は、環境のセットアップに基づいて、ラベルと権限の適切な設定を確認してください。
+When using self-hosted runners, ensure proper configuration of labels and permissions based on your environment setup.
 
-### 環境のセットアップ
+### Environment Setup
 
-ワークフローには以下のサービスと設定が必要です：
+The workflow requires several services and configurations:
 
-1. Docker サービス：
+1. Docker Services:
    - DynamoDB Local
    - Cognito Local
    - LocalStack
    - ElasticMQ
 
-2. ディレクトリの権限設定：
+2. Directory Permissions:
 ```yaml
 - name: Set up permissions
   run: |
     sudo mkdir -p /var/lib/docker/volumes
     sudo chmod -R 777 /var/lib/docker/volumes
     
-    # 必要なディレクトリの作成
+    # Create required directories
     sudo mkdir -p infra-local/docker-data/{.cognito,.dynamodb,.mysql,.localstack,.elasticmq}
     sudo chown -R $USER:$USER infra-local
     sudo chmod -R 777 infra-local/docker-data
 ```
 
-3. Docker コンテナのヘルスチェック：
+3. Docker Container Health Checks:
 
 Docker コンテナのヘルスチェックは、コンテナの状態を監視するために重要です。ヘルスチェックの設定には、以下の2つのコンテキストを考慮する必要があります：
 
@@ -134,11 +134,11 @@ steps:
   - コンテナ間の名前解決
   - GitHub Actions ランナーの環境変数
 
-### サービスの設定
+### Service Configuration
 
-各サービスは以下の設定が必要です：
+Each service should be configured with:
 
-1. Dockerfile での適切なユーザー権限：
+1. Proper user permissions in Dockerfile:
 ```dockerfile
 RUN adduser -D -u 1001 serviceuser && \
     mkdir -p /app/data && \
@@ -146,14 +146,14 @@ RUN adduser -D -u 1001 serviceuser && \
 USER serviceuser
 ```
 
-2. ボリューム管理：
+2. Volume management:
 ```yaml
 volumes:
   service-data:
     driver: local
 ```
 
-3. ヘルスチェックの仕組み：
+3. Health check mechanisms:
 ```yaml
 healthcheck:
   test: ["CMD", "nc", "-z", "localhost", "PORT"]
@@ -163,9 +163,9 @@ healthcheck:
   start_period: 15s
 ```
 
-### ワークフローの例
+### Workflow Example
 
-以下は E2E テスト用の GitHub Actions ワークフローの完全な例です：
+Here's a complete example of a GitHub Actions workflow for E2E testing:
 
 ```yaml
 name: E2E Tests
@@ -180,8 +180,8 @@ on:
 
 jobs:
   e2e-tests:
-    # 環境要件に基づいてruns-onを設定
-    runs-on: self-hosted  # インフラストラクチャのセットアップに応じて調整
+    # Configure runs-on based on your environment requirements
+    runs-on: self-hosted  # Adjust according to your infrastructure setup
     
     steps:
       - uses: actions/checkout@v4
@@ -196,7 +196,7 @@ jobs:
           sudo mkdir -p /var/lib/docker/volumes
           sudo chmod -R 777 /var/lib/docker/volumes
           
-          # 必要なディレクトリの作成
+          # Create required directories
           sudo mkdir -p infra-local/docker-data/{.cognito,.dynamodb,.mysql,.localstack,.elasticmq}
           sudo chown -R $USER:$USER infra-local
           sudo chmod -R 777 infra-local/docker-data

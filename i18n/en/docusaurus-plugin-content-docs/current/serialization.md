@@ -7,7 +7,6 @@ description: Learn how to use serialization helpers for data structure conversio
 
 ## Overview
 The MBC CQRS Serverless Framework provides helper functions for converting between internal DynamoDB structures and external flat structures. These helpers ensure consistent data transformation while maintaining type safety.
-
 ## Data Structure Conversion
 
 ### Internal DynamoDB Structure
@@ -87,7 +86,7 @@ function serializeToExternal<T extends CommandEntity | DataEntity>(
 ```
 
 Parameters:
-- `item`: Internal entity (CommandEntity or DataEntity)
+- `item`:Internal entity (CommandEntity or DataEntity).
 - `options`: Optional serialization options
   - `keepAttributes`: Keep the attributes field in output (default: false)
   - `flattenDepth`: Maximum depth for flattening nested objects (default: unlimited)
@@ -116,7 +115,7 @@ Returns:
 | Field | Description |
 |-------|-------------|
 | id | Primary key |
-| cpk | Command table primary key |
+| cpk | Command table primary key|
 | csk | Command table sort key |
 | pk | Data table primary key |
 | sk | Data table sort key |
@@ -132,9 +131,9 @@ Returns:
 | createdAt | Creation timestamp |
 | updatedBy | Updater's user ID or username (set at creation) |
 | updatedIp | Updater's IP address (set at creation) |
-| updatedAt | Update timestamp (set at creation) |
+| updatedAt | Update timestamp (set at creation). |
 | description | Description |
-| status | Status (for CQRS processing) |
+| status | Status (for CQRS processing). |
 | dueDate | Used for DynamoDB TTL |
 
 ### Serialization Mapping

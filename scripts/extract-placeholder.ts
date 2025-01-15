@@ -45,6 +45,7 @@ if (!inputLanguages) {
 // Define the directory for markdown templates and the output directory for JSON files
 const templatesDir = path.join(__dirname, "../docs");
 
+console.log('@#@@', languages)
 languages.forEach((language) => {
   console.log(`Extract the translation JSON file for ${language} language`);
 
