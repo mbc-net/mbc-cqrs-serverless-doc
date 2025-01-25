@@ -47,22 +47,6 @@ describe("Cat", () => {
 
 {{To automate E2E testing in your CI/CD pipeline, you'll need to set up GitHub Actions. Here's a comprehensive guide on configuring GitHub Actions for E2E testing:}}
 
-### {{Runner Configuration}}
-
-{{Your workflow needs to be configured with appropriate runner settings based on your environment. For MBC-NET repositories, the runner configuration must be specified exactly as:}}
-
-```yaml
-runs-on: [self-hosted, linux, ARM64]
-```
-
-{{Important notes}}:
-- {{Case sensitivity is critical: 'ARM64' must be uppercase}}
-- {{'linux' must be lowercase}}
-- {{All three labels are required}}
-- {{The order of labels matters}}
-
-{{When using self-hosted runners, ensure proper configuration of labels and permissions based on your environment setup.}}
-
 ### {{Environment Setup}}
 
 {{The workflow requires several services and configurations:}}
@@ -181,7 +165,7 @@ on:
 jobs:
   e2e-tests:
     # Configure runs-on based on your environment requirements
-    runs-on: self-hosted  # Adjust according to your infrastructure setup
+    # runs-on: self-hosted  # Adjust according to your infrastructure setup
     
     steps:
       - uses: actions/checkout@v4
