@@ -1,32 +1,34 @@
 ---
-description: Learn how to create and process long-running task
+description: 長時間実行タスクの作成および処理方法を学ぶ
 ---
 
-The Task package provides comprehensive task management functionality in the MBC CQRS Serverless framework. It enables:
+# タスク
 
-- Asynchronous task execution
-- Task status tracking
-- Progress monitoring
-- Error handling and retries
-- Task queue management
-- Task history and logging
+Taskパッケージは、MBC CQRS Serverlessフレームワークにおいて包括的なタスク管理機能を提供します。これにより、以下のことが可能になります：
 
-## Installation
+- 非同期タスク実行
+- タスクステータスの追跡
+- 進捗の監視
+- エラーハンドリングと再試行
+- タスキュー管理
+- タスク履歴とロギング
+
+## インストール
 
 ```bash
 npm install @mbc-cqrs-serverless/task
 ```
 
-## Usage
+## 使用方法
 
-There are 2 type task processing:
+タスク処理には2つのタイプがあります：
 
-- Single task processing
-- Task processing with Step function
+- 単一タスク処理
+- Step Functionを使用したタスク処理
 
-### Single task processing
+### 単一タスク処理
 
-1. Define task event
+1. タスクイベントの定義
 
 ```ts
 import { TaskQueueEvent } from "@mbc-cqrs-serverless/task";
@@ -34,7 +36,7 @@ import { TaskQueueEvent } from "@mbc-cqrs-serverless/task";
 export class TaskEvent extends TaskQueueEvent {}
 ```
 
-2. Define task event handler
+2. タスクイベントハンドラーの定義
 
 ```ts
 import { EventHandler, IEventHandler } from "@mbc-cqrs-serverless/core";
@@ -59,7 +61,7 @@ export class TaskEventHandler implements IEventHandler<TaskEvent> {
 }
 ```
 
-3. Implement `ITaskQueueEventFactory`
+3. `ITaskQueueEventFactory`の実装
 
 ```ts
 import {
@@ -75,7 +77,7 @@ export class TaskQueueEventFactory implements ITaskQueueEventFactory {
 }
 ```
 
-4. Custom `TaskModule`
+4. カスタム`TaskModule`
 
 ```ts
 import { TaskModule } from "@mbc-cqrs-serverless/task";
@@ -96,7 +98,7 @@ import { TaskQueueEventFactory } from "./task-queue-event-factory";
 export class CustomTaskModule {}
 ```
 
-5. Custom `EventFactoryAddedTask`
+5. カスタム`EventFactoryAddedTask`
 
 ```ts
 import { EventFactory, IEvent } from "@mbc-cqrs-serverless/core";
@@ -128,11 +130,11 @@ export class CustomEventFactory extends EventFactoryAddedTask {
 }
 ```
 
-6. Create a Task
+6. タスクの作成
 
-### Task processing with Step function
+### Step Functionを使用したタスク処理
 
-1. Define step function task event
+1. Step Functionタスクイベントの定義
 
 ```ts
 import { StepFunctionTaskEvent } from "@mbc-cqrs-serverless/task.sfn.event";
@@ -140,7 +142,7 @@ import { StepFunctionTaskEvent } from "@mbc-cqrs-serverless/task.sfn.event";
 export class SfnTaskEvent extends StepFunctionTaskEvent {}
 ```
 
-2. Define step function task event handler
+2. Step Functionタスクイベントハンドラーの定義
 
 ```ts
 import {
@@ -170,7 +172,7 @@ export class SfnTaskEventHandler implements IEventHandler<SfnTaskEvent> {
 }
 ```
 
-3. Implement `ITaskQueueEventFactory`
+3. `ITaskQueueEventFactory`の実装
 
 ```ts
 import {
@@ -186,7 +188,7 @@ export class TaskQueueEventFactory implements ITaskQueueEventFactory {
 }
 ```
 
-4. Custom `TaskModule`
+4. カスタム`TaskModule`
 
 ```ts
 import { TaskModule } from "@mbc-cqrs-serverless/task";
@@ -207,7 +209,7 @@ import { TaskQueueEventFactory } from "./task-queue-event-factory";
 export class CustomTaskModule {}
 ```
 
-5. Custom `EventFactoryAddedTask`
+5. カスタム`EventFactoryAddedTask`
 
 ```ts
 import { EventFactory, IEvent } from "@mbc-cqrs-serverless/core";
@@ -239,7 +241,7 @@ export class CustomEventFactory extends EventFactoryAddedTask {
 }
 ```
 
-6. Create a step function task
+6. Step Functionタスクの作成
 
 ```ts
 const item = [

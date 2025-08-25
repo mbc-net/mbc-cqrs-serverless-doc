@@ -2,6 +2,8 @@
 description: { { Learn how to create and process long-running task } }
 ---
 
+# {{Task}}
+
 {{The Task package provides comprehensive task management functionality in the MBC CQRS Serverless framework. It enables:}}
 
 - {{Asynchronous task execution}}
@@ -9,7 +11,7 @@ description: { { Learn how to create and process long-running task } }
 - {{Progress monitoring}}
 - {{Error handling and retries}}
 - {{Task queue management}}
-- {{Task history and loggin}}g
+- {{Task history and logging}}
 
 ## {{Installation}}
 
