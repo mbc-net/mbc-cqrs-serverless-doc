@@ -1,8 +1,8 @@
 ---
-description: Interfaces
+description: インターフェース
 ---
 
-# Interfaces
+# インターフェース
 
 ### CommandInputModel
 

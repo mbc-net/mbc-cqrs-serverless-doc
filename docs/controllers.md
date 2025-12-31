@@ -1,5 +1,5 @@
 ---
-description: { { Learn the fundamentals of routing. } }
+description: {{Learn the fundamentals of routing.}}
 ---
 
 # {{Controllers}}

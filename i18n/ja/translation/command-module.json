@@ -1,11 +1,11 @@
 {
   "Learn how to use CommandModule.": "CommandModule の使用方法を学びましょう。",
-  "CommandModule": "",
+  "CommandModule": "CommandModule",
   "CommandModule structure": "CommandModule の構造",
   "Description": "説明",
   "The `CommandModule` is a dynamic module used to register data sync handlers and provide some services associated with the table name.": "「CommandModule」は、データ同期ハンドラーを登録し、テーブル名に関連付けられたいくつかのサービスを提供するために使用される動的モジュールです。",
   "Methods": "メソッド",
-  "*static* `register(option)`": "",
+  "*static* `register(option)`": "*static* `register(option)`",
   "When import this module, you must provide a specific option for use. The option has 4 properties that you can configure:": "このモジュールをインポートするときは、使用する特定のオプションを指定する必要があります。このオプションには、構成できる 4 つのプロパティがあります。",
   "Properties": "プロパティ",
   "provide table name": "テーブル名を指定します。",

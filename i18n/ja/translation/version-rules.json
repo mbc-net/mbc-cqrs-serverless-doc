@@ -1,4 +1,5 @@
 {
+  "Learn about versioning rules and optimistic locking": "バージョン管理ルールと楽観的ロックについて学びます",
   "Versioning Rules": "バージョン管理ルール",
   "The MBC CQRS Serverless Framework implements optimistic locking using version numbers to ensure data consistency in distributed systems. This guide explains the versioning rules and provides examples of their implementation.": "MBC CQRS サーバーレスフレームワークは、バージョン番号を使用した楽観的ロックを実装し、分散システムでのデータ一貫性を確保します。このガイドでは、バージョン管理ルールを説明し、実装例を提供します。",
   "Basic Rules": "基本ルール",

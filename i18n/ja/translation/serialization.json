@@ -1,4 +1,5 @@
 {
+  "Learn how to use serialization helpers for data structure conversion": "データ構造変換のためのシリアライズヘルパーの使用方法を学びます",
   "Serialization Helpers": "シリアライズヘルパー関数",
   "Overview": "概要",
   "The MBC CQRS Serverless Framework provides helper functions for converting between internal DynamoDB structures and external flat structures. These helpers ensure consistent data transformation while maintaining type safety.": "MBC CQRS Serverless フレームワークは、DynamoDBの内部構造と外部向けフラット構造の間の変換を行うヘルパー関数を提供します。これらのヘルパーは、型安全性を維持しながら一貫したデータ変換を保証します。",

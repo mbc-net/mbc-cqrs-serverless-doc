@@ -1,8 +1,8 @@
 ---
-description: Interfaces
+description: {{Interfaces}}
 ---
 
-# Interfaces
+# {{Interfaces}}
 
 ### CommandInputModel
 

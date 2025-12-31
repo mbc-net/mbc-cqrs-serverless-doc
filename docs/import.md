@@ -1,5 +1,5 @@
 ---
-description: { { Learn how to configure and utilize the Import module for handling data ingestion from API calls and CSV files. } }
+description: {{Learn how to configure and utilize the Import module for handling data ingestion from API calls and CSV files.}}
 ---
 
 # {{Import}}

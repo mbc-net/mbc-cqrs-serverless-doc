@@ -1,5 +1,5 @@
 ---
-description: { { Recipes } }
+description: {{Recipes}}
 ---
 
 # {{Recipes}}

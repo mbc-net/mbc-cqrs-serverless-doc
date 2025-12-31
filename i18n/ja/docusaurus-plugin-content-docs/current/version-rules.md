@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-description: Learn about versioning rules and optimistic locking
+description: バージョン管理ルールと楽観的ロックについて学びます
 ---
 
 # バージョン管理ルール

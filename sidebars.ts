@@ -85,12 +85,32 @@ const sidebars: SidebarsConfig = {
     "cli",
     {
       type: "category",
+      label: "Practical Guides",
+      items: [
+        "key-patterns",
+        "entity-patterns",
+        "service-patterns",
+        "data-sync-handler-examples",
+      ],
+    },
+    {
+      type: "category",
+      label: "Frontend Guides",
+      items: [
+        "frontend-project-structure",
+        "state-management-patterns",
+        "api-integration-patterns",
+        "form-handling-patterns",
+      ],
+    },
+    {
+      type: "category",
       label: "Recipes",
       link: {
         type: "doc",
         id: "recipes",
       },
-      items: ["prisma", "dynamodb", "sequence", "tenant", "master", "tasks", "import", "directory", "survey-template"],
+      items: ["prisma", "dynamodb", "sequence", "tenant", "master", "tasks", "import", "directory", "survey-template", "ui-setting"],
     },
     {
       type: "category",

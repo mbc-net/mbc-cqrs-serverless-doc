@@ -54,6 +54,17 @@ const config: Config = {
         anonymizeIP: true,
       },
     ],
+    [
+      require.resolve('@easyops-cn/docusaurus-search-local'),
+      {
+        hashed: true,
+        language: ['en', 'ja'],
+        highlightSearchTermsOnTargetPage: true,
+        explicitSearchResultPath: true,
+        docsRouteBasePath: '/docs',
+        indexBlog: false,
+      },
+    ],
   ],
   themeConfig: {
     // Replace with your project's social card

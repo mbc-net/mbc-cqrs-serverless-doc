@@ -1,5 +1,5 @@
 ---
-description: { { Learn how to write e2e test } }
+description: {{Learn how to write e2e test}}
 ---
 
 # {{End-to-end test}}

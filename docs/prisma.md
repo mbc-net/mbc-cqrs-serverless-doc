@@ -1,5 +1,5 @@
 ---
-description: { { Prisma related recipes. } }
+description: {{Prisma related recipes.}}
 ---
 
 # {{Prisma}}

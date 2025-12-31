@@ -1,5 +1,5 @@
 ---
-description: { { Learn how to use CommandModule. } }
+description: {{Learn how to use CommandModule.}}
 ---
 
 # {{CommandModule}}

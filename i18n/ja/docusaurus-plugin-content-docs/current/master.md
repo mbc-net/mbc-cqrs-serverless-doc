@@ -1,5 +1,5 @@
 ---
-description: Learn about the Master Service for managing master data and settings in a multi-tenant environment.
+description: マルチテナント環境でのマスターデータと設定を管理するためのマスターサービスについて学びます。
 ---
 
 # マスター

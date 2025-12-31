@@ -63,15 +63,15 @@ Server ready: http://localhost:3000 🚀
 
 次のサービスのエンドポイントが起動します。:
 
-- API gateway: http://localhost:3000
-- Offline Lambda Server: http://localhost:4000
-- HTTP for lambda: http://localhost:3002
-- Step functions: http://localhost:8083
+- API Gateway: http://localhost:3000
+- オフラインLambdaサーバー: http://localhost:4000
+- Lambda用HTTP: http://localhost:3002
+- Step Functions: http://localhost:8083
 - DynamoDB: http://localhost:8000
-- DynamoDB admin: http://localhost:8001
+- DynamoDB管理画面: http://localhost:8001
 - SNS: http://localhost:4002
 - SQS: http://localhost:9324
-- SQS admin: http://localhost:9325
+- SQS管理画面: http://localhost:9325
 - Localstack: http://localhost:4566
 - AppSync: http://localhost:4001
 - Cognito: http://localhost:9229

@@ -1,6 +1,6 @@
 {
   "DynamoDB related recipes": "DynamoDB関連のレシピ。",
-  "DynamoDB": "",
+  "DynamoDB": "DynamoDB",
   "In the MBC CQRS serverless, DynamoDB tables are organized into three classes based on their purpose.": "MBC CQRS サーバーレスでは、DynamoDB テーブルは目的に基づいて 3 つのクラスに編成されます。",
   "`tasks` table: store information about long-running tasks": "`tasks` テーブル: 長時間実行されるタスクに関する情報を保存します。",
   "`sequences` table: holds sequence data": "`sequences` テーブル: シーケンス データを保持します。",

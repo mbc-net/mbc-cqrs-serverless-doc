@@ -1,5 +1,5 @@
 ---
-description: { { Installation } }
+description: {{Installation}}
 ---
 
 # {{Installation}}

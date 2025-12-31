@@ -1,5 +1,5 @@
 ---
-description: Sequence setup and usage.
+description: シーケンスのセットアップと使用方法
 ---
 
 # シークェンス
@@ -59,12 +59,12 @@ export class SeqModule {}
 
 コントローラーのほかに、`SequenceService` を直接使用してサービスを注入することでシーケンスを生成できます。
 
-The `SequenceService` have three public methods:
+`SequenceService` には3つのパブリックメソッドがあります:
 
 ### *async* `generateSequenceItem( dto: GenerateFormattedSequenceDto, options: {invokeContext:IInvoke}):  Promise<SequenceEntity>`
 
 
-Generates a new sequence based on the parameters provided in the GenerateFormattedSequenceDto object.
+GenerateFormattedSequenceDto オブジェクトで提供されたパラメータに基づいて新しいシーケンスを生成します。
 
 #### パラメータ
 

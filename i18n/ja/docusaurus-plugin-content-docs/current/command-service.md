@@ -177,7 +177,7 @@ const item = await this.commandService.publishPartialUpdateSync(catCommand, {
 });
 ```
 
-### *async* `publish(input: CommandInputModel, options: ICommandOptions)` <span class="badge badge--warning">deprecated</span>
+### *async* `publish(input: CommandInputModel, options: ICommandOptions)` <span class="badge badge--warning">非推奨</span>
 
 :::info
 

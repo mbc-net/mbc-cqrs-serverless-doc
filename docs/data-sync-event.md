@@ -1,5 +1,5 @@
 ---
-description: { { Learn how to create and register data sync handler. } }
+description: {{Learn how to create and register data sync handler.}}
 ---
 
 # {{Data sync event}}

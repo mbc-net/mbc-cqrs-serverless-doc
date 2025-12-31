@@ -1,5 +1,5 @@
 ---
-description: { { Handle event } }
+description: {{Handle event}}
 ---
 
 # {{Handle event}}

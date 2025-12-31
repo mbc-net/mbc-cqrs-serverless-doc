@@ -21,8 +21,8 @@
   "Updates an existing tenant's details.": "既存のテナントの詳細を更新します。",
   "`deleteTenant(key: DetailKey,context: { invokeContext: IInvoke }): Promise<CommandModel>`": "`deleteTenant(key: DetailKey,context: { invokeContext: IInvoke }): Promise<CommandModel>`",
   "Deletes a tenant based on the provided key": "指定されたキーに基づいてテナントを削除します。",
-  "`addTenantGroup(dto: TenantGroupAddDto,context: { invokeContext: IInvoke }): Promise<CommandModel>`": "",
+  "`addTenantGroup(dto: TenantGroupAddDto,context: { invokeContext: IInvoke }): Promise<CommandModel>`": "`addTenantGroup(dto: TenantGroupAddDto,context: { invokeContext: IInvoke }): Promise<CommandModel>`",
   "Adds a group to a specific tenant.": "特定のテナントにグループを追加します。",
-  "`customizeSettingGroups(dto: TenantGroupUpdateDto,context: { invokeContext: IInvoke }): Promise<CommandModel>`": "",
+  "`customizeSettingGroups(dto: TenantGroupUpdateDto,context: { invokeContext: IInvoke }): Promise<CommandModel>`": "`customizeSettingGroups(dto: TenantGroupUpdateDto,context: { invokeContext: IInvoke }): Promise<CommandModel>`",
   "Customizes the settings of groups associated with a tenant.": "テナントに関連するグループの設定をカスタマイズします。"
 }

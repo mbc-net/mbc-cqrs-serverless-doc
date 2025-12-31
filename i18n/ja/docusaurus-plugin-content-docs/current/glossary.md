@@ -12,7 +12,7 @@ description: 用語集
 
 コマンド クエリ責任分離 (CQRS) パターンは、データの変更、つまりシステムのコマンド部分をクエリ部分から分離します。スループット、レイテンシ、一貫性などの要件が異なる場合は、CQRS パターンを使用して更新とクエリを分離できます。 CQRS パターンは、アプリケーションをコマンド側とクエリ側の 2 つの部分に分割します。コマンド側は、作成、更新、削除のリクエストを処理します。クエリ側はリードレプリカを使用してクエリ部分を実行します。
 
-![CQRS flow](./images/CQRS.png)
+![CQRSフロー](./images/CQRS.png)
 
 > See: [CQRS パターン](https://docs.aws.amazon.com/prescriptive-guidance/latest/modernization-data-persistence/cqrs-pattern.html)
 
@@ -28,16 +28,16 @@ description: 用語集
 
 Nest (NestJS) は、効率的でスケーラブルな Node.js サーバー側アプリケーションを構築するためのフレームワークです。プログレッシブ JavaScript を使用し、TypeScript で構築され完全にサポートされており (それでも開発者は純粋な JavaScript でコードを作成できます)、OOP (オブジェクト指向プログラミング)、FP (関数型プログラミング)、および FRP (関数型リアクティブ プログラミング) の要素を組み合わせています。
 
-> See: [Introduction](https://docs.nestjs.com/)
+> See: [はじめに](https://docs.nestjs.com/)
 
 ### Serverless
 
 サーバーレス フレームワークは、コマンド ライン インターフェイスとオプションのダッシュボードで構成されており、他のクラウド プロバイダーのサポートを強化しながら、コードとインフラストラクチャをアマゾン ウェブ サービスに一緒にデプロイするのに役立ちます。このフレームワークは、簡素化された構文を使用する YAML ベースのエクスペリエンスであり、クラウドの専門家でなくても、複雑なインフラストラクチャ パターンを簡単に展開できます。
 
-> See: [Serverless Framework - An Introduction](https://www.serverless.com/framework/docs#serverless-framework---an-introduction)
+> See: [Serverless Framework - はじめに](https://www.serverless.com/framework/docs#serverless-framework---an-introduction)
 
 ### Prisma
 
 Prisma は、Node.js および Typescript 用の ORM であり、プレーンな SQL を記述したり、Knex や Sequelize などの他のデータベース アクセス ツールを使用したりする代わりに機能します。タイプセーフなクエリ ビルダーと自動生成機能を開発者に提供することで、データベースのアクセスと管理を簡素化します。
 
-> See: [What is Prisma ORM?](https://www.prisma.io/docs/orm/overview/introduction/what-is-prisma)
+> See: [Prisma ORMとは?](https://www.prisma.io/docs/orm/overview/introduction/what-is-prisma)

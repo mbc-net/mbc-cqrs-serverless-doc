@@ -1,4 +1,5 @@
 {
+  "Learn how to use serialization helpers for data structure conversion": "Learn how to use serialization helpers for data structure conversion",
   "Serialization Helpers": "Serialization Helpers",
   "Overview": "Overview",
   "The MBC CQRS Serverless Framework provides helper functions for converting between internal DynamoDB structures and external flat structures. These helpers ensure consistent data transformation while maintaining type safety.": "The MBC CQRS Serverless Framework provides helper functions for converting between internal DynamoDB structures and external flat structures. These helpers ensure consistent data transformation while maintaining type safety.",

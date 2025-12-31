@@ -1,5 +1,5 @@
 ---
-description: { { Learn how to create and process long-running task } }
+description: {{Learn how to create and process long-running task}}
 ---
 
 # {{Task}}

@@ -1,10 +1,27 @@
 ---
-description: { { CLI } }
+description: {{CLI}}
 ---
 
 # {{CLI}}
 
-{{The mbc-cqrs-serverless CLI allows you to create new projects and generate application elements.}}
+{{The mbc-cqrs-serverless CLI helps you quickly scaffold new projects and generate boilerplate code for modules, services, and entities. It follows the framework's conventions to ensure consistency.}}
+
+## {{When to Use the CLI}}
+
+{{Use the CLI when you need to:}}
+
+- {{Create a new MBC CQRS Serverless project from scratch}}
+- {{Add a new domain module (product, order, user)}}
+- {{Generate controller, service, entity, and DTO files with correct structure}}
+- {{Start the local development server}}
+
+## {{Problems the CLI Solves}}
+
+| {{Problem}} | {{Solution}} |
+|---------|----------|
+| {{Setting up project structure manually is error-prone}} | {{`mbc new` creates complete project skeleton}} |
+| {{Remembering correct file names and imports}} | {{`mbc generate` creates consistent boilerplate}} |
+| {{Forgetting to register modules correctly}} | {{Generated code follows NestJS conventions}} |
 
 ## {{Installation}}
 
@@ -42,7 +59,9 @@ Commands:
 
 ## {{new Command}}
 
-{{Create a new project:}}
+### {{Use Case: Start a New Backend Project}}
+
+{{Scenario: You're starting a new microservice or API backend and need the complete project structure with all dependencies.}}
 
 ```bash
 mbc new [projectName[@version]]
@@ -70,7 +89,11 @@ mbc new my-cqrs-app@0.1.45
 
 ## {{generate Command}}
 
-{{Generate application elements such as modules, controllers, services, entities, and DTOs.}}
+### {{Use Case: Add a New Domain to Existing Project}}
+
+{{Scenario: Your project needs a new Order feature with API endpoints, business logic, and database entities.}}
+
+{{Solution: Generate module, controller, service, entity, and DTO in sequence.}}
 
 ```bash
 mbc generate <schematic> [name]
@@ -147,7 +170,9 @@ mbc g mo order --dry-run
 
 ## {{start Command}}
 
-{{Start the application with serverless framework:}}
+### {{Use Case: Run Local Development Server}}
+
+{{Scenario: You want to test API endpoints locally before deploying to AWS.}}
 
 ```bash
 mbc start
@@ -157,10 +182,65 @@ mbc s
 
 ## {{ui-common Command}}
 
-{{Add mbc-cqrs-ui-common components to your project:}}
+### {{Use Case: Add Pre-built UI Components to Frontend}}
+
+{{Scenario: You're building a frontend and want to use the standard MBC CQRS UI component library.}}
 
 ```bash
 mbc ui-common [options]
 # or
 mbc ui [options]
+```
+
+{{This command integrates the MBC CQRS UI Common library into your project, providing pre-built UI components and utilities.}}
+
+## {{Configuration}}
+
+{{The CLI supports configuration through configuration files. Create a `.mbcrc.json` file in your project root:}}
+
+```json
+{
+  "defaultTemplate": "basic",
+  "region": "ap-northeast-1",
+  "stage": "dev"
+}
+```
+
+### {{Configuration Options}}
+
+| {{Option}} | {{Description}} |
+|--------|-------------|
+| `defaultTemplate` | {{Default project template to use}} |
+| `region` | {{AWS region for deployment}} |
+| `stage` | {{Deployment stage (dev, stg, prod)}} |
+
+## {{Troubleshooting}}
+
+### {{Version not found}}
+
+```bash
+mbc new myapp@999.999.999
+# Error: Version not found
+```
+
+{{Solution: Use a valid version number. Check available versions in npm registry.}}
+
+### {{Directory not empty}}
+
+```bash
+mbc new my-project
+# Error: Directory not empty
+```
+
+{{Solution: Use a new directory or remove existing files before creating a project.}}
+
+### {{Permission denied}}
+
+{{If you encounter permission errors during global installation:}}
+
+```bash
+sudo npm install -g @mbc-cqrs-serverless/cli
+# or use npm prefix
+npm config set prefix ~/.npm-global
+npm install -g @mbc-cqrs-serverless/cli
 ```
