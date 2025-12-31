@@ -28,6 +28,19 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: "category",
+      label: "Architecture",
+      link: {
+        type: "doc",
+        id: "architecture",
+      },
+      items: [
+        "architecture/system-overview",
+        "architecture/cqrs-flow",
+        "architecture/event-sourcing",
+      ],
+    },
+    {
+      type: "category",
       label: "Build your application",
       link: {
         type: "doc",
@@ -77,7 +90,16 @@ const sidebars: SidebarsConfig = {
         type: "doc",
         id: "recipes",
       },
-      items: ["prisma", "dynamodb", "sequence", "tenant", "master"],
+      items: ["prisma", "dynamodb", "sequence", "tenant", "master", "import", "directory", "survey-template"],
+    },
+    {
+      type: "category",
+      label: "AI Integration",
+      link: {
+        type: "doc",
+        id: "ai-integration",
+      },
+      items: ["mcp-server"],
     },
     {
       type: "category",
@@ -108,6 +130,7 @@ const sidebars: SidebarsConfig = {
         "interfaces",
       ],
     },
+    "error-catalog",
     "glossary",
   ],
 };

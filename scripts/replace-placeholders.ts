@@ -30,6 +30,28 @@ function replacePlaceholders(
   return template;
 }
 
+function getMarkdownFiles(dir: string, baseDir: string = dir): string[] {
+  let results: string[] = [];
+  const items = fs.readdirSync(dir);
+
+  items.forEach((item) => {
+    const fullPath = path.join(dir, item);
+    const stat = fs.statSync(fullPath);
+
+    if (stat.isDirectory()) {
+      // Skip hidden directories and special directories
+      if (!item.startsWith('.') && item !== 'images' && item !== 'i18n') {
+        results = results.concat(getMarkdownFiles(fullPath, baseDir));
+      }
+    } else if (item.endsWith('.md')) {
+      // Get relative path from base directory
+      results.push(path.relative(baseDir, fullPath));
+    }
+  });
+
+  return results;
+}
+
 function replace(language: string, isFallback: boolean = false) {
   // Define the directories for markdown files and JSON data
   const outputDir = path.join(
@@ -41,13 +63,11 @@ function replace(language: string, isFallback: boolean = false) {
     `../i18n/${isFallback ? fallbackLanguage : language}/translation`
   );
 
-  // Get all markdown files in the docs directory
-  const markdownFiles = fs
-    .readdirSync(outputDir)
-    .filter((file) => file.endsWith(".md"));
+  // Get all markdown files recursively
+  const markdownFiles = getMarkdownFiles(outputDir);
 
   markdownFiles.forEach((markdownFile) => {
-    // Generate the corresponding JSON filename
+    // Generate the corresponding JSON filename (preserve directory structure)
     const jsonFile = path.join(dataDir, markdownFile.replace(".md", ".json"));
 
     // Check if the corresponding JSON file exists
