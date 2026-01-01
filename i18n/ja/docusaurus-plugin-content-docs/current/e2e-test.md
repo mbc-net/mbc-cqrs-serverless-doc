@@ -43,21 +43,21 @@ describe("Cat", () => {
 });
 ```
 
-## GitHub Actions Setup
+## GitHub Actions のセットアップ
 
-To automate E2E testing in your CI/CD pipeline, you'll need to set up GitHub Actions. Here's a comprehensive guide on configuring GitHub Actions for E2E testing:
+CI/CDパイプラインでE2Eテストを自動化するには、GitHub Actionsを設定する必要があります。E2EテストのためのGitHub Actions設定に関する包括的なガイドを以下に示します：
 
-### Environment Setup
+### 環境のセットアップ
 
-The workflow requires several services and configurations:
+ワークフローには以下のサービスと設定が必要です：
 
-1. Docker Services:
+1. Dockerサービス:
    - DynamoDB Local
    - Cognito Local
    - LocalStack
    - ElasticMQ
 
-2. Directory Permissions:
+2. ディレクトリのパーミッション:
 ```yaml
 - name: Set up permissions
   run: |
@@ -70,7 +70,7 @@ The workflow requires several services and configurations:
     sudo chmod -R 777 infra-local/docker-data
 ```
 
-3. Docker Container Health Checks:
+3. Dockerコンテナのヘルスチェック:
 
 Docker コンテナのヘルスチェックは、コンテナの状態を監視するために重要です。ヘルスチェックの設定には、以下の2つのコンテキストを考慮する必要があります：
 
@@ -118,11 +118,11 @@ steps:
   - コンテナ間の名前解決
   - GitHub Actions ランナーの環境変数
 
-### Service Configuration
+### サービスの設定
 
-Each service should be configured with:
+各サービスは以下で設定する必要があります：
 
-1. Proper user permissions in Dockerfile:
+1. Dockerfileでの適切なユーザー権限:
 ```dockerfile
 RUN adduser -D -u 1001 serviceuser && \
     mkdir -p /app/data && \
@@ -130,14 +130,14 @@ RUN adduser -D -u 1001 serviceuser && \
 USER serviceuser
 ```
 
-2. Volume management:
+2. ボリューム管理:
 ```yaml
 volumes:
   service-data:
     driver: local
 ```
 
-3. Health check mechanisms:
+3. ヘルスチェックメカニズム:
 ```yaml
 healthcheck:
   test: ["CMD", "nc", "-z", "localhost", "PORT"]
@@ -147,9 +147,9 @@ healthcheck:
   start_period: 15s
 ```
 
-### Workflow Example
+### ワークフローの例
 
-Here's a complete example of a GitHub Actions workflow for E2E testing:
+E2EテストのためのGitHub Actionsワークフローの完全な例を以下に示します：
 
 ```yaml
 name: E2E Tests
