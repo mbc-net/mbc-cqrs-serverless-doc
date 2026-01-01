@@ -4,26 +4,26 @@ description: DynamoDBのパーティションキー（PK）とソートキー（
 
 # キー設計パターン
 
-This guide explains how to design partition keys (PK) and sort keys (SK) for your entities in DynamoDB. Proper key design is critical for performance, scalability, and query efficiency.
+このガイドでは、DynamoDBにおけるエンティティのパーティションキー（PK）とソートキー（SK）の設計方法を説明します。適切なキー設計は、パフォーマンス、スケーラビリティ、クエリ効率にとって重要です。
 
-## When to Use This Guide
+## このガイドを使用するタイミング
 
-Use this guide when you need to:
+以下が必要な場合にこのガイドを使用してください：
 
-- Design keys for a new entity type
-- Model parent-child relationships (Order → OrderItems)
-- Support multi-tenant data isolation
-- Enable efficient query patterns (list by tenant, filter by date)
-- Handle versioning for optimistic locking
+- 新しいエンティティタイプのキーを設計する
+- 親子関係をモデル化する（Order → OrderItems）
+- マルチテナントデータ分離をサポートする
+- 効率的なクエリパターンを有効にする（テナント別リスト、日付フィルター）
+- 楽観的ロック用のバージョニングを処理する
 
-## Problems This Pattern Solves
+## このパターンが解決する問題
 
-| Problem | Solution |
+| 問題 | 解決策 |
 |---------|----------|
-| Querying all items for a tenant is slow | Include tenant code in PK for partition-level isolation |
-| Can't list child items without knowing all keys | Use shared PK with different SK prefixes |
-| IDs are not sortable by creation time | Use ULID which is both unique and time-sortable |
-| Version conflicts in concurrent updates | Version suffix in SK enables optimistic locking |
+| テナントの全アイテムをクエリするのが遅い | パーティションレベルの分離のためにPKにテナントコードを含める |
+| すべてのキーを知らないと子アイテムをリストできない | 異なるSKプレフィックスで共有PKを使用する |
+| IDが作成時間でソートできない | 一意性と時間ソートの両方を持つULIDを使用する |
+| 同時更新でバージョン競合が発生する | SKのバージョンサフィックスで楽観的ロックを有効にする |
 
 ## キー構造の概要
 

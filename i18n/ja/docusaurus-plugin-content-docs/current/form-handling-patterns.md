@@ -4,27 +4,27 @@ description: React Hook FormとZodバリデーションを使用したフォー�
 
 # フォーム処理パターン
 
-This guide explains how to build type-safe forms with validation using React Hook Form and Zod. These patterns ensure data integrity before sending to the API and provide clear feedback to users.
+このガイドでは、React Hook FormとZodを使用した型安全なフォームとバリデーションの構築方法を説明します。これらのパターンはAPIに送信する前にデータの整合性を確保し、ユーザーに明確なフィードバックを提供します。
 
-## When to Use This Guide
+## このガイドを使用するタイミング
 
-Use this guide when you need to:
+以下が必要な場合にこのガイドを使用してください：
 
-- Build forms for creating and editing entities (products, users, orders)
-- Validate user input before submitting to the API
-- Display field-level error messages to users
-- Handle complex forms with dynamic fields (order items, tags)
-- Show conditional fields based on other form values
+- エンティティ（製品、ユーザー、注文）の作成・編集用フォームを構築する
+- APIに送信する前にユーザー入力を検証する
+- フィールドレベルのエラーメッセージをユーザーに表示する
+- 動的フィールド（注文アイテム、タグ）を持つ複雑なフォームを処理する
+- 他のフォーム値に基づいて条件付きフィールドを表示する
 
-## Problems This Pattern Solves
+## このパターンが解決する問題
 
-| Problem | Solution |
+| 問題 | 解決策 |
 |---------|----------|
-| Invalid data sent to API | Zod validates before submission |
-| Type mismatch between form and API | Infer TypeScript types from Zod schema |
-| Form re-renders on every keystroke | React Hook Form uses uncontrolled inputs |
-| Hard to show validation errors | Automatic error state per field |
-| Dynamic fields are complex to manage | useFieldArray handles add/remove |
+| 無効なデータがAPIに送信される | Zodが送信前に検証する |
+| フォームとAPIの型が一致しない | ZodスキーマからTypeScript型を推論する |
+| キー入力ごとにフォームが再レンダリングされる | React Hook Formは非制御入力を使用する |
+| バリデーションエラーを表示しにくい | フィールドごとの自動エラー状態 |
+| 動的フィールドの管理が複雑 | useFieldArrayが追加/削除を処理する |
 
 ## 技術スタック
 
@@ -42,15 +42,15 @@ npm install react-hook-form zod @hookform/resolvers
 
 ## 基本的なフォーム構造
 
-### Use Case: Product Create Form
+### ユースケース: 製品作成フォーム
 
-Scenario: User needs to create a new product with code, name, price, and status.
+シナリオ: ユーザーがコード、名前、価格、ステータスを持つ新しい製品を作成する必要がある。
 
-Solution: Define schema with validation rules, create form component that displays errors.
+解決策: バリデーションルール付きのスキーマを定義し、エラーを表示するフォームコンポーネントを作成する。
 
 ### Zodスキーマ定義
 
-Define validation rules that match your API requirements:
+API要件に合致するバリデーションルールを定義します：
 
 ```typescript
 // src/schemas/product.schema.ts
@@ -90,7 +90,7 @@ export type UpdateProductInput = z.infer<typeof updateProductSchema>;
 
 ### フォームコンポーネント
 
-Connect the schema to React Hook Form:
+スキーマをReact Hook Formに接続します：
 
 ```typescript
 // src/components/forms/ProductForm.tsx
@@ -199,11 +199,11 @@ export function ProductForm({
 
 ## 再利用可能なフォームコンポーネント
 
-### Use Case: Consistent Form Field Styling
+### ユースケース: 一貫したフォームフィールドスタイリング
 
-Scenario: All form fields should have consistent label, error display, and required indicator.
+シナリオ: すべてのフォームフィールドは一貫したラベル、エラー表示、必須インジケーターを持つべき。
 
-Solution: Create a wrapper component that handles common field UI.
+解決策: 共通フィールドUIを処理するラッパーコンポーネントを作成する。
 
 ```typescript
 // src/components/ui/FormField.tsx
@@ -235,9 +235,9 @@ export function FormField({
 }
 ```
 
-### Use Case: Input with Error State
+### ユースケース: エラー状態付きの入力
 
-Scenario: Input should visually indicate validation errors.
+シナリオ: 入力はバリデーションエラーを視覚的に示すべき。
 
 ```typescript
 // src/components/ui/Input.tsx
@@ -272,13 +272,13 @@ Input.displayName = 'Input';
 
 ## 高度なフォームパターン
 
-### Use Case: Order Form with Multiple Items
+### ユースケース: 複数アイテムを持つ注文フォーム
 
-Scenario: User creates an order with multiple line items. Items can be added or removed.
+シナリオ: ユーザーが複数の明細を持つ注文を作成する。アイテムは追加・削除可能。
 
-Problem: Managing array of fields with validation is complex.
+問題: バリデーション付きのフィールド配列の管理が複雑。
 
-Solution: useFieldArray provides add, remove, and update methods with proper validation.
+解決策: useFieldArrayが適切なバリデーションと共に追加、削除、更新メソッドを提供する。
 
 ```typescript
 // src/components/forms/OrderForm.tsx
@@ -362,13 +362,13 @@ export function OrderForm({
 }
 ```
 
-### Use Case: Payment Form with Conditional Fields
+### ユースケース: 条件付きフィールドを持つ支払いフォーム
 
-Scenario: Form shows different fields based on payment method selection.
+シナリオ: フォームが支払い方法の選択に基づいて異なるフィールドを表示する。
 
-Problem: Need to watch a field value and conditionally render other fields.
+問題: フィールド値を監視し、条件に応じて他のフィールドをレンダリングする必要がある。
 
-Solution: useWatch subscribes to field changes without causing full form re-render.
+解決策: useWatchがフォーム全体の再レンダリングを起こさずにフィールド変更を監視する。
 
 ```typescript
 import { useForm, useWatch } from 'react-hook-form';
@@ -411,11 +411,11 @@ function PaymentForm() {
 
 ## React Query付きフォーム
 
-### Use Case: Create Product with API Integration
+### ユースケース: API統合による製品作成
 
-Scenario: Submit form data to API and handle success/error states.
+シナリオ: フォームデータをAPIに送信し、成功/エラー状態を処理する。
 
-Solution: Container component combines form with React Query mutation.
+解決策: コンテナコンポーネントがフォームとReact Queryミューテーションを組み合わせる。
 
 ```typescript
 // src/containers/products/CreateProductForm.tsx
@@ -449,13 +449,13 @@ export function CreateProductForm() {
 }
 ```
 
-### Use Case: Edit Product with Pre-populated Data
+### ユースケース: 事前入力データによる製品編集
 
-Scenario: Load existing product data into form for editing.
+シナリオ: 編集のために既存の製品データをフォームに読み込む。
 
-Problem: Need to fetch data before rendering form with default values.
+問題: デフォルト値を持つフォームをレンダリングする前にデータを取得する必要がある。
 
-Solution: Container fetches data, passes to form as defaultValues.
+解決策: コンテナがデータを取得し、defaultValuesとしてフォームに渡す。
 
 ```typescript
 // src/containers/products/EditProductForm.tsx
@@ -508,11 +508,11 @@ export function EditProductForm({ pk, sk }: EditProductFormProps) {
 
 ## 複雑なバリデーションパターン
 
-### Use Case: Date Range Validation
+### ユースケース: 日付範囲バリデーション
 
-Scenario: End date must be after start date.
+シナリオ: 終了日は開始日より後でなければならない。
 
-Solution: Use Zod refine to validate across multiple fields.
+解決策: Zod refineを使用して複数フィールドにわたるバリデーションを行う。
 
 ```typescript
 const dateRangeSchema = z
@@ -526,13 +526,13 @@ const dateRangeSchema = z
   });
 ```
 
-### Use Case: Unique Code Validation
+### ユースケース: 一意コードバリデーション
 
-Scenario: Product code must not already exist in database.
+シナリオ: 製品コードはデータベースに既に存在してはならない。
 
-Problem: Need to call API to check uniqueness.
+問題: 一意性を確認するためにAPIを呼び出す必要がある。
 
-Solution: Use async refine to validate against API.
+解決策: async refineを使用してAPIに対してバリデーションを行う。
 
 ```typescript
 const uniqueCodeSchema = z.object({
@@ -559,7 +559,7 @@ const form = useForm({
 
 ### 1. スキーマをフォームと同じ場所に配置する
 
-Why: Keeps validation logic close to the form that uses it.
+理由: バリデーションロジックをそれを使用するフォームの近くに保つ。
 
 ```text
 src/
@@ -572,7 +572,7 @@ src/
 
 ### 2. モードを適切に使用する
 
-Choose validation timing based on form complexity:
+フォームの複雑さに基づいてバリデーションのタイミングを選択します：
 
 ```typescript
 // Validate on submit (default) - best for simple forms
@@ -587,7 +587,7 @@ useForm({ mode: 'onChange' });
 
 ### 3. 共通スキーマを抽出する
 
-Why: Reuse validation rules across multiple forms.
+理由: 複数のフォームでバリデーションルールを再利用する。
 
 ```typescript
 // src/schemas/common.ts
@@ -598,9 +598,9 @@ export const positiveNumber = z.number().positive('Must be positive');
 
 ### 4. サーバーエラーを処理する
 
-Scenario: Server returns field-level validation errors.
+シナリオ: サーバーがフィールドレベルのバリデーションエラーを返す。
 
-Solution: Use setError to display server errors on specific fields.
+解決策: setErrorを使用してサーバーエラーを特定のフィールドに表示する。
 
 ```typescript
 function FormWithServerErrors() {
