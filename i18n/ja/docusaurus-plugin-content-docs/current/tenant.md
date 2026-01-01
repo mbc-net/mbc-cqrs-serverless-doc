@@ -12,7 +12,24 @@ description: マルチテナントサーバーレスCQRSアーキテクチャに
 - テナントエンティティのCRUD操作を実装
 - 異なるテナント間の適切な分離を確保
 - テナントコードを検証し、テナントの整合性を維持
-  
+
+## アーキテクチャ
+
+```mermaid
+graph TB
+    subgraph "データ分離パターン"
+        A["リクエスト"] --> B["テナントリゾルバー"]
+        B --> C["TenantContext"]
+        C --> D["データアクセスレイヤー"]
+        D --> E["DynamoDB"]
+    end
+
+    subgraph "キー構造"
+        F["pk: TENANT#tenantCode"]
+        G["sk: Entity#id"]
+    end
+```
+
 ## インストール
 
 ```bash

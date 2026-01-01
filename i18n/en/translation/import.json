@@ -1,4 +1,5 @@
 {
+  "Architecture": "Architecture",
   "Learn how to configure and utilize the Import module for handling data ingestion from API calls and CSV files.": "Learn how to configure and utilize the Import module for handling data ingestion from API calls and CSV files.",
   "Import": "Import",
   "The Import package provides a comprehensive and extensible framework for managing data import tasks within the MBC CQRS Serverless ecosystem. It enables": "The Import package provides a comprehensive and extensible framework for managing data import tasks within the MBC CQRS Serverless ecosystem. It enables",

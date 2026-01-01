@@ -16,6 +16,32 @@ Importパッケージは、MBC CQRS Serverlessエコシステム内でデータ�
 
 - すべてのインポート操作に対する監査と結果の追跡。
 
+## アーキテクチャ
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant ImportService
+    participant StepFunctions
+    participant S3
+    participant Lambda
+
+    Client->>ImportService: startImport()
+    ImportService->>S3: Validate CSV exists
+    ImportService->>StepFunctions: Start Distributed Map
+
+    loop For each batch
+        StepFunctions->>S3: Read batch of rows
+        StepFunctions->>Lambda: Process batch
+        Lambda->>Lambda: Transform & Validate
+        Lambda->>DynamoDB: Write records
+        Lambda-->>StepFunctions: Batch result
+    end
+
+    StepFunctions->>ImportService: Execution complete
+    ImportService->>Client: Import completed
+```
+
 ## インストール
 
 ```bash

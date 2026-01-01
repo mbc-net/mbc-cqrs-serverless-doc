@@ -19,6 +19,23 @@ description: {{Sequence setup and usage.}}
 
 {{Format sequence numbers according to specific system requirements (e.g., TODO-PERSONAL-72-001).}}
 {{Ensure data consistency and integrity in multi-tenant systems.}}
+
+## {{How It Works}}
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant SequencesService
+    participant DynamoDB
+
+    Client->>SequencesService: generateSequenceItem(dto)
+    SequencesService->>DynamoDB: UpdateItem ADD counter 1
+    Note over DynamoDB: Atomic increment
+    DynamoDB-->>SequencesService: New counter value
+    SequencesService->>SequencesService: Format ID with pattern
+    SequencesService-->>Client: SequenceEntity
+```
+
 ## 2. {{Usage}}
 
 

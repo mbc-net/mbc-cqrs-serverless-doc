@@ -13,6 +13,32 @@ Taskパッケージは、MBC CQRS Serverlessフレームワークにおいて包
 - タスキュー管理
 - タスク履歴とロギング
 
+## アーキテクチャ
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant TaskService
+    participant DynamoDB
+    participant StepFunctions
+    participant Lambda
+
+    Client->>TaskService: createTask() / createStepFunctionTask()
+    TaskService->>DynamoDB: Save task (PENDING)
+    TaskService->>StepFunctions: Start execution
+    StepFunctions-->>TaskService: Execution ARN
+    TaskService-->>Client: TaskEntity
+
+    loop For each sub-task
+        StepFunctions->>Lambda: Execute sub-task
+        Lambda->>DynamoDB: Update status (IN_PROGRESS)
+        Lambda->>Lambda: Process
+        Lambda->>DynamoDB: Update status (COMPLETED/FAILED)
+    end
+
+    StepFunctions->>DynamoDB: Update parent task status
+```
+
 ## インストール
 
 ```bash

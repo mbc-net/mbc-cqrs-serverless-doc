@@ -1,5 +1,6 @@
 {
- "Learn how to configure and utilize the Import module for handling data ingestion from API calls and CSV files.": "APIコールとCSVファイルからのデータ取り込みを扱う、Importモジュールの設定と利用方法を学びます。",
+  "Architecture": "アーキテクチャ",
+  "Learn how to configure and utilize the Import module for handling data ingestion from API calls and CSV files.": "APIコールとCSVファイルからのデータ取り込みを扱う、Importモジュールの設定と利用方法を学びます。",
   "Import": "インポート",
   "The Import package provides a comprehensive and extensible framework for managing data import tasks within the MBC CQRS Serverless ecosystem. It enables": "Importパッケージは、MBC CQRS Serverlessエコシステム内でデータインポートタスクを管理するための、包括的で拡張可能なフレームワークを提供します。これにより、以下のことが可能になります：",
   "Unified data processing from multiple sources (API, CSV).": "複数のソース（API、CSV）からの一元的なデータ処理。",

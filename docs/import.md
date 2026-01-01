@@ -16,6 +16,32 @@ description: {{Learn how to configure and utilize the Import module for handling
 
 - {{Auditing and result tracking for all import operations.}}
 
+## {{Architecture}}
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant ImportService
+    participant StepFunctions
+    participant S3
+    participant Lambda
+
+    Client->>ImportService: startImport()
+    ImportService->>S3: Validate CSV exists
+    ImportService->>StepFunctions: Start Distributed Map
+
+    loop For each batch
+        StepFunctions->>S3: Read batch of rows
+        StepFunctions->>Lambda: Process batch
+        Lambda->>Lambda: Transform & Validate
+        Lambda->>DynamoDB: Write records
+        Lambda-->>StepFunctions: Batch result
+    end
+
+    StepFunctions->>ImportService: Execution complete
+    ImportService->>Client: Import completed
+```
+
 ## {{Installation}}
 
 ```bash

@@ -24,6 +24,23 @@ description: {{Learn about the Master Service for managing master data and setti
 - {{Includes code validation capabilities}}
 - {{Ensures data integrity across tenant boundaries}}
 
+## {{Architecture}}
+
+```mermaid
+graph TB
+    subgraph "{{Settings Hierarchy}}"
+        A["{{COMMON}}"] --> B["{{Tenant}}"]
+        B --> C["{{Group}}"]
+        C --> D["{{User}}"]
+    end
+
+    subgraph "{{Master Data}}"
+        E["{{MasterDataService}}"] --> F["{{Code Tables}}"]
+        E --> G["{{Categories}}"]
+        E --> H["{{Lookup Values}}"]
+    end
+```
+
 ## {{Installation}}
 
 ```bash

@@ -12,7 +12,24 @@ description: {{Learn about the Tenant Service for managing tenant-level operatio
 - {{Implement CRUD operations for tenant entities}}
 - {{Ensure proper isolation between different tenants}}
 - {{Validate tenant codes and maintain tenant integrity}}
-  
+
+## {{Architecture}}
+
+```mermaid
+graph TB
+    subgraph "{{Data Isolation Pattern}}"
+        A["{{Request}}"] --> B["{{Tenant Resolver}}"]
+        B --> C["{{TenantContext}}"]
+        C --> D["{{Data Access Layer}}"]
+        D --> E["{{DynamoDB}}"]
+    end
+
+    subgraph "{{Key Structure}}"
+        F["pk: TENANT#tenantCode"]
+        G["sk: Entity#id"]
+    end
+```
+
 ## {{Installation}}
 
 ```bash

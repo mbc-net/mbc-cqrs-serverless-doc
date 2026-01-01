@@ -1,4 +1,12 @@
 {
+  "Architecture": "アーキテクチャ",
+  "Data Isolation Pattern": "データ分離パターン",
+  "Request": "リクエスト",
+  "Tenant Resolver": "テナントリゾルバー",
+  "TenantContext": "TenantContext",
+  "Data Access Layer": "データアクセスレイヤー",
+  "DynamoDB": "DynamoDB",
+  "Key Structure": "キー構造",
   "Learn about the Tenant Service for managing tenant-level operations in a multi-tenant serverless CQRS architecture.": "マルチテナントサーバーレスCQRSアーキテクチャにおけるテナントレベルの操作を管理するためのテナントサービスについて学びます。",
   "Tenant": "テナント",
   "The Tenant Service provides functionality for managing tenant-level operations in a multi-tenant serverless CQRS architecture": "テナントサービスは、マルチテナントサーバーレスCQRSアーキテクチャにおけるテナントレベルの操作を管理する機能を提供します。",

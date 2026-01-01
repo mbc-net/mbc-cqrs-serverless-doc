@@ -4,26 +4,26 @@ description: CommandServiceとDataServiceを使用したCRUD操作によるサ�
 
 # Service実装パターン
 
-This guide explains how to implement service classes that handle CRUD operations in MBC CQRS Serverless. Services are the core of your business logic, coordinating between controllers, commands, and data access.
+このガイドでは、MBC CQRS ServerlessでCRUD操作を処理するサービスクラスの実装方法を説明します。サービスはビジネスロジックの中核であり、コントローラー、コマンド、データアクセスを調整します。
 
-## When to Use This Guide
+## このガイドを使用するタイミング
 
-Use this guide when you need to:
+以下が必要な場合にこのガイドを使用してください：
 
-- Build a service layer for a new domain entity
-- Implement create, read, update, delete (CRUD) operations
-- Handle multi-tenant data isolation
-- Use optimistic locking for concurrent updates
-- Implement batch operations for bulk data processing
+- 新しいドメインエンティティのサービスレイヤーを構築する
+- 作成、読み取り、更新、削除（CRUD）操作を実装する
+- マルチテナントデータの分離を処理する
+- 並行更新のための楽観的ロックを使用する
+- 大量データ処理のためのバッチ操作を実装する
 
-## Problems This Pattern Solves
+## このパターンが解決する問題
 
-| Problem | Solution |
+| 問題 | 解決策 |
 |---------|----------|
-| Direct database access bypasses CQRS pattern | Use CommandService for writes, DataService for reads |
-| No audit trail for data changes | Pass invokeContext to capture user and timestamp |
-| Concurrent updates overwrite each other | Use version field for optimistic locking |
-| Slow responses due to synchronous processing | Use publishAsync for non-blocking command publishing |
+| データベースへの直接アクセスはCQRSパターンをバイパスする | 書き込みにはCommandService、読み取りにはDataServiceを使用する |
+| データ変更の監査証跡がない | ユーザーとタイムスタンプを記録するためにinvokeContextを渡す |
+| 並行更新が互いを上書きする | 楽観的ロックのためにversionフィールドを使用する |
+| 同期処理による遅いレスポンス | 非ブロッキングコマンド発行のためにpublishAsyncを使用する |
 
 ## 基本的なService構造
 
@@ -64,11 +64,11 @@ export class ProductService {
 
 ## Create操作
 
-### Use Case: Create a New Product
+### ユースケース：新しい商品を作成する
 
-Scenario: User submits a form to add a new product to the catalog.
+シナリオ：ユーザーがカタログに新しい商品を追加するフォームを送信する。
 
-Flow: Controller receives CreateProductDto → Service generates keys → Command published to DynamoDB → Data synced to RDS.
+フロー：ControllerがCreateProductDtoを受信 → Serviceがキーを生成 → CommandがDynamoDBに発行 → データがRDSに同期。
 
 ```ts
 async create(
@@ -114,11 +114,11 @@ async create(
 
 ### キーによる単一取得
 
-#### Use Case: Get Product Detail Page
+#### ユースケース：商品詳細ページを取得する
 
-Scenario: User navigates to a product detail page and needs the full product data.
+シナリオ：ユーザーが商品詳細ページに移動し、完全な商品データが必要。
 
-When to use: Single-item lookup where you have the pk and sk.
+使用するタイミング：pkとskがある場合の単一アイテム検索。
 
 ```ts
 async findOne(
@@ -131,11 +131,11 @@ async findOne(
 
 ### ページネーション付き全件取得（RDSから）
 
-#### Use Case: Product List with Filtering
+#### ユースケース：フィルタリング付き商品リスト
 
-Scenario: Display a paginated product list that users can filter by category or search.
+シナリオ：ユーザーがカテゴリや検索でフィルタリングできるページネーション付き商品リストを表示する。
 
-Why RDS: DynamoDB is not optimized for complex queries. Use Prisma/RDS for filtering and full-text search.
+RDSを使用する理由：DynamoDBは複雑なクエリに最適化されていません。フィルタリングと全文検索にはPrisma/RDSを使用します。
 
 ```ts
 async findAll(
@@ -185,11 +185,11 @@ async findAll(
 
 ## Update操作
 
-### Use Case: Edit Product Details
+### ユースケース：商品詳細を編集する
 
-Scenario: User updates product name or price through an edit form.
+シナリオ：ユーザーが編集フォームで商品名や価格を更新する。
 
-Important: Include the version field to enable optimistic locking and prevent concurrent update conflicts.
+重要：楽観的ロックを有効にし、並行更新の競合を防ぐためにversionフィールドを含めてください。
 
 ```ts
 async update(
@@ -230,11 +230,11 @@ async update(
 
 ## Delete操作（論理削除）
 
-### Use Case: Remove Product from Catalog
+### ユースケース：カタログから商品を削除する
 
-Scenario: Admin removes a discontinued product.
+シナリオ：管理者が廃止商品を削除する。
 
-Why Soft Delete: Data is marked as deleted (isDeleted=true) rather than physically removed, preserving audit history.
+論理削除の理由：データは物理的に削除されるのではなく、削除済み（isDeleted=true）としてマークされ、監査履歴が保持されます。
 
 ```ts
 async remove(
@@ -458,11 +458,11 @@ export class ProductService {
 
 ## バッチ操作
 
-### Use Case: Import Multiple Products
+### ユースケース：複数の商品をインポートする
 
-Scenario: Admin uploads a CSV file containing multiple products to import.
+シナリオ：管理者がインポートする複数の商品を含むCSVファイルをアップロードする。
 
-Solution: Process items in parallel using Promise.all for better performance.
+解決策：パフォーマンス向上のためにPromise.allを使用してアイテムを並列処理する。
 
 ```ts
 async createBatch(
@@ -508,13 +508,13 @@ async createBatch(
 
 ## チャンク化バッチ操作
 
-### Use Case: Large Data Migration
+### ユースケース：大規模データ移行
 
-Scenario: Migrating thousands of records from a legacy system.
+シナリオ：レガシーシステムから数千件のレコードを移行する。
 
-Problem: Processing all at once may cause Lambda timeout or memory issues.
+問題：一度に全て処理するとLambdaのタイムアウトやメモリの問題が発生する可能性がある。
 
-Solution: Process in chunks of 100 items to stay within Lambda limits.
+解決策：Lambdaの制限内に収めるために100アイテムのチャンクで処理する。
 
 ```ts
 async createLargeBatch(
@@ -562,11 +562,11 @@ async createLargeBatch(
 
 ## Copy操作
 
-### Use Case: Clone Product to Different Tenant
+### ユースケース：商品を別のテナントにクローンする
 
-Scenario: Multi-tenant SaaS where a template product needs to be copied to a new tenant.
+シナリオ：テンプレート商品を新しいテナントにコピーする必要があるマルチテナントSaaS。
 
-Solution: Read source entity and create new entity with different tenant's keys.
+解決策：ソースエンティティを読み取り、異なるテナントのキーで新しいエンティティを作成する。
 
 ```ts
 async copy(
@@ -609,11 +609,11 @@ async copy(
 
 ## History Serviceの使用
 
-### Use Case: View Previous Versions of a Document
+### ユースケース：ドキュメントの以前のバージョンを表示する
 
-Scenario: Audit requirement to show what a document looked like at a specific version.
+シナリオ：特定のバージョンでドキュメントがどのようだったかを表示する監査要件。
 
-Solution: Use HistoryService to retrieve a specific version from the history table.
+解決策：HistoryServiceを使用して履歴テーブルから特定のバージョンを取得する。
 
 ```ts
 import { HistoryService, addSortKeyVersion } from "@mbc-cqrs-serverless/core";

@@ -19,6 +19,23 @@ description: シーケンスのセットアップと使用方法
 
 システムの特定の要件に従ってシーケンス番号をフォーマットします（例: TODO-PERSONAL-72-001）。
 マルチテナントシステムでのデータの整合性と完全性を確保します。
+
+## 動作の仕組み
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant SequencesService
+    participant DynamoDB
+
+    Client->>SequencesService: generateSequenceItem(dto)
+    SequencesService->>DynamoDB: UpdateItem ADD counter 1
+    Note over DynamoDB: Atomic increment
+    DynamoDB-->>SequencesService: New counter value
+    SequencesService->>SequencesService: Format ID with pattern
+    SequencesService-->>Client: SequenceEntity
+```
+
 ## 2. 使用方法
 
 

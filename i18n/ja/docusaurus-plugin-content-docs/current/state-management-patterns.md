@@ -4,17 +4,17 @@ description: フロントエンドアプリケーションでZustandとReact Que
 
 # 状態管理パターン
 
-This guide explains how to manage different types of state in frontend applications. Understanding when to use each tool prevents common problems like stale data, unnecessary re-renders, and complex debugging.
+このガイドでは、フロントエンドアプリケーションにおける様々な種類の状態の管理方法を説明します。各ツールをいつ使用するかを理解することで、古いデータ、不要な再レンダリング、複雑なデバッグなどの一般的な問題を防ぐことができます。
 
-## When to Use This Guide
+## このガイドを使用するタイミング
 
-Use this guide when you need to:
+以下が必要な場合にこのガイドを使用してください：
 
-- Cache API responses and keep them synchronized with the server
-- Share UI state (sidebar, theme, modals) across components
-- Handle loading and error states for data fetching
-- Implement optimistic updates for better user experience
-- Manage multi-tenant context in a SaaS application
+- APIレスポンスをキャッシュし、サーバーと同期を保つ
+- コンポーネント間でUI状態（サイドバー、テーマ、モーダル）を共有する
+- データ取得のローディング状態とエラー状態を処理する
+- より良いユーザー体験のための楽観的更新を実装する
+- SaaSアプリケーションでマルチテナントコンテキストを管理する
 
 ## Choosing the Right Tool
 
