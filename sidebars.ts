@@ -127,6 +127,8 @@ const sidebars: SidebarsConfig = {
         "state-management-patterns",
         "api-integration-patterns",
         "form-handling-patterns",
+        "master-web",
+        "survey-web",
       ],
     },
 

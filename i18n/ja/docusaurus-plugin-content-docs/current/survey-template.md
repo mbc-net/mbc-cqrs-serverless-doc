@@ -2,9 +2,9 @@
 sidebar_position: 8
 ---
 
-# 調査テンプレート
+# アンケートテンプレート
 
-MBC CQRS Serverlessフレームワークのための調査テンプレート管理機能です。
+MBC CQRS Serverlessフレームワークのためのアンケートテンプレート管理機能です。
 
 ## インストール
 
@@ -14,17 +14,17 @@ npm install @mbc-cqrs-serverless/survey-template
 
 ## 概要
 
-Survey Templateパッケージは、マルチテナントCQRSアーキテクチャにおける包括的な調査テンプレート管理を提供します。様々な質問タイプをサポートする柔軟なJSONベースの定義を使用して、調査テンプレートの作成、管理、保存を可能にします。
+Survey Templateパッケージは、マルチテナントCQRSアーキテクチャにおける包括的なアンケートテンプレート管理を提供します。様々な質問タイプをサポートする柔軟なJSONベースの定義を使用して、アンケートテンプレートの作成、管理、保存を可能にします。
 
 ## 機能
 
-- **調査テンプレートCRUD操作**: 調査テンプレートの作成、読み取り、更新、削除
-- **マルチテナントサポート**: テナント分離された調査テンプレート管理
-- **柔軟な調査構造**: JSONベースの調査テンプレート定義
+- **アンケートテンプレートCRUD操作**: アンケートテンプレートの作成、読み取り、更新、削除
+- **マルチテナントサポート**: テナント分離されたアンケートテンプレート管理
+- **柔軟なアンケート構造**: JSONベースのアンケートテンプレート定義
 - **様々な質問タイプ**: テキスト、複数選択、評価などをサポート
 - **検索とフィルタリング**: キーワードマッチングを備えた高度な検索機能
 - **イベント駆動アーキテクチャ**: コマンド/イベントハンドリングを備えたCQRSパターン上に構築
-- **RESTful API**: 調査テンプレート操作のための完全なREST API
+- **RESTful API**: アンケートテンプレート操作のための完全なREST API
 
 ## 基本セットアップ
 
@@ -49,13 +49,13 @@ export class AppModule {}
 
 | メソッド | エンドポイント | 説明 |
 |--------|----------|-------------|
-| GET | `/api/survey-template/` | 調査テンプレートの検索と一覧表示 |
-| POST | `/api/survey-template/` | 新しい調査テンプレートを作成 |
-| GET | `/api/survey-template/:id` | 特定の調査テンプレートを取得 |
-| PUT | `/api/survey-template/:id` | 調査テンプレートを更新 |
-| DELETE | `/api/survey-template/:id` | 調査テンプレートを削除 |
+| GET | `/api/survey-template/` | アンケートテンプレートの検索と一覧表示 |
+| POST | `/api/survey-template/` | 新しいアンケートテンプレートを作成 |
+| GET | `/api/survey-template/:id` | 特定のアンケートテンプレートを取得 |
+| PUT | `/api/survey-template/:id` | アンケートテンプレートを更新 |
+| DELETE | `/api/survey-template/:id` | アンケートテンプレートを削除 |
 
-## 調査テンプレートの作成
+## アンケートテンプレートの作成
 
 ```typescript
 import { SurveyTemplateService } from '@mbc-cqrs-serverless/survey-template';
@@ -164,7 +164,7 @@ export class SurveyService {
 }
 ```
 
-## 調査テンプレート構造
+## アンケートテンプレート構造
 
 ```typescript
 interface SurveyTemplate {
