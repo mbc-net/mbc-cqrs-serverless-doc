@@ -37,6 +37,8 @@ const sidebars: SidebarsConfig = {
         "architecture/system-overview",
         "architecture/cqrs-flow",
         "architecture/event-sourcing",
+        "architecture/step-functions",
+        "architecture/cdk-infrastructure",
       ],
     },
     {
