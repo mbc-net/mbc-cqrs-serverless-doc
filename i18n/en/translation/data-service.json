@@ -36,8 +36,6 @@
   "Greater Than": "Greater Than",
   "Greater than comparison": "Greater than comparison",
   "Example with range query:": "Example with range query:",
-  "*async* `getHistory(key: DetailKey, opts?: HistoryOptions)`": "*async* `getHistory(key: DetailKey, opts?: HistoryOptions)`",
-  "Retrieves the history of changes for a specific item. This is useful for auditing and viewing past versions.": "Retrieves the history of changes for a specific item. This is useful for auditing and viewing past versions.",
   "Common Patterns": "Common Patterns",
   "Search by Code": "Search by Code",
   "Find an item by its unique code within a tenant:": "Find an item by its unique code within a tenant:",

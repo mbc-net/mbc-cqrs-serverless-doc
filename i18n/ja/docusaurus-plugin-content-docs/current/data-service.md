@@ -66,7 +66,7 @@ return new CatListEntity(res as CatListEntity);
 ```ts
 const query = {
   sk: {
-    skExpression: 'begins_with(sk, :typeCode)',
+    skExpession: 'begins_with(sk, :typeCode)',
     skAttributeValues: {
       ':typeCode': `CAT${KEY_SEPARATOR}`,
     },
@@ -122,7 +122,7 @@ async listCatsWithPagination(
 ```ts
 const query = {
   sk: {
-    skExpression: 'sk BETWEEN :start AND :end',
+    skExpession: 'sk BETWEEN :start AND :end',
     skAttributeValues: {
       ':start': 'ORDER#2024-01-01',
       ':end': 'ORDER#2024-12-31',
@@ -130,21 +130,6 @@ const query = {
   },
 };
 const res = await this.dataService.listItemsByPk(pk, query);
-```
-
-### *async* `getHistory(key: DetailKey, opts?: HistoryOptions)`
-
-特定のアイテムの変更履歴を取得します。監査や過去のバージョンの確認に便利です。
-
-```ts
-async getItemHistory(pk: string, sk: string): Promise<HistoryEntity[]> {
-  const history = await this.dataService.getHistory({ pk, sk }, {
-    limit: 10,
-    scanIndexForward: false, // Latest first
-  });
-
-  return history.items.map(item => new HistoryEntity(item));
-}
 ```
 
 ## 共通パターン
@@ -173,7 +158,7 @@ async listByType(tenantCode: string, type: string): Promise<CatDataEntity[]> {
 
   const result = await this.dataService.listItemsByPk(pk, {
     sk: {
-      skExpression: 'begins_with(sk, :type)',
+      skExpession: 'begins_with(sk, :type)',
       skAttributeValues: {
         ':type': `${type}#`,
       },
@@ -225,12 +210,13 @@ interface DetailKey {
 ```ts
 interface ListItemsOptions {
   sk?: {
-    skExpression: string;
+    skExpession: string;
     skAttributeValues: Record<string, string>;
+    skAttributeNames?: Record<string, string>;
   };
+  startFromSk?: string;
   limit?: number;
-  exclusiveStartKey?: Record<string, any>;
-  scanIndexForward?: boolean; // true = ascending, false = descending
+  order?: 'asc' | 'desc';
 }
 ```
 

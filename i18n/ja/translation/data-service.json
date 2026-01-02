@@ -36,8 +36,6 @@
   "Greater Than": "より大きい",
   "Greater than comparison": "より大きい比較",
   "Example with range query:": "範囲クエリの例：",
-  "*async* `getHistory(key: DetailKey, opts?: HistoryOptions)`": "*async* `getHistory(key: DetailKey, opts?: HistoryOptions)`",
-  "Retrieves the history of changes for a specific item. This is useful for auditing and viewing past versions.": "特定のアイテムの変更履歴を取得します。監査や過去のバージョンの確認に便利です。",
   "Common Patterns": "共通パターン",
   "Search by Code": "コードで検索",
   "Find an item by its unique code within a tenant:": "テナント内でユニークなコードでアイテムを検索：",
