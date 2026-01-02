@@ -604,7 +604,7 @@ export interface IImportStrategy<TInput, TOutput> {
    * Transform raw input to command DTO
    * 生の入力をコマンドDTOに変換
    */
-  transform(input: TInput, invokeContext: IInvoke): Promise<TOutput>;
+  transform(input: TInput): Promise<TOutput>;
 
   /**
    * Validate input data
@@ -620,67 +620,42 @@ export interface IImportStrategy<TInput, TOutput> {
 export abstract class BaseImportStrategy<TInput, TOutput>
   implements IImportStrategy<TInput, TOutput>
 {
-  abstract transform(input: TInput, invokeContext: IInvoke): Promise<TOutput>;
-
-  async validate(input: TInput): Promise<void> {
-    // Override in subclass / サブクラスでオーバーライド
+  /**
+   * Transform raw input to command DTO (default: return as-is)
+   * 生の入力をコマンドDTOに変換（デフォルト：そのまま返す）
+   */
+  async transform(input: TInput): Promise<TOutput> {
+    return input as unknown as TOutput;
   }
 
   /**
-   * Map field names between external and internal formats
-   * 外部と内部のフォーマット間でフィールド名をマッピング
+   * Validate input data using class-validator
+   * class-validatorを使用して入力データをバリデート
    */
-  protected mapFields(
-    input: Record<string, any>,
-    mapping: Record<string, string>,
-  ): Record<string, any> {
-    const result: Record<string, any> = {};
+  async validate(input: TInput): Promise<void> {
+    // Uses class-validator for validation
+    // class-validatorでバリデーションを実行
+    const errors = await validate(input as object);
+    if (errors.length > 0) {
+      throw new InvalidDataException(this.flattenValidationErrors(errors));
+    }
+  }
 
-    for (const [externalKey, internalKey] of Object.entries(mapping)) {
-      if (input[externalKey] !== undefined) {
-        result[internalKey] = input[externalKey];
+  /**
+   * Flatten validation errors to a simple format
+   * バリデーションエラーをシンプルな形式にフラット化
+   */
+  protected flattenValidationErrors(errors: ValidationError[]): string[] {
+    const messages: string[] = [];
+    for (const error of errors) {
+      if (error.constraints) {
+        messages.push(...Object.values(error.constraints));
+      }
+      if (error.children?.length) {
+        messages.push(...this.flattenValidationErrors(error.children));
       }
     }
-
-    return result;
-  }
-
-  /**
-   * Parse Japanese date format (令和X年X月X日)
-   * 日本語の日付形式を解析
-   */
-  protected parseJapaneseDate(dateStr: string): Date | undefined {
-    if (!dateStr) return undefined;
-
-    // Handle 令和 (Reiwa era)
-    const reiwaMatch = dateStr.match(/令和(\d+)年(\d+)月(\d+)日/);
-    if (reiwaMatch) {
-      const year = 2018 + parseInt(reiwaMatch[1]);
-      const month = parseInt(reiwaMatch[2]) - 1;
-      const day = parseInt(reiwaMatch[3]);
-      return new Date(year, month, day);
-    }
-
-    // Handle standard format
-    const standardMatch = dateStr.match(/(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})/);
-    if (standardMatch) {
-      return new Date(
-        parseInt(standardMatch[1]),
-        parseInt(standardMatch[2]) - 1,
-        parseInt(standardMatch[3]),
-      );
-    }
-
-    return undefined;
-  }
-
-  /**
-   * Normalize string (trim, normalize spaces)
-   * 文字列を正規化（トリム、スペースの正規化）
-   */
-  protected normalizeString(value: string | undefined): string | undefined {
-    if (!value) return undefined;
-    return value.trim().replace(/\s+/g, ' ');
+    return messages;
   }
 }
 ```
@@ -690,11 +665,10 @@ export abstract class BaseImportStrategy<TInput, TOutput>
 ```typescript
 // product/import/product-import.strategy.ts
 import { Injectable } from '@nestjs/common';
-import { IInvoke, KEY_SEPARATOR, generateId } from '@mbc-cqrs-serverless/core';
+import { KEY_SEPARATOR, generateId } from '@mbc-cqrs-serverless/core';
+import { BaseImportStrategy } from '@mbc-cqrs-serverless/import';
 import { ulid } from 'ulid';
-import { BaseImportStrategy } from '../../import/base-import.strategy';
 import { ProductCommandDto } from '../dto/product-command.dto';
-import { getCustomUserContext } from '../../helpers/context';
 
 const PRODUCT_PK_PREFIX = 'PRODUCT';
 
@@ -704,6 +678,7 @@ export interface ProductImportInput {
   category?: string;
   price?: string;
   description?: string;
+  tenantCode: string; // Passed from import context
 }
 
 @Injectable()
@@ -714,11 +689,8 @@ export class ProductImportStrategy
    * Transform import data to command DTO
    * インポートデータをコマンドDTOに変換
    */
-  async transform(
-    input: ProductImportInput,
-    invokeContext: IInvoke,
-  ): Promise<ProductCommandDto> {
-    const { tenantCode } = getCustomUserContext(invokeContext);
+  async transform(input: ProductImportInput): Promise<ProductCommandDto> {
+    const { tenantCode } = input;
 
     const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
     const sk = ulid();
@@ -729,13 +701,13 @@ export class ProductImportStrategy
       sk,
       id,
       tenantCode,
-      code: this.normalizeString(input.code),
-      name: this.normalizeString(input.name),
+      code: input.code?.trim(),
+      name: input.name?.trim(),
       type: 'PRODUCT',
       attributes: {
-        category: this.normalizeString(input.category),
+        category: input.category?.trim(),
         price: input.price ? parseFloat(input.price.replace(/,/g, '')) : undefined,
-        description: this.normalizeString(input.description),
+        description: input.description?.trim(),
       },
     });
   }

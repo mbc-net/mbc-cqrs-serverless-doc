@@ -118,8 +118,9 @@ export class SeqModule {}
       @IsString()
       code1: string
 
+      @IsOptional()
       @IsString()
-      code2: string
+      code2?: string
 
       @IsOptional()
       @IsString()
@@ -210,6 +211,30 @@ The data structure should be as follows:
 - {{registerDate: Defines the exact start date of the fiscal year (e.g., "2005-01-01").}}
 
 {{This allows you to customize the fiscal year calculation according to your specific business needs.}}
+
+### {{*async* `generateSequenceItemWithProvideSetting(dto, options): Promise<SequenceEntity>`}}
+
+{{This method allows you to generate a sequence with custom settings directly provided in the DTO, without requiring master data configuration in DynamoDB.}}
+
+{{Example:}}
+
+```ts
+const result = await this.sequenceService.generateSequenceItemWithProvideSetting(
+  {
+    tenantCode: 'tenant001',
+    typeCode: 'INVOICE',
+    setting: {
+      format: '%%code1%%-%%no#:0>5%%',
+      rotateBy: RotateByEnum.YEARLY,
+    },
+    params: { code1: 'INV' },
+  },
+  { invokeContext },
+);
+// Returns: { formattedNo: 'INV-00001', no: 1, ... }
+```
+
+{{Use this method when you need dynamic sequence settings that vary per request rather than fixed master data configuration.}}
 
 ### {{*async* `getCurrentSequence(key: DetailKey): Promise<DataEntity>` <span class="badge badge--warning">deprecated</span>}}
 

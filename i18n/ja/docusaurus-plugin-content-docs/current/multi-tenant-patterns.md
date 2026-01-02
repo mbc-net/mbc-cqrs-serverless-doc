@@ -681,17 +681,17 @@ export class ProductController {
 }
 ```
 
-## TenantModule API Reference
+## TenantModule APIリファレンス
 
-The `@mbc-cqrs-serverless/tenant` module provides ready-to-use tenant management functionality.
+`@mbc-cqrs-serverless/tenant`モジュールは、すぐに使えるテナント管理機能を提供します。
 
-### Installation
+### インストール
 
 ```bash
 npm install @mbc-cqrs-serverless/tenant
 ```
 
-### Module Registration
+### モジュール登録
 
 ```typescript
 import { TenantModule } from '@mbc-cqrs-serverless/tenant';
@@ -700,17 +700,25 @@ import { TenantModule } from '@mbc-cqrs-serverless/tenant';
   imports: [
     TenantModule.register({
       enableController: true,
+      dataSyncHandlers: [TenantRdsSyncHandler], // Optional: sync to external systems
     }),
   ],
 })
 export class AppModule {}
 ```
 
-### TenantService Methods
+### モジュールオプション
+
+| オプション | 型 | 説明 |
+|--------|------|-------------|
+| `enableController` | `boolean` | テナントCRUD操作用のRESTエンドポイントを有効化 |
+| `dataSyncHandlers` | `Type<IDataSyncHandler>[]` | テナントデータを外部システム（例：RDS）に同期するオプションハンドラー |
+
+### TenantServiceメソッド
 
 #### `getTenant(key: DetailKey): Promise<DataModel>`
 
-Retrieves tenant details based on the given key.
+指定されたキーに基づいてテナント詳細を取得します。
 
 ```typescript
 const tenant = await tenantService.getTenant({
@@ -721,7 +729,7 @@ const tenant = await tenantService.getTenant({
 
 #### `createCommonTenant(dto, context): Promise<CommandModel>`
 
-Creates a common tenant that is shared across the entire system.
+システム全体で共有される共通テナントを作成します。
 
 ```typescript
 const tenant = await tenantService.createCommonTenant({
@@ -732,7 +740,7 @@ const tenant = await tenantService.createCommonTenant({
 
 #### `createTenant(dto, context): Promise<CommandModel>`
 
-Creates a tenant for an individual entity.
+個別エンティティ用のテナントを作成します。
 
 ```typescript
 const tenant = await tenantService.createTenant({
@@ -744,7 +752,7 @@ const tenant = await tenantService.createTenant({
 
 #### `updateTenant(key, dto, context): Promise<CommandModel>`
 
-Updates an existing tenant's details.
+既存テナントの詳細を更新します。
 
 ```typescript
 const tenant = await tenantService.updateTenant(
@@ -756,7 +764,7 @@ const tenant = await tenantService.updateTenant(
 
 #### `deleteTenant(key, context): Promise<CommandModel>`
 
-Deletes a tenant based on the provided key.
+指定されたキーに基づいてテナントを削除します。
 
 ```typescript
 await tenantService.deleteTenant(
@@ -767,7 +775,7 @@ await tenantService.deleteTenant(
 
 #### `addTenantGroup(dto, context): Promise<CommandModel>`
 
-Adds a group to a specific tenant.
+特定のテナントにグループを追加します。
 
 ```typescript
 await tenantService.addTenantGroup({
@@ -777,9 +785,25 @@ await tenantService.addTenantGroup({
 }, { invokeContext });
 ```
 
+#### `createTenantGroup(tenantGroupCode, dto, context): Promise<CommandModel>`
+
+特定のテナントグループ内にテナントを作成します。
+
+```typescript
+await tenantService.createTenantGroup(
+  'group-001',
+  {
+    code: 'mbc',
+    name: 'MBC Tenant',
+    description: 'Tenant in group-001',
+  },
+  { invokeContext },
+);
+```
+
 #### `customizeSettingGroups(dto, context): Promise<CommandModel>`
 
-Customizes the settings of groups associated with a tenant.
+テナントに関連付けられたグループの設定をカスタマイズします。
 
 ```typescript
 await tenantService.customizeSettingGroups({
@@ -791,6 +815,6 @@ await tenantService.customizeSettingGroups({
 
 ## 関連ドキュメント
 
-- [Backend Development Guide](./backend-development) - Core patterns
-- [Key Patterns](./key-patterns) - PK/SK design for multi-tenant
-- [Authentication](./authentication) - User authentication
+- [バックエンド開発ガイド](./backend-development) - コアパターン
+- [キーパターン](./key-patterns) - マルチテナント用PK/SK設計
+- [認証](./authentication) - ユーザー認証

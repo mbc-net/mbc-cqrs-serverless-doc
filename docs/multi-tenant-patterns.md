@@ -700,11 +700,19 @@ import { TenantModule } from '@mbc-cqrs-serverless/tenant';
   imports: [
     TenantModule.register({
       enableController: true,
+      dataSyncHandlers: [TenantRdsSyncHandler], // Optional: sync to external systems
     }),
   ],
 })
 export class AppModule {}
 ```
+
+### {{Module Options}}
+
+| {{Option}} | {{Type}} | {{Description}} |
+|--------|------|-------------|
+| `enableController` | `boolean` | {{Enable REST endpoints for tenant CRUD operations}} |
+| `dataSyncHandlers` | `Type<IDataSyncHandler>[]` | {{Optional handlers to sync tenant data to external systems (e.g., RDS)}} |
 
 ### {{TenantService Methods}}
 
@@ -775,6 +783,22 @@ await tenantService.addTenantGroup({
   groupId: '19',
   role: 'company',
 }, { invokeContext });
+```
+
+#### {{`createTenantGroup(tenantGroupCode, dto, context): Promise<CommandModel>`}}
+
+{{Creates a tenant within a specific tenant group.}}
+
+```typescript
+await tenantService.createTenantGroup(
+  'group-001',
+  {
+    code: 'mbc',
+    name: 'MBC Tenant',
+    description: 'Tenant in group-001',
+  },
+  { invokeContext },
+);
 ```
 
 #### {{`customizeSettingGroups(dto, context): Promise<CommandModel>`}}

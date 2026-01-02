@@ -48,7 +48,7 @@ The Event Factory routes incoming events to appropriate handlers:
 import { Injectable } from '@nestjs/common';
 import {
   EventFactory,
-  EventFactoryBase,
+  DefaultEventFactory,
   IEvent,
 } from '@mbc-cqrs-serverless/core';
 import { S3Event } from 'aws-lambda';
@@ -61,7 +61,7 @@ import { OrderCreatedEvent } from './order/event/order-created.event';
 
 @EventFactory()
 @Injectable()
-export class CustomEventFactory extends EventFactoryBase {
+export class CustomEventFactory extends DefaultEventFactory {
   /**
    * Transform S3 events to domain events
    * S3イベントをドメインイベントに変換

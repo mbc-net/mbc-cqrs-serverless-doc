@@ -112,7 +112,7 @@ const item = await this.commandService.publishAsync(catCommand, {
 });
 ```
 
-### *async* `publishPartialUpdateAsync( input: CommandPartialInputModel, options?: ICommandOptions)`
+### *async* `publishPartialUpdateAsync( input: CommandPartialInputModel, options: ICommandOptions)`
 
 この方法を使用すると、同じ `pk` および `sk` (主キー) 値を持つ前のコマンドに基づいて新しいコマンド データを作成できます。
 
@@ -144,7 +144,7 @@ const item = await this.commandService.publishPartialUpdateAsync(catCommand, {
 });
 ```
 
-### *async* `publishSync( input: CommandInputModel, options?: ICommandOptions)`
+### *async* `publishSync( input: CommandInputModel, options: ICommandOptions)`
 
 このメソッドは、`publishAsync` メソッドに相当する同期メソッドとして機能します。つまり、コマンドが完全に処理されるまでコードの実行を停止します。これにより、コード内で以降の操作を続行する前にコマンドの結果を確実に受け取ることができます。
 
@@ -183,7 +183,7 @@ const item = await this.commandService.publishSync(catCommand, {
 });
 ```
 
-### *async* `publishPartialUpdateSync( input: CommandPartialInputModel, options?: ICommandOptions)`
+### *async* `publishPartialUpdateSync( input: CommandPartialInputModel, options: ICommandOptions)`
 
 このメソッドは、`publishPartialUpdateAsync` メソッドの同期バージョンです。コマンドが処理されるまでコードの実行がブロックされます。
 

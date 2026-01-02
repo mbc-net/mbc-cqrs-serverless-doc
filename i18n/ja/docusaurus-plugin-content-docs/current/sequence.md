@@ -118,8 +118,9 @@ GenerateFormattedSequenceDto オブジェクトで提供されたパラメータ
       @IsString()
       code1: string
 
+      @IsOptional()
       @IsString()
-      code2: string
+      code2?: string
 
       @IsOptional()
       @IsString()
@@ -210,6 +211,30 @@ The data structure should be as follows:
 - registerDate: 会計年度の正確な開始日を定義します (例: "2005-01-01")。
 
 これにより、特定のビジネス ニーズに応じて会計年度の計算をカスタマイズできます。
+
+### *async* `generateSequenceItemWithProvideSetting(dto, options): Promise<SequenceEntity>`
+
+このメソッドを使用すると、DynamoDBでのマスターデータ設定なしで、DTOで直接提供されたカスタム設定でシーケンスを生成できます。
+
+例：
+
+```ts
+const result = await this.sequenceService.generateSequenceItemWithProvideSetting(
+  {
+    tenantCode: 'tenant001',
+    typeCode: 'INVOICE',
+    setting: {
+      format: '%%code1%%-%%no#:0>5%%',
+      rotateBy: RotateByEnum.YEARLY,
+    },
+    params: { code1: 'INV' },
+  },
+  { invokeContext },
+);
+// Returns: { formattedNo: 'INV-00001', no: 1, ... }
+```
+
+固定のマスターデータ設定ではなく、リクエストごとに異なる動的なシーケンス設定が必要な場合にこのメソッドを使用します。
 
 ### *async* `getCurrentSequence(key: DetailKey): Promise<DataEntity>` <span class="badge badge--warning">非推奨</span>
 

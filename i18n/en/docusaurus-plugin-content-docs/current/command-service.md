@@ -112,7 +112,7 @@ const item = await this.commandService.publishAsync(catCommand, {
 });
 ```
 
-### *async* `publishPartialUpdateAsync( input: CommandPartialInputModel, options?: ICommandOptions)`
+### *async* `publishPartialUpdateAsync( input: CommandPartialInputModel, options: ICommandOptions)`
 
 This method allows you to create new command data based on the previous command with the same `pk` and `sk` (primary key) values.
 
@@ -144,7 +144,7 @@ const item = await this.commandService.publishPartialUpdateAsync(catCommand, {
 });
 ```
 
-### *async* `publishSync( input: CommandInputModel, options?: ICommandOptions)`
+### *async* `publishSync( input: CommandInputModel, options: ICommandOptions)`
 
 This method serves as a synchronous counterpart to the `publishAsync` method, meaning that it will halt the execution of the code until the command has been fully processed. This ensures that you receive the result of the command before proceeding with any further operations in your code.
 
@@ -183,7 +183,7 @@ const item = await this.commandService.publishSync(catCommand, {
 });
 ```
 
-### *async* `publishPartialUpdateSync( input: CommandPartialInputModel, options?: ICommandOptions)`
+### *async* `publishPartialUpdateSync( input: CommandPartialInputModel, options: ICommandOptions)`
 
 This method is a synchronous version of the `publishPartialUpdateAsync` method. It will block the execution of the code until the command is processed.
 
