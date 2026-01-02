@@ -677,11 +677,20 @@ Synchronize data across multiple tables with version control and conflict resolu
 // Trigger: DynamoDB Stream INSERT event
 // Flow: check_version -> set_ttl -> history_copy -> transform -> sync_all -> finish
 
-await this.commandService.publish({
-  pk: 'TENANT#tenant1',
-  sk: 'ORDER#order123',
-  attributes: { status: 'confirmed', total: 1000 },
-});
+await this.commandService.publishAsync(
+  {
+    pk: 'TENANT#tenant1',
+    sk: 'ORDER#order123',
+    id: 'order-uuid',
+    code: 'order123',
+    name: 'Order',
+    type: 'ORDER',
+    version: 1,
+    tenantCode: 'tenant1',
+    attributes: { status: 'confirmed', total: 1000 },
+  },
+  { invokeContext },
+);
 // This triggers the command state machine automatically
 ```
 
