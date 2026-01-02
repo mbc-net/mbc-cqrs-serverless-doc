@@ -305,10 +305,8 @@ async function getOrdersByTenant(tenantCode: string, userId: string) {
     throw new ForbiddenException('Access denied');
   }
 
-  return this.dataService.listItems({
-    pk: `ORDER#${tenantCode}`,
-    // Tenant is always part of the query
-  });
+  // Tenant is always part of the partition key
+  return this.dataService.listItemsByPk(`ORDER#${tenantCode}`);
 }
 ```
 

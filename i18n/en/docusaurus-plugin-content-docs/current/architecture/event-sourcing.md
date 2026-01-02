@@ -157,14 +157,16 @@ flowchart LR
 ## Event Handler Implementation
 
 ```typescript
-@EventsHandler(OrderCreatedEvent)
+import { EventHandler, IEventHandler } from '@mbc-cqrs-serverless/core';
+
+@EventHandler(OrderCreatedEvent)
 export class OrderCreatedHandler implements IEventHandler<OrderCreatedEvent> {
   constructor(
     private readonly notificationService: NotificationService,
     private readonly readModelService: ReadModelService,
   ) {}
 
-  async handle(event: OrderCreatedEvent): Promise<void> {
+  async execute(event: OrderCreatedEvent): Promise<void> {
     // Update read model
     await this.readModelService.updateOrderSummary(event);
 
