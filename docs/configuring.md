@@ -188,8 +188,11 @@ import { CommandModule } from '@mbc-cqrs-serverless/core';
       // Optional: Data sync handlers for RDS synchronization
       dataSyncHandlers: [OrderRdsSyncHandler],
 
-      // Optional: Skip publishing to data table (for testing)
-      skipPublish: false,
+      // Optional: Skip errors from previous command versions
+      skipError: false,
+
+      // Optional: Disable default data sync handler
+      disableDefaultHandler: false,
     }),
   ],
 })
@@ -207,20 +210,15 @@ import { SequenceModule } from '@mbc-cqrs-serverless/sequence';
 @Module({
   imports: [
     SequenceModule.register({
-      // Optional: Table name (default: 'sequence')
-      tableName: 'sequence',
-
-      // Optional: Rotation strategy
-      // 'day' - Reset daily (YYYYMMDD prefix)
-      // 'month' - Reset monthly (YYYYMM prefix)
-      // 'year' - Reset yearly (YYYY prefix)
-      // 'none' - Never reset
-      rotateBy: 'day',
+      // Optional: Enable or disable default sequence controller
+      enableController: true,
     }),
   ],
 })
 export class AppModule {}
 ```
+
+{{Note: Rotation strategy (day, month, year, fiscal_yearly, none) is configured through master data settings, not module options. See the [Sequence documentation](./sequence) for details.}}
 
 ### {{TenantModule Options}}
 
@@ -233,20 +231,20 @@ import { TenantModule } from '@mbc-cqrs-serverless/tenant';
 @Module({
   imports: [
     TenantModule.register({
-      // Optional: Table name (default: 'tenant')
-      tableName: 'tenant',
+      // Optional: Enable or disable default tenant controller
+      enableController: true,
 
-      // Optional: Common tenant code for shared data
-      commonTenantCode: 'common',
+      // Optional: Data sync handlers for RDS synchronization
+      dataSyncHandlers: [TenantRdsSyncHandler],
     }),
   ],
 })
 export class AppModule {}
 ```
 
-### {{NotificationModule Options}}
+### {{NotificationModule}}
 
-{{Configure email notifications.}}
+{{Configure email notifications via environment variables.}}
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -254,19 +252,24 @@ import { NotificationModule } from '@mbc-cqrs-serverless/core';
 
 @Module({
   imports: [
-    NotificationModule.register({
-      // Required: Default sender email
-      fromEmail: 'noreply@example.com',
-
-      // Optional: AWS SES region
-      sesRegion: 'ap-northeast-1',
-
-      // Optional: Email template directory
-      templateDir: './templates/email',
-    }),
+    // NotificationModule is a global module - just import it
+    NotificationModule,
   ],
 })
 export class AppModule {}
+```
+
+{{NotificationModule is configured through environment variables:}}
+
+```bash
+# Required: Default sender email address
+SES_FROM_EMAIL=noreply@example.com
+
+# Optional: AWS SES endpoint (for local development)
+SES_ENDPOINT=http://localhost:4566
+
+# Optional: AWS SES region
+SES_REGION=ap-northeast-1
 ```
 
 ## {{Logging Configuration}}
