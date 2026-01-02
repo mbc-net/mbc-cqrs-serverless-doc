@@ -1,28 +1,28 @@
 ---
-description: Comprehensive API reference for MBC CQRS Serverless framework modules.
+description: MBC CQRS Serverlessフレームワークモジュールの包括的なAPIリファレンス。
 ---
 
-# Modules
+# モジュール
 
-The MBC CQRS Serverless framework provides a comprehensive set of modules for building enterprise-grade serverless applications. Each module is designed to handle specific concerns while maintaining consistency with the CQRS and Event Sourcing patterns.
+MBC CQRS Serverlessフレームワークは、エンタープライズグレードのサーバーレスアプリケーションを構築するための包括的なモジュールセットを提供します。各モジュールは、CQRSとイベントソーシングパターンとの一貫性を維持しながら、特定の関心事を処理するように設計されています。
 
-## Module Overview
+## モジュール概要
 
 ```mermaid
 graph TB
-    subgraph "Core Modules"
+    subgraph "コアモジュール"
         A["CommandModule"]
         B["SequenceModule"]
         C["TenantModule"]
     end
 
-    subgraph "Feature Modules"
+    subgraph "機能モジュール"
         D["TaskModule"]
         E["MasterModule"]
         F["ImportModule"]
     end
 
-    subgraph "Support Modules"
+    subgraph "サポートモジュール"
         G["NotificationModule"]
         H["UISettingModule"]
     end
@@ -35,38 +35,38 @@ graph TB
     D --> G
 ```
 
-## Core Modules
+## コアモジュール
 
-| Module | Package | Description |
+| モジュール | パッケージ | 説明 |
 |------------|-------------|-----------------|
-| Command Module | `@mbc-cqrs-serverless/core` | CQRS command handling, data synchronization, event sourcing |
-| Sequence Module | `@mbc-cqrs-serverless/sequence` | Thread-safe sequential ID generation |
-| Tenant Module | `@mbc-cqrs-serverless/tenant` | Multi-tenant data isolation and management |
+| Commandモジュール | `@mbc-cqrs-serverless/core` | CQRSコマンド処理、データ同期、イベントソーシング |
+| Sequenceモジュール | `@mbc-cqrs-serverless/sequence` | スレッドセーフな連番ID生成 |
+| Tenantモジュール | `@mbc-cqrs-serverless/tenant` | マルチテナントデータの分離と管理 |
 
-## Feature Modules
+## 機能モジュール
 
-| Module | Package | Description |
+| モジュール | パッケージ | 説明 |
 |------------|-------------|-----------------|
-| Task Module | `@mbc-cqrs-serverless/task` | Async task execution with Step Functions |
-| Master Module | `@mbc-cqrs-serverless/master` | Master data and settings management |
-| Import Module | `@mbc-cqrs-serverless/import` | Large-scale CSV import with Distributed Map |
+| Taskモジュール | `@mbc-cqrs-serverless/task` | Step Functionsによる非同期タスク実行 |
+| Masterモジュール | `@mbc-cqrs-serverless/master` | マスターデータと設定の管理 |
+| Importモジュール | `@mbc-cqrs-serverless/import` | Distributed Mapによる大規模CSVインポート |
 
-## Support Modules
+## サポートモジュール
 
-| Module | Package | Description |
+| モジュール | パッケージ | 説明 |
 |------------|-------------|-----------------|
-| Notification Module | `@mbc-cqrs-serverless/core` | Email notifications via Amazon SES |
-| UI Setting Module | `@mbc-cqrs-serverless/core` | User interface configuration storage |
+| Notificationモジュール | `@mbc-cqrs-serverless/core` | Amazon SESによるメール通知 |
+| UI Settingモジュール | `@mbc-cqrs-serverless/core` | ユーザーインターフェース設定のストレージ |
 
-## Quick Start
+## クイックスタート
 
-Install the core package:
+コアパッケージをインストール：
 
 ```bash
 npm install @mbc-cqrs-serverless/core
 ```
 
-Register the CommandModule in your application:
+アプリケーションにCommandModuleを登録：
 
 ```typescript
 import { CommandModule } from '@mbc-cqrs-serverless/core';
@@ -81,11 +81,11 @@ import { CommandModule } from '@mbc-cqrs-serverless/core';
 export class YourModule {}
 ```
 
-## Common Patterns
+## 共通パターン
 
-### Service Injection
+### サービスインジェクション
 
-All services are available for injection in your NestJS providers:
+すべてのサービスはNestJSプロバイダーでインジェクション可能です：
 
 ```typescript
 import { CommandService, DataService } from '@mbc-cqrs-serverless/core';
@@ -99,9 +99,9 @@ export class YourService {
 }
 ```
 
-### Multi-Tenant Context
+### マルチテナントコンテキスト
 
-Most operations require tenant context for data isolation:
+ほとんどの操作はデータ分離のためにテナントコンテキストが必要です：
 
 ```typescript
 async createItem(tenantCode: string, data: CreateDto) {
@@ -114,9 +114,9 @@ async createItem(tenantCode: string, data: CreateDto) {
 }
 ```
 
-## Module Documentation
+## モジュールドキュメント
 
-Explore each module's detailed documentation:
+各モジュールの詳細ドキュメントを参照：
 
 ```mdx-code-block
 import DocCardList from '@theme/DocCardList';
