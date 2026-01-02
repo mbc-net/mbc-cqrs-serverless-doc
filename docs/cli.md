@@ -194,26 +194,6 @@ mbc ui [options]
 
 {{This command integrates the MBC CQRS UI Common library into your project, providing pre-built UI components and utilities.}}
 
-## {{Configuration}}
-
-{{The CLI supports configuration through configuration files. Create a `.mbcrc.json` file in your project root:}}
-
-```json
-{
-  "defaultTemplate": "basic",
-  "region": "ap-northeast-1",
-  "stage": "dev"
-}
-```
-
-### {{Configuration Options}}
-
-| {{Option}} | {{Description}} |
-|--------|-------------|
-| `defaultTemplate` | {{Default project template to use}} |
-| `region` | {{AWS region for deployment}} |
-| `stage` | {{Deployment stage (dev, stg, prod)}} |
-
 ## {{Troubleshooting}}
 
 ### {{Version not found}}

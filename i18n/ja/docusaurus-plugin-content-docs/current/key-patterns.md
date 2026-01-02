@@ -370,7 +370,7 @@ import {
 const command = new OrderCommandDto({
   pk,
   sk,
-  version: VERSION_FIRST, // 1
+  version: VERSION_FIRST, // 0
   // ...
 });
 
