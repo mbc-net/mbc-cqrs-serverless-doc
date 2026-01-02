@@ -49,17 +49,24 @@ npm install @mbc-cqrs-serverless/master
 
 ## 基本的な使い方
 
-`MasterModule` の動作をカスタマイズするには、静的な `register()` メソッドでオプションの `object` を渡します。オプションオブジェクトには1つのプロパティのみが含まれます:
+`MasterModule` の動作をカスタマイズするには、静的な `register()` メソッドでオプションの `object` を渡します。
 
-- `enableController`: デフォルトのマスターコントローラーを有効または無効にします。
+### モジュールオプション
 
+| オプション | 型 | 説明 |
+|--------|------|-------------|
+| `enableController` | `boolean` | デフォルトのマスターコントローラーを有効または無効にする |
+| `dataSyncHandlers` | `Type<IDataSyncHandler>[]` | マスターデータを外部システム（例：RDS）に同期するオプションハンドラー |
+| `prismaService` | `Type<any>` | RDSバッククエリ用のオプションPrismaサービス |
 
-```ts 
+```ts
 import { MasterModule } from '@mbc-cqrs-serverless/master'
 
 @Module({
   imports: [ MasterModule.register({
       enableController: true,
+      dataSyncHandlers: [MasterDataRdsSyncHandler],
+      prismaService: PrismaService,
     })],
   controllers: [],
   exports: [],

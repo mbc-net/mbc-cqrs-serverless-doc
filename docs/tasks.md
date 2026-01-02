@@ -116,6 +116,7 @@ import { TaskQueueEventFactory } from "./task-queue-event-factory";
   imports: [
     TaskModule.register({
       taskQueueEventFactory: TaskQueueEventFactory,
+      enableController: true, // Optional: enable REST endpoints for task management
     }),
   ],
   providers: [TaskEventHandler],
@@ -163,7 +164,7 @@ export class CustomEventFactory extends EventFactoryAddedTask {
 1. {{Define step function task event}}
 
 ```ts
-import { StepFunctionTaskEvent } from "@mbc-cqrs-serverless/task.sfn.event";
+import { StepFunctionTaskEvent } from "@mbc-cqrs-serverless/task";
 
 export class SfnTaskEvent extends StepFunctionTaskEvent {}
 ```
@@ -188,7 +189,7 @@ export class SfnTaskEventHandler implements IEventHandler<SfnTaskEvent> {
 
   constructor() {}
 
-  async execute(event: TaskEvent): Promise<any> {
+  async execute(event: SfnTaskEvent): Promise<any> {
     this.logger.debug("executing task event::", event);
 
     //
@@ -203,12 +204,12 @@ export class SfnTaskEventHandler implements IEventHandler<SfnTaskEvent> {
 ```ts
 import {
   ITaskQueueEventFactory,
-  TaskQueueEvent,
+  StepFunctionTaskEvent,
 } from "@mbc-cqrs-serverless/task";
-import { TaskEvent } from "src/sample/handler/sfn-task.event";
+import { SfnTaskEvent } from "src/sample/handler/sfn-task.event";
 
 export class TaskQueueEventFactory implements ITaskQueueEventFactory {
-  async transformStepFunctionTask(event: TaskQueueEvent): Promise<any[]> {
+  async transformStepFunctionTask(event: StepFunctionTaskEvent): Promise<any[]> {
     return [new SfnTaskEvent(event)];
   }
 }
@@ -227,6 +228,7 @@ import { TaskQueueEventFactory } from "./task-queue-event-factory";
   imports: [
     TaskModule.register({
       taskQueueEventFactory: TaskQueueEventFactory,
+      enableController: true, // Optional: enable REST endpoints for task management
     }),
   ],
   providers: [TaskEventHandler],

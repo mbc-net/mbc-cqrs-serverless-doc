@@ -127,28 +127,24 @@ export interface SearchKey extends DetailKey {
 
 #### IInvoke
 
-{{Invocation context containing user and tenant information.}}
+{{Invocation context containing Lambda/Express event and context.}}
 
 ```ts
 export interface IInvoke {
-  userContext: IUserContext  // User information from authentication
-  tenantCode?: string        // Current tenant context
-  action?: string            // Action being performed
+  event?: IInvokeEvent      // Request event (headers, requestContext, etc.)
+  context?: IInvokeContext  // Lambda context (requestId, functionName, etc.)
 }
 ```
 
-#### IUserContext
+#### UserContext
 
-{{User context extracted from authentication token.}}
+{{User context class extracted from authentication token.}}
 
 ```ts
-export interface IUserContext {
-  userId: string           // Cognito user ID
-  username: string         // Username
-  email?: string           // User email
-  groups?: string[]        // Cognito groups
-  tenantCodes?: string[]   // Accessible tenants
-  attributes?: Record<string, any>  // Custom attributes
+export class UserContext {
+  userId: string      // Cognito user ID (from JWT sub claim)
+  tenantRole: string  // User's role within the tenant
+  tenantCode: string  // Current tenant code
 }
 ```
 
@@ -156,11 +152,11 @@ export interface IUserContext {
 ```typescript
 import { getUserContext, IInvoke } from '@mbc-cqrs-serverless/core';
 
-const userContext = getUserContext(event);
-const invokeContext: IInvoke = {
-  userContext,
-  tenantCode: userContext.tenantCodes?.[0],
-};
+// Extract user context from IInvoke or ExecutionContext
+const userContext = getUserContext(invokeContext);
+console.log(userContext.userId);      // '92ca4f68-9ac6-4080-9ae2-2f02a86206a4'
+console.log(userContext.tenantCode);  // 'tenant001'
+console.log(userContext.tenantRole);  // 'admin'
 ```
 
 ## {{Data Interfaces}}
@@ -267,18 +263,21 @@ export interface SearchOptions extends ListOptions {
 
 #### IDataSyncHandler
 
-{{Interface for implementing data synchronization handlers.}}
+{{Interface for implementing data synchronization handlers. Handles both forward (up) and rollback (down) operations.}}
 
 ```ts
-export interface IDataSyncHandler {
-  handle(event: DataSyncEvent): Promise<void>
-}
+export interface IDataSyncHandler<TExecuteResult = any, TRollbackResult = any> {
+  readonly type?: string  // Optional type identifier
 
-export interface DataSyncEvent {
-  action: 'INSERT' | 'MODIFY' | 'REMOVE'
-  oldImage?: IDataEntity    // Previous state (for MODIFY/REMOVE)
-  newImage?: IDataEntity    // New state (for INSERT/MODIFY)
-  keys: DetailKey           // Primary key
+  /**
+   * Upgrade/sync data when a command is executed
+   */
+  up(cmd: CommandModel): Promise<TExecuteResult>
+
+  /**
+   * Rollback/undo data when a command needs to be reverted
+   */
+  down(cmd: CommandModel): Promise<TRollbackResult>
 }
 ```
 
@@ -286,26 +285,38 @@ export interface DataSyncEvent {
 ```typescript
 @Injectable()
 export class OrderRdsSyncHandler implements IDataSyncHandler {
+  readonly type = 'ORDER';
+
   constructor(private readonly prisma: PrismaService) {}
 
-  async handle(event: DataSyncEvent): Promise<void> {
-    const { action, newImage, oldImage, keys } = event;
-
-    switch (action) {
-      case 'INSERT':
-      case 'MODIFY':
-        await this.prisma.order.upsert({
-          where: { id: newImage.id },
-          create: this.toRdsModel(newImage),
-          update: this.toRdsModel(newImage),
-        });
-        break;
-      case 'REMOVE':
-        await this.prisma.order.delete({
-          where: { id: oldImage.id },
-        });
-        break;
+  async up(cmd: CommandModel): Promise<void> {
+    if (cmd.isDeleted) {
+      await this.prisma.order.delete({
+        where: { id: cmd.id },
+      });
+    } else {
+      await this.prisma.order.upsert({
+        where: { id: cmd.id },
+        create: this.toRdsModel(cmd),
+        update: this.toRdsModel(cmd),
+      });
     }
+  }
+
+  async down(cmd: CommandModel): Promise<void> {
+    // Rollback logic - restore previous state
+    await this.prisma.order.delete({
+      where: { id: cmd.id },
+    });
+  }
+
+  private toRdsModel(cmd: CommandModel) {
+    return {
+      id: cmd.id,
+      code: cmd.code,
+      name: cmd.name,
+      ...cmd.attributes,
+    };
   }
 }
 ```
@@ -318,26 +329,26 @@ export class OrderRdsSyncHandler implements IDataSyncHandler {
 
 ```ts
 export interface EmailNotification {
-  fromAddr?: string     // Sender address (uses default if not specified)
-  toAddrs: string[]     // Required: Recipient addresses
-  ccAddrs?: string[]    // CC addresses
-  bccAddrs?: string[]   // BCC addresses
-  subject: string       // Required: Email subject
-  body: string          // Required: HTML body content
-  replyTo?: string      // Reply-to address
-  attachments?: EmailAttachment[]  // File attachments
+  fromAddr?: string       // Sender address (uses default if not specified)
+  toAddrs: string[]       // Required: Recipient addresses
+  ccAddrs?: string[]      // CC addresses
+  bccAddrs?: string[]     // BCC addresses
+  subject: string         // Required: Email subject
+  body: string            // Required: HTML body content
+  replyToAddrs?: string[] // Reply-to addresses
+  attachments?: Attachment[]  // File attachments
 }
 
-export interface EmailAttachment {
+export interface Attachment {
   filename: string      // Attachment filename
-  content: Buffer | string  // File content
-  contentType: string   // MIME type
+  content: Buffer       // File content as Buffer
+  contentType?: string  // MIME type (e.g., 'application/pdf')
 }
 ```
 
 **{{Usage Example}}**:
 ```typescript
-await emailService.send({
+await emailService.sendEmail({
   toAddrs: ['user@example.com'],
   subject: 'Order Confirmation',
   body: `<h1>Order Confirmed</h1><p>Your order ${orderCode} has been confirmed.</p>`,
@@ -352,9 +363,10 @@ await emailService.send({
 
 ```ts
 export interface CommandModuleOptions {
-  tableName: string                      // DynamoDB table name
-  dataSyncHandlers?: Type<IDataSyncHandler>[]  // Sync handlers
-  skipPublish?: boolean                  // Skip event publishing
+  tableName: string                           // DynamoDB table name
+  dataSyncHandlers?: Type<IDataSyncHandler>[] // Custom sync handlers
+  skipError?: boolean                         // Skip errors from previous command versions
+  disableDefaultHandler?: boolean             // Disable the default data sync handler
 }
 ```
 
@@ -365,20 +377,20 @@ export interface CommandModuleOptions {
     CommandModule.register({
       tableName: 'order',
       dataSyncHandlers: [OrderRdsSyncHandler],
+      disableDefaultHandler: false,
     }),
   ],
 })
 export class OrderModule {}
 ```
 
-### SequenceModuleOptions
+### SequencesModuleOptions
 
 {{Configuration options for SequenceModule.}}
 
 ```ts
-export interface SequenceModuleOptions {
-  tableName?: string    // Table name (default: 'sequence')
-  rotateBy?: 'day' | 'month' | 'year' | 'none'  // Rotation strategy
+export interface SequencesModuleOptions {
+  enableController?: boolean  // Enable or disable default sequence controller
 }
 ```
 

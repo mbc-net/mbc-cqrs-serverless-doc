@@ -49,17 +49,24 @@ npm install @mbc-cqrs-serverless/master
 
 ## Basic Usage
 
-The solution for customizing the behavior of the `MasterModule` is to pass it an options `object` in the static `register()` method. The options object is only contain one property:
+The solution for customizing the behavior of the `MasterModule` is to pass it an options `object` in the static `register()` method.
 
-- `enableController`: enable or disable default master controller.
+### Module Options
 
+| Option | Type | Description |
+|--------|------|-------------|
+| `enableController` | `boolean` | Enable or disable default master controller |
+| `dataSyncHandlers` | `Type<IDataSyncHandler>[]` | Optional handlers to sync master data to external systems (e.g., RDS) |
+| `prismaService` | `Type<any>` | Optional Prisma service for RDS-backed queries |
 
-```ts 
+```ts
 import { MasterModule } from '@mbc-cqrs-serverless/master'
 
 @Module({
   imports: [ MasterModule.register({
       enableController: true,
+      dataSyncHandlers: [MasterDataRdsSyncHandler],
+      prismaService: PrismaService,
     })],
   controllers: [],
   exports: [],
