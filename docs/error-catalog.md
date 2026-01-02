@@ -172,7 +172,7 @@ try {
 **{{Solution}}**:
 ```typescript
 // Verify task status before operations
-const task = await taskService.getTask(taskId);
+const task = await taskService.getTask({ pk, sk });
 if (!task) {
   throw new NotFoundException('Task not found');
 }
