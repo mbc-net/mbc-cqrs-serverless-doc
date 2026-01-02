@@ -82,7 +82,7 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
   constructor(private readonly prismaService: PrismaService) {}
 
   async up(cmd: CommandModel): Promise<any> {
-    // Remove version suffix from sort key (e.g., "PROD001#v1" -> "PROD001")
+    // Remove version suffix from sort key (e.g., "PROD001@1" -> "PROD001")
     const sk = removeSortKeyVersion(cmd.sk);
     const attrs = cmd.attributes as ProductAttributes;
 
@@ -670,7 +670,7 @@ export class OrderModule {}
 Use `removeSortKeyVersion()` to get a consistent SK for RDS storage:
 
 ```ts
-const sk = removeSortKeyVersion(cmd.sk); // "ORDER001#v3" -> "ORDER001"
+const sk = removeSortKeyVersion(cmd.sk); // "ORDER001@3" -> "ORDER001"
 ```
 
 ### 2. Handle undefined isDeleted

@@ -31,7 +31,7 @@ description: {{Learn about partition key (PK) and sort key (SK) design patterns 
 
 ```
 PK = PREFIX#TENANT_CODE
-SK = IDENTIFIER[#VERSION]
+SK = IDENTIFIER[@VERSION]
 ID = PK#SK (without version)
 ```
 
@@ -75,7 +75,7 @@ const id = generateId(pk, sk);
 ```ts
 // Add version to SK
 const skWithVersion = addSortKeyVersion(sk, 3);
-// Result: "01HX7MBJK3V9WQBZ7XNDK5ZT2M#v3"
+// Result: "01HX7MBJK3V9WQBZ7XNDK5ZT2M@3"
 
 // Remove version from SK
 const baseSk = removeSortKeyVersion(skWithVersion);
@@ -346,18 +346,16 @@ export function generateEntityId(
 
 ```ts
 // DynamoDB Tables
-// Command table: Stores all versions
-// Data table: Stores latest version only
-// History table: Stores all versions with @ suffix
+// Command table: Stores all versions with @version suffix
+// Data table: Stores latest version only (no version suffix)
 
-// Version in SK
-SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M#v1  // Version 1
-SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M#v2  // Version 2
-SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M#v3  // Version 3
+// Version in SK (Command table)
+SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M@1  // Version 1
+SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M@2  // Version 2
+SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M@3  // Version 3
 
-// History table SK (uses @ instead of #)
-SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M@v1
-SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M@v2
+// Data table SK (no version suffix)
+SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M
 ```
 
 ```ts
