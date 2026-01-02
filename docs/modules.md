@@ -89,7 +89,7 @@ export class CatModule {}
 | {{Module}} | {{Package}} | {{Purpose}} |
 |--------|---------|---------|
 | `NotificationModule` | `@mbc-cqrs-serverless/core` | {{Email notifications via SES}} |
-| `UISettingModule` | `@mbc-cqrs-serverless/core` | {{User interface settings storage}} |
+| `SettingModule` | `@mbc-cqrs-serverless/ui-setting` | {{User interface settings storage}} |
 
 ## {{Dynamic Module Registration}}
 
@@ -117,7 +117,7 @@ CommandModule.register({
 
 ```typescript
 SequenceModule.register({
-  tableName: 'sequences',
+  enableController: true,
 })
 ```
 
@@ -150,7 +150,7 @@ import { OrderDataSyncHandler } from './handlers/order-data-sync.handler';
       dataSyncHandlers: [OrderDataSyncHandler],
     }),
     SequenceModule.register({
-      tableName: 'sequences',
+      enableController: false,
     }),
   ],
   controllers: [OrderController],

@@ -79,28 +79,24 @@ return new CatDataListEntity(res as CatDataListEntity);
 
 #### {{Pagination}}
 
-{{Implement pagination using `exclusiveStartKey` and `limit`:}}
+{{Implement pagination using `startFromSk` and `limit`:}}
 
 ```ts
 async listCatsWithPagination(
   tenantCode: string,
   pageSize: number,
-  nextToken?: string
-): Promise<{ items: CatDataEntity[]; nextToken?: string }> {
+  lastSk?: string
+): Promise<{ items: CatDataEntity[]; lastSk?: string }> {
   const pk = `${tenantCode}#CAT`;
 
   const result = await this.dataService.listItemsByPk(pk, {
     limit: pageSize,
-    exclusiveStartKey: nextToken
-      ? JSON.parse(Buffer.from(nextToken, 'base64').toString())
-      : undefined,
+    startFromSk: lastSk,
   });
 
   return {
     items: result.items.map(item => new CatDataEntity(item)),
-    nextToken: result.lastEvaluatedKey
-      ? Buffer.from(JSON.stringify(result.lastEvaluatedKey)).toString('base64')
-      : undefined,
+    lastSk: result.lastSk,
   };
 }
 ```
@@ -217,6 +213,16 @@ interface ListItemsOptions {
   startFromSk?: string;
   limit?: number;
   order?: 'asc' | 'desc';
+}
+```
+
+### {{ListItemsResponse}}
+
+```ts
+interface ListItemsResponse {
+  items: DataEntity[];
+  lastSk?: string;  // Sort key for pagination cursor
+  total?: number;   // Total count (if available)
 }
 ```
 
