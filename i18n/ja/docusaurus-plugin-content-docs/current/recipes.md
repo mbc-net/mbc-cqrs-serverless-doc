@@ -1,23 +1,23 @@
 ---
-description: Practical examples and implementation guides for common use cases in MBC CQRS Serverless framework.
+description: MBC CQRS Serverlessフレームワークでの一般的なユースケースの実践例と実装ガイド。
 ---
 
-# Examples
+# サンプル
 
-This section provides practical examples and implementation guides for common use cases. Each example demonstrates real-world scenarios with complete, production-ready code.
+このセクションでは、一般的なユースケースの実践例と実装ガイドを提供します。各サンプルは、本番環境対応の完全なコードで実際のシナリオを示しています。
 
-## Available Examples
+## 利用可能なサンプル
 
-| Example | Description | Key Concepts |
+| サンプル | 説明 | 主要な概念 |
 |-------------|-----------------|------------------|
-| Directory | Organization hierarchy and user management | Nested structures, relationships, search |
-| Survey Template | Dynamic form builder with validation | Schema design, versioning, complex attributes |
+| ディレクトリ | 組織階層とユーザー管理 | ネスト構造、リレーション、検索 |
+| アンケートテンプレート | バリデーション付き動的フォームビルダー | スキーマ設計、バージョニング、複雑な属性 |
 
-## Implementation Patterns
+## 実装パターン
 
-Each example follows consistent patterns:
+各サンプルは一貫したパターンに従っています:
 
-### 1. Entity Design
+### 1. エンティティ設計
 
 ```typescript
 // Define your entity with proper key structure
@@ -32,7 +32,7 @@ export class OrderEntity extends BaseEntity {
 }
 ```
 
-### 2. Command Pattern
+### 2. コマンドパターン
 
 ```typescript
 // Create commands for state changes
@@ -56,7 +56,7 @@ async createOrder(dto: CreateOrderDto, context: IInvoke) {
 }
 ```
 
-### 3. Query Pattern
+### 3. クエリパターン
 
 ```typescript
 // Query data with proper filtering
@@ -71,7 +71,7 @@ async listOrders(tenantCode: string, options: ListOptions) {
 }
 ```
 
-### 4. Event Handler
+### 4. イベントハンドラー
 
 ```typescript
 // Handle data sync events
@@ -84,15 +84,15 @@ export class OrderDataSyncHandler implements IEventHandler<OrderDataSyncEvent> {
 }
 ```
 
-## Best Practices
+## ベストプラクティス
 
-### Key Design
+### キー設計
 
-- Use consistent prefix patterns: `TENANT#code`, `ORDER#id`
-- Keep partition keys broad enough for even distribution
-- Use sort keys for hierarchical data
+- 一貫したプレフィックスパターンを使用: `TENANT#code`、`ORDER#id`
+- パーティションキーは均等に分散されるよう十分に広く保つ
+- 階層データにはソートキーを使用
 
-### Error Handling
+### エラーハンドリング
 
 ```typescript
 try {
@@ -106,7 +106,7 @@ try {
 }
 ```
 
-### Testing
+### テスト
 
 ```typescript
 describe('OrderService', () => {
@@ -117,7 +117,7 @@ describe('OrderService', () => {
 });
 ```
 
-## Explore Examples
+## サンプルを探索
 
 ```mdx-code-block
 import DocCardList from '@theme/DocCardList';

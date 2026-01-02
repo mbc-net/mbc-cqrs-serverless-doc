@@ -1,36 +1,36 @@
 ---
-description: Learn how to use NotificationModule for email notifications in MBC CQRS Serverless.
+description: MBC CQRS ServerlessでNotificationModuleを使用したメール通知の方法を学びます。
 ---
 
 # NotificationModule
 
-## Overview
+## 概要
 
-The `NotificationModule` provides email notification capabilities using Amazon SES. It's designed for easy integration with minimal configuration.
+`NotificationModule`はAmazon SESを使用したメール通知機能を提供します。最小限の設定で簡単に統合できるように設計されています。
 
 ```mermaid
 graph LR
-    subgraph "Application"
-        A["Your Service"] --> B["EmailService"]
+    subgraph "アプリケーション"
+        A["あなたのサービス"] --> B["EmailService"]
     end
 
     subgraph "AWS"
         B --> C["Amazon SES"]
-        C --> D["Email Recipients"]
+        C --> D["メール受信者"]
     end
 ```
 
-## Features
+## 機能
 
-- Automatic AWS SES integration
-- HTML email support
-- File attachments
-- CC/BCC recipients
-- Global scope registration
+- AWS SESの自動統合
+- HTMLメールサポート
+- ファイル添付
+- CC/BCC受信者
+- グローバルスコープ登録
 
-## Configuration
+## 設定
 
-Set the following environment variables:
+以下の環境変数を設定してください:
 
 ```bash
 # Required
@@ -41,9 +41,9 @@ SES_ENDPOINT=
 SES_REGION=ap-northeast-1
 ```
 
-## Module Registration
+## モジュール登録
 
-The `NotificationModule` is registered globally, so the `EmailService` is available for injection anywhere in your application:
+`NotificationModule`はグローバルに登録されるため、`EmailService`はアプリケーション内のどこからでも注入可能です:
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -55,9 +55,9 @@ import { NotificationModule } from '@mbc-cqrs-serverless/core';
 export class AppModule {}
 ```
 
-## Basic Usage
+## 基本的な使い方
 
-Inject and use the `EmailService` in any service:
+任意のサービスで`EmailService`を注入して使用します:
 
 ```typescript
 import { Injectable } from '@nestjs/common';
@@ -81,17 +81,17 @@ export class OrderService {
 }
 ```
 
-## AWS SES Setup
+## AWS SESのセットアップ
 
-### Production Setup
+### 本番環境のセットアップ
 
-1. **Verify your domain**: Add DNS records for domain verification
-2. **Request production access**: Move out of sandbox mode
-3. **Set up IAM permissions**: Ensure Lambda has SES send permissions
+1. **ドメインを検証する**: ドメイン検証用のDNSレコードを追加
+2. **本番アクセスを申請する**: サンドボックスモードから移行
+3. **IAM権限を設定する**: LambdaにSES送信権限があることを確認
 
-### IAM Policy
+### IAMポリシー
 
-Required IAM permissions for sending emails:
+メール送信に必要なIAM権限:
 
 ```json
 {
@@ -109,9 +109,9 @@ Required IAM permissions for sending emails:
 }
 ```
 
-### Local Development
+### ローカル開発
 
-For local development, you can use LocalStack or email testing services:
+ローカル開発では、LocalStackまたはメールテストサービスを使用できます:
 
 ```bash
 # Using LocalStack
@@ -119,11 +119,11 @@ SES_ENDPOINT=http://localhost:4566
 SES_REGION=ap-northeast-1
 ```
 
-## Common Patterns
+## 一般的なパターン
 
-### Email Templates
+### メールテンプレート
 
-Create reusable email templates:
+再利用可能なメールテンプレートを作成:
 
 ```typescript
 @Injectable()
@@ -145,7 +145,7 @@ export class EmailTemplateService {
 }
 ```
 
-### Error Handling
+### エラーハンドリング
 
 ```typescript
 async sendNotification(email: string, content: EmailContent): Promise<boolean> {
@@ -164,7 +164,7 @@ async sendNotification(email: string, content: EmailContent): Promise<boolean> {
 }
 ```
 
-## Related Documentation
+## 関連ドキュメント
 
-- [EmailService API](./email-service.md): Detailed API reference with all options
-- [Environment Variables](./environment-variables.md): Configuration options
+- [EmailService API](./email-service.md): すべてのオプションを含む詳細なAPIリファレンス
+- [Environment Variables](./environment-variables.md): 設定オプション
