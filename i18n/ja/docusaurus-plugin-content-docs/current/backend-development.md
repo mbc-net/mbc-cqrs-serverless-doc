@@ -381,13 +381,13 @@ export class ProductService {
   async resyncData(): Promise<void> {
     this.logger.log('Starting data resync...');
 
-    let lastEvaluatedKey: any = undefined;
+    let lastSk: string | undefined = undefined;
     let processedCount = 0;
 
     do {
-      const result = await this.dataService.scan({
+      const result = await this.dataService.listItemsByPk(this.pk, {
         limit: 100,
-        exclusiveStartKey: lastEvaluatedKey,
+        startFromSk: lastSk,
       });
 
       for (const item of result.items) {
@@ -399,8 +399,8 @@ export class ProductService {
         processedCount++;
       }
 
-      lastEvaluatedKey = result.lastEvaluatedKey;
-    } while (lastEvaluatedKey);
+      lastSk = result.lastSk;
+    } while (lastSk);
 
     this.logger.log(`Resync completed. Processed ${processedCount} items.`);
   }
