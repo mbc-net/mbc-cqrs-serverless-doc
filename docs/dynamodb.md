@@ -78,7 +78,7 @@ npm run migrate
 
 | {{Key}} | {{Format}} | {{Example}} |
 |-----|--------|---------|
-| `pk` | `TENANT#tenantCode` or `tenantCode#TYPE` | `ACME#ORDER` |
+| `pk` | `TYPE#tenantCode` | `ORDER#ACME` |
 | `sk` | `TYPE#code` | `ORDER#ORD-000001` |
 
 ### {{Entity Key Examples}}
@@ -86,19 +86,19 @@ npm run migrate
 ```typescript
 // Order entity
 const orderKey = {
-  pk: `${tenantCode}#ORDER`,
+  pk: `ORDER#${tenantCode}`,
   sk: `ORDER#${orderId}`,
 };
 
 // User entity
 const userKey = {
-  pk: `${tenantCode}#USER`,
+  pk: `USER#${tenantCode}`,
   sk: `USER#${userId}`,
 };
 
 // Hierarchical data (e.g., organization)
 const departmentKey = {
-  pk: `${tenantCode}#ORG`,
+  pk: `ORG#${tenantCode}`,
   sk: `DEPT#${parentId}#${deptId}`,
 };
 ```
@@ -142,19 +142,31 @@ const departmentKey = {
 
 ## {{Secondary Indexes}}
 
-### {{Global Secondary Index: code-index}}
+### {{Adding Global Secondary Indexes}}
 
-{{Used for fast lookups by code:}}
+{{The default table configuration does not include GSIs. You can add them based on your query patterns. A common pattern is adding a code-index for fast lookups by business code:}}
 
-| {{Key}} | {{Attribute}} |
-|-----|-----------|
-| {{Partition Key}} | `tenantCode` |
-| {{Sort Key}} | `code` |
+{{Example GSI definition (add to your table configuration):}}
 
-{{Example usage:}}
+```json
+{
+  "GlobalSecondaryIndexes": [
+    {
+      "IndexName": "code-index",
+      "KeySchema": [
+        { "AttributeName": "tenantCode", "KeyType": "HASH" },
+        { "AttributeName": "code", "KeyType": "RANGE" }
+      ],
+      "Projection": { "ProjectionType": "ALL" }
+    }
+  ]
+}
+```
+
+{{Example usage with custom GSI:}}
 
 ```typescript
-// Find entity by code
+// Find entity by code (requires code-index GSI)
 const params = {
   TableName: 'entity-data',
   IndexName: 'code-index',

@@ -78,7 +78,7 @@ All tables use a composite primary key consisting of:
 
 | Key | Format | Example |
 |-----|--------|---------|
-| `pk` | `TENANT#tenantCode` or `tenantCode#TYPE` | `ACME#ORDER` |
+| `pk` | `TYPE#tenantCode` | `ORDER#ACME` |
 | `sk` | `TYPE#code` | `ORDER#ORD-000001` |
 
 ### Entity Key Examples
@@ -86,19 +86,19 @@ All tables use a composite primary key consisting of:
 ```typescript
 // Order entity
 const orderKey = {
-  pk: `${tenantCode}#ORDER`,
+  pk: `ORDER#${tenantCode}`,
   sk: `ORDER#${orderId}`,
 };
 
 // User entity
 const userKey = {
-  pk: `${tenantCode}#USER`,
+  pk: `USER#${tenantCode}`,
   sk: `USER#${userId}`,
 };
 
 // Hierarchical data (e.g., organization)
 const departmentKey = {
-  pk: `${tenantCode}#ORG`,
+  pk: `ORG#${tenantCode}`,
   sk: `DEPT#${parentId}#${deptId}`,
 };
 ```
@@ -140,21 +140,33 @@ All entity tables share these common attributes:
 |-----------|------|-------------|
 | `seq` | Number | Sequence number in history |
 
-## Secondary Indexes
+## セカンダリインデックス
 
-### Global Secondary Index: code-index
+### グローバルセカンダリインデックスの追加
 
-Used for fast lookups by code:
+デフォルトのテーブル設定にはGSIが含まれていません。クエリパターンに基づいてGSIを追加できます。一般的なパターンとして、ビジネスコードによる高速検索のためのcode-indexを追加する方法があります：
 
-| Key | Attribute |
-|-----|-----------|
-| Partition Key | `tenantCode` |
-| Sort Key | `code` |
+GSI定義の例（テーブル設定に追加）：
 
-Example usage:
+```json
+{
+  "GlobalSecondaryIndexes": [
+    {
+      "IndexName": "code-index",
+      "KeySchema": [
+        { "AttributeName": "tenantCode", "KeyType": "HASH" },
+        { "AttributeName": "code", "KeyType": "RANGE" }
+      ],
+      "Projection": { "ProjectionType": "ALL" }
+    }
+  ]
+}
+```
+
+カスタムGSIの使用例：
 
 ```typescript
-// Find entity by code
+// Find entity by code (requires code-index GSI)
 const params = {
   TableName: 'entity-data',
   IndexName: 'code-index',

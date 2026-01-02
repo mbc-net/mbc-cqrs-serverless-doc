@@ -42,10 +42,10 @@ version    Int // バージョン
 isDeleted  Boolean  @default(false) @map("is_deleted") // 削除フラグ
 createdBy  String   @default("") @map("created_by") // 作成者
 createdIp  String   @default("") @map("created_ip") // 作成IP, IPv6も考慮する
-createdAt  DateTime @default(dbgenerated("CURRENT_TIMESTAMP(0)")) @map("created_at") @db.Timestamp(0) // 作成日時
+createdAt  DateTime @default(now()) @map("created_at") @db.Timestamp(0) // 作成日時
 updatedBy  String   @default("") @map("updated_by") // 更新者
 updatedIp  String   @default("") @map("updated_ip") // 更新IP, IPv6も考慮する
-updatedAt  DateTime @default(dbgenerated("CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0)")) @map("updated_at") @db.Timestamp(0) // 更新日時
+updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamp(0) // 更新日時
 
 // properties
 
@@ -54,4 +54,6 @@ updatedAt  DateTime @default(dbgenerated("CURRENT_TIMESTAMP(0) ON UPDATE CURRENT
 // index
 @@unique([cpk, csk])
 @@unique([pk, sk])
+@@unique([tenantCode, code])
+@@index([tenantCode, name])
 ```
