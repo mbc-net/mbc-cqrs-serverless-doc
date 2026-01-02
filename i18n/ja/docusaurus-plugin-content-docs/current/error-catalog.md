@@ -145,12 +145,16 @@ if (existing) {
 
 **解決策**:
 ```typescript
-// Initialize sequence if not exists
-const seqKey = `ORDER#${tenantCode}`;
+// Generate sequence - auto-initializes on first use
 try {
-  const nextSeq = await sequenceService.getNextSequence(seqKey);
+  const result = await sequencesService.generateSequenceItem(
+    {
+      tenantCode,
+      typeCode: 'ORDER',
+    },
+    { invokeContext },
+  );
 } catch (error) {
-  // Sequence auto-initializes on first use
   // If error persists, check DynamoDB table permissions
 }
 ```

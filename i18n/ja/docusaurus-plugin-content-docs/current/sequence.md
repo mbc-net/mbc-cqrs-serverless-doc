@@ -74,9 +74,9 @@ import { SeqController } from "./seq.controller";
 export class SeqModule {}
 ```
 
-コントローラーのほかに、`SequenceService` を直接使用してサービスを注入することでシーケンスを生成できます。
+コントローラーのほかに、`SequencesService` を直接使用してサービスを注入することでシーケンスを生成できます。
 
-`SequenceService` には3つのパブリックメソッドがあります:
+`SequencesService` には3つのパブリックメソッドがあります:
 
 ### *async* `generateSequenceItem( dto: GenerateFormattedSequenceDto, options: {invokeContext:IInvoke}):  Promise<SequenceEntity>`
 
@@ -219,7 +219,7 @@ GenerateFormattedSequenceDto オブジェクトで提供されたパラメータ
 例：
 
 ```ts
-const result = await this.sequenceService.generateSequenceItemWithProvideSetting(
+const result = await this.sequencesService.generateSequenceItemWithProvideSetting(
   {
     tenantCode: 'tenant001',
     typeCode: 'INVOICE',

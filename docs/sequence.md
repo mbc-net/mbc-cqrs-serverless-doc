@@ -74,9 +74,9 @@ import { SeqController } from "./seq.controller";
 export class SeqModule {}
 ```
 
-{{Beside controller, we can directly use `SequenceService` to generating sequence by injecting service.}}
+{{Beside controller, we can directly use `SequencesService` to generating sequence by injecting service.}}
 
-{{The `SequenceService` have three public methods:}}
+{{The `SequencesService` have three public methods:}}
 
 ### {{*async* `generateSequenceItem( dto: GenerateFormattedSequenceDto, options: {invokeContext:IInvoke}):  Promise<SequenceEntity>`}}
 
@@ -219,7 +219,7 @@ export class SeqModule {}
 {{Example:}}
 
 ```ts
-const result = await this.sequenceService.generateSequenceItemWithProvideSetting(
+const result = await this.sequencesService.generateSequenceItemWithProvideSetting(
   {
     tenantCode: 'tenant001',
     typeCode: 'INVOICE',
