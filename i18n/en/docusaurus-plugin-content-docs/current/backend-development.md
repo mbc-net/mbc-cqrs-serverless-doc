@@ -16,18 +16,18 @@ Every domain module follows this consistent structure:
 ```
 src/[domain]/
 ├── dto/
-│   ├── [domain]-command.dto.ts        # Command input validation
-│   ├── [domain]-attributes.dto.ts     # Domain-specific attributes
-│   └── [domain]-search.dto.ts         # Search parameters
+│   ├── [domain]-command.dto.ts        # Command input validation / コマンド入力バリデーション
+│   ├── [domain]-attributes.dto.ts     # Domain-specific attributes / ドメイン固有の属性
+│   └── [domain]-search.dto.ts         # Search parameters / 検索パラメータ
 ├── entity/
-│   ├── [domain]-command.entity.ts     # Command entity
-│   ├── [domain]-data.entity.ts        # Data entity
-│   └── [domain]-data-list.entity.ts   # List wrapper
+│   ├── [domain]-command.entity.ts     # Command entity / コマンドエンティティ
+│   ├── [domain]-data.entity.ts        # Data entity / データエンティティ
+│   └── [domain]-data-list.entity.ts   # List wrapper / リストラッパー
 ├── handler/
-│   └── [domain]-rds.handler.ts        # RDS sync handler
-├── [domain].service.ts                # Business logic
-├── [domain].controller.ts             # HTTP handlers
-└── [domain].module.ts                 # Module definition
+│   └── [domain]-rds.handler.ts        # RDS sync handler / RDS同期ハンドラー
+├── [domain].service.ts                # Business logic / ビジネスロジック
+├── [domain].controller.ts             # HTTP handlers / HTTPハンドラー
+└── [domain].module.ts                 # Module definition / モジュール定義
 ```
 
 ### Module Registration
@@ -160,6 +160,7 @@ export class ProductController {
 
   /**
    * Create or update a product
+   * 商品を作成または更新
    */
   @Post('/')
   async publishCommand(
@@ -171,6 +172,7 @@ export class ProductController {
 
   /**
    * Bulk create/update products
+   * 商品を一括作成/更新
    */
   @Post('/bulk')
   async publishBulkCommands(
@@ -182,6 +184,7 @@ export class ProductController {
 
   /**
    * Get product by PK and SK
+   * PKとSKで商品を取得
    */
   @Get('data/:pk/:sk')
   async getData(
@@ -193,6 +196,7 @@ export class ProductController {
 
   /**
    * List products by PK
+   * PKで商品一覧を取得
    */
   @Get('data/:pk')
   async listDataByPk(
@@ -204,6 +208,7 @@ export class ProductController {
 
   /**
    * Search products
+   * 商品を検索
    */
   @Get('data')
   async searchData(
@@ -214,6 +219,7 @@ export class ProductController {
 
   /**
    * Resync all data to RDS
+   * 全データをRDSに再同期
    */
   @Put('resync-data')
   async resyncData(): Promise<void> {
@@ -260,6 +266,7 @@ export class ProductService {
 
   /**
    * Create or update a product command
+   * 商品コマンドを作成または更新
    */
   async publishCommand(
     cmdDto: ProductCommandDto,
@@ -267,7 +274,7 @@ export class ProductService {
   ): Promise<ProductDataEntity> {
     const { tenantCode } = getCustomUserContext(invokeContext);
 
-    // Generate keys if not provided
+    // Generate keys if not provided / キーが未指定の場合は生成
     if (!cmdDto.pk) {
       cmdDto.pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
     }
@@ -278,7 +285,7 @@ export class ProductService {
       cmdDto.id = generateId(cmdDto.pk, cmdDto.sk);
     }
 
-    // Set tenant context
+    // Set tenant context / テナントコンテキストを設定
     cmdDto.tenantCode = tenantCode;
 
     const opts = {
@@ -296,6 +303,7 @@ export class ProductService {
 
   /**
    * Bulk publish commands with batch processing
+   * バッチ処理でコマンドを一括発行
    */
   async publishBulkCommands(
     cmdDtos: ProductCommandDto[],
@@ -317,6 +325,7 @@ export class ProductService {
 
   /**
    * Get product data by key
+   * キーで商品データを取得
    */
   async getData(pk: string, sk: string): Promise<ProductDataEntity> {
     return this.dataService.getItem({ pk, sk }) as Promise<ProductDataEntity>;
@@ -324,6 +333,7 @@ export class ProductService {
 
   /**
    * List products by partition key
+   * パーティションキーで商品一覧を取得
    */
   async listDataByPk(pk: string, searchDto: any): Promise<ProductDataListEntity> {
     const result = await this.dataService.listItemsByPk(pk, searchDto);
@@ -332,6 +342,7 @@ export class ProductService {
 
   /**
    * Search products with pagination
+   * ページネーション付きで商品を検索
    */
   async searchData(searchDto: any): Promise<ProductDataListEntity> {
     const { page = 1, pageSize = 20, keyword, orderBys } = searchDto;
@@ -365,6 +376,7 @@ export class ProductService {
 
   /**
    * Resync all data from DynamoDB to RDS
+   * DynamoDBからRDSへ全データを再同期
    */
   async resyncData(): Promise<void> {
     this.logger.log('Starting data resync...');
@@ -438,9 +450,10 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
 
   /**
    * Sync command to RDS (upsert)
+   * コマンドをRDSに同期（upsert）
    */
   async up(cmd: CommandModel): Promise<any> {
-    // Remove version suffix from SK
+    // Remove version suffix from SK / SKからバージョンサフィックスを削除
     const sk = removeSortKeyVersion(cmd.sk);
     const attrs = cmd.attributes as ProductAttributes;
 
@@ -455,12 +468,12 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
           version: cmd.version,
           tenantCode: cmd.tenantCode,
           isDeleted: cmd.isDeleted ?? false,
-          // Map attributes to columns
+          // Map attributes to columns / 属性をカラムにマッピング
           category: attrs?.category,
           price: attrs?.price,
           description: attrs?.description,
           specification: attrs?.specification,
-          // Audit fields
+          // Audit fields / 監査フィールド
           createdAt: cmd.createdAt,
           createdBy: cmd.createdBy ?? '',
           createdIp: cmd.createdIp ?? '',
@@ -501,9 +514,10 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
 
   /**
    * Handle rollback or delete
+   * ロールバックまたは削除を処理
    */
   async down(cmd: CommandModel): Promise<any> {
-    // Soft delete implementation
+    // Soft delete implementation / ソフトデリート実装
     await this.prismaService.product.update({
       where: { id: cmd.id },
       data: { isDeleted: true },
@@ -521,27 +535,27 @@ Define your Prisma model with CQRS fields:
 ```prisma
 // prisma/schema.prisma
 model Product {
-  // CQRS composite keys
+  // CQRS composite keys / CQRS複合キー
   id     String @id            // PK#SK without version
   cpk    String                // Command PK
   csk    String                // Command SK with version
   pk     String                // Data PK
   sk     String                // Data SK without version
 
-  // Domain fields
+  // Domain fields / ドメインフィールド
   code   String
   name   String
 
-  // Domain-specific
+  // Domain-specific / ドメイン固有
   category     String?
   price        Decimal?
   description  String?
   specification Json?
 
-  // Multi-tenant
+  // Multi-tenant / マルチテナント
   tenantCode String
 
-  // Audit fields
+  // Audit fields / 監査フィールド
   version   Int
   isDeleted Boolean  @default(false)
   createdBy String   @default("")
@@ -551,7 +565,7 @@ model Product {
   updatedIp String   @default("")
   updatedAt DateTime
 
-  // Indexes
+  // Indexes / インデックス
   @@unique([cpk, csk])
   @@unique([pk, sk])
   @@unique([tenantCode, code])
@@ -569,9 +583,9 @@ Always track the source of operations for debugging:
 ```typescript
 const opts = {
   source: getCommandSource(
-    basename(__dirname),      // Module name
-    this.constructor.name,    // Class name
-    'methodName',             // Method name
+    basename(__dirname),      // Module name / モジュール名
+    this.constructor.name,    // Class name / クラス名
+    'methodName',             // Method name / メソッド名
   ),
   invokeContext,
 };
@@ -609,7 +623,7 @@ try {
 } catch (error) {
   this.logger.error(`Failed to process item ${item.id}:`, error);
 
-  // Send alarm for critical errors
+  // Send alarm for critical errors / 重大エラーの場合はアラームを送信
   if (this.isCriticalError(error)) {
     await this.snsService.publish({
       topicArn: this.alarmTopicArn,
@@ -665,8 +679,8 @@ async searchWithPagination(
 
 ## Related Documentation
 
-- [Service Patterns](./service-patterns.md) - Advanced service implementation patterns
-- [Data Sync Handler Examples](./data-sync-handler-examples.md) - Comprehensive sync handler examples
-- [Key Patterns](./key-patterns.md) - PK/SK design patterns
-- [Multi-Tenant Patterns](./multi-tenant-patterns.md) - Multi-tenant implementation
-- [Import/Export Patterns](./import-export-patterns.md) - Batch data processing
+- [Service Patterns](./service-patterns.md) - Advanced service implementation patterns / 高度なサービス実装パターン
+- [Data Sync Handler Examples](./data-sync-handler-examples.md) - Comprehensive sync handler examples / 包括的な同期ハンドラー例
+- [Key Patterns](./key-patterns.md) - PK/SK design patterns / PK/SK設計パターン
+- [Multi-Tenant Patterns](./multi-tenant-patterns.md) - Multi-tenant implementation / マルチテナント実装
+- [Import/Export Patterns](./import-export-patterns.md) - Batch data processing / バッチデータ処理

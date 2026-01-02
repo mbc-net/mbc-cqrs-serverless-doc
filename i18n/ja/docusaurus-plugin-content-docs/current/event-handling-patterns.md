@@ -1,39 +1,39 @@
 ---
 sidebar_position: 18
-description: MBC CQRS ServerlessでのS3、Step Functions、SQS、DynamoDBストリームからのイベント処理パターンを学びます。
+description: MBC CQRS ServerlessでS3、Step Functions、SQS、DynamoDBストリームからのイベントを処理するパターンを学びます。
 ---
 
 # イベント処理パターン
 
-このガイドでは、S3、Step Functions、SQS、DynamoDBストリームを含む様々なAWSイベントソースを使用したイベント駆動アーキテクチャの実装パターンを説明します。
+このガイドでは、S3、Step Functions、SQS、DynamoDBストリームを含む様々なAWSイベントソースを使用したイベント駆動アーキテクチャの実装パターンについて説明します。
 
-## このガイドの使用タイミング
+## このガイドを使用するタイミング
 
-以下が必要な場合にこのガイドを使用してください：
+以下の場合にこのガイドを使用してください：
 
-- S3からのファイルアップロード処理
-- Step Functionsによるワークフローオーケストレーション
-- SQSからの非同期メッセージ処理
-- DynamoDBストリーム経由でのデータ変更への反応
-- エラーハンドリングとリトライロジックの実装
-- 通知とアラームの送信
+- S3からのファイルアップロードを処理する
+- Step Functionsでワークフローを調整する
+- SQSからの非同期メッセージを処理する
+- DynamoDBストリームを介したデータ変更に対応する
+- エラーハンドリングとリトライロジックを実装する
+- 通知とアラームを送信する
 
-## イベントアーキテクチャ概要
+## イベントアーキテクチャの概要
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│     S3      │────>│             │     │  イベント    │
-│   イベント   │     │             │────>│ ハンドラー1  │
+│     S3      │────>│             │     │   Event     │
+│   Events    │     │             │────>│  Handler 1  │
 └─────────────┘     │             │     └─────────────┘
                     │             │
-┌─────────────┐     │  イベント    │     ┌─────────────┐
-│    Step     │────>│ファクトリー  │────>│  イベント    │
-│  Functions  │     │             │     │ ハンドラー2  │
+┌─────────────┐     │    Event    │     ┌─────────────┐
+│    Step     │────>│   Factory   │────>│   Event     │
+│  Functions  │     │             │     │  Handler 2  │
 └─────────────┘     │             │     └─────────────┘
                     │             │
 ┌─────────────┐     │             │     ┌─────────────┐
-│     SQS     │────>│             │────>│  イベント    │
-│   イベント   │     │             │     │ ハンドラー3  │
+│     SQS     │────>│             │────>│   Event     │
+│   Events    │     │             │     │  Handler 3  │
 └─────────────┘     └─────────────┘     └─────────────┘
 ```
 
@@ -54,7 +54,7 @@ import {
 import { S3Event } from 'aws-lambda';
 import { StepFunctionsEvent, SQSEvent, DynamoDBStreamEvent } from './types';
 
-// イベントクラスをインポート
+// Import event classes
 import { CsvImportEvent } from './csv-import/event/csv-import.event';
 import { FileProcessEvent } from './file/event/file-process.event';
 import { OrderCreatedEvent } from './order/event/order-created.event';
@@ -63,6 +63,7 @@ import { OrderCreatedEvent } from './order/event/order-created.event';
 @Injectable()
 export class CustomEventFactory extends EventFactoryBase {
   /**
+   * Transform S3 events to domain events
    * S3イベントをドメインイベントに変換
    */
   async transformS3(event: S3Event): Promise<IEvent[]> {
@@ -72,6 +73,7 @@ export class CustomEventFactory extends EventFactoryBase {
       const bucket = record.s3.bucket.name;
       const key = decodeURIComponent(record.s3.object.key.replace(/\+/g, ' '));
 
+      // Route based on S3 key pattern
       // S3キーパターンに基づいてルーティング
       if (key.startsWith('imports/csv/')) {
         events.push(new CsvImportEvent({
@@ -93,6 +95,7 @@ export class CustomEventFactory extends EventFactoryBase {
   }
 
   /**
+   * Transform Step Functions events to domain events
    * Step Functionsイベントをドメインイベントに変換
    */
   async transformStepFunction(event: StepFunctionsEvent): Promise<IEvent[]> {
@@ -118,6 +121,7 @@ export class CustomEventFactory extends EventFactoryBase {
   }
 
   /**
+   * Transform SQS events to domain events
    * SQSイベントをドメインイベントに変換
    */
   async transformSqs(event: SQSEvent): Promise<IEvent[]> {
@@ -140,6 +144,7 @@ export class CustomEventFactory extends EventFactoryBase {
   }
 
   /**
+   * Transform DynamoDB stream events to domain events
    * DynamoDBストリームイベントをドメインイベントに変換
    */
   async transformDynamodbStream(event: DynamoDBStreamEvent): Promise<IEvent[]> {
@@ -149,7 +154,7 @@ export class CustomEventFactory extends EventFactoryBase {
       if (record.eventName === 'INSERT' || record.eventName === 'MODIFY') {
         const newImage = record.dynamodb?.NewImage;
         if (newImage) {
-          // エンティティタイプに基づいてルーティング
+          // Route based on entity type
           const pk = newImage.pk?.S || '';
           if (pk.startsWith('ORDER#')) {
             events.push(new OrderCreatedEvent({
@@ -176,7 +181,7 @@ import { CustomEventFactory } from './event-factory';
 
 @Module({
   providers: [CustomEventFactory],
-  // ... その他の設定
+  // ... other configuration
 })
 export class MainModule {}
 ```
@@ -217,12 +222,14 @@ export class OrderCreatedHandler implements IEventHandler<OrderCreatedEvent> {
   ) {}
 
   /**
+   * Handle order created event
    * 注文作成イベントを処理
    */
   async execute(event: OrderCreatedEvent): Promise<any> {
     this.logger.log(`Processing order: ${event.orderId}`);
 
     try {
+      // Process order-related tasks
       // 注文関連タスクを処理
       await Promise.all([
         this.updateInventory(event),
@@ -249,14 +256,14 @@ export class OrderCreatedHandler implements IEventHandler<OrderCreatedEvent> {
   }
 
   private async triggerWorkflow(event: OrderCreatedEvent): Promise<void> {
-    // 必要に応じて追加のワークフローをトリガー
+    // Trigger additional workflows if needed
   }
 }
 ```
 
-### Step Functionイベントハンドラー
+### Step Functionsイベントハンドラー
 
-タスクトークンサポート付きでStep Functionsからのイベントを処理します：
+タスクトークンサポートを使用してStep Functionsからのイベントを処理します：
 
 ```typescript
 // import/event/import-process.event.handler.ts
@@ -289,15 +296,17 @@ export class ImportProcessEventHandler
   }
 
   /**
+   * Process import with Step Function callback
    * Step Functionコールバック付きでインポートを処理
    */
   async execute(event: ImportProcessEvent): Promise<any> {
     this.logger.log(`Processing import: ${event.importId}`);
 
     try {
-      // インポートを処理
+      // Process the import
       const result = await this.importService.processImport(event);
 
+      // Report success to Step Functions
       // Step Functionsに成功を報告
       if (event.taskToken) {
         await this.sfnService.sendTaskSuccess(event.taskToken, result);
@@ -307,9 +316,11 @@ export class ImportProcessEventHandler
     } catch (error) {
       this.logger.error(`Import failed: ${event.importId}`, error);
 
+      // Send alarm notification
       // アラーム通知を送信
       await this.sendAlarm(event, error);
 
+      // Report failure to Step Functions
       // Step Functionsに失敗を報告
       if (event.taskToken) {
         await this.sfnService.sendTaskFailure(
@@ -375,18 +386,20 @@ export class FileUploadHandler implements IEventHandler<FileUploadEvent> {
   ) {}
 
   /**
+   * Process uploaded file
    * アップロードされたファイルを処理
    */
   async execute(event: FileUploadEvent): Promise<any> {
     this.logger.log(`Processing file: ${event.key}`);
 
-    // ファイルコンテンツを取得
+    // Get file content
     const command = new GetObjectCommand({
       Bucket: event.bucket,
       Key: event.key,
     });
     const response = await this.s3Service.client.send(command);
 
+    // Determine file type and process accordingly
     // ファイルタイプを判定して適切に処理
     const fileExtension = event.key.split('.').pop()?.toLowerCase();
 
@@ -448,6 +461,7 @@ export class SendNotificationHandler
   constructor(private readonly emailService: EmailService) {}
 
   /**
+   * Send notification based on type
    * タイプに基づいて通知を送信
    */
   async execute(event: SendNotificationEvent): Promise<any> {
@@ -468,6 +482,7 @@ export class SendNotificationHandler
   private async sendEmail(event: SendNotificationEvent): Promise<any> {
     let body = event.body;
 
+    // Render template if provided
     // テンプレートが提供されている場合はレンダリング
     if (event.templateId && event.templateData) {
       body = await this.renderTemplate(event.templateId, event.templateData);
@@ -483,13 +498,13 @@ export class SendNotificationHandler
   }
 
   private async sendSms(event: SendNotificationEvent): Promise<any> {
-    // SMS送信ロジックを実装
+    // Implement SMS sending logic
     this.logger.log('SMS sending not implemented');
     return { status: 'skipped', type: 'SMS' };
   }
 
   private async sendPush(event: SendNotificationEvent): Promise<any> {
-    // プッシュ通知ロジックを実装
+    // Implement push notification logic
     this.logger.log('Push notification not implemented');
     return { status: 'skipped', type: 'PUSH' };
   }
@@ -498,7 +513,7 @@ export class SendNotificationHandler
     templateId: string,
     data: Record<string, any>,
   ): Promise<string> {
-    // テンプレートレンダリングロジック
+    // Template rendering logic
     return `Template ${templateId} rendered with data`;
   }
 }
@@ -508,7 +523,7 @@ export class SendNotificationHandler
 
 ### データ変更イベントハンドラー
 
-DynamoDBのデータ変更に反応します：
+DynamoDBのデータ変更に対応します：
 
 ```typescript
 // sync/event/data-change.event.ts
@@ -542,6 +557,7 @@ export class DataChangeHandler implements IEventHandler<DataChangeEvent> {
   ) {}
 
   /**
+   * Handle data changes from DynamoDB stream
    * DynamoDBストリームからのデータ変更を処理
    */
   async execute(event: DataChangeEvent): Promise<any> {
@@ -549,9 +565,11 @@ export class DataChangeHandler implements IEventHandler<DataChangeEvent> {
       `Data change: ${event.eventType} on ${event.pk}/${event.sk}`,
     );
 
+    // Invalidate cache
     // キャッシュを無効化
     await this.cacheService.invalidate(event.pk, event.sk);
 
+    // Sync to external systems based on entity type
     // エンティティタイプに基づいて外部システムに同期
     const entityType = event.pk.split('#')[0];
 
@@ -578,13 +596,13 @@ export class DataChangeHandler implements IEventHandler<DataChangeEvent> {
   }
 
   private async syncOrder(event: DataChangeEvent): Promise<any> {
-    // 外部ERPシステムに注文を同期
+    // Sync order to external ERP system
     await this.externalSyncService.syncOrder(event.newImage);
     return { synced: true, type: 'ORDER' };
   }
 
   private async syncUser(event: DataChangeEvent): Promise<any> {
-    // 外部アイデンティティプロバイダーにユーザーを同期
+    // Sync user to external identity provider
     await this.externalSyncService.syncUser(event.newImage);
     return { synced: true, type: 'USER' };
   }
@@ -593,7 +611,7 @@ export class DataChangeHandler implements IEventHandler<DataChangeEvent> {
 
 ## エラーハンドリングとリトライ
 
-### デッドレターキュー付きリトライパターン
+### デッドレターキューを使用したリトライパターン
 
 ```typescript
 // common/event/retry.decorator.ts
@@ -612,6 +630,7 @@ const DEFAULT_RETRY_OPTIONS: RetryOptions = {
 };
 
 /**
+ * Retry decorator for event handlers
  * イベントハンドラー用のリトライデコレータ
  */
 export function WithRetry(options: Partial<RetryOptions> = {}) {
@@ -654,7 +673,7 @@ export function WithRetry(options: Partial<RetryOptions> = {}) {
 }
 ```
 
-### リトライデコレータの使用
+### リトライデコレーターの使用
 
 ```typescript
 @EventHandler(ProcessOrderEvent)
@@ -662,6 +681,7 @@ export function WithRetry(options: Partial<RetryOptions> = {}) {
 export class ProcessOrderHandler implements IEventHandler<ProcessOrderEvent> {
   @WithRetry({ maxRetries: 3, backoffMs: 500 })
   async execute(event: ProcessOrderEvent): Promise<any> {
+    // This method will be retried up to 3 times on failure
     // このメソッドは失敗時に最大3回リトライされる
     return this.processOrder(event);
   }
@@ -688,11 +708,13 @@ export class DlqEventHandler implements IEventHandler<DlqEvent> {
   ) {}
 
   /**
+   * Handle failed events from Dead Letter Queue
    * デッドレターキューからの失敗イベントを処理
    */
   async execute(event: DlqEvent): Promise<any> {
     this.logger.error(`DLQ event received: ${event.originalMessageId}`);
 
+    // Store failed event for analysis
     // 分析用に失敗イベントを保存
     await this.prismaService.failedEvent.create({
       data: {
@@ -705,6 +727,7 @@ export class DlqEventHandler implements IEventHandler<DlqEvent> {
       },
     });
 
+    // Send alert for manual intervention
     // 手動介入用のアラートを送信
     await this.snsService.publish({
       topicArn: process.env.ALERT_TOPIC_ARN!,
@@ -753,6 +776,7 @@ export class AlarmService {
   }
 
   /**
+   * Send alarm notification
    * アラーム通知を送信
    */
   async sendAlarm(payload: AlarmPayload): Promise<void> {
@@ -782,6 +806,7 @@ export class AlarmService {
   }
 
   /**
+   * Send critical error alarm
    * クリティカルエラーアラームを送信
    */
   async critical(source: string, message: string, error?: Error): Promise<void> {
@@ -794,6 +819,7 @@ export class AlarmService {
   }
 
   /**
+   * Send error alarm
    * エラーアラームを送信
    */
   async error(source: string, message: string, error?: Error): Promise<void> {
@@ -806,6 +832,7 @@ export class AlarmService {
   }
 
   /**
+   * Send warning alarm
    * 警告アラームを送信
    */
   async warning(source: string, message: string, details?: Record<string, any>): Promise<void> {
@@ -824,6 +851,7 @@ export class AlarmService {
 ### 1. 冪等なイベントハンドラー
 
 ```typescript
+// Always check if event was already processed
 // イベントが既に処理されたかどうかを常にチェック
 async execute(event: OrderEvent): Promise<any> {
   const existing = await this.prismaService.processedEvent.findUnique({
@@ -835,10 +863,10 @@ async execute(event: OrderEvent): Promise<any> {
     return { skipped: true };
   }
 
-  // イベントを処理
+  // Process event
   const result = await this.processEvent(event);
 
-  // 処理済みとしてマーク
+  // Mark as processed
   await this.prismaService.processedEvent.create({
     data: { eventId: event.eventId, processedAt: new Date() },
   });
@@ -847,9 +875,10 @@ async execute(event: OrderEvent): Promise<any> {
 }
 ```
 
-### 2. 構造化ログ
+### 2. 構造化ロギング
 
 ```typescript
+// Use structured logging for better observability
 // より良い可観測性のために構造化ログを使用
 this.logger.log({
   message: 'Processing event',
@@ -863,9 +892,10 @@ this.logger.log({
 ### 3. タイムアウト処理
 
 ```typescript
+// Implement timeout for long-running operations
 // 長時間実行される操作にタイムアウトを実装
 async execute(event: LongRunningEvent): Promise<any> {
-  const timeout = 25000; // 25秒（Lambdaデフォルトは30秒）
+  const timeout = 25000; // 25 seconds (Lambda default is 30s)
 
   const result = await Promise.race([
     this.processEvent(event),
@@ -881,6 +911,7 @@ async execute(event: LongRunningEvent): Promise<any> {
 ### 4. グレースフルデグラデーション
 
 ```typescript
+// Continue processing even if some operations fail
 // 一部の操作が失敗しても処理を継続
 async execute(event: BatchEvent): Promise<any> {
   const results = [];
@@ -891,7 +922,7 @@ async execute(event: BatchEvent): Promise<any> {
       results.push(await this.processItem(item));
     } catch (error) {
       errors.push({ item, error: error.message });
-      // 次のアイテムを継続
+      // Continue with next item
     }
   }
 
@@ -909,7 +940,7 @@ async execute(event: BatchEvent): Promise<any> {
 
 ## 関連ドキュメント
 
-- [バックエンド開発ガイド](./backend-development.md) - コアパターン
-- [カスタムイベント](./custom-event.md) - イベント設定
+- [Backend Development Guide](./backend-development.md) - コアパターン
+- [Custom Event](./custom-event.md) - イベント設定
 - [Step Functions](./architecture/step-functions.md) - ワークフローオーケストレーション
-- [データ同期イベント](./data-sync-event.md) - データ同期
+- [Data Sync Event](./data-sync-event.md) - データ同期

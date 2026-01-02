@@ -1,37 +1,37 @@
 ---
 sidebar_position: 17
-description: MBC CQRS Serverlessでのマルチテナントデータ分離とクロステナント操作の実装方法を学びます。
+description: MBC CQRS Serverlessでマルチテナントのデータ分離とテナント間操作を実装する方法を学びます。
 ---
 
 # マルチテナントパターン
 
-このガイドでは、適切なデータ分離、共有リソース、クロステナント操作を備えたマルチテナントアプリケーションの実装パターンを説明します。
+このガイドでは、適切なデータ分離、共有リソース、テナント間操作を備えたマルチテナントアプリケーションの実装パターンについて説明します。
 
-## このガイドの使用タイミング
+## このガイドを使用するタイミング
 
-以下が必要な場合にこのガイドを使用してください：
+以下の場合にこのガイドを使用してください：
 
-- テナント（顧客/組織）間のデータ分離
-- 全テナント間での共通データ共有
-- ユーザーが複数テナントに所属できるようにする
-- テナント固有の設定の実装
-- テナント間のデータ同期
+- テナント（顧客/組織）間でデータを分離する
+- すべてのテナントで共通データを共有する
+- ユーザーが複数のテナントに所属できるようにする
+- テナント固有の設定を実装する
+- テナント間でデータを同期する
 
 ## マルチテナントアーキテクチャ
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                     アプリケーション                              │
+│                        Application                               │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
 │   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐           │
-│   │ テナント A   │   │ テナント B   │   │   共通      │           │
-│   │  PK: X#A    │   │  PK: X#B    │   │ PK: X#common│           │
+│   │  Tenant A   │   │  Tenant B   │   │   Common    │           │
+│   │  PK: X#A    │   │  PK: X#B    │   │  PK: X#common│          │
 │   └─────────────┘   └─────────────┘   └─────────────┘           │
 │          │                 │                  │                  │
 │          ▼                 ▼                  ▼                  │
 │   ┌─────────────────────────────────────────────────────────┐   │
-│   │                    DynamoDBテーブル                       │   │
+│   │                    DynamoDB Table                        │   │
 │   │  PK: ENTITY#tenantCode  |  SK: identifier                │   │
 │   └─────────────────────────────────────────────────────────┘   │
 │                                                                  │
@@ -57,6 +57,7 @@ export interface CustomUserContext {
 }
 
 /**
+ * Get custom user context from invoke context
  * 呼び出しコンテキストからカスタムユーザーコンテキストを取得
  */
 export function getCustomUserContext(invokeContext: IInvoke): CustomUserContext {
@@ -72,23 +73,25 @@ export function getCustomUserContext(invokeContext: IInvoke): CustomUserContext 
 }
 
 /**
+ * Default tenant code for shared data
  * 共有データ用のデフォルトテナントコード
  */
 export const DEFAULT_TENANT_CODE = 'common';
 
 /**
+ * Check if user has access to tenant
  * ユーザーがテナントへのアクセス権を持っているか確認
  */
 export function hasTenanctAccess(
   userContext: CustomUserContext,
   targetTenantCode: string,
 ): boolean {
-  // システム管理者は全テナントにアクセス可能
+  // System admin can access all tenants / システム管理者は全テナントにアクセス可能
   if (userContext.role === 'SYSTEM_ADMIN') {
     return true;
   }
 
-  // ユーザーは自分のテナントのみアクセス可能
+  // User can only access their own tenant / ユーザーは自分のテナントのみアクセス可能
   return userContext.tenantCode === targetTenantCode;
 }
 ```
@@ -114,13 +117,13 @@ export class TenantGuard implements CanActivate {
     const invokeContext = request.invokeContext;
     const userContext = getCustomUserContext(invokeContext);
 
-    // パスまたはボディからターゲットテナントを取得
+    // Get target tenant from path or body
     const targetTenant = request.params.tenantCode ||
                         request.body?.tenantCode ||
                         this.extractTenantFromPk(request.body?.pk);
 
     if (!targetTenant) {
-      return true; // テナント未指定、ユーザーのテナントを使用
+      return true; // No tenant specified, will use user's tenant
     }
 
     if (!hasTenanctAccess(userContext, targetTenant)) {
@@ -142,11 +145,12 @@ export class TenantGuard implements CanActivate {
 
 ## データ分離パターン
 
-### パターン1：パーティションキーにテナントを含める
+### パターン1: パーティションキーにテナントを含める
 
 完全な分離のためにパーティションキーにテナントコードを含めます：
 
 ```typescript
+// Standard tenant isolation pattern
 // 標準的なテナント分離パターン
 
 const PRODUCT_PK_PREFIX = 'PRODUCT';
@@ -155,41 +159,42 @@ function generateProductPk(tenantCode: string): string {
   return `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
 }
 
-// キーの例：
+// Example keys:
 // PK: PRODUCT#tenant-a
 // SK: 01HX7MBJK3V9WQBZ7XNDK5ZT2M
 
-// テナントの全商品をクエリ
+// Query all products for a tenant
 async function listProductsByTenant(tenantCode: string) {
   const pk = generateProductPk(tenantCode);
   return dataService.listItemsByPk(pk);
 }
 ```
 
-### パターン2：共有データ用の共通テナント
+### パターン2: 共有データ用の共通テナント
 
-全テナント間で共有されるデータには共通テナントコードを使用します：
+すべてのテナントで共有されるデータには共通のテナントコードを使用します：
 
 ```typescript
+// Shared data pattern (master data, configurations)
 // 共有データパターン（マスターデータ、設定）
 
 const COMMON_TENANT = 'common';
 
-// システム全体の設定
+// System-wide settings
 const settingsPk = `SETTINGS${KEY_SEPARATOR}${COMMON_TENANT}`;
 
-// ユーザーデータ（ユーザーは複数テナントに所属可能）
+// User data (users can belong to multiple tenants)
 const userPk = `USER${KEY_SEPARATOR}${COMMON_TENANT}`;
 
-// 例：システム全体のメールテンプレートを取得
+// Example: Get system-wide email templates
 async function getEmailTemplates() {
   return dataService.listItemsByPk(`TEMPLATE${KEY_SEPARATOR}${COMMON_TENANT}`);
 }
 ```
 
-### パターン3：ユーザー・テナント関連付け
+### パターン3: ユーザー・テナント関連付け
 
-複数テナントに所属するユーザーを処理します：
+複数のテナントに所属するユーザーを処理します：
 
 ```typescript
 // user/dto/user-tenant.dto.ts
@@ -198,22 +203,23 @@ export interface UserTenantAssociation {
   sk: string;           // {tenantCode}#{userCode}
   tenantCode: string;
   userCode: string;
-  role: string;         // このテナント内での役割
-  isDefault: boolean;   // ユーザーのデフォルトテナント
+  role: string;         // Role within this tenant
+  isDefault: boolean;   // Default tenant for user
 }
 
 // user/user.service.ts
 @Injectable()
 export class UserService {
   /**
+   * Get all tenants a user belongs to
    * ユーザーが所属する全テナントを取得
    */
   async getUserTenants(userCode: string): Promise<UserTenantAssociation[]> {
     const pk = `USER_TENANT${KEY_SEPARATOR}${COMMON_TENANT}`;
 
-    // SKプレフィックスでクエリして全テナント関連付けを取得
+    // Query with SK prefix to find all tenant associations
     const result = await this.dataService.listItemsByPk(pk, {
-      skPrefix: '', // 全件取得後フィルタ
+      skPrefix: '', // Get all, then filter
     });
 
     return result.items.filter(item =>
@@ -222,6 +228,7 @@ export class UserService {
   }
 
   /**
+   * Add user to tenant
    * ユーザーをテナントに追加
    */
   async addUserToTenant(
@@ -251,6 +258,7 @@ export class UserService {
   }
 
   /**
+   * Switch user's active tenant
    * ユーザーのアクティブテナントを切り替え
    */
   async switchTenant(
@@ -258,7 +266,7 @@ export class UserService {
     newTenantCode: string,
     invokeContext: IInvoke,
   ): Promise<{ token: string }> {
-    // ユーザーがテナントに所属しているか検証
+    // Verify user belongs to tenant
     const associations = await this.getUserTenants(userCode);
     const association = associations.find(a =>
       a.attributes.tenantCode === newTenantCode,
@@ -270,7 +278,7 @@ export class UserService {
       );
     }
 
-    // 更新されたテナントコンテキストで新しいトークンを生成
+    // Generate new token with updated tenant context
     return this.authService.generateToken({
       userCode,
       tenantCode: newTenantCode,
@@ -280,11 +288,11 @@ export class UserService {
 }
 ```
 
-## クロステナント操作
+## テナント間操作
 
-### パターン1：テナント間データ同期
+### パターン1: テナント間のデータ同期
 
-あるテナントから別のテナントにデータを同期します（例：マスターデータ配布）：
+あるテナントから別のテナントへデータを同期します（例：マスターデータ配信）：
 
 ```typescript
 // sync/tenant-sync.service.ts
@@ -298,6 +306,7 @@ export class TenantSyncService {
   ) {}
 
   /**
+   * Sync master data from source to target tenants
    * マスターデータをソーステナントからターゲットテナントに同期
    */
   async syncMasterData(
@@ -332,7 +341,7 @@ export class TenantSyncService {
     targetTenantCode: string,
     invokeContext: IInvoke,
   ): Promise<void> {
-    // ターゲットテナント用の新しいキーを作成
+    // Create new keys for target tenant
     const pkParts = sourceItem.pk.split(KEY_SEPARATOR);
     const entityType = pkParts[0];
     const targetPk = `${entityType}${KEY_SEPARATOR}${targetTenantCode}`;
@@ -347,7 +356,7 @@ export class TenantSyncService {
       name: sourceItem.name,
       type: sourceItem.type,
       attributes: sourceItem.attributes,
-      // ソースからの同期としてマーク
+      // Mark as synced from source
       metadata: {
         syncedFrom: sourceItem.id,
         syncedAt: new Date().toISOString(),
@@ -357,9 +366,9 @@ export class TenantSyncService {
 }
 ```
 
-### パターン2：クロステナントレポート
+### パターン2: テナント横断レポート
 
-レポート用にテナント間でデータを集計します：
+レポート用にテナント横断でデータを集計します：
 
 ```typescript
 // reporting/cross-tenant-report.service.ts
@@ -368,23 +377,24 @@ export class CrossTenantReportService {
   constructor(private readonly prismaService: PrismaService) {}
 
   /**
+   * Get aggregated metrics across all tenants
    * 全テナントの集計メトリクスを取得
    */
   async getSystemMetrics(): Promise<SystemMetrics> {
     const [totalProducts, productsByTenant, recentOrders] = await Promise.all([
-      // 全テナントの合計数
+      // Total count across all tenants
       this.prismaService.product.count({
         where: { isDeleted: false },
       }),
 
-      // テナント別の数
+      // Count by tenant
       this.prismaService.product.groupBy({
         by: ['tenantCode'],
         _count: { id: true },
         where: { isDeleted: false },
       }),
 
-      // 全テナントの最近の注文（管理者のみ）
+      // Recent orders across all tenants (admin only)
       this.prismaService.order.findMany({
         where: { isDeleted: false },
         orderBy: { createdAt: 'desc' },
@@ -403,6 +413,7 @@ export class CrossTenantReportService {
   }
 
   /**
+   * Get tenant-specific metrics
    * テナント固有のメトリクスを取得
    */
   async getTenantMetrics(tenantCode: string): Promise<TenantMetrics> {
@@ -439,10 +450,11 @@ export class TenantSettingsService {
   ) {}
 
   /**
+   * Get tenant settings with caching
    * キャッシュ付きでテナント設定を取得
    */
   async getSettings(tenantCode: string): Promise<TenantSettings> {
-    // まずキャッシュを確認
+    // Check cache first
     if (this.settingsCache.has(tenantCode)) {
       return this.settingsCache.get(tenantCode)!;
     }
@@ -455,12 +467,13 @@ export class TenantSettingsService {
       this.settingsCache.set(tenantCode, settings.attributes);
       return settings.attributes;
     } catch (error) {
-      // 見つからない場合はデフォルト設定を返す
+      // Return default settings if not found
       return this.getDefaultSettings();
     }
   }
 
   /**
+   * Update tenant settings
    * テナント設定を更新
    */
   async updateSettings(
@@ -485,7 +498,7 @@ export class TenantSettingsService {
       attributes: mergedSettings,
     }, { invokeContext });
 
-    // キャッシュを無効化
+    // Invalidate cache
     this.settingsCache.delete(tenantCode);
 
     return mergedSettings;
@@ -526,12 +539,13 @@ export interface TenantSettings {
 ```prisma
 // prisma/schema.prisma
 
+// Base fields for all entities
 // 全エンティティの基本フィールド
 model Product {
   id         String   @id
   pk         String
   sk         String
-  tenantCode String   // テナント分離フィールド
+  tenantCode String   // Tenant isolation field / テナント分離フィールド
 
   code       String
   name       String
@@ -544,16 +558,19 @@ model Product {
   updatedAt  DateTime
   updatedBy  String   @default("")
 
+  // Unique constraint includes tenant
   // 一意制約にテナントを含める
   @@unique([tenantCode, code])
   @@unique([pk, sk])
 
+  // Index for tenant queries
   // テナントクエリ用インデックス
   @@index([tenantCode])
   @@index([tenantCode, name])
   @@index([tenantCode, createdAt])
 }
 
+// User-Tenant association
 // ユーザー・テナント関連
 model UserTenant {
   id         String   @id
@@ -573,6 +590,7 @@ model UserTenant {
   @@index([tenantCode])
 }
 
+// Tenant settings
 // テナント設定
 model TenantSettings {
   id         String   @id
@@ -589,6 +607,7 @@ model TenantSettings {
 ### 1. クエリには常にテナントを含める
 
 ```typescript
+// Good: Tenant-scoped query
 // 良い例：テナントスコープのクエリ
 const products = await prismaService.product.findMany({
   where: {
@@ -597,15 +616,17 @@ const products = await prismaService.product.findMany({
   },
 });
 
+// Bad: Missing tenant scope (data leak risk)
 // 悪い例：テナントスコープがない（データ漏洩リスク）
 const products = await prismaService.product.findMany({
   where: { isDeleted: false },
 });
 ```
 
-### 2. テナントアクセスを検証
+### 2. テナントアクセスをバリデーション
 
 ```typescript
+// Always verify tenant access before operations
 // 操作前に必ずテナントアクセスを検証
 async updateProduct(
   productId: string,
@@ -614,7 +635,7 @@ async updateProduct(
 ): Promise<ProductDataEntity> {
   const { tenantCode } = getCustomUserContext(invokeContext);
 
-  // 商品がユーザーのテナントに属しているか検証
+  // Verify product belongs to user's tenant
   const existing = await this.prismaService.product.findUnique({
     where: { id: productId },
   });
@@ -623,14 +644,15 @@ async updateProduct(
     throw new ForbiddenException('Access denied');
   }
 
-  // 更新を続行
+  // Proceed with update
   return this.publishCommand(updateDto, invokeContext);
 }
 ```
 
-### 3. テナント対応ロギング
+### 3. テナント認識ロギング
 
 ```typescript
+// Include tenant in all logs for debugging
 // デバッグ用にすべてのログにテナントを含める
 this.logger.log({
   message: 'Processing order',
@@ -640,27 +662,28 @@ this.logger.log({
 });
 ```
 
-### 4. システムとテナント操作を分離
+### 4. システム操作とテナント操作の分離
 
 ```typescript
+// Use separate endpoints for system-wide vs tenant operations
 // システム全体とテナント操作で別のエンドポイントを使用
 
 @Controller('api/admin/tenants')
 @UseGuards(SystemAdminGuard)
 export class TenantAdminController {
-  // テナント間のシステム管理者操作
+  // System admin operations across tenants
 }
 
 @Controller('api/products')
 @UseGuards(TenantGuard)
 export class ProductController {
-  // テナントスコープの操作
+  // Tenant-scoped operations
 }
 ```
 
 ## 関連ドキュメント
 
-- [バックエンド開発ガイド](./backend-development.md) - コアパターン
-- [キーパターン](./key-patterns.md) - マルチテナント用PK/SK設計
-- [認証](./authentication.md) - ユーザー認証
-- [テナントモジュール](./tenant.md) - テナント管理
+- [Backend Development Guide](./backend-development.md) - コアパターン
+- [Key Patterns](./key-patterns.md) - マルチテナント用PK/SK設計
+- [Authentication](./authentication.md) - ユーザー認証
+- [Tenant Module](./tenant.md) - テナント管理

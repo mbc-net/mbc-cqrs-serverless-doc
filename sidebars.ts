@@ -12,7 +12,7 @@ import type { SidebarsConfig } from "@docusaurus/plugin-content-docs";
  */
 const sidebars: SidebarsConfig = {
   tutorialSidebar: [
-    // 1. Getting Started
+    // 1. Getting Started - 最初に読むべき導入セクション
     {
       type: "category",
       label: "Getting Started",
@@ -23,14 +23,14 @@ const sidebars: SidebarsConfig = {
       items: ["installation", "project-structure", "cli"],
     },
 
-    // 2. Tutorials
+    // 2. Tutorials - 実践的なチュートリアル
     {
       type: "category",
       label: "Tutorials",
       items: ["quickstart-tutorial", "build-todo-app"],
     },
 
-    // 3. Core Concepts
+    // 3. Core Concepts - アーキテクチャの基本概念
     {
       type: "category",
       label: "Core Concepts",
@@ -47,15 +47,16 @@ const sidebars: SidebarsConfig = {
       ],
     },
 
-    // 4. Backend Development
+    // 4. Backend Development - バックエンド開発の総合ガイド
     {
       type: "category",
       label: "Backend Development",
       link: {
         type: "doc",
-        id: "build-your-application",
+        id: "backend-development",
       },
       items: [
+        "build-your-application",
         "authentication",
         "controllers",
         "modules",
@@ -66,13 +67,20 @@ const sidebars: SidebarsConfig = {
             type: "doc",
             id: "handle-event",
           },
-          items: ["custom-event", "data-sync-event", "data-sync-handler-examples"],
+          items: [
+            "custom-event",
+            "data-sync-event",
+            "data-sync-handler-examples",
+            "event-handling-patterns",
+          ],
         },
         "service-patterns",
+        "multi-tenant-patterns",
+        "import-export-patterns",
       ],
     },
 
-    // 5. Modules
+    // 5. Modules - 提供モジュールのAPIリファレンス
     {
       type: "category",
       label: "Modules",
@@ -114,7 +122,7 @@ const sidebars: SidebarsConfig = {
       ],
     },
 
-    // 6. Infrastructure
+    // 6. Infrastructure - インフラストラクチャ設定
     {
       type: "category",
       label: "Infrastructure",
@@ -126,7 +134,7 @@ const sidebars: SidebarsConfig = {
       ],
     },
 
-    // 7. Frontend Development
+    // 7. Frontend Development - フロントエンド開発ガイド
     {
       type: "category",
       label: "Frontend Development",
@@ -140,18 +148,14 @@ const sidebars: SidebarsConfig = {
       ],
     },
 
-    // 8. Deployment & Operations
+    // 8. Deployment & Operations - デプロイと運用
     {
       type: "category",
       label: "Deployment & Operations",
-      items: [
-        "deployment-guide",
-        "codepipeline-cicd",
-        "monitoring-logging",
-      ],
+      items: ["deployment-guide", "codepipeline-cicd", "monitoring-logging"],
     },
 
-    // 9. Configuration
+    // 9. Configuration - 設定ガイド
     {
       type: "category",
       label: "Configuration",
@@ -165,7 +169,7 @@ const sidebars: SidebarsConfig = {
       ],
     },
 
-    // 10. Testing
+    // 10. Testing - テストガイド
     {
       type: "category",
       label: "Testing",
@@ -176,14 +180,14 @@ const sidebars: SidebarsConfig = {
       items: ["unit-test", "e2e-test"],
     },
 
-    // 11. Troubleshooting
+    // 11. Troubleshooting - トラブルシューティング
     {
       type: "category",
       label: "Troubleshooting",
       items: ["common-issues", "debugging-guide"],
     },
 
-    // 12. Examples
+    // 12. Examples - 実践的なサンプル
     {
       type: "category",
       label: "Examples",
@@ -194,7 +198,7 @@ const sidebars: SidebarsConfig = {
       items: ["survey-template"],
     },
 
-    // 13. AI Integration
+    // 13. AI Integration - AI統合機能
     {
       type: "category",
       label: "AI Integration",
@@ -205,7 +209,7 @@ const sidebars: SidebarsConfig = {
       items: ["mcp-server"],
     },
 
-    // 14. Reference
+    // 14. Reference - リファレンス
     {
       type: "category",
       label: "Reference",

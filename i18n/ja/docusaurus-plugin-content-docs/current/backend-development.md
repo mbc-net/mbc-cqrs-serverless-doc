@@ -1,33 +1,33 @@
 ---
 sidebar_position: 15
-description: MBC CQRS Serverlessフレームワークを使用したバックエンド開発の包括的なガイド。モジュール構造、サービスパターン、ベストプラクティスを学びます。
+description: MBC CQRS Serverlessフレームワークによるバックエンド開発の包括的ガイド。モジュール構造、サービスパターン、ベストプラクティスを学びます。
 ---
 
 # バックエンド開発ガイド
 
-このガイドでは、MBC CQRS Serverlessフレームワークを使用したバックエンドアプリケーション構築のための包括的なパターンとベストプラクティスを提供します。サンプルは本番プロジェクトから一般化したものです。
+このガイドでは、MBC CQRS Serverlessフレームワークを使用したバックエンドアプリケーション構築の包括的なパターンとベストプラクティスを提供します。例は本番プロジェクトから一般化されています。
 
 ## モジュール構造
 
 ### 標準モジュールレイアウト
 
-すべてのドメインモジュールは以下の一貫した構造に従います：
+すべてのドメインモジュールは、この一貫した構造に従います：
 
 ```
 src/[domain]/
 ├── dto/
-│   ├── [domain]-command.dto.ts        # コマンド入力バリデーション
-│   ├── [domain]-attributes.dto.ts     # ドメイン固有の属性
-│   └── [domain]-search.dto.ts         # 検索パラメータ
+│   ├── [domain]-command.dto.ts        # Command input validation / コマンド入力バリデーション
+│   ├── [domain]-attributes.dto.ts     # Domain-specific attributes / ドメイン固有の属性
+│   └── [domain]-search.dto.ts         # Search parameters / 検索パラメータ
 ├── entity/
-│   ├── [domain]-command.entity.ts     # コマンドエンティティ
-│   ├── [domain]-data.entity.ts        # データエンティティ
-│   └── [domain]-data-list.entity.ts   # リストラッパー
+│   ├── [domain]-command.entity.ts     # Command entity / コマンドエンティティ
+│   ├── [domain]-data.entity.ts        # Data entity / データエンティティ
+│   └── [domain]-data-list.entity.ts   # List wrapper / リストラッパー
 ├── handler/
-│   └── [domain]-rds.handler.ts        # RDS同期ハンドラー
-├── [domain].service.ts                # ビジネスロジック
-├── [domain].controller.ts             # HTTPハンドラー
-└── [domain].module.ts                 # モジュール定義
+│   └── [domain]-rds.handler.ts        # RDS sync handler / RDS同期ハンドラー
+├── [domain].service.ts                # Business logic / ビジネスロジック
+├── [domain].controller.ts             # HTTP handlers / HTTPハンドラー
+└── [domain].module.ts                 # Module definition / モジュール定義
 ```
 
 ### モジュール登録
@@ -136,7 +136,7 @@ export class ProductSpecification {
 
 ### 標準コントローラー
 
-コントローラーは薄くし、ビジネスロジックはサービスに委譲します：
+コントローラーは薄く保ち、ビジネスロジックはサービスに委譲すべきです：
 
 ```typescript
 // product.controller.ts
@@ -159,6 +159,7 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   /**
+   * Create or update a product
    * 商品を作成または更新
    */
   @Post('/')
@@ -170,6 +171,7 @@ export class ProductController {
   }
 
   /**
+   * Bulk create/update products
    * 商品を一括作成/更新
    */
   @Post('/bulk')
@@ -181,6 +183,7 @@ export class ProductController {
   }
 
   /**
+   * Get product by PK and SK
    * PKとSKで商品を取得
    */
   @Get('data/:pk/:sk')
@@ -192,6 +195,7 @@ export class ProductController {
   }
 
   /**
+   * List products by PK
    * PKで商品一覧を取得
    */
   @Get('data/:pk')
@@ -203,6 +207,7 @@ export class ProductController {
   }
 
   /**
+   * Search products
    * 商品を検索
    */
   @Get('data')
@@ -213,6 +218,7 @@ export class ProductController {
   }
 
   /**
+   * Resync all data to RDS
    * 全データをRDSに再同期
    */
   @Put('resync-data')
@@ -226,7 +232,7 @@ export class ProductController {
 
 ### 基本サービスパターン
 
-サービスはビジネスロジックを含み、データ操作をオーケストレーションします：
+サービスにはビジネスロジックが含まれ、データ操作を調整します：
 
 ```typescript
 // product.service.ts
@@ -259,6 +265,7 @@ export class ProductService {
   ) {}
 
   /**
+   * Create or update a product command
    * 商品コマンドを作成または更新
    */
   async publishCommand(
@@ -267,7 +274,7 @@ export class ProductService {
   ): Promise<ProductDataEntity> {
     const { tenantCode } = getCustomUserContext(invokeContext);
 
-    // キーが未指定の場合は生成
+    // Generate keys if not provided / キーが未指定の場合は生成
     if (!cmdDto.pk) {
       cmdDto.pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
     }
@@ -278,7 +285,7 @@ export class ProductService {
       cmdDto.id = generateId(cmdDto.pk, cmdDto.sk);
     }
 
-    // テナントコンテキストを設定
+    // Set tenant context / テナントコンテキストを設定
     cmdDto.tenantCode = tenantCode;
 
     const opts = {
@@ -295,6 +302,7 @@ export class ProductService {
   }
 
   /**
+   * Bulk publish commands with batch processing
    * バッチ処理でコマンドを一括発行
    */
   async publishBulkCommands(
@@ -316,6 +324,7 @@ export class ProductService {
   }
 
   /**
+   * Get product data by key
    * キーで商品データを取得
    */
   async getData(pk: string, sk: string): Promise<ProductDataEntity> {
@@ -323,6 +332,7 @@ export class ProductService {
   }
 
   /**
+   * List products by partition key
    * パーティションキーで商品一覧を取得
    */
   async listDataByPk(pk: string, searchDto: any): Promise<ProductDataListEntity> {
@@ -331,6 +341,7 @@ export class ProductService {
   }
 
   /**
+   * Search products with pagination
    * ページネーション付きで商品を検索
    */
   async searchData(searchDto: any): Promise<ProductDataListEntity> {
@@ -364,6 +375,7 @@ export class ProductService {
   }
 
   /**
+   * Resync all data from DynamoDB to RDS
    * DynamoDBからRDSへ全データを再同期
    */
   async resyncData(): Promise<void> {
@@ -437,10 +449,11 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
   constructor(private readonly prismaService: PrismaService) {}
 
   /**
+   * Sync command to RDS (upsert)
    * コマンドをRDSに同期（upsert）
    */
   async up(cmd: CommandModel): Promise<any> {
-    // SKからバージョンサフィックスを削除
+    // Remove version suffix from SK / SKからバージョンサフィックスを削除
     const sk = removeSortKeyVersion(cmd.sk);
     const attrs = cmd.attributes as ProductAttributes;
 
@@ -455,12 +468,12 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
           version: cmd.version,
           tenantCode: cmd.tenantCode,
           isDeleted: cmd.isDeleted ?? false,
-          // 属性をカラムにマッピング
+          // Map attributes to columns / 属性をカラムにマッピング
           category: attrs?.category,
           price: attrs?.price,
           description: attrs?.description,
           specification: attrs?.specification,
-          // 監査フィールド
+          // Audit fields / 監査フィールド
           createdAt: cmd.createdAt,
           createdBy: cmd.createdBy ?? '',
           createdIp: cmd.createdIp ?? '',
@@ -500,10 +513,11 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
   }
 
   /**
+   * Handle rollback or delete
    * ロールバックまたは削除を処理
    */
   async down(cmd: CommandModel): Promise<any> {
-    // ソフトデリート実装
+    // Soft delete implementation / ソフトデリート実装
     await this.prismaService.product.update({
       where: { id: cmd.id },
       data: { isDeleted: true },
@@ -516,32 +530,32 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
 
 ### 標準モデル定義
 
-CQRSフィールドを持つPrismaモデルを定義します：
+CQRSフィールドを含むPrismaモデルを定義します：
 
 ```prisma
 // prisma/schema.prisma
 model Product {
-  // CQRS複合キー
-  id     String @id            // バージョンなしのPK#SK
-  cpk    String                // コマンドPK
-  csk    String                // バージョン付きコマンドSK
-  pk     String                // データPK
-  sk     String                // バージョンなしデータSK
+  // CQRS composite keys / CQRS複合キー
+  id     String @id            // PK#SK without version
+  cpk    String                // Command PK
+  csk    String                // Command SK with version
+  pk     String                // Data PK
+  sk     String                // Data SK without version
 
-  // ドメインフィールド
+  // Domain fields / ドメインフィールド
   code   String
   name   String
 
-  // ドメイン固有
+  // Domain-specific / ドメイン固有
   category     String?
   price        Decimal?
   description  String?
   specification Json?
 
-  // マルチテナント
+  // Multi-tenant / マルチテナント
   tenantCode String
 
-  // 監査フィールド
+  // Audit fields / 監査フィールド
   version   Int
   isDeleted Boolean  @default(false)
   createdBy String   @default("")
@@ -551,7 +565,7 @@ model Product {
   updatedIp String   @default("")
   updatedAt DateTime
 
-  // インデックス
+  // Indexes / インデックス
   @@unique([cpk, csk])
   @@unique([pk, sk])
   @@unique([tenantCode, code])
@@ -569,9 +583,9 @@ model Product {
 ```typescript
 const opts = {
   source: getCommandSource(
-    basename(__dirname),      // モジュール名
-    this.constructor.name,    // クラス名
-    'methodName',             // メソッド名
+    basename(__dirname),      // Module name / モジュール名
+    this.constructor.name,    // Class name / クラス名
+    'methodName',             // Method name / メソッド名
   ),
   invokeContext,
 };
@@ -579,7 +593,7 @@ const opts = {
 
 ### 2. バッチ処理
 
-タイムアウトを避けるために大きなデータセットをバッチで処理します：
+タイムアウトを避けるために大規模なデータセットをバッチで処理します：
 
 ```typescript
 async processBatch<T, R>(
@@ -601,7 +615,7 @@ async processBatch<T, R>(
 
 ### 3. エラーハンドリング
 
-ロギング付きで適切なエラーハンドリングを実装します：
+ロギングを含む適切なエラーハンドリングを実装します：
 
 ```typescript
 try {
@@ -609,7 +623,7 @@ try {
 } catch (error) {
   this.logger.error(`Failed to process item ${item.id}:`, error);
 
-  // 重大エラーの場合はアラームを送信
+  // Send alarm for critical errors / 重大エラーの場合はアラームを送信
   if (this.isCriticalError(error)) {
     await this.snsService.publish({
       topicArn: this.alarmTopicArn,
@@ -622,7 +636,7 @@ try {
 }
 ```
 
-### 4. データ整合性
+### 4. データ一貫性
 
 不要な同期を避けるためにダーティチェックを使用します：
 
@@ -641,7 +655,7 @@ async syncData(newData: any, existingData: any): Promise<void> {
 
 ### 5. ページネーション
 
-リスト操作では常にページネーションをサポートします：
+一覧操作では常にページネーションをサポートします：
 
 ```typescript
 async searchWithPagination(
@@ -665,8 +679,8 @@ async searchWithPagination(
 
 ## 関連ドキュメント
 
-- [サービスパターン](./service-patterns.md) - 高度なサービス実装パターン
-- [データ同期ハンドラー例](./data-sync-handler-examples.md) - 包括的な同期ハンドラー例
-- [キーパターン](./key-patterns.md) - PK/SK設計パターン
-- [マルチテナントパターン](./multi-tenant-patterns.md) - マルチテナント実装
-- [インポート/エクスポートパターン](./import-export-patterns.md) - バッチデータ処理
+- [Service Patterns](./service-patterns.md) - 高度なサービス実装パターン
+- [Data Sync Handler Examples](./data-sync-handler-examples.md) - 包括的な同期ハンドラー例
+- [Key Patterns](./key-patterns.md) - PK/SK設計パターン
+- [Multi-Tenant Patterns](./multi-tenant-patterns.md) - マルチテナント実装
+- [Import/Export Patterns](./import-export-patterns.md) - バッチデータ処理

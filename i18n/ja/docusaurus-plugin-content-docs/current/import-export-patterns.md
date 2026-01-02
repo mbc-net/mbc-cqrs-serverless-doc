@@ -1,35 +1,35 @@
 ---
 sidebar_position: 16
-description: バッチ処理とバリデーション付きのCSVおよびExcel形式でのデータインポート・エクスポートパターンを学びます。
+description: バッチ処理とバリデーションを使用したCSVおよびExcel形式でのデータインポート・エクスポートパターンを学びます。
 ---
 
 # インポート/エクスポートパターン
 
-このガイドでは、CSV処理、Excelファイル処理、Step Functionsを使用したバッチデータ操作を含むデータインポート・エクスポート操作のパターンを説明します。
+このガイドでは、CSVの処理、Excelファイルの処理、Step Functionsを使用したバッチデータ操作など、データのインポートおよびエクスポート操作のパターンについて説明します。
 
-## このガイドの使用タイミング
+## このガイドを使用するタイミング
 
-以下が必要な場合にこのガイドを使用してください：
+以下の場合にこのガイドを使用してください：
 
-- CSVまたはExcelファイルからの大量データインポート
-- 様々な形式へのデータエクスポート
-- Step Functionsを使用した大規模データセット処理
-- S3署名付きURLを使用したファイルアップロード実装
-- 外部フォーマットと内部フォーマット間のデータ変換
+- CSVまたはExcelファイルから一括データをインポートする
+- 様々な形式にデータをエクスポートする
+- Step Functionsで大規模なデータセットを処理する
+- S3署名付きURLでファイルアップロードを実装する
+- 外部形式と内部形式の間でデータを変換する
 
-## インポートアーキテクチャ概要
+## インポートアーキテクチャの概要
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│  クライアント │────>│     S3      │────>│Step Function│────>│   Lambda    │
-│（アップロード）│     │（ストレージ）│     │（オーケスト）│     │  （処理）   │
+│   Client    │────>│     S3      │────>│Step Function│────>│   Lambda    │
+│  (Upload)   │     │  (Storage)  │     │(Orchestrate)│     │ (Process)   │
 └─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘
                                                                     │
                                         ┌───────────────────────────┘
                                         ▼
                     ┌─────────────┐     ┌─────────────┐
-                    │  DynamoDB   │<────│  インポート  │
-                    │（コマンド）  │     │  ハンドラー  │
+                    │  DynamoDB   │<────│   Import    │
+                    │  (Command)  │     │   Handler   │
                     └─────────────┘     └─────────────┘
 ```
 
@@ -51,6 +51,7 @@ export class StorageService {
   constructor(private readonly s3Service: S3Service) {}
 
   /**
+   * Generate upload URL for file import
    * ファイルインポート用のアップロードURLを生成
    */
   async genUploadUrl(
@@ -69,13 +70,14 @@ export class StorageService {
     });
 
     const url = await getSignedUrl(this.s3Service.client, command, {
-      expiresIn: 3600, // 1時間
+      expiresIn: 3600, // 1 hour / 1時間
     });
 
     return { bucket, key, url };
   }
 
   /**
+   * Generate download URL for file export
    * ファイルエクスポート用のダウンロードURLを生成
    */
   async genDownloadUrl(
@@ -111,6 +113,7 @@ export class StorageController {
   constructor(private readonly storageService: StorageService) {}
 
   /**
+   * Get presigned URL for upload
    * アップロード用の署名付きURLを取得
    */
   @Post('upload-url')
@@ -121,6 +124,7 @@ export class StorageController {
   }
 
   /**
+   * Get presigned URL for download
    * ダウンロード用の署名付きURLを取得
    */
   @Get('download-url')
@@ -146,7 +150,7 @@ import { StepFunctionService, INVOKE_CONTEXT, IInvoke } from '@mbc-cqrs-serverle
 export class CsvImportDto {
   bucket: string;
   key: string;
-  type: string;  // インポートタイプ識別子
+  type: string;  // Import type identifier / インポートタイプ識別子
 }
 
 @Controller('api/csv-import')
@@ -161,6 +165,7 @@ export class CsvImportController {
   }
 
   /**
+   * Start CSV import via Step Functions
    * Step Functionsを経由してCSVインポートを開始
    */
   @Post('/')
@@ -205,6 +210,7 @@ export class CsvParserService {
   constructor(private readonly s3Service: S3Service) {}
 
   /**
+   * Parse CSV file from S3
    * S3からCSVファイルを解析
    */
   async parseFromS3(
@@ -245,6 +251,7 @@ export class CsvParserService {
   }
 
   /**
+   * Validate parsed rows
    * 解析された行をバリデート
    */
   validateRows(
@@ -299,21 +306,22 @@ export class CsvImportEventHandler implements IEventHandler<CsvImportEvent> {
   }
 
   /**
+   * Process CSV import event
    * CSVインポートイベントを処理
    */
   async execute(event: CsvImportEvent): Promise<any> {
     this.logger.log(`Processing import: ${event.key}`);
 
     try {
-      // CSVを解析
+      // Parse CSV / CSVを解析
       const rows = await this.csvParser.parseFromS3(event.bucket, event.key);
 
-      // バリデート
+      // Validate / バリデート
       const validatedRows = this.csvParser.validateRows(rows, [
         'code', 'name', 'price',
       ]);
 
-      // 有効な行をフィルタ
+      // Filter valid rows / 有効な行をフィルタ
       const validRows = validatedRows.filter(r => r.errors.length === 0);
       const invalidRows = validatedRows.filter(r => r.errors.length > 0);
 
@@ -321,7 +329,7 @@ export class CsvImportEventHandler implements IEventHandler<CsvImportEvent> {
         this.logger.warn(`${invalidRows.length} rows have validation errors`);
       }
 
-      // バッチで処理
+      // Process in batches / バッチで処理
       const batchSize = 30;
       let processedCount = 0;
 
@@ -383,6 +391,7 @@ export class CsvImportEventHandler implements IEventHandler<CsvImportEvent> {
 import { Workbook, Worksheet, Cell } from 'exceljs';
 
 /**
+ * Get cell value handling formulas and rich text
  * 数式やリッチテキストを処理してセル値を取得
  */
 export function getCellValue(row: any, column: string): string | undefined {
@@ -392,12 +401,12 @@ export function getCellValue(row: any, column: string): string | undefined {
     return undefined;
   }
 
-  // 数式の結果を処理
+  // Handle formula result / 数式の結果を処理
   if (typeof cell.value === 'object' && 'result' in cell.value) {
     return String(cell.value.result);
   }
 
-  // リッチテキストを処理
+  // Handle rich text / リッチテキストを処理
   if (typeof cell.value === 'object' && 'richText' in cell.value) {
     return cell.value.richText.map((r: any) => r.text).join('');
   }
@@ -406,6 +415,7 @@ export function getCellValue(row: any, column: string): string | undefined {
 }
 
 /**
+ * Get numeric cell value
  * 数値のセル値を取得
  */
 export function getCellNumber(row: any, column: string): number | undefined {
@@ -417,6 +427,7 @@ export function getCellNumber(row: any, column: string): number | undefined {
 }
 
 /**
+ * Get date cell value
  * 日付のセル値を取得
  */
 export function getCellDate(row: any, column: string): Date | undefined {
@@ -434,6 +445,7 @@ export function getCellDate(row: any, column: string): Date | undefined {
 }
 
 /**
+ * Find header row by matching column headers
  * 列ヘッダーをマッチングしてヘッダー行を検索
  */
 export function findHeaderRow(
@@ -483,6 +495,7 @@ export class ExcelImportService {
   constructor(private readonly s3Service: S3Service) {}
 
   /**
+   * Load workbook from S3
    * S3からワークブックを読み込む
    */
   async loadWorkbook(bucket: string, key: string): Promise<Workbook> {
@@ -500,7 +513,7 @@ export class ExcelImportService {
     if (key.endsWith('.xlsx') || key.endsWith('.xlsm')) {
       await workbook.xlsx.load(buffer);
     } else if (key.endsWith('.xls')) {
-      // .xlsファイルには別のパーサーを使用
+      // For .xls files, use different parser / .xlsファイルには別のパーサーを使用
       throw new Error('XLS format not supported. Please use XLSX.');
     }
 
@@ -508,6 +521,7 @@ export class ExcelImportService {
   }
 
   /**
+   * Process worksheet with row processor
    * 行プロセッサでワークシートを処理
    */
   async processWorksheet<T>(
@@ -522,7 +536,7 @@ export class ExcelImportService {
     const errors: Array<{ row: number; message: string }> = [];
     const data: T[] = [];
 
-    // ヘッダー行を検索または指定されたものを使用
+    // Find or use specified header row / ヘッダー行を検索または指定されたものを使用
     const headerRow = config.headerRow || (
       config.expectedHeaders
         ? findHeaderRow(worksheet, config.expectedHeaders)
@@ -541,7 +555,7 @@ export class ExcelImportService {
     for (let rowNum = startRow; rowNum <= worksheet.rowCount; rowNum++) {
       const row = worksheet.getRow(rowNum);
 
-      // 空行をスキップ
+      // Skip empty rows / 空行をスキップ
       if (this.isEmptyRow(row)) continue;
 
       try {
@@ -575,28 +589,32 @@ export class ExcelImportService {
 }
 ```
 
-### インポート戦略パターン
+### インポートストラテジーパターン
 
 ```typescript
 // import/base-import.strategy.ts
 import { IInvoke } from '@mbc-cqrs-serverless/core';
 
 /**
+ * Base interface for import strategies
  * インポート戦略の基本インターフェース
  */
 export interface IImportStrategy<TInput, TOutput> {
   /**
+   * Transform raw input to command DTO
    * 生の入力をコマンドDTOに変換
    */
   transform(input: TInput, invokeContext: IInvoke): Promise<TOutput>;
 
   /**
+   * Validate input data
    * 入力データをバリデート
    */
   validate(input: TInput): Promise<void>;
 }
 
 /**
+ * Base import strategy with common functionality
  * 共通機能を持つ基本インポート戦略
  */
 export abstract class BaseImportStrategy<TInput, TOutput>
@@ -605,10 +623,11 @@ export abstract class BaseImportStrategy<TInput, TOutput>
   abstract transform(input: TInput, invokeContext: IInvoke): Promise<TOutput>;
 
   async validate(input: TInput): Promise<void> {
-    // サブクラスでオーバーライド
+    // Override in subclass / サブクラスでオーバーライド
   }
 
   /**
+   * Map field names between external and internal formats
    * 外部と内部のフォーマット間でフィールド名をマッピング
    */
   protected mapFields(
@@ -627,12 +646,13 @@ export abstract class BaseImportStrategy<TInput, TOutput>
   }
 
   /**
-   * 日本語の日付形式を解析（令和X年X月X日）
+   * Parse Japanese date format (令和X年X月X日)
+   * 日本語の日付形式を解析
    */
   protected parseJapaneseDate(dateStr: string): Date | undefined {
     if (!dateStr) return undefined;
 
-    // 令和（Reiwa era）を処理
+    // Handle 令和 (Reiwa era)
     const reiwaMatch = dateStr.match(/令和(\d+)年(\d+)月(\d+)日/);
     if (reiwaMatch) {
       const year = 2018 + parseInt(reiwaMatch[1]);
@@ -641,7 +661,7 @@ export abstract class BaseImportStrategy<TInput, TOutput>
       return new Date(year, month, day);
     }
 
-    // 標準形式を処理
+    // Handle standard format
     const standardMatch = dateStr.match(/(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})/);
     if (standardMatch) {
       return new Date(
@@ -655,6 +675,7 @@ export abstract class BaseImportStrategy<TInput, TOutput>
   }
 
   /**
+   * Normalize string (trim, normalize spaces)
    * 文字列を正規化（トリム、スペースの正規化）
    */
   protected normalizeString(value: string | undefined): string | undefined {
@@ -664,7 +685,7 @@ export abstract class BaseImportStrategy<TInput, TOutput>
 }
 ```
 
-### 具体的なインポート戦略
+### 具象インポートストラテジー
 
 ```typescript
 // product/import/product-import.strategy.ts
@@ -690,6 +711,7 @@ export class ProductImportStrategy
   extends BaseImportStrategy<ProductImportInput, ProductCommandDto>
 {
   /**
+   * Transform import data to command DTO
    * インポートデータをコマンドDTOに変換
    */
   async transform(
@@ -719,6 +741,7 @@ export class ProductImportStrategy
   }
 
   /**
+   * Validate import input
    * インポート入力をバリデート
    */
   async validate(input: ProductImportInput): Promise<void> {
@@ -753,6 +776,7 @@ export class ExportService {
   constructor(private readonly s3Service: S3Service) {}
 
   /**
+   * Export data to CSV and upload to S3
    * データをCSVにエクスポートしてS3にアップロード
    */
   async exportToCsv(
@@ -760,14 +784,14 @@ export class ExportService {
     headers: { key: string; label: string }[],
     filename: string,
   ): Promise<{ bucket: string; key: string }> {
-    // CSVコンテンツを構築
+    // Build CSV content / CSVコンテンツを構築
     const headerRow = headers.map(h => h.label).join(',');
     const dataRows = data.map(row =>
       headers.map(h => this.escapeCsvValue(row[h.key])).join(','),
     );
     const csvContent = [headerRow, ...dataRows].join('\n');
 
-    // S3にアップロード
+    // Upload to S3 / S3にアップロード
     const bucket = this.s3Service.privateBucket;
     const key = `exports/${Date.now()}/${filename}`;
 
@@ -783,6 +807,7 @@ export class ExportService {
   }
 
   /**
+   * Export data to Excel and upload to S3
    * データをExcelにエクスポートしてS3にアップロード
    */
   async exportToExcel(
@@ -794,14 +819,14 @@ export class ExportService {
     const workbook = new Workbook();
     const worksheet = workbook.addWorksheet(sheetName);
 
-    // 列を設定
+    // Set columns / 列を設定
     worksheet.columns = headers.map(h => ({
       header: h.label,
       key: h.key,
       width: h.width || 15,
     }));
 
-    // ヘッダー行にスタイルを適用
+    // Style header row / ヘッダー行にスタイルを適用
     worksheet.getRow(1).font = { bold: true };
     worksheet.getRow(1).fill = {
       type: 'pattern',
@@ -809,7 +834,7 @@ export class ExportService {
       fgColor: { argb: 'FFE0E0E0' },
     };
 
-    // データ行を追加
+    // Add data rows / データ行を追加
     data.forEach(row => {
       const rowData: Record<string, any> = {};
       headers.forEach(h => {
@@ -818,10 +843,10 @@ export class ExportService {
       worksheet.addRow(rowData);
     });
 
-    // バッファを生成
+    // Generate buffer / バッファを生成
     const buffer = await workbook.xlsx.writeBuffer();
 
-    // S3にアップロード
+    // Upload to S3 / S3にアップロード
     const bucket = this.s3Service.privateBucket;
     const key = `exports/${Date.now()}/${filename}`;
 
@@ -848,11 +873,12 @@ export class ExportService {
 }
 ```
 
-## Step Function連携
+## Step Functions統合
 
 ### インポートオーケストレーション
 
 ```typescript
+// Import workflow with Step Functions
 // Step Functionsによるインポートワークフロー
 
 // serverless.yml
@@ -919,7 +945,7 @@ async processBatches<T>(
 
 ### 2. エラーハンドリング
 
-処理を停止せずにエラーを収集して報告します：
+処理を停止せずにエラーを収集し報告します：
 
 ```typescript
 const errors: Array<{ row: number; error: string }> = [];
@@ -929,7 +955,7 @@ for (const [index, row] of rows.entries()) {
     await processRow(row);
   } catch (error) {
     errors.push({ row: index + 1, error: error.message });
-    // 処理を継続
+    // Continue processing / 処理を継続
   }
 }
 
@@ -940,22 +966,22 @@ if (errors.length > 0) {
 
 ### 3. 処理前のバリデーション
 
-インポート開始前にすべてのデータをバリデートします：
+インポートを開始する前にすべてのデータをバリデーションします：
 
 ```typescript
-// 最初のパス：バリデート
+// First pass: validate / 最初のパス：バリデート
 const validationErrors = await this.validateAll(rows);
 if (validationErrors.length > 0) {
   return { success: false, errors: validationErrors };
 }
 
-// 2番目のパス：処理
+// Second pass: process / 2番目のパス：処理
 await this.processAll(rows);
 ```
 
 ### 4. 進捗報告
 
-長時間実行されるインポートでは進捗を報告します：
+長時間実行されるインポートの進捗を報告します：
 
 ```typescript
 const total = rows.length;
@@ -965,7 +991,7 @@ for (const batch of batches) {
   await processBatch(batch);
   processed += batch.length;
 
-  // 100行ごとに進捗を報告
+  // Report progress every 100 rows / 100行ごとに進捗を報告
   if (processed % 100 === 0) {
     this.logger.log(`Progress: ${processed}/${total} (${Math.round(processed/total*100)}%)`);
   }
@@ -974,7 +1000,7 @@ for (const batch of batches) {
 
 ## 関連ドキュメント
 
-- [バックエンド開発ガイド](./backend-development.md) - コアバックエンドパターン
-- [サービスパターン](./service-patterns.md) - サービス実装
+- [Backend Development Guide](./backend-development.md) - コアバックエンドパターン
+- [Service Patterns](./service-patterns.md) - サービス実装
 - [Step Functions](./architecture/step-functions.md) - ワークフローオーケストレーション
-- [データ同期ハンドラー例](./data-sync-handler-examples.md) - 同期ハンドラーパターン
+- [Data Sync Handler Examples](./data-sync-handler-examples.md) - 同期ハンドラーパターン
