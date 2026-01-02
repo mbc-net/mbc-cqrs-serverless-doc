@@ -148,6 +148,7 @@ import {
   CommandService,
   DataService,
   generateId,
+  getUserContext,
   IInvoke
 } from '@mbc-cqrs-serverless/core';
 import { CreateTodoDto } from './dto/create-todo.dto';
@@ -168,7 +169,7 @@ export class TodoService {
     context: { invokeContext: IInvoke },
   ): Promise<TodoCommandEntity> {
     const id = generateId();
-    const tenantCode = context.invokeContext.tenantCode;
+    const { tenantCode } = getUserContext(context.invokeContext);
 
     const pk = `TODO#${tenantCode}`;
     const sk = `TODO#${id}`;
@@ -195,7 +196,7 @@ export class TodoService {
     searchDto: SearchTodoDto,
     context: { invokeContext: IInvoke },
   ): Promise<{ items: TodoDataEntity[]; lastSk?: string }> {
-    const tenantCode = context.invokeContext.tenantCode;
+    const { tenantCode } = getUserContext(context.invokeContext);
 
     return this.dataService.listItemsByPk(`TODO#${tenantCode}`, {
       limit: searchDto.limit,
@@ -207,7 +208,7 @@ export class TodoService {
     id: string,
     context: { invokeContext: IInvoke },
   ): Promise<TodoDataEntity> {
-    const tenantCode = context.invokeContext.tenantCode;
+    const { tenantCode } = getUserContext(context.invokeContext);
 
     return this.dataService.getItem<TodoDataEntity>({
       pk: `TODO#${tenantCode}`,
@@ -220,7 +221,7 @@ export class TodoService {
     dto: UpdateTodoDto,
     context: { invokeContext: IInvoke },
   ): Promise<TodoCommandEntity> {
-    const tenantCode = context.invokeContext.tenantCode;
+    const { tenantCode } = getUserContext(context.invokeContext);
     const existing = await this.findOne(id, context);
 
     const command = new TodoCommandDto({
@@ -238,7 +239,7 @@ export class TodoService {
     id: string,
     context: { invokeContext: IInvoke },
   ): Promise<void> {
-    const tenantCode = context.invokeContext.tenantCode;
+    const { tenantCode } = getUserContext(context.invokeContext);
 
     await this.commandService.publishPartialUpdateAsync(
       {
@@ -453,6 +454,7 @@ export class MainModule {}
 
 ```typescript
 import { SequencesService, RotateByEnum } from '@mbc-cqrs-serverless/sequence';
+import { getUserContext, IInvoke } from '@mbc-cqrs-serverless/core';
 
 @Injectable()
 export class TodoService {
@@ -463,7 +465,7 @@ export class TodoService {
   ) {}
 
   async create(dto: CreateTodoDto, context: { invokeContext: IInvoke }) {
-    const tenantCode = context.invokeContext.tenantCode;
+    const { tenantCode } = getUserContext(context.invokeContext);
 
     // Generate sequential todo number
     const todoNumber = await this.sequencesService.generate({
