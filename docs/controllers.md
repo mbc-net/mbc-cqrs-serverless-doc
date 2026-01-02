@@ -18,10 +18,12 @@ description: {{Learn the fundamentals of routing.}}
 
 :::
 
-{{In the following example we'll use the `@Controller()` decorator, which is required to define a basic controller; `@Auth(ROLE.ADMIN)` decorator, which is specified for authorization purpose; and `@ApiTags('cat')` to attach a controller to a specific tag.}}
+{{In the following example we'll use the `@Controller()` decorator, which is required to define a basic controller; `@Auth(ROLE_SYSTEM_ADMIN)` decorator, which is specified for authorization purpose; and `@ApiTags('cat')` to attach a controller to a specific tag.}}
 
 ```ts
-@Auth(ROLE.ADMIN)
+import { ROLE_SYSTEM_ADMIN, INVOKE_CONTEXT, IInvoke, Auth } from '@mbc-cqrs-serverless/core';
+
+@Auth(ROLE_SYSTEM_ADMIN)
 @Controller("api/cat")
 @ApiTags("cat")
 export class CatController {

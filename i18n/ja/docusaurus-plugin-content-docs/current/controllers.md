@@ -18,10 +18,12 @@ MBC サーバーレス フレームワークでのコントローラーの定義
 
 :::
 
-次の例では、基本的なコントローラーを定義するために必要な `@Controller()` デコレーターを使用します。 基本コントローラに `@Auth(ROLE.ADMIN)` デコレータを認可の目的で指定します。そして `@ApiTags('cat')` を使用してコントローラーを特定のタグにアタッチします。
+次の例では、基本的なコントローラーを定義するために必要な `@Controller()` デコレーターを使用します。 基本コントローラに `@Auth(ROLE_SYSTEM_ADMIN)` デコレータを認可の目的で指定します。そして `@ApiTags('cat')` を使用してコントローラーを特定のタグにアタッチします。
 
 ```ts
-@Auth(ROLE.ADMIN)
+import { ROLE_SYSTEM_ADMIN, INVOKE_CONTEXT, IInvoke, Auth } from '@mbc-cqrs-serverless/core';
+
+@Auth(ROLE_SYSTEM_ADMIN)
 @Controller("api/cat")
 @ApiTags("cat")
 export class CatController {

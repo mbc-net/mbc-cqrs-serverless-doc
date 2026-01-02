@@ -256,21 +256,23 @@ When controllers are enabled, the following endpoints are available:
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/settings` | List all settings |
-| GET | `/settings/:pk/:sk` | Get a specific setting |
-| POST | `/settings` | Create a new setting |
-| PUT | `/settings/:pk/:sk` | Update a setting |
-| DELETE | `/settings/:pk/:sk` | Delete a setting |
+| GET | `/api/master-setting` | List all settings |
+| GET | `/api/master-setting/:pk/:sk` | Get a specific setting |
+| POST | `/api/master-setting` | Create a new setting |
+| PUT | `/api/master-setting/:pk/:sk` | Update a setting |
+| DELETE | `/api/master-setting/:pk/:sk` | Delete a setting |
+| POST | `/api/master-setting/check-exist/:code` | Check if a setting code exists |
 
 ### Data Setting Endpoints
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/data-settings` | List all data settings |
-| GET | `/data-settings/:pk/:sk` | Get a specific data setting |
-| POST | `/data-settings` | Create a new data setting |
-| PUT | `/data-settings/:pk/:sk` | Update a data setting |
-| DELETE | `/data-settings/:pk/:sk` | Delete a data setting |
+| GET | `/api/master-data` | List all data settings |
+| GET | `/api/master-data/:pk/:sk` | Get a specific data setting |
+| POST | `/api/master-data` | Create a new data setting |
+| PUT | `/api/master-data/:pk/:sk` | Update a data setting |
+| DELETE | `/api/master-data/:pk/:sk` | Delete a data setting |
+| POST | `/api/master-data/check-exist/:settingCode/:code` | Check if a data setting code exists |
 
 ## Multi-Tenant Support
 

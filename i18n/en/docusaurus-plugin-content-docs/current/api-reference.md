@@ -24,7 +24,7 @@ graph TB
 
     subgraph "Support Modules"
         G["NotificationModule"]
-        H["UISettingModule"]
+        H["SettingModule"]
     end
 
     A --> B
@@ -56,7 +56,7 @@ graph TB
 | Module | Package | Description |
 |------------|-------------|-----------------|
 | Notification Module | `@mbc-cqrs-serverless/core` | Email notifications via Amazon SES |
-| UI Setting Module | `@mbc-cqrs-serverless/core` | User interface configuration storage |
+| Setting Module | `@mbc-cqrs-serverless/ui-setting` | User interface configuration storage |
 
 ## Quick Start
 
@@ -104,13 +104,13 @@ export class YourService {
 Most operations require tenant context for data isolation:
 
 ```typescript
-async createItem(tenantCode: string, data: CreateDto) {
-  return this.commandService.publish({
+async createItem(tenantCode: string, data: CreateDto, invokeContext: IInvoke) {
+  return this.commandService.publishAsync({
     pk: `${tenantCode}#ITEM`,
     sk: data.id,
     tenantCode,
     // ... other fields
-  });
+  }, { invokeContext });
 }
 ```
 

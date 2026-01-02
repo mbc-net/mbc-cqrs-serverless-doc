@@ -24,7 +24,7 @@ graph TB
 
     subgraph "サポートモジュール"
         G["NotificationModule"]
-        H["UISettingModule"]
+        H["SettingModule"]
     end
 
     A --> B
@@ -56,7 +56,7 @@ graph TB
 | モジュール | パッケージ | 説明 |
 |------------|-------------|-----------------|
 | Notificationモジュール | `@mbc-cqrs-serverless/core` | Amazon SESによるメール通知 |
-| UI Settingモジュール | `@mbc-cqrs-serverless/core` | ユーザーインターフェース設定のストレージ |
+| Settingモジュール | `@mbc-cqrs-serverless/ui-setting` | ユーザーインターフェース設定のストレージ |
 
 ## クイックスタート
 
@@ -104,13 +104,13 @@ export class YourService {
 ほとんどの操作はデータ分離のためにテナントコンテキストが必要です：
 
 ```typescript
-async createItem(tenantCode: string, data: CreateDto) {
-  return this.commandService.publish({
+async createItem(tenantCode: string, data: CreateDto, invokeContext: IInvoke) {
+  return this.commandService.publishAsync({
     pk: `${tenantCode}#ITEM`,
     sk: data.id,
     tenantCode,
     // ... other fields
-  });
+  }, { invokeContext });
 }
 ```
 
