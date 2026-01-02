@@ -391,31 +391,39 @@ async up(cmd: CommandModel): Promise<any> {
 
 ```ts
 // Get all products for a tenant
-const items = await dataService.listItemsByPk({
-  pk: `PRODUCT${KEY_SEPARATOR}${tenantCode}`,
-});
+const items = await dataService.listItemsByPk(
+  `PRODUCT${KEY_SEPARATOR}${tenantCode}`,
+);
 ```
 
 ### Query with SK Prefix
 
 ```ts
 // Get all order items for a specific order
-const items = await dataService.listItemsByPk({
-  pk: `ORDER${KEY_SEPARATOR}${tenantCode}`,
-  skPrefix: `ORDER_ITEM${KEY_SEPARATOR}${orderId}`,
-});
+const items = await dataService.listItemsByPk(
+  `ORDER${KEY_SEPARATOR}${tenantCode}`,
+  {
+    sk: {
+      skExpession: 'begins_with(sk, :skPrefix)',
+      skAttributeValues: { ':skPrefix': `ORDER_ITEM${KEY_SEPARATOR}${orderId}` },
+    },
+  },
+);
 ```
 
 ### Query with SK Range
 
 ```ts
 // Get orders within a date range (if using timestamp in SK)
-const items = await dataService.query({
-  pk: `ORDER${KEY_SEPARATOR}${tenantCode}`,
-  sk: {
-    between: [startDate, endDate],
+const items = await dataService.listItemsByPk(
+  `ORDER${KEY_SEPARATOR}${tenantCode}`,
+  {
+    sk: {
+      skExpession: 'sk BETWEEN :start AND :end',
+      skAttributeValues: { ':start': startDate, ':end': endDate },
+    },
   },
-});
+);
 ```
 
 ## Best Practices
