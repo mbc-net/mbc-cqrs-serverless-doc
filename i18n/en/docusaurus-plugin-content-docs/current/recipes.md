@@ -95,11 +95,14 @@ export class OrderDataSyncHandler implements IEventHandler<OrderDataSyncEvent> {
 ### Error Handling
 
 ```typescript
+import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
+import { ConflictException } from '@nestjs/common';
+
 try {
   await this.commandService.publishAsync(command, options);
 } catch (error) {
-  if (error instanceof VersionConflictException) {
-    // Handle optimistic locking conflict
+  if (error instanceof ConditionalCheckFailedException) {
+    // Handle optimistic locking conflict (version mismatch)
     throw new ConflictException('Item was modified by another process');
   }
   throw error;
