@@ -36,9 +36,8 @@ import { Module } from '@nestjs/common';
 
 @Module({
   imports: [
-    SurveyTemplateModule.forRoot({
-      tableName: 'survey-templates',
-      region: 'ap-northeast-1',
+    SurveyTemplateModule.register({
+      enableController: true,  // Enable REST API endpoints
     }),
   ],
 })
@@ -66,31 +65,12 @@ export class SurveyService {
     private readonly surveyTemplateService: SurveyTemplateService,
   ) {}
 
-  async createTemplate(): Promise<SurveyTemplate> {
-    return this.surveyTemplateService.create({
-      name: 'Customer Satisfaction Survey',
-      description: 'Annual customer satisfaction survey',
-      sections: [
-        {
-          title: 'General Feedback',
-          questions: [
-            {
-              type: 'rating',
-              text: 'How satisfied are you with our service?',
-              required: true,
-              min: 1,
-              max: 5,
-            },
-            {
-              type: 'text',
-              text: 'What can we improve?',
-              required: false,
-              maxLength: 500,
-            },
-          ],
-        },
-      ],
-    });
+  async createTemplate(
+    tenantCode: string,
+    dto: CreateSurveyTemplateDto,
+    invokeContext: IInvoke,
+  ): Promise<SurveyTemplateEntity> {
+    return this.surveyTemplateService.create(tenantCode, dto, { invokeContext });
   }
 }
 ```
@@ -193,17 +173,15 @@ interface TemplateSettings {
 ## {{Searching Templates}}
 
 ```typescript
-async searchTemplates(keyword: string): Promise<SurveyTemplate[]> {
-  return this.surveyTemplateService.search({
-    keyword,
-    limit: 10,
-  });
+async searchTemplates(
+  tenantCode: string,
+  searchDto: SearchDto,
+): Promise<SurveyTemplateEntity[]> {
+  return this.surveyTemplateService.searchData(tenantCode, searchDto);
 }
 
-async listByCategory(category: string): Promise<SurveyTemplate[]> {
-  return this.surveyTemplateService.list({
-    filter: { category },
-  });
+async getTemplate(key: DetailKey): Promise<SurveyTemplateEntity> {
+  return this.surveyTemplateService.findOne(key);
 }
 ```
 
@@ -211,31 +189,28 @@ async listByCategory(category: string): Promise<SurveyTemplate[]> {
 
 ```typescript
 async updateTemplate(
-  id: string,
-  updates: Partial<SurveyTemplate>,
-): Promise<SurveyTemplate> {
-  return this.surveyTemplateService.update(id, updates);
+  key: DetailKey,
+  dto: UpdateSurveyTemplateDto,
+  invokeContext: IInvoke,
+): Promise<SurveyTemplateEntity> {
+  return this.surveyTemplateService.update(key, dto, { invokeContext });
 }
 ```
 
-## {{Cloning Templates}}
+## {{Deleting Templates}}
 
 ```typescript
-async cloneTemplate(
-  templateId: string,
-  newName: string,
-): Promise<SurveyTemplate> {
-  const original = await this.surveyTemplateService.getById(templateId);
-  return this.surveyTemplateService.create({
-    ...original,
-    name: newName,
-  });
+async deleteTemplate(
+  key: DetailKey,
+  invokeContext: IInvoke,
+): Promise<SurveyTemplateEntity> {
+  return this.surveyTemplateService.remove(key, { invokeContext });
 }
 ```
 
 ## {{Multi-tenant Usage}}
 
-{{Templates are automatically isolated by tenant:}}
+{{Templates are automatically isolated by tenant through the invoke context:}}
 
 ```typescript
 @Controller('api/survey-template')
@@ -245,26 +220,35 @@ export class SurveyTemplateController {
   ) {}
 
   @Get()
-  @UseTenant()
-  async list(@TenantContext() tenantId: string): Promise<SurveyTemplate[]> {
-    // Automatically scoped to tenant
-    return this.surveyTemplateService.list();
+  async searchData(
+    @Query() searchDto: SearchDto,
+    @INVOKE_CONTEXT() invokeContext: IInvoke,
+  ): Promise<SurveyTemplateEntity[]> {
+    const { tenantCode } = getUserContext(invokeContext);
+    return this.surveyTemplateService.searchData(tenantCode, searchDto);
   }
 }
 ```
 
 ## {{Event Handling}}
 
-{{Listen for template events:}}
+{{Handle survey template data synchronization using data sync handlers:}}
 
 ```typescript
-import { TemplateCreatedEvent } from '@mbc-cqrs-serverless/survey-template';
+import { IDataSyncHandler, DataEntity } from '@mbc-cqrs-serverless/core';
 
-@EventsHandler(TemplateCreatedEvent)
-export class TemplateCreatedHandler
-  implements IEventHandler<TemplateCreatedEvent> {
-  async handle(event: TemplateCreatedEvent): Promise<void> {
-    console.log('Template created:', event.template.name);
+export class SurveyTemplateDataSyncHandler implements IDataSyncHandler {
+  async onCreated(data: DataEntity): Promise<void> {
+    console.log('Survey template created:', data.name);
+    // Sync to RDS, notify users, etc.
+  }
+
+  async onUpdated(data: DataEntity): Promise<void> {
+    console.log('Survey template updated:', data.name);
+  }
+
+  async onDeleted(data: DataEntity): Promise<void> {
+    console.log('Survey template deleted:', data.name);
   }
 }
 ```
