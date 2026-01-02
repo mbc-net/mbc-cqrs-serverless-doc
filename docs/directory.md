@@ -30,15 +30,13 @@ npm install @mbc-cqrs-serverless/directory
 ### {{Module Configuration}}
 
 ```typescript
-import { DirectoryModule } from '@mbc-cqrs-serverless/directory';
+import { DirectoryStorageModule } from '@mbc-cqrs-serverless/directory';
 import { Module } from '@nestjs/common';
 
 @Module({
   imports: [
-    DirectoryModule.forRoot({
-      tableName: 'directory',
-      s3Bucket: process.env.S3_BUCKET,
-      region: 'ap-northeast-1',
+    DirectoryStorageModule.register({
+      enableController: true,  // Enable REST API endpoints
     }),
   ],
 })
@@ -58,18 +56,18 @@ export class AppModule {}
 ## {{Creating Folders}}
 
 ```typescript
-import { DirectoryService } from '@mbc-cqrs-serverless/directory';
+import { DirectoryStorageService } from '@mbc-cqrs-serverless/directory';
 
 @Injectable()
 export class FolderService {
-  constructor(private readonly directoryService: DirectoryService) {}
+  constructor(private readonly directoryService: DirectoryStorageService) {}
 
-  async createFolder(name: string, parentId?: string): Promise<Directory> {
-    return this.directoryService.create({
-      name,
-      type: 'folder',
-      parentId,
-    });
+  async createFolder(
+    tenantCode: string,
+    dto: CreateDirectoryDto,
+    invokeContext: IInvoke,
+  ): Promise<DirectoryEntity> {
+    return this.directoryService.create(tenantCode, dto, { invokeContext });
   }
 }
 ```
@@ -78,77 +76,71 @@ export class FolderService {
 
 ```typescript
 async uploadFile(
-  file: Buffer,
-  fileName: string,
-  folderId: string,
-): Promise<Directory> {
-  return this.directoryService.create({
-    name: fileName,
-    type: 'file',
-    parentId: folderId,
-    content: file,
-    contentType: 'application/pdf',
-  });
+  tenantCode: string,
+  dto: CreateDirectoryDto,
+  invokeContext: IInvoke,
+): Promise<DirectoryEntity> {
+  // File upload is handled through the create method with file content
+  return this.directoryService.create(tenantCode, dto, { invokeContext });
 }
 ```
 
 ## {{Listing Contents}}
 
 ```typescript
-async listFolder(folderId: string): Promise<Directory[]> {
-  return this.directoryService.list({
-    parentId: folderId,
-  });
+async getDirectory(key: DetailKey): Promise<DirectoryEntity> {
+  return this.directoryService.findOne(key);
 }
 
-async searchFiles(keyword: string): Promise<Directory[]> {
-  return this.directoryService.search({
-    keyword,
-    type: 'file',
-  });
+async getDirectoryHistory(key: DetailKey): Promise<DirectoryEntity[]> {
+  return this.directoryService.findHistory(key);
 }
 ```
 
-## {{Downloading Files}}
+## {{File Operations}}
 
 ```typescript
-async downloadFile(fileId: string): Promise<Buffer> {
-  const file = await this.directoryService.getById(fileId);
-  return this.directoryService.download(file.s3Key);
+// Get file attributes
+async getFileAttributes(key: DetailKey): Promise<any> {
+  return this.directoryService.getItemAttributes(key);
+}
+
+// Remove file from S3
+async removeFile(s3Key: string): Promise<void> {
+  await this.directoryService.removeFile(s3Key);
 }
 ```
 
 ## {{Managing Permissions}}
 
-### {{Setting Permissions}}
+### {{Updating Permissions}}
 
 ```typescript
-async setPermission(
-  directoryId: string,
-  userId: string,
-  permission: 'read' | 'write' | 'admin',
-): Promise<void> {
-  await this.directoryService.setPermission({
-    directoryId,
-    userId,
-    permission,
-  });
+async updatePermission(
+  key: DetailKey,
+  dto: UpdatePermissionDto,
+  invokeContext: IInvoke,
+): Promise<DirectoryEntity> {
+  return this.directoryService.updatePermission(key, dto, { invokeContext });
 }
 ```
 
 ### {{Checking Permissions}}
 
 ```typescript
-async canAccess(
-  directoryId: string,
+async hasPermission(
+  key: DetailKey,
   userId: string,
-  action: 'read' | 'write',
+  action: DirectoryAction,
 ): Promise<boolean> {
-  return this.directoryService.checkPermission({
-    directoryId,
-    userId,
-    action,
-  });
+  return this.directoryService.hasPermission(key, userId, action);
+}
+
+async getEffectiveRole(
+  key: DetailKey,
+  userId: string,
+): Promise<DirectoryRole | null> {
+  return this.directoryService.getEffectiveRole(key, userId);
 }
 ```
 
@@ -157,16 +149,24 @@ async canAccess(
 ### {{Move Item}}
 
 ```typescript
-async moveItem(itemId: string, newParentId: string): Promise<Directory> {
-  return this.directoryService.move(itemId, newParentId);
+async moveItem(
+  key: DetailKey,
+  dto: MoveDirectoryDto,
+  invokeContext: IInvoke,
+): Promise<DirectoryEntity> {
+  return this.directoryService.move(key, dto, { invokeContext });
 }
 ```
 
 ### {{Copy Item}}
 
 ```typescript
-async copyItem(itemId: string, newParentId: string): Promise<Directory> {
-  return this.directoryService.copy(itemId, newParentId);
+async copyItem(
+  key: DetailKey,
+  dto: CopyDirectoryDto,
+  invokeContext: IInvoke,
+): Promise<DirectoryEntity> {
+  return this.directoryService.copy(key, dto, { invokeContext });
 }
 ```
 
@@ -191,35 +191,44 @@ async copyItem(itemId: string, newParentId: string): Promise<Directory> {
 
 ## {{Multi-tenant Isolation}}
 
-{{Directories are automatically isolated by tenant:}}
+{{Directories are automatically isolated by tenant through the invoke context:}}
 
 ```typescript
 @Controller('api/directory')
 export class DirectoryController {
-  constructor(private readonly directoryService: DirectoryService) {}
+  constructor(private readonly directoryService: DirectoryStorageService) {}
 
-  @Get()
-  @UseTenant()
-  async list(@TenantContext() tenantId: string): Promise<Directory[]> {
-    // Automatically scoped to tenant
-    return this.directoryService.list();
+  @Get(':pk/:sk')
+  async findOne(
+    @INVOKE_CONTEXT() invokeContext: IInvoke,
+    @Param('pk') pk: string,
+    @Param('sk') sk: string,
+  ): Promise<DirectoryEntity> {
+    // Tenant isolation is handled through the pk structure
+    return this.directoryService.findOne({ pk, sk });
   }
 }
 ```
 
 ## {{Event Handling}}
 
-{{Listen for directory events:}}
+{{Handle directory data synchronization using data sync handlers:}}
 
 ```typescript
-import { DirectoryCreatedEvent } from '@mbc-cqrs-serverless/directory';
+import { IDataSyncHandler, DataEntity } from '@mbc-cqrs-serverless/core';
 
-@EventsHandler(DirectoryCreatedEvent)
-export class DirectoryCreatedHandler
-  implements IEventHandler<DirectoryCreatedEvent> {
-  async handle(event: DirectoryCreatedEvent): Promise<void> {
-    console.log('Directory created:', event.directory.name);
-    // Notify users, update indexes, etc.
+export class DirectoryDataSyncHandler implements IDataSyncHandler {
+  async onCreated(data: DataEntity): Promise<void> {
+    console.log('Directory created:', data.name);
+    // Sync to RDS, notify users, update indexes, etc.
+  }
+
+  async onUpdated(data: DataEntity): Promise<void> {
+    console.log('Directory updated:', data.name);
+  }
+
+  async onDeleted(data: DataEntity): Promise<void> {
+    console.log('Directory deleted:', data.name);
   }
 }
 ```

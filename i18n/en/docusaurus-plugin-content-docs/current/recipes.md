@@ -42,7 +42,7 @@ async createOrder(dto: CreateOrderDto, context: IInvoke) {
     typeCode: 'ORDER',
   });
 
-  return this.commandService.publish(
+  return this.commandService.publishAsync(
     {
       pk: `${dto.tenantCode}#ORDER`,
       sk: `ORDER#${orderId.formattedNo}`,
@@ -62,10 +62,10 @@ async createOrder(dto: CreateOrderDto, context: IInvoke) {
 // Query data with proper filtering
 async listOrders(tenantCode: string, options: ListOptions) {
   return this.dataService.listItemsByPk(
-    { pk: `${tenantCode}#ORDER` },
+    `${tenantCode}#ORDER`,
     {
       limit: options.limit,
-      exclusiveStartKey: options.nextToken,
+      startFromSk: options.lastSk,
     },
   );
 }
@@ -96,7 +96,7 @@ export class OrderDataSyncHandler implements IEventHandler<OrderDataSyncEvent> {
 
 ```typescript
 try {
-  await this.commandService.publish(command, options);
+  await this.commandService.publishAsync(command, options);
 } catch (error) {
   if (error instanceof VersionConflictException) {
     // Handle optimistic locking conflict
