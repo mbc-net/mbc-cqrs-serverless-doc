@@ -258,7 +258,7 @@ const item = await this.commandService.publish(catCommand, {
 
 The method returns the command data.
 
-### *async* `publishPartialUpdate( input: CommandPartialInputModel, options?: ICommandOptions)` <span class="badge badge--warning">deprecated</span>
+### *async* `publishPartialUpdate( input: CommandPartialInputModel, options: ICommandOptions)` <span class="badge badge--warning">deprecated</span>
 
 :::info
 

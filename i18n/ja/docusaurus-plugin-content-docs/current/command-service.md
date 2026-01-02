@@ -258,7 +258,7 @@ const item = await this.commandService.publish(catCommand, {
 
 このメソッドはコマンド データを返します。
 
-### *async* `publishPartialUpdate( input: CommandPartialInputModel, options?: ICommandOptions)` <span class="badge badge--warning">非推奨</span>
+### *async* `publishPartialUpdate( input: CommandPartialInputModel, options: ICommandOptions)` <span class="badge badge--warning">非推奨</span>
 
 :::info
 
