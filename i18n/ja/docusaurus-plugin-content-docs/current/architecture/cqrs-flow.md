@@ -121,7 +121,7 @@ export class CreateResourceHandler
     // 1. Validate business rules
     // 2. Create entity
     // 3. Persist and publish event
-    return this.commandService.publish(entity);
+    return this.commandService.publishAsync(entity, { invokeContext });
   }
 }
 ```

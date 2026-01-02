@@ -202,29 +202,28 @@ export interface ICommandEntity extends IDataEntity {
 
 ### List Response Interfaces
 
-#### IDataListEntity
+#### DataListEntity
 
 Paginated list response for data queries.
 
 ```ts
-export interface IDataListEntity<T> {
-  items: T[]              // Array of entities
-  total?: number          // Total count (if available)
-  lastEvaluatedKey?: DetailKey  // Pagination cursor
+export class DataListEntity {
+  items: DataEntity[]   // Array of entities
+  total?: number        // Total count (if available)
+  lastSk?: string       // Pagination cursor (last sort key)
 }
 ```
 
 **Usage Example**:
 ```typescript
-const result: IDataListEntity<OrderDataEntity> = await dataService.listItems({
-  pk: 'ORDER#tenant001',
+const result = await dataService.listItemsByPk('ORDER#tenant001', {
   limit: 20,
-  lastEvaluatedKey: previousKey,
+  startFromSk: previousLastSk,
 });
 
 // Pagination
-if (result.lastEvaluatedKey) {
-  // More items available
+if (result.lastSk) {
+  // More items available - use result.lastSk for next page
 }
 ```
 
@@ -238,11 +237,9 @@ Options for list queries.
 
 ```ts
 export interface ListOptions {
-  pk: string                    // Partition key prefix
-  sk?: string                   // Sort key prefix (optional)
   limit?: number                // Maximum items to return
   scanIndexForward?: boolean    // Sort order (true = ascending)
-  lastEvaluatedKey?: DetailKey  // Pagination cursor
+  startFromSk?: string          // Pagination cursor (start from this sort key)
   filter?: FilterExpression     // Additional filters
 }
 ```

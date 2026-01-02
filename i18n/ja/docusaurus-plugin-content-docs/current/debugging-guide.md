@@ -90,11 +90,11 @@ import { Logger } from '@nestjs/common';
 export class TodoService {
   private readonly logger = new Logger(TodoService.name);
 
-  async create(dto: CreateTodoDto): Promise<Todo> {
+  async create(dto: CreateTodoDto, invokeContext: IInvoke): Promise<Todo> {
     this.logger.debug(`Creating todo: ${JSON.stringify(dto)}`);
 
     try {
-      const result = await this.commandService.publish(/* ... */);
+      const result = await this.commandService.publishAsync(entity, { invokeContext });
       this.logger.log(`Todo created: ${result.id}`);
       return result;
     } catch (error) {

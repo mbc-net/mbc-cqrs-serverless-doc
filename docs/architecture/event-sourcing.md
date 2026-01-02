@@ -105,7 +105,7 @@ sequenceDiagram
 
 ```typescript
 // Command Service automatically handles versioning
-await this.commandService.publish(entity, {
+await this.commandService.publishAsync(entity, {
   invokeContext: context,
 });
 
