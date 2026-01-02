@@ -1,10 +1,11 @@
 ---
-sidebar_position: 10
+sidebar_position: 2
+description: Comprehensive error catalog with causes, solutions, and recovery strategies for MBC CQRS Serverless.
 ---
 
 # エラーカタログ
 
-このカタログでは、MBC CQRS Serverlessで発生する一般的なエラー、その原因、および解決策を説明します。
+This catalog provides comprehensive documentation of errors encountered in MBC CQRS Serverless, including their causes, solutions, and recovery strategies.
 
 ## コマンドサービスエラー
 
@@ -16,10 +17,8 @@ sidebar_position: 10
 
 **解決策**:
 ```typescript
-// 1. Fetch latest version before update
+// Option 1: Fetch latest version before update
 const latest = await dataService.getItem({ pk, sk });
-
-// 2. Use the current version
 await commandService.publishPartialUpdateSync({
   pk,
   sk,
@@ -27,13 +26,32 @@ await commandService.publishPartialUpdateSync({
   name: 'Updated Name',
 }, options);
 
-// 3. Or use version: -1 for auto-fetch (async mode only)
+// Option 2: Use version: -1 for auto-fetch (async mode only)
 await commandService.publishPartialUpdateAsync({
   pk,
   sk,
   version: -1,
   name: 'Updated Name',
 }, options);
+
+// Option 3: Implement retry logic
+async function updateWithRetry(data, maxRetries = 3) {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      const latest = await dataService.getItem({ pk: data.pk, sk: data.sk });
+      return await commandService.publishPartialUpdateSync({
+        ...data,
+        version: latest.version,
+      }, options);
+    } catch (error) {
+      if (error.message.includes('version not match') && i < maxRetries - 1) {
+        await new Promise(r => setTimeout(r, 100 * (i + 1)));
+        continue;
+      }
+      throw error;
+    }
+  }
+}
 ```
 
 ---
@@ -49,7 +67,16 @@ await commandService.publishPartialUpdateAsync({
 // Check if item exists first
 const existing = await dataService.getItem({ pk, sk });
 if (!existing) {
+  // Create new item
   await commandService.publishAsync(newItem, options);
+} else {
+  // Update existing item
+  await commandService.publishPartialUpdateAsync({
+    pk,
+    sk,
+    version: existing.version,
+    ...updates,
+  }, options);
 }
 ```
 
@@ -75,7 +102,16 @@ if (!existing) {
 
 **解決策**:
 ```typescript
-const tenants = await tenantService.listTenants();
+// Verify tenant exists
+try {
+  const tenant = await tenantService.getTenant(tenantCode);
+} catch (error) {
+  if (error.message === 'Tenant not found') {
+    // List available tenants
+    const tenants = await tenantService.listTenants();
+    console.log('Available tenants:', tenants.items.map(t => t.code));
+  }
+}
 ```
 
 ---
@@ -86,7 +122,60 @@ const tenants = await tenantService.listTenants();
 
 **原因**: 既に存在するコードでテナントを作成しようとしています。
 
-**解決策**: 別のテナントコードを使用するか、削除後に再作成する場合は既存のコードを再利用できます。
+**解決策**:
+```typescript
+// Check if tenant exists before creating
+const existing = await tenantService.getTenant(tenantCode).catch(() => null);
+if (existing) {
+  console.log('Tenant already exists, using existing tenant');
+} else {
+  await tenantService.createTenant({ code: tenantCode, name: tenantName });
+}
+```
+
+---
+
+## Sequence Errors
+
+### BadRequestException: "Sequence not found"
+
+**場所**: `packages/sequence/src/services/sequence.service.ts`
+
+**原因**: The requested sequence key does not exist.
+
+**解決策**:
+```typescript
+// Initialize sequence if not exists
+const seqKey = `ORDER#${tenantCode}`;
+try {
+  const nextSeq = await sequenceService.getNextSequence(seqKey);
+} catch (error) {
+  // Sequence auto-initializes on first use
+  // If error persists, check DynamoDB table permissions
+}
+```
+
+---
+
+## Task Errors
+
+### BadRequestException: "Task not found"
+
+**場所**: `packages/task/src/services/task.service.ts`
+
+**原因**: The specified task does not exist or has been completed/deleted.
+
+**解決策**:
+```typescript
+// Verify task status before operations
+const task = await taskService.getTask(taskId);
+if (!task) {
+  throw new NotFoundException('Task not found');
+}
+if (task.status === 'completed') {
+  throw new BadRequestException('Task already completed');
+}
+```
 
 ---
 
@@ -98,12 +187,42 @@ const tenants = await tenantService.listTenants();
 
 **原因**: リクエストDTOがclass-validatorのバリデーションに失敗しました。
 
+**Common Validation Errors**:
+```typescript
+// Example DTO with validation
+export class CreateOrderDto {
+  @IsNotEmpty({ message: 'Name is required' })
+  @IsString()
+  @MaxLength(100)
+  name: string;
+
+  @IsNotEmpty({ message: 'Code is required' })
+  @Matches(/^[A-Z0-9-]+$/, { message: 'Code must be uppercase alphanumeric' })
+  code: string;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  amount?: number;
+}
+
+// Common validation errors and fixes:
+// - "name must be a string" -> Ensure name is string type
+// - "code should not be empty" -> Provide code value
+// - "amount must not be less than 0" -> Use positive number
+```
+
 **解決策**:
 ```typescript
-const dto: CreateOrderDto = {
-  name: 'Order Name',
-  code: 'ORD001',
-};
+// Validate before sending
+import { validate } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+
+const dto = plainToInstance(CreateOrderDto, requestBody);
+const errors = await validate(dto);
+if (errors.length > 0) {
+  console.log('Validation errors:', errors.map(e => e.constraints));
+}
 ```
 
 ---
@@ -114,17 +233,24 @@ const dto: CreateOrderDto = {
 
 **場所**: AWS DynamoDB
 
-**原因**: 読み取りまたは書き込み容量を超過しました。
+**原因**: Read or write capacity has been exceeded on on-demand or provisioned tables.
 
 **解決策**:
 ```typescript
-async function withRetry<T>(fn: () => Promise<T>, maxRetries = 3): Promise<T> {
+// Implement exponential backoff retry
+async function withRetry<T>(
+  fn: () => Promise<T>,
+  maxRetries = 5,
+  baseDelay = 100
+): Promise<T> {
   for (let i = 0; i < maxRetries; i++) {
     try {
       return await fn();
     } catch (error) {
       if (error.name === 'ProvisionedThroughputExceededException') {
-        await new Promise(r => setTimeout(r, Math.pow(2, i) * 100));
+        const delay = baseDelay * Math.pow(2, i) + Math.random() * 100;
+        console.log(`Throughput exceeded, retrying in ${delay}ms...`);
+        await new Promise(r => setTimeout(r, delay));
         continue;
       }
       throw error;
@@ -134,47 +260,468 @@ async function withRetry<T>(fn: () => Promise<T>, maxRetries = 3): Promise<T> {
 }
 ```
 
+**Prevention**:
+- Use on-demand capacity mode for unpredictable workloads
+- Implement request batching to reduce write operations
+- Use DAX for read-heavy workloads
+
 ---
 
 ### ConditionalCheckFailedException
 
 **場所**: AWS DynamoDB
 
-**原因**: 楽観的ロック条件が失敗しました（バージョン不一致）。
+**原因**: Optimistic locking condition failed (version mismatch) or unique constraint violation.
 
-**解決策**: 上記の「version not match」エラーと同じ - リフレッシュしてリトライしてください。
+**解決策**:
+```typescript
+// Handle conditional check failure
+try {
+  await commandService.publishSync(item, options);
+} catch (error) {
+  if (error.name === 'ConditionalCheckFailedException') {
+    // Refresh and retry
+    const latest = await dataService.getItem({ pk, sk });
+    await commandService.publishSync({
+      ...item,
+      version: latest.version,
+    }, options);
+  }
+}
+```
+
+---
+
+### ResourceNotFoundException
+
+**場所**: AWS DynamoDB
+
+**原因**: The specified table or index does not exist.
+
+**解決策**:
+```bash
+# Verify table exists
+aws dynamodb describe-table --table-name your-table-name
+
+# Check environment variable
+echo $DYNAMODB_TABLE_NAME
+```
+
+---
+
+### ValidationException: "One or more parameter values were invalid"
+
+**場所**: AWS DynamoDB
+
+**原因**: Invalid key structure, empty string for non-key attribute, or reserved word conflict.
+
+**解決策**:
+```typescript
+// Avoid empty strings
+const item = {
+  pk: 'ORDER#tenant001',
+  sk: 'ORDER#ORD001',
+  name: value || null,  // Use null instead of empty string
+};
+
+// Use expression attribute names for reserved words
+const params = {
+  ExpressionAttributeNames: {
+    '#name': 'name',
+    '#status': 'status',
+  },
+};
+```
+
+---
+
+## Cognito Authentication Errors
+
+### NotAuthorizedException
+
+**場所**: AWS Cognito
+
+**原因**: Invalid credentials or token expired.
+
+**解決策**:
+```typescript
+// Frontend: Refresh token
+try {
+  await Auth.currentSession();  // Auto-refreshes if needed
+} catch (error) {
+  if (error.name === 'NotAuthorizedException') {
+    // Redirect to login
+    await Auth.signOut();
+    window.location.href = '/login';
+  }
+}
+```
+
+---
+
+### UserNotFoundException
+
+**場所**: AWS Cognito
+
+**原因**: User does not exist in the user pool.
+
+**解決策**:
+```typescript
+// Check user exists before operations
+try {
+  const user = await adminGetUser({ Username: email });
+} catch (error) {
+  if (error.name === 'UserNotFoundException') {
+    // Create new user or show registration form
+  }
+}
+```
+
+---
+
+### UserNotConfirmedException
+
+**場所**: AWS Cognito
+
+**原因**: User has not confirmed their email/phone.
+
+**解決策**:
+```typescript
+try {
+  await Auth.signIn(email, password);
+} catch (error) {
+  if (error.name === 'UserNotConfirmedException') {
+    // Resend confirmation code
+    await Auth.resendSignUp(email);
+    // Redirect to confirmation page
+  }
+}
+```
+
+---
+
+## Step Functions Errors
+
+### TaskTimedOut
+
+**場所**: AWS Step Functions
+
+**原因**: Lambda function did not respond within the configured timeout.
+
+**解決策**:
+```typescript
+// Increase Lambda timeout in serverless.yml
+functions:
+  processTask:
+    handler: handler.process
+    timeout: 900  # 15 minutes max
+
+// Or break into smaller chunks
+async function processInChunks(items, chunkSize = 100) {
+  for (let i = 0; i < items.length; i += chunkSize) {
+    const chunk = items.slice(i, i + chunkSize);
+    await processChunk(chunk);
+  }
+}
+```
+
+---
+
+### TaskFailed
+
+**場所**: AWS Step Functions
+
+**原因**: Lambda function threw an unhandled error.
+
+**解決策**:
+```typescript
+// Proper error handling with Step Functions
+export async function handler(event: StepFunctionEvent) {
+  try {
+    const result = await processTask(event.input);
+
+    // Send success callback
+    await sfn.sendTaskSuccess({
+      taskToken: event.taskToken,
+      output: JSON.stringify(result),
+    }).promise();
+  } catch (error) {
+    // Send failure callback
+    await sfn.sendTaskFailure({
+      taskToken: event.taskToken,
+      error: error.name,
+      cause: error.message,
+    }).promise();
+  }
+}
+```
+
+---
+
+## S3 Errors
+
+### NoSuchKey
+
+**場所**: AWS S3
+
+**原因**: The specified object does not exist in the bucket.
+
+**解決策**:
+```typescript
+// Check if object exists before downloading
+try {
+  await s3.headObject({ Bucket: bucket, Key: key }).promise();
+  const data = await s3.getObject({ Bucket: bucket, Key: key }).promise();
+} catch (error) {
+  if (error.code === 'NoSuchKey' || error.code === 'NotFound') {
+    console.log('File does not exist:', key);
+    return null;
+  }
+  throw error;
+}
+```
+
+---
+
+### AccessDenied
+
+**場所**: AWS S3
+
+**原因**: IAM policy does not allow the requested operation.
+
+**解決策**:
+```yaml
+# Add required permissions in serverless.yml
+provider:
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - s3:GetObject
+            - s3:PutObject
+            - s3:DeleteObject
+          Resource:
+            - arn:aws:s3:::${self:custom.bucketName}/*
+```
+
+---
+
+## SQS Errors
+
+### MessageNotInflight
+
+**場所**: AWS SQS
+
+**原因**: Attempting to delete or change visibility of a message that is no longer in flight.
+
+**解決策**:
+```typescript
+// Process messages within visibility timeout
+export async function handler(event: SQSEvent) {
+  for (const record of event.Records) {
+    try {
+      await processMessage(record);
+      // Message auto-deleted on successful return
+    } catch (error) {
+      // Throw to keep message in queue for retry
+      throw error;
+    }
+  }
+}
+```
 
 ---
 
 ## HTTPステータスコードリファレンス
 
-| ステータス | 例外 | 意味 |
-|--------|-----------|---------|
-| 400 | BadRequestException | 無効な入力またはビジネスルール違反 |
-| 401 | UnauthorizedException | 認証が欠落しているか無効 |
-| 403 | ForbiddenException | 認証済みだが権限がない |
-| 404 | NotFoundException | リソースが見つからない |
-| 409 | ConflictException | バージョン競合（楽観的ロック） |
-| 500 | InternalServerErrorException | 予期しないサーバーエラー |
+| ステータス | 例外 | 意味 | Recovery Strategy |
+|--------|-----------|---------|-------------------|
+| 400 | BadRequestException | 無効な入力またはビジネスルール違反 | Fix request data |
+| 401 | UnauthorizedException | 認証が欠落しているか無効 | Refresh token or re-login |
+| 403 | ForbiddenException | 認証済みだが権限がない | Check user permissions |
+| 404 | NotFoundException | リソースが見つからない | Verify resource exists |
+| 409 | ConflictException | バージョン競合（楽観的ロック） | Refresh and retry |
+| 422 | UnprocessableEntityException | Validation failed | Fix validation errors |
+| 429 | TooManyRequestsException | Rate limit exceeded | Implement backoff retry |
+| 500 | InternalServerErrorException | 予期しないサーバーエラー | Check logs, report bug |
+| 502 | BadGatewayException | Upstream service error | Retry with backoff |
+| 503 | ServiceUnavailableException | Service temporarily unavailable | Retry later |
+| 504 | GatewayTimeoutException | Upstream service timeout | Increase timeout or optimize |
+
+---
+
+## Error Handling Best Practices
+
+### 1. Centralized Error Handler
+
+```typescript
+// Create a global exception filter
+@Catch()
+export class GlobalExceptionFilter implements ExceptionFilter {
+  catch(exception: unknown, host: ArgumentsHost) {
+    const ctx = host.switchToHttp();
+    const response = ctx.getResponse();
+    const request = ctx.getRequest();
+
+    const status = exception instanceof HttpException
+      ? exception.getStatus()
+      : 500;
+
+    const message = exception instanceof HttpException
+      ? exception.message
+      : 'Internal server error';
+
+    // Log error with context
+    console.error({
+      timestamp: new Date().toISOString(),
+      path: request.url,
+      method: request.method,
+      status,
+      message,
+      stack: exception instanceof Error ? exception.stack : undefined,
+    });
+
+    response.status(status).json({
+      statusCode: status,
+      message,
+      timestamp: new Date().toISOString(),
+      path: request.url,
+    });
+  }
+}
+```
+
+### 2. Retry with Exponential Backoff
+
+```typescript
+async function retryWithBackoff<T>(
+  operation: () => Promise<T>,
+  options: {
+    maxRetries?: number;
+    baseDelay?: number;
+    maxDelay?: number;
+    retryableErrors?: string[];
+  } = {}
+): Promise<T> {
+  const {
+    maxRetries = 3,
+    baseDelay = 100,
+    maxDelay = 10000,
+    retryableErrors = [
+      'ProvisionedThroughputExceededException',
+      'ThrottlingException',
+      'ServiceUnavailable',
+    ],
+  } = options;
+
+  let lastError: Error;
+
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      return await operation();
+    } catch (error) {
+      lastError = error;
+
+      if (!retryableErrors.includes(error.name) || attempt === maxRetries) {
+        throw error;
+      }
+
+      const delay = Math.min(
+        baseDelay * Math.pow(2, attempt) + Math.random() * 100,
+        maxDelay
+      );
+
+      console.log(`Retry attempt ${attempt + 1} after ${delay}ms`);
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+
+  throw lastError;
+}
+```
+
+### 3. Circuit Breaker Pattern
+
+```typescript
+class CircuitBreaker {
+  private failures = 0;
+  private lastFailure: number = 0;
+  private state: 'closed' | 'open' | 'half-open' = 'closed';
+
+  constructor(
+    private threshold: number = 5,
+    private timeout: number = 60000
+  ) {}
+
+  async execute<T>(operation: () => Promise<T>): Promise<T> {
+    if (this.state === 'open') {
+      if (Date.now() - this.lastFailure > this.timeout) {
+        this.state = 'half-open';
+      } else {
+        throw new Error('Circuit breaker is open');
+      }
+    }
+
+    try {
+      const result = await operation();
+      this.onSuccess();
+      return result;
+    } catch (error) {
+      this.onFailure();
+      throw error;
+    }
+  }
+
+  private onSuccess() {
+    this.failures = 0;
+    this.state = 'closed';
+  }
+
+  private onFailure() {
+    this.failures++;
+    this.lastFailure = Date.now();
+    if (this.failures >= this.threshold) {
+      this.state = 'open';
+    }
+  }
+}
+```
 
 ---
 
 ## デバッグのヒント
-
-効果的なデバッグのためのヒントを紹介します。
 
 1. **デバッグログを有効にする**:
    ```bash
    DEBUG=* npm run offline
    ```
 
-2. **Lambdaエラーについては**CloudWatchログ**を確認**
+2. **Lambdaエラーについては**CloudWatchログ**を確認**:
+   ```bash
+   aws logs tail /aws/lambda/your-function-name --follow
+   ```
 
 3. **トレーシングには**リクエストID**を使用**:
    ```typescript
    console.log('RequestId:', context.awsRequestId);
    ```
 
-4. ****環境変数**が正しく設定されていることを確認**
+4. **Verify environment variables**:
+   ```typescript
+   console.log('Config:', {
+     table: process.env.DYNAMODB_TABLE_NAME,
+     region: process.env.AWS_REGION,
+   });
+   ```
 
-5. ****DynamoDBテーブル**が存在し、正しいスキーマであることを確認**
+5. **Test locally with serverless-offline**:
+   ```bash
+   npm run offline -- --stage dev
+   ```
+
+## See Also
+
+- [Debugging Guide](./debugging-guide) - Detailed debugging procedures
+- [Common Issues](./common-issues) - Frequently encountered problems
+- [Monitoring and Logging](./monitoring-logging) - Production monitoring setup

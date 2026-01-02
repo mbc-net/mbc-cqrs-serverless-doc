@@ -57,7 +57,6 @@ const sidebars: SidebarsConfig = {
       },
       items: [
         "build-your-application",
-        "authentication",
         "controllers",
         "modules",
         {
@@ -148,7 +147,14 @@ const sidebars: SidebarsConfig = {
       ],
     },
 
-    // 8. Deployment & Operations - デプロイと運用
+    // 8. Security - セキュリティガイド
+    {
+      type: "category",
+      label: "Security",
+      items: ["security-best-practices", "authentication"],
+    },
+
+    // 9. Deployment & Operations - デプロイと運用
     {
       type: "category",
       label: "Deployment & Operations",
