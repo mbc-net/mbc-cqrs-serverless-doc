@@ -213,4 +213,4 @@ DYNAMODB_REGION=ap-northeast-1
 - {{[Key Patterns](./key-patterns.md): Detailed key design strategies}}
 - {{[Entity Patterns](./entity-patterns.md): Entity modeling guidelines}}
 - {{[Sequence](./sequence.md): Sequence ID generation}}
-- {{[CommandModule](./command-module.md): Command handling and data sync}}
+- {{[CommandService](./command-service.md): Command handling and data sync}}

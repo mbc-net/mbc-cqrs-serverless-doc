@@ -998,9 +998,213 @@ for (const batch of batches) {
 }
 ```
 
+## ImportModule API Reference
+
+The `@mbc-cqrs-serverless/import` package provides a comprehensive framework for managing data import tasks.
+
+### Installation
+
+```bash
+npm install @mbc-cqrs-serverless/import
+```
+
+### Core Concepts
+
+The module operates on a two-phase architecture:
+
+1. **Import Phase** (`IImportStrategy`): Transform raw data (from JSON or CSV) into a standardized DTO and validate it.
+2. **Process Phase** (`IProcessStrategy`): Compare validated DTO with existing data and map it to a command payload for creation or update.
+
+### Implementing Import Strategy
+
+The import strategy handles initial transformation and validation:
+
+```typescript
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
+import { BaseImportStrategy, IImportStrategy } from '@mbc-cqrs-serverless/import';
+import { PolicyCommandDto } from '../dto/policy-command.dto';
+
+@Injectable()
+export class PolicyImportStrategy
+  extends BaseImportStrategy<Record<string, any>, PolicyCommandDto>
+  implements IImportStrategy<Record<string, any>, PolicyCommandDto>
+{
+  async transform(input: Record<string, any>): Promise<PolicyCommandDto> {
+    const attrSource = input.attributes && typeof input.attributes === 'object'
+      ? input.attributes
+      : input;
+
+    const mappedObject = {
+      pk: input.pk,
+      sk: input.sk,
+      attributes: {
+        policyType: attrSource.policyType,
+        applyDate: new Date(attrSource.applyDate).toISOString(),
+      },
+    };
+
+    return plainToInstance(PolicyCommandDto, mappedObject);
+  }
+}
+```
+
+### Implementing Process Strategy
+
+The process strategy contains core business logic for comparing and mapping data:
+
+```typescript
+import { Injectable } from '@nestjs/common';
+import { CommandService, DataService } from '@mbc-cqrs-serverless/core';
+import {
+  BaseProcessStrategy,
+  ComparisonResult,
+  ComparisonStatus,
+  IProcessStrategy,
+} from '@mbc-cqrs-serverless/import';
+import { PolicyCommandDto } from '../dto/policy-command.dto';
+import { PolicyDataEntity } from '../entity/policy-data.entity';
+
+@Injectable()
+export class PolicyProcessStrategy
+  extends BaseProcessStrategy<PolicyDataEntity, PolicyCommandDto>
+  implements IProcessStrategy<PolicyDataEntity, PolicyCommandDto>
+{
+  constructor(
+    private readonly commandService: CommandService,
+    private readonly dataService: DataService,
+  ) {
+    super();
+  }
+
+  getCommandService(): CommandService {
+    return this.commandService;
+  }
+
+  async compare(
+    dto: PolicyCommandDto,
+    tenantCode: string,
+  ): Promise<ComparisonResult<PolicyDataEntity>> {
+    const existing = await this.dataService.getItem({ pk: dto.pk, sk: dto.sk });
+    if (!existing) return { status: ComparisonStatus.NOT_EXIST };
+    return { status: ComparisonStatus.EQUAL, existingData: existing as PolicyDataEntity };
+  }
+
+  async map(
+    status: ComparisonStatus,
+    dto: PolicyCommandDto,
+    tenantCode: string,
+    existingData?: PolicyDataEntity,
+  ) {
+    if (status === ComparisonStatus.NOT_EXIST) {
+      return { ...dto, version: 0 };
+    }
+    if (status === ComparisonStatus.CHANGED) {
+      return {
+        pk: dto.pk,
+        sk: dto.sk,
+        attributes: dto.attributes,
+        version: existingData.version,
+      };
+    }
+    throw new Error('Invalid map status');
+  }
+}
+```
+
+### Module Configuration
+
+Register the ImportModule with your profiles:
+
+```typescript
+import { Module } from '@nestjs/common';
+import { ImportModule } from '@mbc-cqrs-serverless/import';
+import { PolicyModule } from './policy/policy.module';
+import { PolicyImportStrategy } from './policy/strategies/policy.import-strategy';
+import { PolicyProcessStrategy } from './policy/strategies/policy.process-strategy';
+
+@Module({
+  imports: [
+    PolicyModule,
+    ImportModule.register({
+      enableController: true,
+      imports: [PolicyModule],
+      profiles: [
+        {
+          tableName: 'policy',
+          importStrategy: PolicyImportStrategy,
+          processStrategy: PolicyProcessStrategy,
+        },
+      ],
+    }),
+  ],
+})
+export class AppModule {}
+```
+
+### Custom Event Factory for Imports
+
+Configure the event factory to handle import events:
+
+```typescript
+import {
+  EventFactory,
+  IEvent,
+  StepFunctionsEvent,
+} from '@mbc-cqrs-serverless/core';
+import {
+  CsvImportSfnEvent,
+  DEFAULT_IMPORT_ACTION_QUEUE,
+  ImportEvent,
+  ImportQueueEvent,
+} from '@mbc-cqrs-serverless/import';
+import { DynamoDBStreamEvent, SQSEvent } from 'aws-lambda';
+
+@EventFactory()
+export class CustomEventFactory extends EventFactoryAddedTask {
+  async transformDynamodbStream(event: DynamoDBStreamEvent): Promise<IEvent[]> {
+    const curEvents = await super.transformDynamodbStream(event);
+
+    const importEvents = event.Records.map((record) => {
+      if (
+        record.eventSourceARN.endsWith('import_tmp') ||
+        record.eventSourceARN.includes('import_tmp/stream/')
+      ) {
+        if (record.eventName === 'INSERT') {
+          return new ImportEvent().fromDynamoDBRecord(record);
+        }
+      }
+      return undefined;
+    }).filter((event) => !!event);
+
+    return [...curEvents, ...importEvents];
+  }
+
+  async transformSqs(event: SQSEvent): Promise<IEvent[]> {
+    const curEvents = await super.transformSqs(event);
+
+    const importEvents = event.Records.map((record) => {
+      if (record.eventSourceARN.endsWith(DEFAULT_IMPORT_ACTION_QUEUE)) {
+        return new ImportQueueEvent().fromSqsRecord(record);
+      }
+      return undefined;
+    }).filter((event) => !!event);
+
+    return [...importEvents, ...curEvents];
+  }
+
+  async transformStepFunction(event: StepFunctionsEvent<any>): Promise<IEvent[]> {
+    if (event.context.StateMachine.Name.includes('import-csv')) {
+      return [new CsvImportSfnEvent(event)];
+    }
+    return super.transformStepFunction(event);
+  }
+}
+```
+
 ## 関連ドキュメント
 
-- [Backend Development Guide](./backend-development.md) - コアバックエンドパターン
-- [Service Patterns](./service-patterns.md) - サービス実装
-- [Step Functions](./architecture/step-functions.md) - ワークフローオーケストレーション
-- [Data Sync Handler Examples](./data-sync-handler-examples.md) - 同期ハンドラーパターン
+- [Backend Development Guide](./backend-development) - Core backend patterns
+- [Service Patterns](./service-patterns) - Service implementation
+- [Step Functions](./architecture/step-functions) - Workflow orchestration
+- [Data Sync Handler Examples](./data-sync-handler-examples) - Sync handler patterns

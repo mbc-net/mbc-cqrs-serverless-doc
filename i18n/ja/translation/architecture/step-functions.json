@@ -87,7 +87,7 @@
   "**Alarms**: Set up alerts for failure rates and execution times": "**アラーム**：失敗率と実行時間に対するアラートを設定",
   "Related Documentation": "関連ドキュメント",
   "[Task Module](../tasks.md) - Task management with Step Functions": "[タスクモジュール](../tasks.md) - Step Functionsを使用したタスク管理",
-  "[Import Module](../import.md) - CSV import with Distributed Map": "[インポートモジュール](../import.md) - Distributed Mapを使用したCSVインポート",
+  "[Import/Export Patterns](../import-export-patterns.md) - CSV import with Distributed Map": "[インポート/エクスポートパターン](../import-export-patterns.md) - Distributed Mapを使用したCSVインポート",
   "[Event Sourcing](./event-sourcing.md) - Event-driven architecture": "[イベントソーシング](./event-sourcing.md) - イベント駆動アーキテクチャ",
   "[CQRS Flow](./cqrs-flow.md) - Command and query separation": "[CQRSフロー](./cqrs-flow.md) - コマンドとクエリの分離"
 }

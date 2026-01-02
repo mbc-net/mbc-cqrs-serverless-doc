@@ -873,6 +873,6 @@ async execute(event: WorkflowEvent): Promise<StepStateOutput> {
 ## {{Related Documentation}}
 
 - {{[Task Module](../tasks.md) - Task management with Step Functions}}
-- {{[Import Module](../import.md) - CSV import with Distributed Map}}
+- {{[Import/Export Patterns](../import-export-patterns.md) - CSV import with Distributed Map}}
 - {{[Event Sourcing](./event-sourcing.md) - Event-driven architecture}}
 - {{[CQRS Flow](./cqrs-flow.md) - Command and query separation}}

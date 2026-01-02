@@ -7,7 +7,7 @@
   "Application": "Application",
   "Data Table": "Data Table",
   "Query Results": "Query Results",
-  "Before using the DataService, you need to set up the CommandModule as described in [the previous section](./command-module.md).": "Before using the DataService, you need to set up the CommandModule as described in [the previous section](./command-module.md).",
+  "Before using the DataService, you need to set up the CommandModule as described in [the CommandService section](./command-service.md).": "Before using the DataService, you need to set up the CommandModule as described in [the CommandService section](./command-service.md).",
   "Methods": "Methods",
   "*async* `getItem(key: DetailKey)`": "*async* `getItem(key: DetailKey)`",
   "The `getItem` method returns a set of attributes for the item with the given detail/primary key. If there is no matching item, `getItem` does not return any data and there will be no item element in the response.": "The `getItem` method returns a set of attributes for the item with the given detail/primary key. If there is no matching item, `getItem` does not return any data and there will be no item element in the response.",

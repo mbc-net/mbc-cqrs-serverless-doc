@@ -873,6 +873,6 @@ async execute(event: WorkflowEvent): Promise<StepStateOutput> {
 ## 関連ドキュメント
 
 - [タスクモジュール](../tasks.md) - Step Functionsを使用したタスク管理
-- [インポートモジュール](../import.md) - Distributed Mapを使用したCSVインポート
+- [インポート/エクスポートパターン](../import-export-patterns.md) - Distributed Mapを使用したCSVインポート
 - [イベントソーシング](./event-sourcing.md) - イベント駆動アーキテクチャ
 - [CQRSフロー](./cqrs-flow.md) - コマンドとクエリの分離

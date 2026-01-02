@@ -681,9 +681,116 @@ export class ProductController {
 }
 ```
 
+## TenantModule API Reference
+
+The `@mbc-cqrs-serverless/tenant` module provides ready-to-use tenant management functionality.
+
+### Installation
+
+```bash
+npm install @mbc-cqrs-serverless/tenant
+```
+
+### Module Registration
+
+```typescript
+import { TenantModule } from '@mbc-cqrs-serverless/tenant';
+
+@Module({
+  imports: [
+    TenantModule.register({
+      enableController: true,
+    }),
+  ],
+})
+export class AppModule {}
+```
+
+### TenantService Methods
+
+#### `getTenant(key: DetailKey): Promise<DataModel>`
+
+Retrieves tenant details based on the given key.
+
+```typescript
+const tenant = await tenantService.getTenant({
+  pk: 'TENANT#mbc',
+  sk: 'MASTER',
+});
+```
+
+#### `createCommonTenant(dto, context): Promise<CommandModel>`
+
+Creates a common tenant that is shared across the entire system.
+
+```typescript
+const tenant = await tenantService.createCommonTenant({
+  name: 'Common',
+  description: 'Shared tenant for common data',
+}, { invokeContext });
+```
+
+#### `createTenant(dto, context): Promise<CommandModel>`
+
+Creates a tenant for an individual entity.
+
+```typescript
+const tenant = await tenantService.createTenant({
+  name: 'MBC tenant',
+  code: 'mbc',
+  description: 'Main business tenant',
+}, { invokeContext });
+```
+
+#### `updateTenant(key, dto, context): Promise<CommandModel>`
+
+Updates an existing tenant's details.
+
+```typescript
+const tenant = await tenantService.updateTenant(
+  { pk: 'TENANT#mbc', sk: 'MASTER' },
+  { name: 'Updated MBC tenant', description: 'Updated description' },
+  { invokeContext },
+);
+```
+
+#### `deleteTenant(key, context): Promise<CommandModel>`
+
+Deletes a tenant based on the provided key.
+
+```typescript
+await tenantService.deleteTenant(
+  { pk: 'TENANT#mbc', sk: 'MASTER' },
+  { invokeContext },
+);
+```
+
+#### `addTenantGroup(dto, context): Promise<CommandModel>`
+
+Adds a group to a specific tenant.
+
+```typescript
+await tenantService.addTenantGroup({
+  tenantCode: 'abc',
+  groupId: '19',
+  role: 'company',
+}, { invokeContext });
+```
+
+#### `customizeSettingGroups(dto, context): Promise<CommandModel>`
+
+Customizes the settings of groups associated with a tenant.
+
+```typescript
+await tenantService.customizeSettingGroups({
+  tenantCode: 'mbc',
+  settingGroups: ['19', '20'],
+  role: 'company',
+}, { invokeContext });
+```
+
 ## Related Documentation
 
-- [Backend Development Guide](./backend-development.md) - Core patterns / コアパターン
-- [Key Patterns](./key-patterns.md) - PK/SK design for multi-tenant / マルチテナント用PK/SK設計
-- [Authentication](./authentication.md) - User authentication / ユーザー認証
-- [Tenant Module](./tenant.md) - Tenant management / テナント管理
+- [Backend Development Guide](./backend-development) - Core patterns
+- [Key Patterns](./key-patterns) - PK/SK design for multi-tenant
+- [Authentication](./authentication) - User authentication

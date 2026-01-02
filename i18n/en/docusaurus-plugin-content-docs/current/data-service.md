@@ -17,7 +17,7 @@ graph LR
     end
 ```
 
-Before using the DataService, you need to set up the CommandModule as described in [the previous section](./command-module.md).
+Before using the DataService, you need to set up the CommandModule as described in [the CommandService section](./command-service.md).
 
 ## Methods
 

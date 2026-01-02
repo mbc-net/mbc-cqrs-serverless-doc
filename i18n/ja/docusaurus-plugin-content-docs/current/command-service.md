@@ -1,12 +1,48 @@
 ---
-description: CommandService の使用方法を学びましょう。
+description: Learn how to use CommandModule and CommandService for publishing and managing commands.
 ---
 
 # CommandService
 
-## 詳細
+## Overview
 
 「CommandService」は、コマンドの管理と同期を容易にするフレームワークのコアコンポーネントです。主に、完全なコマンドと部分的なコマンドの両方を発行する方法を提供し、それらの処理を同期または非同期で行うことができるため、システム内のコマンド処理の全体的な効率と柔軟性が向上します。
+
+## CommandModule Configuration
+
+![CommandModule structure](./images/CommandModule.png)
+
+The `CommandModule` is a dynamic module used to register data sync handlers and provide services associated with a table name. When importing this module, you must provide a specific option for use.
+
+### Register Options
+
+| Property                  | 詳細                                                      |
+| ----------------------------- | -------------------------------------------------------------------- |
+| `tableName: string`           | Provide table name                                               |
+| `skipError?: boolean`         | If set to `true`, it will skip errors from previous commands     |
+| `dataSyncHandlers?: Type[]`   | Register data sync handlers                                      |
+| `disableDefaultHandler?: boolean` | If set to `true`, it will reset default data sync handlers   |
+
+### Registration Example
+
+```typescript
+import { CommandModule } from '@mbc-cqrs-serverless/core';
+import { Module } from '@nestjs/common';
+
+@Module({
+  imports: [
+    CommandModule.register({
+      tableName: 'cat',
+      dataSyncHandlers: [CatDataSyncRdsHandler],
+    }),
+  ],
+})
+export class CatModule {}
+```
+
+Here, the `CommandModule` registers with the `cat` table name and provides the `CatDataSyncRdsHandler` to the data sync handlers.
+
+## Using CommandService
 
 以下のメソッドの例では、次のように `CommandModule` をモジュールにインポートすると仮定します。
 

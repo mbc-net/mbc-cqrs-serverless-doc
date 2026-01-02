@@ -183,5 +183,5 @@ export class AppModule {}
 ## Related Documentation
 
 - [NestJS Modules](https://docs.nestjs.com/modules): Official NestJS module documentation
-- [CommandModule](./command-module.md): Detailed CommandModule configuration
-- [Data Sync Handlers](./data-sync-event.md): Creating data sync handlers
+- [CommandService](./command-service.md): Detailed CommandModule configuration
+- [Event Handling Patterns](./event-handling-patterns.md): Creating data sync handlers

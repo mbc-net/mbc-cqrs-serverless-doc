@@ -1,12 +1,48 @@
 ---
-description: {{Learn how to use CommandService.}}
+description: {{Learn how to use CommandModule and CommandService for publishing and managing commands.}}
 ---
 
 # {{CommandService}}
 
-## {{Description}}
+## {{Overview}}
 
 {{The `CommandService` is a core component of the framework that facilitates the management and synchronization of commands. It primarily provides methods for publishing both full commands and partial commands, allowing for their processing either synchronously or asynchronously, thereby enhancing the overall efficiency and flexibility of command handling within the system.}}
+
+## {{CommandModule Configuration}}
+
+![{{CommandModule structure}}](./images/CommandModule.png)
+
+{{The `CommandModule` is a dynamic module used to register data sync handlers and provide services associated with a table name. When importing this module, you must provide a specific option for use.}}
+
+### {{Register Options}}
+
+| {{Property}}                  | {{Description}}                                                      |
+| ----------------------------- | -------------------------------------------------------------------- |
+| `tableName: string`           | {{Provide table name}}                                               |
+| `skipError?: boolean`         | {{If set to `true`, it will skip errors from previous commands}}     |
+| `dataSyncHandlers?: Type[]`   | {{Register data sync handlers}}                                      |
+| `disableDefaultHandler?: boolean` | {{If set to `true`, it will reset default data sync handlers}}   |
+
+### {{Registration Example}}
+
+```typescript
+import { CommandModule } from '@mbc-cqrs-serverless/core';
+import { Module } from '@nestjs/common';
+
+@Module({
+  imports: [
+    CommandModule.register({
+      tableName: 'cat',
+      dataSyncHandlers: [CatDataSyncRdsHandler],
+    }),
+  ],
+})
+export class CatModule {}
+```
+
+{{Here, the `CommandModule` registers with the `cat` table name and provides the `CatDataSyncRdsHandler` to the data sync handlers.}}
+
+## {{Using CommandService}}
 
 {{In the example for the method below, assume you import the `CommandModule` into your module as follows:}}
 

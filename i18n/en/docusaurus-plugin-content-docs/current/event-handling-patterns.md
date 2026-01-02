@@ -938,9 +938,153 @@ async execute(event: BatchEvent): Promise<any> {
 }
 ```
 
+## Data Sync Handler
+
+The data sync event is a particularly significant custom event because it is one of the most commonly registered events within the application. Handlers for this event play a crucial role in ensuring data consistency and synchronization between different databases.
+
+### IDataSyncHandler Interface
+
+By convention, you create a class that implements `IDataSyncHandler` and then override the up and down methods:
+
+```typescript
+import { CommandModel, IDataSyncHandler } from "@mbc-cqrs-serverless/core";
+import { Injectable, Logger } from "@nestjs/common";
+import { PrismaService } from "src/prisma";
+
+@Injectable()
+export class ProductDataSyncRdsHandler implements IDataSyncHandler {
+  private readonly logger = new Logger(ProductDataSyncRdsHandler.name);
+
+  constructor(private readonly prismaService: PrismaService) {}
+
+  /**
+   * Sync data from DynamoDB to RDS on create/update
+   * 作成/更新時にDynamoDBからRDSにデータを同期
+   */
+  async up(cmd: CommandModel): Promise<any> {
+    this.logger.debug('Syncing to RDS:', cmd.pk, cmd.sk);
+
+    const { pk, sk, id, code, name, tenantCode, attributes } = cmd;
+
+    await this.prismaService.product.upsert({
+      where: { id },
+      create: {
+        id,
+        pk,
+        sk,
+        code,
+        name,
+        tenantCode,
+        ...attributes,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      update: {
+        name,
+        ...attributes,
+        updatedAt: new Date(),
+      },
+    });
+  }
+
+  /**
+   * Handle delete/rollback operations
+   * 削除/ロールバック操作を処理
+   */
+  async down(cmd: CommandModel): Promise<any> {
+    this.logger.debug('Removing from RDS:', cmd.pk, cmd.sk);
+
+    await this.prismaService.product.delete({
+      where: { id: cmd.id },
+    }).catch(() => {
+      // Ignore if already deleted
+    });
+  }
+}
+```
+
+### Register Data Sync Handler
+
+Register your handler to `CommandModule`:
+
+```typescript
+import { Module } from '@nestjs/common';
+import { CommandModule } from '@mbc-cqrs-serverless/core';
+import { ProductDataSyncRdsHandler } from './handler/product-rds.handler';
+
+@Module({
+  imports: [
+    CommandModule.register({
+      tableName: 'product',
+      dataSyncHandlers: [ProductDataSyncRdsHandler],
+    }),
+  ],
+  // ...
+})
+export class ProductModule {}
+```
+
+### Multiple Sync Handlers
+
+You can register multiple handlers for different sync targets:
+
+```typescript
+CommandModule.register({
+  tableName: 'order',
+  dataSyncHandlers: [
+    OrderRdsSyncHandler,      // Sync to RDS for queries
+    OrderElasticSyncHandler,  // Sync to Elasticsearch for search
+    OrderAnalyticsSyncHandler, // Sync to analytics warehouse
+  ],
+}),
+```
+
+## Creating Custom Events
+
+To create a custom event, implement the `IEvent` interface from `@mbc-cqrs-serverless/core`. Depending on the event source, you should typically implement a second interface from the `aws-lambda` library, such as `SNSEventRecord`, `SQSRecord`, `DynamoDBRecord`, `EventBridgeEvent`, `S3EventRecord`, etc.
+
+### Custom S3 Event Example
+
+```typescript
+// custom-s3-import.event.ts
+import { IEvent } from "@mbc-cqrs-serverless/core";
+import { S3EventRecord } from "aws-lambda";
+
+export class CustomS3ImportEvent implements IEvent, Partial<S3EventRecord> {
+  source: string;
+  bucket: string;
+  key: string;
+  size: number;
+  eventType: string;
+
+  static fromS3Record(record: S3EventRecord): CustomS3ImportEvent {
+    const event = new CustomS3ImportEvent();
+    event.source = record.eventSource;
+    event.bucket = record.s3.bucket.name;
+    event.key = record.s3.object.key;
+    event.size = record.s3.object.size;
+    event.eventType = record.eventName;
+    return event;
+  }
+}
+```
+
+### Event Factory Transform Methods
+
+The Event Factory supports transforming events from various AWS sources:
+
+```typescript
+// Available transform methods in DefaultEventFactory
+transformSqs(event: SQSEvent): Promise<IEvent[]>;
+transformSns(event: SNSEvent): Promise<IEvent[]>;
+transformDynamodbStream(event: DynamoDBStreamEvent): Promise<IEvent[]>;
+transformEventBridge(event: EventBridgeEvent<any, any>): Promise<IEvent[]>;
+transformStepFunction(event: StepFunctionsEvent<any>): Promise<IEvent[]>;
+transformS3(event: S3Event): Promise<IEvent[]>;
+```
+
 ## Related Documentation
 
-- [Backend Development Guide](./backend-development.md) - Core patterns / コアパターン
-- [Custom Event](./custom-event.md) - Event configuration / イベント設定
-- [Step Functions](./architecture/step-functions.md) - Workflow orchestration / ワークフローオーケストレーション
-- [Data Sync Event](./data-sync-event.md) - Data synchronization / データ同期
+- [Backend Development Guide](./backend-development) - Core patterns
+- [Step Functions](./architecture/step-functions) - Workflow orchestration
+- [Data Sync Handler Examples](./data-sync-handler-examples) - Comprehensive sync examples
