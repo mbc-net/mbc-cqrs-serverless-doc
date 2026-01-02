@@ -23,7 +23,14 @@ const sidebars: SidebarsConfig = {
       items: ["installation", "project-structure", "cli"],
     },
 
-    // 2. Core Concepts
+    // 2. Tutorials
+    {
+      type: "category",
+      label: "Tutorials",
+      items: ["quickstart-tutorial", "build-todo-app"],
+    },
+
+    // 3. Core Concepts
     {
       type: "category",
       label: "Core Concepts",
@@ -40,7 +47,7 @@ const sidebars: SidebarsConfig = {
       ],
     },
 
-    // 3. Backend Development
+    // 4. Backend Development
     {
       type: "category",
       label: "Backend Development",
@@ -65,7 +72,7 @@ const sidebars: SidebarsConfig = {
       ],
     },
 
-    // 4. Modules
+    // 5. Modules
     {
       type: "category",
       label: "Modules",
@@ -93,6 +100,7 @@ const sidebars: SidebarsConfig = {
         "tasks",
         "master",
         "import",
+        "directory",
         {
           type: "category",
           label: "Notification Module",
@@ -106,7 +114,7 @@ const sidebars: SidebarsConfig = {
       ],
     },
 
-    // 5. Infrastructure
+    // 6. Infrastructure
     {
       type: "category",
       label: "Infrastructure",
@@ -118,7 +126,7 @@ const sidebars: SidebarsConfig = {
       ],
     },
 
-    // 6. Frontend Development
+    // 7. Frontend Development
     {
       type: "category",
       label: "Frontend Development",
@@ -132,7 +140,18 @@ const sidebars: SidebarsConfig = {
       ],
     },
 
-    // 7. Configuration
+    // 8. Deployment & Operations
+    {
+      type: "category",
+      label: "Deployment & Operations",
+      items: [
+        "deployment-guide",
+        "codepipeline-cicd",
+        "monitoring-logging",
+      ],
+    },
+
+    // 9. Configuration
     {
       type: "category",
       label: "Configuration",
@@ -146,7 +165,7 @@ const sidebars: SidebarsConfig = {
       ],
     },
 
-    // 8. Testing
+    // 10. Testing
     {
       type: "category",
       label: "Testing",
@@ -157,7 +176,14 @@ const sidebars: SidebarsConfig = {
       items: ["unit-test", "e2e-test"],
     },
 
-    // 9. Examples
+    // 11. Troubleshooting
+    {
+      type: "category",
+      label: "Troubleshooting",
+      items: ["common-issues", "debugging-guide"],
+    },
+
+    // 12. Examples
     {
       type: "category",
       label: "Examples",
@@ -165,10 +191,10 @@ const sidebars: SidebarsConfig = {
         type: "doc",
         id: "recipes",
       },
-      items: ["directory", "survey-template"],
+      items: ["survey-template"],
     },
 
-    // 10. AI Integration
+    // 13. AI Integration
     {
       type: "category",
       label: "AI Integration",
@@ -179,7 +205,7 @@ const sidebars: SidebarsConfig = {
       items: ["mcp-server"],
     },
 
-    // 11. Reference
+    // 14. Reference
     {
       type: "category",
       label: "Reference",
