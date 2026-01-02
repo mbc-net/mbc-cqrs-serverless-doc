@@ -134,7 +134,7 @@ export class SearchTodoDto {
 
   @IsOptional()
   @IsString()
-  nextToken?: string;
+  lastSk?: string;
 }
 ```
 
@@ -194,13 +194,12 @@ export class TodoService {
   async findAll(
     searchDto: SearchTodoDto,
     context: { invokeContext: IInvoke },
-  ): Promise<{ items: TodoDataEntity[]; nextToken?: string }> {
+  ): Promise<{ items: TodoDataEntity[]; lastSk?: string }> {
     const tenantCode = context.invokeContext.tenantCode;
 
-    return this.dataService.listByPk<TodoDataEntity>({
-      pk: `TODO#${tenantCode}`,
+    return this.dataService.listItemsByPk(`TODO#${tenantCode}`, {
       limit: searchDto.limit,
-      nextToken: searchDto.nextToken,
+      startFromSk: searchDto.lastSk,
     });
   }
 
