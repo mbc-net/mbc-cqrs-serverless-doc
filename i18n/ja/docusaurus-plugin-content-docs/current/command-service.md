@@ -71,7 +71,7 @@ export class CatModule {}
 
 ## メソッド
 
-### *async* `publishAsync(入力: CommandInputModel、オプション: ICommandOptions)`
+### *async* `publishAsync(input: CommandInputModel, options: ICommandOptions)`
 
 このメソッドを使用すると、コマンド データが **command** テーブルに挿入されるため、完全なコマンドを公開できます。
 

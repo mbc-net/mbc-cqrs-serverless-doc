@@ -19,7 +19,7 @@
   "In the example for the method below, assume you import the `CommandModule` into your module as follows:": "以下のメソッドの例では、次のように `CommandModule` をモジュールにインポートすると仮定します。",
   "Then, the `CommandService` and `DataService` will be ready for injection into other services for your use.": "これで、`CommandService` と `DataService` を他のサービスに挿入して使用できるようになります。",
   "Methods": "メソッド",
-  "*async* `publishAsync(input: CommandInputModel, options: ICommandOptions)`": "*async* `publishAsync(入力: CommandInputModel、オプション: ICommandOptions)`",
+  "*async* `publishAsync(input: CommandInputModel, options: ICommandOptions)`": "*async* `publishAsync(input: CommandInputModel, options: ICommandOptions)`",
   "Utilize this method to publish a full command, as it will insert the command data into the **command** table.": "このメソッドを使用すると、コマンド データが **command** テーブルに挿入されるため、完全なコマンドを公開できます。",
   "The method provides immediate feedback by returning the command data right away, allowing you to proceed without waiting for the command to be processed. Subsequently, the command is handled asynchronously in the background, ensuring that your application remains responsive while the processing occurs.": "このメソッドはコマンド データをすぐに返すことによって即時フィードバックを提供するため、コマンドの処理を待たずに続行できます。その後、コマンドはバックグラウンドで非同期に処理され、処理中もアプリケーションの応答性が維持されます。",
   "For example, you can publish a new cat command as bellow:": "たとえば、次のように新しい cat コマンドを発行できます。",
