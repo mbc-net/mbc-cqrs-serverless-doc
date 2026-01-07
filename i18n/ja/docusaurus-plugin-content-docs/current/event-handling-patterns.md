@@ -483,13 +483,13 @@ export class SendNotificationHandler
   }
 
   private async sendSms(event: SendNotificationEvent): Promise<any> {
-    // {{Implement SMS sending logic}}
+    // Implement SMS sending logic
     this.logger.log('SMS sending not implemented');
     return { status: 'skipped', type: 'SMS' };
   }
 
   private async sendPush(event: SendNotificationEvent): Promise<any> {
-    // {{Implement push notification logic}}
+    // Implement push notification logic
     this.logger.log('Push notification not implemented');
     return { status: 'skipped', type: 'PUSH' };
   }
@@ -498,7 +498,7 @@ export class SendNotificationHandler
     templateId: string,
     data: Record<string, any>,
   ): Promise<string> {
-    // {{Template rendering logic}}
+    // Template rendering logic
     return `Template ${templateId} rendered with data`;
   }
 }
