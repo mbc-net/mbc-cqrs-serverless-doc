@@ -204,7 +204,7 @@ const sidebars: SidebarsConfig = {
     {
       type: "category",
       label: "Reference",
-      items: ["interfaces", "error-catalog", "glossary"],
+      items: ["interfaces", "error-catalog", "glossary", "changelog"],
     },
   ],
 };
