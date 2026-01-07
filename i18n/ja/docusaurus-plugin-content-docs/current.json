@@ -7,36 +7,68 @@
     "message": "はじめに",
     "description": "The label for category Getting Started in sidebar tutorialSidebar"
   },
-  "sidebar.tutorialSidebar.category.Build your application": {
-    "message": "アプリケーションを構築する",
-    "description": "The label for category Build your application in sidebar tutorialSidebar"
+  "sidebar.tutorialSidebar.category.Tutorials": {
+    "message": "チュートリアル",
+    "description": "The label for category Tutorials in sidebar tutorialSidebar"
   },
-  "sidebar.tutorialSidebar.category.Handle event": {
-    "message": "イベント処理",
-    "description": "The label for category Handle event in sidebar tutorialSidebar"
+  "sidebar.tutorialSidebar.category.Core Concepts": {
+    "message": "コアコンセプト",
+    "description": "The label for category Core Concepts in sidebar tutorialSidebar"
   },
-  "sidebar.tutorialSidebar.category.Configuring": {
+  "sidebar.tutorialSidebar.category.Backend Development": {
+    "message": "バックエンド開発",
+    "description": "The label for category Backend Development in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Modules": {
+    "message": "モジュール",
+    "description": "The label for category Modules in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Command Module": {
+    "message": "Commandモジュール",
+    "description": "The label for category Command Module in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Notification Module": {
+    "message": "Notificationモジュール",
+    "description": "The label for category Notification Module in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Infrastructure": {
+    "message": "インフラストラクチャ",
+    "description": "The label for category Infrastructure in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Frontend Development": {
+    "message": "フロントエンド開発",
+    "description": "The label for category Frontend Development in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Security": {
+    "message": "セキュリティ",
+    "description": "The label for category Security in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Deployment & Operations": {
+    "message": "デプロイと運用",
+    "description": "The label for category Deployment & Operations in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Configuration": {
     "message": "設定",
-    "description": "The label for category Configuring in sidebar tutorialSidebar"
+    "description": "The label for category Configuration in sidebar tutorialSidebar"
   },
   "sidebar.tutorialSidebar.category.Testing": {
     "message": "テスト",
     "description": "The label for category Testing in sidebar tutorialSidebar"
   },
-  "sidebar.tutorialSidebar.category.Recipes": {
-    "message": "レシピ",
-    "description": "The label for category Recipes in sidebar tutorialSidebar"
+  "sidebar.tutorialSidebar.category.Troubleshooting": {
+    "message": "トラブルシューティング",
+    "description": "The label for category Troubleshooting in sidebar tutorialSidebar"
   },
-  "sidebar.tutorialSidebar.category.API reference": {
-    "message": "APIリファレンス",
-    "description": "The label for category API reference in sidebar tutorialSidebar"
+  "sidebar.tutorialSidebar.category.Examples": {
+    "message": "サンプル",
+    "description": "The label for category Examples in sidebar tutorialSidebar"
   },
-  "sidebar.tutorialSidebar.category.CommandModule": {
-    "message": "CommandModule",
-    "description": "The label for category CommandModule in sidebar tutorialSidebar"
+  "sidebar.tutorialSidebar.category.AI Integration": {
+    "message": "AI統合",
+    "description": "The label for category AI Integration in sidebar tutorialSidebar"
   },
-  "sidebar.tutorialSidebar.category.NotificationModule": {
-    "message": "NotificationModule",
-    "description": "The label for category NotificationModule in sidebar tutorialSidebar"
+  "sidebar.tutorialSidebar.category.Reference": {
+    "message": "リファレンス",
+    "description": "The label for category Reference in sidebar tutorialSidebar"
   }
 }
