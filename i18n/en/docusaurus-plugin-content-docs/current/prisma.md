@@ -30,22 +30,22 @@ When creating an RDS table that maps to a DynamoDB table, ensure you add the nec
 
 ```ts
 id         String   @id
-cpk        String // コマンド用PK
-csk        String // コマンド用SK
-pk         String // データ用PK, MASTER#tenantCode (テナントコード)
-sk         String // データ用SK, マスタ種別コード#マスタコード
-tenantCode String   @map("tenant_code") // テナントコード, 【テナントコードマスタ】
-seq        Int      @default(0) // 並び順, 採番機能を使用する
-code       String // レコードのコード, マスタ種別コード#マスタコード
-name       String // レコード名, 名前
-version    Int // バージョン
-isDeleted  Boolean  @default(false) @map("is_deleted") // 削除フラグ
-createdBy  String   @default("") @map("created_by") // 作成者
-createdIp  String   @default("") @map("created_ip") // 作成IP, IPv6も考慮する
-createdAt  DateTime @default(now()) @map("created_at") @db.Timestamp(0) // 作成日時
-updatedBy  String   @default("") @map("updated_by") // 更新者
-updatedIp  String   @default("") @map("updated_ip") // 更新IP, IPv6も考慮する
-updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamp(0) // 更新日時
+cpk        String // Command PK
+csk        String // Command SK
+pk         String // Data PK
+sk         String // Data SK
+tenantCode String   @map("tenant_code") // Tenant code
+seq        Int      @default(0) // Sort order, uses sequence feature
+code       String // Record code
+name       String // Record name
+version    Int // Version
+isDeleted  Boolean  @default(false) @map("is_deleted") // Deleted flag
+createdBy  String   @default("") @map("created_by") // Created by
+createdIp  String   @default("") @map("created_ip") // Created IP, supports IPv6
+createdAt  DateTime @default(now()) @map("created_at") @db.Timestamp(0) // Created at
+updatedBy  String   @default("") @map("updated_by") // Updated by
+updatedIp  String   @default("") @map("updated_ip") // Updated IP, supports IPv6
+updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamp(0) // Updated at
 
 // properties
 

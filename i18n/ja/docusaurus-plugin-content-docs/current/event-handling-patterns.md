@@ -63,8 +63,7 @@ import { OrderCreatedEvent } from './order/event/order-created.event';
 @Injectable()
 export class CustomEventFactory extends DefaultEventFactory {
   /**
-   * Transform S3 events to domain events
-   * S3イベントをドメインイベントに変換
+   * Transform S3 events to domain events (S3イベントをドメインイベントに変換)
    */
   async transformS3(event: S3Event): Promise<IEvent[]> {
     const events: IEvent[] = [];
@@ -73,8 +72,7 @@ export class CustomEventFactory extends DefaultEventFactory {
       const bucket = record.s3.bucket.name;
       const key = decodeURIComponent(record.s3.object.key.replace(/\+/g, ' '));
 
-      // Route based on S3 key pattern
-      // S3キーパターンに基づいてルーティング
+      // Route based on S3 key pattern (S3キーパターンに基づいてルーティング)
       if (key.startsWith('imports/csv/')) {
         events.push(new CsvImportEvent({
           bucket,
@@ -95,8 +93,7 @@ export class CustomEventFactory extends DefaultEventFactory {
   }
 
   /**
-   * Transform Step Functions events to domain events
-   * Step Functionsイベントをドメインイベントに変換
+   * Transform Step Functions events to domain events (Step Functionsイベントをドメインイベントに変換)
    */
   async transformStepFunction(event: StepFunctionsEvent): Promise<IEvent[]> {
     const { type, payload, taskToken } = event;
@@ -121,8 +118,7 @@ export class CustomEventFactory extends DefaultEventFactory {
   }
 
   /**
-   * Transform SQS events to domain events
-   * SQSイベントをドメインイベントに変換
+   * Transform SQS events to domain events (SQSイベントをドメインイベントに変換)
    */
   async transformSqs(event: SQSEvent): Promise<IEvent[]> {
     const events: IEvent[] = [];
@@ -144,8 +140,7 @@ export class CustomEventFactory extends DefaultEventFactory {
   }
 
   /**
-   * Transform DynamoDB stream events to domain events
-   * DynamoDBストリームイベントをドメインイベントに変換
+   * Transform DynamoDB stream events to domain events (DynamoDBストリームイベントをドメインイベントに変換)
    */
   async transformDynamodbStream(event: DynamoDBStreamEvent): Promise<IEvent[]> {
     const events: IEvent[] = [];
@@ -154,7 +149,7 @@ export class CustomEventFactory extends DefaultEventFactory {
       if (record.eventName === 'INSERT' || record.eventName === 'MODIFY') {
         const newImage = record.dynamodb?.NewImage;
         if (newImage) {
-          // Route based on entity type
+          // Route based on entity type (エンティティタイプに基づいてルーティング)
           const pk = newImage.pk?.S || '';
           if (pk.startsWith('ORDER#')) {
             events.push(new OrderCreatedEvent({
@@ -222,15 +217,13 @@ export class OrderCreatedHandler implements IEventHandler<OrderCreatedEvent> {
   ) {}
 
   /**
-   * Handle order created event
-   * 注文作成イベントを処理
+   * Handle order created event (注文作成イベントを処理)
    */
   async execute(event: OrderCreatedEvent): Promise<any> {
     this.logger.log(`Processing order: ${event.orderId}`);
 
     try {
-      // Process order-related tasks
-      // 注文関連タスクを処理
+      // Process order-related tasks (注文関連タスクを処理)
       await Promise.all([
         this.updateInventory(event),
         this.sendNotification(event),
@@ -256,7 +249,7 @@ export class OrderCreatedHandler implements IEventHandler<OrderCreatedEvent> {
   }
 
   private async triggerWorkflow(event: OrderCreatedEvent): Promise<void> {
-    // Trigger additional workflows if needed
+    // Trigger additional workflows if needed (必要に応じて追加ワークフローをトリガー)
   }
 }
 ```
@@ -296,8 +289,7 @@ export class ImportProcessEventHandler
   }
 
   /**
-   * Process import with Step Function callback
-   * Step Functionコールバック付きでインポートを処理
+   * Process import with Step Function callback (Step Functionsコールバックでインポートを処理)
    */
   async execute(event: ImportProcessEvent): Promise<any> {
     this.logger.log(`Processing import: ${event.importId}`);
@@ -306,8 +298,7 @@ export class ImportProcessEventHandler
       // Process the import
       const result = await this.importService.processImport(event);
 
-      // Report success to Step Functions
-      // Step Functionsに成功を報告
+      // Report success to Step Functions (Step Functionsに成功を報告)
       if (event.taskToken) {
         await this.sfnService.sendTaskSuccess(event.taskToken, result);
       }
@@ -316,12 +307,10 @@ export class ImportProcessEventHandler
     } catch (error) {
       this.logger.error(`Import failed: ${event.importId}`, error);
 
-      // Send alarm notification
-      // アラーム通知を送信
+      // Send alarm notification (アラーム通知を送信)
       await this.sendAlarm(event, error);
 
-      // Report failure to Step Functions
-      // Step Functionsに失敗を報告
+      // Report failure to Step Functions (Step Functionsに失敗を報告)
       if (event.taskToken) {
         await this.sfnService.sendTaskFailure(
           event.taskToken,
@@ -386,8 +375,7 @@ export class FileUploadHandler implements IEventHandler<FileUploadEvent> {
   ) {}
 
   /**
-   * Process uploaded file
-   * アップロードされたファイルを処理
+   * Process uploaded file (アップロードされたファイルを処理)
    */
   async execute(event: FileUploadEvent): Promise<any> {
     this.logger.log(`Processing file: ${event.key}`);
@@ -399,8 +387,7 @@ export class FileUploadHandler implements IEventHandler<FileUploadEvent> {
     });
     const response = await this.s3Service.client.send(command);
 
-    // Determine file type and process accordingly
-    // ファイルタイプを判定して適切に処理
+    // Determine file type and process accordingly (ファイルタイプを判定して適切に処理)
     const fileExtension = event.key.split('.').pop()?.toLowerCase();
 
     switch (fileExtension) {
@@ -461,8 +448,7 @@ export class SendNotificationHandler
   constructor(private readonly emailService: EmailService) {}
 
   /**
-   * Send notification based on type
-   * タイプに基づいて通知を送信
+   * Send notification based on type (タイプに基づいて通知を送信)
    */
   async execute(event: SendNotificationEvent): Promise<any> {
     this.logger.log(`Sending ${event.type} notification to ${event.recipient}`);
@@ -482,8 +468,7 @@ export class SendNotificationHandler
   private async sendEmail(event: SendNotificationEvent): Promise<any> {
     let body = event.body;
 
-    // Render template if provided
-    // テンプレートが提供されている場合はレンダリング
+    // Render template if provided (テンプレートが指定されている場合レンダリング)
     if (event.templateId && event.templateData) {
       body = await this.renderTemplate(event.templateId, event.templateData);
     }
@@ -498,13 +483,13 @@ export class SendNotificationHandler
   }
 
   private async sendSms(event: SendNotificationEvent): Promise<any> {
-    // Implement SMS sending logic
+    // {{Implement SMS sending logic}}
     this.logger.log('SMS sending not implemented');
     return { status: 'skipped', type: 'SMS' };
   }
 
   private async sendPush(event: SendNotificationEvent): Promise<any> {
-    // Implement push notification logic
+    // {{Implement push notification logic}}
     this.logger.log('Push notification not implemented');
     return { status: 'skipped', type: 'PUSH' };
   }
@@ -513,7 +498,7 @@ export class SendNotificationHandler
     templateId: string,
     data: Record<string, any>,
   ): Promise<string> {
-    // Template rendering logic
+    // {{Template rendering logic}}
     return `Template ${templateId} rendered with data`;
   }
 }
@@ -557,20 +542,17 @@ export class DataChangeHandler implements IEventHandler<DataChangeEvent> {
   ) {}
 
   /**
-   * Handle data changes from DynamoDB stream
-   * DynamoDBストリームからのデータ変更を処理
+   * Handle data changes from DynamoDB stream (DynamoDBストリームからのデータ変更を処理)
    */
   async execute(event: DataChangeEvent): Promise<any> {
     this.logger.log(
       `Data change: ${event.eventType} on ${event.pk}/${event.sk}`,
     );
 
-    // Invalidate cache
-    // キャッシュを無効化
+    // Invalidate cache (キャッシュを無効化)
     await this.cacheService.invalidate(event.pk, event.sk);
 
-    // Sync to external systems based on entity type
-    // エンティティタイプに基づいて外部システムに同期
+    // Sync to external systems based on entity type (エンティティタイプに基づいて外部システムに同期)
     const entityType = event.pk.split('#')[0];
 
     switch (entityType) {
@@ -596,13 +578,13 @@ export class DataChangeHandler implements IEventHandler<DataChangeEvent> {
   }
 
   private async syncOrder(event: DataChangeEvent): Promise<any> {
-    // Sync order to external ERP system
+    // Sync order to external ERP system (外部ERPシステムに注文を同期)
     await this.externalSyncService.syncOrder(event.newImage);
     return { synced: true, type: 'ORDER' };
   }
 
   private async syncUser(event: DataChangeEvent): Promise<any> {
-    // Sync user to external identity provider
+    // Sync user to external identity provider (外部IDプロバイダーにユーザーを同期)
     await this.externalSyncService.syncUser(event.newImage);
     return { synced: true, type: 'USER' };
   }
@@ -630,8 +612,7 @@ const DEFAULT_RETRY_OPTIONS: RetryOptions = {
 };
 
 /**
- * Retry decorator for event handlers
- * イベントハンドラー用のリトライデコレータ
+ * Retry decorator for event handlers (イベントハンドラー用のリトライデコレーター)
  */
 export function WithRetry(options: Partial<RetryOptions> = {}) {
   const retryOptions = { ...DEFAULT_RETRY_OPTIONS, ...options };
@@ -681,8 +662,7 @@ export function WithRetry(options: Partial<RetryOptions> = {}) {
 export class ProcessOrderHandler implements IEventHandler<ProcessOrderEvent> {
   @WithRetry({ maxRetries: 3, backoffMs: 500 })
   async execute(event: ProcessOrderEvent): Promise<any> {
-    // This method will be retried up to 3 times on failure
-    // このメソッドは失敗時に最大3回リトライされる
+    // This method will be retried up to 3 times on failure (このメソッドは失敗時に最大3回リトライされます)
     return this.processOrder(event);
   }
 }
@@ -708,14 +688,12 @@ export class DlqEventHandler implements IEventHandler<DlqEvent> {
   ) {}
 
   /**
-   * Handle failed events from Dead Letter Queue
-   * デッドレターキューからの失敗イベントを処理
+   * Handle failed events from Dead Letter Queue (デッドレターキューからの失敗イベントを処理)
    */
   async execute(event: DlqEvent): Promise<any> {
     this.logger.error(`DLQ event received: ${event.originalMessageId}`);
 
-    // Store failed event for analysis
-    // 分析用に失敗イベントを保存
+    // Store failed event for analysis (分析用に失敗イベントを保存)
     await this.prismaService.failedEvent.create({
       data: {
         messageId: event.originalMessageId,
@@ -727,8 +705,7 @@ export class DlqEventHandler implements IEventHandler<DlqEvent> {
       },
     });
 
-    // Send alert for manual intervention
-    // 手動介入用のアラートを送信
+    // Send alert for manual intervention (手動介入用のアラートを送信)
     await this.snsService.publish({
       topicArn: process.env.ALERT_TOPIC_ARN!,
       subject: 'Event Processing Failed - Manual Intervention Required',
@@ -776,8 +753,7 @@ export class AlarmService {
   }
 
   /**
-   * Send alarm notification
-   * アラーム通知を送信
+   * Send alarm notification (アラーム通知を送信)
    */
   async sendAlarm(payload: AlarmPayload): Promise<void> {
     const timestamp = new Date().toISOString();
@@ -806,8 +782,7 @@ export class AlarmService {
   }
 
   /**
-   * Send critical error alarm
-   * クリティカルエラーアラームを送信
+   * Send critical error alarm (クリティカルエラーアラームを送信)
    */
   async critical(source: string, message: string, error?: Error): Promise<void> {
     await this.sendAlarm({
@@ -819,8 +794,7 @@ export class AlarmService {
   }
 
   /**
-   * Send error alarm
-   * エラーアラームを送信
+   * Send error alarm (エラーアラームを送信)
    */
   async error(source: string, message: string, error?: Error): Promise<void> {
     await this.sendAlarm({
@@ -832,8 +806,7 @@ export class AlarmService {
   }
 
   /**
-   * Send warning alarm
-   * 警告アラームを送信
+   * Send warning alarm (警告アラームを送信)
    */
   async warning(source: string, message: string, details?: Record<string, any>): Promise<void> {
     await this.sendAlarm({
@@ -851,8 +824,7 @@ export class AlarmService {
 ### 1. 冪等なイベントハンドラー
 
 ```typescript
-// Always check if event was already processed
-// イベントが既に処理されたかどうかを常にチェック
+// Always check if event was already processed (イベントが既に処理されたかどうかを常にチェック)
 async execute(event: OrderEvent): Promise<any> {
   const existing = await this.prismaService.processedEvent.findUnique({
     where: { eventId: event.eventId },
@@ -878,8 +850,7 @@ async execute(event: OrderEvent): Promise<any> {
 ### 2. 構造化ロギング
 
 ```typescript
-// Use structured logging for better observability
-// より良い可観測性のために構造化ログを使用
+// Use structured logging for better observability (より良い可観測性のために構造化ログを使用)
 this.logger.log({
   message: 'Processing event',
   eventType: event.constructor.name,
@@ -892,8 +863,7 @@ this.logger.log({
 ### 3. タイムアウト処理
 
 ```typescript
-// Implement timeout for long-running operations
-// 長時間実行される操作にタイムアウトを実装
+// Implement timeout for long-running operations (長時間実行される操作にタイムアウトを実装)
 async execute(event: LongRunningEvent): Promise<any> {
   const timeout = 25000; // 25 seconds (Lambda default is 30s)
 
@@ -911,8 +881,7 @@ async execute(event: LongRunningEvent): Promise<any> {
 ### 4. グレースフルデグラデーション
 
 ```typescript
-// Continue processing even if some operations fail
-// 一部の操作が失敗しても処理を継続
+// Continue processing even if some operations fail (一部の操作が失敗しても処理を継続)
 async execute(event: BatchEvent): Promise<any> {
   const results = [];
   const errors = [];
@@ -922,7 +891,7 @@ async execute(event: BatchEvent): Promise<any> {
       results.push(await this.processItem(item));
     } catch (error) {
       errors.push({ item, error: error.message });
-      // Continue with next item
+      // Continue with next item (次のアイテムに進む)
     }
   }
 
@@ -938,13 +907,13 @@ async execute(event: BatchEvent): Promise<any> {
 }
 ```
 
-## Data Sync Handler
+## データ同期ハンドラー
 
-The data sync event is a particularly significant custom event because it is one of the most commonly registered events within the application. Handlers for this event play a crucial role in ensuring data consistency and synchronization between different databases.
+データ同期イベントは、アプリケーション内で最もよく登録されるイベントの1つであるため、特に重要なカスタムイベントです。このイベントのハンドラーは、異なるデータベース間のデータ整合性と同期を確保する上で重要な役割を果たします。
 
-### IDataSyncHandler Interface
+### IDataSyncHandlerインターフェース
 
-By convention, you create a class that implements `IDataSyncHandler` and then override the up and down methods:
+慣例として、`IDataSyncHandler`を実装するクラスを作成し、upとdownメソッドをオーバーライドします：
 
 ```typescript
 import { CommandModel, IDataSyncHandler } from "@mbc-cqrs-serverless/core";
@@ -958,8 +927,7 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
   constructor(private readonly prismaService: PrismaService) {}
 
   /**
-   * Sync data from DynamoDB to RDS on create/update
-   * 作成/更新時にDynamoDBからRDSにデータを同期
+   * Sync data from DynamoDB to RDS on create/update (作成/更新時にDynamoDBからRDSにデータを同期)
    */
   async up(cmd: CommandModel): Promise<any> {
     this.logger.debug('Syncing to RDS:', cmd.pk, cmd.sk);
@@ -988,8 +956,7 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
   }
 
   /**
-   * Handle delete/rollback operations
-   * 削除/ロールバック操作を処理
+   * Handle delete/rollback operations (削除/ロールバック操作を処理)
    */
   async down(cmd: CommandModel): Promise<any> {
     this.logger.debug('Removing from RDS:', cmd.pk, cmd.sk);
@@ -997,15 +964,15 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
     await this.prismaService.product.delete({
       where: { id: cmd.id },
     }).catch(() => {
-      // Ignore if already deleted
+      // Ignore if already deleted (既に削除されている場合は無視)
     });
   }
 }
 ```
 
-### Register Data Sync Handler
+### データ同期ハンドラーの登録
 
-Register your handler to `CommandModule`:
+ハンドラーを`CommandModule`に登録します：
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -1024,9 +991,9 @@ import { ProductDataSyncRdsHandler } from './handler/product-rds.handler';
 export class ProductModule {}
 ```
 
-### Multiple Sync Handlers
+### 複数の同期ハンドラー
 
-You can register multiple handlers for different sync targets:
+異なる同期ターゲットに対して複数のハンドラーを登録できます：
 
 ```typescript
 CommandModule.register({
@@ -1039,11 +1006,11 @@ CommandModule.register({
 }),
 ```
 
-## Creating Custom Events
+## カスタムイベントの作成
 
-To create a custom event, implement the `IEvent` interface from `@mbc-cqrs-serverless/core`. Depending on the event source, you should typically implement a second interface from the `aws-lambda` library, such as `SNSEventRecord`, `SQSRecord`, `DynamoDBRecord`, `EventBridgeEvent`, `S3EventRecord`, etc.
+カスタムイベントを作成するには、`@mbc-cqrs-serverless/core`から`IEvent`インターフェースを実装します。イベントソースに応じて、`aws-lambda`ライブラリから`SNSEventRecord`、`SQSRecord`、`DynamoDBRecord`、`EventBridgeEvent`、`S3EventRecord`などの2番目のインターフェースも実装する必要があります。
 
-### Custom S3 Event Example
+### カスタムS3イベントの例
 
 ```typescript
 // custom-s3-import.event.ts
@@ -1069,9 +1036,9 @@ export class CustomS3ImportEvent implements IEvent, Partial<S3EventRecord> {
 }
 ```
 
-### Event Factory Transform Methods
+### イベントファクトリーの変換メソッド
 
-The Event Factory supports transforming events from various AWS sources:
+イベントファクトリーは様々なAWSソースからのイベント変換をサポートしています：
 
 ```typescript
 // Available transform methods in DefaultEventFactory
@@ -1085,6 +1052,6 @@ transformS3(event: S3Event): Promise<IEvent[]>;
 
 ## 関連ドキュメント
 
-- [Backend Development Guide](./backend-development) - Core patterns
-- [Step Functions](./architecture/step-functions) - Workflow orchestration
-- [Data Sync Handler Examples](./data-sync-handler-examples) - Comprehensive sync examples
+- [バックエンド開発ガイド](./backend-development) - コアパターン
+- [Step Functions](./architecture/step-functions) - ワークフローオーケストレーション
+- [データ同期ハンドラーの例](./data-sync-handler-examples) - 包括的な同期の例

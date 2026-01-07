@@ -38,9 +38,9 @@
   "5. Pagination": "5. Pagination",
   "Always support pagination for list operations:": "Always support pagination for list operations:",
   "Related Documentation": "Related Documentation",
-  "Advanced service implementation patterns / 高度なサービス実装パターン": "Advanced service implementation patterns / 高度なサービス実装パターン",
-  "Comprehensive sync handler examples / 包括的な同期ハンドラー例": "Comprehensive sync handler examples / 包括的な同期ハンドラー例",
-  "PK/SK design patterns / PK/SK設計パターン": "PK/SK design patterns / PK/SK設計パターン",
-  "Multi-tenant implementation / マルチテナント実装": "Multi-tenant implementation / マルチテナント実装",
-  "Batch data processing / バッチデータ処理": "Batch data processing / バッチデータ処理"
+  "Advanced service implementation patterns": "Advanced service implementation patterns",
+  "Comprehensive sync handler examples": "Comprehensive sync handler examples",
+  "PK/SK design patterns": "PK/SK design patterns",
+  "Multi-tenant implementation": "Multi-tenant implementation",
+  "Batch data processing": "Batch data processing"
 }
