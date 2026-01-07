@@ -6,7 +6,7 @@ description: CQRSパターンを学びながら、完全なTodoアプリケー�
 
 このチュートリアルでは、MBC CQRS Serverlessを使用して完全なTodoアプリケーションを構築する方法を説明します。CQRSパターン、イベントハンドリング、段階的な機能追加を学びます。
 
-This tutorial follows the [sample code](https://github.com/mbc-net/mbc-cqrs-serverless-samples) which is organized into progressive steps.
+このチュートリアルは、段階的なステップで構成された[サンプルコード](https://github.com/mbc-net/mbc-cqrs-serverless-samples)に従っています。
 
 ## 構築するもの
 
@@ -14,7 +14,7 @@ This tutorial follows the [sample code](https://github.com/mbc-net/mbc-cqrs-serv
 
 - TodoのCRUD操作
 - コマンド/クエリ分離によるCQRSパターン
-- Event-driven data synchronization to RDS
+- RDSへのイベント駆動データ同期
 - オプション：Todoのシーケンス番号
 - オプション：非同期タスク処理
 
@@ -24,32 +24,32 @@ This tutorial follows the [sample code](https://github.com/mbc-net/mbc-cqrs-serv
 - NestJSの基本的な理解
 - ローカル開発用にDockerが実行中であること
 
-## Running the Samples
+## サンプルの実行
 
-Each step has a complete working sample. To run any sample:
+各ステップには完全に動作するサンプルがあります。サンプルを実行するには：
 
 ```bash
-# Navigate to the step directory
-cd step-02-create  # or any other step
+# ステップディレクトリに移動
+cd step-02-create  # または他のステップ
 
-# Install dependencies
+# 依存関係のインストール
 npm install
 
-# Terminal 1: Start Docker services
+# ターミナル1：Dockerサービスを起動
 npm run offline:docker
 
-# Terminal 2: Run database migrations
+# ターミナル2：データベースマイグレーションを実行
 npm run migrate
 
-# Terminal 3: Start the serverless offline server
+# ターミナル3：serverless offlineサーバーを起動
 npm run offline:sls
 ```
 
-## Part 1: Basic CQRS Implementation (step-02-create)
+## Part 1：基本的なCQRS実装（step-02-create）
 
-### Step 1: Create Helper Functions
+### ステップ1：ヘルパー関数の作成
 
-First, create helper functions for managing partition keys and sort keys (`src/helpers/id.ts`):
+まず、パーティションキーとソートキーを管理するヘルパー関数を作成します（`src/helpers/id.ts`）：
 
 ```typescript
 import { KEY_SEPARATOR } from '@mbc-cqrs-serverless/core'
@@ -62,7 +62,7 @@ export function generateTodoPk(tenantCode: string): string {
 }
 
 export function generateTodoSk(): string {
-  return ulid() // ULID provides time-ordered unique identifiers
+  return ulid() // ULID provides time-ordered unique identifiers（ULIDは時間順の一意識別子を提供）
 }
 
 export function parsePk(pk: string): { type: string; tenantCode: string } {
@@ -74,15 +74,15 @@ export function parsePk(pk: string): { type: string; tenantCode: string } {
 }
 ```
 
-### Step 2: Define DTOs
+### ステップ2：DTOの定義
 
-Create the todo attributes DTO (`dto/todo-attributes.dto.ts`):
+Todo属性DTOを作成（`dto/todo-attributes.dto.ts`）：
 
 ```typescript
 import { ApiProperty } from '@nestjs/swagger'
 import { IsDateString, IsEnum, IsOptional, IsString } from 'class-validator'
 
-// TodoStatus enum (will be synced with Prisma in step-03)
+// TodoStatus enum (will be synced with Prisma in step-03)（TodoStatusのenum、step-03でPrismaと同期）
 export enum TodoStatus {
   PENDING = 'PENDING',
   IN_PROGRESS = 'IN_PROGRESS',
@@ -106,7 +106,7 @@ export class TodoAttributes {
 }
 ```
 
-Create the input DTO (`dto/create-todo.dto.ts`):
+入力DTOを作成（`dto/create-todo.dto.ts`）：
 
 ```typescript
 import { Type } from 'class-transformer'
@@ -115,7 +115,7 @@ import { TodoAttributes } from './todo-attributes.dto'
 
 export class CreateTodoDto {
   @IsString()
-  name: string // The name field is required by CommandEntity
+  name: string // The name field is required by CommandEntity（nameフィールドはCommandEntityで必須）
 
   @Type(() => TodoAttributes)
   @ValidateNested()
@@ -128,7 +128,7 @@ export class CreateTodoDto {
 }
 ```
 
-### Step 3: Define Entities
+### ステップ3：エンティティの定義
 
 コマンドエンティティを作成（`entity/todo-command.entity.ts`）：
 
@@ -146,7 +146,7 @@ export class TodoCommandEntity extends CommandEntity {
 }
 ```
 
-Create the command DTO (`dto/todo-command.dto.ts`):
+コマンドDTOを作成（`dto/todo-command.dto.ts`）：
 
 ```typescript
 import { CommandDto } from '@mbc-cqrs-serverless/core'
@@ -211,14 +211,14 @@ export class TodoService {
     createDto: CreateTodoDto,
     opts: { invokeContext: IInvoke },
   ): Promise<TodoDataEntity> {
-    // Get tenant code from user context (JWT token)
+    // Get tenant code from user context (JWT token)（ユーザーコンテキストからテナントコードを取得）
     const { tenantCode } = getUserContext(opts.invokeContext)
 
-    // Generate partition key and sort key
+    // Generate partition key and sort key（パーティションキーとソートキーを生成）
     const pk = generateTodoPk(tenantCode)
     const sk = generateTodoSk()
 
-    // Create command DTO
+    // Create command DTO（コマンドDTOを作成）
     const todo = new TodoCommandDto({
       pk,
       sk,
@@ -226,14 +226,14 @@ export class TodoService {
       tenantCode,
       code: sk,
       type: TODO_PK_PREFIX,
-      version: VERSION_FIRST, // Version for optimistic locking
+      version: VERSION_FIRST, // Version for optimistic locking（楽観的ロック用バージョン）
       name: createDto.name,
       attributes: createDto.attributes,
     })
 
     this.logger.debug('Creating todo:', todo)
 
-    // Publish command to DynamoDB
+    // Publish command to DynamoDB（DynamoDBにコマンドを発行）
     const item = await this.commandService.publish(todo, opts)
 
     return new TodoDataEntity(item as TodoDataEntity)
@@ -271,7 +271,7 @@ export class TodoController {
 }
 ```
 
-### Step 6: Create the Module
+### ステップ6：モジュールの作成
 
 モジュールを作成（`todo.module.ts`）：
 
@@ -285,7 +285,7 @@ import { TodoService } from './todo.service'
   imports: [
     CommandModule.register({
       tableName: 'todo',
-      // Data sync handlers will be added in step-03-rds-sync
+      // Data sync handlers will be added in step-03-rds-sync（データ同期ハンドラーはstep-03-rds-syncで追加）
       // dataSyncHandlers: [TodoDataSyncRdsHandler],
     }),
   ],
@@ -295,16 +295,16 @@ import { TodoService } from './todo.service'
 export class TodoModule {}
 ```
 
-## Part 2: RDS Data Synchronization (step-03-rds-sync)
+## Part 2：RDSデータ同期（step-03-rds-sync）
 
-Implement automatic data synchronization from DynamoDB to RDS.
+DynamoDBからRDSへの自動データ同期を実装します。
 
-### Update Prisma Schema
+### Prismaスキーマの更新
 
-Add TodoStatus enum and Todo model to `prisma/schema.prisma`:
+`prisma/schema.prisma`にTodoStatus enumとTodoモデルを追加：
 
 ```prisma
-// Todo status enum
+// Todo status enum（Todoステータスのenum）
 enum TodoStatus {
   PENDING
   IN_PROGRESS
@@ -312,41 +312,41 @@ enum TodoStatus {
   CANCELED
 }
 
-// Todo model for RDS (MySQL) - synchronized from DynamoDB
+// Todo model for RDS (MySQL) - synchronized from DynamoDB（RDS用Todoモデル - DynamoDBから同期）
 model Todo {
-  id         String   @id                        // Unique ID (generated from pk#sk)
-  cpk        String                              // Command partition key
-  csk        String                              // Command sort key (with version)
-  pk         String                              // Data partition key: TODO#tenantCode
-  sk         String                              // Data sort key: ULID
-  tenantCode String   @map("tenant_code")        // Tenant code for multi-tenancy
-  seq        Int      @default(0)                // Sequence number (for ordering)
-  code       String                              // Record code (same as sk)
-  name       String                              // Todo name/title
-  version    Int                                 // Version for optimistic locking
-  isDeleted  Boolean  @default(false) @map("is_deleted")  // Soft delete flag
-  createdBy  String   @default("") @map("created_by")     // Created by user
-  createdIp  String   @default("") @map("created_ip")     // Created from IP
+  id         String   @id                        // Unique ID (generated from pk#sk)（一意のID、pk#skから生成）
+  cpk        String                              // Command partition key（コマンドパーティションキー）
+  csk        String                              // Command sort key (with version)（コマンドソートキー、バージョン付き）
+  pk         String                              // Data partition key: TODO#tenantCode（データパーティションキー）
+  sk         String                              // Data sort key: ULID（データソートキー）
+  tenantCode String   @map("tenant_code")        // Tenant code for multi-tenancy（マルチテナンシー用テナントコード）
+  seq        Int      @default(0)                // Sequence number (for ordering)（並べ替え用シーケンス番号）
+  code       String                              // Record code (same as sk)（レコードコード、skと同じ）
+  name       String                              // Todo name/title（Todo名/タイトル）
+  version    Int                                 // Version for optimistic locking（楽観的ロック用バージョン）
+  isDeleted  Boolean  @default(false) @map("is_deleted")  // Soft delete flag（論理削除フラグ）
+  createdBy  String   @default("") @map("created_by")     // Created by user（作成ユーザー）
+  createdIp  String   @default("") @map("created_ip")     // Created from IP（作成元IP）
   createdAt  DateTime @default(now()) @map("created_at") @db.Timestamp(0)
-  updatedBy  String   @default("") @map("updated_by")     // Updated by user
-  updatedIp  String   @default("") @map("updated_ip")     // Updated from IP
+  updatedBy  String   @default("") @map("updated_by")     // Updated by user（更新ユーザー）
+  updatedIp  String   @default("") @map("updated_ip")     // Updated from IP（更新元IP）
   updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
 
-  // Todo-specific attributes
-  description String?    @default("") @map("description")  // Description
-  status      TodoStatus @default(PENDING) @map("status")  // Status
-  dueDate     DateTime?  @map("due_date")                  // Due date
+  // Todo-specific attributes（Todo固有の属性）
+  description String?    @default("") @map("description")  // Description（説明）
+  status      TodoStatus @default(PENDING) @map("status")  // Status（ステータス）
+  dueDate     DateTime?  @map("due_date")                  // Due date（期限日）
 
-  // Indexes for efficient queries
-  @@unique([cpk, csk])           // Command table unique constraint
-  @@unique([pk, sk])             // Data table unique constraint
-  @@unique([tenantCode, code])   // Tenant + code unique constraint
-  @@index([tenantCode, name])    // Search by tenant and name
-  @@map("todos")                 // Table name in database
+  // Indexes for efficient queries（効率的なクエリ用インデックス）
+  @@unique([cpk, csk])           // Command table unique constraint（コマンドテーブルのユニーク制約）
+  @@unique([pk, sk])             // Data table unique constraint（データテーブルのユニーク制約）
+  @@unique([tenantCode, code])   // Tenant + code unique constraint（テナント+コードのユニーク制約）
+  @@index([tenantCode, name])    // Search by tenant and name（テナントと名前で検索）
+  @@map("todos")                 // Table name in database（データベースのテーブル名）
 }
 ```
 
-### Create Data Sync Handler
+### データ同期ハンドラーの作成
 
 RDS同期ハンドラーを作成（`handler/todo-rds.handler.ts`）：
 
@@ -366,17 +366,17 @@ export class TodoDataSyncRdsHandler implements IDataSyncHandler {
 
   constructor(private readonly prismaService: PrismaService) {}
 
-  // Called when data is created or updated in DynamoDB
+  // Called when data is created or updated in DynamoDB（DynamoDBでデータが作成または更新された時に呼び出される）
   async up(cmd: CommandModel): Promise<any> {
     this.logger.debug('Syncing to RDS:', cmd)
 
-    // Remove version suffix from sort key for the data table
+    // Remove version suffix from sort key for the data table（データテーブル用にソートキーからバージョンサフィックスを削除）
     const sk = removeSortKeyVersion(cmd.sk)
     const attrs = cmd.attributes as TodoAttributes
 
     await this.prismaService.todo.upsert({
       where: { id: cmd.id },
-      // Update existing record
+      // Update existing record（既存レコードを更新）
       update: {
         csk: cmd.sk,
         name: cmd.name,
@@ -390,7 +390,7 @@ export class TodoDataSyncRdsHandler implements IDataSyncHandler {
         status: attrs?.status,
         dueDate: attrs?.dueDate,
       },
-      // Create new record
+      // Create new record（新規レコードを作成）
       create: {
         id: cmd.id,
         cpk: cmd.pk,
@@ -415,17 +415,17 @@ export class TodoDataSyncRdsHandler implements IDataSyncHandler {
     })
   }
 
-  // Called when data needs to be rolled back
+  // Called when data needs to be rolled back（データのロールバックが必要な時に呼び出される）
   async down(cmd: CommandModel): Promise<any> {
     this.logger.debug('Rollback requested:', cmd)
-    // Implement rollback logic if needed
+    // Implement rollback logic if needed（必要に応じてロールバックロジックを実装）
   }
 }
 ```
 
-### Register Handler in Module
+### モジュールへのハンドラー登録
 
-Update `todo.module.ts`:
+`todo.module.ts`を更新：
 
 ```typescript
 import { CommandModule } from '@mbc-cqrs-serverless/core'
@@ -438,7 +438,7 @@ import { TodoService } from './todo.service'
   imports: [
     CommandModule.register({
       tableName: 'todo',
-      // Register RDS sync handler to synchronize DynamoDB data to MySQL
+      // Register RDS sync handler to synchronize DynamoDB data to MySQL（RDS同期ハンドラーを登録してDynamoDBデータをMySQLに同期）
       dataSyncHandlers: [TodoDataSyncRdsHandler],
     }),
   ],
@@ -448,13 +448,13 @@ import { TodoService } from './todo.service'
 export class TodoModule {}
 ```
 
-## Part 3: Read Operations (step-04-read)
+## Part 3：読み取り操作（step-04-read）
 
-Add methods to retrieve single items from DynamoDB.
+DynamoDBから単一アイテムを取得するメソッドを追加します。
 
-### Update Service
+### サービスの更新
 
-Add `findOne` method to `todo.service.ts`:
+`todo.service.ts`に`findOne`メソッドを追加：
 
 ```typescript
 import { DataService, NotFoundException } from '@mbc-cqrs-serverless/core'
@@ -463,7 +463,7 @@ import { DataService, NotFoundException } from '@mbc-cqrs-serverless/core'
 export class TodoService {
   constructor(
     private readonly commandService: CommandService,
-    private readonly dataService: DataService, // Inject DataService
+    private readonly dataService: DataService, // Inject DataService（DataServiceを注入）
   ) {}
 
   // ... create method ...
@@ -482,7 +482,7 @@ export class TodoService {
 }
 ```
 
-### Update Controller
+### コントローラーの更新
 
 ```typescript
 @Get(':pk/:sk')
@@ -495,15 +495,15 @@ async findOne(
 }
 ```
 
-## Part 4: Search Operations (step-05-search)
+## Part 4：検索操作（step-05-search）
 
-Implement search using RDS for efficient queries.
+効率的なクエリのためにRDSを使用した検索を実装します。
 
-### Create Search DTO
+### 検索DTOの作成
 
 ```typescript
 import { ApiPropertyOptional } from '@nestjs/swagger'
-import { TodoStatus } from '@prisma/client' // Import from Prisma generated types
+import { TodoStatus } from '@prisma/client' // Import from Prisma generated types（Prisma生成型からインポート）
 import { IsEnum, IsInt, IsOptional, IsString, Max, Min } from 'class-validator'
 import { Transform, Type } from 'class-transformer'
 
@@ -570,7 +570,7 @@ export class SearchTodoResultDto<T> {
 }
 ```
 
-### Update Service
+### サービスの更新
 
 ```typescript
 import { Prisma } from '@prisma/client'
@@ -583,31 +583,31 @@ async findAll(
 
   const { name, status, page = 1, limit = 10, sortBy = 'createdAt', sortOrder = 'DESC' } = searchDto
 
-  // Build where clause dynamically
+  // Build where clause dynamically（WHERE句を動的に構築）
   const where: Prisma.TodoWhereInput = {
     tenantCode,
     isDeleted: false,
   }
 
-  // Add name filter (partial match)
+  // Add name filter (partial match)（名前フィルターを追加、部分一致）
   if (name) {
     where.name = { contains: name }
   }
 
-  // Add status filter (exact match)
+  // Add status filter (exact match)（ステータスフィルターを追加、完全一致）
   if (status) {
     where.status = status
   }
 
-  // Build orderBy clause
+  // Build orderBy clause（ORDER BY句を構築）
   const orderBy: Prisma.TodoOrderByWithRelationInput = {
     [sortBy]: sortOrder.toLowerCase(),
   }
 
-  // Calculate skip for pagination
+  // Calculate skip for pagination（ページネーション用のスキップ数を計算）
   const skip = (page - 1) * limit
 
-  // Execute query with pagination
+  // Execute query with pagination（ページネーション付きでクエリを実行）
   const [data, total] = await Promise.all([
     this.prismaService.todo.findMany({
       where,
@@ -618,7 +618,7 @@ async findAll(
     this.prismaService.todo.count({ where }),
   ])
 
-  // Map Prisma results to TodoDataEntity
+  // Map Prisma results to TodoDataEntity（Prisma結果をTodoDataEntityにマッピング）
   const todos = data.map((item) => new TodoDataEntity({
     ...item,
     type: TODO_PK_PREFIX,
@@ -633,7 +633,7 @@ async findAll(
 }
 ```
 
-### Update Controller
+### コントローラーの更新
 
 ```typescript
 @Get('/')
@@ -647,9 +647,9 @@ async findAll(
 }
 ```
 
-## Part 5: Update and Delete (step-06-update-delete)
+## Part 5：更新と削除（step-06-update-delete）
 
-### Update DTO
+### 更新DTOの作成
 
 ```typescript
 import { ApiPropertyOptional } from '@nestjs/swagger'
@@ -671,11 +671,11 @@ export class UpdateTodoDto {
   @IsInt()
   @Min(1)
   @ApiPropertyOptional({ description: 'Version for optimistic locking' })
-  version: number // Required for optimistic locking
+  version: number // Required for optimistic locking（楽観的ロックに必須）
 }
 ```
 
-### Update Service
+### サービスの更新
 
 ```typescript
 import { CommandPartialInputModel } from '@mbc-cqrs-serverless/core'
@@ -688,22 +688,22 @@ async update(
 ): Promise<TodoDataEntity> {
   this.logger.debug(`Updating todo: pk=${pk}, sk=${sk}`, updateDto)
 
-  // First, verify the item exists
+  // First, verify the item exists（まずアイテムの存在を確認）
   const currentItem = await this.dataService.getItem({ pk, sk })
   if (!currentItem) {
     throw new NotFoundException(`Todo not found: pk=${pk}, sk=${sk}`)
   }
 
-  // Build the partial update object
+  // Build the partial update object（部分更新オブジェクトを構築）
   const partialUpdate: CommandPartialInputModel = {
     pk,
     sk,
-    version: updateDto.version, // Required for optimistic locking
+    version: updateDto.version, // Required for optimistic locking（楽観的ロックに必須）
     ...(updateDto.name !== undefined && { name: updateDto.name }),
     ...(updateDto.attributes !== undefined && { attributes: updateDto.attributes }),
   }
 
-  // Publish partial update command
+  // Publish partial update command（部分更新コマンドを発行）
   const item = await this.commandService.publishPartialUpdate(partialUpdate, opts)
 
   return new TodoDataEntity(item as TodoDataEntity)
@@ -717,13 +717,13 @@ async remove(
 ): Promise<TodoDataEntity> {
   this.logger.debug(`Removing todo: pk=${pk}, sk=${sk}, version=${version}`)
 
-  // First, verify the item exists
+  // First, verify the item exists（まずアイテムの存在を確認）
   const currentItem = await this.dataService.getItem({ pk, sk })
   if (!currentItem) {
     throw new NotFoundException(`Todo not found: pk=${pk}, sk=${sk}`)
   }
 
-  // Soft delete by setting isDeleted flag
+  // Soft delete by setting isDeleted flag（isDeletedフラグを設定して論理削除）
   const item = await this.commandService.publishPartialUpdate(
     {
       pk,
@@ -738,7 +738,7 @@ async remove(
 }
 ```
 
-### Update Controller
+### コントローラーの更新
 
 ```typescript
 @Patch(':pk/:sk')
@@ -764,9 +764,9 @@ async remove(
 }
 ```
 
-## Part 6: Sequence Numbers (step-07-sequence)
+## Part 6：シーケンス番号（step-07-sequence）
 
-自動インクリメントのTodo番号を追加。
+自動インクリメントのTodo番号を追加します。
 
 ### シーケンスモジュールのインストール
 
@@ -774,7 +774,7 @@ async remove(
 npm install @mbc-cqrs-serverless/sequence
 ```
 
-### Update Module
+### モジュールの更新
 
 ```typescript
 import { SequencesModule } from '@mbc-cqrs-serverless/sequence'
@@ -785,14 +785,14 @@ import { SequencesModule } from '@mbc-cqrs-serverless/sequence'
       tableName: 'todo',
       dataSyncHandlers: [TodoDataSyncRdsHandler],
     }),
-    SequencesModule, // Add SequencesModule
+    SequencesModule, // Add SequencesModule（SequencesModuleを追加）
   ],
   // ...
 })
 export class TodoModule {}
 ```
 
-### Update Service
+### サービスの更新
 
 ```typescript
 import { SequencesService } from '@mbc-cqrs-serverless/sequence'
@@ -803,7 +803,7 @@ export class TodoService {
     private readonly commandService: CommandService,
     private readonly dataService: DataService,
     private readonly prismaService: PrismaService,
-    private readonly sequencesService: SequencesService, // Inject SequencesService
+    private readonly sequencesService: SequencesService, // Inject SequencesService（SequencesServiceを注入）
   ) {}
 
   async create(
@@ -812,7 +812,7 @@ export class TodoService {
   ): Promise<TodoDataEntity> {
     const { tenantCode } = getUserContext(opts.invokeContext)
 
-    // Generate sequential number
+    // Generate sequential number（シーケンス番号を生成）
     const seqItem = await this.sequencesService.generateSequenceItem(
       {
         tenantCode,
@@ -824,7 +824,7 @@ export class TodoService {
     this.logger.debug(`Generated sequence number: ${seqItem.formattedNo} for tenant: ${tenantCode}`)
 
     const pk = generateTodoPk(tenantCode)
-    const sk = generateTodoSk() // SK is still ULID
+    const sk = generateTodoSk() // SK is still ULID（SKは引き続きULID）
 
     const todo = new TodoCommandDto({
       pk,
@@ -834,7 +834,7 @@ export class TodoService {
       code: sk,
       type: TODO_PK_PREFIX,
       version: VERSION_FIRST,
-      seq: seqItem.no, // Store sequence number in seq field
+      seq: seqItem.no, // Store sequence number in seq field（seqフィールドにシーケンス番号を格納）
       name: createDto.name,
       attributes: createDto.attributes,
     })
@@ -847,9 +847,9 @@ export class TodoService {
 }
 ```
 
-## Part 7: Async Task Processing (complete/with-task)
+## Part 7：非同期タスク処理（complete/with-task）
 
-長時間実行されるTodo操作を非同期で処理。
+長時間実行されるTodo操作を非同期で処理します。
 
 ### タスクモジュールのインストール
 
@@ -881,15 +881,15 @@ export class TodoTaskEventHandler implements IEventHandler<TodoTaskEvent> {
   async execute(event: TodoTaskEvent): Promise<any> {
     this.logger.debug('Processing todo task:', event)
 
-    // Implement your async task processing here
-    // e.g., send notification, sync to external system
+    // Implement your async task processing here（ここに非同期タスク処理を実装）
+    // e.g., send notification, sync to external system（例：通知送信、外部システムへの同期）
 
     return { processed: true }
   }
 }
 ```
 
-### Create Task Queue Event Factory
+### タスクキューイベントファクトリーの作成
 
 ```typescript
 // src/my-task/task-queue-event-factory.ts
@@ -906,7 +906,7 @@ export class TaskQueueEventFactory implements ITaskQueueEventFactory {
 }
 ```
 
-### Create Task Module
+### タスクモジュールの作成
 
 ```typescript
 // src/my-task/my-task.module.ts
@@ -930,47 +930,47 @@ export class MyTaskModule {}
 ### ローカルで実行
 
 ```bash
-# Terminal 1: Start Docker services
+# ターミナル1：Dockerサービスを起動
 npm run offline:docker
 
-# Terminal 2: Run database migrations
+# ターミナル2：データベースマイグレーションを実行
 npm run migrate
 
-# Terminal 3: Start serverless offline
+# ターミナル3：serverless offlineを起動
 npm run offline:sls
 ```
 
 ### APIエンドポイントのテスト
 
 ```bash
-# Create a todo
+# Todoを作成
 curl -X POST http://localhost:3000/api/todo \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <your-token>" \
   -d '{"name": "My First Todo", "attributes": {"description": "Testing CQRS", "status": "PENDING"}}'
 
-# List todos
+# Todo一覧を取得
 curl "http://localhost:3000/api/todo?page=1&limit=10" \
   -H "Authorization: Bearer <your-token>"
 
-# Get a todo (Note: # in pk must be URL-encoded as %23)
+# Todoを取得（注：pk内の#は%23にURLエンコードが必要）
 curl "http://localhost:3000/api/todo/TODO%23MBC/<sk>" \
   -H "Authorization: Bearer <your-token>"
 
-# Update a todo
+# Todoを更新
 curl -X PATCH "http://localhost:3000/api/todo/TODO%23MBC/<sk>" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <your-token>" \
   -d '{"name": "Updated Todo", "version": 1}'
 
-# Delete a todo
+# Todoを削除
 curl -X DELETE "http://localhost:3000/api/todo/TODO%23MBC/<sk>?version=1" \
   -H "Authorization: Bearer <your-token>"
 ```
 
-### Unit Tests
+### ユニットテスト
 
-Create unit tests for the service (`todo.service.spec.ts`):
+サービスのユニットテストを作成（`todo.service.spec.ts`）：
 
 ```typescript
 import { Test, TestingModule } from '@nestjs/testing'
@@ -979,7 +979,7 @@ import { CommandService, DataService } from '@mbc-cqrs-serverless/core'
 import { TodoService } from './todo.service'
 import { PrismaService } from '../prisma/prisma.service'
 
-// Mock getUserContext
+// Mock getUserContext（getUserContextをモック）
 jest.mock('@mbc-cqrs-serverless/core', () => ({
   ...jest.requireActual('@mbc-cqrs-serverless/core'),
   getUserContext: jest.fn().mockReturnValue({
@@ -1048,15 +1048,15 @@ describe('TodoService', () => {
 })
 ```
 
-Run unit tests:
+ユニットテストを実行：
 
 ```bash
 npm test
 ```
 
-### E2E Tests
+### E2Eテスト
 
-Create E2E tests (`test/todo.e2e-spec.ts`):
+E2Eテストを作成（`test/todo.e2e-spec.ts`）：
 
 ```typescript
 import { Test, TestingModule } from '@nestjs/testing'
@@ -1065,14 +1065,14 @@ import request from 'supertest'
 import { TodoController } from '../src/todo/todo.controller'
 import { TodoService } from '../src/todo/todo.service'
 
-// Mock getUserContext
+// Mock getUserContext（getUserContextをモック）
 jest.mock('@mbc-cqrs-serverless/core', () => ({
   ...jest.requireActual('@mbc-cqrs-serverless/core'),
   getUserContext: jest.fn().mockReturnValue({
     tenantCode: 'TEST',
     userId: 'user-123',
   }),
-  INVOKE_CONTEXT: () => () => {}, // Decorator stub
+  INVOKE_CONTEXT: () => () => {}, // Decorator stub（デコレータスタブ）
 }))
 
 describe('TodoController (e2e)', () => {
@@ -1130,7 +1130,7 @@ describe('TodoController (e2e)', () => {
 })
 ```
 
-Configure Jest for E2E tests (`test/jest-e2e.json`):
+E2Eテスト用のJest設定（`test/jest-e2e.json`）：
 
 ```json
 {
@@ -1147,25 +1147,25 @@ Configure Jest for E2E tests (`test/jest-e2e.json`):
 }
 ```
 
-Run E2E tests:
+E2Eテストを実行：
 
 ```bash
 npm run test:e2e
 ```
 
-## Sample Code Repository
+## サンプルコードリポジトリ
 
-The complete source code for each step is available at:
+各ステップの完全なソースコードは以下で入手できます：
 
-- [step-01-setup](https://github.com/mbc-net/mbc-cqrs-serverless-samples/tree/main/step-01-setup) - Environment setup
-- [step-02-create](https://github.com/mbc-net/mbc-cqrs-serverless-samples/tree/main/step-02-create) - Create operation
-- [step-03-rds-sync](https://github.com/mbc-net/mbc-cqrs-serverless-samples/tree/main/step-03-rds-sync) - RDS synchronization
-- [step-04-read](https://github.com/mbc-net/mbc-cqrs-serverless-samples/tree/main/step-04-read) - Read operation
-- [step-05-search](https://github.com/mbc-net/mbc-cqrs-serverless-samples/tree/main/step-05-search) - Search operation
-- [step-06-update-delete](https://github.com/mbc-net/mbc-cqrs-serverless-samples/tree/main/step-06-update-delete) - Update and delete
-- [step-07-sequence](https://github.com/mbc-net/mbc-cqrs-serverless-samples/tree/main/step-07-sequence) - Sequence numbers
-- [complete/basic](https://github.com/mbc-net/mbc-cqrs-serverless-samples/tree/main/complete/basic) - Full basic implementation
-- [complete/with-task](https://github.com/mbc-net/mbc-cqrs-serverless-samples/tree/main/complete/with-task) - With async task processing
+- [step-01-setup](https://github.com/mbc-net/mbc-cqrs-serverless-samples/tree/main/step-01-setup) - 環境セットアップ
+- [step-02-create](https://github.com/mbc-net/mbc-cqrs-serverless-samples/tree/main/step-02-create) - 作成操作
+- [step-03-rds-sync](https://github.com/mbc-net/mbc-cqrs-serverless-samples/tree/main/step-03-rds-sync) - RDS同期
+- [step-04-read](https://github.com/mbc-net/mbc-cqrs-serverless-samples/tree/main/step-04-read) - 読み取り操作
+- [step-05-search](https://github.com/mbc-net/mbc-cqrs-serverless-samples/tree/main/step-05-search) - 検索操作
+- [step-06-update-delete](https://github.com/mbc-net/mbc-cqrs-serverless-samples/tree/main/step-06-update-delete) - 更新と削除
+- [step-07-sequence](https://github.com/mbc-net/mbc-cqrs-serverless-samples/tree/main/step-07-sequence) - シーケンス番号
+- [complete/basic](https://github.com/mbc-net/mbc-cqrs-serverless-samples/tree/main/complete/basic) - 完全な基本実装
+- [complete/with-task](https://github.com/mbc-net/mbc-cqrs-serverless-samples/tree/main/complete/with-task) - 非同期タスク処理付き
 
 ## 次のステップ
 
