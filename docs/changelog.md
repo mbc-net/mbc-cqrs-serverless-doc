@@ -15,6 +15,123 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ---
 
+## {{Stable Releases (1.x)}}
+
+## [1.0.16](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.16) (2025-12-31)
+
+### {{Bug Fixes}}
+
+- **cli:** {{Add cleanup for test-generated files and update .gitignore}}
+- **master, directory, task, cli:** {{Improve error messages for better clarity}}
+
+### {{Features}}
+
+- {{Include __s3Key in attributes for import creation}}
+- {{Zip mode provide table name}}
+- {{Add optional s3Key to CreateImportDto}}
+
+---
+
+## [1.0.15](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.15) (2025-12-31)
+
+### {{Bug Fixes}}
+
+- **ui-setting:** {{Improve error messages for better clarity}}
+- **mcp-server:** {{Use MBC_PROJECT_PATH for ERROR_CATALOG.md lookup}}
+
+---
+
+## [1.0.14](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.14) (2025-12-29)
+
+### {{Features}}
+
+- **mcp-server:** {{Add MCP server package for AI tool integration}}
+
+### {{Documentation}}
+
+- {{Add comprehensive error message catalog}}
+- {{Add JSDoc comments to core interfaces}}
+- {{Add operational documentation (FAQ, troubleshooting, security)}}
+- {{Add AI-friendly documentation files}}
+
+---
+
+## [1.0.13](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.13) (2025-12-26)
+
+### {{Features}}
+
+- {{Enhance CreateZipImportDto and ZipImportQueueEventHandler}}
+
+---
+
+## [1.0.12](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.12) (2025-12-23)
+
+### {{Bug Fixes}}
+
+- {{Merge tenant attributes in TenantService}}
+
+---
+
+## [1.0.11](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.11) (2025-12-22)
+
+### {{Bug Fixes}}
+
+- {{Handle unknown source IP in SequencesService}}
+
+---
+
+## [1.0.10](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.10) (2025-11-28)
+
+### {{Bug Fixes}}
+
+- {{Fix createTenantGroup method in TenantService}}
+
+---
+
+## [1.0.9](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.9) (2025-11-26)
+
+### {{Bug Fixes}}
+
+- {{Remove callback parameter from Lambda handler for Node.js 24 compatibility}}
+
+---
+
+## [1.0.8](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.8) (2025-11-17)
+
+### {{Security}}
+
+- {{Bump jws dependency for security fix}}
+
+---
+
+## [1.0.7](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.7) (2025-11-07)
+
+### {{Security}}
+
+- {{Bump validator dependency in examples}}
+- {{Bump js-yaml dependency for security fix}}
+
+---
+
+## [1.0.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.0) (2025-09-18)
+
+### {{Highlights}}
+
+- {{First stable production release}}
+- {{Based on beta version 0.1.74}}
+
+---
+
+## {{Beta Releases (0.1.x)}}
+
+## [0.1.75-beta.0](https://github.com/mbc-net/mbc-cqrs-serverless/compare/v0.1.74-beta.0...v0.1.75-beta.0)
+
+### {{Features}}
+
+- {{Various improvements and bug fixes}}
+
+---
+
 ## [0.1.74-beta.0](https://github.com/mbc-net/mbc-cqrs-serverless/compare/v0.1.73-beta.0...v0.1.74-beta.0) (2025-08-25)
 
 ### {{Features}}

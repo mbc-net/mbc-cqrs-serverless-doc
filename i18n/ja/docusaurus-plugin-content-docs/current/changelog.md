@@ -15,6 +15,123 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ---
 
+## 安定版リリース (1.x)
+
+## [1.0.16](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.16) (2025-12-31)
+
+### バグ修正
+
+- **cli:** テスト生成ファイルのクリーンアップを追加し、.gitignoreを更新
+- **master, directory, task, cli:** エラーメッセージを改善してわかりやすく
+
+### 新機能
+
+- インポート作成時のattributesに__s3Keyを含める
+- Zipモードでテーブル名を提供
+- CreateImportDtoにオプションのs3Keyを追加
+
+---
+
+## [1.0.15](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.15) (2025-12-31)
+
+### バグ修正
+
+- **ui-setting:** エラーメッセージを改善してわかりやすく
+- **mcp-server:** ERROR_CATALOG.mdの検索にMBC_PROJECT_PATHを使用
+
+---
+
+## [1.0.14](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.14) (2025-12-29)
+
+### 新機能
+
+- **mcp-server:** AIツール統合用のMCPサーバーパッケージを追加
+
+### ドキュメント
+
+- 包括的なエラーメッセージカタログを追加
+- コアインターフェースにJSDocコメントを追加
+- 運用ドキュメント（FAQ、トラブルシューティング、セキュリティ）を追加
+- AI対応ドキュメントファイルを追加
+
+---
+
+## [1.0.13](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.13) (2025-12-26)
+
+### 新機能
+
+- CreateZipImportDtoとZipImportQueueEventHandlerを強化
+
+---
+
+## [1.0.12](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.12) (2025-12-23)
+
+### バグ修正
+
+- TenantServiceでテナント属性をマージ
+
+---
+
+## [1.0.11](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.11) (2025-12-22)
+
+### バグ修正
+
+- SequencesServiceで不明なソースIPを処理
+
+---
+
+## [1.0.10](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.10) (2025-11-28)
+
+### バグ修正
+
+- TenantServiceのcreateTenantGroupメソッドを修正
+
+---
+
+## [1.0.9](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.9) (2025-11-26)
+
+### バグ修正
+
+- Node.js 24互換性のためLambdaハンドラーからコールバックパラメーターを削除
+
+---
+
+## [1.0.8](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.8) (2025-11-17)
+
+### セキュリティ
+
+- セキュリティ修正のためjws依存関係を更新
+
+---
+
+## [1.0.7](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.7) (2025-11-07)
+
+### セキュリティ
+
+- サンプルのvalidator依存関係を更新
+- セキュリティ修正のためjs-yaml依存関係を更新
+
+---
+
+## [1.0.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.0) (2025-09-18)
+
+### ハイライト
+
+- 初の安定版プロダクションリリース
+- ベータ版0.1.74がベース
+
+---
+
+## ベータリリース (0.1.x)
+
+## [0.1.75-beta.0](https://github.com/mbc-net/mbc-cqrs-serverless/compare/v0.1.74-beta.0...v0.1.75-beta.0)
+
+### 新機能
+
+- 各種改善とバグ修正
+
+---
+
 ## [0.1.74-beta.0](https://github.com/mbc-net/mbc-cqrs-serverless/compare/v0.1.73-beta.0...v0.1.74-beta.0) (2025-08-25)
 
 ### 新機能
