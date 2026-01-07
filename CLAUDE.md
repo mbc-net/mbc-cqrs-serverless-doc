@@ -52,6 +52,55 @@ i18n/
 - `npm run translate:extract-placeholder` - Extract placeholders from docs to create/update translation JSON files
 - `npm run translate:replace-placeholders` - Generate translated documents by replacing placeholders
 
+### Code Comment Guidelines
+
+Code comments inside code blocks should use placeholders for multi-language support:
+
+- **English version**: Shows English only
+- **Japanese version**: Shows `English (日本語)` format
+
+**How to write code comments:**
+
+1. Use placeholders in code comments: `// {{Comment text}}`
+2. Add English translation in `i18n/en/translation/*.json`: `"Comment text": "Comment text"`
+3. Add Japanese translation in `i18n/ja/translation/*.json`: `"Comment text": "Comment text (日本語説明)"`
+
+**Example in source doc (`docs/example.md`):**
+```typescript
+const pk = generatePk(tenantCode); // {{Generate partition key}}
+```
+
+**Translation JSON files:**
+```json
+// i18n/en/translation/example.json
+{
+  "Generate partition key": "Generate partition key"
+}
+
+// i18n/ja/translation/example.json
+{
+  "Generate partition key": "Generate partition key (パーティションキーを生成)"
+}
+```
+
+**Result after translation:**
+```typescript
+// English version:
+const pk = generatePk(tenantCode); // Generate partition key
+
+// Japanese version:
+const pk = generatePk(tenantCode); // Generate partition key (パーティションキーを生成)
+```
+
+**For Prisma schema:**
+```prisma
+// Source:
+model Example {
+  id         String @id  // {{Primary key}}
+  tenantCode String      // {{Tenant code}}
+}
+```
+
 ### Important Notes
 
 - Always use placeholders `{{...}}` in English source documents
