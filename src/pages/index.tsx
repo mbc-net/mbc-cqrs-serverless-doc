@@ -175,6 +175,7 @@ mbc new my-saas-app
 cd my-saas-app
 npm install
 npm run offline:docker   # Start local AWS services
+npm run migrate          # Run database migrations
 npm run offline:sls      # Start API server
 
 # Your API is running at http://localhost:4000`}
