@@ -79,7 +79,7 @@ import { MasterModule } from '@mbc-cqrs-serverless/master'
 ### {{MasterSettingService}}
 {{The MasterSettingService interface manages settings at various levels user, group, tenant, common. It allows retrieving, updating, creating, and deleting settings.}}
 
-##### {{`getSetting(dto: GetSettingDto, context: { invokeContext: IInvoke }): Promise<MasterSettingEntity>`}}
+##### `getSetting(dto: GetSettingDto, context: { invokeContext: IInvoke }): Promise<MasterSettingEntity>`
 {{Retrieves a specific setting based on the provided setting code.}}
 ```ts
 const masterSetting = await this.masterSettingService.getSetting(
@@ -89,7 +89,7 @@ const masterSetting = await this.masterSettingService.getSetting(
 );
 ```
 
-#### {{`createCommonTenantSetting(dto: CommonSettingDto, context: { invokeContext: IInvoke }): Promise<CommandModel>`}}
+#### `createCommonTenantSetting(dto: CommonSettingDto, context: { invokeContext: IInvoke }): Promise<CommandModel>`
 {{Creates a common tenant setting that is shared across the system.}}
 ```ts
 const masterSetting = await this.masterSettingService.createGroupSetting(
@@ -103,7 +103,7 @@ const masterSetting = await this.masterSettingService.createGroupSetting(
 });
 ```
 
-#### {{`createTenantSetting(dto: TenantSettingDto, context: { invokeContext: IInvoke }): Promise<CommandModel>`}}
+#### `createTenantSetting(dto: TenantSettingDto, context: { invokeContext: IInvoke }): Promise<CommandModel>`
 {{Creates a tenant-specific setting.}}
 ```ts
 const masterSetting = await this.masterSettingService.createGroupSetting(
@@ -118,7 +118,7 @@ const masterSetting = await this.masterSettingService.createGroupSetting(
 });
 ```
 
-#### {{`createGroupSetting(dto: GroupSettingDto, context: { invokeContext: IInvoke }): Promise<CommandModel>`}}
+#### `createGroupSetting(dto: GroupSettingDto, context: { invokeContext: IInvoke }): Promise<CommandModel>`
 {{Creates a group-specific setting within a tenant.}}
 ```ts
 const masterSetting = await this.masterSettingService.createGroupSetting(
@@ -133,7 +133,7 @@ const masterSetting = await this.masterSettingService.createGroupSetting(
   }
 });
 ```
-#### {{`createUserSetting(dto: UserSettingDto, context: { invokeContext: IInvoke }): Promise<CommandModel>`}}
+#### `createUserSetting(dto: UserSettingDto, context: { invokeContext: IInvoke }): Promise<CommandModel>`
 {{Creates a user-specific setting within a tenant.}}
 ```ts
 const masterSetting = await this.masterSettingService.createUserSetting(
@@ -150,7 +150,7 @@ const masterSetting = await this.masterSettingService.createUserSetting(
 ```
 
 
-#### {{`updateSetting(params: DetailKey, dto: UpdateSettingDto, context: { invokeContext: IInvoke }): Promise<CommandModel>`}}
+#### `updateSetting(params: DetailKey, dto: UpdateSettingDto, context: { invokeContext: IInvoke }): Promise<CommandModel>`
 {{Updates an existing setting.}}
 ```ts
 const masterSetting = await this.masterSettingService.updateSetting(
@@ -167,7 +167,7 @@ const masterSetting = await this.masterSettingService.updateSetting(
 });
 ```
 
-#### {{`deleteSetting(key: DetailKey, context: { invokeContext: IInvoke }): Promise<CommandModel>`}}
+#### `deleteSetting(key: DetailKey, context: { invokeContext: IInvoke }): Promise<CommandModel>`
 {{Deletes a specific setting based on the provided key.}}
 ```ts
 const masterSetting = await this.masterSettingService.deleteSetting(
@@ -181,7 +181,7 @@ const masterSetting = await this.masterSettingService.deleteSetting(
 ### {{MasterDataService}}
 {{The MasterDataService service provides methods to manage master data and operations. This includes listing, retrieving, creating, updating, and deleting data, as well as checking for the existence of specific codes.}}
 
-#### {{`list( searchDto: MasterDataSearchDto): Promise<MasterDataListEntity>`}}
+#### `list( searchDto: MasterDataSearchDto): Promise<MasterDataListEntity>`
 {{Lists master data based on the provided search criteria.}}
 ```ts
 const masterData = await this.masterDataService.list(
@@ -192,7 +192,7 @@ const masterData = await this.masterDataService.list(
 );
 ```
 
-#### {{`get(key: DetailDto): Promise<MasterDataEntity>`}}
+#### `get(key: DetailDto): Promise<MasterDataEntity>`
 {{Get a master data by pk and sk.}}
 
 ```ts
@@ -205,7 +205,7 @@ const masterData = await this.masterDataService.get(
 ```
 
   
-#### {{`create(data: CreateMasterDataDto, context: { invokeContext: IInvoke })`}}
+#### `create(data: CreateMasterDataDto, context: { invokeContext: IInvoke })`
 
 {{Creates a new master data entity}}
 
@@ -222,7 +222,7 @@ const masterData = await this.masterDataService.create({
 });
 ```
 
-#### {{`update(key: DetailDto, updateDto: UpdateDataSettingDto, context: { invokeContext: IInvoke })`}}
+#### `update(key: DetailDto, updateDto: UpdateDataSettingDto, context: { invokeContext: IInvoke })`
 {{Updates existing master data.}}
 
 ```ts
@@ -241,7 +241,7 @@ const masterData = await this.masterDataService.update(
 ```
 
 
-#### {{`delete(key: DetailDto, opts: { invokeContext: IInvoke })`}}
+#### `delete(key: DetailDto, opts: { invokeContext: IInvoke })`
 {{Deletes specific master data based on the provided key.}}
 ```ts
 const masterData = await this.masterDataService.delete(
@@ -252,14 +252,14 @@ const masterData = await this.masterDataService.delete(
 );
 ```
 
-#### {{`checkExistCode(tenantCode: string, type: string, code: string)`}}
+#### `checkExistCode(tenantCode: string, type: string, code: string)`
 {{Checks if a specific code exists within the given tenant and type.}}
 
 ```ts
 const masterData = await this.masterDataService.checkExistCode("mbc", "service", "01");
 ```
 
-#### {{`search(searchDto: CustomMasterDataSearchDto): Promise<MasterRdsListEntity>`}}
+#### `search(searchDto: CustomMasterDataSearchDto): Promise<MasterRdsListEntity>`
 {{Searches master data in RDS with filtering and pagination. This method is used when Prisma service is configured.}}
 
 ```ts
@@ -273,7 +273,7 @@ const result = await this.masterDataService.search({
 });
 ```
 
-##### {{Search Parameters}}
+##### {{Search Parameters}} {#search-parameters}
 
 | {{Parameter}} | {{Type}} | {{Required}} | {{Match Type}} | {{Description}} |
 |---------------|----------|--------------|----------------|-----------------|
@@ -290,5 +290,5 @@ const result = await this.masterDataService.search({
 
 {{If you are using v1.0.16 or earlier and need exact matching for `settingCode`, upgrade to v1.0.17 or later.}}
 
-{{See also:}} [{{Changelog v1.0.17}}](./changelog.md#1017)
+{{See also:}} [{{Changelog v1.0.17}}](./changelog.md#v1017)
 :::

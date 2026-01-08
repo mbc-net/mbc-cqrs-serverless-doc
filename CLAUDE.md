@@ -220,3 +220,145 @@ For each new entry, add translations to:
 - [ ] Run `npm run translate:replace-placeholders` to generate Japanese docs
 - [ ] Verify generated Japanese documentation is correct
 - [ ] Verify all cross-links work correctly in both languages
+- [ ] Create WordPress blog post announcing the release (see [WordPress Blog Posting Guidelines](#wordpress-blog-posting-guidelines))
+
+## WordPress Blog Posting Guidelines
+
+When releasing a new version, create a blog post on the MBC WordPress site to announce the release.
+
+### WordPress API Configuration
+
+The WordPress credentials are stored in `wordpress-sites.json` at the project root:
+
+```json
+{
+  "sites": [
+    {
+      "name": "MBC Net",
+      "url": "https://www.mbc-net.com",
+      "username": "mbc-net",
+      "password": "APPLICATION_PASSWORD"
+    }
+  ]
+}
+```
+
+### Posting via REST API
+
+Use the WordPress REST API to create posts:
+
+```javascript
+const https = require('https');
+
+const postData = JSON.stringify({
+  title: '[Update] MBC CQRS サーバーレス フレームワーク vX.Y.Z をリリース',
+  content: '<!-- wp:paragraph -->\n<p>Content here...</p>\n<!-- /wp:paragraph -->',
+  status: 'publish',
+  categories: [1],  // Uncategorized or appropriate category
+  tags: [37, 27, 29, 30, 31, 73],  // mbc-cqrs-serverless, cqrs, framework, aws, npm, 更新情報
+  featured_media: 404  // MBC-CQRS-サーバーレス フレームワーク
+});
+
+const options = {
+  hostname: 'www.mbc-net.com',
+  port: 443,
+  path: '/wp-json/wp/v2/posts',
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Basic ' + Buffer.from('username:password').toString('base64')
+  }
+};
+```
+
+### Blog Post Template
+
+Use this format for release announcements:
+
+```html
+<!-- wp:paragraph -->
+<p>MBC CQRS サーバーレス フレームワーク vX.Y.Z をリリースしました。</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":2} -->
+<h2 class="wp-block-heading">主な変更点</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">バグ修正</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<li><strong>package:</strong> Description of fix</li>
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">セキュリティ</h3>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<li>Security fix description</li>
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":2} -->
+<h2 class="wp-block-heading">アップグレード方法</h2>
+<!-- /wp:heading -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>npm install @mbc-cqrs-serverless/core@X.Y.Z</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:heading {"level":2} -->
+<h2 class="wp-block-heading">関連リンク</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<li><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/vX.Y.Z">GitHub Release</a></li>
+<li><a href="https://mbc-cqrs-serverless.mbc-net.com/docs/changelog">変更履歴</a></li>
+<li><a href="https://www.npmjs.com/package/@mbc-cqrs-serverless/core">npm パッケージ</a></li>
+</ul>
+<!-- /wp:list -->
+```
+
+### Available Tags and Media
+
+**Common Tags for MBC CQRS Serverless:**
+| ID | Tag Name |
+|----|----------|
+| 37 | mbc-cqrs-serverless |
+| 27 | cqrs |
+| 29 | framework |
+| 30 | aws |
+| 31 | npm |
+| 73 | 更新情報 |
+
+**Featured Image for Release Posts:**
+| ID | Image Name | Description |
+|----|------------|-------------|
+| 404 | MBC-CQRS-サーバーレス フレームワーク | Standard release announcement image |
+
+**Other Available Images:**
+| ID | Image Name | Description |
+|----|------------|-------------|
+| 1001 | serverless-architecture | Architecture diagram |
+| 1002 | package-structure | Package structure diagram |
+| 1005 | three-steps-v2 | Three steps illustration |
+
+To list all tags: `curl -s "https://www.mbc-net.com/wp-json/wp/v2/tags?per_page=50&_fields=id,name"`
+
+To list all media: `curl -s "https://www.mbc-net.com/wp-json/wp/v2/media?per_page=20&_fields=id,title,source_url"`
+
+### Blog Post Checklist
+
+- [ ] Create blog post with version number in title
+- [ ] Include all major changes from changelog
+- [ ] Add upgrade instructions with correct version
+- [ ] Include links to GitHub release, changelog, and npm
+- [ ] Set tags (mbc-cqrs-serverless, cqrs, framework, aws, npm, 更新情報)
+- [ ] Set featured image (アイキャッチ画像)
+- [ ] Verify post is published and accessible

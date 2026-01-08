@@ -259,36 +259,36 @@ Checks if a specific code exists within the given tenant and type.
 const masterData = await this.masterDataService.checkExistCode("mbc", "service", "01");
 ```
 
-#### {{`search(searchDto: CustomMasterDataSearchDto): Promise<MasterRdsListEntity>`}}
-{{Searches master data in RDS with filtering and pagination. This method is used when Prisma service is configured.}}
+#### `search(searchDto: CustomMasterDataSearchDto): Promise<MasterRdsListEntity>`
+Searches master data in RDS with filtering and pagination. This method is used when Prisma service is configured.
 
 ```ts
 const result = await this.masterDataService.search({
-  settingCode: "service",    // {{Exact match for master type code}}
-  keyword: "example",        // {{Partial match (case-insensitive) for name}}
-  code: "001",               // {{Partial match (case-insensitive) for master code}}
+  settingCode: "service",    // Exact match for master type code
+  keyword: "example",        // Partial match (case-insensitive) for name
+  code: "001",               // Partial match (case-insensitive) for master code
   page: 1,
   pageSize: 10,
   orderBys: ["seq", "masterCode"],
 });
 ```
 
-##### {{Search Parameters}}
+##### Search Parameters {#search-parameters}
 
-| {{Parameter}} | Type | {{Required}} | {{Match Type}} | Description |
+| Parameter | Type | Required | Match Type | Description |
 |---------------|----------|--------------|----------------|-----------------|
-| `settingCode` | `string` | {{No}} | {{Exact match}} | {{Filter by master type code (masterTypeCode)}} |
-| `keyword` | `string` | {{No}} | {{Partial match (case-insensitive)}} | {{Filter by name field}} |
-| `code` | `string` | {{No}} | {{Partial match (case-insensitive)}} | {{Filter by master code}} |
-| `page` | `number` | {{No}} | - | {{Page number (default: 1)}} |
-| `pageSize` | `number` | {{No}} | - | {{Items per page (default: 10)}} |
-| `orderBys` | `string[]` | {{No}} | - | {{Sort order (default: ["seq", "masterCode"])}} |
-| `isDeleted` | `boolean` | {{No}} | {{Exact match}} | {{Filter by deletion status}} |
+| `settingCode` | `string` | No | Exact match | Filter by master type code (masterTypeCode) |
+| `keyword` | `string` | No | Partial match (case-insensitive) | Filter by name field |
+| `code` | `string` | No | Partial match (case-insensitive) | Filter by master code |
+| `page` | `number` | No | - | Page number (default: 1) |
+| `pageSize` | `number` | No | - | Items per page (default: 10) |
+| `orderBys` | `string[]` | No | - | Sort order (default: ["seq", "masterCode"]) |
+| `isDeleted` | `boolean` | No | Exact match | Filter by deletion status |
 
-:::warning {{Known Issue (Fixed in v1.0.17)}}
-{{In versions prior to v1.0.17, the `settingCode` parameter incorrectly used partial matching (`contains`) instead of exact matching. This caused unintended search results - for example, searching for "PRODUCT" would also return "PRODUCT_TYPE" and "MY_PRODUCT".}}
+:::warning Known Issue (Fixed in v1.0.17)
+In versions prior to v1.0.17, the `settingCode` parameter incorrectly used partial matching (`contains`) instead of exact matching. This caused unintended search results - for example, searching for "PRODUCT" would also return "PRODUCT_TYPE" and "MY_PRODUCT".
 
-{{If you are using v1.0.16 or earlier and need exact matching for `settingCode`, upgrade to v1.0.17 or later.}}
+If you are using v1.0.16 or earlier and need exact matching for `settingCode`, upgrade to v1.0.17 or later.
 
-{{See also:}} [{{Changelog v1.0.17}}](./changelog.md#1017)
+See also: [Changelog v1.0.17](./changelog.md#v1017)
 :::

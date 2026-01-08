@@ -17,7 +17,7 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ## 安定版リリース (1.x)
 
-## [1.0.17](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.17) (2026-01-08)
+## [1.0.17](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.17) (2026-01-08) {#v1017}
 
 ### バグ修正
 
@@ -26,9 +26,7 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ### セキュリティ
 
-- 依存関係のセキュリティ脆弱性を修正：
-  - jws: HMAC署名検証の問題
-  - nodemailer: DoS脆弱性
+- 依存関係のセキュリティ脆弱性を修正: jws (HMAC署名検証の問題), nodemailer (DoS脆弱性)
 
 ### 依存関係
 

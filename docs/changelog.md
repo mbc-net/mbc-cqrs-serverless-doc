@@ -17,7 +17,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ## {{Stable Releases (1.x)}}
 
-## [1.0.17](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.17) (2026-01-08)
+## [1.0.17](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.17) (2026-01-08) {#v1017}
 
 ### {{Bug Fixes}}
 
@@ -26,9 +26,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ### {{Security}}
 
-- {{Fix security vulnerabilities in dependencies:}}
-  - {{jws: HMAC signature verification issue}}
-  - {{nodemailer: DoS vulnerability}}
+- {{Fix security vulnerabilities in dependencies: jws (HMAC signature verification issue), nodemailer (DoS vulnerability)}}
 
 ### {{Dependencies}}
 
