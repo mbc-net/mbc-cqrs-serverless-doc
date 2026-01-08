@@ -1,6 +1,6 @@
 {
   "Learn about the Survey Web package for building survey and questionnaire UI components.": "アンケート・調査票UIコンポーネントを構築するためのSurvey Webパッケージについて学びます。",
-  "Survey Web": "Survey Web",
+  "Survey Web": "Survey用フロントパッケージ",
   "Frontend component library for survey template management and form rendering in MBC CQRS Serverless applications.": "MBC CQRS Serverlessアプリケーションでアンケートテンプレートの管理とフォームレンダリングを行うためのフロントエンドコンポーネントライブラリです。",
   "Installation": "インストール",
   "Overview": "概要",

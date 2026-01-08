@@ -1,6 +1,6 @@
 {
   "Learn about the Master Web package for building master data management UI components.": "マスターデータ管理UIコンポーネントを構築するためのMaster Webパッケージについて学びます。",
-  "Master Web": "Master Web",
+  "Master Web": "マスター用フロントパッケージ",
   "Frontend component library for master data and settings management in MBC CQRS Serverless applications.": "MBC CQRS Serverlessアプリケーションでマスターデータと設定を管理するためのフロントエンドコンポーネントライブラリです。",
   "Installation": "インストール",
   "Overview": "概要",
