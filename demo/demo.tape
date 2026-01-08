@@ -88,6 +88,14 @@ Sleep 500ms
 Type "clear"
 Enter
 Show
+Type "npm run migrate          # Run database migrations"
+Sleep 1s
+Enter
+Hide
+Sleep 500ms
+Type "clear"
+Enter
+Show
 Type "npm run offline:sls      # Start API server"
 Sleep 1s
 Enter
