@@ -17,8 +17,10 @@ Set Theme "Dracula"
 Set Padding 20
 Set TypingSpeed 50ms
 
-# Title
+# Setup - Hide personal info from prompt
 Hide
+Type "export PS1='$ '"
+Enter
 Type "clear"
 Enter
 Show
