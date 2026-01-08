@@ -80,6 +80,14 @@ Sleep 500ms
 Type "clear"
 Enter
 Show
+Type "npm run build            # Build the project"
+Sleep 1s
+Enter
+Hide
+Sleep 500ms
+Type "clear"
+Enter
+Show
 Type "npm run offline:docker   # Start DynamoDB, Cognito, etc."
 Sleep 1s
 Enter
