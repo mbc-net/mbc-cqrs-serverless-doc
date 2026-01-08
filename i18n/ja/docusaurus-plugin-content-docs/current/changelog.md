@@ -21,7 +21,7 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ### バグ修正
 
-- **master:** `MasterDataService.search()`の`masterTypeCode`比較を修正 - `settingCode`検索パラメータを部分一致（`contains`）から完全一致に変更
+- **master:** `MasterDataService.search()`の`masterTypeCode`比較を修正 - `settingCode`検索パラメータを部分一致（`contains`）から完全一致に変更 ([詳細を見る](./master.md#search-parameters))
 - **cli:** setTimeoutを削除してAbstractRunnerテストを安定化し、CIの不安定なテスト失敗を修正
 
 ### セキュリティ

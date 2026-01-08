@@ -11,6 +11,7 @@
   "Update README files for all packages with comprehensive API references and usage examples": "すべてのパッケージのREADMEファイルを包括的なAPIリファレンスと使用例で更新",
   "Fix `createTenantGroup` parameter name in tenant package README": "tenantパッケージのREADMEで`createTenantGroup`パラメータ名を修正",
   "Update Japanese guide links to official documentation": "日本語ガイドのリンクを公式ドキュメントに更新",
+  "See Details": "詳細を見る",
   "Stable Releases (1.x)": "安定版リリース (1.x)",
   "Beta Releases (0.1.x)": "ベータリリース (0.1.x)",
   "Highlights": "ハイライト",

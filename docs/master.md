@@ -289,4 +289,6 @@ const result = await this.masterDataService.search({
 {{In versions prior to v1.0.17, the `settingCode` parameter incorrectly used partial matching (`contains`) instead of exact matching. This caused unintended search results - for example, searching for "PRODUCT" would also return "PRODUCT_TYPE" and "MY_PRODUCT".}}
 
 {{If you are using v1.0.16 or earlier and need exact matching for `settingCode`, upgrade to v1.0.17 or later.}}
+
+{{See also:}} [{{Changelog v1.0.17}}](./changelog.md#1017)
 :::

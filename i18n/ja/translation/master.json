@@ -86,5 +86,7 @@
   "Filter by deletion status": "削除ステータスでフィルタ",
   "Known Issue (Fixed in v1.0.17)": "既知の問題（v1.0.17で修正済み）",
   "In versions prior to v1.0.17, the `settingCode` parameter incorrectly used partial matching (`contains`) instead of exact matching. This caused unintended search results - for example, searching for \"PRODUCT\" would also return \"PRODUCT_TYPE\" and \"MY_PRODUCT\".": "v1.0.17より前のバージョンでは、`settingCode` パラメータが誤って完全一致ではなく部分一致（`contains`）を使用していました。これにより意図しない検索結果が返される問題がありました。例えば、「PRODUCT」を検索すると「PRODUCT_TYPE」や「MY_PRODUCT」も返されていました。",
-  "If you are using v1.0.16 or earlier and need exact matching for `settingCode`, upgrade to v1.0.17 or later.": "v1.0.16以前をご使用で、`settingCode` の完全一致が必要な場合は、v1.0.17以降にアップグレードしてください。"
+  "If you are using v1.0.16 or earlier and need exact matching for `settingCode`, upgrade to v1.0.17 or later.": "v1.0.16以前をご使用で、`settingCode` の完全一致が必要な場合は、v1.0.17以降にアップグレードしてください。",
+  "See also:": "参照：",
+  "Changelog v1.0.17": "変更履歴 v1.0.17"
 }

@@ -21,7 +21,7 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ### Bug Fixes
 
-- **master:** {{Fix `masterTypeCode` comparison in `MasterDataService.search()` - Changed from partial match (`contains`) to exact match for `settingCode` search parameter}}
+- **master:** {{Fix `masterTypeCode` comparison in `MasterDataService.search()` - Changed from partial match (`contains`) to exact match for `settingCode` search parameter}} ([{{See Details}}](./master.md#search-parameters))
 - **cli:** {{Stabilize AbstractRunner tests by removing setTimeout to fix flaky CI failures}}
 
 ### Security

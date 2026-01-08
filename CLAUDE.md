@@ -178,6 +178,29 @@ When a behavior change affects an API or feature, update the related documentati
 - **Latest behavior is the truth**: Document the current, correct behavior as the main content
 - **Historical issues are notes**: Past bugs/issues go in admonition blocks, not as primary documentation
 - **Upgrade guidance**: When mentioning past issues, provide guidance on which version to upgrade to
+- **Cross-linking**: Always create bidirectional links between changelog and feature documentation
+
+### 2.5 Cross-Linking Between Changelog and Documentation
+
+Always create bidirectional links between the changelog and the related feature documentation:
+
+**In Changelog (`docs/changelog.md`):**
+```markdown
+- **package:** {{Description of the fix}} ([{{See Details}}](./feature.md#section-anchor))
+```
+
+**In Feature Documentation (`docs/feature.md`):**
+```markdown
+:::warning {{Known Issue (Fixed in vX.Y.Z)}}
+{{Description of the issue...}}
+
+{{See also:}} [{{Changelog vX.Y.Z}}](./changelog.md#xyz)
+:::
+```
+
+**Link Format:**
+- Changelog to feature: `(./feature.md#section-anchor)` - links to the specific section
+- Feature to changelog: `(./changelog.md#xyz)` - links to the version heading (e.g., `#1017` for v1.0.17)
 
 ### 3. Add Japanese Translations
 
@@ -188,8 +211,12 @@ For each new entry, add translations to:
 ### 4. Checklist for Version Change Documentation
 
 - [ ] Add entry to `docs/changelog.md` with all changes categorized
-- [ ] Update related feature documentation with version history note
+- [ ] Update related feature documentation with version history note (:::warning block)
+- [ ] Create cross-links between changelog and feature documentation
+  - [ ] Changelog → Feature doc: Add `([{{See Details}}](./feature.md#section))` link
+  - [ ] Feature doc → Changelog: Add `{{See also:}} [{{Changelog vX.Y.Z}}](./changelog.md#xyz)` link
 - [ ] Add Japanese translations to changelog.json
 - [ ] Add Japanese translations to related feature translation files
 - [ ] Run `npm run translate:replace-placeholders` to generate Japanese docs
 - [ ] Verify generated Japanese documentation is correct
+- [ ] Verify all cross-links work correctly in both languages
