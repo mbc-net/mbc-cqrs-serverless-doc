@@ -17,8 +17,10 @@ Set Theme "Dracula"
 Set Padding 20
 Set TypingSpeed 50ms
 
-# Setup - Hide personal info from prompt
+# Setup - Hide personal info from prompt and change to /tmp
 Hide
+Type "cd /tmp && rm -rf my-saas-app"
+Enter
 Type "export PS1='$ '"
 Enter
 Type "clear"
