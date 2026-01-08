@@ -1,6 +1,6 @@
 {
   "Learn how to manage UI settings and data configurations with the UI Setting module.": "UI Settingモジュールを使用したUI設定とデータ構成の管理方法を学びます。",
-  "UI Setting": "UI設定",
+  "UI Setting": "UI設定モジュール",
   "The UI Setting package provides a flexible framework for managing dynamic application settings without code changes. It enables administrators to define custom fields and users to store data conforming to those schemas.": "UI Settingパッケージは、コード変更なしで動的なアプリケーション設定を管理するための柔軟なフレームワークを提供します。管理者がカスタムフィールドを定義し、ユーザーがそのスキーマに準拠したデータを保存できるようにします。",
   "When to Use This Package": "このパッケージを使用するタイミング",
   "Use this package when you need to:": "以下の場合にこのパッケージを使用します：",

@@ -11,7 +11,7 @@
   "Categories": "カテゴリ",
   "Lookup Values": "ルックアップ値",
   "Learn about the Master Service for managing master data and settings in a multi-tenant environment.": "マルチテナント環境でのマスターデータと設定を管理するためのマスターサービスについて学びます。",
-  "Master": "マスター",
+  "Master": "マスターモジュール",
   "The Master Service provides functionality for managing master data and settings in a multi-tenant environment": "マスターサービスは、マルチテナント環境でのマスターデータと設定の管理機能を提供します。",
   "Overview": "概要",
   "The Master Service consists of two main components:": "マスターサービスは2つの主要コンポーネントで構成されています。",

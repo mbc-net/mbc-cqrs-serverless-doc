@@ -1,7 +1,7 @@
 {
   "Architecture": "アーキテクチャ",
   "Learn how to create and process long-running task": "長時間実行タスクの作成および処理方法を学ぶ",
-  "Task": "タスク",
+  "Task": "タスクモジュール",
   "The Task package provides comprehensive task management functionality in the MBC CQRS Serverless framework. It enables:": "Taskパッケージは、MBC CQRS Serverlessフレームワークにおいて包括的なタスク管理機能を提供します。これにより、以下のことが可能になります：",
   "Asynchronous task execution": "非同期タスク実行",
   "Task status tracking": "タスクステータスの追跡",
