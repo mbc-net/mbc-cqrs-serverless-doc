@@ -17,6 +17,32 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ## 安定版リリース (1.x)
 
+## [1.0.17](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.17) (2026-01-08)
+
+### バグ修正
+
+- **master:** `MasterDataService.search()`の`masterTypeCode`比較を修正 - `settingCode`検索パラメータを部分一致（`contains`）から完全一致に変更
+- **cli:** setTimeoutを削除してAbstractRunnerテストを安定化し、CIの不安定なテスト失敗を修正
+
+### セキュリティ
+
+- 依存関係のセキュリティ脆弱性を修正：
+  - jws: HMAC署名検証の問題
+  - nodemailer: DoS脆弱性
+
+### 依存関係
+
+- validatorを13.15.20から13.15.26に更新
+- @modelcontextprotocol/sdkを1.25.1から1.25.2に更新
+
+### ドキュメント
+
+- すべてのパッケージのREADMEファイルを包括的なAPIリファレンスと使用例で更新
+- tenantパッケージのREADMEで`createTenantGroup`パラメータ名を修正
+- 日本語ガイドのリンクを公式ドキュメントに更新
+
+---
+
 ## [1.0.16](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.16) (2025-12-31)
 
 ### バグ修正

@@ -17,6 +17,32 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ## {{Stable Releases (1.x)}}
 
+## [1.0.17](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.17) (2026-01-08)
+
+### {{Bug Fixes}}
+
+- **master:** {{Fix `masterTypeCode` comparison in `MasterDataService.search()` - Changed from partial match (`contains`) to exact match for `settingCode` search parameter}}
+- **cli:** {{Stabilize AbstractRunner tests by removing setTimeout to fix flaky CI failures}}
+
+### {{Security}}
+
+- {{Fix security vulnerabilities in dependencies:}}
+  - {{jws: HMAC signature verification issue}}
+  - {{nodemailer: DoS vulnerability}}
+
+### {{Dependencies}}
+
+- {{Bump validator from 13.15.20 to 13.15.26}}
+- {{Bump @modelcontextprotocol/sdk from 1.25.1 to 1.25.2}}
+
+### {{Documentation}}
+
+- {{Update README files for all packages with comprehensive API references and usage examples}}
+- {{Fix `createTenantGroup` parameter name in tenant package README}}
+- {{Update Japanese guide links to official documentation}}
+
+---
+
 ## [1.0.16](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.16) (2025-12-31)
 
 ### {{Bug Fixes}}

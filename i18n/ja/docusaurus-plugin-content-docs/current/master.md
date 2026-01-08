@@ -258,3 +258,35 @@ const masterData = await this.masterDataService.delete(
 ```ts
 const masterData = await this.masterDataService.checkExistCode("mbc", "service", "01");
 ```
+
+#### `search(searchDto: CustomMasterDataSearchDto): Promise<MasterRdsListEntity>`
+フィルタリングとページネーションでRDS内のマスターデータを検索します。このメソッドはPrismaサービスが設定されている場合に使用されます。
+
+```ts
+const result = await this.masterDataService.search({
+  settingCode: "service",    // マスタータイプコードの完全一致
+  keyword: "example",        // 名前の部分一致（大文字小文字を区別しない）
+  code: "001",               // マスターコードの部分一致（大文字小文字を区別しない）
+  page: 1,
+  pageSize: 10,
+  orderBys: ["seq", "masterCode"],
+});
+```
+
+##### 検索パラメータ
+
+| パラメータ | 型 | 必須 | マッチタイプ | 説明 |
+|---------------|----------|--------------|----------------|-----------------|
+| `settingCode` | `string` | いいえ | 完全一致 | マスタータイプコード（masterTypeCode）でフィルタ |
+| `keyword` | `string` | いいえ | 部分一致（大文字小文字を区別しない） | 名前フィールドでフィルタ |
+| `code` | `string` | いいえ | 部分一致（大文字小文字を区別しない） | マスターコードでフィルタ |
+| `page` | `number` | いいえ | - | ページ番号（デフォルト: 1） |
+| `pageSize` | `number` | いいえ | - | 1ページあたりの項目数（デフォルト: 10） |
+| `orderBys` | `string[]` | いいえ | - | ソート順（デフォルト: ["seq", "masterCode"]） |
+| `isDeleted` | `boolean` | いいえ | 完全一致 | 削除ステータスでフィルタ |
+
+:::warning 既知の問題（v1.0.17で修正済み）
+v1.0.17より前のバージョンでは、`settingCode` パラメータが誤って完全一致ではなく部分一致（`contains`）を使用していました。これにより意図しない検索結果が返される問題がありました。例えば、「PRODUCT」を検索すると「PRODUCT_TYPE」や「MY_PRODUCT」も返されていました。
+
+v1.0.16以前をご使用で、`settingCode` の完全一致が必要な場合は、v1.0.17以降にアップグレードしてください。
+:::

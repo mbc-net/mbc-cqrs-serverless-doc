@@ -108,3 +108,88 @@ model Example {
 - English translation JSON (`i18n/en/translation/`) keeps the same text as key and value
 - Japanese translation JSON (`i18n/ja/translation/`) maps English text to Japanese translation
 - Do NOT directly edit files in `i18n/ja/docusaurus-plugin-content-docs/current/` - they are generated
+
+## Version Change Documentation Guidelines
+
+When documenting breaking changes, bug fixes, or behavior changes in a new version, follow these guidelines:
+
+### 1. Update Changelog (docs/changelog.md)
+
+Add the new version entry at the top of the "Stable Releases" section:
+
+```markdown
+## [x.y.z](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/vx.y.z) (YYYY-MM-DD)
+
+### {{Bug Fixes}}
+- **package:** {{Description of the fix}}
+
+### {{Features}}
+- {{Description of new feature}}
+
+### {{Security}}
+- {{Description of security fix}}
+
+### {{Dependencies}}
+- {{Dependency update description}}
+
+### {{Documentation}}
+- {{Documentation update description}}
+```
+
+### 2. Update Related Documentation
+
+When a behavior change affects an API or feature, update the related documentation file with:
+
+1. **Document Current (Latest) Behavior First**: Always describe the current correct behavior as the main content
+2. **Version History Note**: Use `:::info` or `:::warning` admonition to mention historical bugs or behavior changes
+3. **Focus on "What Was Fixed"**: Explain the previous issue/bug, not the old behavior as a feature
+
+**Best Practice Format:**
+
+```markdown
+#### `methodName(param: Type): ReturnType`
+
+{{Current behavior description - this is how it works now}}
+
+\`\`\`ts
+// {{Example showing current correct behavior}}
+\`\`\`
+
+:::warning {{Known Issue (Fixed in vX.Y.Z)}}
+{{In versions prior to vX.Y.Z, there was a bug/issue where...}}
+
+{{Example of the problematic behavior or impact}}
+:::
+```
+
+**Example - Bug Fix Documentation:**
+
+```markdown
+| `settingCode` | `string` | {{Exact match}} | {{Filter by master type code}} |
+
+:::warning {{Known Issue (Fixed in v1.0.17)}}
+{{In versions prior to v1.0.17, the `settingCode` parameter used partial matching (`contains`) instead of exact matching. This caused unintended results when searching - for example, searching for "PRODUCT" would also return "PRODUCT_TYPE" and "MY_PRODUCT".}}
+
+{{If you are using v1.0.16 or earlier and need exact matching, upgrade to v1.0.17 or later.}}
+:::
+```
+
+**Key Principles:**
+- **Latest behavior is the truth**: Document the current, correct behavior as the main content
+- **Historical issues are notes**: Past bugs/issues go in admonition blocks, not as primary documentation
+- **Upgrade guidance**: When mentioning past issues, provide guidance on which version to upgrade to
+
+### 3. Add Japanese Translations
+
+For each new entry, add translations to:
+- `i18n/ja/translation/changelog.json` for changelog entries
+- `i18n/ja/translation/<feature>.json` for feature documentation
+
+### 4. Checklist for Version Change Documentation
+
+- [ ] Add entry to `docs/changelog.md` with all changes categorized
+- [ ] Update related feature documentation with version history note
+- [ ] Add Japanese translations to changelog.json
+- [ ] Add Japanese translations to related feature translation files
+- [ ] Run `npm run translate:replace-placeholders` to generate Japanese docs
+- [ ] Verify generated Japanese documentation is correct
