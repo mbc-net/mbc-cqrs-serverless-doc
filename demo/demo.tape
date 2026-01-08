@@ -73,17 +73,13 @@ Sleep 1s
 
 # Step 4: Test API
 Enter
-Type "# Step 4: Create your first todo"
+Type "# Step 4: Test the API"
 Enter
 Sleep 500ms
-Type@100ms 'curl -X POST http://localhost:4000/api/todo \'
+Type "# POST /api/todo with JSON body"
 Enter
-Type@100ms '  -H "Content-Type: application/json" \'
-Enter
-Type@100ms '  -d '\''{"title": "Learn MBC CQRS Serverless"}'\'''
-Enter
-Sleep 2s
-Type "# Response includes: pk, sk, version, tenantCode, timestamps"
+Sleep 1s
+Type "# Returns: pk, sk, version, tenantCode, timestamps"
 Enter
 Sleep 2s
 
