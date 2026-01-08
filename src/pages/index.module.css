@@ -91,10 +91,30 @@
   font-size: 0.95rem;
 }
 
+/* Demo Section */
+.demo {
+  padding: 4rem 2rem;
+  background: var(--ifm-color-emphasis-100);
+}
+
+.demoWrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.demoGif {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 /* Quick Start Section */
 .quickStart {
   padding: 4rem 2rem;
-  background: var(--ifm-color-emphasis-100);
+  background: var(--ifm-background-color);
 }
 
 .codeBlock {

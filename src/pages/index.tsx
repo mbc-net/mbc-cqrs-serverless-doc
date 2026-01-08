@@ -134,6 +134,25 @@ export default function Home(): JSX.Element {
           </div>
         </section>
 
+        {/* Demo Section */}
+        <section className={styles.demo}>
+          <div className={styles.container}>
+            <Heading as="h2" className={styles.sectionTitle}>
+              {translate({
+                id: "home.demo.title",
+                message: "See It in Action",
+              })}
+            </Heading>
+            <div className={styles.demoWrapper}>
+              <img
+                src={useBaseUrl("/demo/quick-start.gif")}
+                alt="Quick Start Demo"
+                className={styles.demoGif}
+              />
+            </div>
+          </div>
+        </section>
+
         {/* Quick Start Section */}
         <section className={styles.quickStart}>
           <div className={styles.container}>
