@@ -37,8 +37,13 @@ Type "# Step 1: Install the CLI"
 Enter
 Sleep 500ms
 Type "npm install -g @mbc-cqrs-serverless/cli"
+Sleep 1s
 Enter
-Sleep 2s
+Hide
+Sleep 500ms
+Type "clear"
+Enter
+Show
 Type "# ✓ CLI installed!"
 Enter
 Sleep 1s
@@ -49,8 +54,13 @@ Type "# Step 2: Create a new project"
 Enter
 Sleep 500ms
 Type "mbc new my-saas-app"
+Sleep 1s
 Enter
-Sleep 3s
+Hide
+Sleep 500ms
+Type "clear"
+Enter
+Show
 Type "# ✓ Project created with NestJS, DynamoDB, Prisma config"
 Enter
 Sleep 1s
@@ -61,14 +71,29 @@ Type "# Step 3: Start local development"
 Enter
 Sleep 500ms
 Type "cd my-saas-app && npm install"
+Sleep 1s
 Enter
-Sleep 2s
+Hide
+Sleep 500ms
+Type "clear"
+Enter
+Show
 Type "npm run offline:docker   # Start DynamoDB, Cognito, etc."
+Sleep 1s
 Enter
-Sleep 2s
+Hide
+Sleep 500ms
+Type "clear"
+Enter
+Show
 Type "npm run offline:sls      # Start API server"
+Sleep 1s
 Enter
-Sleep 2s
+Hide
+Sleep 500ms
+Type "clear"
+Enter
+Show
 Type "# ✓ API running at http://localhost:4000"
 Enter
 Sleep 1s
