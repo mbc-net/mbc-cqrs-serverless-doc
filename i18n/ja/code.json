@@ -1,7 +1,13 @@
 {
   "layout.description": {
-    "message": "Unleash the power of scalable, resilient serverless applications with CQRS on AWS",
+    "message": "数ヶ月ではなく数分で、AWS上に本番レベルのサーバーレスアプリケーションを構築。CQRS、イベントソーシング、マルチテナンシーを標準搭載。",
     "description": "Layout description"
+  },
+  "home.title": {
+    "message": "MBC CQRS サーバーレス フレームワーク"
+  },
+  "home.tagline": {
+    "message": "数ヶ月ではなく数分で、AWS上に本番レベルのサーバーレスアプリケーションを構築。"
   },
   "home.welcome": {
     "message": "MBC CQRSサーバーレスフレームワークのドキュメントへようこそ！"
@@ -10,7 +16,61 @@
     "message": "このフレームワークは、AWSサーバーレスアーキテクチャ内でCommand Query Responsibility Segregation (CQRS) パターンを実装するための基本機能を提供し、優れたNestJSフレームワークによって強化されています。複雑なビジネスロジックや大量のデータ処理に対応できる、高度にスケーラブルで疎結合なシステムの開発を簡素化します。"
   },
   "home.button.getStarted": {
-    "message": "はじめに"
+    "message": "はじめる"
+  },
+  "home.button.tutorial": {
+    "message": "チュートリアル"
+  },
+  "home.features.title": {
+    "message": "なぜ MBC CQRS Serverless？"
+  },
+  "home.feature.quickStart.title": {
+    "message": "5分でAPIを構築"
+  },
+  "home.feature.quickStart.description": {
+    "message": "CLIがベストプラクティスに基づいたプロジェクト構造を自動生成。すぐに開発を始められます。"
+  },
+  "home.feature.multiTenancy.title": {
+    "message": "マルチテナンシー標準搭載"
+  },
+  "home.feature.multiTenancy.description": {
+    "message": "SaaSアプリケーション向けのデータ分離、テナント設定、RBACを標準で提供。"
+  },
+  "home.feature.eventSourcing.title": {
+    "message": "イベントソーシング"
+  },
+  "home.feature.eventSourcing.description": {
+    "message": "DynamoDB Streamsによる完全な監査証跡と、RDSへの自動同期機能。"
+  },
+  "home.feature.localDev.title": {
+    "message": "ローカル開発環境"
+  },
+  "home.feature.localDev.description": {
+    "message": "Dockerによる完全なオフラインモード。開発中のAWSコストはゼロ。"
+  },
+  "home.demo.title": {
+    "message": "デモを見る"
+  },
+  "home.quickStart.title": {
+    "message": "クイックスタート"
+  },
+  "home.links.docs.title": {
+    "message": "ドキュメント"
+  },
+  "home.links.docs.description": {
+    "message": "コンセプトとアーキテクチャを学ぶ"
+  },
+  "home.links.examples.title": {
+    "message": "サンプル"
+  },
+  "home.links.examples.description": {
+    "message": "ステップバイステップのサンプルプロジェクト"
+  },
+  "home.links.github.title": {
+    "message": "GitHub"
+  },
+  "home.links.github.description": {
+    "message": "ソースコードとコントリビューション"
   },
   "theme.ErrorPageContent.title": {
     "message": "エラーが発生しました",
