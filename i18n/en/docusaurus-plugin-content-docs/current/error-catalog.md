@@ -537,6 +537,66 @@ export async function handler(event: SQSEvent) {
 
 ---
 
+## Import Module Errors {#import-module-errors}
+
+### Step Functions Wait Indefinitely for Failed Import Jobs
+
+**Location**: `packages/import/src/event/import-status.queue.event.handler.ts`
+
+**Cause**: In versions prior to 1.0.18, the `ImportStatusHandler` only sent `SendTaskSuccess` when an import job completed. When a job failed, no callback was sent, causing Step Functions to wait indefinitely until timeout.
+
+**Solution**:
+Upgrade to `@mbc-cqrs-serverless/import@^1.0.18`. The handler now correctly sends `SendTaskFailure` when a job fails.
+
+If you're using an older version:
+1. Upgrade to `@mbc-cqrs-serverless/import@^1.0.18`
+2. Stuck executions can be manually stopped from the AWS Console or CLI:
+   ```bash
+   aws stepfunctions stop-execution --execution-arn <execution-arn>
+   ```
+
+---
+
+### BadRequestException: "No import strategy found for table: `{tableName}`"
+
+**Location**: `packages/import/src/import.service.ts`
+
+**Cause**: No import strategy is registered for the specified table name.
+
+**Solution**:
+Register an import strategy when configuring the ImportModule:
+
+```typescript
+ImportModule.register({
+  profiles: [
+    {
+      tableName: 'your-table-name',  // Must match the tableName in your import request
+      importStrategy: YourImportStrategy,
+      processStrategy: YourProcessStrategy,
+    },
+  ],
+})
+```
+
+---
+
+### Import Job Stuck in PROCESSING Status
+
+**Location**: `packages/import/src/event/import.queue.event.handler.ts`
+
+**Cause**: An error occurred during import processing but the job status wasn't properly updated, or DynamoDB Streams failed to trigger the next step.
+
+**Solution**:
+1. Check CloudWatch Logs for Lambda errors
+2. Verify DynamoDB Streams is enabled and functioning
+3. Check the import-action-queue and import-status-queue for stuck messages
+4. Manually update the job status if needed:
+   ```typescript
+   await importService.updateImportStatus(importId, 'FAILED', 'Manual intervention required');
+   ```
+
+---
+
 ## HTTP Status Code Reference
 
 | Status | Exception | Meaning | Recovery Strategy |
