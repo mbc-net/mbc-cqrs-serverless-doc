@@ -1182,6 +1182,70 @@ This ensures Step Functions workflows properly handle both success and failure c
 The `sendTaskFailure()` method was added in [version 1.0.18](./changelog#v1018) to fix an issue where Step Functions would wait indefinitely when import jobs failed. See also [Import Module Errors](./error-catalog#import-module-errors) for troubleshooting.
 :::
 
+### ImportQueueEventHandler Error Handling {#import-error-handling}
+
+The `ImportQueueEventHandler` processes individual import records from the SQS queue. When an error occurs during processing (e.g., `ConditionalCheckFailedException`), the handler properly updates the parent job status.
+
+#### Error Flow (v1.0.19+)
+
+```
+Child Job Error Occurs
+         │
+         ▼
+Mark Child Job as FAILED
+         │
+         ▼
+Update Parent Job Counters
+  (incrementParentJobCounters)
+         │
+         ▼
+Check if All Children Complete
+         │
+    ┌────┴────┐
+    │ Yes     │ No
+    ▼         ▼
+Update Master  Wait for
+  Job Status   more children
+         │
+    ┌────┴────┐
+    │ Has     │ All
+    │ Failures│ Succeeded
+    ▼         ▼
+FAILED      COMPLETED
+         │
+         ▼
+ImportStatusHandler Triggered
+         │
+         ▼
+SendTaskFailure/SendTaskSuccess
+```
+
+#### Key Methods
+
+| Method | Description |
+|--------|-------------|
+| `handleImport(event)` | Orchestrates single import record processing with error handling |
+| `executeStrategy(...)` | Executes compare, map, and save lifecycle for a strategy |
+
+#### Error Handling Behavior
+
+When a child import job fails:
+
+1. Child job status is set to `FAILED` with error details
+2. Parent job counters are atomically updated (`failedRows` incremented)
+3. When all children complete, master job status is set based on results:
+   - If `failedRows > 0` → Master status = `FAILED`
+   - If all succeeded → Master status = `COMPLETED`
+4. Lambda does NOT crash - error is handled gracefully
+
+:::warning Common Errors
+`ConditionalCheckFailedException`: This occurs when attempting to import data that already exists with conflicting version. The import job will be marked as FAILED and the parent job will properly aggregate this failure.
+:::
+
+:::info Version Note
+Prior to v1.0.19, errors in child jobs would crash the Lambda and leave the master job in `PROCESSING` status indefinitely. The fixes in [version 1.0.19](./changelog#v1019) ensure proper error propagation and status updates.
+:::
+
 ---
 
 ## Related Documentation

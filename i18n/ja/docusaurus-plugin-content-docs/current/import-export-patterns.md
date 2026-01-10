@@ -1182,6 +1182,71 @@ export class CustomEventFactory extends EventFactoryAddedTask {
 `sendTaskFailure()`メソッドは[バージョン1.0.18](./changelog#v1018)で追加されました。これは、インポートジョブが失敗した場合にStep Functionsが無期限に待機する問題を修正するためです。トラブルシューティングについては[インポートモジュールエラー](./error-catalog#import-module-errors)も参照してください。
 :::
 
+### ImportQueueEventHandlerのエラーハンドリング {#import-error-handling}
+
+`ImportQueueEventHandler`はSQSキューから個々のインポートレコードを処理します。処理中にエラーが発生した場合（例：`ConditionalCheckFailedException`）、ハンドラーは親ジョブのステータスを適切に更新します。
+
+#### エラーフロー (v1.0.19以降)
+
+```
+子ジョブエラー発生
+         │
+         ▼
+子ジョブをFAILEDにマーク
+         │
+         ▼
+親ジョブカウンターを更新
+  (incrementParentJobCounters)
+         │
+         ▼
+全ての子ジョブが完了したか確認
+         │
+    ┌────┴────┐
+    │ はい    │ いいえ
+    ▼         ▼
+マスター      他の子ジョブを
+ジョブの      待機
+ステータス更新
+         │
+    ┌────┴────┐
+    │ 失敗    │ 全て
+    │ あり    │ 成功
+    ▼         ▼
+FAILED      COMPLETED
+         │
+         ▼
+ImportStatusHandlerがトリガー
+         │
+         ▼
+SendTaskFailure/SendTaskSuccess
+```
+
+#### 主要メソッド
+
+| メソッド | 説明 |
+|---------|------|
+| `handleImport(event)` | エラーハンドリングを含む単一インポートレコード処理のオーケストレーション |
+| `executeStrategy(...)` | ストラテジーの比較・マッピング・保存ライフサイクルを実行 |
+
+#### エラーハンドリングの動作
+
+子インポートジョブが失敗した場合：
+
+1. 子ジョブのステータスがエラー詳細とともに`FAILED`に設定される
+2. 親ジョブのカウンターがアトミックに更新される（`failedRows`がインクリメント）
+3. 全ての子ジョブが完了すると、マスタージョブのステータスが結果に基づいて設定される：
+   - `failedRows > 0`の場合 → マスターステータス = `FAILED`
+   - 全て成功の場合 → マスターステータス = `COMPLETED`
+4. Lambdaはクラッシュしない - エラーは適切に処理される
+
+:::warning よくあるエラー
+`ConditionalCheckFailedException`：競合するバージョンで既に存在するデータをインポートしようとした場合に発生します。インポートジョブはFAILEDとしてマークされ、親ジョブはこの失敗を適切に集計します。
+:::
+
+:::info バージョン情報
+v1.0.19より前は、子ジョブのエラーによりLambdaがクラッシュし、マスタージョブが`PROCESSING`ステータスのまま無期限に残っていました。[バージョン1.0.19](./changelog#v1019)の修正により、適切なエラー伝播とステータス更新が保証されます。
+:::
+
 ---
 
 ## 関連ドキュメント
