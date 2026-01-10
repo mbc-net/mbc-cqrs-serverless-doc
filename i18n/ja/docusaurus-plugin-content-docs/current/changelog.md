@@ -17,7 +17,7 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ## 安定版リリース (1.x)
 
-## [1.0.18](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.18) {#v1018}
+## [1.0.18](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.18) (2026-01-10) {#v1018}
 
 ### バグ修正
 
@@ -34,7 +34,7 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ### バグ修正
 
-- **master:** `MasterDataService.search()`の`masterTypeCode`比較を修正 - `settingCode`検索パラメータを部分一致（`contains`）から完全一致に変更 ([詳細を見る](./master.md#search-parameters))
+- **master:** `MasterDataService.search()`の`masterTypeCode`比較を修正 - `settingCode`検索パラメータを部分一致（`contains`）から完全一致に変更 ([詳細を見る](./master#search-parameters))
 - **cli:** setTimeoutを削除してAbstractRunnerテストを安定化し、CIの不安定なテスト失敗を修正
 
 ### セキュリティ

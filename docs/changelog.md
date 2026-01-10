@@ -17,7 +17,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ## {{Stable Releases (1.x)}}
 
-## [1.0.18](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.18) {#v1018}
+## [1.0.18](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.18) (2026-01-10) {#v1018}
 
 ### {{Bug Fixes}}
 
@@ -34,7 +34,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ### {{Bug Fixes}}
 
-- **master:** {{Fix `masterTypeCode` comparison in `MasterDataService.search()` - Changed from partial match (`contains`) to exact match for `settingCode` search parameter}} ([{{See Details}}](./master.md#search-parameters))
+- **master:** {{Fix `masterTypeCode` comparison in `MasterDataService.search()` - Changed from partial match (`contains`) to exact match for `settingCode` search parameter}} ([{{See Details}}](./master#search-parameters))
 - **cli:** {{Stabilize AbstractRunner tests by removing setTimeout to fix flaky CI failures}}
 
 ### {{Security}}
