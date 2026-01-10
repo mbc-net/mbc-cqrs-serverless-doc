@@ -436,7 +436,7 @@ APIの詳細と使用パターンについては[ImportStatusHandler API](./impo
 
 ---
 
-### BadRequestException: "No import strategy found for table: {tableName}"
+### BadRequestException: "No import strategy found for table: `{tableName}`"
 
 **場所**: `packages/import/src/import.service.ts`
 

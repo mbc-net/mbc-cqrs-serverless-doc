@@ -436,7 +436,7 @@ try {
 
 ---
 
-### BadRequestException: "No import strategy found for table: {tableName}"
+### BadRequestException: "No import strategy found for table: `{tableName}`"
 
 **{{Location}}**: `packages/import/src/import.service.ts`
 
