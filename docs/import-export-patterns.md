@@ -1179,7 +1179,7 @@ export class CustomEventFactory extends EventFactoryAddedTask {
 {{This ensures Step Functions workflows properly handle both success and failure cases without hanging indefinitely.}}
 
 :::info Version Note
-{{The `sendTaskFailure()` method was added in version 0.1.75-beta.0 to fix an issue where Step Functions would wait indefinitely when import jobs failed.}}
+{{The `sendTaskFailure()` method was added in [version 1.0.18](./changelog#v1018) to fix an issue where Step Functions would wait indefinitely when import jobs failed. See also [Import Module Errors](./error-catalog#import-module-errors) for troubleshooting.}}
 :::
 
 ---

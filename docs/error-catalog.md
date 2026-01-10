@@ -404,7 +404,11 @@ try {
 
 ---
 
-## {{Import Module Errors}}
+## {{Import Module Errors}} {#import-module-errors}
+
+:::tip Related Documentation
+{{For API details and usage patterns, see [ImportStatusHandler API](./import-export-patterns#importstatushandler-api). For version history, see [Changelog v1.0.18](./changelog#v1018).}}
+:::
 
 ### {{Step Functions Timeout (Import Job)}}
 
@@ -412,9 +416,9 @@ try {
 
 **{{Symptom}}**: {{Step Functions execution stays in `RUNNING` state indefinitely for import jobs.}}
 
-**{{Cause}}**: {{Prior to version 0.1.75, the `ImportStatusHandler` only sent `SendTaskSuccessCommand` for completed jobs. When an import job failed, no callback was sent to Step Functions, causing it to wait indefinitely for the `waitForTaskToken` callback.}}
+**{{Cause}}**: {{Prior to version 1.0.18, the `ImportStatusHandler` only sent `SendTaskSuccessCommand` for completed jobs. When an import job failed, no callback was sent to Step Functions, causing it to wait indefinitely for the `waitForTaskToken` callback.}}
 
-**{{Solution}}** ({{Fixed in 0.1.75+}}):
+**{{Solution}}** ({{Fixed in 1.0.18+}}):
 {{The handler now properly sends `SendTaskFailureCommand` when import jobs fail:}}
 
 ```typescript
@@ -424,7 +428,7 @@ try {
 ```
 
 {{If you're on an older version:}}
-1. {{Upgrade to `@mbc-cqrs-serverless/import@^0.1.75`}}
+1. {{Upgrade to `@mbc-cqrs-serverless/import@^1.0.18`}}
 2. {{For stuck executions, manually stop them via AWS Console or CLI:}}
    ```bash
    aws stepfunctions stop-execution --execution-arn <execution-arn>
