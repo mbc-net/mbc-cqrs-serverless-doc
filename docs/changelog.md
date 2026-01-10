@@ -17,6 +17,20 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ## {{Stable Releases (1.x)}}
 
+## [1.0.20](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.20) (2026-01-11) {#v1020}
+
+### {{Bug Fixes}}
+
+- **import:** {{Fix Step Functions CSV handler always setting COMPLETED status regardless of child job failures}}
+  - {{Fixed `CsvImportSfnEventHandler.finalizeParentJob()` to correctly set status to FAILED when any child job fails}}
+  - {{Fixed `CsvImportSfnEventHandler` in `csv_loader` state to correctly set status when early finalization occurs with failures}}
+  - {{Previously, the ternary operator was incorrectly returning COMPLETED for both cases: `failedRows > 0 ? COMPLETED : COMPLETED`}}
+  - {{Now correctly returns FAILED when failedRows > 0: `failedRows > 0 ? FAILED : COMPLETED`}}
+  - {{This bug caused Step Functions to report SUCCESS even when child import jobs failed}}
+  - {{See [CsvImportSfnEventHandler](./import-export-patterns#csvimportsfneventhandler) for details}}
+
+---
+
 ## [1.0.19](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.19) (2026-01-11) {#v1019}
 
 ### {{Bug Fixes}}

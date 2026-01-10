@@ -17,6 +17,20 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ## 安定版リリース (1.x)
 
+## [1.0.20](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.20) (2026-01-11) {#v1020}
+
+### バグ修正
+
+- **import:** Step Functions CSVハンドラーが子ジョブの失敗に関係なく常にCOMPLETEDステータスを設定する問題を修正
+  - `CsvImportSfnEventHandler.finalizeParentJob()`を修正し、子ジョブが失敗した場合に正しくFAILEDステータスを設定するようにしました
+  - `CsvImportSfnEventHandler`の`csv_loader`ステートで、失敗がある場合の早期終了時に正しくステータスを設定するよう修正しました
+  - 以前は、三項演算子が両方のケースでCOMPLETEDを返していました: `failedRows > 0 ? COMPLETED : COMPLETED`
+  - 現在は、failedRows > 0の場合に正しくFAILEDを返します: `failedRows > 0 ? FAILED : COMPLETED`
+  - このバグにより、子インポートジョブが失敗してもStep FunctionsがSUCCESSを報告していました
+  - 詳細は[CsvImportSfnEventHandler](./import-export-patterns#csvimportsfneventhandler)を参照
+
+---
+
 ## [1.0.19](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.19) (2026-01-11) {#v1019}
 
 ### バグ修正
