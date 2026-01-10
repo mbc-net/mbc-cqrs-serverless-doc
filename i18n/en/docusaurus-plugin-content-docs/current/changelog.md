@@ -27,6 +27,7 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
   - Fixed `ImportQueueEventHandler.handleImport` to call `incrementParentJobCounters` on error, ensuring parent counters are updated
   - Removed `throw error` in error handler to prevent Lambda crashes and allow proper status propagation
   - This fix completes the Step Functions error handling started in v1.0.18, ensuring `SendTaskFailure` is properly triggered
+  - See [ImportQueueEventHandler Error Handling](./import-export-patterns#import-error-handling) for details
 
 ---
 

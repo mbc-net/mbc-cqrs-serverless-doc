@@ -27,6 +27,7 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
   - `ImportQueueEventHandler.handleImport`を修正し、エラー時に`incrementParentJobCounters`を呼び出して親カウンターが更新されるようにしました
   - エラーハンドラーから`throw error`を削除し、Lambdaクラッシュを防止して適切なステータス伝播を可能にしました
   - この修正はv1.0.18で開始されたStep Functionsエラーハンドリングを完成させ、`SendTaskFailure`が適切にトリガーされるようになりました
+  - 詳細は[ImportQueueEventHandlerのエラーハンドリング](./import-export-patterns#import-error-handling)を参照
 
 ---
 
