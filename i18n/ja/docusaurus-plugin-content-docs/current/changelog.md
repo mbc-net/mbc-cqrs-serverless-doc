@@ -17,6 +17,19 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ## 安定版リリース (1.x)
 
+## [1.0.19](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.19) (2026-01-11) {#v1019}
+
+### バグ修正
+
+- **import:** 子インポートジョブ失敗時にマスタージョブのステータスがFAILEDに更新されない問題を修正
+  - 以前は、子インポートジョブが`ConditionalCheckFailedException`などのエラーで失敗した場合、マスタージョブのステータスが`PROCESSING`のまま無期限に残っていました
+  - `incrementParentJobCounters`を修正し、子ジョブが失敗した場合にマスタージョブのステータスを正しく`FAILED`に設定するようにしました（以前は常に`COMPLETED`に設定されていました）
+  - `ImportQueueEventHandler.handleImport`を修正し、エラー時に`incrementParentJobCounters`を呼び出して親カウンターが更新されるようにしました
+  - エラーハンドラーから`throw error`を削除し、Lambdaクラッシュを防止して適切なステータス伝播を可能にしました
+  - この修正はv1.0.18で開始されたStep Functionsエラーハンドリングを完成させ、`SendTaskFailure`が適切にトリガーされるようになりました
+
+---
+
 ## [1.0.18](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.18) (2026-01-10) {#v1018}
 
 ### バグ修正

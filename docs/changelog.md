@@ -17,6 +17,19 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ## {{Stable Releases (1.x)}}
 
+## [1.0.19](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.19) (2026-01-11) {#v1019}
+
+### {{Bug Fixes}}
+
+- **import:** {{Fix master job status not updating to FAILED when child import jobs fail}}
+  - {{Previously, when a child import job failed with errors like `ConditionalCheckFailedException`, the master job status remained `PROCESSING` indefinitely}}
+  - {{Fixed `incrementParentJobCounters` to correctly set master job status to `FAILED` when any child job fails (was always setting to `COMPLETED`)}}
+  - {{Fixed `ImportQueueEventHandler.handleImport` to call `incrementParentJobCounters` on error, ensuring parent counters are updated}}
+  - {{Removed `throw error` in error handler to prevent Lambda crashes and allow proper status propagation}}
+  - {{This fix completes the Step Functions error handling started in v1.0.18, ensuring `SendTaskFailure` is properly triggered}}
+
+---
+
 ## [1.0.18](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.18) (2026-01-10) {#v1018}
 
 ### {{Bug Fixes}}
