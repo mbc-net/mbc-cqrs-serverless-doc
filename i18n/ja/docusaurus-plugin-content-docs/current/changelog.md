@@ -17,6 +17,19 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ## 安定版リリース (1.x)
 
+## [1.0.18](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.18) {#v1018}
+
+### バグ修正
+
+- **import:** Step Functionsの適切なエラーハンドリングのため`ImportStatusHandler`に`SendTaskFailure`サポートを追加
+  - 以前は、インポートジョブが失敗した場合、`SendTaskSuccess`のみが実装されていたため、Step Functionが無期限に待機していました
+  - 現在は、ジョブが失敗した場合にハンドラーが適切に`SendTaskFailure`を送信し、Step Functionsが正しくエラーを処理できるようになりました
+  - `SendTaskFailureCommand`を送信するための`sendTaskFailure()`メソッドを追加
+  - ハンドラーはCSVインポートジョブの`COMPLETED`と`FAILED`の両方のステータスを処理するようになりました
+  - 詳細は[ImportStatusHandler API](./import-export-patterns#importstatushandler-api)を参照
+
+---
+
 ## [1.0.17](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.17) (2026-01-08) {#v1017}
 
 ### バグ修正

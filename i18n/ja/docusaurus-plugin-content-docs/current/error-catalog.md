@@ -404,6 +404,82 @@ try {
 
 ---
 
+## インポートモジュールエラー {#import-module-errors}
+
+:::tip 関連ドキュメント
+APIの詳細と使用パターンについては[ImportStatusHandler API](./import-export-patterns#importstatushandler-api)を参照してください。バージョン履歴については[変更履歴 v1.0.18](./changelog#v1018)を参照してください。
+:::
+
+### Step Functionsタイムアウト（インポートジョブ）
+
+**場所**: `packages/import/src/event/import-status.queue.event.handler.ts`
+
+**症状**: インポートジョブでStep Functions実行が無期限に`RUNNING`状態のままになる。
+
+**原因**: バージョン1.0.18より前では、`ImportStatusHandler`は完了したジョブに対してのみ`SendTaskSuccessCommand`を送信していました。インポートジョブが失敗した場合、Step Functionsにコールバックが送信されず、`waitForTaskToken`コールバックを無期限に待機していました。
+
+**解決策** (1.0.18以降で修正済み):
+ハンドラーはインポートジョブが失敗した場合に適切に`SendTaskFailureCommand`を送信するようになりました：
+
+```typescript
+// 内部動作（自動、ユーザーアクション不要）:
+// - COMPLETEDステータス → SendTaskSuccessCommand
+// - FAILEDステータス → SendTaskFailureCommand
+```
+
+古いバージョンを使用している場合：
+1. `@mbc-cqrs-serverless/import@^1.0.18`にアップグレード
+2. スタックした実行は、AWSコンソールまたはCLIから手動で停止：
+   ```bash
+   aws stepfunctions stop-execution --execution-arn <execution-arn>
+   ```
+
+---
+
+### BadRequestException: "No import strategy found for table: {tableName}"
+
+**場所**: `packages/import/src/import.service.ts`
+
+**原因**: 指定されたテーブル名に対してインポート戦略が登録されていない。
+
+**解決策**:
+ImportModuleの設定時にインポート戦略を登録：
+
+```typescript
+ImportModule.register({
+  profiles: [
+    {
+      tableName: 'your-table-name',  // インポートリクエストのtableNameと一致する必要あり
+      importStrategy: YourImportStrategy,
+      processStrategy: YourProcessStrategy,
+    },
+  ],
+})
+```
+
+---
+
+### インポートジョブがPROCESSINGステータスでスタック
+
+**場所**: `packages/import/src/event/import.queue.event.handler.ts`
+
+**原因**: インポート処理中にエラーが発生したがジョブステータスが適切に更新されなかった、またはDynamoDB Streamsが次のステップをトリガーできなかった。
+
+**解決策**:
+1. CloudWatch LogsでLambdaエラーを確認
+2. import_tmpテーブルでDynamoDB Streamsが有効になっていることを確認
+3. インポートステータス通知用のSNSトピックが存在することを確認
+4. スタックしたレコードをクリーンアップ：
+   ```typescript
+   await importService.updateStatus(
+     { pk: 'CSV_IMPORT#tenant', sk: 'table#taskCode' },
+     ImportStatusEnum.FAILED,
+     { error: 'Manual cleanup' }
+   );
+   ```
+
+---
+
 ## Step Functions Errors
 
 ### TaskTimedOut

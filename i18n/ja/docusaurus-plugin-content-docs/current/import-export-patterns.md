@@ -1147,6 +1147,43 @@ export class CustomEventFactory extends EventFactoryAddedTask {
 }
 ```
 
+### ImportStatusHandler API {#importstatushandler-api}
+
+`ImportStatusHandler`は、インポートジョブのStep Functionsコールバックを管理する内部イベントハンドラーです。Step Functionsオーケストレーション（ZIPインポートまたはSTEP_FUNCTIONモードのCSVインポート）を使用する場合、このハンドラーがステートマシンとの適切な通信を保証します。
+
+#### 動作
+
+| インポートステータス | アクション | Step Functionsコマンド |
+|-------------------|----------|----------------------|
+| `COMPLETED` | 成功コールバックを送信 | `SendTaskSuccessCommand` |
+| `FAILED` | 失敗コールバックを送信 | `SendTaskFailureCommand` |
+| その他のステータス | 無視 | なし |
+
+#### メソッド
+
+| メソッド | 説明 |
+|--------|------|
+| `sendTaskSuccess(taskToken, output)` | インポート結果とともにStep Functionsに成功シグナルを送信 |
+| `sendTaskFailure(taskToken, error, cause)` | エラー詳細とともにStep Functionsに失敗シグナルを送信 |
+
+#### Step Functions統合
+
+インポートジョブがStep Functionsワークフロー（例：ZIPインポート）の一部として作成されると、`taskToken`がジョブの属性に保存されます。`ImportStatusHandler`はステータス変更通知をリッスンし：
+
+1. DynamoDBからインポートジョブを取得
+2. ジョブの属性に`taskToken`が存在するか確認
+3. 最終ステータスに基づいて適切なコールバックを送信：
+   - `COMPLETED` → 結果データとともに`SendTaskSuccessCommand`
+   - `FAILED` → エラー詳細とともに`SendTaskFailureCommand`
+
+これにより、Step Functionsワークフローが成功と失敗の両方のケースを適切に処理し、無期限に待機することがなくなります。
+
+:::info バージョン情報
+`sendTaskFailure()`メソッドは[バージョン1.0.18](./changelog#v1018)で追加されました。これは、インポートジョブが失敗した場合にStep Functionsが無期限に待機する問題を修正するためです。トラブルシューティングについては[インポートモジュールエラー](./error-catalog#import-module-errors)も参照してください。
+:::
+
+---
+
 ## 関連ドキュメント
 
 - [Backend Development Guide](./backend-development) - Core backend patterns
