@@ -1147,6 +1147,43 @@ export class CustomEventFactory extends EventFactoryAddedTask {
 }
 ```
 
+### {{ImportStatusHandler API}} {#importstatushandler-api}
+
+{{The `ImportStatusHandler` is an internal event handler that manages Step Functions callbacks for import jobs. When using Step Functions orchestration (ZIP imports or STEP_FUNCTION mode CSV imports), this handler ensures proper communication with the state machine.}}
+
+#### {{Behavior}}
+
+| {{Import Status}} | {{Action}} | {{Step Functions Command}} |
+|-------------------|------------|---------------------------|
+| `COMPLETED` | {{Send success callback}} | `SendTaskSuccessCommand` |
+| `FAILED` | {{Send failure callback}} | `SendTaskFailureCommand` |
+| {{Other statuses}} | {{Ignored}} | {{None}} |
+
+#### {{Methods}}
+
+| {{Method}} | {{Description}} |
+|------------|-----------------|
+| `sendTaskSuccess(taskToken, output)` | {{Sends success signal to Step Functions with the import result}} |
+| `sendTaskFailure(taskToken, error, cause)` | {{Sends failure signal to Step Functions with error details}} |
+
+#### {{Step Functions Integration}}
+
+{{When an import job is created as part of a Step Functions workflow (e.g., ZIP import), a `taskToken` is stored in the job's attributes. The `ImportStatusHandler` listens for status change notifications and:}}
+
+1. {{Retrieves the import job from DynamoDB}}
+2. {{Checks if a `taskToken` exists in the job's attributes}}
+3. {{Sends the appropriate callback based on the final status:}}
+   - `COMPLETED` → `SendTaskSuccessCommand` {{with result data}}
+   - `FAILED` → `SendTaskFailureCommand` {{with error details}}
+
+{{This ensures Step Functions workflows properly handle both success and failure cases without hanging indefinitely.}}
+
+:::info Version Note
+{{The `sendTaskFailure()` method was added in [version 1.0.18](./changelog#v1018) to fix an issue where Step Functions would wait indefinitely when import jobs failed. See also [Import Module Errors](./error-catalog#import-module-errors) for troubleshooting.}}
+:::
+
+---
+
 ## {{Related Documentation}}
 
 - {{[Backend Development Guide](./backend-development) - Core backend patterns}}
