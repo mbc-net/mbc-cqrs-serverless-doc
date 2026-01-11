@@ -21,12 +21,12 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ### バグ修正
 
-- **import:** Step Functions CSVハンドラーが子ジョブの失敗に関係なく常にCOMPLETEDステータスを設定する問題を修正
-  - `CsvImportSfnEventHandler.finalizeParentJob()`を修正し、子ジョブが失敗した場合に正しくFAILEDステータスを設定するようにしました
-  - `CsvImportSfnEventHandler`の`csv_loader`ステートで、失敗がある場合の早期終了時に正しくステータスを設定するよう修正しました
-  - 以前は、三項演算子が両方のケースでCOMPLETEDを返していました: `failedRows > 0 ? COMPLETED : COMPLETED`
-  - 現在は、failedRows > 0の場合に正しくFAILEDを返します: `failedRows > 0 ? FAILED : COMPLETED`
-  - このバグにより、子インポートジョブが失敗してもStep FunctionsがSUCCESSを報告していました
+- **import:** Step Functions CSVハンドラーが子ジョブ失敗に関わらず常にCOMPLETEDステータスを設定する問題を修正
+  - `CsvImportSfnEventHandler.finalizeParentJob()`で子ジョブ失敗時に正しくFAILEDステータスを設定するよう修正
+  - `csv_loader`状態での`CsvImportSfnEventHandler`で、失敗がある早期終了時に正しくステータスを設定するよう修正
+  - 以前は三項演算子が誤って両方のケースでCOMPLETEDを返していた: `failedRows > 0 ? COMPLETED : COMPLETED`
+  - failedRows > 0の場合、正しくFAILEDを返すよう修正: `failedRows > 0 ? FAILED : COMPLETED`
+  - このバグにより、子インポートジョブが失敗してもStep FunctionsがSUCCESSを報告していた
   - 詳細は[CsvImportSfnEventHandler](./import-export-patterns#csvimportsfneventhandler)を参照
 
 ---
@@ -35,13 +35,13 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ### バグ修正
 
-- **import:** 子インポートジョブ失敗時にマスタージョブのステータスがFAILEDに更新されない問題を修正
-  - 以前は、子インポートジョブが`ConditionalCheckFailedException`などのエラーで失敗した場合、マスタージョブのステータスが`PROCESSING`のまま無期限に残っていました
-  - `incrementParentJobCounters`を修正し、子ジョブが失敗した場合にマスタージョブのステータスを正しく`FAILED`に設定するようにしました（以前は常に`COMPLETED`に設定されていました）
-  - `ImportQueueEventHandler.handleImport`を修正し、エラー時に`incrementParentJobCounters`を呼び出して親カウンターが更新されるようにしました
-  - エラーハンドラーから`throw error`を削除し、Lambdaクラッシュを防止して適切なステータス伝播を可能にしました
-  - この修正はv1.0.18で開始されたStep Functionsエラーハンドリングを完成させ、`SendTaskFailure`が適切にトリガーされるようになりました
-  - 詳細は[ImportQueueEventHandlerのエラーハンドリング](./import-export-patterns#import-error-handling)を参照
+- **import:** 子インポートジョブ失敗時にマスタージョブステータスがFAILEDに更新されない問題を修正
+  - 以前は、`ConditionalCheckFailedException`などのエラーで子インポートジョブが失敗した場合、マスタージョブのステータスが`PROCESSING`のまま無期限に留まっていた
+  - `incrementParentJobCounters`で子ジョブ失敗時に正しく`FAILED`ステータスを設定するよう修正（以前は常に`COMPLETED`を設定していた）
+  - `ImportQueueEventHandler.handleImport`でエラー時に`incrementParentJobCounters`を呼び出すよう修正し、親カウンターが更新されることを保証
+  - Lambdaクラッシュを防ぎ適切なステータス伝播を可能にするため、エラーハンドラーから`throw error`を削除
+  - この修正はv1.0.18で開始されたStep Functionsエラーハンドリングを完成させ、`SendTaskFailure`が適切にトリガーされることを保証
+  - 詳細は[ImportQueueEventHandler エラーハンドリング](./import-export-patterns#import-error-handling)を参照
 
 ---
 
@@ -49,11 +49,11 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ### バグ修正
 
-- **import:** Step Functionsの適切なエラーハンドリングのため`ImportStatusHandler`に`SendTaskFailure`サポートを追加
-  - 以前は、インポートジョブが失敗した場合、`SendTaskSuccess`のみが実装されていたため、Step Functionが無期限に待機していました
-  - 現在は、ジョブが失敗した場合にハンドラーが適切に`SendTaskFailure`を送信し、Step Functionsが正しくエラーを処理できるようになりました
-  - `SendTaskFailureCommand`を送信するための`sendTaskFailure()`メソッドを追加
-  - ハンドラーはCSVインポートジョブの`COMPLETED`と`FAILED`の両方のステータスを処理するようになりました
+- **import:** Step Functionsエラーハンドリングのため`ImportStatusHandler`に`SendTaskFailure`サポートを追加
+  - 以前は、インポートジョブが失敗した場合、`SendTaskSuccess`のみが実装されていたためStep Functionが無期限に待機していた
+  - ジョブ失敗時にハンドラーが適切に`SendTaskFailure`を送信するようになり、Step Functionsがエラーを正しく処理可能に
+  - `SendTaskFailureCommand`を送信する`sendTaskFailure()`メソッドを追加
+  - CSVインポートジョブで`COMPLETED`と`FAILED`の両方のステータスを処理するよう対応
   - 詳細は[ImportStatusHandler API](./import-export-patterns#importstatushandler-api)を参照
 
 ---
@@ -191,9 +191,14 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ## [0.1.75-beta.0](https://github.com/mbc-net/mbc-cqrs-serverless/compare/v0.1.74-beta.0...v0.1.75-beta.0)
 
-### 新機能
+### バグ修正
 
-- 各種改善とバグ修正
+- **import:** Step Functionsエラーハンドリングのため`ImportStatusHandler`に`SendTaskFailure`サポートを追加
+  - 以前は、インポートジョブが失敗した場合、`SendTaskSuccess`のみが実装されていたためStep Functionが無期限に待機していた
+  - ジョブ失敗時にハンドラーが適切に`SendTaskFailure`を送信するようになり、Step Functionsがエラーを正しく処理可能に
+  - `SendTaskFailureCommand`を送信する`sendTaskFailure()`メソッドを追加
+  - CSVインポートジョブで`COMPLETED`と`FAILED`の両方のステータスを処理するよう対応
+  - 詳細は[ImportStatusHandler API](#importstatushandler-api)を参照
 
 ---
 
