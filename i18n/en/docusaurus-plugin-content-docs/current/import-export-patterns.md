@@ -1154,7 +1154,7 @@ The `ImportStatusHandler` is an internal event handler that manages Step Functio
 #### Behavior
 
 | Import Status | Action | Step Functions Command |
-|---------------|--------|------------------------|
+|-------------------|------------|---------------------------|
 | `COMPLETED` | Send success callback | `SendTaskSuccessCommand` |
 | `FAILED` | Send failure callback | `SendTaskFailureCommand` |
 | Other statuses | Ignored | None |
@@ -1162,7 +1162,7 @@ The `ImportStatusHandler` is an internal event handler that manages Step Functio
 #### Methods
 
 | Method | Description |
-|--------|-------------|
+|------------|-----------------|
 | `sendTaskSuccess(taskToken, output)` | Sends success signal to Step Functions with the import result |
 | `sendTaskFailure(taskToken, error, cause)` | Sends failure signal to Step Functions with error details |
 
@@ -1204,14 +1204,14 @@ Check if All Children Complete
     ┌────┴────┐
     │ Yes     │ No
     ▼         ▼
-Update Master  Wait for
-  Job Status   more children
+Update Master  {{Wait for
+  Job Status}}     more children}}
          │
     ┌────┴────┐
     │ Has     │ All
     │ Failures│ Succeeded
     ▼         ▼
-FAILED      COMPLETED
+FAILED    COMPLETED
          │
          ▼
 ImportStatusHandler Triggered
@@ -1223,7 +1223,7 @@ SendTaskFailure/SendTaskSuccess
 #### Key Methods
 
 | Method | Description |
-|--------|-------------|
+|------------|-----------------|
 | `handleImport(event)` | Orchestrates single import record processing with error handling |
 | `executeStrategy(...)` | Executes compare, map, and save lifecycle for a strategy |
 
@@ -1244,6 +1244,41 @@ When a child import job fails:
 
 :::info Version Note
 Prior to v1.0.19, errors in child jobs would crash the Lambda and leave the master job in `PROCESSING` status indefinitely. The fixes in [version 1.0.19](./changelog#v1019) ensure proper error propagation and status updates.
+:::
+
+### CsvImportSfnEventHandler {#csvimportsfneventhandler}
+
+The `CsvImportSfnEventHandler` handles Step Functions CSV import workflow states. It manages the `csv_loader` and `csv_finalizer` states in the import state machine.
+
+#### Key Methods
+
+| Method | Description |
+|------------|-----------------|
+| `handleCsvLoader(event)` | Processes the csv_loader state, creates child jobs, and handles early finalization |
+| `finalizeParentJob(event)` | Finalizes the parent job after all children complete, sets final status |
+
+#### Status Determination (v1.0.20+)
+
+When finalizing the parent job, the handler correctly determines the final status:
+
+```typescript
+// Correct behavior (v1.0.20+)
+const status = failedRows > 0
+  ? ImportJobStatus.FAILED    // Any child failed → FAILED
+  : ImportJobStatus.COMPLETED // All children succeeded → COMPLETED
+```
+
+:::warning Known Issue (Fixed in v1.0.20)
+Prior to v1.0.20, a bug in the ternary operator caused the status to always be `COMPLETED`:
+
+```typescript
+// Bug (pre-v1.0.20): always returned COMPLETED
+const status = failedRows > 0
+  ? ImportJobStatus.COMPLETED  // Wrong!
+  : ImportJobStatus.COMPLETED
+```
+
+This caused Step Functions to report SUCCESS even when child import jobs failed. See [version 1.0.20](./changelog#v1020) for details.
 :::
 
 ---

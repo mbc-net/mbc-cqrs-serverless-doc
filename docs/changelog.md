@@ -198,7 +198,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
   - {{Now the handler properly sends `SendTaskFailure` when a job fails, allowing Step Functions to handle errors correctly}}
   - {{Added `sendTaskFailure()` method to send `SendTaskFailureCommand`}}
   - {{Handler now processes both `COMPLETED` and `FAILED` statuses for CSV import jobs}}
-  - {{See [ImportStatusHandler API](#importstatushandler-api) for details}}
+  - {{See [ImportStatusHandler API](./import-export-patterns#importstatushandler-api) for details}}
 
 ---
 

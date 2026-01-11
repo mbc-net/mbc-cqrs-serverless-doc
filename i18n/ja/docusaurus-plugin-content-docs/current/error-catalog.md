@@ -404,32 +404,32 @@ try {
 
 ---
 
-## インポートモジュールエラー {#import-module-errors}
+## Import Module Errors {#import-module-errors}
 
-:::tip 関連ドキュメント
-APIの詳細と使用パターンについては[ImportStatusHandler API](./import-export-patterns#importstatushandler-api)を参照してください。バージョン履歴については[変更履歴 v1.0.18](./changelog#v1018)を参照してください。
+:::tip Related Documentation
+For API details and usage patterns, see [ImportStatusHandler API](./import-export-patterns#importstatushandler-api). For version history, see [Changelog v1.0.18](./changelog#v1018).
 :::
 
-### Step Functionsタイムアウト（インポートジョブ）
+### Step Functions Timeout (Import Job)
 
 **場所**: `packages/import/src/event/import-status.queue.event.handler.ts`
 
-**症状**: インポートジョブでStep Functions実行が無期限に`RUNNING`状態のままになる。
+**Symptom**: Step Functions execution stays in `RUNNING` state indefinitely for import jobs.
 
-**原因**: バージョン1.0.18より前では、`ImportStatusHandler`は完了したジョブに対してのみ`SendTaskSuccessCommand`を送信していました。インポートジョブが失敗した場合、Step Functionsにコールバックが送信されず、`waitForTaskToken`コールバックを無期限に待機していました。
+**原因**: Prior to version 1.0.18, the `ImportStatusHandler` only sent `SendTaskSuccessCommand` for completed jobs. When an import job failed, no callback was sent to Step Functions, causing it to wait indefinitely for the `waitForTaskToken` callback.
 
-**解決策** (1.0.18以降で修正済み):
-ハンドラーはインポートジョブが失敗した場合に適切に`SendTaskFailureCommand`を送信するようになりました：
+**解決策** (Fixed in 1.0.18+):
+The handler now properly sends `SendTaskFailureCommand` when import jobs fail:
 
 ```typescript
-// 内部動作（自動、ユーザーアクション不要）:
-// - COMPLETEDステータス → SendTaskSuccessCommand
-// - FAILEDステータス → SendTaskFailureCommand
+// Internal behavior (automatic, no user action needed):
+// - COMPLETED status → SendTaskSuccessCommand
+// - FAILED status → SendTaskFailureCommand
 ```
 
-古いバージョンを使用している場合：
-1. `@mbc-cqrs-serverless/import@^1.0.18`にアップグレード
-2. スタックした実行は、AWSコンソールまたはCLIから手動で停止：
+If you're on an older version:
+1. Upgrade to `@mbc-cqrs-serverless/import@^1.0.18`
+2. For stuck executions, manually stop them via AWS Console or CLI:
    ```bash
    aws stepfunctions stop-execution --execution-arn <execution-arn>
    ```
@@ -440,16 +440,16 @@ APIの詳細と使用パターンについては[ImportStatusHandler API](./impo
 
 **場所**: `packages/import/src/import.service.ts`
 
-**原因**: 指定されたテーブル名に対してインポート戦略が登録されていない。
+**原因**: No import strategy is registered for the specified table name.
 
 **解決策**:
-ImportModuleの設定時にインポート戦略を登録：
+Register an import strategy when configuring the ImportModule:
 
 ```typescript
 ImportModule.register({
   profiles: [
     {
-      tableName: 'your-table-name',  // インポートリクエストのtableNameと一致する必要あり
+      tableName: 'your-table-name',  // Must match the tableName in your import request
       importStrategy: YourImportStrategy,
       processStrategy: YourProcessStrategy,
     },
@@ -459,17 +459,17 @@ ImportModule.register({
 
 ---
 
-### インポートジョブがPROCESSINGステータスでスタック
+### Import Job Stuck in PROCESSING Status
 
 **場所**: `packages/import/src/event/import.queue.event.handler.ts`
 
-**原因**: インポート処理中にエラーが発生したがジョブステータスが適切に更新されなかった、またはDynamoDB Streamsが次のステップをトリガーできなかった。
+**原因**: An error occurred during import processing but the job status wasn't properly updated, or DynamoDB streams failed to trigger the next step.
 
 **解決策**:
-1. CloudWatch LogsでLambdaエラーを確認
-2. import_tmpテーブルでDynamoDB Streamsが有効になっていることを確認
-3. インポートステータス通知用のSNSトピックが存在することを確認
-4. スタックしたレコードをクリーンアップ：
+1. Lambdaエラーについては**CloudWatchログ**を確認
+2. Verify DynamoDB streams are enabled on the import_tmp table
+3. Check if the SNS topic for import status notifications exists
+4. Clean up stuck records:
    ```typescript
    await importService.updateStatus(
      { pk: 'CSV_IMPORT#tenant', sk: 'table#taskCode' },

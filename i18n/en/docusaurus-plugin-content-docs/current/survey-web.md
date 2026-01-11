@@ -2,7 +2,7 @@
 description: Learn about the Survey Web package for building survey and questionnaire UI components.
 ---
 
-# Survey Frontend Package
+# Survey Web
 
 Frontend component library for survey template management and form rendering in MBC CQRS Serverless applications.
 

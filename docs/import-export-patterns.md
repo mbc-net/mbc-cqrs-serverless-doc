@@ -1246,6 +1246,41 @@ export class CustomEventFactory extends EventFactoryAddedTask {
 {{Prior to v1.0.19, errors in child jobs would crash the Lambda and leave the master job in `PROCESSING` status indefinitely. The fixes in [version 1.0.19](./changelog#v1019) ensure proper error propagation and status updates.}}
 :::
 
+### {{CsvImportSfnEventHandler}} {#csvimportsfneventhandler}
+
+{{The `CsvImportSfnEventHandler` handles Step Functions CSV import workflow states. It manages the `csv_loader` and `csv_finalizer` states in the import state machine.}}
+
+#### {{Key Methods}}
+
+| {{Method}} | {{Description}} |
+|------------|-----------------|
+| `handleCsvLoader(event)` | {{Processes the csv_loader state, creates child jobs, and handles early finalization}} |
+| `finalizeParentJob(event)` | {{Finalizes the parent job after all children complete, sets final status}} |
+
+#### {{Status Determination (v1.0.20+)}}
+
+{{When finalizing the parent job, the handler correctly determines the final status:}}
+
+```typescript
+// {{Correct behavior (v1.0.20+)}}
+const status = failedRows > 0
+  ? ImportJobStatus.FAILED    // {{Any child failed → FAILED}}
+  : ImportJobStatus.COMPLETED // {{All children succeeded → COMPLETED}}
+```
+
+:::warning {{Known Issue (Fixed in v1.0.20)}}
+{{Prior to v1.0.20, a bug in the ternary operator caused the status to always be `COMPLETED`:}}
+
+```typescript
+// {{Bug (pre-v1.0.20): always returned COMPLETED}}
+const status = failedRows > 0
+  ? ImportJobStatus.COMPLETED  // {{Wrong!}}
+  : ImportJobStatus.COMPLETED
+```
+
+{{This caused Step Functions to report SUCCESS even when child import jobs failed. See [version 1.0.20](./changelog#v1020) for details.}}
+:::
+
 ---
 
 ## {{Related Documentation}}

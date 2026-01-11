@@ -1149,102 +1149,136 @@ export class CustomEventFactory extends EventFactoryAddedTask {
 
 ### ImportStatusHandler API {#importstatushandler-api}
 
-`ImportStatusHandler`は、インポートジョブのStep Functionsコールバックを管理する内部イベントハンドラーです。Step Functionsオーケストレーション（ZIPインポートまたはSTEP_FUNCTIONモードのCSVインポート）を使用する場合、このハンドラーがステートマシンとの適切な通信を保証します。
+The `ImportStatusHandler` is an internal event handler that manages Step Functions callbacks for import jobs. When using Step Functions orchestration (ZIP imports or STEP_FUNCTION mode CSV imports), this handler ensures proper communication with the state machine.
 
-#### 動作
+#### Behavior
 
-| インポートステータス | アクション | Step Functionsコマンド |
-|-------------------|----------|----------------------|
-| `COMPLETED` | 成功コールバックを送信 | `SendTaskSuccessCommand` |
-| `FAILED` | 失敗コールバックを送信 | `SendTaskFailureCommand` |
-| その他のステータス | 無視 | なし |
+| Import Status | Action | Step Functions Command |
+|-------------------|------------|---------------------------|
+| `COMPLETED` | Send success callback | `SendTaskSuccessCommand` |
+| `FAILED` | Send failure callback | `SendTaskFailureCommand` |
+| Other statuses | Ignored | None |
 
-#### メソッド
+#### Methods
 
-| メソッド | 説明 |
-|--------|------|
-| `sendTaskSuccess(taskToken, output)` | インポート結果とともにStep Functionsに成功シグナルを送信 |
-| `sendTaskFailure(taskToken, error, cause)` | エラー詳細とともにStep Functionsに失敗シグナルを送信 |
+| Method | Description |
+|------------|-----------------|
+| `sendTaskSuccess(taskToken, output)` | Sends success signal to Step Functions with the import result |
+| `sendTaskFailure(taskToken, error, cause)` | Sends failure signal to Step Functions with error details |
 
-#### Step Functions統合
+#### Step Functions Integration
 
-インポートジョブがStep Functionsワークフロー（例：ZIPインポート）の一部として作成されると、`taskToken`がジョブの属性に保存されます。`ImportStatusHandler`はステータス変更通知をリッスンし：
+When an import job is created as part of a Step Functions workflow (e.g., ZIP import), a `taskToken` is stored in the job's attributes. The `ImportStatusHandler` listens for status change notifications and:
 
-1. DynamoDBからインポートジョブを取得
-2. ジョブの属性に`taskToken`が存在するか確認
-3. 最終ステータスに基づいて適切なコールバックを送信：
-   - `COMPLETED` → 結果データとともに`SendTaskSuccessCommand`
-   - `FAILED` → エラー詳細とともに`SendTaskFailureCommand`
+1. Retrieves the import job from DynamoDB
+2. Checks if a `taskToken` exists in the job's attributes
+3. Sends the appropriate callback based on the final status:
+   - `COMPLETED` → `SendTaskSuccessCommand` with result data
+   - `FAILED` → `SendTaskFailureCommand` with error details
 
-これにより、Step Functionsワークフローが成功と失敗の両方のケースを適切に処理し、無期限に待機することがなくなります。
+This ensures Step Functions workflows properly handle both success and failure cases without hanging indefinitely.
 
-:::info バージョン情報
-`sendTaskFailure()`メソッドは[バージョン1.0.18](./changelog#v1018)で追加されました。これは、インポートジョブが失敗した場合にStep Functionsが無期限に待機する問題を修正するためです。トラブルシューティングについては[インポートモジュールエラー](./error-catalog#import-module-errors)も参照してください。
+:::info Version Note
+The `sendTaskFailure()` method was added in [version 1.0.18](./changelog#v1018) to fix an issue where Step Functions would wait indefinitely when import jobs failed. See also [Import Module Errors](./error-catalog#import-module-errors) for troubleshooting.
 :::
 
-### ImportQueueEventHandlerのエラーハンドリング {#import-error-handling}
+### ImportQueueEventHandler Error Handling {#import-error-handling}
 
-`ImportQueueEventHandler`はSQSキューから個々のインポートレコードを処理します。処理中にエラーが発生した場合（例：`ConditionalCheckFailedException`）、ハンドラーは親ジョブのステータスを適切に更新します。
+The `ImportQueueEventHandler` processes individual import records from the SQS queue. When an error occurs during processing (e.g., `ConditionalCheckFailedException`), the handler properly updates the parent job status.
 
-#### エラーフロー (v1.0.19以降)
+#### Error Flow (v1.0.19+)
 
 ```
-子ジョブエラー発生
+Child Job Error Occurs
          │
          ▼
-子ジョブをFAILEDにマーク
+Mark Child Job as FAILED
          │
          ▼
-親ジョブカウンターを更新
+Update Parent Job Counters
   (incrementParentJobCounters)
          │
          ▼
-全ての子ジョブが完了したか確認
+Check if All Children Complete
          │
     ┌────┴────┐
-    │ はい    │ いいえ
+    │ Yes     │ No
     ▼         ▼
-マスター      他の子ジョブを
-ジョブの      待機
-ステータス更新
+Update Master  {{Wait for
+  Job Status}}     more children}}
          │
     ┌────┴────┐
-    │ 失敗    │ 全て
-    │ あり    │ 成功
+    │ Has     │ All
+    │ Failures│ Succeeded
     ▼         ▼
-FAILED      COMPLETED
+FAILED    COMPLETED
          │
          ▼
-ImportStatusHandlerがトリガー
+ImportStatusHandler Triggered
          │
          ▼
 SendTaskFailure/SendTaskSuccess
 ```
 
-#### 主要メソッド
+#### Key Methods
 
-| メソッド | 説明 |
-|---------|------|
-| `handleImport(event)` | エラーハンドリングを含む単一インポートレコード処理のオーケストレーション |
-| `executeStrategy(...)` | ストラテジーの比較・マッピング・保存ライフサイクルを実行 |
+| Method | Description |
+|------------|-----------------|
+| `handleImport(event)` | Orchestrates single import record processing with error handling |
+| `executeStrategy(...)` | Executes compare, map, and save lifecycle for a strategy |
 
-#### エラーハンドリングの動作
+#### Error Handling Behavior
 
-子インポートジョブが失敗した場合：
+When a child import job fails:
 
-1. 子ジョブのステータスがエラー詳細とともに`FAILED`に設定される
-2. 親ジョブのカウンターがアトミックに更新される（`failedRows`がインクリメント）
-3. 全ての子ジョブが完了すると、マスタージョブのステータスが結果に基づいて設定される：
-   - `failedRows > 0`の場合 → マスターステータス = `FAILED`
-   - 全て成功の場合 → マスターステータス = `COMPLETED`
-4. Lambdaはクラッシュしない - エラーは適切に処理される
+1. Child job status is set to `FAILED` with error details
+2. Parent job counters are atomically updated (`failedRows` incremented)
+3. When all children complete, master job status is set based on results:
+   - If `failedRows > 0` → Master status = `FAILED`
+   - If all succeeded → Master status = `COMPLETED`
+4. Lambda does NOT crash - error is handled gracefully
 
-:::warning よくあるエラー
-`ConditionalCheckFailedException`：競合するバージョンで既に存在するデータをインポートしようとした場合に発生します。インポートジョブはFAILEDとしてマークされ、親ジョブはこの失敗を適切に集計します。
+:::warning Common Errors
+`ConditionalCheckFailedException`: This occurs when attempting to import data that already exists with conflicting version. The import job will be marked as FAILED and the parent job will properly aggregate this failure.
 :::
 
-:::info バージョン情報
-v1.0.19より前は、子ジョブのエラーによりLambdaがクラッシュし、マスタージョブが`PROCESSING`ステータスのまま無期限に残っていました。[バージョン1.0.19](./changelog#v1019)の修正により、適切なエラー伝播とステータス更新が保証されます。
+:::info Version Note
+Prior to v1.0.19, errors in child jobs would crash the Lambda and leave the master job in `PROCESSING` status indefinitely. The fixes in [version 1.0.19](./changelog#v1019) ensure proper error propagation and status updates.
+:::
+
+### CsvImportSfnEventHandler {#csvimportsfneventhandler}
+
+`CsvImportSfnEventHandler`はStep FunctionsのCSVインポートワークフローステートを処理します。インポートステートマシン内の`csv_loader`と`csv_finalizer`ステートを管理します。
+
+#### Key Methods
+
+| Method | Description |
+|------------|-----------------|
+| `handleCsvLoader(event)` | csv_loaderステートを処理し、子ジョブを作成し、早期終了を処理します |
+| `finalizeParentJob(event)` | すべての子ジョブ完了後に親ジョブを終了し、最終ステータスを設定します |
+
+#### ステータス判定（v1.0.20以降）
+
+親ジョブを終了する際、ハンドラーは最終ステータスを正しく判定します：
+
+```typescript
+// 正しい動作（v1.0.20以降）
+const status = failedRows > 0
+  ? ImportJobStatus.FAILED    // 子ジョブが失敗した場合 → FAILED
+  : ImportJobStatus.COMPLETED // すべての子ジョブが成功した場合 → COMPLETED
+```
+
+:::warning 既知の問題（v1.0.20で修正）
+v1.0.20より前のバージョンでは、三項演算子のバグにより、ステータスが常に`COMPLETED`になっていました：
+
+```typescript
+// バグ（v1.0.20より前）：常にCOMPLETEDを返していた
+const status = failedRows > 0
+  ? ImportJobStatus.COMPLETED  // 間違い！
+  : ImportJobStatus.COMPLETED
+```
+
+このバグにより、子インポートジョブが失敗しても、Step FunctionsがSUCCESSを報告していました。詳細は[バージョン1.0.20](./changelog#v1020)を参照してください。
 :::
 
 ---

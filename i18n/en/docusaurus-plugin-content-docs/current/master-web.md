@@ -2,7 +2,7 @@
 description: Learn about the Master Web package for building master data management UI components.
 ---
 
-# Master Frontend Package
+# Master Web
 
 Frontend component library for master data and settings management in MBC CQRS Serverless applications.
 
