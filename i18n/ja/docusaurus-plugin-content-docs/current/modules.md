@@ -1,23 +1,23 @@
 ---
-description: Learn how to create and configure modules in MBC CQRS Serverless.
+description: MBC CQRS Serverlessでモジュールを作成・設定する方法を学びます。
 ---
 
 # モジュール
 
-## Overview
+## 概要
 
-A module is a class annotated with a `@Module()` decorator. The `@Module()` decorator provides metadata that organizes the application structure. Modules encapsulate related functionality and follow the NestJS module pattern.
+モジュールは`@Module()`デコレーターで注釈されたクラスです。`@Module()`デコレーターはアプリケーション構造を整理するメタデータを提供します。モジュールは関連する機能をカプセル化し、NestJSのモジュールパターンに従います。
 
 ```mermaid
 graph TB
-    subgraph "Your Application"
+    subgraph "あなたのアプリケーション"
         A["AppModule"]
         A --> B["CatModule"]
         A --> C["OrderModule"]
         A --> D["UserModule"]
     end
 
-    subgraph "Framework Modules"
+    subgraph "フレームワークモジュール"
         E["CommandModule"]
         F["SequenceModule"]
         G["TenantModule"]
@@ -29,9 +29,9 @@ graph TB
     D --> G
 ```
 
-## Module Structure
+## モジュール構造
 
-A typical module in MBC CQRS Serverless includes:
+MBC CQRS Serverlessの一般的なモジュールには以下が含まれます：
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -55,45 +55,45 @@ import { CatDataSyncRdsHandler } from './handler/cat-rds.handler';
 export class CatModule {}
 ```
 
-## Module Components
+## モジュールコンポーネント
 
-| Component | Description |
+| コンポーネント | 説明 |
 |-----------|-------------|
-| `imports` | List of imported modules that export providers used in this module |
-| `controllers` | Controllers that handle HTTP requests |
-| `providers` | Services and other providers available for injection |
-| `exports` | Providers that should be available in modules that import this module |
+| `imports` | このモジュールで使用するプロバイダーをエクスポートするインポート済みモジュールのリスト |
+| `controllers` | HTTPリクエストを処理するコントローラー |
+| `providers` | インジェクションに利用可能なサービスやその他のプロバイダー |
+| `exports` | このモジュールをインポートするモジュールで利用可能にすべきプロバイダー |
 
-## Framework Modules
+## フレームワークモジュール
 
-MBC CQRS Serverless provides several ready-to-use modules:
+MBC CQRS Serverlessはすぐに使えるモジュールをいくつか提供しています：
 
-### Core Modules
+### コアモジュール
 
-| Module | Package | Purpose |
+| モジュール | パッケージ | 用途 |
 |--------|---------|---------|
-| `CommandModule` | `@mbc-cqrs-serverless/core` | CQRS command handling and data sync |
-| `SequenceModule` | `@mbc-cqrs-serverless/sequence` | Sequential ID generation |
-| `TenantModule` | `@mbc-cqrs-serverless/tenant` | Multi-tenant management |
+| `CommandModule` | `@mbc-cqrs-serverless/core` | CQRSコマンド処理とデータ同期 |
+| `SequenceModule` | `@mbc-cqrs-serverless/sequence` | 連番ID生成 |
+| `TenantModule` | `@mbc-cqrs-serverless/tenant` | マルチテナント管理 |
 
-### Feature Modules
+### 機能モジュール
 
-| Module | Package | Purpose |
+| モジュール | パッケージ | 用途 |
 |--------|---------|---------|
-| `TaskModule` | `@mbc-cqrs-serverless/task` | Async task execution with Step Functions |
-| `MasterModule` | `@mbc-cqrs-serverless/master` | Master data and settings management |
-| `ImportModule` | `@mbc-cqrs-serverless/import` | CSV/API data import |
+| `TaskModule` | `@mbc-cqrs-serverless/task` | Step Functionsによる非同期タスク実行 |
+| `MasterModule` | `@mbc-cqrs-serverless/master` | マスターデータと設定の管理 |
+| `ImportModule` | `@mbc-cqrs-serverless/import` | CSV/APIデータインポート |
 
-### Support Modules
+### サポートモジュール
 
-| Module | Package | Purpose |
+| モジュール | パッケージ | 用途 |
 |--------|---------|---------|
-| `NotificationModule` | `@mbc-cqrs-serverless/core` | Email notifications via SES |
-| `SettingModule` | `@mbc-cqrs-serverless/ui-setting` | User interface settings storage |
+| `NotificationModule` | `@mbc-cqrs-serverless/core` | SES経由のメール通知 |
+| `SettingModule` | `@mbc-cqrs-serverless/ui-setting` | ユーザーインターフェース設定の保存 |
 
-## Dynamic Module Registration
+## 動的モジュール登録
 
-Most framework modules are dynamic modules that accept configuration:
+ほとんどのフレームワークモジュールは設定を受け付ける動的モジュールです：
 
 ### CommandModule
 
@@ -106,12 +106,12 @@ CommandModule.register({
 })
 ```
 
-| Option | Type | Default | Description |
+| オプション | 型 | デフォルト | 説明 |
 |--------|------|---------|-------------|
-| `tableName` | `string` | Required | DynamoDB table name (without postfix) |
-| `dataSyncHandlers` | `Type[]` | `[]` | Data sync handler classes |
-| `skipError` | `boolean` | `false` | Skip errors during data sync |
-| `disableDefaultHandler` | `boolean` | `false` | Disable default data sync to data table |
+| `tableName` | `string` | 必須 | DynamoDBテーブル名（接尾辞なし） |
+| `dataSyncHandlers` | `Type[]` | `[]` | データ同期ハンドラークラス |
+| `skipError` | `boolean` | `false` | データ同期中のエラーをスキップ |
+| `disableDefaultHandler` | `boolean` | `false` | データテーブルへのデフォルトデータ同期を無効化 |
 
 ### SequenceModule
 
@@ -129,9 +129,9 @@ MasterModule.register({
 })
 ```
 
-## Creating Custom Modules
+## カスタムモジュールの作成
 
-### Step 1: Create Module File
+### ステップ1: モジュールファイルの作成
 
 ```typescript
 // src/order/order.module.ts
@@ -160,7 +160,7 @@ import { OrderDataSyncHandler } from './handlers/order-data-sync.handler';
 export class OrderModule {}
 ```
 
-### Step 2: Register in AppModule
+### ステップ2: AppModuleへの登録
 
 ```typescript
 // src/app.module.ts
@@ -173,15 +173,15 @@ import { OrderModule } from './order/order.module';
 export class AppModule {}
 ```
 
-## Best Practices
+## ベストプラクティス
 
-1. **One module per entity**: Create a dedicated module for each business entity
-2. **Export services, not controllers**: Only export providers that other modules need
-3. **Use forRoot for global modules**: Register global configuration once in AppModule
-4. **Keep modules focused**: Each module should have a single responsibility
+1. **エンティティごとに1つのモジュール**: 各ビジネスエンティティ用の専用モジュールを作成する
+2. **コントローラーではなくサービスをエクスポート**: 他のモジュールが必要とするプロバイダーのみをエクスポートする
+3. **グローバルモジュールにはforRootを使用**: AppModuleでグローバル設定を一度だけ登録する
+4. **モジュールを焦点を絞った状態に保つ**: 各モジュールは単一の責任を持つべき
 
-## Related Documentation
+## 関連ドキュメント
 
-- [NestJS Modules](https://docs.nestjs.com/modules): Official NestJS module documentation
-- [CommandService](./command-service.md): Detailed CommandModule configuration
-- [Event Handling Patterns](./event-handling-patterns.md): Creating data sync handlers
+- [NestJS Modules](https://docs.nestjs.com/modules): NestJS公式モジュールドキュメント
+- [CommandService](./command-service.md): CommandModuleの詳細設定
+- [Event Handling Patterns](./event-handling-patterns.md): データ同期ハンドラーの作成
