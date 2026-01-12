@@ -1,56 +1,56 @@
 ---
-description: Learn about DynamoDB table design and management in MBC CQRS Serverless.
+description: MBC CQRS ServerlessにおけるDynamoDBテーブルの設計と管理について学びます。
 ---
 
 # DynamoDB
 
-## Overview
+## 概要
 
-MBC CQRS Serverless uses DynamoDB as its primary data store, implementing CQRS and Event Sourcing patterns through a structured table design. Understanding the table structure is essential for building efficient applications.
+MBC CQRS ServerlessはDynamoDBをプライマリデータストアとして使用し、構造化されたテーブル設計を通じてCQRSとイベントソーシングパターンを実装しています。効率的なアプリケーションを構築するには、テーブル構造を理解することが重要です。
 
-## Table Architecture
+## テーブルアーキテクチャ
 
 ```mermaid
 graph TB
-    subgraph "Table Types"
-        A["Command Table<br/>entity-command"]
-        B["Data Table<br/>entity-data"]
-        C["History Table<br/>entity-history"]
+    subgraph "テーブルタイプ"
+        A["コマンドテーブル<br/>entity-command"]
+        B["データテーブル<br/>entity-data"]
+        C["履歴テーブル<br/>entity-history"]
     end
 
-    subgraph "System Tables"
+    subgraph "システムテーブル"
         D["tasks"]
         E["sequences"]
     end
 
     A -->|"DynamoDB Streams"| B
-    A -->|"Event Sourcing"| C
+    A -->|"イベントソーシング"| C
 ```
 
-In the MBC CQRS Serverless, DynamoDB tables are organized into the following types:
+MBC CQRS Serverlessでは、DynamoDBテーブルは以下のタイプに整理されています：
 
-### Entity Tables
+### エンティティテーブル
 
-| Table Type | Naming Convention | Purpose |
+| テーブルタイプ | 命名規則 | 用途 |
 |------------|-------------------|---------|
-| Command Table | `entity-command` | Stores write commands (write model) |
-| Data Table | `entity-data` | Stores current state (read model) |
-| History Table | `entity-history` | Stores all versions for event sourcing |
+| コマンドテーブル | `entity-command` | 書き込みコマンドを保存（書き込みモデル） |
+| データテーブル | `entity-data` | 現在の状態を保存（読み取りモデル） |
+| 履歴テーブル | `entity-history` | イベントソーシング用にすべてのバージョンを保存 |
 
-### System Tables
+### システムテーブル
 
-| Table | Purpose |
+| テーブル | 用途 |
 |--------|---------|
-| `tasks` | Stores information about long-running asynchronous tasks |
-| `sequences` | Holds sequence data for ID generation |
+| `tasks` | 長時間実行される非同期タスクの情報を保存 |
+| `sequences` | ID生成用のシーケンスデータを保持 |
 
-## Table Definition
+## テーブル定義
 
-Table definitions are stored in the `prisma/dynamodbs` folder. To add a new entity table:
+テーブル定義は`prisma/dynamodbs`フォルダに保存されています。新しいエンティティテーブルを追加するには：
 
-### Step 1: Define Table in Configuration
+### ステップ1: 設定でテーブルを定義
 
-Add the table name to `prisma/dynamodbs/cqrs.json`:
+`prisma/dynamodbs/cqrs.json`にテーブル名を追加：
 
 ```json
 {
@@ -58,9 +58,9 @@ Add the table name to `prisma/dynamodbs/cqrs.json`:
 }
 ```
 
-### Step 2: Run Migration
+### ステップ2: マイグレーションを実行
 
-For local development:
+ローカル開発用：
 
 ```bash
 # Migrate DynamoDB tables only
@@ -70,18 +70,18 @@ npm run migrate:ddb
 npm run migrate
 ```
 
-## Key Design Patterns
+## キー設計パターン
 
-### Standard Key Structure
+### 標準キー構造
 
-All tables use a composite primary key consisting of:
+すべてのテーブルは以下で構成される複合主キーを使用します：
 
-| Key | Format | Example |
+| キー | 形式 | 例 |
 |-----|--------|---------|
 | `pk` | `TYPE#tenantCode` | `ORDER#ACME` |
 | `sk` | `TYPE#code` | `ORDER#ORD-000001` |
 
-### Entity Key Examples
+### エンティティキーの例
 
 ```typescript
 // Order entity
@@ -103,42 +103,42 @@ const departmentKey = {
 };
 ```
 
-## Table Attributes
+## テーブル属性
 
-### Common Attributes
+### 共通属性
 
-All entity tables share these common attributes:
+すべてのエンティティテーブルはこれらの共通属性を共有します：
 
-| Attribute | Type | Description |
+| 属性 | 型 | 説明 |
 |-----------|------|-------------|
-| `pk` | String | Partition key |
-| `sk` | String | Sort key |
-| `id` | String | Unique identifier (pk#sk hash) |
-| `code` | String | Business code |
-| `name` | String | Display name |
-| `tenantCode` | String | Tenant identifier |
-| `type` | String | Entity type |
-| `version` | Number | Version for optimistic locking |
-| `attributes` | Map | Custom entity attributes |
-| `createdBy` | String | Creator user ID |
-| `createdIp` | String | Creator IP address |
-| `createdAt` | String | Creation timestamp (ISO 8601) |
-| `updatedBy` | String | Last modifier user ID |
-| `updatedIp` | String | Last modifier IP address |
-| `updatedAt` | String | Last update timestamp (ISO 8601) |
+| `pk` | String | パーティションキー |
+| `sk` | String | ソートキー |
+| `id` | String | 一意識別子（pk#skハッシュ） |
+| `code` | String | ビジネスコード |
+| `name` | String | 表示名 |
+| `tenantCode` | String | テナント識別子 |
+| `type` | String | エンティティタイプ |
+| `version` | Number | 楽観的ロック用バージョン |
+| `attributes` | Map | カスタムエンティティ属性 |
+| `createdBy` | String | 作成者ユーザーID |
+| `createdIp` | String | 作成者IPアドレス |
+| `createdAt` | String | 作成タイムスタンプ（ISO 8601） |
+| `updatedBy` | String | 最終更新者ユーザーID |
+| `updatedIp` | String | 最終更新者IPアドレス |
+| `updatedAt` | String | 最終更新タイムスタンプ（ISO 8601） |
 
-### Command-Specific Attributes
+### コマンド固有の属性
 
-| Attribute | Type | Description |
+| 属性 | 型 | 説明 |
 |-----------|------|-------------|
-| `source` | String | Command source identifier |
-| `requestId` | String | Request tracking ID |
+| `source` | String | コマンドソース識別子 |
+| `requestId` | String | リクエストトラッキングID |
 
-### History-Specific Attributes
+### 履歴固有の属性
 
-| Attribute | Type | Description |
+| 属性 | 型 | 説明 |
 |-----------|------|-------------|
-| `seq` | Number | Sequence number in history |
+| `seq` | Number | 履歴内のシーケンス番号 |
 
 ## セカンダリインデックス
 
@@ -178,31 +178,31 @@ const params = {
 };
 ```
 
-## Best Practices
+## ベストプラクティス
 
-### Key Design
+### キー設計
 
-1. **Keep partition keys broad**: Distribute data evenly across partitions
-2. **Use hierarchical sort keys**: Enable efficient range queries
-3. **Include tenant in partition key**: Ensure data isolation
+1. **パーティションキーを広く保つ**: パーティション間でデータを均等に分散する
+2. **階層的なソートキーを使用する**: 効率的な範囲クエリを有効にする
+3. **パーティションキーにテナントを含める**: データ分離を確保する
 
-### Query Optimization
+### クエリ最適化
 
-1. **Use Query over Scan**: Always use partition key in queries
-2. **Limit result sets**: Use pagination for large datasets
-3. **Project needed attributes**: Only retrieve required fields
+1. **ScanよりQueryを使用する**: クエリでは常にパーティションキーを使用する
+2. **結果セットを制限する**: 大規模データセットにはページネーションを使用する
+3. **必要な属性を射影する**: 必要なフィールドのみを取得する
 
-### Capacity Planning
+### キャパシティプランニング
 
-1. **Use on-demand capacity**: Recommended for unpredictable workloads
-2. **Monitor consumed capacity**: Set up CloudWatch alarms
-3. **Consider DAX**: For read-heavy workloads requiring microsecond latency
+1. **オンデマンドキャパシティを使用する**: 予測不可能なワークロードに推奨
+2. **消費キャパシティを監視する**: CloudWatchアラームを設定する
+3. **DAXを検討する**: マイクロ秒レベルのレイテンシが必要な読み取り負荷の高いワークロード向け
 
-## Local Development
+## ローカル開発
 
 ### DynamoDB Local
 
-The framework includes DynamoDB Local for development:
+フレームワークには開発用のDynamoDB Localが含まれています：
 
 ```bash
 # Start DynamoDB Local (included in docker-compose)
@@ -212,7 +212,7 @@ docker-compose up -d dynamodb-local
 open http://localhost:8001
 ```
 
-### Environment Variables
+### 環境変数
 
 ```bash
 # Local DynamoDB endpoint
@@ -220,9 +220,9 @@ DYNAMODB_ENDPOINT=http://localhost:8000
 DYNAMODB_REGION=ap-northeast-1
 ```
 
-## Related Documentation
+## 関連ドキュメント
 
-- [Key Patterns](./key-patterns.md): Detailed key design strategies
-- [Entity Patterns](./entity-patterns.md): Entity modeling guidelines
-- [Sequence](./sequence.md): Sequence ID generation
-- [CommandService](./command-service.md): Command handling and data sync
+- [Key Patterns](./key-patterns.md): 詳細なキー設計戦略
+- [Entity Patterns](./entity-patterns.md): エンティティモデリングガイドライン
+- [Sequence](./sequence.md): シーケンスID生成
+- [CommandService](./command-service.md): コマンド処理とデータ同期
