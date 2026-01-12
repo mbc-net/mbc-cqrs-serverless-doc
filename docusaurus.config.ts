@@ -74,6 +74,12 @@ const config: Config = {
   themeConfig: {
     // Replace with your project's social card
     image: "img/logo.png",
+    docs: {
+      sidebar: {
+        autoCollapseCategories: false,
+        hideable: true,
+      },
+    },
     navbar: {
       title: "MBC CQRS serverless",
       logo: {
