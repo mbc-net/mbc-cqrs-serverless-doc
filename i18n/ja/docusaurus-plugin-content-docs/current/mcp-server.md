@@ -1,5 +1,6 @@
 ---
 sidebar_position: 1
+description: MBC CQRS ServerlessとのAIツール統合用MCPサーバー。
 ---
 
 # MCPサーバー
@@ -43,6 +44,9 @@ Model Context Protocol（MCP）は、AIツールがアプリケーションや�
 | `mbc_validate_cqrs` | CQRSパターン実装を検証 |
 | `mbc_analyze_project` | プロジェクト構造を分析 |
 | `mbc_lookup_error` | エラー解決策を検索 |
+| `mbc_check_anti_patterns` | コードの一般的なアンチパターンをチェック |
+| `mbc_health_check` | プロジェクトの健全性チェックを実行 |
+| `mbc_explain_code` | MBCコンテキストでコードを説明 |
 
 ### プロンプト
 
@@ -133,6 +137,47 @@ Claude Codeに以下のように依頼できます:
 ```
 "I'm getting a version mismatch error, help me debug"
 ```
+
+## コード分析ツール
+
+### アンチパターン検出
+
+`mbc_check_anti_patterns`ツールは一般的なコードの問題を検出します：
+
+| コード | 名前 | 重大度 | 説明 |
+|------|------|----------|-------------|
+| AP001 | 直接DynamoDB書き込み | 重大 | 直接DynamoDB書き込みの代わりにCommandServiceを使用 |
+| AP002 | バージョン不一致の無視 | 高 | VersionMismatchErrorをリトライで適切に処理 |
+| AP003 | N+1クエリパターン | 高 | ループクエリの代わりにバッチ操作を使用 |
+| AP004 | フルテーブルスキャン | 高 | Scanの代わりにキー条件付きQueryを使用 |
+| AP005 | ハードコードされたテナント | 重大 | テナントコードにgetUserContext()を使用 |
+| AP006 | テナント検証の欠如 | 重大 | クライアント提供のテナントコードを信頼しない |
+| AP007 | 同期ハンドラーでのスロー | 高 | DataSyncHandlerでエラーを適切に処理 |
+| AP008 | ハードコードされたシークレット | 重大 | 環境変数またはSecrets Managerを使用 |
+| AP009 | 手動JWTパース | 重大 | ビルトインのCognitoオーソライザーを使用 |
+| AP010 | 重いモジュールインポート | 中 | コールドスタートを削減するため必要な関数のみインポート |
+
+### ヘルスチェック
+
+`mbc_health_check`ツールはプロジェクト設定を検証します：
+
+- MBCフレームワークパッケージのインストール
+- NestJS依存関係
+- TypeScript設定
+- 環境ファイルのセットアップ
+- ソースディレクトリ構造
+- Serverless設定
+
+### コード説明
+
+`mbc_explain_code`ツールはコードを分析して説明します：
+
+- NestJSモジュール構造とインポート
+- RESTコントローラーエンドポイント
+- サービスパターンと依存関係
+- エンティティ定義とDynamoDBキー
+- CQRSコマンド発行パターン
+- データ同期ハンドラーの動作
 
 ## 関連パッケージ
 

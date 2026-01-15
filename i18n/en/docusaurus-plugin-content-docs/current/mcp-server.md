@@ -1,5 +1,6 @@
 ---
 sidebar_position: 1
+description: MCP Server for AI tool integration with MBC CQRS Serverless.
 ---
 
 # MCP Server
@@ -43,6 +44,9 @@ Provides code generation and project analysis tools.
 | `mbc_validate_cqrs` | Validate CQRS pattern implementation |
 | `mbc_analyze_project` | Analyze project structure |
 | `mbc_lookup_error` | Look up error solutions |
+| `mbc_check_anti_patterns` | Check code for common anti-patterns |
+| `mbc_health_check` | Perform project health check |
+| `mbc_explain_code` | Explain code in MBC context |
 
 ### Prompts
 
@@ -133,6 +137,47 @@ Get help debugging errors.
 ```
 "I'm getting a version mismatch error, help me debug"
 ```
+
+## Code Analysis Tools
+
+### Anti-Pattern Detection
+
+The `mbc_check_anti_patterns` tool detects common code issues:
+
+| Code | Name | Severity | Description |
+|------|------|----------|-------------|
+| AP001 | Direct DynamoDB Write | Critical | Use CommandService instead of direct DynamoDB writes |
+| AP002 | Ignored Version Mismatch | High | Handle VersionMismatchError properly with retry |
+| AP003 | N+1 Query Pattern | High | Use batch operations instead of loop queries |
+| AP004 | Full Table Scan | High | Use Query with key conditions instead of Scan |
+| AP005 | Hardcoded Tenant | Critical | Use getUserContext() for tenant code |
+| AP006 | Missing Tenant Validation | Critical | Never trust client-provided tenant codes |
+| AP007 | Throwing in Sync Handler | High | Handle errors gracefully in DataSyncHandler |
+| AP008 | Hardcoded Secret | Critical | Use environment variables or Secrets Manager |
+| AP009 | Manual JWT Parsing | Critical | Use built-in Cognito authorizer |
+| AP010 | Heavy Module Import | Medium | Import only needed functions to reduce cold start |
+
+### Health Check
+
+The `mbc_health_check` tool verifies project configuration:
+
+- MBC framework packages installation
+- NestJS dependencies
+- TypeScript configuration
+- Environment file setup
+- Source directory structure
+- Serverless configuration
+
+### Code Explanation
+
+The `mbc_explain_code` tool analyzes code and explains:
+
+- NestJS module structure and imports
+- REST controller endpoints
+- Service patterns and dependencies
+- Entity definitions and DynamoDB keys
+- CQRS command publishing patterns
+- Data sync handler behavior
 
 ## Related Packages
 
