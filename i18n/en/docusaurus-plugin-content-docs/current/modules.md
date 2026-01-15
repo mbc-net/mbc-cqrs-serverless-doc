@@ -19,7 +19,7 @@ graph TB
 
     subgraph "Framework Modules"
         E["CommandModule"]
-        F["{{SequencesModule}}"]
+        F["SequencesModule"]
         G["TenantModule"]
     end
 
@@ -113,7 +113,7 @@ CommandModule.register({
 | `skipError` | `boolean` | `false` | Skip errors during data sync |
 | `disableDefaultHandler` | `boolean` | `false` | Disable default data sync to data table |
 
-### {{SequencesModule}}
+### SequencesModule
 
 ```typescript
 SequencesModule.register({

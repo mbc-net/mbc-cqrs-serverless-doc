@@ -19,7 +19,7 @@ graph TB
 
     subgraph "フレームワークモジュール"
         E["CommandModule"]
-        F["{{SequencesModule}}"]
+        F["SequencesModule"]
         G["TenantModule"]
     end
 
@@ -113,7 +113,7 @@ CommandModule.register({
 | `skipError` | `boolean` | `false` | データ同期中のエラーをスキップ |
 | `disableDefaultHandler` | `boolean` | `false` | データテーブルへのデフォルトデータ同期を無効化 |
 
-### {{SequencesModule}}
+### SequencesModule
 
 ```typescript
 SequencesModule.register({

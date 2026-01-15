@@ -11,6 +11,7 @@
   "Framework Modules": "Framework Modules",
   "CommandModule": "CommandModule",
   "SequenceModule": "SequenceModule",
+  "SequencesModule": "SequencesModule",
   "TenantModule": "TenantModule",
   "Module Structure": "Module Structure",
   "A typical module in MBC CQRS Serverless includes:": "A typical module in MBC CQRS Serverless includes:",
