@@ -7,6 +7,80 @@ description: {{Comprehensive error catalog with causes, solutions, and recovery 
 
 {{This catalog provides comprehensive documentation of errors encountered in MBC CQRS Serverless, including their causes, solutions, and recovery strategies.}}
 
+## {{Quick Reference}}
+
+{{Use this table to quickly identify errors and jump to solutions.}}
+
+### {{Command & Data Errors}}
+
+| {{Code}} | {{Error Message}} | {{Severity}} | {{Quick Fix}} |
+|----------|-------------------|--------------|---------------|
+| MBC-CMD-001 | {{version not match}} | {{High}} | {{Fetch latest version or use `version: -1`}} |
+| MBC-CMD-002 | {{item not found}} | {{Medium}} | {{Check if item exists before update}} |
+| MBC-CMD-003 | {{Invalid input version}} | {{Medium}} | {{Use latest version from getItem()}} |
+
+### {{Tenant Errors}}
+
+| {{Code}} | {{Error Message}} | {{Severity}} | {{Quick Fix}} |
+|----------|-------------------|--------------|---------------|
+| MBC-TNT-001 | {{Tenant not found}} | {{High}} | {{Verify tenant exists with listTenants()}} |
+| MBC-TNT-002 | {{Tenant code already existed}} | {{Low}} | {{Check existence before creating}} |
+
+### {{Sequence & Task Errors}}
+
+| {{Code}} | {{Error Message}} | {{Severity}} | {{Quick Fix}} |
+|----------|-------------------|--------------|---------------|
+| MBC-SEQ-001 | {{Sequence not found}} | {{Medium}} | {{Sequence auto-initializes on first use}} |
+| MBC-TSK-001 | {{Task not found}} | {{Medium}} | {{Verify task status before operations}} |
+
+### {{Validation Errors}}
+
+| {{Code}} | {{Error Message}} | {{Severity}} | {{Quick Fix}} |
+|----------|-------------------|--------------|---------------|
+| MBC-VAL-001 | {{Validation failed}} | {{Medium}} | {{Check DTO constraints and input data}} |
+
+### {{DynamoDB Errors}}
+
+| {{Code}} | {{Error Message}} | {{Severity}} | {{Quick Fix}} |
+|----------|-------------------|--------------|---------------|
+| MBC-DDB-001 | {{ProvisionedThroughputExceededException}} | {{High}} | {{Implement exponential backoff retry}} |
+| MBC-DDB-002 | {{ConditionalCheckFailedException}} | {{High}} | {{Refresh item and retry with new version}} |
+| MBC-DDB-003 | {{ResourceNotFoundException}} | {{Critical}} | {{Verify table exists and check env vars}} |
+| MBC-DDB-004 | {{ValidationException}} | {{Medium}} | {{Avoid empty strings, escape reserved words}} |
+
+### {{Authentication Errors}}
+
+| {{Code}} | {{Error Message}} | {{Severity}} | {{Quick Fix}} |
+|----------|-------------------|--------------|---------------|
+| MBC-COG-001 | {{NotAuthorizedException}} | {{High}} | {{Refresh token or re-authenticate}} |
+| MBC-COG-002 | {{UserNotFoundException}} | {{Medium}} | {{Check user exists in pool}} |
+| MBC-COG-003 | {{UserNotConfirmedException}} | {{Medium}} | {{Resend confirmation code}} |
+
+### {{Import Module Errors}}
+
+| {{Code}} | {{Error Message}} | {{Severity}} | {{Quick Fix}} |
+|----------|-------------------|--------------|---------------|
+| MBC-IMP-001 | {{Step Functions Timeout}} | {{Critical}} | {{Upgrade to v1.0.18+ for proper failure handling}} |
+| MBC-IMP-002 | {{No import strategy found}} | {{High}} | {{Register ImportStrategy in module config}} |
+| MBC-IMP-003 | {{Import stuck in PROCESSING}} | {{High}} | {{Check DynamoDB streams and SNS topics}} |
+
+### {{Step Functions Errors}}
+
+| {{Code}} | {{Error Message}} | {{Severity}} | {{Quick Fix}} |
+|----------|-------------------|--------------|---------------|
+| MBC-SFN-001 | {{TaskTimedOut}} | {{High}} | {{Increase Lambda timeout or chunk processing}} |
+| MBC-SFN-002 | {{TaskFailed}} | {{High}} | {{Add proper error handling with sendTaskFailure}} |
+
+### {{AWS Service Errors}}
+
+| {{Code}} | {{Error Message}} | {{Severity}} | {{Quick Fix}} |
+|----------|-------------------|--------------|---------------|
+| MBC-S3-001 | {{NoSuchKey}} | {{Medium}} | {{Check object exists with headObject}} |
+| MBC-S3-002 | {{AccessDenied}} | {{High}} | {{Add required IAM permissions}} |
+| MBC-SQS-001 | {{MessageNotInflight}} | {{Medium}} | {{Process within visibility timeout}} |
+
+---
+
 ## {{Command Service Errors}}
 
 ### BadRequestException: "The input is not a valid, item not found or version not match"
