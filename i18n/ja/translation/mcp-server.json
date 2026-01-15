@@ -63,6 +63,8 @@
   "CLI tool for code generation": "コード生成用CLIツール",
   "API Reference": "APIリファレンス",
   "Detailed API documentation": "詳細なAPIドキュメント",
+  "Version Note": "バージョン情報",
+  "Code analysis tools (`mbc_check_anti_patterns`, `mbc_health_check`, `mbc_explain_code`) were added in [version 1.0.22](./changelog#v1022).": "コード分析ツール（`mbc_check_anti_patterns`、`mbc_health_check`、`mbc_explain_code`）は[バージョン1.0.22](./changelog#v1022)で追加されました。",
   "Code Analysis Tools": "コード分析ツール",
   "Anti-Pattern Detection": "アンチパターン検出",
   "The `mbc_check_anti_patterns` tool detects common code issues:": "`mbc_check_anti_patterns`ツールは一般的なコードの問題を検出します：",

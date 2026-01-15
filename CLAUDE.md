@@ -115,16 +115,18 @@ When documenting breaking changes, bug fixes, or behavior changes in a new versi
 
 ### 1. Update Changelog (docs/changelog.md)
 
-Add the new version entry at the top of the "Stable Releases" section:
+Add the new version entry at the top of the "Stable Releases" section. **Always add an anchor ID** for cross-linking:
 
 ```markdown
-## [x.y.z](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/vx.y.z) (YYYY-MM-DD)
+## [x.y.z](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/vx.y.z) (YYYY-MM-DD) {#vxyz}
 
 ### {{Bug Fixes}}
-- **package:** {{Description of the fix}}
+- **package:** {{Description of the fix}} ([{{See Details}}](./feature.md#section-anchor))
 
 ### {{Features}}
-- {{Description of new feature}}
+- **package:** {{Description of new feature}} ([{{See Details}}](./feature.md#section-anchor))
+  - {{Sub-feature 1}}
+  - {{Sub-feature 2}}
 
 ### {{Security}}
 - {{Description of security fix}}
@@ -136,15 +138,58 @@ Add the new version entry at the top of the "Stable Releases" section:
 - {{Documentation update description}}
 ```
 
+**Anchor ID Format:**
+- Use `{#vxyz}` format (e.g., `{#v1022}` for v1.0.22)
+- This creates a URL like `/docs/changelog#v1022` for cross-linking
+
 ### 2. Update Related Documentation
 
 When a behavior change affects an API or feature, update the related documentation file with:
 
 1. **Document Current (Latest) Behavior First**: Always describe the current correct behavior as the main content
-2. **Version History Note**: Use `:::info` or `:::warning` admonition to mention historical bugs or behavior changes
-3. **Focus on "What Was Fixed"**: Explain the previous issue/bug, not the old behavior as a feature
+2. **Version History Note**: Use appropriate admonition type based on change type
+3. **Add Section Anchor**: Add `{#section-name}` for cross-linking from changelog
 
-**Best Practice Format:**
+**Choosing the Right Admonition Type:**
+
+| Change Type | Admonition | Use Case |
+|-------------|------------|----------|
+| New Feature | `:::info {{Version Note}}` | Feature added in a specific version |
+| Bug Fix | `:::warning {{Known Issue (Fixed in vX.Y.Z)}}` | Historical bug that was fixed |
+| Breaking Change | `:::danger {{Breaking Change (vX.Y.Z)}}` | API changes requiring code updates |
+
+#### Format for New Features (:::info)
+
+Use this when documenting a new feature that was added in a specific version:
+
+```markdown
+## {{Feature Section}} {#feature-section}
+
+{{Description of the feature...}}
+
+:::info {{Version Note}}
+{{Feature name (`tool1`, `tool2`, `tool3`) were added in [version X.Y.Z](./changelog#vxyz).}}
+:::
+```
+
+**Example - New Feature Documentation (v1.0.22):**
+
+```markdown
+## {{Code Analysis Tools}} {#code-analysis-tools}
+
+:::info {{Version Note}}
+{{Code analysis tools (`mbc_check_anti_patterns`, `mbc_health_check`, `mbc_explain_code`) were added in [version 1.0.22](./changelog#v1022).}}
+:::
+
+### {{Anti-Pattern Detection}}
+
+{{The `mbc_check_anti_patterns` tool detects common code issues:}}
+...
+```
+
+#### Format for Bug Fixes (:::warning)
+
+Use this when documenting a bug that was fixed:
 
 ```markdown
 #### `methodName(param: Type): ReturnType`
@@ -159,6 +204,8 @@ When a behavior change affects an API or feature, update the related documentati
 {{In versions prior to vX.Y.Z, there was a bug/issue where...}}
 
 {{Example of the problematic behavior or impact}}
+
+{{See also:}} [{{Changelog vX.Y.Z}}](./changelog#vxyz)
 :::
 ```
 
@@ -171,6 +218,8 @@ When a behavior change affects an API or feature, update the related documentati
 {{In versions prior to v1.0.17, the `settingCode` parameter used partial matching (`contains`) instead of exact matching. This caused unintended results when searching - for example, searching for "PRODUCT" would also return "PRODUCT_TYPE" and "MY_PRODUCT".}}
 
 {{If you are using v1.0.16 or earlier and need exact matching, upgrade to v1.0.17 or later.}}
+
+{{See also:}} [{{Changelog v1.0.17}}](./changelog#v1017)
 :::
 ```
 
@@ -179,6 +228,7 @@ When a behavior change affects an API or feature, update the related documentati
 - **Historical issues are notes**: Past bugs/issues go in admonition blocks, not as primary documentation
 - **Upgrade guidance**: When mentioning past issues, provide guidance on which version to upgrade to
 - **Cross-linking**: Always create bidirectional links between changelog and feature documentation
+- **Anchor IDs**: Add `{#section-name}` to section headings for cross-linking
 
 ### 2.5 Cross-Linking Between Changelog and Documentation
 
@@ -186,21 +236,28 @@ Always create bidirectional links between the changelog and the related feature 
 
 **In Changelog (`docs/changelog.md`):**
 ```markdown
-- **package:** {{Description of the fix}} ([{{See Details}}](./feature.md#section-anchor))
+## [1.0.22](...) (2026-01-16) {#v1022}
+
+### {{Features}}
+- **mcp-server:** {{Add code analysis tools}} ([{{See Details}}](./mcp-server#code-analysis-tools))
 ```
 
-**In Feature Documentation (`docs/feature.md`):**
+**In Feature Documentation (e.g., `docs/mcp-server.md`):**
 ```markdown
-:::warning {{Known Issue (Fixed in vX.Y.Z)}}
-{{Description of the issue...}}
+## {{Code Analysis Tools}} {#code-analysis-tools}
 
-{{See also:}} [{{Changelog vX.Y.Z}}](./changelog.md#xyz)
+:::info {{Version Note}}
+{{Code analysis tools were added in [version 1.0.22](./changelog#v1022).}}
 :::
 ```
 
 **Link Format:**
-- Changelog to feature: `(./feature.md#section-anchor)` - links to the specific section
-- Feature to changelog: `(./changelog.md#xyz)` - links to the version heading (e.g., `#1017` for v1.0.17)
+- Changelog to feature: `(./feature#section-anchor)` - links to the specific section (no `.md` extension)
+- Feature to changelog: `(./changelog#vxyz)` - links to the version heading (e.g., `#v1022` for v1.0.22)
+
+**Anchor Naming Convention:**
+- Changelog: `{#v1022}` (version number without dots)
+- Feature sections: `{#feature-name}` (kebab-case, descriptive)
 
 ### 3. Add Japanese Translations
 
@@ -210,17 +267,23 @@ For each new entry, add translations to:
 
 ### 4. Checklist for Version Change Documentation
 
-- [ ] Add entry to `docs/changelog.md` with all changes categorized
-- [ ] Update related feature documentation with version history note (:::warning block)
-- [ ] Create cross-links between changelog and feature documentation
-  - [ ] Changelog → Feature doc: Add `([{{See Details}}](./feature.md#section))` link
-  - [ ] Feature doc → Changelog: Add `{{See also:}} [{{Changelog vX.Y.Z}}](./changelog.md#xyz)` link
-- [ ] Add Japanese translations to changelog.json
-- [ ] Add Japanese translations to related feature translation files
+- [ ] Add entry to `docs/changelog.md` with anchor ID (e.g., `{#v1022}`)
+- [ ] Update related feature documentation:
+  - [ ] Add section anchor (e.g., `{#code-analysis-tools}`)
+  - [ ] Add version note: `:::info` for new features, `:::warning` for bug fixes
+- [ ] Create bidirectional cross-links:
+  - [ ] Changelog → Feature: `([{{See Details}}](./feature#section-anchor))`
+  - [ ] Feature → Changelog: `[version X.Y.Z](./changelog#vxyz)`
+- [ ] Add Japanese translations:
+  - [ ] `i18n/ja/translation/changelog.json`
+  - [ ] `i18n/ja/translation/<feature>.json`
+  - [ ] `i18n/en/translation/*.json` (English keys = values)
 - [ ] Run `npm run translate:replace-placeholders` to generate Japanese docs
-- [ ] Verify generated Japanese documentation is correct
-- [ ] Verify all cross-links work correctly in both languages
-- [ ] Create WordPress blog post announcing the release (see [WordPress Blog Posting Guidelines](#wordpress-blog-posting-guidelines))
+- [ ] Build and verify (`npm run build`):
+  - [ ] Cross-links work in English version
+  - [ ] Cross-links work in Japanese version
+  - [ ] Anchors scroll to correct sections
+- [ ] Create WordPress blog post (see [WordPress Blog Posting Guidelines](#wordpress-blog-posting-guidelines))
 
 ## WordPress Blog Posting Guidelines
 

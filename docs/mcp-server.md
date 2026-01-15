@@ -138,7 +138,11 @@ npx @mbc-cqrs-serverless/mcp-server
 "I'm getting a version mismatch error, help me debug"
 ```
 
-## {{Code Analysis Tools}}
+## {{Code Analysis Tools}} {#code-analysis-tools}
+
+:::info {{Version Note}}
+{{Code analysis tools (`mbc_check_anti_patterns`, `mbc_health_check`, `mbc_explain_code`) were added in [version 1.0.22](./changelog#v1022).}}
+:::
 
 ### {{Anti-Pattern Detection}}
 

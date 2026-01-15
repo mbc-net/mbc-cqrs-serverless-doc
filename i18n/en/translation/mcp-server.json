@@ -63,6 +63,8 @@
   "CLI tool for code generation": "CLI tool for code generation",
   "API Reference": "API Reference",
   "Detailed API documentation": "Detailed API documentation",
+  "Version Note": "Version Note",
+  "Code analysis tools (`mbc_check_anti_patterns`, `mbc_health_check`, `mbc_explain_code`) were added in [version 1.0.22](./changelog#v1022).": "Code analysis tools (`mbc_check_anti_patterns`, `mbc_health_check`, `mbc_explain_code`) were added in [version 1.0.22](./changelog#v1022).",
   "Code Analysis Tools": "Code Analysis Tools",
   "Anti-Pattern Detection": "Anti-Pattern Detection",
   "The `mbc_check_anti_patterns` tool detects common code issues:": "The `mbc_check_anti_patterns` tool detects common code issues:",

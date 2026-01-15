@@ -17,6 +17,36 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ## 安定版リリース (1.x)
 
+## [1.0.22](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.22) (2026-01-16) {#v1022}
+
+### 新機能
+
+- **mcp-server:** AI支援開発のためのコード分析ツールを追加 ([詳細を見る](./mcp-server#code-analysis-tools))
+  - `mbc_check_anti_patterns`: 重大度レベル付きでコード内の一般的なアンチパターンを検出
+  - `mbc_health_check`: プロジェクトヘルスチェック（依存関係、構造、設定）
+  - `mbc_explain_code`: MBC CQRSコンテキストでコードを分析・説明
+
+### バグ修正
+
+- **mcp-server:** コード分析ツールの堅牢性を向上
+  - アンチパターンを連番で再採番（AP001-AP010）
+  - 誤検出を防ぐため正規表現のマッチ範囲を制限
+  - ファイル読み取りとJSON解析のエラーハンドリングを追加
+  - 分析ツールに18のユニットテストを追加
+
+### セキュリティ
+
+- 依存関係のセキュリティ脆弱性を修正: qs, express, body-parser
+
+### 依存関係
+
+- qsを6.13.0から6.14.1に更新
+- @nestjs/platform-expressを10.4.20から10.4.22に更新
+- expressを4.21.2から4.22.1に更新
+- body-parserを1.20.3から1.20.4に更新
+
+---
+
 ## [1.0.21](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.21) (2026-01-15) {#v1021}
 
 ### 新機能

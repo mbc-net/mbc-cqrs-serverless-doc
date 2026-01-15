@@ -138,7 +138,11 @@ Claude Codeに以下のように依頼できます:
 "I'm getting a version mismatch error, help me debug"
 ```
 
-## コード分析ツール
+## コード分析ツール {#code-analysis-tools}
+
+:::info バージョン情報
+コード分析ツール（`mbc_check_anti_patterns`、`mbc_health_check`、`mbc_explain_code`）は[バージョン1.0.22](./changelog#v1022)で追加されました。
+:::
 
 ### アンチパターン検出
 
