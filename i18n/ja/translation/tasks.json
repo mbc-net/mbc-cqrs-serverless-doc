@@ -68,7 +68,11 @@
   "Status": "ステータス",
   "Description": "説明",
   "Task has been created but not yet started": "タスクは作成されましたが、まだ開始されていません",
+  "Task has been queued for processing": "タスクは処理のためにキューに入れられました",
+  "Task execution has started": "タスクの実行が開始されました",
   "Task is currently being processed": "タスクは現在処理中です",
+  "Task execution has finished": "タスクの実行が終了しました",
   "Task finished successfully": "タスクは正常に完了しました",
+  "Task encountered an error during execution": "タスクは実行中にエラーが発生しました",
   "Task failed with an error": "タスクはエラーで失敗しました"
 }

@@ -59,7 +59,7 @@ async create(
 そして、コンテキストから情報を抽出するヘルパー関数を作成します。
 
 ```ts
-// Event body example
+// Event body example (イベントボディ例)
 // {
 //     "claims": {
 //       "cognito:username": "9999#admin",
@@ -70,10 +70,10 @@ async create(
 //       "jti": "ee7bef16-0ea5-451a-a715-7e8baf1e6cdc",
 //       "sub": "92ca4f68-9ac6-4080-9ae2-2f02a86206a4",
 //       "token_use": "id",
-//       "custom:cci_code": "9999",
+//       "custom:tenant": "9999",
 //       "custom:company_code": "999900000",
 //       "custom:member_id": "MEMBER#9999#9999000000#99999",
-//       "custom:user_type": "admin",
+//       "custom:roles": "[{\"tenant\":\"\",\"role\":\"user\"},{\"tenant\":\"9999\",\"role\":\"admin\"}]",
 //       "exp": 1717662415,
 //       "aud": "dnk8y7ii3wled35p3lw0l2cd7",
 //       "iss": "http://localhost:9229/local_2G7noHgW"
@@ -82,13 +82,39 @@ async create(
 import {
   extractInvokeContext,
   getAuthorizerClaims,
+  getUserContext,
   HEADER_TENANT_CODE,
   IInvoke,
   UserContext,
 } from "@mbc-cqrs-serverless/core";
 import { ExecutionContext } from "@nestjs/common";
+```
 
-export const getUserContext = (
+:::tip
+
+`getUserContext` 関数は `@mbc-cqrs-serverless/core` から提供されています。`custom:tenant` クレームから `tenantCode` を自動的に抽出し、`custom:roles` JSON配列内のテナントとマッチングして `tenantRole` を決定します。
+
+:::
+
+カスタムロジックが必要な場合は、独自のヘルパー関数を実装できます：
+
+```ts
+import {
+  extractInvokeContext,
+  getAuthorizerClaims,
+  HEADER_TENANT_CODE,
+  IInvoke,
+  CustomRole,
+} from "@mbc-cqrs-serverless/core";
+import { ExecutionContext } from "@nestjs/common";
+
+interface UserContext {
+  userId: string;
+  tenantRole: string;
+  tenantCode: string;
+}
+
+export const getCustomUserContext = (
   ctx: IInvoke | ExecutionContext
 ): UserContext => {
   if ("getHandler" in ctx) {
@@ -98,9 +124,24 @@ export const getUserContext = (
 
   const userId = claims.sub;
   const tenantCode =
-    claims["custom:cci_code"] ||
+    claims["custom:tenant"] ||
     (ctx?.event?.headers || {})[HEADER_TENANT_CODE];
-  const tenantRole = claims["custom:user_type"];
+
+  // Parse roles from JSON array and find matching tenant role (JSON配列からロールをパースし、マッチするテナントロールを見つける)
+  const roles = (
+    JSON.parse(claims["custom:roles"] || "[]") as CustomRole[]
+  ).map((role) => ({ ...role, tenant: (role.tenant || "").toLowerCase() }));
+
+  let tenantRole = "";
+  for (const { tenant, role } of roles) {
+    if (tenant === "" || tenant === tenantCode) {
+      tenantRole = role;
+      if (tenant !== "") {
+        break;
+      }
+    }
+  }
+
   return {
     userId,
     tenantRole,

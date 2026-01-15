@@ -158,6 +158,10 @@ const userPool = new cognito.UserPool(this, 'UserPool', {
 });
 ```
 
+:::info Default Implementation Note
+The default implementation uses `minLength: 6` for development convenience. For production environments, we strongly recommend using at least 12 characters as shown above, along with MFA enabled.
+:::
+
 ### Validate JWT Tokens
 
 Always validate JWT tokens on the server side.
@@ -509,6 +513,10 @@ provider:
         - OPTIONS
       maxAge: 3600
 ```
+
+:::info Default Implementation Note
+The default implementation uses `allowedOrigins: ['*']` for development convenience. For production environments, you should always restrict allowed origins to specific domains as shown above to prevent cross-site request forgery (CSRF) attacks.
+:::
 
 ### Request Size Limits
 

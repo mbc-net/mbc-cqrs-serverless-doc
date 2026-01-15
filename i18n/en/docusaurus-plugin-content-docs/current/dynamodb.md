@@ -53,9 +53,7 @@ Table definitions are stored in the `prisma/dynamodbs` folder. To add a new enti
 Add the table name to `prisma/dynamodbs/cqrs.json`:
 
 ```json
-{
-  "tables": ["cat", "dog", "order"]
-}
+["cat", "dog", "order"]
 ```
 
 ### Step 2: Run Migration

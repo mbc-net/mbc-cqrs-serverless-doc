@@ -1,5 +1,5 @@
 ---
-description: フロントエンドアプリケーションでZustandとReact Queryを使用した効果的な状態管理方法を学びます。
+description: フロントエンドアプリケーションでContext API、axios、Apollo Clientを使用した効果的な状態管理方法を学びます。
 ---
 
 # 状態管理パターン
@@ -22,642 +22,576 @@ description: フロントエンドアプリケーションでZustandとReact Que
 
 | カテゴリ | ツール | 例 | このツールを選ぶ理由 |
 |----------|------|----------|--------------|
-| サーバー状態 | React Query | APIデータ、キャッシュされたレスポンス | キャッシング、バックグラウンド再取得、古いデータを自動的に処理 |
-| クライアント状態 | Zustand | UI状態、ユーザー設定 | シンプルなAPI、ボイラープレート不要、高パフォーマンスなセレクター |
+| サーバー状態 | Context API + axios | APIデータ、ローディング状態 | HTTPリクエストの直接制御、シンプルなキャッシング戦略 |
+| リアルタイム状態 | Apollo Client | GraphQLサブスクリプション、ライブ更新 | AppSync用の組み込みサブスクリプションサポート |
+| クライアント状態 | Context API | UI状態、ユーザー設定 | React組み込み、追加の依存関係なし |
 | フォーム状態 | React Hook Form | フォーム入力、バリデーション | フォームパフォーマンスに最適化、組み込みバリデーション |
 | URL状態 | Next.js Router | クエリパラメータ、パスパラメータ | 共有可能なURL、ブラウザ履歴の統合 |
 
-## よくある問題と解決策
+## 現在の実装
 
-| 問題 | 誤ったアプローチ | 正しいアプローチ |
-|---------|----------------|----------------|
-| 変更後にデータが古くなる | ローカル状態を手動で更新 | React Queryのキャッシュ無効化を使用 |
-| 無関係な状態変更でコンポーネントが再レンダリングされる | Zustandストア全体をサブスクライブ | セレクターを使用して特定の値をサブスクライブ |
-| ページ訪問のたびにローディング状態が表示される | 常に新しいデータを取得 | staleTimeを設定してキャッシュデータを提供 |
-| 編集後にユーザーが古いデータを見る | 再取得を待つ | 楽観的更新を使用 |
+MBC CQRS Serverless Webパッケージは以下の状態管理アーキテクチャを使用しています：
 
-## サーバー状態のためのReact Query
+### AppProviders - 集中サービスプロバイダー
 
-### ユースケース: フィルタリング付きデータリスト
-
-シナリオ: ユーザーがステータスや検索でフィルタリングできるページネーション付き商品リストを表示します。
-
-問題: キャッシングなしでは、以前読み込んだデータでもフィルター変更のたびにネットワークリクエストが発生します。
-
-解決策: React Queryはクエリキーでレスポンスをキャッシュするため、以前のフィルターに戻るとキャッシュデータが即座に提供されます。
+アプリケーションは複数のコンテキストを組み合わせた集中プロバイダーパターンを使用しています：
 
 ```typescript
-// src/hooks/useProducts.ts
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { productApi } from '@/services/api/products';
+// provider.tsx
+import React, { createContext, useContext, ReactNode, useMemo } from 'react'
+import {
+  ApolloClient,
+  NormalizedCacheObject,
+  ApolloProvider,
+} from '@apollo/client'
+import { AxiosInstance } from 'axios'
+import { UserContext } from './types/UserContext'
 
-// Query keys factory - ensures consistent cache keys
-export const productKeys = {
-  all: ['products'] as const,
-  lists: () => [...productKeys.all, 'list'] as const,
-  list: (filters: ProductFilters) => [...productKeys.lists(), filters] as const,
-  details: () => [...productKeys.all, 'detail'] as const,
-  detail: (id: string) => [...productKeys.details(), id] as const,
-};
-
-// List query hook
-export function useProducts(filters: ProductFilters = {}) {
-  return useQuery({
-    queryKey: productKeys.list(filters),
-    queryFn: () => productApi.list(filters),
-  });
+// Define the shape of services provided to the app (アプリに提供されるサービスの形状を定義)
+export interface AppServices {
+  httpClient: AxiosInstance
+  apolloClient: ApolloClient<NormalizedCacheObject>
+  user: UserContext
+  urlProvider: IUrlProvider
 }
 
-// Detail query hook
-export function useProduct(id: string) {
-  return useQuery({
-    queryKey: productKeys.detail(id),
-    queryFn: () => productApi.get(id),
-    enabled: !!id,
-  });
-}
-```
+// Create context with null default for error detection (エラー検出のためnullデフォルトでコンテキストを作成)
+const AppContext = createContext<AppServices | null>(null)
 
-### ユースケース: キャッシュ同期を伴う作成、更新、削除
-
-シナリオ: ユーザーが新しい商品を作成し、リストにすぐに表示されることを期待します。
-
-問題: 商品作成後、キャッシュされているためリストには古いデータが表示されます。
-
-解決策: ミューテーション後に関連クエリを無効化して自動再取得をトリガーします。
-
-```typescript
-// src/hooks/useProducts.ts
-export function useCreateProduct() {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: productApi.create,
-    onSuccess: () => {
-      // Invalidate list queries to refetch
-      queryClient.invalidateQueries({
-        queryKey: productKeys.lists(),
-      });
-    },
-  });
-}
-
-export function useUpdateProduct() {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: UpdateProductDto }) =>
-      productApi.update(id, data),
-    onSuccess: (_, { id }) => {
-      // Invalidate both list and detail queries
-      queryClient.invalidateQueries({
-        queryKey: productKeys.lists(),
-      });
-      queryClient.invalidateQueries({
-        queryKey: productKeys.detail(id),
-      });
-    },
-  });
-}
-
-export function useDeleteProduct() {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: productApi.delete,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: productKeys.lists(),
-      });
-    },
-  });
-}
-```
-
-### ユースケース: より良いUXのための楽観的更新
-
-シナリオ: ユーザーが商品名を更新し、即座のフィードバックを期待します。
-
-問題: 更新を表示する前にサーバーレスポンスを待つと遅く感じます。
-
-解決策: UIを即座に更新し、サーバーと同期します。リクエストが失敗した場合はロールバックします。
-
-```typescript
-export function useUpdateProduct() {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: UpdateProductDto }) =>
-      productApi.update(id, data),
-    onMutate: async ({ id, data }) => {
-      // Cancel any outgoing refetches
-      await queryClient.cancelQueries({
-        queryKey: productKeys.detail(id),
-      });
-
-      // Snapshot the previous value
-      const previousProduct = queryClient.getQueryData(
-        productKeys.detail(id)
-      );
-
-      // Optimistically update to the new value
-      queryClient.setQueryData(productKeys.detail(id), (old: Product) => ({
-        ...old,
-        ...data,
-      }));
-
-      // Return context with the snapshotted value
-      return { previousProduct };
-    },
-    onError: (err, { id }, context) => {
-      // Roll back to the previous value on error
-      queryClient.setQueryData(
-        productKeys.detail(id),
-        context?.previousProduct
-      );
-    },
-    onSettled: (_, __, { id }) => {
-      // Always refetch after error or success
-      queryClient.invalidateQueries({
-        queryKey: productKeys.detail(id),
-      });
-    },
-  });
-}
-```
-
-### ユースケース: 無限スクロールリスト
-
-シナリオ: ユーザーがスクロールするとさらに読み込む長いアイテムリストを表示します。
-
-問題: 従来のページネーションは「次へ」ボタンのクリックが必要で、スクロール位置が失われます。
-
-解決策: 無限クエリを使用して、ユーザーがスクロールダウンするとページを追加します。
-
-```typescript
-export function useInfiniteProducts(filters: ProductFilters = {}) {
-  return useInfiniteQuery({
-    queryKey: productKeys.list({ ...filters, infinite: true }),
-    queryFn: ({ pageParam = 1 }) =>
-      productApi.list({ ...filters, page: pageParam }),
-    getNextPageParam: (lastPage, pages) => {
-      if (lastPage.hasMore) {
-        return pages.length + 1;
-      }
-      return undefined;
-    },
-    initialPageParam: 1,
-  });
-}
-
-// Usage in component
-function ProductInfiniteList() {
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useInfiniteProducts();
-
-  const products = data?.pages.flatMap(page => page.items) ?? [];
+// Main provider that wraps the entire application (アプリケーション全体をラップするメインプロバイダー)
+export function AppProviders({
+  children,
+  user,
+  httpClient,
+  apolloClient,
+  urlProvider,
+}: AppProvidersProps) {
+  const services = useMemo(() => ({
+    httpClient: httpClient ?? getClientInstance(),
+    apolloClient: apolloClient ?? apolloClientInstance,
+    urlProvider: urlProvider ?? new BaseUrlProvider(),
+    user: user,
+  }), [user, httpClient, apolloClient, urlProvider])
 
   return (
-    <div>
-      {products.map(product => (
-        <ProductCard key={product.id} product={product} />
-      ))}
-      {hasNextPage && (
-        <Button
-          onClick={() => fetchNextPage()}
-          loading={isFetchingNextPage}
-        >
-          Load More
-        </Button>
-      )}
-    </div>
-  );
-}
-```
-
-## クライアント状態のためのZustand
-
-### ユースケース: UI状態（サイドバー、テーマ）
-
-シナリオ: ユーザーがサイドバーを切り替え、ナビゲーション中も開閉状態が維持されるべきです。
-
-問題: ローカルコンポーネントの状態がナビゲーション時にリセットされます。
-
-解決策: Zustandストアを使用してページ遷移間でUI状態を永続化します。
-
-```typescript
-// src/stores/useUIStore.ts
-import { create } from 'zustand';
-
-interface UIState {
-  sidebarOpen: boolean;
-  theme: 'light' | 'dark';
-  toggleSidebar: () => void;
-  setTheme: (theme: 'light' | 'dark') => void;
-}
-
-export const useUIStore = create<UIState>((set) => ({
-  sidebarOpen: true,
-  theme: 'light',
-  toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
-  setTheme: (theme) => set({ theme }),
-}));
-```
-
-### ユースケース: 永続化されたユーザー設定
-
-シナリオ: ユーザーがセッション間で永続化すべき言語とページサイズの設定を選択します。
-
-問題: ユーザーがブラウザを閉じると設定が失われます。
-
-解決策: Zustandのpersistミドルウェアを使用して状態をlocalStorageに保存します。
-
-```typescript
-// src/stores/useSettingsStore.ts
-import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
-
-interface SettingsState {
-  language: string;
-  pageSize: number;
-  setLanguage: (language: string) => void;
-  setPageSize: (size: number) => void;
-}
-
-export const useSettingsStore = create<SettingsState>()(
-  persist(
-    (set) => ({
-      language: 'en',
-      pageSize: 20,
-      setLanguage: (language) => set({ language }),
-      setPageSize: (pageSize) => set({ pageSize }),
-    }),
-    {
-      name: 'app-settings',
-      storage: createJSONStorage(() => localStorage),
-    }
+    <AppRootProvider services={services}>
+      <LoadingProvider>{children}</LoadingProvider>
+    </AppRootProvider>
   )
-);
+}
 ```
 
-### ユースケース: 複数の関心事を持つ大規模ストア
+### サービスにアクセスするためのカスタムフック
 
-シナリオ: アプリケーションには認証、UI、通知状態があり、グローバルに共有する必要があります。
-
-問題: 1つの大きなストアは保守とテストが困難になります。
-
-解決策: スライスパターンを使用して、単一のストアを共有しながら関連する状態を整理します。
+コンテキストから特定のサービスにアクセスするための専用フックを作成します：
 
 ```typescript
-// src/stores/slices/authSlice.ts
-import { StateCreator } from 'zustand';
-
-export interface AuthSlice {
-  user: User | null;
-  isAuthenticated: boolean;
-  setUser: (user: User | null) => void;
-  logout: () => void;
+// Hook to access the HTTP client (axios) (HTTPクライアントaxiosにアクセスするフック)
+export function useHttpClient(): AxiosInstance {
+  const { httpClient } = useAppServices()
+  return httpClient
 }
 
-export const createAuthSlice: StateCreator<AuthSlice> = (set) => ({
-  user: null,
-  isAuthenticated: false,
-  setUser: (user) => set({ user, isAuthenticated: !!user }),
-  logout: () => set({ user: null, isAuthenticated: false }),
-});
-
-// src/stores/slices/uiSlice.ts
-export interface UISlice {
-  sidebarOpen: boolean;
-  toggleSidebar: () => void;
+// Hook to access the Apollo client for GraphQL (GraphQL用Apollo Clientにアクセスするフック)
+export function useApolloClient(): ApolloClient<NormalizedCacheObject> {
+  const { apolloClient } = useAppServices()
+  return apolloClient
 }
 
-export const createUISlice: StateCreator<UISlice> = (set) => ({
-  sidebarOpen: true,
-  toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
-});
-
-// src/stores/useAppStore.ts
-import { create } from 'zustand';
-import { createAuthSlice, AuthSlice } from './slices/authSlice';
-import { createUISlice, UISlice } from './slices/uiSlice';
-
-type AppStore = AuthSlice & UISlice;
-
-export const useAppStore = create<AppStore>()((...args) => ({
-  ...createAuthSlice(...args),
-  ...createUISlice(...args),
-}));
+// Hook to access user context (ユーザーコンテキストにアクセスするフック)
+export function useUserContext(): UserContext {
+  const { user } = useAppServices()
+  return user
+}
 ```
 
-### ユースケース: 計算値を持つショッピングカート
+## クライアント状態のためのContext API
 
-シナリオ: ヘッダーにカート合計とアイテム数を表示し、アイテムが追加されるとリアルタイムで更新されます。
+### ユースケース: グローバルローディング状態
 
-問題: レンダリングのたびに合計を計算するのは無駄で、カート全体をサブスクライブすると不要な再レンダリングが発生します。
+シナリオ: アプリケーション全体で非同期操作中にローディングオーバーレイを表示します。
 
-解決策: セレクターを使用して派生値を計算し、必要なものだけをサブスクライブします。
+問題: 各コンポーネントが独自のローディング状態を管理すると、UXが一貫しなくなります。
+
+解決策: すべてのコンポーネントがアクセスできる集中LoadingContextを使用します。
 
 ```typescript
-// src/stores/useCartStore.ts
-import { create } from 'zustand';
-
-interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
+// stores/index.ts
+export interface LoadingState {
+  isLoading: boolean
+  setLoading: () => void
+  closeLoading: () => void
 }
 
-interface CartState {
-  items: CartItem[];
-  addItem: (item: Omit<CartItem, 'quantity'>) => void;
-  removeItem: (id: string) => void;
-  updateQuantity: (id: string, quantity: number) => void;
-  clearCart: () => void;
-}
+// stores/provider/index.tsx
+'use client'
 
-export const useCartStore = create<CartState>((set) => ({
-  items: [],
-  addItem: (item) =>
-    set((state) => {
-      const existing = state.items.find((i) => i.id === item.id);
-      if (existing) {
-        return {
-          items: state.items.map((i) =>
-            i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
-          ),
-        };
-      }
-      return { items: [...state.items, { ...item, quantity: 1 }] };
+import React, { createContext, useState, useMemo, ReactNode } from 'react'
+import { LoadingState } from '..'
+
+export const LoadingContext = createContext<LoadingState>({
+  isLoading: true,
+  setLoading: () => console.warn('LoadingProvider not found'),
+  closeLoading: () => console.warn('LoadingProvider not found'),
+})
+
+LoadingContext.displayName = 'LoadingContext'
+
+export function LoadingProvider({ children }: { children: ReactNode }) {
+  const [isLoading, setIsLoading] = useState(true)
+
+  // Memoize context value to prevent unnecessary re-renders (不要な再レンダリングを防ぐためにコンテキスト値をメモ化)
+  const value = useMemo(
+    () => ({
+      isLoading,
+      setLoading: () => setIsLoading(true),
+      closeLoading: () => setIsLoading(false),
     }),
-  removeItem: (id) =>
-    set((state) => ({
-      items: state.items.filter((i) => i.id !== id),
-    })),
-  updateQuantity: (id, quantity) =>
-    set((state) => ({
-      items: state.items.map((i) =>
-        i.id === id ? { ...i, quantity } : i
-      ),
-    })),
-  clearCart: () => set({ items: [] }),
-}));
+    [isLoading]
+  )
 
-// Selectors - compute derived values
-export const selectCartTotal = (state: CartState) =>
-  state.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  return (
+    <LoadingContext.Provider value={value}>{children}</LoadingContext.Provider>
+  )
+}
+```
 
-export const selectCartItemCount = (state: CartState) =>
-  state.items.reduce((sum, item) => sum + item.quantity, 0);
+### ユースケース: ローディング状態用のカスタムフック
 
-// Usage - component only re-renders when selected value changes
-function CartSummary() {
-  const total = useCartStore(selectCartTotal);
-  const itemCount = useCartStore(selectCartItemCount);
+適切なエラーハンドリングを備えたカスタムフックを作成します：
+
+```typescript
+// stores/hooks/index.ts
+import React, { useContext } from 'react'
+import { LoadingContext } from '../provider'
+
+export function useLoadingStore() {
+  const context = useContext(LoadingContext)
+  // Safeguard: throw error if hook used outside provider (セーフガード: プロバイダー外でフックが使用された場合はエラーをスロー)
+  if (context === undefined) {
+    throw new Error('useLoading must be used within a LoadingProvider')
+  }
+  return context
+}
+```
+
+### ユースケース: 非同期アクションのラップ
+
+シナリオ: ローディングオーバーレイを自動管理しながら非同期関数を実行します。
+
+```typescript
+// hook/useAsyncAction.ts
+import { useLoadingStore } from '../stores/hooks'
+import { useCallback } from 'react'
+
+export const useAsyncAction = () => {
+  const loadingStore = useLoadingStore()
+
+  const performAction = useCallback(
+    async <T>(asyncFunction: () => Promise<T>): Promise<T> => {
+      loadingStore.setLoading()
+      try {
+        return await asyncFunction()
+      } catch (error) {
+        console.error('Async action failed:', error)
+        throw error
+      } finally {
+        loadingStore.closeLoading()
+      }
+    },
+    [loadingStore]
+  )
+
+  return { performAction, isLoading: loadingStore.isLoading }
+}
+
+// Usage in component (コンポーネントでの使用)
+function ProductPage() {
+  const { performAction, isLoading } = useAsyncAction()
+
+  const handleSubmit = async (data: ProductData) => {
+    await performAction(async () => {
+      await productApi.create(data)
+    })
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {/* ... */}
+    </form>
+  )
+}
+```
+
+## HTTPリクエストのためのaxios
+
+### ユースケース: 認証付き集中HTTPクライアント
+
+シナリオ: すべてのAPIリクエストには認証トークンと一貫したエラーハンドリングが必要です。
+
+解決策: トークン注入用のインターセプターを持つシングルトンaxiosインスタンスを作成します。
+
+```typescript
+// sdk/app-client.ts
+import axios, { AxiosInstance } from 'axios'
+import { Auth, withSSRContext } from 'aws-amplify'
+
+export abstract class TokenHandlerBase {
+  public constructor(protected serverSideContext?: GetServerSidePropsContext) {}
+
+  public static init(
+    serverSideContext?: GetServerSidePropsContext
+  ): TokenHandlerBase {
+    // Return test handler for Playwright tests (Playwrightテスト用のテストハンドラーを返す)
+    if (process.env.NEXT_PUBLIC_ENV_PLAYWRIGHT === 'true') {
+      return new TestTokenHandler(serverSideContext)
+    }
+    return new DefaultTokenHandler(serverSideContext)
+  }
+
+  public abstract getToken(): Promise<string>
+}
+
+export class DefaultTokenHandler extends TokenHandlerBase {
+  public async getToken(): Promise<string> {
+    // Handle SSR vs client-side token retrieval (SSRとクライアントサイドのトークン取得を処理)
+    if (!!this.serverSideContext) {
+      const { Auth: AuthSSR } = withSSRContext({
+        req: this.serverSideContext.req,
+      })
+      return (await AuthSSR.currentSession()).getIdToken().getJwtToken()
+    } else {
+      return (await Auth.currentSession()).getIdToken().getJwtToken()
+    }
+  }
+}
+
+export class AppClient {
+  private static instance: AxiosInstance
+
+  public static getAppClientInstance(
+    token?: string | (() => Promise<string>),
+    headers?: Record<string, string>
+  ): AxiosInstance {
+    if (!AppClient.instance) {
+      AppClient.instance = axios.create({
+        baseURL: process.env.NEXT_PUBLIC_MASTER_API_BASE,
+        timeout: 0,
+        headers: { ...headers },
+      })
+    }
+    // Add interceptor to inject auth token (認証トークンを注入するインターセプターを追加)
+    AppClient.instance.interceptors.request.use(
+      async (config) => {
+        let tokenString = ''
+        if (token) {
+          tokenString = typeof token === 'string' ? token : await token()
+        }
+        config.headers.Authorization = `Bearer ${tokenString}`
+        return config
+      },
+      (error) => Promise.reject(error)
+    )
+    return AppClient.instance
+  }
+}
+
+// Factory function for creating authenticated client (認証済みクライアントを作成するファクトリ関数)
+export const getClientInstance = (headers?: Record<string, string>) => {
+  const tokenHandler = TokenHandlerBase.init()
+
+  const token = () =>
+    tokenHandler
+      .getToken()
+      .then((token) => token)
+      .catch((err) => {
+        const error = new UnauthorizedException(
+          null,
+          err,
+          'Failed to get access token. Session expired.'
+        )
+        return Promise.reject(error)
+      })
+  return AppClient.getAppClientInstance(token, headers)
+}
+```
+
+### ユースケース: API呼び出しの実行
+
+コンテキストフックを通じてHTTPクライアントを使用します：
+
+```typescript
+import { useHttpClient } from '@mbc-cqrs-serverless/master-web/AppProviders'
+
+function ProductList() {
+  const httpClient = useHttpClient()
+  const [products, setProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(false)
+
+  const fetchProducts = async () => {
+    setLoading(true)
+    try {
+      const response = await httpClient.get('/products')
+      setProducts(response.data)
+    } catch (error) {
+      console.error('Failed to fetch products:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchProducts()
+  }, [])
 
   return (
     <div>
-      <span>{itemCount} items</span>
-      <span>${total.toFixed(2)}</span>
+      {loading ? <Spinner /> : products.map(p => <ProductCard key={p.id} product={p} />)}
     </div>
-  );
+  )
 }
 ```
 
-## React QueryとZustandの組み合わせ
+## リアルタイムサブスクリプションのためのApollo Client
 
-### ユースケース: 認証状態
+### ユースケース: AppSyncでのGraphQLサブスクリプション
 
-シナリオ: アプリはユーザーが認証されているかを知り、ユーザープロファイルデータを取得する必要があります。
+シナリオ: リアルタイムのコマンドステータス更新（例：データ同期の進捗）を表示します。
 
-問題: 認証状態はすぐに必要（クライアント状態）ですが、プロファイルデータはAPIから取得（サーバー状態）します。
-
-解決策: 認証セッション状態にはZustandを、認証に依存するプロファイルデータにはReact Queryを使用します。
+解決策: AWS AppSyncに接続されたApollo Clientのサブスクリプション機能を使用します。
 
 ```typescript
-// src/stores/useAuthStore.ts
-import { create } from 'zustand';
-import { fetchAuthSession, signOut } from 'aws-amplify/auth';
+// appsync/subscribe.ts
+import { gql, ApolloClient, NormalizedCacheObject } from '@apollo/client'
+import {
+  OnMessageSubscription,
+  OnMessageSubscriptionVariables,
+} from './API'
+import { onMessage } from './graphql/subscriptions'
 
-interface AuthState {
-  user: User | null;
-  isLoading: boolean;
-  isAuthenticated: boolean;
-  initialize: () => Promise<void>;
-  logout: () => Promise<void>;
+export type CommandStatusContent = {
+  status:
+    | 'finish:FINISHED'
+    | 'finish:STARTED'
+    | 'sync_data:FINISHED'
+    | 'sync_data:STARTED'
+    | 'transform_data:FINISHED'
+    | 'transform_data:STARTED'
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  isLoading: true,
-  isAuthenticated: false,
+export type DecodedMessage = Omit<Message, 'content'> & {
+  content: MessageContent
+}
 
-  initialize: async () => {
-    try {
-      const session = await fetchAuthSession();
-      if (session.tokens) {
-        const user = await fetchUserInfo();
-        set({ user, isAuthenticated: true, isLoading: false });
-      } else {
-        set({ user: null, isAuthenticated: false, isLoading: false });
+export function subscribeMessage(
+  client: ApolloClient<NormalizedCacheObject>,
+  filters: OnMessageSubscriptionVariables,
+  handler: (value: DecodedMessage) => void | Promise<void>
+) {
+  const observable = client.subscribe<
+    OnMessageSubscription,
+    OnMessageSubscriptionVariables
+  >({
+    query: gql`
+      ${onMessage}
+    `,
+    variables: filters,
+  })
+
+  return observable.subscribe({
+    next: ({ data }) => {
+      if (!data.onMessage) {
+        return
       }
-    } catch {
-      set({ user: null, isAuthenticated: false, isLoading: false });
-    }
-  },
+      const message: DecodedMessage = {
+        ...data.onMessage,
+        content: parseContent(data.onMessage.content),
+      }
+      if (message) {
+        handler(message)
+      }
+    },
+    error: (error) => console.error('subscribeMessage error:', error),
+  })
+}
 
-  logout: async () => {
-    await signOut();
-    set({ user: null, isAuthenticated: false });
-  },
-}));
-
-// src/hooks/useCurrentUser.ts
-import { useQuery } from '@tanstack/react-query';
-import { useAuthStore } from '@/stores/useAuthStore';
-
-export function useCurrentUser() {
-  const { user, isAuthenticated } = useAuthStore();
-
-  return useQuery({
-    queryKey: ['currentUser'],
-    queryFn: fetchCurrentUserProfile,
-    enabled: isAuthenticated,
-    initialData: user,
-  });
+function parseContent(content: string): MessageContent {
+  try {
+    return JSON.parse(content)
+  } catch (error) {
+    return content
+  }
 }
 ```
 
-### ユースケース: マルチテナントコンテキスト
-
-シナリオ: ユーザーがテナント間を切り替えられるSaaSアプリケーションで、すべてのデータクエリは現在のテナントでフィルタリングする必要があります。
-
-問題: すべてのクエリは現在のテナントを知る必要があり、テナント切り替え時にすべてのデータを更新する必要があります。
-
-解決策: 現在のテナントをZustandに保存し、React Queryキーにテナントを含めて切り替え時に自動無効化します。
+### ユースケース: コンポーネントでのサブスクリプションの使用
 
 ```typescript
-// src/stores/useTenantStore.ts
-import { create } from 'zustand';
+import { useApolloClient } from '@mbc-cqrs-serverless/master-web/AppProviders'
+import { subscribeMessage, DecodedMessage } from '../appsync/subscribe'
+import { useEffect, useState } from 'react'
 
-interface TenantState {
-  currentTenant: Tenant | null;
-  tenants: Tenant[];
-  setCurrentTenant: (tenant: Tenant) => void;
-  setTenants: (tenants: Tenant[]) => void;
-}
+function CommandStatusDisplay({ commandId }: { commandId: string }) {
+  const apolloClient = useApolloClient()
+  const [status, setStatus] = useState<string>('pending')
 
-export const useTenantStore = create<TenantState>((set) => ({
-  currentTenant: null,
-  tenants: [],
-  setCurrentTenant: (currentTenant) => set({ currentTenant }),
-  setTenants: (tenants) => set({ tenants }),
-}));
+  useEffect(() => {
+    const subscription = subscribeMessage(
+      apolloClient,
+      { pk: commandId },
+      (message: DecodedMessage) => {
+        if (typeof message.content === 'object') {
+          setStatus(message.content.status)
+        }
+      }
+    )
 
-// src/hooks/useTenantData.ts
-import { useQuery } from '@tanstack/react-query';
-import { useTenantStore } from '@/stores/useTenantStore';
+    // Cleanup subscription on unmount (アンマウント時にサブスクリプションをクリーンアップ)
+    return () => {
+      subscription.unsubscribe()
+    }
+  }, [apolloClient, commandId])
 
-export function useTenantProducts() {
-  const currentTenant = useTenantStore((state) => state.currentTenant);
-
-  return useQuery({
-    queryKey: ['products', currentTenant?.code],
-    queryFn: () => fetchProducts(currentTenant!.code),
-    enabled: !!currentTenant,
-  });
+  return <StatusBadge status={status} />
 }
 ```
 
 ## ベストプラクティス
 
-### 1. クエリキーの規則
+### 1. コンテキストを選択的に使用する
 
-ユースケース: アプリケーション全体で一貫したキャッシュキーを確保します。
+問題: 単一のコンテキストに多くの状態を入れすぎると、不要な再レンダリングが発生します。
 
-理由: 一貫性のないキーはキャッシュミスと重複リクエストを引き起こします。
+解決策: ドメインごとにコンテキストを分割し、メモ化を使用します。
 
 ```typescript
-// Use factory pattern for consistent query keys
-export const queryKeys = {
-  products: {
-    all: ['products'] as const,
-    lists: () => [...queryKeys.products.all, 'list'] as const,
-    list: (filters: Filters) => [...queryKeys.products.lists(), filters] as const,
-    details: () => [...queryKeys.products.all, 'detail'] as const,
-    detail: (id: string) => [...queryKeys.products.details(), id] as const,
-  },
-  users: {
-    all: ['users'] as const,
-    // ... similar pattern
-  },
-};
+// Good: Separate contexts for different concerns (良い例: 異なる関心事に対して別々のコンテキスト)
+<AuthProvider>
+  <UIProvider>
+    <LoadingProvider>
+      {children}
+    </LoadingProvider>
+  </UIProvider>
+</AuthProvider>
+
+// Good: Memoize context values (良い例: コンテキスト値をメモ化)
+const value = useMemo(
+  () => ({ isLoading, setLoading, closeLoading }),
+  [isLoading]
+)
 ```
 
-### 2. 状態の重複を避ける
-
-問題: APIデータをReact QueryキャッシュとZustandの両方に保存すると同期の問題が発生します。
-
-解決策: サーバーデータの信頼できる唯一の情報源としてReact Queryを使用します。
+### 2. フックで常にエラーを処理する
 
 ```typescript
-// ❌ Bad: Duplicating server state in Zustand
-const useProductStore = create((set) => ({
-  products: [], // Don't store API data here
-  setProducts: (products) => set({ products }),
-}));
+export function useAppServices(): AppServices {
+  const context = useContext(AppContext)
+  // Throw helpful error if context is missing (コンテキストがない場合は有用なエラーをスロー)
+  if (context === null) {
+    throw new Error('useAppServices must be used within an AppRootProvider')
+  }
+  return context
+}
+```
 
-// ✅ Good: Use React Query for server state
-function useProducts() {
+### 3. HTTPクライアントにファクトリパターンを使用する
+
+これにより、異なる環境で異なる設定が可能になります：
+
+```typescript
+// Production: Real auth tokens (本番環境: 実際の認証トークン)
+const client = getClientInstance()
+
+// Testing: Mock tokens (テスト環境: モックトークン)
+class TestTokenHandler extends TokenHandlerBase {
+  public async getToken(): Promise<string> {
+    return 'test'
+  }
+}
+```
+
+### 4. サブスクリプションをクリーンアップする
+
+メモリリークを防ぐため、Apolloサブスクリプションから常にサブスクライブ解除します：
+
+```typescript
+useEffect(() => {
+  const subscription = subscribeMessage(client, filters, handler)
+
+  return () => {
+    subscription.unsubscribe()
+  }
+}, [client, filters])
+```
+
+## 代替オプション
+
+現在の実装ではContext APIとaxios、Apollo Clientを使用していますが、特定のユースケースに対して検討できる代替の状態管理ソリューションがあります：
+
+### React Query (TanStack Query)
+
+複雑なサーバー状態キャッシング要件を持つアプリケーションに最適：
+
+- 自動バックグラウンド再取得
+- キャッシュ無効化と同期
+- 楽観的更新
+- 無限スクロールとページネーション
+
+```typescript
+// Example: React Query usage (例: React Queryの使用)
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+
+export function useProducts() {
   return useQuery({
     queryKey: ['products'],
-    queryFn: fetchProducts,
-  });
+    queryFn: () => productApi.list(),
+  })
 }
 ```
 
-### 3. 選択的なサブスクリプション
+### Zustand
 
-問題: ストアの値が変更されるたびにコンポーネントが再レンダリングされます。
+Contextのボイラープレートなしで軽量なグローバル状態が必要なアプリケーションに最適：
 
-解決策: セレクターを使用してコンポーネントが必要とする値のみをサブスクライブします。
+- セレクター付きのシンプルなAPI
+- localStorageのためのpersistミドルウェア
+- DevToolsの統合
+- プロバイダー不要
 
 ```typescript
-// ❌ Bad: Subscribe to entire store
-function Component() {
-  const store = useUIStore(); // Re-renders on any state change
+// Example: Zustand store (例: Zustandストア)
+import { create } from 'zustand'
+
+interface UIState {
+  sidebarOpen: boolean
+  toggleSidebar: () => void
 }
 
-// ✅ Good: Subscribe to specific values
-function Component() {
-  const sidebarOpen = useUIStore((state) => state.sidebarOpen);
-}
+export const useUIStore = create<UIState>((set) => ({
+  sidebarOpen: true,
+  toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
+}))
 ```
 
-### 4. セレクターをメモ化する
+### SWR
 
-ユースケース: 余分な再レンダリングを引き起こさずにストアから複数の値を選択します。
+自動再検証を伴うシンプルなデータ取得に最適：
+
+- Stale-while-revalidate戦略
+- フォーカス時の再検証
+- ポーリングサポート
 
 ```typescript
-import { shallow } from 'zustand/shallow';
+// Example: SWR usage (例: SWRの使用)
+import useSWR from 'swr'
 
-// For multiple values, use shallow comparison
-function Component() {
-  const { theme, language } = useSettingsStore(
-    (state) => ({ theme: state.theme, language: state.language }),
-    shallow
-  );
+function Profile() {
+  const { data, error, isLoading } = useSWR('/api/user', fetcher)
+
+  if (isLoading) return <Spinner />
+  if (error) return <Error />
+  return <div>Hello, {data.name}</div>
 }
 ```
 
-### 5. DevToolsの統合
-
-ユースケース: 開発中に状態変更をデバッグします。
-
-```typescript
-import { devtools } from 'zustand/middleware';
-
-const useStore = create<State>()(
-  devtools(
-    (set) => ({
-      // ... state
-    }),
-    { name: 'AppStore' }
-  )
-);
-```
-
-### 6. クエリのためのエラーバウンダリ
-
-ユースケース: ページ全体をクラッシュさせずにAPIエラーを適切に処理します。
-
-```typescript
-// src/components/QueryErrorBoundary.tsx
-import { QueryErrorResetBoundary } from '@tanstack/react-query';
-import { ErrorBoundary } from 'react-error-boundary';
-
-export function QueryErrorBoundary({ children }: { children: React.ReactNode }) {
-  return (
-    <QueryErrorResetBoundary>
-      {({ reset }) => (
-        <ErrorBoundary
-          onReset={reset}
-          fallbackRender={({ error, resetErrorBoundary }) => (
-            <div>
-              <p>Error: {error.message}</p>
-              <Button onClick={resetErrorBoundary}>Retry</Button>
-            </div>
-          )}
-        >
-          {children}
-        </ErrorBoundary>
-      )}
-    </QueryErrorResetBoundary>
-  );
-}
-```
+プロジェクトの複雑さと要件に基づいて適切なツールを選択してください。Context API + axios + Apollo Clientによる現在の実装は、必要に応じて拡張できる堅実な基盤を提供します。

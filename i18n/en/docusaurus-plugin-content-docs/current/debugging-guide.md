@@ -13,21 +13,31 @@ This guide covers debugging techniques for MBC CQRS Serverless applications in b
 The REPL (Read-Eval-Print Loop) allows interactive debugging:
 
 ```bash
-npm run repl
+npm run start:repl
 ```
 
 In the REPL, you can:
 
 ```typescript
 // Get a service instance
-const todoService = await get(TodoService);
+> get(TodoService)
+TodoService { ... }
 
 // Call methods directly
-await todoService.findAll();
+> await get(TodoService).findAll()
+[{ id: '1', title: 'Test' }, ...]
 
-// Inspect module dependencies
-debug(TodoModule);
+// Show available methods on a service
+> methods(TodoService)
+Methods:
+ ◻ findAll
+ ◻ findOne
+ ◻ create
+ ◻ update
+ ◻ delete
 ```
+
+For more details on NestJS REPL, see the [NestJS REPL documentation](https://docs.nestjs.com/recipes/repl).
 
 ### VS Code Debugging
 
@@ -275,17 +285,43 @@ curl -v -X POST https://your-api.execute-api.region.amazonaws.com/todos \
 
 ## X-Ray Tracing
 
-### Enable X-Ray
+X-Ray tracing is automatically enabled at the CDK level for Lambda functions and API Gateway. SDK-level instrumentation with `aws-xray-sdk` is optional for additional tracing capabilities.
+
+### CDK-Level Configuration
+
+X-Ray is enabled by default in the CDK infrastructure:
 
 ```typescript
-// In your main Lambda handler
-import * as AWSXRay from 'aws-xray-sdk';
+// Lambda functions have X-Ray tracing enabled by default
+const handler = new NodejsFunction(this, 'Handler', {
+  // ...
+  tracing: lambda.Tracing.ACTIVE, // Enabled by default
+});
 
-// Instrument AWS SDK
+// Step Functions can also enable X-Ray
+const stateMachine = new sfn.StateMachine(this, 'StateMachine', {
+  definition: definition,
+  tracingEnabled: true, // Enable X-Ray
+});
+```
+
+### Optional: SDK-Level Instrumentation
+
+For more detailed tracing, you can optionally install and configure the X-Ray SDK:
+
+```bash
+npm install aws-xray-sdk
+```
+
+```typescript
+// Optional: Instrument AWS SDK for detailed tracing
+import * as AWSXRay from 'aws-xray-sdk';
 const AWS = AWSXRay.captureAWS(require('aws-sdk'));
 ```
 
 ### Add Custom Segments
+
+If you need custom subsegments for detailed tracing:
 
 ```typescript
 import * as AWSXRay from 'aws-xray-sdk';

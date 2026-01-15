@@ -242,10 +242,11 @@ export class YourEventHandler implements IEventHandler<YourEvent> {
 
 1. {{Implement idempotency:}}
 ```typescript
-// Use event ID to check if already processed
-const eventId = event.getEventId();
-if (await this.isProcessed(eventId)) {
-  return; // Skip duplicate
+// {{Use a unique identifier to check if already processed}}
+// {{For commands, use pk + sk + version as the idempotency key}}
+const idempotencyKey = `${command.pk}#${command.sk}@${command.version}`;
+if (await this.isProcessed(idempotencyKey)) {
+  return; // {{Skip duplicate}}
 }
 ```
 

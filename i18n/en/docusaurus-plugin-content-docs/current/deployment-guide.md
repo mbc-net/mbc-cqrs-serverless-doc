@@ -59,35 +59,55 @@ cdk bootstrap aws://123456789012/ap-northeast-1
 
 ### Create Environment Config
 
-Create environment-specific configuration files in `infra/config/`:
+Create environment-specific configuration files in `infra/config/{env}/index.ts`:
 
 ```typescript
-// infra/config/dev.ts
-import { IConfig } from './type';
+// infra/config/dev/index.ts
+import { ApplicationLogLevel, SystemLogLevel } from 'aws-cdk-lib/aws-lambda';
+import { Config } from '../type';
 
-export const config: IConfig = {
-  envName: 'dev',
-  region: 'ap-northeast-1',
+const config: Config = {
+  env: 'dev',
+  appName: 'your-app',
+
+  // Domain configuration
+  domain: {
+    http: 'dev-api.your-domain.com',
+    appsync: 'dev-appsync.your-domain.com',
+  },
+
+  // Existing Cognito User Pool (optional)
+  userPoolId: 'ap-northeast-1_xxxxxxx',
 
   // VPC Configuration
-  vpcId: 'vpc-xxxxxxxxx',
-
-  // Domain Configuration (optional)
-  domainName: 'dev-api.your-domain.com',
-  certificateArn: 'arn:aws:acm:ap-northeast-1:YOUR_ACCOUNT:certificate/xxx',
-
-  // Database Configuration
-  database: {
-    name: 'your_app_dev',
-    instanceType: 't3.micro',
+  vpc: {
+    id: 'vpc-xxxxxxxxx',
+    subnetIds: ['subnet-xxx1', 'subnet-xxx2'],
+    securityGroupIds: ['sg-xxxxxxxxx'],
   },
 
-  // API Gateway Configuration
-  apiGateway: {
-    throttlingRateLimit: 1000,
-    throttlingBurstLimit: 500,
+  // RDS Configuration
+  rds: {
+    accountSsmKey: '/your-app/dev/rds/account',
+    endpoint: 'your-rds-endpoint.ap-northeast-1.rds.amazonaws.com',
+    dbName: 'your_app_dev',
   },
+
+  // Log Level Configuration
+  logLevel: {
+    lambdaSystem: SystemLogLevel.DEBUG,
+    lambdaApplication: ApplicationLogLevel.TRACE,
+    level: 'verbose',
+  },
+
+  frontBaseUrl: 'https://dev.your-domain.com',
+  fromEmailAddress: 'noreply@your-domain.com',
+
+  // WAF Configuration (optional)
+  // wafArn: 'arn:aws:wafv2:ap-northeast-1:YOUR_ACCOUNT:regional/webacl/xxx',
 };
+
+export default config;
 ```
 
 ### Environment Variables
@@ -117,19 +137,41 @@ A typical MBC CQRS Serverless CDK project has the following structure:
 
 ```
 infra/
-├── app.ts                    # CDK app entry point
+├── bin/
+│   └── infra.ts              # CDK app entry point
 ├── cdk.json                  # CDK configuration
 ├── config/
-│   ├── type.ts              # Config type definitions
-│   ├── dev.ts               # Development config
-│   ├── stg.ts               # Staging config
-│   └── prod.ts              # Production config
+│   ├── index.ts              # Config exports and getConfig function
+│   ├── type.ts               # Config type definitions
+│   ├── constant.ts           # Constants (e.g., PIPELINE_NAME)
+│   ├── dev/
+│   │   └── index.ts          # Development config
+│   ├── stg/
+│   │   └── index.ts          # Staging config
+│   └── prod/
+│       └── index.ts          # Production config
 └── libs/
-    ├── infra-stack.ts       # Main infrastructure stack
-    └── pipeline-stack.ts    # CI/CD pipeline stack
+    ├── infra-stack.ts        # Main infrastructure stack
+    ├── pipeline-stack.ts     # CI/CD pipeline stack
+    └── pipeline-infra-stage.ts # Pipeline infrastructure stage
 ```
 
 ## Deploying with CDK
+
+### Configure Target Environments
+
+The environments to deploy are configured in `infra/bin/infra.ts` by modifying the `envs` array:
+
+```typescript
+// infra/bin/infra.ts
+const envs: Env[] = ['dev'];  // Add 'stg' or 'prod' as needed
+```
+
+To deploy multiple environments, add them to the array:
+
+```typescript
+const envs: Env[] = ['dev', 'stg', 'prod'];
+```
 
 ### Synthesize CloudFormation Template
 
@@ -140,30 +182,26 @@ cd infra
 cdk synth
 ```
 
-### Deploy to Development
+### Deploy Stacks
+
+Deploy all configured environment stacks:
 
 ```bash
-cdk deploy --context env=dev
+cdk deploy --all
 ```
 
-### Deploy to Staging
+Or deploy a specific environment stack:
 
 ```bash
-cdk deploy --context env=stg
-```
-
-### Deploy to Production
-
-```bash
-cdk deploy --context env=prod
+cdk deploy dev-your-app-pipeline-stack
 ```
 
 ### Deploy with Approval
 
-For production deployments, you may want to require approval:
+For deployments that require approval:
 
 ```bash
-cdk deploy --context env=prod --require-approval broadening
+cdk deploy --all --require-approval broadening
 ```
 
 ## Post-Deployment Verification
@@ -202,8 +240,7 @@ Best practices for managing multiple environments:
 | AWS Account | Shared or dedicated | Dedicated | Dedicated |
 | VPC | Shared | Dedicated | Dedicated |
 | Database | Shared RDS | Dedicated RDS | Multi-AZ RDS |
-| Lambda Memory | 512 MB | 1024 MB | 2048 MB |
-| API Throttling | Low | Medium | High |
+| Log Level | verbose/debug | info | warn/error |
 
 ### Resource Naming Convention
 
@@ -234,7 +271,7 @@ To deploy a previous version, use Git to checkout the desired commit and redeplo
 
 ```bash
 git checkout <previous-commit>
-cdk deploy --context env=dev
+cdk deploy --all
 ```
 
 ## Cleanup
@@ -244,7 +281,13 @@ cdk deploy --context env=dev
 To remove all resources:
 
 ```bash
-cdk destroy --context env=dev
+cdk destroy --all
+```
+
+Or destroy a specific environment stack:
+
+```bash
+cdk destroy dev-your-app-pipeline-stack
 ```
 
 Note: This will delete all resources including data. Use with caution.

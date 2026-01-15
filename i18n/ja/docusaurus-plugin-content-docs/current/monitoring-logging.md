@@ -15,11 +15,45 @@ description: MBC CQRS Serverlessアプリケーションのモニタリングと
 - **トレーシング**: サービス間のリクエスト追跡
 - **アラート**: 問題発生時の通知
 
+### 組み込み機能
+
+MBC CQRS Serverlessフレームワークは、以下の可観測性機能をすぐに使える形で提供します：
+
+- **RequestLogger**: コンテキスト情報（tenantCode、userId、requestId、sourceIp）を含む拡張NestJSロガー
+- **AWS X-Rayトレーシング**: CDKテンプレートでLambdaとStep Functionsに対してデフォルトで有効
+- **JSONロギングフォーマット**: Lambda関数はクエリしやすいJSON形式でログを出力
+- **設定可能なログレベル**: LOG_LEVEL環境変数で設定
+
+:::info AWSサービスガイダンス
+以下のセクションでは、追加のAWS CloudWatch機能（メトリクス、ダッシュボード、アラーム）のセットアップに関するガイダンスを提供します。これらはフレームワークに組み込まれていませんが、本番デプロイメントに推奨されるパターンです。
+:::
+
 ## CloudWatch Logs
 
 ### Lambdaロギング
 
-Lambda関数は自動的にCloudWatchにログを記録します。構造化ログで強化します：
+フレームワークには、ログにコンテキストを自動的に追加する組み込みのRequestLoggerが含まれています：
+
+```typescript
+// フレームワークのRequestLoggerは自動的に使用されます
+// ログ出力には以下が含まれます: context、requestId、ip、tenantCode、userId
+
+import { Logger, Injectable } from '@nestjs/common';
+
+@Injectable()
+export class YourService {
+  private readonly logger = new Logger(YourService.name);
+
+  async doSomething() {
+    // これらのログはLambdaでユーザーコンテキストを自動的に含みます
+    this.logger.log('操作を開始しました');
+    this.logger.debug('デバッグ情報');
+    this.logger.error('エラーが発生しました');
+  }
+}
+```
+
+より詳細な追跡のために、構造化ロギングで強化できます：
 
 ```typescript
 import { Logger, Injectable } from '@nestjs/common';
@@ -93,6 +127,10 @@ interface LogEntry {
 
 ## CloudWatchメトリクス
 
+:::info 実装が必要
+カスタムメトリクスはフレームワークに組み込まれていません。以下の例は、AWS SDKを使用してアプリケーションにカスタムメトリクスを実装する方法を示しています。
+:::
+
 ### カスタムメトリクス
 
 アプリケーションからカスタムメトリクスを発行：
@@ -145,6 +183,10 @@ await publishMetric('ProcessingTime', 150, 'Milliseconds');
 
 ### CDKダッシュボード
 
+:::info CDKカスタマイズ
+ダッシュボードはデフォルトのCDKテンプレートに含まれていません。CloudWatchダッシュボードを作成するには、CDKスタックに以下を追加してください。
+:::
+
 CloudWatchダッシュボードを作成：
 
 ```typescript
@@ -179,6 +221,10 @@ dashboard.addWidgets(
 ```
 
 ## CloudWatchアラーム
+
+:::info CDKカスタマイズ
+アラームはデフォルトのCDKテンプレートに含まれていません。本番監視用にCDKスタックに以下を追加してください。
+:::
 
 ### アラームの作成
 
@@ -235,9 +281,13 @@ throttleAlarm.addAlarmAction(new actions.SnsAction(alertTopic));
 
 ## AWS X-Rayトレーシング
 
+:::tip 組み込み機能
+X-RayトレーシングはMBC CQRS Serverless CDKテンプレートでLambda関数とStep Functionsに対してデフォルトで有効になっています。
+:::
+
 ### X-Rayの有効化
 
-CDKでX-Rayトレーシングを有効化：
+X-Rayトレーシングはデフォルトのcdkテンプレートで既に有効になっています：
 
 ```typescript
 const handler = new lambda.Function(this, 'Handler', {
@@ -255,6 +305,10 @@ stage.addPropertyOverride('TracingEnabled', true);
 ```
 
 ### アプリケーションのインストルメント
+
+:::info オプションの拡張
+AWS SDK呼び出しとHTTPリクエストのより深いトレーシングのために、オプションでaws-xray-sdkパッケージをアプリケーションに追加できます。
+:::
 
 ```typescript
 import * as AWSXRay from 'aws-xray-sdk';
@@ -276,6 +330,10 @@ subsegment?.close();
 ```
 
 ## 集中ロギング
+
+:::info CDKカスタマイズ
+集中ロギングはデフォルトテンプレートに含まれていません。以下のパターンは、複雑なアプリケーションでログを集約する方法を示しています。
+:::
 
 ### ログ集約パターン
 
@@ -328,6 +386,10 @@ fields @timestamp, @message
 
 ## アプリケーションパフォーマンスモニタリング
 
+:::info 実装が必要
+フレームワークには組み込みのAPM機能は含まれていません。以下の例は、アプリケーションに実装できるパターンを示しています。
+:::
+
 ### パフォーマンスメトリクス
 
 主要パフォーマンス指標を追跡：
@@ -362,7 +424,13 @@ class PerformanceMonitor {
 
 ### ヘルスチェック
 
-ヘルスチェックエンドポイントを実装：
+フレームワークは`GET /`にシンプルなレスポンスを返す基本的なヘルスチェックエンドポイントを提供します。本番アプリケーションでは、より包括的なヘルスチェックを実装することをお勧めします：
+
+:::tip 組み込みヘルスチェック
+デフォルトの`GET /`エンドポイントは「Hello World!」を返し、基本的な生存確認チェックに使用できます。
+:::
+
+より詳細なヘルスチェックには、カスタムコントローラーを実装してください：
 
 ```typescript
 @Controller('health')

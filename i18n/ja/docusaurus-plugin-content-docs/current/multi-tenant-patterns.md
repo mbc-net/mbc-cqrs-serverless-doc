@@ -72,14 +72,21 @@ export function getCustomUserContext(invokeContext: IInvoke): CustomUserContext 
 }
 
 /**
- * Default tenant code for shared data (共有データ用のデフォルトテナントコード)
+ * Tenant code for shared/common data across all tenants (全テナント共通/共有データ用のテナントコード)
+ * Use this for master data, settings, and resources shared by all tenants (マスターデータ、設定、全テナント共有リソースに使用)
  */
-export const DEFAULT_TENANT_CODE = 'common';
+export const TENANT_COMMON = 'common';
+
+/**
+ * Default tenant code when no tenant is specified (テナントが指定されていない場合のデフォルトテナントコード)
+ * Used in single-tenant mode or when tenant context is not available (シングルテナントモードまたはテナントコンテキストが利用できない場合に使用)
+ */
+export const DEFAULT_TENANT_CODE = 'single';
 
 /**
  * Check if user has access to tenant (ユーザーがテナントへのアクセス権を持っているか確認)
  */
-export function hasTenanctAccess(
+export function hasTenantAccess(
   userContext: CustomUserContext,
   targetTenantCode: string,
 ): boolean {
@@ -105,7 +112,7 @@ import {
   ExecutionContext,
   ForbiddenException,
 } from '@nestjs/common';
-import { getCustomUserContext, hasTenanctAccess } from '../helpers/context';
+import { getCustomUserContext, hasTenantAccess } from '../helpers/context';
 
 @Injectable()
 export class TenantGuard implements CanActivate {
@@ -123,7 +130,7 @@ export class TenantGuard implements CanActivate {
       return true; // No tenant specified, will use user's tenant
     }
 
-    if (!hasTenanctAccess(userContext, targetTenant)) {
+    if (!hasTenantAccess(userContext, targetTenant)) {
       throw new ForbiddenException(
         `Access denied to tenant: ${targetTenant}`,
       );

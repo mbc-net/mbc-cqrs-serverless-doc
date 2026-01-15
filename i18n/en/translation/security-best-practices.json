@@ -1,5 +1,8 @@
 {
   "Security best practices for building secure applications with MBC CQRS Serverless.": "Security best practices for building secure applications with MBC CQRS Serverless.",
+  "Default Implementation Note": "Default Implementation Note",
+  "The default implementation uses `minLength: 6` for development convenience. For production environments, we strongly recommend using at least 12 characters as shown above, along with MFA enabled.": "The default implementation uses `minLength: 6` for development convenience. For production environments, we strongly recommend using at least 12 characters as shown above, along with MFA enabled.",
+  "The default implementation uses `allowedOrigins: ['*']` for development convenience. For production environments, you should always restrict allowed origins to specific domains as shown above to prevent cross-site request forgery (CSRF) attacks.": "The default implementation uses `allowedOrigins: ['*']` for development convenience. For production environments, you should always restrict allowed origins to specific domains as shown above to prevent cross-site request forgery (CSRF) attacks.",
   "Security Best Practices": "Security Best Practices",
   "This guide covers security best practices for building secure applications with MBC CQRS Serverless, including input validation, authentication, authorization, and data protection.": "This guide covers security best practices for building secure applications with MBC CQRS Serverless, including input validation, authentication, authorization, and data protection.",
   "Input Validation": "Input Validation",

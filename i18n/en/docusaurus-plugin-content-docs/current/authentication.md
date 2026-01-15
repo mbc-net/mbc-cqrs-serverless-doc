@@ -70,10 +70,10 @@ Then, we create a helper function that extracts information from the context.
 //       "jti": "ee7bef16-0ea5-451a-a715-7e8baf1e6cdc",
 //       "sub": "92ca4f68-9ac6-4080-9ae2-2f02a86206a4",
 //       "token_use": "id",
-//       "custom:cci_code": "9999",
+//       "custom:tenant": "9999",
 //       "custom:company_code": "999900000",
 //       "custom:member_id": "MEMBER#9999#9999000000#99999",
-//       "custom:user_type": "admin",
+//       "custom:roles": "[{\"tenant\":\"\",\"role\":\"user\"},{\"tenant\":\"9999\",\"role\":\"admin\"}]",
 //       "exp": 1717662415,
 //       "aud": "dnk8y7ii3wled35p3lw0l2cd7",
 //       "iss": "http://localhost:9229/local_2G7noHgW"
@@ -82,13 +82,39 @@ Then, we create a helper function that extracts information from the context.
 import {
   extractInvokeContext,
   getAuthorizerClaims,
+  getUserContext,
   HEADER_TENANT_CODE,
   IInvoke,
   UserContext,
 } from "@mbc-cqrs-serverless/core";
 import { ExecutionContext } from "@nestjs/common";
+```
 
-export const getUserContext = (
+:::tip
+
+The `getUserContext` function is provided by `@mbc-cqrs-serverless/core`. It automatically extracts `tenantCode` from `custom:tenant` claim and determines `tenantRole` by matching the tenant in the `custom:roles` JSON array.
+
+:::
+
+If you need custom logic, you can implement your own helper function:
+
+```ts
+import {
+  extractInvokeContext,
+  getAuthorizerClaims,
+  HEADER_TENANT_CODE,
+  IInvoke,
+  CustomRole,
+} from "@mbc-cqrs-serverless/core";
+import { ExecutionContext } from "@nestjs/common";
+
+interface UserContext {
+  userId: string;
+  tenantRole: string;
+  tenantCode: string;
+}
+
+export const getCustomUserContext = (
   ctx: IInvoke | ExecutionContext
 ): UserContext => {
   if ("getHandler" in ctx) {
@@ -98,9 +124,24 @@ export const getUserContext = (
 
   const userId = claims.sub;
   const tenantCode =
-    claims["custom:cci_code"] ||
+    claims["custom:tenant"] ||
     (ctx?.event?.headers || {})[HEADER_TENANT_CODE];
-  const tenantRole = claims["custom:user_type"];
+
+  // Parse roles from JSON array and find matching tenant role
+  const roles = (
+    JSON.parse(claims["custom:roles"] || "[]") as CustomRole[]
+  ).map((role) => ({ ...role, tenant: (role.tenant || "").toLowerCase() }));
+
+  let tenantRole = "";
+  for (const { tenant, role } of roles) {
+    if (tenant === "" || tenant === tenantCode) {
+      tenantRole = role;
+      if (tenant !== "") {
+        break;
+      }
+    }
+  }
+
   return {
     userId,
     tenantRole,

@@ -242,10 +242,11 @@ export class YourEventHandler implements IEventHandler<YourEvent> {
 
 1. 冪等性を実装：
 ```typescript
-// Use event ID to check if already processed
-const eventId = event.getEventId();
-if (await this.isProcessed(eventId)) {
-  return; // Skip duplicate
+// Use a unique identifier to check if already processed (一意の識別子を使用して処理済みかを確認)
+// For commands, use pk + sk + version as the idempotency key (コマンドの場合、pk + sk + versionを冪等性キーとして使用)
+const idempotencyKey = `${command.pk}#${command.sk}@${command.version}`;
+if (await this.isProcessed(idempotencyKey)) {
+  return; // Skip duplicate (重複をスキップ)
 }
 ```
 

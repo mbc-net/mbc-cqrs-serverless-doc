@@ -19,7 +19,7 @@ graph TB
 
     subgraph "{{Framework Modules}}"
         E["{{CommandModule}}"]
-        F["{{SequenceModule}}"]
+        F["{{SequencesModule}}"]
         G["{{TenantModule}}"]
     end
 
@@ -73,7 +73,7 @@ export class CatModule {}
 | {{Module}} | {{Package}} | {{Purpose}} |
 |--------|---------|---------|
 | `CommandModule` | `@mbc-cqrs-serverless/core` | {{CQRS command handling and data sync}} |
-| `SequenceModule` | `@mbc-cqrs-serverless/sequence` | {{Sequential ID generation}} |
+| `SequencesModule` | `@mbc-cqrs-serverless/sequence` | {{Sequential ID generation}} |
 | `TenantModule` | `@mbc-cqrs-serverless/tenant` | {{Multi-tenant management}} |
 
 ### {{Feature Modules}}
@@ -113,10 +113,10 @@ CommandModule.register({
 | `skipError` | `boolean` | `false` | {{Skip errors during data sync}} |
 | `disableDefaultHandler` | `boolean` | `false` | {{Disable default data sync to data table}} |
 
-### {{SequenceModule}}
+### {{SequencesModule}}
 
 ```typescript
-SequenceModule.register({
+SequencesModule.register({
   enableController: true,
 })
 ```
@@ -137,7 +137,7 @@ MasterModule.register({
 // src/order/order.module.ts
 import { Module } from '@nestjs/common';
 import { CommandModule } from '@mbc-cqrs-serverless/core';
-import { SequenceModule } from '@mbc-cqrs-serverless/sequence';
+import { SequencesModule } from '@mbc-cqrs-serverless/sequence';
 
 import { OrderController } from './order.controller';
 import { OrderService } from './order.service';
@@ -149,7 +149,7 @@ import { OrderDataSyncHandler } from './handlers/order-data-sync.handler';
       tableName: 'order',
       dataSyncHandlers: [OrderDataSyncHandler],
     }),
-    SequenceModule.register({
+    SequencesModule.register({
       enableController: false,
     }),
   ],

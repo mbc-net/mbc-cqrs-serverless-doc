@@ -13,34 +13,172 @@ description: {{Learn how to write e2e test}}
 - {{Check data is correct or not}}
 - {{Clean data}}
 
-{{Here is the scaffolds default e2e tests for applications:}}
+{{Here is a basic structure for e2e tests:}}
 
 ```ts
-import { removeSortKeyVersion } from "@mbc-cqrs-serverless/core";
 import request from "supertest";
-import config from "test/lib/config";
-import { getItem, getTableName, TableType } from "test/lib/dynamo-client";
-import prismaClient from "test/lib/prisma-client";
-import { readMockData, syncDataFinished } from "test/lib/utils";
+import { config } from "./config";
+import {
+  deleteItem,
+  getItem,
+  getTableName,
+  putItem,
+  TableType,
+} from "./dynamo-client";
+import { syncDataFinished } from "./utils";
 
-const createApplicationData = readMockData("cat-create.json");
-const BASE_API_PATH = "/api/cat";
-
-jest.setTimeout(90000);
+const API_PATH = "/api/cat";
 
 describe("Cat", () => {
-  beforeAll(async () => {
-    // TODO: 1 create necessary data
-  });
+  it("{{should create a new cat}}", async () => {
+    // {{Arrange - define test data inline}}
+    const payload = {
+      pk: "CAT#TENANT1",
+      sk: "cat#001",
+      id: "CAT#TENANT1#cat#001",
+      name: "Whiskers",
+      version: 0,
+      code: "cat#001",
+      type: "CAT",
+    };
 
-  it("", async () => {
-    // TODO: 2,3 make API calls and assert
-  });
+    // {{Action - make API call}}
+    const res = await request(config.apiBaseUrl).post(API_PATH).send(payload);
 
+    // {{Assert - verify response and data}}
+    expect(res.statusCode).toEqual(201);
+
+    // {{Wait for async processing to complete}}
+    await syncDataFinished("cat_table", {
+      pk: payload.pk,
+      sk: `${payload.sk}@1`,
+    });
+
+    // {{Verify data in DynamoDB}}
+    const data = await getItem(getTableName("cat_table", TableType.DATA), {
+      pk: payload.pk,
+      sk: payload.sk,
+    });
+
+    expect(data).toMatchObject({
+      ...payload,
+      version: 1,
+    });
+  }, 40000);
+
+  // {{Clean up test data if needed}}
   afterAll(async () => {
-    // TODO: 4 clean data
+    await deleteItem(getTableName("cat_table", TableType.DATA), {
+      pk: "CAT#TENANT1",
+      sk: "cat#001",
+    });
   });
 });
+```
+
+### {{Test Helper Utilities}}
+
+{{The framework provides helper utilities for e2e testing:}}
+
+#### {{config.ts - Environment Configuration}}
+
+```ts
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const config = {
+  nodeEnv: process.env.NODE_ENV,
+  appName: process.env.APP_NAME,
+  dynamoEndpoint: process.env.DYNAMODB_ENDPOINT,
+  dynamoRegion: process.env.DYNAMODB_REGION,
+  apiBaseUrl: process.env.API_BASE_URL || "http://0.0.0.0:3000",
+};
+
+export { config };
+```
+
+#### {{dynamo-client.ts - DynamoDB Operations}}
+
+```ts
+import {
+  DynamoDBClient,
+  GetItemCommand,
+  PutItemCommand,
+  DeleteItemCommand,
+} from "@aws-sdk/client-dynamodb";
+import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
+import { config } from "./config";
+
+const tablePrefix = `${config.nodeEnv}-${config.appName}-`;
+
+enum TableType {
+  COMMAND = "command",
+  DATA = "data",
+  HISTORY = "history",
+}
+
+const dynamoClient = new DynamoDBClient({
+  endpoint: config.dynamoEndpoint,
+  region: config.dynamoRegion,
+});
+
+const getTableName = (tableName: string, tableType: TableType) => {
+  return `${tablePrefix}${tableName}-${tableType}`;
+};
+
+const getItem = async (tableName: string, key: { pk: string; sk: string }) => {
+  const { Item } = await dynamoClient.send(
+    new GetItemCommand({
+      TableName: tableName,
+      Key: marshall(key),
+    })
+  );
+  return Item ? unmarshall(Item) : undefined;
+};
+
+export { getItem, getTableName, TableType, dynamoClient };
+```
+
+#### {{utils.ts - Test Utilities}}
+
+```ts
+import { getItem, getTableName, TableType } from "./dynamo-client";
+
+const sleep = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const retry = async <T>(
+  fn: () => Promise<T>,
+  options: { retries: number; retryIntervalMs: number }
+): Promise<T> => {
+  try {
+    await sleep(options.retryIntervalMs);
+    return await fn();
+  } catch (error) {
+    if (options.retries <= 0) throw error;
+    return retry(fn, {
+      retries: options.retries - 1,
+      retryIntervalMs: options.retryIntervalMs,
+    });
+  }
+};
+
+// {{Wait for async command processing to finish}}
+const syncDataFinished = async (
+  tableName: string,
+  key: { pk: string; sk: string }
+) => {
+  await retry(
+    async () => {
+      const res = await getItem(getTableName(tableName, TableType.COMMAND), key);
+      if (res?.status === "finish:FINISHED") return;
+      throw new Error("Not finished yet");
+    },
+    { retries: 10, retryIntervalMs: 3000 }
+  );
+};
+
+export { retry, sleep, syncDataFinished };
 ```
 
 ## {{GitHub Actions Setup}}

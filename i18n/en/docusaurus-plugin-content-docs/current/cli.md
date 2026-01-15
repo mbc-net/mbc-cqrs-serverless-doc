@@ -194,6 +194,43 @@ mbc ui [options]
 
 This command integrates the MBC CQRS UI Common library into your project, providing pre-built UI components and utilities.
 
+### Options
+
+| Option | Description |
+|--------|-------------|
+| `-p, --pathDir <string>` | (Required) The destination path for common-ui components |
+| `-b, --branch <string>` | The branch name to clone from (default: main) |
+| `--auth <string>` | The authentication method: SSH or HTTPS - Token (default: SSH) |
+| `--token <string>` | The token for HTTPS authentication, format: tokenId:tokenPassword |
+| `-c, --component <string>` | Component to install: all, appsync, or component (default: all) |
+| `--alias` | Add alias configuration for common-ui in tsconfig.json |
+
+### Examples
+
+Install all components using SSH authentication:
+
+```bash
+mbc ui-common -p src/common-ui
+```
+
+Install only UI components (excluding appsync):
+
+```bash
+mbc ui -p src/common-ui -c component
+```
+
+Install from a specific branch:
+
+```bash
+mbc ui -p src/common-ui -b develop
+```
+
+Install using HTTPS with token authentication:
+
+```bash
+mbc ui -p src/common-ui --auth "HTTPS - Token" --token "user:password"
+```
+
 ## Troubleshooting
 
 ### Version not found

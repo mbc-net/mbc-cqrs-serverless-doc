@@ -9,5 +9,8 @@
   "First, we have to define:": "First, we have to define:",
   "a class with validation constraints,": "a class with validation constraints,",
   "extend the EnvironmentVariables class.": "extend the EnvironmentVariables class.",
-  "With this in place, you pass the `EnvValidation` class as a configuration argument of the `createHandler` function, as follows:": "With this in place, you pass the `EnvValidation` class as a configuration argument of the `createHandler` function, as follows:"
+  "With this in place, you pass the `EnvValidation` class as a configuration argument of the `createHandler` function, as follows:": "With this in place, you pass the `EnvValidation` class as a configuration argument of the `createHandler` function, as follows:",
+  "Application port for non-Lambda environments (default: 3000)": "Application port for non-Lambda environments (default: 3000)",
+  "Request body size limit for JSON and URL-encoded data (default: 100kb)": "Request body size limit for JSON and URL-encoded data (default: 100kb)",
+  "SNS topic ARN for alarm notifications (error alerts)": "SNS topic ARN for alarm notifications (error alerts)"
 }

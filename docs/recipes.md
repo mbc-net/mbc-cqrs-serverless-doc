@@ -36,7 +36,7 @@ export class OrderEntity extends BaseEntity {
 ### {{2. Command Pattern}}
 
 ```typescript
-// Create commands for state changes
+// {{Create commands for state changes}}
 async createOrder(dto: CreateOrderDto, context: IInvoke) {
   const orderId = await this.sequencesService.generateSequenceItem({
     tenantCode: dto.tenantCode,
@@ -47,9 +47,12 @@ async createOrder(dto: CreateOrderDto, context: IInvoke) {
     {
       pk: `${dto.tenantCode}#ORDER`,
       sk: `ORDER#${orderId.formattedNo}`,
+      id: orderId.formattedNo,           // {{Required: unique identifier}}
       code: orderId.formattedNo,
       name: dto.name,
+      version: 1,                        // {{Required: initial version for new entities}}
       tenantCode: dto.tenantCode,
+      type: 'ORDER',                     // {{Required: entity type}}
       attributes: dto.attributes,
     },
     { invokeContext: context },

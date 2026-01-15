@@ -15,5 +15,9 @@
   "In more sophisticated systems, you may store roles within a database, or pull them from the external authentication provider.": "In more sophisticated systems, you may store roles within a database, or pull them from the external authentication provider.",
   "Now that we have a custom Roles enum, we can use it to any route handler.": "Now that we have a custom Roles enum, we can use it to any route handler.",
   "Then, we create a helper function that extracts information from the context.": "Then, we create a helper function that extracts information from the context.",
+  "Event body example": "Event body example",
+  "The `getUserContext` function is provided by `@mbc-cqrs-serverless/core`. It automatically extracts `tenantCode` from `custom:tenant` claim and determines `tenantRole` by matching the tenant in the `custom:roles` JSON array.": "The `getUserContext` function is provided by `@mbc-cqrs-serverless/core`. It automatically extracts `tenantCode` from `custom:tenant` claim and determines `tenantRole` by matching the tenant in the `custom:roles` JSON array.",
+  "If you need custom logic, you can implement your own helper function:": "If you need custom logic, you can implement your own helper function:",
+  "Parse roles from JSON array and find matching tenant role": "Parse roles from JSON array and find matching tenant role",
   "Finally, we create a CustomRoleGuard class which will compare the roles assigned to the current user to the actual roles required by the current route being processed.": "Finally, we create a CustomRoleGuard class which will compare the roles assigned to the current user to the actual roles required by the current route being processed."
 }

@@ -215,9 +215,9 @@ export class ProductController {
   /**
    * Resync all data to RDS
    */
-  @Put('resync-data')
-  async resyncData(): Promise<void> {
-    return this.productService.resyncData();
+  @Put('resync-data/:pk')
+  async resyncData(@Param('pk') pk: string): Promise<void> {
+    return this.productService.resyncData(pk);
   }
 }
 ```
@@ -365,15 +365,16 @@ export class ProductService {
 
   /**
    * Resync all data from DynamoDB to RDS
+   * Pass pk parameter to specify which partition to resync
    */
-  async resyncData(): Promise<void> {
+  async resyncData(pk: string): Promise<void> {
     this.logger.log('Starting data resync...');
 
     let lastSk: string | undefined = undefined;
     let processedCount = 0;
 
     do {
-      const result = await this.dataService.listItemsByPk(this.pk, {
+      const result = await this.dataService.listItemsByPk(pk, {
         limit: 100,
         startFromSk: lastSk,
       });

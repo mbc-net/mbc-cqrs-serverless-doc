@@ -489,6 +489,10 @@ interface FormattedTaskStatus {
 | Status | Description |
 |------------|-----------------|
 | `CREATED` | Task has been created but not yet started |
+| `QUEUED` | Task has been queued for processing |
+| `STARTED` | Task execution has started |
 | `PROCESSING` | Task is currently being processed |
+| `FINISHED` | Task execution has finished |
 | `COMPLETED` | Task finished successfully |
+| `ERRORED` | Task encountered an error during execution |
 | `FAILED` | Task failed with an error |

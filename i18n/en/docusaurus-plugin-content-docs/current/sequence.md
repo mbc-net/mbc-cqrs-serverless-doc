@@ -93,13 +93,13 @@ The data transfer object that customizes the behavior of the sequence generation
   - Description: Specifies the date for which the sequence is generated.
 
 - `rotateBy?: RotateByEnum`
-  - Default: none.
+  - Default: NONE.
   - Options
-    - fiscal_yearly
-    - yearly
-    - monthly
-    - daily
-    - none
+    - FISCAL_YEARLY
+    - YEARLY
+    - MONTHLY
+    - DAILY
+    - NONE
   - Description: Determines the rotation type for the sequence.
 
 - `tenantCode: string`

@@ -33,6 +33,7 @@ description: React Hook FormとZodバリデーションを使用したフォー�
 | React Hook Form | フォーム状態管理 |
 | Zod | スキーマバリデーション |
 | @hookform/resolvers | Zod統合 |
+| shadcn/ui Form | フォームUIコンポーネント |
 
 ## インストール
 
@@ -40,13 +41,27 @@ description: React Hook FormとZodバリデーションを使用したフォー�
 npm install react-hook-form zod @hookform/resolvers
 ```
 
+## フォームコンポーネントアーキテクチャ
+
+フォームシステムは階層化されたコンポーネントアーキテクチャを使用します：
+
+| コンポーネント | 役割 |
+|-----------|------|
+| `Form` | フォーム全体をラップするコンテキストプロバイダー（react-hook-formのFormProviderを使用） |
+| `FormField` | Controllerを使用してフィールドをフォーム状態に接続 |
+| `FormItem` | 単一フォームフィールドのコンテナ（ラベル、入力、エラー） |
+| `FormLabel` | フィールドに自動接続し、エラー状態を表示するラベル |
+| `FormControl` | フォームフィールドのpropsを入力要素に渡す |
+| `FormMessage` | バリデーションエラーメッセージを表示 |
+| `FormDescription` | フィールドのオプションヘルプテキスト |
+
 ## 基本的なフォーム構造
 
 ### ユースケース: 製品作成フォーム
 
 シナリオ: ユーザーがコード、名前、価格、ステータスを持つ新しい製品を作成する必要がある。
 
-解決策: バリデーションルール付きのスキーマを定義し、エラーを表示するフォームコンポーネントを作成する。
+解決策: バリデーションルール付きのスキーマを定義し、一貫したエラー表示のためにFormコンポーネントを使用する。
 
 ### Zodスキーマ定義
 
@@ -80,7 +95,7 @@ export const createProductSchema = z.object({
 
 export type CreateProductInput = z.infer<typeof createProductSchema>;
 
-// Update schema with optional fields and version
+// オプションフィールドとバージョンを含む更新スキーマ
 export const updateProductSchema = createProductSchema.partial().extend({
   version: z.number().int().positive(),
 });
@@ -90,7 +105,7 @@ export type UpdateProductInput = z.infer<typeof updateProductSchema>;
 
 ### フォームコンポーネント
 
-スキーマをReact Hook Formに接続します：
+Formコンポーネントを使用してスキーマをReact Hook Formに接続します：
 
 ```typescript
 // src/components/forms/ProductForm.tsx
@@ -102,9 +117,24 @@ import {
   createProductSchema,
   CreateProductInput,
 } from '@/schemas/product.schema';
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
-import { Select } from '@/components/ui/Select';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 interface ProductFormProps {
   onSubmit: (data: CreateProductInput) => Promise<void>;
@@ -117,11 +147,7 @@ export function ProductForm({
   defaultValues,
   isLoading,
 }: ProductFormProps) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<CreateProductInput>({
+  const form = useForm<CreateProductInput>({
     resolver: zodResolver(createProductSchema),
     defaultValues: {
       status: 'DRAFT',
@@ -130,69 +156,105 @@ export function ProductForm({
   });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div>
-        <label htmlFor="code" className="block text-sm font-medium">
-          Code
-        </label>
-        <Input
-          id="code"
-          {...register('code')}
-          error={errors.code?.message}
-          disabled={isLoading}
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="code"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Code</FormLabel>
+              <FormControl>
+                <Input {...field} disabled={isLoading} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
 
-      <div>
-        <label htmlFor="name" className="block text-sm font-medium">
-          Name
-        </label>
-        <Input
-          id="name"
-          {...register('name')}
-          error={errors.name?.message}
-          disabled={isLoading}
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input {...field} disabled={isLoading} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
 
-      <div>
-        <label htmlFor="price" className="block text-sm font-medium">
-          Price
-        </label>
-        <Input
-          id="price"
-          type="number"
-          {...register('price', { valueAsNumber: true })}
-          error={errors.price?.message}
-          disabled={isLoading}
+        <FormField
+          control={form.control}
+          name="price"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Price</FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  {...field}
+                  onChange={(e) => field.onChange(Number(e.target.value))}
+                  disabled={isLoading}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
 
-      <div>
-        <label htmlFor="status" className="block text-sm font-medium">
-          Status
-        </label>
-        <Select
-          id="status"
-          {...register('status')}
-          options={[
-            { value: 'DRAFT', label: 'Draft' },
-            { value: 'ACTIVE', label: 'Active' },
-            { value: 'INACTIVE', label: 'Inactive' },
-          ]}
-          error={errors.status?.message}
-          disabled={isLoading}
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Description</FormLabel>
+              <FormControl>
+                <Textarea {...field} disabled={isLoading} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
 
-      <Button
-        type="submit"
-        loading={isSubmitting || isLoading}
-        disabled={isSubmitting || isLoading}
-      >
-        Save
-      </Button>
-    </form>
+        <FormField
+          control={form.control}
+          name="status"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Status</FormLabel>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                disabled={isLoading}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="DRAFT">Draft</SelectItem>
+                  <SelectItem value="ACTIVE">Active</SelectItem>
+                  <SelectItem value="INACTIVE">Inactive</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button
+          type="submit"
+          loading={form.formState.isSubmitting || isLoading}
+          disabled={form.formState.isSubmitting || isLoading}
+        >
+          Save
+        </Button>
+      </form>
+    </Form>
   );
 }
 ```
@@ -203,64 +265,85 @@ export function ProductForm({
 
 シナリオ: すべてのフォームフィールドは一貫したラベル、エラー表示、必須インジケーターを持つべき。
 
-解決策: 共通フィールドUIを処理するラッパーコンポーネントを作成する。
+解決策: shadcn/ui Formコンポーネントを使用するカスタムラッパーコンポーネントを作成する。
 
 ```typescript
-// src/components/ui/FormField.tsx
-import { ReactNode } from 'react';
+// src/components/form/CustomFormItem.tsx
+'use client';
 
-interface FormFieldProps {
+import * as React from 'react';
+import { FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { cn } from '@/lib/utils';
+
+interface CustomFormItemProps {
+  className?: string;
   label: string;
-  error?: string;
+  children: React.ReactNode;
   required?: boolean;
-  children: ReactNode;
 }
 
-export function FormField({
+export default function CustomFormItem({
+  className,
   label,
-  error,
   required,
   children,
-}: FormFieldProps) {
+}: CustomFormItemProps) {
   return (
-    <div className="space-y-1">
-      <label className="block text-sm font-medium text-gray-700">
-        {label}
-        {required && <span className="text-red-500 ml-1">*</span>}
-      </label>
-      {children}
-      {error && <p className="text-sm text-red-600">{error}</p>}
-    </div>
+    <FormItem className={cn('flex w-full flex-col gap-2', className)}>
+      <FormLabel className="font-semibold">
+        <span>{label}</span>
+        {required && <span className="text-destructive ml-1">*</span>}
+      </FormLabel>
+      <div className="relative flex-col">
+        {children}
+        <FormMessage className="mt-2 text-xs font-semibold" />
+      </div>
+    </FormItem>
   );
 }
 ```
 
-### ユースケース: エラー状態付きの入力
-
-シナリオ: 入力はバリデーションエラーを視覚的に示すべき。
+### CustomFormItemの使用方法
 
 ```typescript
-// src/components/ui/Input.tsx
-import { forwardRef, InputHTMLAttributes } from 'react';
+<FormField
+  control={form.control}
+  name="code"
+  render={({ field }) => (
+    <CustomFormItem label="Code" required>
+      <FormControl>
+        <Input {...field} />
+      </FormControl>
+    </CustomFormItem>
+  )}
+/>
+```
+
+### Inputコンポーネント（シンプル、error propなし）
+
+注意: Inputコンポーネントにはerrorプロパティがありません。エラー表示はFormMessageによって処理されます。
+
+```typescript
+// src/components/ui/input.tsx
+import * as React from 'react';
 import { cn } from '@/lib/utils';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  error?: string;
-}
+export interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {}
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, error, ...props }, ref) => {
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, type, ...props }, ref) => {
     return (
       <input
-        ref={ref}
+        type={type}
         className={cn(
-          'block w-full rounded-md border px-3 py-2 text-sm',
-          'focus:outline-none focus:ring-2 focus:ring-blue-500',
-          error
-            ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
-            : 'border-gray-300 focus:border-blue-500',
+          'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm',
+          'ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium',
+          'placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2',
+          'focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
           className
         )}
+        ref={ref}
         {...props}
       />
     );
@@ -268,6 +351,107 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 );
 
 Input.displayName = 'Input';
+
+export { Input };
+```
+
+## フォームコンポーネント実装
+
+shadcn/uiのFormコンポーネントはコンテキストベースのエラー処理を提供します：
+
+```typescript
+// src/components/ui/form.tsx
+import * as React from 'react';
+import { Slot } from '@radix-ui/react-slot';
+import {
+  Controller,
+  ControllerProps,
+  FieldPath,
+  FieldValues,
+  FormProvider,
+  useFormContext,
+} from 'react-hook-form';
+
+// FormはFormProviderを再エクスポートしたもの
+const Form = FormProvider;
+
+// FormFieldはControllerをラップし、フィールドコンテキストを提供
+const FormField = <
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>({
+  ...props
+}: ControllerProps<TFieldValues, TName>) => {
+  return (
+    <FormFieldContext.Provider value={{ name: props.name }}>
+      <Controller {...props} />
+    </FormFieldContext.Provider>
+  );
+};
+
+// useFormFieldフックはコンテキストからフィールド状態を取得
+const useFormField = () => {
+  const fieldContext = React.useContext(FormFieldContext);
+  const itemContext = React.useContext(FormItemContext);
+  const { getFieldState, formState } = useFormContext();
+
+  const fieldState = getFieldState(fieldContext.name, formState);
+
+  return {
+    id: itemContext.id,
+    name: fieldContext.name,
+    formItemId: `${itemContext.id}-form-item`,
+    formDescriptionId: `${itemContext.id}-form-item-description`,
+    formMessageId: `${itemContext.id}-form-item-message`,
+    ...fieldState,
+  };
+};
+
+// FormControlはアクセシビリティのためにaria属性を渡す
+const FormControl = React.forwardRef<
+  React.ElementRef<typeof Slot>,
+  React.ComponentPropsWithoutRef<typeof Slot>
+>(({ ...props }, ref) => {
+  const { error, formItemId, formDescriptionId, formMessageId } = useFormField();
+
+  return (
+    <Slot
+      ref={ref}
+      id={formItemId}
+      aria-describedby={
+        !error
+          ? `${formDescriptionId}`
+          : `${formDescriptionId} ${formMessageId}`
+      }
+      aria-invalid={!!error}
+      {...props}
+    />
+  );
+});
+
+// FormMessageはコンテキストからエラーを自動表示
+const FormMessage = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, children, ...props }, ref) => {
+  const { error, formMessageId } = useFormField();
+  const body = error ? String(error?.message) : children;
+
+  if (!body) {
+    return null;
+  }
+
+  return (
+    <p
+      ref={ref}
+      id={formMessageId}
+      className={cn('text-sm font-medium text-destructive', className)}
+      {...props}
+    >
+      {body}
+    </p>
+  );
+});
 ```
 
 ## 高度なフォームパターン
@@ -285,6 +469,14 @@ Input.displayName = 'Input';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 
 const orderItemSchema = z.object({
   productId: z.string().min(1, 'Product is required'),
@@ -305,12 +497,7 @@ export function OrderForm({
 }: {
   onSubmit: (data: OrderInput) => void;
 }) {
-  const {
-    control,
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<OrderInput>({
+  const form = useForm<OrderInput>({
     resolver: zodResolver(orderSchema),
     defaultValues: {
       items: [{ productId: '', quantity: 1, price: 0 }],
@@ -318,46 +505,77 @@ export function OrderForm({
   });
 
   const { fields, append, remove } = useFieldArray({
-    control,
+    control: form.control,
     name: 'items',
   });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label>Customer</label>
-        <Input {...register('customerId')} error={errors.customerId?.message} />
-      </div>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <FormField
+          control={form.control}
+          name="customerId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Customer</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-      <div className="space-y-4">
-        <h3>Order Items</h3>
-        {fields.map((field, index) => (
-          <div key={field.id} className="flex gap-4 items-end">
-            <Input
-              {...register(`items.${index}.productId`)}
-              placeholder="Product ID"
-            />
-            <Input
-              type="number"
-              {...register(`items.${index}.quantity`, { valueAsNumber: true })}
-              placeholder="Qty"
-            />
-            <Button type="button" variant="danger" onClick={() => remove(index)}>
-              Remove
-            </Button>
-          </div>
-        ))}
-        <Button
-          type="button"
-          variant="secondary"
-          onClick={() => append({ productId: '', quantity: 1, price: 0 })}
-        >
-          Add Item
-        </Button>
-      </div>
+        <div className="space-y-4">
+          <h3>Order Items</h3>
+          {fields.map((field, index) => (
+            <div key={field.id} className="flex gap-4 items-end">
+              <FormField
+                control={form.control}
+                name={`items.${index}.productId`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input {...field} placeholder="Product ID" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name={`items.${index}.quantity`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        {...field}
+                        onChange={(e) => field.onChange(Number(e.target.value))}
+                        placeholder="Qty"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="button" variant="destructive" onClick={() => remove(index)}>
+                Remove
+              </Button>
+            </div>
+          ))}
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={() => append({ productId: '', quantity: 1, price: 0 })}
+          >
+            Add Item
+          </Button>
+        </div>
 
-      <Button type="submit">Create Order</Button>
-    </form>
+        <Button type="submit">Create Order</Button>
+      </form>
+    </Form>
   );
 }
 ```
@@ -372,9 +590,17 @@ export function OrderForm({
 
 ```typescript
 import { useForm, useWatch } from 'react-hook-form';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 
 function PaymentForm() {
-  const { control, register } = useForm({
+  const form = useForm({
     defaultValues: {
       paymentMethod: 'credit_card',
       cardNumber: '',
@@ -383,28 +609,68 @@ function PaymentForm() {
   });
 
   const paymentMethod = useWatch({
-    control,
+    control: form.control,
     name: 'paymentMethod',
   });
 
   return (
-    <form>
-      <Select
-        {...register('paymentMethod')}
-        options={[
-          { value: 'credit_card', label: 'Credit Card' },
-          { value: 'bank_transfer', label: 'Bank Transfer' },
-        ]}
-      />
+    <Form {...form}>
+      <form>
+        <FormField
+          control={form.control}
+          name="paymentMethod"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Payment Method</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="credit_card">Credit Card</SelectItem>
+                  <SelectItem value="bank_transfer">Bank Transfer</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-      {paymentMethod === 'credit_card' && (
-        <Input {...register('cardNumber')} placeholder="Card Number" />
-      )}
+        {paymentMethod === 'credit_card' && (
+          <FormField
+            control={form.control}
+            name="cardNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Card Number</FormLabel>
+                <FormControl>
+                  <Input {...field} placeholder="Card Number" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
 
-      {paymentMethod === 'bank_transfer' && (
-        <Input {...register('bankAccount')} placeholder="Bank Account" />
-      )}
-    </form>
+        {paymentMethod === 'bank_transfer' && (
+          <FormField
+            control={form.control}
+            name="bankAccount"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Bank Account</FormLabel>
+                <FormControl>
+                  <Input {...field} placeholder="Bank Account" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+      </form>
+    </Form>
   );
 }
 ```
@@ -425,7 +691,7 @@ import { useRouter } from 'next/navigation';
 import { useCreateProduct } from '@/hooks/useProducts';
 import { ProductForm } from '@/components/forms/ProductForm';
 import { CreateProductInput } from '@/schemas/product.schema';
-import { toast } from '@/components/ui/Toast';
+import { toast } from '@/components/ui/toast';
 
 export function CreateProductForm() {
   const router = useRouter();
@@ -465,7 +731,7 @@ import { useRouter } from 'next/navigation';
 import { useProduct, useUpdateProduct } from '@/hooks/useProducts';
 import { ProductForm } from '@/components/forms/ProductForm';
 import { UpdateProductInput } from '@/schemas/product.schema';
-import { toast } from '@/components/ui/Toast';
+import { toast } from '@/components/ui/toast';
 
 interface EditProductFormProps {
   pk: string;
@@ -548,10 +814,10 @@ const uniqueCodeSchema = z.object({
     ),
 });
 
-// In the form
+// フォーム内
 const form = useForm({
   resolver: zodResolver(uniqueCodeSchema),
-  mode: 'onBlur', // Validate on blur for async validation
+  mode: 'onBlur', // 非同期バリデーションのためにonBlurで検証
 });
 ```
 
@@ -575,13 +841,13 @@ src/
 フォームの複雑さに基づいてバリデーションのタイミングを選択します：
 
 ```typescript
-// Validate on submit (default) - best for simple forms
+// 送信時に検証（デフォルト） - シンプルなフォームに最適
 useForm({ mode: 'onSubmit' });
 
-// Validate on blur - best for forms with async validation
+// フォーカスアウト時に検証 - 非同期バリデーションを持つフォームに最適
 useForm({ mode: 'onBlur' });
 
-// Validate on change - best for real-time feedback
+// 変更時に検証 - リアルタイムフィードバックに最適
 useForm({ mode: 'onChange' });
 ```
 
@@ -604,21 +870,25 @@ export const positiveNumber = z.number().positive('Must be positive');
 
 ```typescript
 function FormWithServerErrors() {
-  const { setError, handleSubmit } = useForm();
+  const form = useForm();
 
   const onSubmit = async (data) => {
     try {
       await api.create(data);
     } catch (error) {
       if (error.details) {
-        // Set field-level errors from server
+        // サーバーからのフィールドレベルエラーを設定
         Object.entries(error.details).forEach(([field, messages]) => {
-          setError(field, { message: messages[0] });
+          form.setError(field, { message: messages[0] });
         });
       }
     }
   };
 
-  return <form onSubmit={handleSubmit(onSubmit)}>...</form>;
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>...</form>
+    </Form>
+  );
 }
 ```

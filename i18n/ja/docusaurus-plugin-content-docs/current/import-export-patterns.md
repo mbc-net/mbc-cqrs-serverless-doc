@@ -584,53 +584,67 @@ import { IInvoke } from '@mbc-cqrs-serverless/core';
 /**
  * Base interface for import strategies (インポート戦略の基本インターフェース)
  */
-export interface IImportStrategy<TInput, TOutput> {
+export interface IImportStrategy<TInput, TAttributesDto> {
   /**
    * Transform raw input to command DTO (生の入力をコマンドDTOに変換)
    */
-  transform(input: TInput): Promise<TOutput>;
+  transform(input: TInput): Promise<TAttributesDto>;
 
   /**
-   * Validate input data (入力データをバリデート)
+   * Validate transformed DTO (変換後のDTOをバリデート)
    */
-  validate(input: TInput): Promise<void>;
+  validate(data: TAttributesDto): Promise<void>;
 }
 
 /**
  * Base import strategy with common functionality (共通機能を持つ基本インポート戦略)
  */
-export abstract class BaseImportStrategy<TInput, TOutput>
-  implements IImportStrategy<TInput, TOutput>
+export abstract class BaseImportStrategy<TInput, TAttributesDto>
+  implements IImportStrategy<TInput, TAttributesDto>
 {
   /**
    * Transform raw input to command DTO (default: return as-is) (生の入力をコマンドDTOに変換、デフォルト：そのまま返す)
    */
-  async transform(input: TInput): Promise<TOutput> {
-    return input as unknown as TOutput;
+  async transform(input: TInput): Promise<TAttributesDto> {
+    return input as unknown as TAttributesDto;
   }
 
   /**
-   * Validate input data using class-validator (class-validatorを使用して入力データをバリデート)
+   * Validate transformed DTO using class-validator (class-validatorを使用して変換後のDTOをバリデート)
    */
-  async validate(input: TInput): Promise<void> {
+  async validate(data: TAttributesDto): Promise<void> {
     // Uses class-validator for validation (class-validatorでバリデーションを実行)
-    const errors = await validate(input as object);
+    const errors = await validate(data as object);
     if (errors.length > 0) {
-      throw new InvalidDataException(this.flattenValidationErrors(errors));
+      throw new BadRequestException({
+        statusCode: 400,
+        message: this.flattenValidationErrors(errors),
+        error: 'Bad Request',
+      });
     }
   }
 
   /**
    * Flatten validation errors to a simple format (バリデーションエラーをシンプルな形式にフラット化)
    */
-  protected flattenValidationErrors(errors: ValidationError[]): string[] {
+  private flattenValidationErrors(
+    errors: ValidationError[],
+    parentPath = '',
+  ): string[] {
     const messages: string[] = [];
     for (const error of errors) {
-      if (error.constraints) {
-        messages.push(...Object.values(error.constraints));
-      }
-      if (error.children?.length) {
-        messages.push(...this.flattenValidationErrors(error.children));
+      const currentPath = parentPath
+        ? `${parentPath}.${error.property}`
+        : error.property;
+
+      if (error.children && error.children.length > 0) {
+        messages.push(
+          ...this.flattenValidationErrors(error.children, currentPath),
+        );
+      } else if (error.constraints) {
+        const firstConstraint = Object.values(error.constraints)[0];
+        const message = firstConstraint.replace(error.property, currentPath);
+        messages.push(message);
       }
     }
     return messages;
@@ -1086,119 +1100,6 @@ import { PolicyProcessStrategy } from './policy/strategies/policy.process-strate
 })
 export class AppModule {}
 ```
-
-### ZIP終了フック {#zip-finalization-hooks}
-
-ZIP終了フックは、ZIPインポートジョブの完了後にカスタムロジックを実行できます。一般的なユースケースは以下の通りです：
-
-- 処理済みファイルをバックアップ先に移動する
-- 通知を送信する（メール、Slackなど）
-- 外部システムを更新する
-- レポートを生成する
-
-#### 終了フックの実装
-
-`IZipFinalizationHook`を実装するクラスを作成します：
-
-```typescript
-import { Injectable, Logger } from '@nestjs/common';
-import {
-  IZipFinalizationHook,
-  ZipFinalizationContext,
-} from '@mbc-cqrs-serverless/import';
-import { S3Service, SNSService } from '@mbc-cqrs-serverless/core';
-
-@Injectable()
-export class BackupAndNotifyHook implements IZipFinalizationHook {
-  private readonly logger = new Logger(BackupAndNotifyHook.name);
-
-  constructor(
-    private readonly s3Service: S3Service,
-    private readonly snsService: SNSService,
-  ) {}
-
-  async execute(context: ZipFinalizationContext): Promise<void> {
-    const { masterJobKey, results, status, executionInput } = context;
-    const { bucket, tenantCode } = executionInput.parameters;
-
-    this.logger.log(
-      `ZIP import completed: ${masterJobKey.pk}#${masterJobKey.sk}, status: ${status}`,
-    );
-
-    // Move processed files to backup location (処理済みファイルをバックアップ先に移動)
-    for (const s3Key of executionInput.sortedS3Keys) {
-      const backupKey = `backup/${tenantCode}/${new Date().toISOString().slice(0, 10)}/${s3Key.split('/').pop()}`;
-      await this.s3Service.copyObject({
-        sourceBucket: bucket,
-        sourceKey: s3Key,
-        destinationBucket: bucket,
-        destinationKey: backupKey,
-      });
-      this.logger.log(`Backed up ${s3Key} to ${backupKey}`);
-    }
-
-    // Send notification (通知を送信)
-    await this.snsService.publish({
-      topicArn: process.env.NOTIFICATION_TOPIC_ARN,
-      subject: `ZIP Import ${status}`,
-      message: JSON.stringify({
-        jobKey: masterJobKey,
-        status,
-        results,
-        timestamp: new Date().toISOString(),
-      }),
-    });
-  }
-}
-```
-
-#### 終了フックの登録
-
-`ImportModule.register()`設定にフックを追加します：
-
-```typescript
-import { Module } from '@nestjs/common';
-import { ImportModule } from '@mbc-cqrs-serverless/import';
-import { BackupAndNotifyHook } from './hooks/backup-and-notify.hook';
-import { AuditLogHook } from './hooks/audit-log.hook';
-
-@Module({
-  imports: [
-    ImportModule.register({
-      enableController: true,
-      profiles: [...],
-      // Register ZIP finalization hooks (ZIP終了フックを登録)
-      zipFinalizationHooks: [
-        BackupAndNotifyHook,
-        AuditLogHook,
-      ],
-    }),
-  ],
-})
-export class AppModule {}
-```
-
-#### ZipFinalizationContext
-
-フックに渡されるコンテキストオブジェクトには以下が含まれます：
-
-| プロパティ | 型 | 説明 |
-|--------------|----------|-----------------|
-| `event` | `ZipImportSfnEvent` | 元のStep Functionsイベント |
-| `masterJobKey` | `DetailKey` | マスターZIPジョブのキー（`pk`、`sk`） |
-| `results` | `object` | 集計結果：`totalRows`、`processedRows`、`failedRows` |
-| `status` | `ImportStatusEnum` | ジョブの最終ステータス（COMPLETEDまたはFAILED） |
-| `executionInput` | `object` | `parameters`と`sortedS3Keys`を含むStep Functions実行の元の入力 |
-
-#### フック実行の動作
-
-- **並列実行**：すべての登録済みフックはパフォーマンス向上のため並列で実行されます
-- **エラー分離**：フックがエラーをスローしても、ログに記録されるだけで、他のフックやジョブステータスには影響しません
-- **依存性注入**：フックはNestJSプロバイダーとして登録されるため、任意のサービスを注入できます
-
-:::info バージョン情報
-ZIP終了フックはバージョン1.0.21で追加されました。詳細は[変更履歴](./changelog#v1021)を参照してください。
-:::
 
 ### インポート用カスタムイベントファクトリー
 

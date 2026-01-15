@@ -113,16 +113,6 @@ export interface DetailKey {
 }
 ```
 
-#### SearchKey
-
-オプションのテナントフィルタリングを含む検索操作用の拡張キーインターフェース。
-
-```ts
-export interface SearchKey extends DetailKey {
-  tenantCode?: string  // Optional tenant filter
-}
-```
-
 ### コンテキストインターフェース
 
 #### IInvoke
@@ -228,33 +218,6 @@ if (result.lastSk) {
 ```
 
 ## サービスインターフェース
-
-### クエリオプション
-
-#### ListOptions
-
-リストクエリ用のオプション。
-
-```ts
-export interface ListOptions {
-  limit?: number                // Maximum items to return
-  scanIndexForward?: boolean    // Sort order (true = ascending)
-  startFromSk?: string          // Pagination cursor (start from this sort key)
-  filter?: FilterExpression     // Additional filters
-}
-```
-
-#### SearchOptions
-
-全文検索を含む検索操作用のオプション。
-
-```ts
-export interface SearchOptions extends ListOptions {
-  query?: string           // Full-text search query
-  fields?: string[]        // Fields to search
-  sort?: SortOptions       // Sort configuration
-}
-```
 
 ### 同期ハンドラーインターフェース
 

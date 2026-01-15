@@ -93,13 +93,13 @@ GenerateFormattedSequenceDto オブジェクトで提供されたパラメータ
   - 説明: シーケンスが生成される日付を指定します。
 
 - `rotateBy?: RotateByEnum`
-  - デフォルト: なし。
+  - デフォルト: NONE。
   - オプション
-    - fiscal_yearly
-    - yearly
-    - monthly
-    - daily
-    - none
+    - FISCAL_YEARLY
+    - YEARLY
+    - MONTHLY
+    - DAILY
+    - NONE
   - 説明: シーケンスの回転タイプを決定します。
 
 - `tenantCode: string`

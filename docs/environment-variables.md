@@ -27,8 +27,12 @@ NODE_ENV=local
 # APP_NAME=suisss-recruit
 APP_NAME=demo
 # APP_NAME=cqrs
+# {{Application port for non-Lambda environments (default: 3000)}}
+APP_PORT=3000
 # set log levels
 LOG_LEVEL=info # debug, info, warn, error, verbose
+# {{Request body size limit for JSON and URL-encoded data (default: 100kb)}}
+REQUEST_BODY_SIZE_LIMIT=100kb
 # disable event route for API GW integration
 EVENT_SOURCE_DISABLED=false
 # DynamoDB endpoint, useful for local development
@@ -49,6 +53,8 @@ SFN_COMMAND_ARN=arn:aws:states:ap-northeast-1:101010101010:stateMachine:command
 SNS_ENDPOINT=http://localhost:4002
 SNS_REGION=ap-northeast-1
 SNS_TOPIC_ARN=arn:aws:sns:ap-northeast-1:101010101010:MySnsTopic
+# {{SNS topic ARN for alarm notifications (error alerts)}}
+SNS_ALARM_TOPIC_ARN=arn:aws:sns:ap-northeast-1:101010101010:AlarmSnsTopic
 # Cognito endpoint, useful for local development
 COGNITO_URL=http://localhost:9229
 COGNITO_USER_POOL_ID=local_2G7noHgW

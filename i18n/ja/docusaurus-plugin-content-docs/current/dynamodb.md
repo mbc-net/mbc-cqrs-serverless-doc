@@ -53,9 +53,7 @@ MBC CQRS Serverlessでは、DynamoDBテーブルは以下のタイプに整理�
 `prisma/dynamodbs/cqrs.json`にテーブル名を追加：
 
 ```json
-{
-  "tables": ["cat", "dog", "order"]
-}
+["cat", "dog", "order"]
 ```
 
 ### ステップ2: マイグレーションを実行

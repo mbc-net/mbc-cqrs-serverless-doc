@@ -15,5 +15,9 @@
   "In more sophisticated systems, you may store roles within a database, or pull them from the external authentication provider.": "より洗練されたシステムではロールをデータベースに保存したり外部認証プロバイダーからロールを取得することも出来ます。",
   "Now that we have a custom Roles enum, we can use it to any route handler.": "任意のルートハンドラーで先程のカスタムロールを使用する事が出来ます。",
   "Then, we create a helper function that extracts information from the context.": "そして、コンテキストから情報を抽出するヘルパー関数を作成します。",
+  "Event body example": "Event body example (イベントボディ例)",
+  "The `getUserContext` function is provided by `@mbc-cqrs-serverless/core`. It automatically extracts `tenantCode` from `custom:tenant` claim and determines `tenantRole` by matching the tenant in the `custom:roles` JSON array.": "`getUserContext` 関数は `@mbc-cqrs-serverless/core` から提供されています。`custom:tenant` クレームから `tenantCode` を自動的に抽出し、`custom:roles` JSON配列内のテナントとマッチングして `tenantRole` を決定します。",
+  "If you need custom logic, you can implement your own helper function:": "カスタムロジックが必要な場合は、独自のヘルパー関数を実装できます：",
+  "Parse roles from JSON array and find matching tenant role": "Parse roles from JSON array and find matching tenant role (JSON配列からロールをパースし、マッチするテナントロールを見つける)",
   "Finally, we create a CustomRoleGuard class which will compare the roles assigned to the current user to the actual roles required by the current route being processed.": "最後に現在のユーザに割り当てられているロールと現在処理中のルートで必要なロールを比較するカスタムロールガードクラスを作成します。"
 }

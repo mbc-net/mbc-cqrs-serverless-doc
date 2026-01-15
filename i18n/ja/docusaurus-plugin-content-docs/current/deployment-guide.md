@@ -59,35 +59,55 @@ cdk bootstrap aws://123456789012/ap-northeast-1
 
 ### 環境設定の作成
 
-`infra/config/` に環境固有の設定ファイルを作成します：
+`infra/config/{env}/index.ts` に環境固有の設定ファイルを作成します：
 
 ```typescript
-// infra/config/dev.ts
-import { IConfig } from './type';
+// infra/config/dev/index.ts
+import { ApplicationLogLevel, SystemLogLevel } from 'aws-cdk-lib/aws-lambda';
+import { Config } from '../type';
 
-export const config: IConfig = {
-  envName: 'dev',
-  region: 'ap-northeast-1',
+const config: Config = {
+  env: 'dev',
+  appName: 'your-app',
 
-  // VPC Configuration
-  vpcId: 'vpc-xxxxxxxxx',
-
-  // Domain Configuration (optional)
-  domainName: 'dev-api.your-domain.com',
-  certificateArn: 'arn:aws:acm:ap-northeast-1:YOUR_ACCOUNT:certificate/xxx',
-
-  // Database Configuration
-  database: {
-    name: 'your_app_dev',
-    instanceType: 't3.micro',
+  // ドメイン設定
+  domain: {
+    http: 'dev-api.your-domain.com',
+    appsync: 'dev-appsync.your-domain.com',
   },
 
-  // API Gateway Configuration
-  apiGateway: {
-    throttlingRateLimit: 1000,
-    throttlingBurstLimit: 500,
+  // 既存のCognito User Pool（オプション）
+  userPoolId: 'ap-northeast-1_xxxxxxx',
+
+  // VPC設定
+  vpc: {
+    id: 'vpc-xxxxxxxxx',
+    subnetIds: ['subnet-xxx1', 'subnet-xxx2'],
+    securityGroupIds: ['sg-xxxxxxxxx'],
   },
+
+  // RDS設定
+  rds: {
+    accountSsmKey: '/your-app/dev/rds/account',
+    endpoint: 'your-rds-endpoint.ap-northeast-1.rds.amazonaws.com',
+    dbName: 'your_app_dev',
+  },
+
+  // ログレベル設定
+  logLevel: {
+    lambdaSystem: SystemLogLevel.DEBUG,
+    lambdaApplication: ApplicationLogLevel.TRACE,
+    level: 'verbose',
+  },
+
+  frontBaseUrl: 'https://dev.your-domain.com',
+  fromEmailAddress: 'noreply@your-domain.com',
+
+  // WAF設定（オプション）
+  // wafArn: 'arn:aws:wafv2:ap-northeast-1:YOUR_ACCOUNT:regional/webacl/xxx',
 };
+
+export default config;
 ```
 
 ### 環境変数
@@ -117,19 +137,41 @@ COGNITO_CLIENT_ID=xxxxxxxxxxxxxxxxxx
 
 ```
 infra/
-├── app.ts                    # CDK app entry point
-├── cdk.json                  # CDK configuration
+├── bin/
+│   └── infra.ts              # CDKアプリエントリーポイント
+├── cdk.json                  # CDK設定
 ├── config/
-│   ├── type.ts              # Config type definitions
-│   ├── dev.ts               # Development config
-│   ├── stg.ts               # Staging config
-│   └── prod.ts              # Production config
+│   ├── index.ts              # 設定エクスポートとgetConfig関数
+│   ├── type.ts               # 設定型定義
+│   ├── constant.ts           # 定数（例：PIPELINE_NAME）
+│   ├── dev/
+│   │   └── index.ts          # 開発環境設定
+│   ├── stg/
+│   │   └── index.ts          # ステージング環境設定
+│   └── prod/
+│       └── index.ts          # 本番環境設定
 └── libs/
-    ├── infra-stack.ts       # Main infrastructure stack
-    └── pipeline-stack.ts    # CI/CD pipeline stack
+    ├── infra-stack.ts        # メインインフラストラクチャスタック
+    ├── pipeline-stack.ts     # CI/CDパイプラインスタック
+    └── pipeline-infra-stage.ts # パイプラインインフラストラクチャステージ
 ```
 
 ## CDKでのデプロイ
+
+### デプロイ対象環境の設定
+
+デプロイする環境は `infra/bin/infra.ts` の `envs` 配列を変更して設定します：
+
+```typescript
+// infra/bin/infra.ts
+const envs: Env[] = ['dev'];  // 必要に応じて 'stg' や 'prod' を追加
+```
+
+複数の環境をデプロイするには、配列に追加します：
+
+```typescript
+const envs: Env[] = ['dev', 'stg', 'prod'];
+```
 
 ### CloudFormationテンプレートの合成
 
@@ -140,30 +182,26 @@ cd infra
 cdk synth
 ```
 
-### 開発環境へのデプロイ
+### スタックのデプロイ
+
+設定されたすべての環境スタックをデプロイします：
 
 ```bash
-cdk deploy --context env=dev
+cdk deploy --all
 ```
 
-### ステージング環境へのデプロイ
+または特定の環境スタックをデプロイします：
 
 ```bash
-cdk deploy --context env=stg
-```
-
-### 本番環境へのデプロイ
-
-```bash
-cdk deploy --context env=prod
+cdk deploy dev-your-app-pipeline-stack
 ```
 
 ### 承認付きデプロイ
 
-本番デプロイでは、承認を必要とする場合があります：
+承認が必要なデプロイの場合：
 
 ```bash
-cdk deploy --context env=prod --require-approval broadening
+cdk deploy --all --require-approval broadening
 ```
 
 ## デプロイ後の確認
@@ -202,8 +240,7 @@ curl https://your-api-endpoint.execute-api.ap-northeast-1.amazonaws.com/health
 | AWSアカウント | 共有または専用 | 専用 | 専用 |
 | VPC | 共有 | 専用 | 専用 |
 | データベース | 共有RDS | 専用RDS | Multi-AZ RDS |
-| Lambdaメモリ | 512 MB | 1024 MB | 2048 MB |
-| APIスロットリング | 低 | 中 | 高 |
+| ログレベル | verbose/debug | info | warn/error |
 
 ### リソース命名規則
 
@@ -234,7 +271,7 @@ aws cloudformation rollback-stack --stack-name YourStackName-dev
 
 ```bash
 git checkout <previous-commit>
-cdk deploy --context env=dev
+cdk deploy --all
 ```
 
 ## クリーンアップ
@@ -244,7 +281,13 @@ cdk deploy --context env=dev
 すべてのリソースを削除するには：
 
 ```bash
-cdk destroy --context env=dev
+cdk destroy --all
+```
+
+または特定の環境スタックを削除します：
+
+```bash
+cdk destroy dev-your-app-pipeline-stack
 ```
 
 注意：これによりデータを含むすべてのリソースが削除されます。注意して使用してください。

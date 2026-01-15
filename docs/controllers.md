@@ -64,14 +64,14 @@ async getItem(
 {{Method/class decorator that applies authentication and role-based access control. Combines RolesGuard with Swagger documentation (ApiBearerAuth, ApiUnauthorizedResponse).}}
 
 ```ts
-import { Auth, ROLE_SYSTEM_ADMIN, ROLE_USER } from '@mbc-cqrs-serverless/core';
+import { Auth, ROLE_SYSTEM_ADMIN } from '@mbc-cqrs-serverless/core';
 
 @Controller('admin')
 @Auth(ROLE_SYSTEM_ADMIN)  // {{Class-level: applies to all methods}}
 export class AdminController {
 
   @Post()
-  @Auth(ROLE_SYSTEM_ADMIN, ROLE_USER)  // {{Method-level: override class decorator}}
+  @Auth(ROLE_SYSTEM_ADMIN)  // {{Method-level: override class decorator}}
   async create() {}
 }
 ```
@@ -124,7 +124,8 @@ export class ItemController {
 {{Method/class decorator that specifies which roles can access an endpoint. Used internally by `@Auth()` but can be used directly with custom guards.}}
 
 ```ts
-import { Roles, UseGuards } from '@mbc-cqrs-serverless/core';
+import { Roles } from '@mbc-cqrs-serverless/core';
+import { UseGuards } from '@nestjs/common';
 import { CustomGuard } from './guards/custom.guard';
 
 @Controller('custom')

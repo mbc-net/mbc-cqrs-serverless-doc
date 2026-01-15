@@ -19,7 +19,7 @@ graph TB
 
     subgraph "フレームワークモジュール"
         E["CommandModule"]
-        F["SequenceModule"]
+        F["{{SequencesModule}}"]
         G["TenantModule"]
     end
 
@@ -73,7 +73,7 @@ MBC CQRS Serverlessはすぐに使えるモジュールをいくつか提供し�
 | モジュール | パッケージ | 用途 |
 |--------|---------|---------|
 | `CommandModule` | `@mbc-cqrs-serverless/core` | CQRSコマンド処理とデータ同期 |
-| `SequenceModule` | `@mbc-cqrs-serverless/sequence` | 連番ID生成 |
+| `SequencesModule` | `@mbc-cqrs-serverless/sequence` | 連番ID生成 |
 | `TenantModule` | `@mbc-cqrs-serverless/tenant` | マルチテナント管理 |
 
 ### 機能モジュール
@@ -113,10 +113,10 @@ CommandModule.register({
 | `skipError` | `boolean` | `false` | データ同期中のエラーをスキップ |
 | `disableDefaultHandler` | `boolean` | `false` | データテーブルへのデフォルトデータ同期を無効化 |
 
-### SequenceModule
+### {{SequencesModule}}
 
 ```typescript
-SequenceModule.register({
+SequencesModule.register({
   enableController: true,
 })
 ```
@@ -137,7 +137,7 @@ MasterModule.register({
 // src/order/order.module.ts
 import { Module } from '@nestjs/common';
 import { CommandModule } from '@mbc-cqrs-serverless/core';
-import { SequenceModule } from '@mbc-cqrs-serverless/sequence';
+import { SequencesModule } from '@mbc-cqrs-serverless/sequence';
 
 import { OrderController } from './order.controller';
 import { OrderService } from './order.service';
@@ -149,7 +149,7 @@ import { OrderDataSyncHandler } from './handlers/order-data-sync.handler';
       tableName: 'order',
       dataSyncHandlers: [OrderDataSyncHandler],
     }),
-    SequenceModule.register({
+    SequencesModule.register({
       enableController: false,
     }),
   ],

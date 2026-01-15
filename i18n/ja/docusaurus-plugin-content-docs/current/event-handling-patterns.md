@@ -130,9 +130,7 @@ export class CustomEventFactory extends DefaultEventFactory {
         case 'NOTIFICATION':
           events.push(new NotificationEvent(body));
           break;
-        case 'SYNC_REQUEST':
-          events.push(new SyncRequestEvent(body));
-          break;
+        // Add more event types as needed (必要に応じてイベントタイプを追加)
       }
     }
 
@@ -593,7 +591,13 @@ export class DataChangeHandler implements IEventHandler<DataChangeEvent> {
 
 ## エラーハンドリングとリトライ
 
-### デッドレターキューを使用したリトライパターン
+以下のパターンは、アプリケーションでエラーハンドリングとリトライロジックを実装する方法を示しています。これらは、プロジェクト内で独自に作成する必要がある実装例です。
+
+### リトライパターンの例
+
+:::info 実装例
+以下のリトライデコレーターはフレームワークでは提供されていません。Lambda実行内でリトライ機能が必要な場合は、自分で実装する必要があります。
+:::
 
 ```typescript
 // common/event/retry.decorator.ts
@@ -612,7 +616,7 @@ const DEFAULT_RETRY_OPTIONS: RetryOptions = {
 };
 
 /**
- * Retry decorator for event handlers (イベントハンドラー用のリトライデコレーター)
+ * Example retry decorator for event handlers (イベントハンドラー用のリトライデコレーター例)
  */
 export function WithRetry(options: Partial<RetryOptions> = {}) {
   const retryOptions = { ...DEFAULT_RETRY_OPTIONS, ...options };
@@ -654,170 +658,13 @@ export function WithRetry(options: Partial<RetryOptions> = {}) {
 }
 ```
 
-### リトライデコレーターの使用
+### AWSネイティブのリトライオプション
 
-```typescript
-@EventHandler(ProcessOrderEvent)
-@Injectable()
-export class ProcessOrderHandler implements IEventHandler<ProcessOrderEvent> {
-  @WithRetry({ maxRetries: 3, backoffMs: 500 })
-  async execute(event: ProcessOrderEvent): Promise<any> {
-    // This method will be retried up to 3 times on failure (このメソッドは失敗時に最大3回リトライされます)
-    return this.processOrder(event);
-  }
-}
-```
+本番環境では、AWSネイティブのリトライメカニズムの使用を検討してください：
 
-### デッドレターキューハンドラー
-
-```typescript
-// dlq/dlq.event.handler.ts
-import { Injectable, Logger } from '@nestjs/common';
-import { EventHandler, IEventHandler, SNSService } from '@mbc-cqrs-serverless/core';
-import { DlqEvent } from './dlq.event';
-import { PrismaService } from '../../prisma/prisma.service';
-
-@EventHandler(DlqEvent)
-@Injectable()
-export class DlqEventHandler implements IEventHandler<DlqEvent> {
-  private readonly logger = new Logger(DlqEventHandler.name);
-
-  constructor(
-    private readonly prismaService: PrismaService,
-    private readonly snsService: SNSService,
-  ) {}
-
-  /**
-   * Handle failed events from Dead Letter Queue (デッドレターキューからの失敗イベントを処理)
-   */
-  async execute(event: DlqEvent): Promise<any> {
-    this.logger.error(`DLQ event received: ${event.originalMessageId}`);
-
-    // Store failed event for analysis (分析用に失敗イベントを保存)
-    await this.prismaService.failedEvent.create({
-      data: {
-        messageId: event.originalMessageId,
-        eventType: event.eventType,
-        payload: event.payload,
-        errorMessage: event.errorMessage,
-        retryCount: event.retryCount,
-        createdAt: new Date(),
-      },
-    });
-
-    // Send alert for manual intervention (手動介入用のアラートを送信)
-    await this.snsService.publish({
-      topicArn: process.env.ALERT_TOPIC_ARN!,
-      subject: 'Event Processing Failed - Manual Intervention Required',
-      message: JSON.stringify({
-        messageId: event.originalMessageId,
-        eventType: event.eventType,
-        errorMessage: event.errorMessage,
-        timestamp: new Date().toISOString(),
-      }, null, 2),
-    });
-
-    return { logged: true };
-  }
-}
-```
-
-## アラームと通知
-
-### アラームサービス
-
-```typescript
-// alarm/alarm.service.ts
-import { Injectable, Logger } from '@nestjs/common';
-import { SNSService } from '@mbc-cqrs-serverless/core';
-import { ConfigService } from '@nestjs/config';
-
-export interface AlarmPayload {
-  severity: 'INFO' | 'WARNING' | 'ERROR' | 'CRITICAL';
-  source: string;
-  message: string;
-  details?: Record<string, any>;
-  error?: Error;
-}
-
-@Injectable()
-export class AlarmService {
-  private readonly logger = new Logger(AlarmService.name);
-  private readonly alarmTopicArn: string;
-
-  constructor(
-    private readonly snsService: SNSService,
-    private readonly configService: ConfigService,
-  ) {
-    this.alarmTopicArn = this.configService.get<string>('SNS_ALARM_TOPIC_ARN')!;
-  }
-
-  /**
-   * Send alarm notification (アラーム通知を送信)
-   */
-  async sendAlarm(payload: AlarmPayload): Promise<void> {
-    const timestamp = new Date().toISOString();
-
-    const message = {
-      severity: payload.severity,
-      source: payload.source,
-      message: payload.message,
-      details: payload.details,
-      error: payload.error ? {
-        name: payload.error.name,
-        message: payload.error.message,
-        stack: payload.error.stack,
-      } : undefined,
-      timestamp,
-      environment: this.configService.get('NODE_ENV'),
-    };
-
-    await this.snsService.publish({
-      topicArn: this.alarmTopicArn,
-      subject: `[${payload.severity}] ${payload.source}: ${payload.message.substring(0, 50)}`,
-      message: JSON.stringify(message, null, 2),
-    });
-
-    this.logger.log(`Alarm sent: ${payload.severity} - ${payload.message}`);
-  }
-
-  /**
-   * Send critical error alarm (クリティカルエラーアラームを送信)
-   */
-  async critical(source: string, message: string, error?: Error): Promise<void> {
-    await this.sendAlarm({
-      severity: 'CRITICAL',
-      source,
-      message,
-      error,
-    });
-  }
-
-  /**
-   * Send error alarm (エラーアラームを送信)
-   */
-  async error(source: string, message: string, error?: Error): Promise<void> {
-    await this.sendAlarm({
-      severity: 'ERROR',
-      source,
-      message,
-      error,
-    });
-  }
-
-  /**
-   * Send warning alarm (警告アラームを送信)
-   */
-  async warning(source: string, message: string, details?: Record<string, any>): Promise<void> {
-    await this.sendAlarm({
-      severity: 'WARNING',
-      source,
-      message,
-      details,
-    });
-  }
-}
-```
+- **SQSリトライ**: SQSキューの`maxReceiveCount`を設定して、失敗したメッセージを自動的にリトライします
+- **Lambdaリトライ**: 非同期呼び出しのLambda関数にリトライ設定を構成します
+- **Step Functionsリトライ**: ステートマシン定義で`Retry`フィールドを使用します
 
 ## ベストプラクティス
 
@@ -896,11 +743,7 @@ async execute(event: BatchEvent): Promise<any> {
   }
 
   if (errors.length > 0) {
-    await this.alarmService.warning(
-      'BatchProcessor',
-      `${errors.length} items failed`,
-      { errors },
-    );
+    this.logger.warn(`${errors.length} items failed`, { errors });
   }
 
   return { processed: results.length, failed: errors.length };

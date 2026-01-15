@@ -13,21 +13,31 @@ description: MBC CQRS Serverlessアプリケーションのデバッグテクニ
 REPL（Read-Eval-Print Loop）を使用してインタラクティブにデバッグできます：
 
 ```bash
-npm run repl
+npm run start:repl
 ```
 
 REPLでは以下のことができます：
 
 ```typescript
-// Get a service instance
-const todoService = await get(TodoService);
+// Get a service instance (サービスインスタンスを取得)
+> get(TodoService)
+TodoService { ... }
 
-// Call methods directly
-await todoService.findAll();
+// Call methods directly (メソッドを直接呼び出す)
+> await get(TodoService).findAll()
+[{ id: '1', title: 'Test' }, ...]
 
-// Inspect module dependencies
-debug(TodoModule);
+// Show available methods on a service (サービスで利用可能なメソッドを表示)
+> methods(TodoService)
+Methods:
+ ◻ findAll
+ ◻ findOne
+ ◻ create
+ ◻ update
+ ◻ delete
 ```
+
+NestJS REPLの詳細については、[NestJS REPLドキュメント](https://docs.nestjs.com/recipes/repl)を参照してください。
 
 ### VS Codeでのデバッグ
 
@@ -275,17 +285,43 @@ curl -v -X POST https://your-api.execute-api.region.amazonaws.com/todos \
 
 ## X-Rayトレーシング
 
-### X-Rayの有効化
+X-RayトレーシングはCDKレベルでLambda関数とAPI Gatewayに対して自動的に有効化されています。`aws-xray-sdk`を使用したSDKレベルのインストルメンテーションは、追加のトレーシング機能が必要な場合のオプションです。
+
+### CDKレベルの設定
+
+CDKインフラストラクチャではX-Rayはデフォルトで有効です：
 
 ```typescript
-// In your main Lambda handler
-import * as AWSXRay from 'aws-xray-sdk';
+// Lambda functions have X-Ray tracing enabled by default (Lambda関数はデフォルトでX-Rayトレーシングが有効)
+const handler = new NodejsFunction(this, 'Handler', {
+  // ...
+  tracing: lambda.Tracing.ACTIVE, // Enabled by default (デフォルトで有効)
+});
 
-// Instrument AWS SDK
+// Step Functions can also enable X-Ray (Step FunctionsでもX-Rayを有効化できる)
+const stateMachine = new sfn.StateMachine(this, 'StateMachine', {
+  definition: definition,
+  tracingEnabled: true, // Enable X-Ray (X-Rayを有効化)
+});
+```
+
+### オプション: SDKレベルのインストルメンテーション
+
+より詳細なトレーシングが必要な場合は、オプションでX-Ray SDKをインストールして設定できます：
+
+```bash
+npm install aws-xray-sdk
+```
+
+```typescript
+// Optional: Instrument AWS SDK for detailed tracing (オプション: 詳細トレーシング用にAWS SDKをインストルメント)
+import * as AWSXRay from 'aws-xray-sdk';
 const AWS = AWSXRay.captureAWS(require('aws-sdk'));
 ```
 
 ### カスタムセグメントの追加
+
+詳細なトレーシングのためにカスタムサブセグメントが必要な場合：
 
 ```typescript
 import * as AWSXRay from 'aws-xray-sdk';
@@ -296,7 +332,7 @@ async function processOrder(orderId: string): Promise<void> {
 
   try {
     subsegment?.addAnnotation('orderId', orderId);
-    // Process order
+    // Process order (注文を処理)
     subsegment?.addMetadata('result', { status: 'success' });
   } catch (error) {
     subsegment?.addError(error);

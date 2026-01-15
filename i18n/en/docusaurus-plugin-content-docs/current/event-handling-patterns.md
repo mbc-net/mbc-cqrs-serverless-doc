@@ -130,9 +130,7 @@ export class CustomEventFactory extends DefaultEventFactory {
         case 'NOTIFICATION':
           events.push(new NotificationEvent(body));
           break;
-        case 'SYNC_REQUEST':
-          events.push(new SyncRequestEvent(body));
-          break;
+        // Add more event types as needed
       }
     }
 
@@ -593,7 +591,13 @@ export class DataChangeHandler implements IEventHandler<DataChangeEvent> {
 
 ## Error Handling and Retry
 
-### Retry Pattern with Dead Letter Queue
+The following patterns show how you can implement error handling and retry logic in your application. These are example implementations that you need to create in your own project.
+
+### Retry Pattern Example
+
+:::info Example Implementation
+The following retry decorator is not provided by the framework. You need to implement it yourself if you need retry functionality within Lambda execution.
+:::
 
 ```typescript
 // common/event/retry.decorator.ts
@@ -612,7 +616,7 @@ const DEFAULT_RETRY_OPTIONS: RetryOptions = {
 };
 
 /**
- * Retry decorator for event handlers
+ * Example retry decorator for event handlers
  */
 export function WithRetry(options: Partial<RetryOptions> = {}) {
   const retryOptions = { ...DEFAULT_RETRY_OPTIONS, ...options };
@@ -654,170 +658,13 @@ export function WithRetry(options: Partial<RetryOptions> = {}) {
 }
 ```
 
-### Using Retry Decorator
+### AWS Native Retry Options
 
-```typescript
-@EventHandler(ProcessOrderEvent)
-@Injectable()
-export class ProcessOrderHandler implements IEventHandler<ProcessOrderEvent> {
-  @WithRetry({ maxRetries: 3, backoffMs: 500 })
-  async execute(event: ProcessOrderEvent): Promise<any> {
-    // This method will be retried up to 3 times on failure
-    return this.processOrder(event);
-  }
-}
-```
+For production use, consider using AWS-native retry mechanisms:
 
-### Dead Letter Queue Handler
-
-```typescript
-// dlq/dlq.event.handler.ts
-import { Injectable, Logger } from '@nestjs/common';
-import { EventHandler, IEventHandler, SNSService } from '@mbc-cqrs-serverless/core';
-import { DlqEvent } from './dlq.event';
-import { PrismaService } from '../../prisma/prisma.service';
-
-@EventHandler(DlqEvent)
-@Injectable()
-export class DlqEventHandler implements IEventHandler<DlqEvent> {
-  private readonly logger = new Logger(DlqEventHandler.name);
-
-  constructor(
-    private readonly prismaService: PrismaService,
-    private readonly snsService: SNSService,
-  ) {}
-
-  /**
-   * Handle failed events from Dead Letter Queue
-   */
-  async execute(event: DlqEvent): Promise<any> {
-    this.logger.error(`DLQ event received: ${event.originalMessageId}`);
-
-    // Store failed event for analysis
-    await this.prismaService.failedEvent.create({
-      data: {
-        messageId: event.originalMessageId,
-        eventType: event.eventType,
-        payload: event.payload,
-        errorMessage: event.errorMessage,
-        retryCount: event.retryCount,
-        createdAt: new Date(),
-      },
-    });
-
-    // Send alert for manual intervention
-    await this.snsService.publish({
-      topicArn: process.env.ALERT_TOPIC_ARN!,
-      subject: 'Event Processing Failed - Manual Intervention Required',
-      message: JSON.stringify({
-        messageId: event.originalMessageId,
-        eventType: event.eventType,
-        errorMessage: event.errorMessage,
-        timestamp: new Date().toISOString(),
-      }, null, 2),
-    });
-
-    return { logged: true };
-  }
-}
-```
-
-## Alarm and Notification
-
-### Alarm Service
-
-```typescript
-// alarm/alarm.service.ts
-import { Injectable, Logger } from '@nestjs/common';
-import { SNSService } from '@mbc-cqrs-serverless/core';
-import { ConfigService } from '@nestjs/config';
-
-export interface AlarmPayload {
-  severity: 'INFO' | 'WARNING' | 'ERROR' | 'CRITICAL';
-  source: string;
-  message: string;
-  details?: Record<string, any>;
-  error?: Error;
-}
-
-@Injectable()
-export class AlarmService {
-  private readonly logger = new Logger(AlarmService.name);
-  private readonly alarmTopicArn: string;
-
-  constructor(
-    private readonly snsService: SNSService,
-    private readonly configService: ConfigService,
-  ) {
-    this.alarmTopicArn = this.configService.get<string>('SNS_ALARM_TOPIC_ARN')!;
-  }
-
-  /**
-   * Send alarm notification
-   */
-  async sendAlarm(payload: AlarmPayload): Promise<void> {
-    const timestamp = new Date().toISOString();
-
-    const message = {
-      severity: payload.severity,
-      source: payload.source,
-      message: payload.message,
-      details: payload.details,
-      error: payload.error ? {
-        name: payload.error.name,
-        message: payload.error.message,
-        stack: payload.error.stack,
-      } : undefined,
-      timestamp,
-      environment: this.configService.get('NODE_ENV'),
-    };
-
-    await this.snsService.publish({
-      topicArn: this.alarmTopicArn,
-      subject: `[${payload.severity}] ${payload.source}: ${payload.message.substring(0, 50)}`,
-      message: JSON.stringify(message, null, 2),
-    });
-
-    this.logger.log(`Alarm sent: ${payload.severity} - ${payload.message}`);
-  }
-
-  /**
-   * Send critical error alarm
-   */
-  async critical(source: string, message: string, error?: Error): Promise<void> {
-    await this.sendAlarm({
-      severity: 'CRITICAL',
-      source,
-      message,
-      error,
-    });
-  }
-
-  /**
-   * Send error alarm
-   */
-  async error(source: string, message: string, error?: Error): Promise<void> {
-    await this.sendAlarm({
-      severity: 'ERROR',
-      source,
-      message,
-      error,
-    });
-  }
-
-  /**
-   * Send warning alarm
-   */
-  async warning(source: string, message: string, details?: Record<string, any>): Promise<void> {
-    await this.sendAlarm({
-      severity: 'WARNING',
-      source,
-      message,
-      details,
-    });
-  }
-}
-```
+- **SQS Retry**: Configure `maxReceiveCount` on the SQS queue to automatically retry failed messages
+- **Lambda Retry**: Configure retry settings on the Lambda function for asynchronous invocations
+- **Step Functions Retry**: Use the `Retry` field in your state machine definition
 
 ## Best Practices
 
@@ -896,11 +743,7 @@ async execute(event: BatchEvent): Promise<any> {
   }
 
   if (errors.length > 0) {
-    await this.alarmService.warning(
-      'BatchProcessor',
-      `${errors.length} items failed`,
-      { errors },
-    );
+    this.logger.warn(`${errors.length} items failed`, { errors });
   }
 
   return { processed: results.length, failed: errors.length };

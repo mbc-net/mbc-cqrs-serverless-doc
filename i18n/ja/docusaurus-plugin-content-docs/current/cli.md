@@ -194,6 +194,43 @@ mbc ui [options]
 
 このコマンドは、MBC CQRS UI Commonライブラリをプロジェクトに統合し、構築済みのUIコンポーネントとユーティリティを提供します。
 
+### オプション
+
+| オプション | 説明 |
+|--------|-------------|
+| `-p, --pathDir <string>` | （必須）common-uiコンポーネントのインストール先パス |
+| `-b, --branch <string>` | クローンするブランチ名（デフォルト: main） |
+| `--auth <string>` | 認証方法: SSH または HTTPS - Token（デフォルト: SSH） |
+| `--token <string>` | HTTPS認証用トークン、形式: tokenId:tokenPassword |
+| `-c, --component <string>` | インストールするコンポーネント: all, appsync, または component（デフォルト: all） |
+| `--alias` | tsconfig.jsonにcommon-ui用のエイリアス設定を追加 |
+
+### 使用例
+
+SSH認証ですべてのコンポーネントをインストール：
+
+```bash
+mbc ui-common -p src/common-ui
+```
+
+UIコンポーネントのみをインストール（appsyncを除く）：
+
+```bash
+mbc ui -p src/common-ui -c component
+```
+
+特定のブランチからインストール：
+
+```bash
+mbc ui -p src/common-ui -b develop
+```
+
+トークン認証を使用してHTTPSでインストール：
+
+```bash
+mbc ui -p src/common-ui --auth "HTTPS - Token" --token "user:password"
+```
+
 ## トラブルシューティング
 
 ### バージョンが見つからない

@@ -13,34 +13,172 @@ e2e(エンドツーエンド) テストでは実際の環境で API をテスト
 - データが正しいかどうかを確認してください
 - データをクリアする
 
-これはアプリケーションのスキャフォールドのデフォルトの e2e(エンドツーエンド) テストです
+e2e テストの基本構造を以下に示します：
 
 ```ts
-import { removeSortKeyVersion } from "@mbc-cqrs-serverless/core";
 import request from "supertest";
-import config from "test/lib/config";
-import { getItem, getTableName, TableType } from "test/lib/dynamo-client";
-import prismaClient from "test/lib/prisma-client";
-import { readMockData, syncDataFinished } from "test/lib/utils";
+import { config } from "./config";
+import {
+  deleteItem,
+  getItem,
+  getTableName,
+  putItem,
+  TableType,
+} from "./dynamo-client";
+import { syncDataFinished } from "./utils";
 
-const createApplicationData = readMockData("cat-create.json");
-const BASE_API_PATH = "/api/cat";
-
-jest.setTimeout(90000);
+const API_PATH = "/api/cat";
 
 describe("Cat", () => {
-  beforeAll(async () => {
-    // TODO: 1 create necessary data
-  });
+  it("should create a new cat (新しい猫を作成する)", async () => {
+    // Arrange - define test data inline (テストデータをインラインで定義)
+    const payload = {
+      pk: "CAT#TENANT1",
+      sk: "cat#001",
+      id: "CAT#TENANT1#cat#001",
+      name: "Whiskers",
+      version: 0,
+      code: "cat#001",
+      type: "CAT",
+    };
 
-  it("", async () => {
-    // TODO: 2,3 make API calls and assert
-  });
+    // Action - make API call (APIを呼び出す)
+    const res = await request(config.apiBaseUrl).post(API_PATH).send(payload);
 
+    // Assert - verify response and data (レスポンスとデータを検証)
+    expect(res.statusCode).toEqual(201);
+
+    // Wait for async processing to complete (非同期処理の完了を待つ)
+    await syncDataFinished("cat_table", {
+      pk: payload.pk,
+      sk: `${payload.sk}@1`,
+    });
+
+    // Verify data in DynamoDB (DynamoDBのデータを検証)
+    const data = await getItem(getTableName("cat_table", TableType.DATA), {
+      pk: payload.pk,
+      sk: payload.sk,
+    });
+
+    expect(data).toMatchObject({
+      ...payload,
+      version: 1,
+    });
+  }, 40000);
+
+  // Clean up test data if needed (必要に応じてテストデータをクリーンアップ)
   afterAll(async () => {
-    // TODO: 4 clean data
+    await deleteItem(getTableName("cat_table", TableType.DATA), {
+      pk: "CAT#TENANT1",
+      sk: "cat#001",
+    });
   });
 });
+```
+
+### テストヘルパーユーティリティ
+
+フレームワークはe2eテスト用のヘルパーユーティリティを提供しています：
+
+#### config.ts - 環境設定
+
+```ts
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const config = {
+  nodeEnv: process.env.NODE_ENV,
+  appName: process.env.APP_NAME,
+  dynamoEndpoint: process.env.DYNAMODB_ENDPOINT,
+  dynamoRegion: process.env.DYNAMODB_REGION,
+  apiBaseUrl: process.env.API_BASE_URL || "http://0.0.0.0:3000",
+};
+
+export { config };
+```
+
+#### dynamo-client.ts - DynamoDB操作
+
+```ts
+import {
+  DynamoDBClient,
+  GetItemCommand,
+  PutItemCommand,
+  DeleteItemCommand,
+} from "@aws-sdk/client-dynamodb";
+import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
+import { config } from "./config";
+
+const tablePrefix = `${config.nodeEnv}-${config.appName}-`;
+
+enum TableType {
+  COMMAND = "command",
+  DATA = "data",
+  HISTORY = "history",
+}
+
+const dynamoClient = new DynamoDBClient({
+  endpoint: config.dynamoEndpoint,
+  region: config.dynamoRegion,
+});
+
+const getTableName = (tableName: string, tableType: TableType) => {
+  return `${tablePrefix}${tableName}-${tableType}`;
+};
+
+const getItem = async (tableName: string, key: { pk: string; sk: string }) => {
+  const { Item } = await dynamoClient.send(
+    new GetItemCommand({
+      TableName: tableName,
+      Key: marshall(key),
+    })
+  );
+  return Item ? unmarshall(Item) : undefined;
+};
+
+export { getItem, getTableName, TableType, dynamoClient };
+```
+
+#### utils.ts - テストユーティリティ
+
+```ts
+import { getItem, getTableName, TableType } from "./dynamo-client";
+
+const sleep = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const retry = async <T>(
+  fn: () => Promise<T>,
+  options: { retries: number; retryIntervalMs: number }
+): Promise<T> => {
+  try {
+    await sleep(options.retryIntervalMs);
+    return await fn();
+  } catch (error) {
+    if (options.retries <= 0) throw error;
+    return retry(fn, {
+      retries: options.retries - 1,
+      retryIntervalMs: options.retryIntervalMs,
+    });
+  }
+};
+
+// Wait for async command processing to finish (非同期コマンド処理の完了を待つ)
+const syncDataFinished = async (
+  tableName: string,
+  key: { pk: string; sk: string }
+) => {
+  await retry(
+    async () => {
+      const res = await getItem(getTableName(tableName, TableType.COMMAND), key);
+      if (res?.status === "finish:FINISHED") return;
+      throw new Error("Not finished yet");
+    },
+    { retries: 10, retryIntervalMs: 3000 }
+  );
+};
+
+export { retry, sleep, syncDataFinished };
 ```
 
 ## GitHub Actions のセットアップ

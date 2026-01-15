@@ -47,18 +47,6 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ---
 
-## [1.0.21](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.21) (2026-01-15) {#v1021}
-
-### 新機能
-
-- **import:** ImportModuleにZIP終了フックのサポートを追加 ([詳細を見る](./import-export-patterns#zip-finalization-hooks))
-  - ZIPインポート後のカスタム後処理用に`ImportModule.register()`に`zipFinalizationHooks`オプションを導入
-  - フック実装用に`IZipFinalizationHook`インターフェースと`ZipFinalizationContext`を追加
-  - フックはエラー分離付きで並列実行 - 個々のフック失敗はジョブステータスに影響しません
-  - 一般的なユースケース：ファイルバックアップ、通知、外部システム更新、レポート生成
-
----
-
 ## [1.0.20](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.20) (2026-01-11) {#v1020}
 
 ### バグ修正

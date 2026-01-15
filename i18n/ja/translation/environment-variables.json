@@ -9,5 +9,8 @@
   "First, we have to define:": "まずはじめに定義しなければいけないもの",
   "a class with validation constraints,": "検証制約のあるクラス",
   "extend the EnvironmentVariables class.": "EnvironmentVariables 拡張クラス",
-  "With this in place, you pass the `EnvValidation` class as a configuration argument of the `createHandler` function, as follows:": "これを配置したら、次のように `EnvValidation` クラスを `createHandler` 関数の構成引数として渡します。"
+  "With this in place, you pass the `EnvValidation` class as a configuration argument of the `createHandler` function, as follows:": "これを配置したら、次のように `EnvValidation` クラスを `createHandler` 関数の構成引数として渡します。",
+  "Application port for non-Lambda environments (default: 3000)": "Lambda以外の環境でのアプリケーションポート（デフォルト: 3000）",
+  "Request body size limit for JSON and URL-encoded data (default: 100kb)": "JSONおよびURLエンコードデータのリクエストボディサイズ制限（デフォルト: 100kb）",
+  "SNS topic ARN for alarm notifications (error alerts)": "アラーム通知用のSNSトピックARN（エラーアラート）"
 }

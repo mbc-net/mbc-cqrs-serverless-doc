@@ -42,5 +42,8 @@
   "Comprehensive sync handler examples": "包括的な同期ハンドラー例",
   "PK/SK design patterns": "PK/SK設計パターン",
   "Multi-tenant implementation": "マルチテナント実装",
-  "Batch data processing": "バッチデータ処理"
+  "Batch data processing": "バッチデータ処理",
+  "Resync all data to RDS": "Resync all data to RDS (RDSにすべてのデータを再同期)",
+  "Resync all data from DynamoDB to RDS": "Resync all data from DynamoDB to RDS (DynamoDBからRDSにすべてのデータを再同期)",
+  "Pass pk parameter to specify which partition to resync": "Pass pk parameter to specify which partition to resync (再同期するパーティションを指定するpkパラメータを渡す)"
 }

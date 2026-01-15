@@ -15,11 +15,45 @@ A complete observability strategy includes:
 - **Tracing**: Following requests across services
 - **Alerting**: Notifying on issues
 
+### Built-in Features
+
+The MBC CQRS Serverless framework provides the following observability features out-of-the-box:
+
+- **RequestLogger**: Extended NestJS logger with context (tenantCode, userId, requestId, sourceIp)
+- **AWS X-Ray Tracing**: Enabled by default in the CDK template for Lambda and Step Functions
+- **JSON Logging Format**: Lambda functions log in JSON format for easy querying
+- **Configurable Log Levels**: Set via LOG_LEVEL environment variable
+
+:::info AWS Services Guidance
+The sections below provide guidance on setting up additional AWS CloudWatch features (metrics, dashboards, alarms). These are not built into the framework but are recommended patterns for production deployments.
+:::
+
 ## CloudWatch Logs
 
 ### Lambda Logging
 
-Lambda functions automatically log to CloudWatch. Enhance with structured logging:
+The framework includes a built-in RequestLogger that automatically adds context to your logs:
+
+```typescript
+// The framework's RequestLogger is used automatically
+// Log output includes: context, requestId, ip, tenantCode, userId
+
+import { Logger, Injectable } from '@nestjs/common';
+
+@Injectable()
+export class YourService {
+  private readonly logger = new Logger(YourService.name);
+
+  async doSomething() {
+    // These logs automatically include user context in Lambda
+    this.logger.log('Operation started');
+    this.logger.debug('Debug information');
+    this.logger.error('Error occurred');
+  }
+}
+```
+
+You can enhance with structured logging for more detailed tracking:
 
 ```typescript
 import { Logger, Injectable } from '@nestjs/common';
@@ -93,6 +127,10 @@ interface LogEntry {
 
 ## CloudWatch Metrics
 
+:::info Implementation Required
+Custom metrics are not built into the framework. The following examples show how you can implement custom metrics in your application using the AWS SDK.
+:::
+
 ### Custom Metrics
 
 Publish custom metrics from your application:
@@ -145,6 +183,10 @@ await publishMetric('ProcessingTime', 150, 'Milliseconds');
 
 ### CDK Dashboard
 
+:::info CDK Customization
+Dashboards are not included in the default CDK template. Add the following to your CDK stack to create a CloudWatch dashboard.
+:::
+
 Create a CloudWatch dashboard:
 
 ```typescript
@@ -179,6 +221,10 @@ dashboard.addWidgets(
 ```
 
 ## CloudWatch Alarms
+
+:::info CDK Customization
+Alarms are not included in the default CDK template. Add the following to your CDK stack for production monitoring.
+:::
 
 ### Create Alarms
 
@@ -235,9 +281,13 @@ throttleAlarm.addAlarmAction(new actions.SnsAction(alertTopic));
 
 ## AWS X-Ray Tracing
 
+:::tip Built-in Feature
+X-Ray tracing is enabled by default in the MBC CQRS Serverless CDK template for Lambda functions and Step Functions.
+:::
+
 ### Enable X-Ray
 
-Enable X-Ray tracing in CDK:
+X-Ray tracing is already enabled in the default CDK template:
 
 ```typescript
 const handler = new lambda.Function(this, 'Handler', {
@@ -255,6 +305,10 @@ stage.addPropertyOverride('TracingEnabled', true);
 ```
 
 ### Instrument Application
+
+:::info Optional Enhancement
+For deeper tracing of AWS SDK calls and HTTP requests, you can optionally add the aws-xray-sdk package to your application.
+:::
 
 ```typescript
 import * as AWSXRay from 'aws-xray-sdk';
@@ -276,6 +330,10 @@ subsegment?.close();
 ```
 
 ## Centralized Logging
+
+:::info CDK Customization
+Centralized logging is not included in the default template. The following patterns show how to aggregate logs for complex applications.
+:::
 
 ### Log Aggregation Pattern
 
@@ -328,6 +386,10 @@ fields @timestamp, @message
 
 ## Application Performance Monitoring
 
+:::info Implementation Required
+The framework does not include built-in APM features. The following examples show patterns you can implement in your application.
+:::
+
 ### Performance Metrics
 
 Track key performance indicators:
@@ -362,7 +424,13 @@ class PerformanceMonitor {
 
 ### Health Checks
 
-Implement health check endpoints:
+The framework provides a basic health check endpoint at `GET /` that returns a simple response. For production applications, you may want to implement more comprehensive health checks:
+
+:::tip Built-in Health Check
+The default `GET /` endpoint returns "Hello World!" and can be used for basic liveness checks.
+:::
+
+For more detailed health checks, implement a custom controller:
 
 ```typescript
 @Controller('health')

@@ -584,53 +584,67 @@ import { IInvoke } from '@mbc-cqrs-serverless/core';
 /**
  * {{Base interface for import strategies}}
  */
-export interface IImportStrategy<TInput, TOutput> {
+export interface IImportStrategy<TInput, TAttributesDto> {
   /**
    * {{Transform raw input to command DTO}}
    */
-  transform(input: TInput): Promise<TOutput>;
+  transform(input: TInput): Promise<TAttributesDto>;
 
   /**
-   * {{Validate input data}}
+   * {{Validate transformed DTO}}
    */
-  validate(input: TInput): Promise<void>;
+  validate(data: TAttributesDto): Promise<void>;
 }
 
 /**
  * {{Base import strategy with common functionality}}
  */
-export abstract class BaseImportStrategy<TInput, TOutput>
-  implements IImportStrategy<TInput, TOutput>
+export abstract class BaseImportStrategy<TInput, TAttributesDto>
+  implements IImportStrategy<TInput, TAttributesDto>
 {
   /**
    * {{Transform raw input to command DTO (default: return as-is)}}
    */
-  async transform(input: TInput): Promise<TOutput> {
-    return input as unknown as TOutput;
+  async transform(input: TInput): Promise<TAttributesDto> {
+    return input as unknown as TAttributesDto;
   }
 
   /**
-   * {{Validate input data using class-validator}}
+   * {{Validate transformed DTO using class-validator}}
    */
-  async validate(input: TInput): Promise<void> {
+  async validate(data: TAttributesDto): Promise<void> {
     // {{Uses class-validator for validation}}
-    const errors = await validate(input as object);
+    const errors = await validate(data as object);
     if (errors.length > 0) {
-      throw new InvalidDataException(this.flattenValidationErrors(errors));
+      throw new BadRequestException({
+        statusCode: 400,
+        message: this.flattenValidationErrors(errors),
+        error: 'Bad Request',
+      });
     }
   }
 
   /**
    * {{Flatten validation errors to a simple format}}
    */
-  protected flattenValidationErrors(errors: ValidationError[]): string[] {
+  private flattenValidationErrors(
+    errors: ValidationError[],
+    parentPath = '',
+  ): string[] {
     const messages: string[] = [];
     for (const error of errors) {
-      if (error.constraints) {
-        messages.push(...Object.values(error.constraints));
-      }
-      if (error.children?.length) {
-        messages.push(...this.flattenValidationErrors(error.children));
+      const currentPath = parentPath
+        ? `${parentPath}.${error.property}`
+        : error.property;
+
+      if (error.children && error.children.length > 0) {
+        messages.push(
+          ...this.flattenValidationErrors(error.children, currentPath),
+        );
+      } else if (error.constraints) {
+        const firstConstraint = Object.values(error.constraints)[0];
+        const message = firstConstraint.replace(error.property, currentPath);
+        messages.push(message);
       }
     }
     return messages;
@@ -1086,119 +1100,6 @@ import { PolicyProcessStrategy } from './policy/strategies/policy.process-strate
 })
 export class AppModule {}
 ```
-
-### {{ZIP Finalization Hooks}} {#zip-finalization-hooks}
-
-{{ZIP finalization hooks allow you to execute custom logic after a ZIP import job completes. Common use cases include:}}
-
-- {{Moving processed files to a backup location}}
-- {{Sending notifications (email, Slack, etc.)}}
-- {{Updating external systems}}
-- {{Generating reports}}
-
-#### {{Implementing a Finalization Hook}}
-
-{{Create a class that implements `IZipFinalizationHook`:}}
-
-```typescript
-import { Injectable, Logger } from '@nestjs/common';
-import {
-  IZipFinalizationHook,
-  ZipFinalizationContext,
-} from '@mbc-cqrs-serverless/import';
-import { S3Service, SNSService } from '@mbc-cqrs-serverless/core';
-
-@Injectable()
-export class BackupAndNotifyHook implements IZipFinalizationHook {
-  private readonly logger = new Logger(BackupAndNotifyHook.name);
-
-  constructor(
-    private readonly s3Service: S3Service,
-    private readonly snsService: SNSService,
-  ) {}
-
-  async execute(context: ZipFinalizationContext): Promise<void> {
-    const { masterJobKey, results, status, executionInput } = context;
-    const { bucket, tenantCode } = executionInput.parameters;
-
-    this.logger.log(
-      `ZIP import completed: ${masterJobKey.pk}#${masterJobKey.sk}, status: ${status}`,
-    );
-
-    // {{Move processed files to backup location}}
-    for (const s3Key of executionInput.sortedS3Keys) {
-      const backupKey = `backup/${tenantCode}/${new Date().toISOString().slice(0, 10)}/${s3Key.split('/').pop()}`;
-      await this.s3Service.copyObject({
-        sourceBucket: bucket,
-        sourceKey: s3Key,
-        destinationBucket: bucket,
-        destinationKey: backupKey,
-      });
-      this.logger.log(`Backed up ${s3Key} to ${backupKey}`);
-    }
-
-    // {{Send notification}}
-    await this.snsService.publish({
-      topicArn: process.env.NOTIFICATION_TOPIC_ARN,
-      subject: `ZIP Import ${status}`,
-      message: JSON.stringify({
-        jobKey: masterJobKey,
-        status,
-        results,
-        timestamp: new Date().toISOString(),
-      }),
-    });
-  }
-}
-```
-
-#### {{Registering Finalization Hooks}}
-
-{{Add your hooks to the `ImportModule.register()` configuration:}}
-
-```typescript
-import { Module } from '@nestjs/common';
-import { ImportModule } from '@mbc-cqrs-serverless/import';
-import { BackupAndNotifyHook } from './hooks/backup-and-notify.hook';
-import { AuditLogHook } from './hooks/audit-log.hook';
-
-@Module({
-  imports: [
-    ImportModule.register({
-      enableController: true,
-      profiles: [...],
-      // {{Register ZIP finalization hooks}}
-      zipFinalizationHooks: [
-        BackupAndNotifyHook,
-        AuditLogHook,
-      ],
-    }),
-  ],
-})
-export class AppModule {}
-```
-
-#### {{ZipFinalizationContext}}
-
-{{The context object passed to hooks contains:}}
-
-| {{Property}} | {{Type}} | {{Description}} |
-|--------------|----------|-----------------|
-| `event` | `ZipImportSfnEvent` | {{The original Step Functions event}} |
-| `masterJobKey` | `DetailKey` | {{The key (`pk`, `sk`) of the master ZIP job}} |
-| `results` | `object` | {{Aggregated results: `totalRows`, `processedRows`, `failedRows`}} |
-| `status` | `ImportStatusEnum` | {{Final status of the job (COMPLETED or FAILED)}} |
-| `executionInput` | `object` | {{Original Step Functions execution input including `parameters` and `sortedS3Keys`}} |
-
-#### {{Hook Execution Behavior}}
-
-- {{**Parallel Execution**: All registered hooks execute in parallel for better performance}}
-- {{**Error Isolation**: If a hook throws an error, it is logged but does not affect other hooks or the job status}}
-- {{**Dependency Injection**: Hooks are registered as NestJS providers, so you can inject any service}}
-
-:::info {{Version Note}}
-{{ZIP finalization hooks were added in version 1.0.21. See [Changelog](./changelog#v1021) for details.}}
-:::
 
 ### {{Custom Event Factory for Imports}}
 

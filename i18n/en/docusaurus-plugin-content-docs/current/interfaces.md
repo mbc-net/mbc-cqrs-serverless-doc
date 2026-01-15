@@ -113,16 +113,6 @@ export interface DetailKey {
 }
 ```
 
-#### SearchKey
-
-Extended key interface for search operations with optional tenant filtering.
-
-```ts
-export interface SearchKey extends DetailKey {
-  tenantCode?: string  // Optional tenant filter
-}
-```
-
 ### Context Interfaces
 
 #### IInvoke
@@ -228,33 +218,6 @@ if (result.lastSk) {
 ```
 
 ## Service Interfaces
-
-### Query Options
-
-#### ListOptions
-
-Options for list queries.
-
-```ts
-export interface ListOptions {
-  limit?: number                // Maximum items to return
-  scanIndexForward?: boolean    // Sort order (true = ascending)
-  startFromSk?: string          // Pagination cursor (start from this sort key)
-  filter?: FilterExpression     // Additional filters
-}
-```
-
-#### SearchOptions
-
-Options for search operations with full-text search.
-
-```ts
-export interface SearchOptions extends ListOptions {
-  query?: string           // Full-text search query
-  fields?: string[]        // Fields to search
-  sort?: SortOptions       // Sort configuration
-}
-```
 
 ### Sync Handler Interfaces
 

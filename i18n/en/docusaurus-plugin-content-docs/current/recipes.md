@@ -47,9 +47,12 @@ async createOrder(dto: CreateOrderDto, context: IInvoke) {
     {
       pk: `${dto.tenantCode}#ORDER`,
       sk: `ORDER#${orderId.formattedNo}`,
+      id: orderId.formattedNo,           // Required: unique identifier
       code: orderId.formattedNo,
       name: dto.name,
+      version: 1,                        // Required: initial version for new entities
       tenantCode: dto.tenantCode,
+      type: 'ORDER',                     // Required: entity type
       attributes: dto.attributes,
     },
     { invokeContext: context },

@@ -64,14 +64,14 @@ async getItem(
 認証とロールベースアクセス制御を適用するメソッド/クラスデコレーター。RolesGuardとSwaggerドキュメント（ApiBearerAuth、ApiUnauthorizedResponse）を組み合わせます。
 
 ```ts
-import { Auth, ROLE_SYSTEM_ADMIN, ROLE_USER } from '@mbc-cqrs-serverless/core';
+import { Auth, ROLE_SYSTEM_ADMIN } from '@mbc-cqrs-serverless/core';
 
 @Controller('admin')
 @Auth(ROLE_SYSTEM_ADMIN)  // クラスレベル: すべてのメソッドに適用
 export class AdminController {
 
   @Post()
-  @Auth(ROLE_SYSTEM_ADMIN, ROLE_USER)  // メソッドレベル: クラスデコレーターを上書き
+  @Auth(ROLE_SYSTEM_ADMIN)  // メソッドレベル: クラスデコレーターを上書き
   async create() {}
 }
 ```
@@ -124,7 +124,8 @@ export class ItemController {
 エンドポイントにアクセスできるロールを指定するメソッド/クラスデコレーター。`@Auth()`によって内部的に使用されますが、カスタムガードと直接使用することもできます。
 
 ```ts
-import { Roles, UseGuards } from '@mbc-cqrs-serverless/core';
+import { Roles } from '@mbc-cqrs-serverless/core';
+import { UseGuards } from '@nestjs/common';
 import { CustomGuard } from './guards/custom.guard';
 
 @Controller('custom')
