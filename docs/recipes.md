@@ -10,8 +10,9 @@ description: {{Practical examples and implementation guides for common use cases
 
 | {{Example}} | {{Description}} | {{Key Concepts}} |
 |-------------|-----------------|------------------|
-| {{Directory}} | {{Organization hierarchy and user management}} | {{Nested structures, relationships, search}} |
-| {{Survey Template}} | {{Dynamic form builder with validation}} | {{Schema design, versioning, complex attributes}} |
+| [{{E-commerce}}](./ecommerce-example) | {{Order management with inventory tracking}} | {{Optimistic locking, event-driven sync, status transitions}} |
+| [{{SaaS Application}}](./saas-example) | {{Multi-tenant subscription and usage metering}} | {{Tenant isolation, quota enforcement, billing integration}} |
+| [{{Survey Template}}](./survey-template) | {{Dynamic form builder with validation}} | {{Schema design, versioning, complex attributes}} |
 
 ## {{Implementation Patterns}}
 

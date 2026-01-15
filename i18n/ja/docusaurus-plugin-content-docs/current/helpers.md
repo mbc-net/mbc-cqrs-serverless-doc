@@ -416,5 +416,5 @@ if (IS_LAMBDA_RUNNING) {
 
 ## 関連情報
 
-- [コマンドサービス](./command-service.md) - コマンド操作でのヘルパーの使用
-- [データサービス](./data-service.md) - データクエリでのヘルパーの使用
+- [コマンドサービス](./command-service) - コマンド操作でのヘルパーの使用
+- [データサービス](./data-service) - データクエリでのヘルパーの使用

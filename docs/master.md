@@ -379,5 +379,5 @@ const result = await this.masterDataService.listByRds(
 
 {{If you are using v1.0.16 or earlier and need exact matching for `settingCode`, upgrade to v1.0.17 or later.}}
 
-{{See also:}} [{{Changelog v1.0.17}}](./changelog.md#v1017)
+{{See also:}} [{{Changelog v1.0.17}}](./changelog#v1017)
 :::

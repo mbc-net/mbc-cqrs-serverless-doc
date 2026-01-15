@@ -187,7 +187,7 @@ const sidebars: SidebarsConfig = {
         type: "doc",
         id: "recipes",
       },
-      items: ["survey-template"],
+      items: ["ecommerce-example", "saas-example", "survey-template"],
     },
 
     // 13. AI Integration - AI統合機能
@@ -205,7 +205,7 @@ const sidebars: SidebarsConfig = {
     {
       type: "category",
       label: "Reference",
-      items: ["helpers", "interfaces", "error-catalog", "glossary"],
+      items: ["helpers", "interfaces", "error-catalog", "anti-patterns", "glossary"],
     },
 
     // 15. Changelog - 変更履歴（トップレベル）

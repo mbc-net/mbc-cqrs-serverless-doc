@@ -1,0 +1,583 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "description": "MBC CQRS Serverless Error Catalog - Machine-readable error reference",
+  "errors": [
+    {
+      "code": "MBC001",
+      "name": "VersionMismatchError",
+      "message": "The input is not a valid, item not found or version not match",
+      "category": "command",
+      "httpStatus": 400,
+      "exception": "BadRequestException",
+      "location": "packages/core/src/commands/command.service.ts",
+      "cause": "Optimistic locking failure. The version number in the request does not match the current version in the database.",
+      "rootCause": "Concurrent modification or stale version",
+      "prevention": [
+        "Always fetch latest version before update",
+        "Use version: -1 with async methods",
+        "Implement retry logic for concurrent updates"
+      ],
+      "solution": "Fetch the latest item and use its version, or use version: -1 with async methods.",
+      "recoveryStrategy": "refresh_and_retry",
+      "relatedErrors": ["MBC002", "MBC003"],
+      "tags": ["optimistic-locking", "version", "update"]
+    },
+    {
+      "code": "MBC002",
+      "name": "ItemNotFoundError",
+      "message": "The input key is not a valid, item not found",
+      "category": "command",
+      "httpStatus": 400,
+      "exception": "BadRequestException",
+      "location": "packages/core/src/commands/command.service.ts",
+      "cause": "Attempting to update an item that does not exist in the database.",
+      "rootCause": "Invalid key or item deleted",
+      "prevention": [
+        "Check item existence before update",
+        "Use create-or-update pattern"
+      ],
+      "solution": "Check if item exists first. If not, create new item instead of updating.",
+      "recoveryStrategy": "create_if_not_exists",
+      "relatedErrors": ["MBC001"],
+      "tags": ["not-found", "key", "update"]
+    },
+    {
+      "code": "MBC003",
+      "name": "InvalidVersionError",
+      "message": "Invalid input version",
+      "category": "command",
+      "httpStatus": 400,
+      "exception": "BadRequestException",
+      "location": "packages/core/src/commands/command.service.ts",
+      "cause": "Using a version in publishSync that does not match the latest saved version.",
+      "rootCause": "Stale version number",
+      "prevention": [
+        "Fetch latest item before sync operations",
+        "Use async methods with version: -1"
+      ],
+      "solution": "Fetch the latest item and use its version, or use version: -1 with async methods.",
+      "recoveryStrategy": "refresh_and_retry",
+      "relatedErrors": ["MBC001"],
+      "tags": ["version", "sync", "update"]
+    },
+    {
+      "code": "MBC010",
+      "name": "TenantNotFoundError",
+      "message": "Tenant not found",
+      "category": "tenant",
+      "httpStatus": 400,
+      "exception": "BadRequestException",
+      "location": "packages/tenant/src/services/tenant.service.ts",
+      "cause": "The specified tenant does not exist or has been deleted.",
+      "rootCause": "Invalid tenant code or tenant not created",
+      "prevention": [
+        "Verify tenant exists before operations",
+        "Create tenant during onboarding"
+      ],
+      "solution": "Verify the tenant code is correct. List available tenants to check valid codes.",
+      "recoveryStrategy": "verify_and_create",
+      "relatedErrors": ["MBC011"],
+      "tags": ["tenant", "not-found", "multi-tenant"]
+    },
+    {
+      "code": "MBC011",
+      "name": "TenantAlreadyExistsError",
+      "message": "Tenant code already existed",
+      "category": "tenant",
+      "httpStatus": 400,
+      "exception": "BadRequestException",
+      "location": "packages/tenant/src/services/tenant.service.ts",
+      "cause": "Attempting to create a tenant with an existing code.",
+      "rootCause": "Duplicate tenant creation",
+      "prevention": [
+        "Check tenant existence before creation",
+        "Use unique tenant codes"
+      ],
+      "solution": "Check if tenant exists before creating. Use existing tenant or choose different code.",
+      "recoveryStrategy": "use_existing",
+      "relatedErrors": ["MBC010"],
+      "tags": ["tenant", "duplicate", "create"]
+    },
+    {
+      "code": "MBC020",
+      "name": "SequenceNotFoundError",
+      "message": "Sequence not found",
+      "category": "sequence",
+      "httpStatus": 400,
+      "exception": "BadRequestException",
+      "location": "packages/sequence/src/services/sequence.service.ts",
+      "cause": "The requested sequence key does not exist.",
+      "rootCause": "Sequence not initialized or invalid key",
+      "prevention": [
+        "Sequences auto-initialize on first use",
+        "Verify sequence configuration"
+      ],
+      "solution": "Generate sequence - it auto-initializes on first use. Check DynamoDB permissions.",
+      "recoveryStrategy": "auto_initialize",
+      "relatedErrors": [],
+      "tags": ["sequence", "not-found", "initialization"]
+    },
+    {
+      "code": "MBC030",
+      "name": "TaskNotFoundError",
+      "message": "Task not found",
+      "category": "task",
+      "httpStatus": 400,
+      "exception": "BadRequestException",
+      "location": "packages/task/src/services/task.service.ts",
+      "cause": "The specified task does not exist or has been completed/deleted.",
+      "rootCause": "Invalid task key or task lifecycle completed",
+      "prevention": [
+        "Verify task exists before operations",
+        "Check task status before actions"
+      ],
+      "solution": "Verify task exists and check its status before performing operations.",
+      "recoveryStrategy": "verify_status",
+      "relatedErrors": [],
+      "tags": ["task", "not-found", "status"]
+    },
+    {
+      "code": "MBC040",
+      "name": "ValidationError",
+      "message": "Validation failed",
+      "category": "validation",
+      "httpStatus": 422,
+      "exception": "UnprocessableEntityException",
+      "location": "packages/core/src/pipe/class.validation.pipe.ts",
+      "cause": "The request DTO failed class-validator validation.",
+      "rootCause": "Invalid input data",
+      "prevention": [
+        "Validate data on client side",
+        "Follow DTO validation rules",
+        "Use proper data types"
+      ],
+      "solution": "Check validation error details. Ensure all required fields are provided with correct types.",
+      "recoveryStrategy": "fix_input",
+      "relatedErrors": [],
+      "tags": ["validation", "dto", "input"]
+    },
+    {
+      "code": "MBC050",
+      "name": "DynamoDBThroughputError",
+      "message": "ProvisionedThroughputExceededException",
+      "category": "dynamodb",
+      "httpStatus": 429,
+      "exception": "TooManyRequestsException",
+      "location": "AWS DynamoDB",
+      "cause": "Read or write capacity has been exceeded on on-demand or provisioned tables.",
+      "rootCause": "Traffic spike or insufficient capacity",
+      "prevention": [
+        "Use on-demand capacity for unpredictable workloads",
+        "Implement request batching",
+        "Use DAX for read-heavy workloads"
+      ],
+      "solution": "Implement exponential backoff retry. Consider switching to on-demand capacity mode.",
+      "recoveryStrategy": "retry_with_backoff",
+      "relatedErrors": ["MBC051"],
+      "tags": ["dynamodb", "throttling", "capacity"]
+    },
+    {
+      "code": "MBC051",
+      "name": "DynamoDBConditionalCheckError",
+      "message": "ConditionalCheckFailedException",
+      "category": "dynamodb",
+      "httpStatus": 409,
+      "exception": "ConflictException",
+      "location": "AWS DynamoDB",
+      "cause": "Optimistic locking condition failed (version mismatch) or unique constraint violation.",
+      "rootCause": "Concurrent modification",
+      "prevention": [
+        "Implement proper retry logic",
+        "Use transaction for related operations"
+      ],
+      "solution": "Refresh data and retry. The version or condition has changed since last read.",
+      "recoveryStrategy": "refresh_and_retry",
+      "relatedErrors": ["MBC001", "MBC050"],
+      "tags": ["dynamodb", "conditional", "optimistic-locking"]
+    },
+    {
+      "code": "MBC052",
+      "name": "DynamoDBResourceNotFoundError",
+      "message": "ResourceNotFoundException",
+      "category": "dynamodb",
+      "httpStatus": 404,
+      "exception": "NotFoundException",
+      "location": "AWS DynamoDB",
+      "cause": "The specified table or index does not exist.",
+      "rootCause": "Missing infrastructure or wrong table name",
+      "prevention": [
+        "Deploy infrastructure before application",
+        "Verify environment variables"
+      ],
+      "solution": "Verify table exists. Check DYNAMODB_TABLE_NAME environment variable.",
+      "recoveryStrategy": "check_infrastructure",
+      "relatedErrors": [],
+      "tags": ["dynamodb", "table", "infrastructure"]
+    },
+    {
+      "code": "MBC060",
+      "name": "CognitoNotAuthorizedError",
+      "message": "NotAuthorizedException",
+      "category": "cognito",
+      "httpStatus": 401,
+      "exception": "UnauthorizedException",
+      "location": "AWS Cognito",
+      "cause": "Invalid credentials or token expired.",
+      "rootCause": "Authentication failure",
+      "prevention": [
+        "Implement token refresh logic",
+        "Check token expiration before requests"
+      ],
+      "solution": "Refresh the token. If refresh fails, redirect user to login.",
+      "recoveryStrategy": "refresh_token",
+      "relatedErrors": ["MBC061", "MBC062"],
+      "tags": ["cognito", "authentication", "token"]
+    },
+    {
+      "code": "MBC061",
+      "name": "CognitoUserNotFoundError",
+      "message": "UserNotFoundException",
+      "category": "cognito",
+      "httpStatus": 404,
+      "exception": "NotFoundException",
+      "location": "AWS Cognito",
+      "cause": "User does not exist in the user pool.",
+      "rootCause": "User not registered",
+      "prevention": [
+        "Check user existence before operations",
+        "Handle user registration flow"
+      ],
+      "solution": "Check if user exists. If not, redirect to registration flow.",
+      "recoveryStrategy": "check_user_exists",
+      "relatedErrors": ["MBC060"],
+      "tags": ["cognito", "user", "registration"]
+    },
+    {
+      "code": "MBC062",
+      "name": "CognitoUserNotConfirmedError",
+      "message": "UserNotConfirmedException",
+      "category": "cognito",
+      "httpStatus": 403,
+      "exception": "ForbiddenException",
+      "location": "AWS Cognito",
+      "cause": "User has not confirmed their email/phone.",
+      "rootCause": "Incomplete registration",
+      "prevention": [
+        "Ensure confirmation step in registration",
+        "Send confirmation reminders"
+      ],
+      "solution": "Resend confirmation code and redirect to confirmation page.",
+      "recoveryStrategy": "resend_confirmation",
+      "relatedErrors": ["MBC061"],
+      "tags": ["cognito", "confirmation", "registration"]
+    },
+    {
+      "code": "MBC070",
+      "name": "ImportStrategyNotFoundError",
+      "message": "No import strategy found for table: {tableName}",
+      "category": "import",
+      "httpStatus": 400,
+      "exception": "BadRequestException",
+      "location": "packages/import/src/import.service.ts",
+      "cause": "No import strategy is registered for the specified table name.",
+      "rootCause": "Missing ImportModule configuration",
+      "prevention": [
+        "Register import strategy in ImportModule.register()",
+        "Verify tableName matches configuration"
+      ],
+      "solution": "Register an import strategy for the table in ImportModule configuration.",
+      "recoveryStrategy": "configure_module",
+      "relatedErrors": ["MBC071"],
+      "tags": ["import", "strategy", "configuration"]
+    },
+    {
+      "code": "MBC071",
+      "name": "ImportJobStuckError",
+      "message": "Import job stuck in PROCESSING status",
+      "category": "import",
+      "httpStatus": 500,
+      "exception": "InternalServerErrorException",
+      "location": "packages/import/src/event/import.queue.event.handler.ts",
+      "cause": "An error occurred during import processing but the job status wasn't properly updated.",
+      "rootCause": "Processing failure without status update",
+      "prevention": [
+        "Ensure proper error handling in import handlers",
+        "Monitor import job status"
+      ],
+      "solution": "Check CloudWatch logs. Verify DynamoDB streams are enabled. Manually update status if needed.",
+      "recoveryStrategy": "manual_cleanup",
+      "relatedErrors": ["MBC070"],
+      "tags": ["import", "processing", "status"]
+    },
+    {
+      "code": "MBC080",
+      "name": "StepFunctionsTimeoutError",
+      "message": "TaskTimedOut",
+      "category": "step-functions",
+      "httpStatus": 504,
+      "exception": "GatewayTimeoutException",
+      "location": "AWS Step Functions",
+      "cause": "Lambda function did not respond within the configured timeout.",
+      "rootCause": "Long-running operation or infinite loop",
+      "prevention": [
+        "Increase Lambda timeout appropriately",
+        "Break large tasks into smaller chunks",
+        "Implement heartbeat for long operations"
+      ],
+      "solution": "Increase timeout or break task into smaller chunks. Check for infinite loops.",
+      "recoveryStrategy": "optimize_and_retry",
+      "relatedErrors": ["MBC081"],
+      "tags": ["step-functions", "timeout", "lambda"]
+    },
+    {
+      "code": "MBC081",
+      "name": "StepFunctionsTaskFailedError",
+      "message": "TaskFailed",
+      "category": "step-functions",
+      "httpStatus": 500,
+      "exception": "InternalServerErrorException",
+      "location": "AWS Step Functions",
+      "cause": "Lambda function threw an unhandled error.",
+      "rootCause": "Unhandled exception in Lambda",
+      "prevention": [
+        "Add try-catch blocks",
+        "Send proper failure callbacks",
+        "Log errors for debugging"
+      ],
+      "solution": "Check CloudWatch logs for error details. Implement proper error handling with sendTaskFailure.",
+      "recoveryStrategy": "fix_and_retry",
+      "relatedErrors": ["MBC080"],
+      "tags": ["step-functions", "error", "lambda"]
+    },
+    {
+      "code": "MBC090",
+      "name": "S3NoSuchKeyError",
+      "message": "NoSuchKey",
+      "category": "s3",
+      "httpStatus": 404,
+      "exception": "NotFoundException",
+      "location": "AWS S3",
+      "cause": "The specified object does not exist in the bucket.",
+      "rootCause": "File not uploaded or wrong key",
+      "prevention": [
+        "Check object existence with headObject",
+        "Verify S3 key format"
+      ],
+      "solution": "Verify the file exists in S3. Check if key is correct and file was uploaded.",
+      "recoveryStrategy": "check_existence",
+      "relatedErrors": ["MBC091"],
+      "tags": ["s3", "not-found", "file"]
+    },
+    {
+      "code": "MBC091",
+      "name": "S3AccessDeniedError",
+      "message": "AccessDenied",
+      "category": "s3",
+      "httpStatus": 403,
+      "exception": "ForbiddenException",
+      "location": "AWS S3",
+      "cause": "IAM policy does not allow the requested operation.",
+      "rootCause": "Missing permissions",
+      "prevention": [
+        "Configure proper IAM permissions",
+        "Use least privilege principle"
+      ],
+      "solution": "Add required S3 permissions (GetObject, PutObject, etc.) to IAM role.",
+      "recoveryStrategy": "fix_permissions",
+      "relatedErrors": ["MBC090"],
+      "tags": ["s3", "permissions", "iam"]
+    }
+  ],
+  "categories": {
+    "command": {
+      "name": "Command Service",
+      "description": "Errors related to CQRS command operations"
+    },
+    "tenant": {
+      "name": "Tenant Management",
+      "description": "Errors related to multi-tenant operations"
+    },
+    "sequence": {
+      "name": "Sequence Generation",
+      "description": "Errors related to sequence number generation"
+    },
+    "task": {
+      "name": "Task Management",
+      "description": "Errors related to async task processing"
+    },
+    "validation": {
+      "name": "Validation",
+      "description": "Input validation errors"
+    },
+    "dynamodb": {
+      "name": "DynamoDB",
+      "description": "AWS DynamoDB errors"
+    },
+    "cognito": {
+      "name": "Cognito Authentication",
+      "description": "AWS Cognito authentication errors"
+    },
+    "import": {
+      "name": "Import Module",
+      "description": "Data import processing errors"
+    },
+    "step-functions": {
+      "name": "Step Functions",
+      "description": "AWS Step Functions orchestration errors"
+    },
+    "s3": {
+      "name": "S3 Storage",
+      "description": "AWS S3 file storage errors"
+    }
+  },
+  "recoveryStrategies": {
+    "refresh_and_retry": {
+      "name": "Refresh and Retry",
+      "description": "Fetch latest data and retry the operation",
+      "implementation": "Fetch latest item with getItem(), use new version, retry operation"
+    },
+    "create_if_not_exists": {
+      "name": "Create If Not Exists",
+      "description": "Check existence and create if item doesn't exist",
+      "implementation": "Check with getItem(), if null create new item, else update existing"
+    },
+    "verify_and_create": {
+      "name": "Verify and Create",
+      "description": "Verify resource exists, create if needed",
+      "implementation": "List available resources, verify or create the required one"
+    },
+    "use_existing": {
+      "name": "Use Existing",
+      "description": "Use existing resource instead of creating new",
+      "implementation": "Check if resource exists, use it instead of creating duplicate"
+    },
+    "auto_initialize": {
+      "name": "Auto Initialize",
+      "description": "Resource auto-initializes on first use",
+      "implementation": "Simply call the method - it will auto-initialize on first use"
+    },
+    "verify_status": {
+      "name": "Verify Status",
+      "description": "Check resource status before operation",
+      "implementation": "Fetch resource, check status field, proceed only if valid"
+    },
+    "fix_input": {
+      "name": "Fix Input",
+      "description": "Correct input data based on validation errors",
+      "implementation": "Read validation error details, fix each field, retry request"
+    },
+    "retry_with_backoff": {
+      "name": "Retry with Exponential Backoff",
+      "description": "Retry with increasing delays",
+      "implementation": "Wait baseDelay * 2^attempt + random jitter, max retries = 5"
+    },
+    "check_infrastructure": {
+      "name": "Check Infrastructure",
+      "description": "Verify infrastructure is properly deployed",
+      "implementation": "Run aws describe commands, verify environment variables"
+    },
+    "refresh_token": {
+      "name": "Refresh Token",
+      "description": "Refresh authentication token",
+      "implementation": "Call token refresh endpoint, update stored token, retry"
+    },
+    "check_user_exists": {
+      "name": "Check User Exists",
+      "description": "Verify user is registered",
+      "implementation": "Call adminGetUser, redirect to registration if not found"
+    },
+    "resend_confirmation": {
+      "name": "Resend Confirmation",
+      "description": "Resend confirmation code",
+      "implementation": "Call resendSignUp, redirect to confirmation page"
+    },
+    "configure_module": {
+      "name": "Configure Module",
+      "description": "Add required module configuration",
+      "implementation": "Register strategy/handler in module.register() configuration"
+    },
+    "manual_cleanup": {
+      "name": "Manual Cleanup",
+      "description": "Manually clean up stuck resources",
+      "implementation": "Check logs, identify issue, manually update status"
+    },
+    "optimize_and_retry": {
+      "name": "Optimize and Retry",
+      "description": "Optimize operation and retry",
+      "implementation": "Break into smaller chunks, increase timeout, remove bottlenecks"
+    },
+    "fix_and_retry": {
+      "name": "Fix and Retry",
+      "description": "Fix the underlying issue and retry",
+      "implementation": "Check logs, fix code issue, redeploy, retry"
+    },
+    "check_existence": {
+      "name": "Check Existence",
+      "description": "Verify resource exists before access",
+      "implementation": "Use headObject/getItem to check, handle missing gracefully"
+    },
+    "fix_permissions": {
+      "name": "Fix Permissions",
+      "description": "Add required IAM permissions",
+      "implementation": "Update IAM policy with required actions, redeploy"
+    }
+  },
+  "httpStatusCodes": {
+    "400": {
+      "exception": "BadRequestException",
+      "meaning": "Invalid input or business rule violation",
+      "recovery": "Fix request data"
+    },
+    "401": {
+      "exception": "UnauthorizedException",
+      "meaning": "Authentication missing or invalid",
+      "recovery": "Refresh token or re-login"
+    },
+    "403": {
+      "exception": "ForbiddenException",
+      "meaning": "Authenticated but not authorized",
+      "recovery": "Check user permissions"
+    },
+    "404": {
+      "exception": "NotFoundException",
+      "meaning": "Resource not found",
+      "recovery": "Verify resource exists"
+    },
+    "409": {
+      "exception": "ConflictException",
+      "meaning": "Version conflict (optimistic locking)",
+      "recovery": "Refresh and retry"
+    },
+    "422": {
+      "exception": "UnprocessableEntityException",
+      "meaning": "Validation failed",
+      "recovery": "Fix validation errors"
+    },
+    "429": {
+      "exception": "TooManyRequestsException",
+      "meaning": "Rate limit exceeded",
+      "recovery": "Implement backoff retry"
+    },
+    "500": {
+      "exception": "InternalServerErrorException",
+      "meaning": "Unexpected server error",
+      "recovery": "Check logs, report bug"
+    },
+    "502": {
+      "exception": "BadGatewayException",
+      "meaning": "Upstream service error",
+      "recovery": "Retry with backoff"
+    },
+    "503": {
+      "exception": "ServiceUnavailableException",
+      "meaning": "Service temporarily unavailable",
+      "recovery": "Retry later"
+    },
+    "504": {
+      "exception": "GatewayTimeoutException",
+      "meaning": "Upstream service timeout",
+      "recovery": "Increase timeout or optimize"
+    }
+  }
+}
