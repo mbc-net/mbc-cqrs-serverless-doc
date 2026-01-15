@@ -133,7 +133,7 @@ export class MyService {
       body: "<h1>Welcome!</h1><p>Thank you for signing up.</p>",
     };
 
-    await this.emailService.send(email);
+    await this.emailService.sendEmail(email);
   }
 }
 ```
@@ -159,7 +159,7 @@ const email: EmailNotification = {
   ],
 };
 
-await this.emailService.send(email);
+await this.emailService.sendEmail(email);
 ```
 
 #### {{EmailNotification Interface}}

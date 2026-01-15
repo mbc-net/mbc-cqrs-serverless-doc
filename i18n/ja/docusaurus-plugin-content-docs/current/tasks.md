@@ -419,6 +419,30 @@ await this.taskService.updateStepFunctionTask(
 );
 ```
 
+#### `publishAlarm(event: TaskQueueEvent | StepFunctionTaskEvent, errorDetails: any): Promise<void>`
+
+タスク処理中にエラーが発生した際にSNS経由でアラーム通知を発行します。このメソッドは通常、タスク処理ワークフローのエラーハンドラーから呼び出されます。
+
+```ts
+try {
+  // Process task (タスクを処理)
+  await this.processTask(event);
+} catch (error) {
+  // Send alarm notification (アラーム通知を送信)
+  await this.taskService.publishAlarm(event, {
+    message: error.message,
+    stack: error.stack,
+  });
+  throw error;
+}
+```
+
+アラーム通知に含まれる情報:
+- タスクキー (`pk`, `sk`)
+- テナントコード
+- エラー詳細
+- アクションタイプ: `"sfn-alarm"`
+
 ### タスクステータス値
 
 | ステータス | 説明 |

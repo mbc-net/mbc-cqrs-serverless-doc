@@ -419,6 +419,30 @@ await this.taskService.updateStepFunctionTask(
 );
 ```
 
+#### `publishAlarm(event: TaskQueueEvent | StepFunctionTaskEvent, errorDetails: any): Promise<void>`
+
+Publishes an alarm notification via SNS when an error occurs during task processing. This method is typically called from error handlers in task processing workflows.
+
+```ts
+try {
+  // Process task
+  await this.processTask(event);
+} catch (error) {
+  // Send alarm notification
+  await this.taskService.publishAlarm(event, {
+    message: error.message,
+    stack: error.stack,
+  });
+  throw error;
+}
+```
+
+The alarm notification includes:
+- Task key (`pk`, `sk`)
+- Tenant code
+- Error details
+- Action type: `"sfn-alarm"`
+
 ### Task Status Values
 
 | Status | Description |

@@ -91,6 +91,7 @@ const sidebars: SidebarsConfig = {
         },
         "sequence",
         "tasks",
+        "tenant",
         "master",
         "directory",
         {

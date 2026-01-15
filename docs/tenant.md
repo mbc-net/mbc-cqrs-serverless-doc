@@ -1,35 +1,35 @@
 ---
-description: Learn how to use TenantModule for multi-tenant management in MBC CQRS Serverless.
+description: {{Learn how to use TenantModule for multi-tenant management in MBC CQRS Serverless.}}
 ---
 
-# Tenant
+# {{Tenant}}
 
-The TenantModule provides multi-tenant management capabilities in the MBC CQRS Serverless framework. It enables creating, updating, and managing tenants and their group configurations.
+{{The TenantModule provides multi-tenant management capabilities in the MBC CQRS Serverless framework. It enables creating, updating, and managing tenants and their group configurations.}}
 
-## Architecture
+## {{Architecture}}
 
 ```mermaid
 graph TB
-    subgraph "Tenant Management"
-        A["TenantService"] --> B["CommandService"]
-        A --> C["DataService"]
-        B --> D["DynamoDB"]
+    subgraph "{{Tenant Management}}"
+        A["{{TenantService}}"] --> B["{{CommandService}}"]
+        A --> C["{{DataService}}"]
+        B --> D["{{DynamoDB}}"]
         C --> D
     end
 
-    subgraph "Tenant Hierarchy"
-        E["Common Tenant"] --> F["Tenant"]
-        F --> G["Tenant Group"]
+    subgraph "{{Tenant Hierarchy}}"
+        E["{{Common Tenant}}"] --> F["{{Tenant}}"]
+        F --> G["{{Tenant Group}}"]
     end
 ```
 
-## Installation
+## {{Installation}}
 
 ```bash
 npm install @mbc-cqrs-serverless/tenant
 ```
 
-## Module Registration
+## {{Module Registration}}
 
 ```ts
 import { TenantModule } from "@mbc-cqrs-serverless/tenant";
@@ -37,28 +37,28 @@ import { TenantModule } from "@mbc-cqrs-serverless/tenant";
 @Module({
   imports: [
     TenantModule.register({
-      enableController: true, // Enable built-in REST controller
-      dataSyncHandlers: [TenantDataSyncHandler], // Optional: Custom sync handlers
+      enableController: true, // {{Enable built-in REST controller}}
+      dataSyncHandlers: [TenantDataSyncHandler], // {{Optional: Custom sync handlers}}
     }),
   ],
 })
 export class AppModule {}
 ```
 
-## Module Options
+## {{Module Options}}
 
-| Option | Type | Required | Description |
+| {{Option}} | {{Type}} | {{Required}} | {{Description}} |
 |------------|----------|--------------|-----------------|
-| `enableController` | `boolean` | No | Enable or disable the built-in TenantController |
-| `dataSyncHandlers` | `Type<IDataSyncHandler>[]` | No | Custom handlers for syncing tenant data to external systems |
+| `enableController` | `boolean` | {{No}} | {{Enable or disable the built-in TenantController}} |
+| `dataSyncHandlers` | `Type<IDataSyncHandler>[]` | {{No}} | {{Custom handlers for syncing tenant data to external systems}} |
 
-## API Reference
+## {{API Reference}}
 
-### TenantService Methods
+### {{TenantService Methods}}
 
 #### `getTenant(key: DetailKey): Promise<DataModel>`
 
-Retrieves a tenant by its primary key.
+{{Retrieves a tenant by its primary key.}}
 
 ```ts
 import { TenantService } from "@mbc-cqrs-serverless/tenant";
@@ -76,7 +76,7 @@ export class MyService {
 
 #### `createCommonTenant(dto: CommonTenantCreateDto, context): Promise<CommandModel>`
 
-Creates a common tenant that serves as the base configuration for all tenants.
+{{Creates a common tenant that serves as the base configuration for all tenants.}}
 
 ```ts
 const commonTenant = await this.tenantService.createCommonTenant(
@@ -93,7 +93,7 @@ const commonTenant = await this.tenantService.createCommonTenant(
 
 #### `createTenant(dto: TenantCreateDto, context): Promise<CommandModel>`
 
-Creates a new tenant with the specified code and configuration.
+{{Creates a new tenant with the specified code and configuration.}}
 
 ```ts
 const tenant = await this.tenantService.createTenant(
@@ -111,7 +111,7 @@ const tenant = await this.tenantService.createTenant(
 
 #### `updateTenant(key: DetailKey, dto: TenantUpdateDto, context): Promise<CommandModel>`
 
-Updates an existing tenant's information.
+{{Updates an existing tenant's information.}}
 
 ```ts
 const updatedTenant = await this.tenantService.updateTenant(
@@ -128,7 +128,7 @@ const updatedTenant = await this.tenantService.updateTenant(
 
 #### `deleteTenant(key: DetailKey, context): Promise<CommandModel>`
 
-Soft deletes a tenant by setting isDeleted to true.
+{{Soft deletes a tenant by setting isDeleted to true.}}
 
 ```ts
 const deletedTenant = await this.tenantService.deleteTenant(
@@ -139,7 +139,7 @@ const deletedTenant = await this.tenantService.deleteTenant(
 
 #### `addTenantGroup(dto: TenantGroupAddDto, context): Promise<CommandModel>`
 
-Adds a group to a tenant with the specified role.
+{{Adds a group to a tenant with the specified role.}}
 
 ```ts
 const result = await this.tenantService.addTenantGroup(
@@ -154,7 +154,7 @@ const result = await this.tenantService.addTenantGroup(
 
 #### `customizeSettingGroups(dto: TenantGroupUpdateDto, context): Promise<CommandModel>`
 
-Customizes the setting groups for a specific tenant role.
+{{Customizes the setting groups for a specific tenant role.}}
 
 ```ts
 const result = await this.tenantService.customizeSettingGroups(
@@ -169,11 +169,11 @@ const result = await this.tenantService.customizeSettingGroups(
 
 #### `createTenantGroup(tenantGroupCode: string, dto: TenantCreateDto, context): Promise<CommandModel>`
 
-Creates a sub-tenant or tenant group under an existing tenant.
+{{Creates a sub-tenant or tenant group under an existing tenant.}}
 
 ```ts
 const tenantGroup = await this.tenantService.createTenantGroup(
-  "tenant001", // Parent tenant code
+  "tenant001", // {{Parent tenant code}}
   {
     code: "department-a",
     name: "Department A",
@@ -185,33 +185,33 @@ const tenantGroup = await this.tenantService.createTenantGroup(
 );
 ```
 
-## DTOs
+## {{DTOs}}
 
-### TenantCreateDto
+### {{TenantCreateDto}}
 
-| Property | Type | Required | Description |
+| {{Property}} | {{Type}} | {{Required}} | {{Description}} |
 |--------------|----------|--------------|-----------------|
-| `code` | `string` | Yes | Unique tenant code |
-| `name` | `string` | Yes | Tenant display name |
-| `attributes` | `object` | No | Additional tenant attributes |
+| `code` | `string` | {{Yes}} | {{Unique tenant code}} |
+| `name` | `string` | {{Yes}} | {{Tenant display name}} |
+| `attributes` | `object` | {{No}} | {{Additional tenant attributes}} |
 
-### TenantGroupAddDto
+### {{TenantGroupAddDto}}
 
-| Property | Type | Required | Description |
+| {{Property}} | {{Type}} | {{Required}} | {{Description}} |
 |--------------|----------|--------------|-----------------|
-| `tenantCode` | `string` | Yes | Target tenant code |
-| `groupId` | `string` | Yes | Group identifier to add |
-| `role` | `string` | Yes | Role for the group |
+| `tenantCode` | `string` | {{Yes}} | {{Target tenant code}} |
+| `groupId` | `string` | {{Yes}} | {{Group identifier to add}} |
+| `role` | `string` | {{Yes}} | {{Role for the group}} |
 
-### TenantGroupUpdateDto
+### {{TenantGroupUpdateDto}}
 
-| Property | Type | Required | Description |
+| {{Property}} | {{Type}} | {{Required}} | {{Description}} |
 |--------------|----------|--------------|-----------------|
-| `tenantCode` | `string` | Yes | Target tenant code |
-| `role` | `string` | Yes | Role to update |
-| `settingGroups` | `string[]` | Yes | New setting groups array |
+| `tenantCode` | `string` | {{Yes}} | {{Target tenant code}} |
+| `role` | `string` | {{Yes}} | {{Role to update}} |
+| `settingGroups` | `string[]` | {{Yes}} | {{New setting groups array}} |
 
-## See Also
+## {{See Also}}
 
-- [Multi-Tenant Patterns](./multi-tenant-patterns) - Advanced multi-tenant implementation patterns
-- [Command Service](./command-service) - Command operations used by TenantService
+- [{{Multi-Tenant Patterns}}](./multi-tenant-patterns) - {{Advanced multi-tenant implementation patterns}}
+- [{{Command Service}}](./command-service) - {{Command operations used by TenantService}}
