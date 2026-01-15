@@ -290,3 +290,140 @@ await this.taskService.createStepFunctionTask(
   { invokeContext }
 );
 ```
+
+## {{API Reference}}
+
+### {{TaskService Methods}}
+
+#### `createTask(dto: CreateTaskDto, options: { invokeContext: IInvoke }): Promise<TaskEntity>`
+
+{{Creates a new task for single task processing.}}
+
+```ts
+const task = await this.taskService.createTask(
+  {
+    taskType: "data-export",
+    tenantCode: "mbc",
+    name: "Export user data",
+    input: { userId: "123", format: "csv" },
+  },
+  { invokeContext }
+);
+```
+
+#### `createStepFunctionTask(dto: CreateTaskDto, options: { invokeContext: IInvoke }): Promise<TaskEntity>`
+
+{{Creates a new task for Step Functions processing. The input array will be processed as subtasks.}}
+
+```ts
+const task = await this.taskService.createStepFunctionTask(
+  {
+    taskType: "batch-process",
+    tenantCode: "mbc",
+    name: "Process batch items",
+    input: [{ id: 1 }, { id: 2 }, { id: 3 }],
+  },
+  { invokeContext }
+);
+```
+
+#### `getTask(key: DetailKey): Promise<TaskEntity>`
+
+{{Retrieves a task by its primary key.}}
+
+```ts
+const task = await this.taskService.getTask({
+  pk: "TASK#mbc",
+  sk: "data-export#01HXYZ123",
+});
+```
+
+#### `listItemsByPk(tenantCode: string, type?: string, options?): Promise<TaskListEntity>`
+
+{{Lists tasks by tenant code and type.}}
+
+```ts
+// {{List all tasks for a tenant}}
+const tasks = await this.taskService.listItemsByPk("mbc", "TASK", {
+  limit: 10,
+  order: "desc",
+});
+
+// {{List Step Function tasks}}
+const sfnTasks = await this.taskService.listItemsByPk("mbc", "SFN_TASK");
+```
+
+#### `createSubTask(event: TaskQueueEvent): Promise<TaskEntity[]>`
+
+{{Creates subtasks from a parent task's input array. Each item in the input array becomes a separate subtask.}}
+
+```ts
+// {{Typically called within a TaskQueueEvent handler}}
+const subTasks = await this.taskService.createSubTask(event);
+// {{Returns array of TaskEntity for each input item}}
+```
+
+#### `getAllSubTask(subTask: DetailKey): Promise<TaskEntity[]>`
+
+{{Retrieves all subtasks for a parent task.}}
+
+```ts
+const subTasks = await this.taskService.getAllSubTask({
+  pk: "SFN_TASK#mbc",
+  sk: "batch-process#01HXYZ123#0", // {{Any subtask key}}
+});
+// {{Returns all subtasks under the parent task}}
+```
+
+#### `updateStatus(key: DetailKey, status: string, attributes?: { result?: any; error?: any }, notifyId?: string)`
+
+{{Updates the status of a task and sends an SNS notification.}}
+
+```ts
+// {{Mark task as completed}}
+await this.taskService.updateStatus(
+  { pk: "TASK#mbc", sk: "data-export#01HXYZ123" },
+  "COMPLETED",
+  { result: { exportedRows: 100 } }
+);
+
+// {{Mark task as failed}}
+await this.taskService.updateStatus(
+  { pk: "TASK#mbc", sk: "data-export#01HXYZ123" },
+  "FAILED",
+  { error: { message: "Export failed", code: "EXPORT_ERROR" } }
+);
+```
+
+#### `updateSubTaskStatus(key: DetailKey, status: string, attributes?: { result?: any; error?: any }, notifyId?: string)`
+
+{{Updates the status of a subtask and sends an SNS notification with action `"sub-task-status"`.}}
+
+```ts
+await this.taskService.updateSubTaskStatus(
+  { pk: "SFN_TASK#mbc", sk: "batch-process#01HXYZ123#0" },
+  "COMPLETED",
+  { result: { processedItem: { id: 1 } } }
+);
+```
+
+#### `updateStepFunctionTask(key: DetailKey, attributes?: Record<string, any>, status?: string, notifyId?: string)`
+
+{{Updates a Step Function task with attributes and status, then sends an SNS notification.}}
+
+```ts
+await this.taskService.updateStepFunctionTask(
+  { pk: "SFN_TASK#mbc", sk: "batch-process#01HXYZ123" },
+  { executionArn: "arn:aws:states:..." },
+  "PROCESSING"
+);
+```
+
+### {{Task Status Values}}
+
+| {{Status}} | {{Description}} |
+|------------|-----------------|
+| `CREATED` | {{Task has been created but not yet started}} |
+| `PROCESSING` | {{Task is currently being processed}} |
+| `COMPLETED` | {{Task finished successfully}} |
+| `FAILED` | {{Task failed with an error}} |

@@ -4,5 +4,22 @@
   "Controllers are responsible for handling incoming **requests** and returning **responses** to the client.": "Controllers are responsible for handling incoming **requests** and returning **responses** to the client.",
   "Defining a controller in the MBC Serverless Framework is the same as in Nest.js, so please refer to this section using the [provided link](https://docs.nestjs.com/controllers).": "Defining a controller in the MBC Serverless Framework is the same as in Nest.js, so please refer to this section using the [provided link](https://docs.nestjs.com/controllers).",
   "To get the invoke context, you can provide the following argument in the controller function.": "To get the invoke context, you can provide the following argument in the controller function.",
-  "In the following example we'll use the `@Controller()` decorator, which is required to define a basic controller; `@Auth(ROLE_SYSTEM_ADMIN)` decorator, which is specified for authorization purpose; and `@ApiTags('cat')` to attach a controller to a specific tag.": "In the following example we'll use the `@Controller()` decorator, which is required to define a basic controller; `@Auth(ROLE_SYSTEM_ADMIN)` decorator, which is specified for authorization purpose; and `@ApiTags('cat')` to attach a controller to a specific tag."
+  "In the following example we'll use the `@Controller()` decorator, which is required to define a basic controller; `@Auth(ROLE_SYSTEM_ADMIN)` decorator, which is specified for authorization purpose; and `@ApiTags('cat')` to attach a controller to a specific tag.": "In the following example we'll use the `@Controller()` decorator, which is required to define a basic controller; `@Auth(ROLE_SYSTEM_ADMIN)` decorator, which is specified for authorization purpose; and `@ApiTags('cat')` to attach a controller to a specific tag.",
+  "Decorators": "Decorators",
+  "The framework provides several decorators to simplify common patterns in your controllers.": "The framework provides several decorators to simplify common patterns in your controllers.",
+  "Parameter decorator that extracts the invocation context from the request. This provides access to Lambda context, JWT claims, and request metadata.": "Parameter decorator that extracts the invocation context from the request. This provides access to Lambda context, JWT claims, and request metadata.",
+  "Method/class decorator that applies authentication and role-based access control. Combines RolesGuard with Swagger documentation (ApiBearerAuth, ApiUnauthorizedResponse).": "Method/class decorator that applies authentication and role-based access control. Combines RolesGuard with Swagger documentation (ApiBearerAuth, ApiUnauthorizedResponse).",
+  "Class-level: applies to all methods": "Class-level: applies to all methods",
+  "Method-level: override class decorator": "Method-level: override class decorator",
+  "Method/class decorator that adds tenant code header requirement to Swagger documentation. Use this when your endpoint requires a tenant code header.": "Method/class decorator that adds tenant code header requirement to Swagger documentation. Use this when your endpoint requires a tenant code header.",
+  "Adds x-tenant-code header to Swagger docs": "Adds x-tenant-code header to Swagger docs",
+  "Tenant code available via invokeContext": "Tenant code available via invokeContext",
+  "The decorator adds the following header to Swagger:": "The decorator adds the following header to Swagger:",
+  "Header name": "Header name",
+  "Required": "Required",
+  "Description": "Description",
+  "Current working tenant code": "Current working tenant code",
+  "Method decorator factory that applies standardized error response documentation. Use with Swagger response decorators to document error responses.": "Method decorator factory that applies standardized error response documentation. Use with Swagger response decorators to document error responses.",
+  "This decorator automatically includes the standard HttpExceptionResponse schema with status and message fields.": "This decorator automatically includes the standard HttpExceptionResponse schema with status and message fields.",
+  "Method/class decorator that specifies which roles can access an endpoint. Used internally by `@Auth()` but can be used directly with custom guards.": "Method/class decorator that specifies which roles can access an endpoint. Used internally by `@Auth()` but can be used directly with custom guards."
 }

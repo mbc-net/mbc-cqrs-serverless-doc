@@ -142,3 +142,25 @@ const tenant = await tenantService.customizeSettingGroups(
   }
 );
 ```
+
+### `createTenantGroup(tenantGroupCode: string, dto: TenantCreateDto, context: { invokeContext: IInvoke }): Promise<CommandModel>`
+
+Creates a tenant group that can contain multiple tenants. Tenant groups are useful for organizing tenants hierarchically or by business unit.
+
+``` ts
+const tenantGroup = await tenantService.createTenantGroup(
+  "group-001",
+  {
+    name: "Enterprise Group",
+    description: "Group for enterprise customers"
+  },
+  { invokeContext }
+);
+```
+
+**Parameters:**
+- `tenantGroupCode`: Unique identifier for the tenant group
+- `dto`: Tenant creation data including name and description
+- `context`: Invocation context with user information
+
+**Returns:** `Promise<CommandModel>` - The created tenant group command

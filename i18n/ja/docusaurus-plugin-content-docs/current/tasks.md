@@ -290,3 +290,140 @@ await this.taskService.createStepFunctionTask(
   { invokeContext }
 );
 ```
+
+## APIリファレンス
+
+### TaskServiceメソッド
+
+#### `createTask(dto: CreateTaskDto, options: { invokeContext: IInvoke }): Promise<TaskEntity>`
+
+単一タスク処理用の新しいタスクを作成します。
+
+```ts
+const task = await this.taskService.createTask(
+  {
+    taskType: "data-export",
+    tenantCode: "mbc",
+    name: "Export user data",
+    input: { userId: "123", format: "csv" },
+  },
+  { invokeContext }
+);
+```
+
+#### `createStepFunctionTask(dto: CreateTaskDto, options: { invokeContext: IInvoke }): Promise<TaskEntity>`
+
+Step Functions処理用の新しいタスクを作成します。入力配列はサブタスクとして処理されます。
+
+```ts
+const task = await this.taskService.createStepFunctionTask(
+  {
+    taskType: "batch-process",
+    tenantCode: "mbc",
+    name: "Process batch items",
+    input: [{ id: 1 }, { id: 2 }, { id: 3 }],
+  },
+  { invokeContext }
+);
+```
+
+#### `getTask(key: DetailKey): Promise<TaskEntity>`
+
+プライマリキーでタスクを取得します。
+
+```ts
+const task = await this.taskService.getTask({
+  pk: "TASK#mbc",
+  sk: "data-export#01HXYZ123",
+});
+```
+
+#### `listItemsByPk(tenantCode: string, type?: string, options?): Promise<TaskListEntity>`
+
+テナントコードとタイプでタスクを一覧表示します。
+
+```ts
+// List all tasks for a tenant (テナントのすべてのタスクを一覧表示)
+const tasks = await this.taskService.listItemsByPk("mbc", "TASK", {
+  limit: 10,
+  order: "desc",
+});
+
+// List Step Function tasks (Step Functionタスクを一覧表示)
+const sfnTasks = await this.taskService.listItemsByPk("mbc", "SFN_TASK");
+```
+
+#### `createSubTask(event: TaskQueueEvent): Promise<TaskEntity[]>`
+
+親タスクの入力配列からサブタスクを作成します。入力配列の各項目が個別のサブタスクになります。
+
+```ts
+// Typically called within a TaskQueueEvent handler (通常、TaskQueueEventハンドラー内で呼び出す)
+const subTasks = await this.taskService.createSubTask(event);
+// Returns array of TaskEntity for each input item (各入力項目に対するTaskEntityの配列を返す)
+```
+
+#### `getAllSubTask(subTask: DetailKey): Promise<TaskEntity[]>`
+
+親タスクのすべてのサブタスクを取得します。
+
+```ts
+const subTasks = await this.taskService.getAllSubTask({
+  pk: "SFN_TASK#mbc",
+  sk: "batch-process#01HXYZ123#0", // Any subtask key (任意のサブタスクキー)
+});
+// Returns all subtasks under the parent task (親タスク配下のすべてのサブタスクを返す)
+```
+
+#### `updateStatus(key: DetailKey, status: string, attributes?: { result?: any; error?: any }, notifyId?: string)`
+
+タスクのステータスを更新し、SNS通知を送信します。
+
+```ts
+// Mark task as completed (タスクを完了としてマーク)
+await this.taskService.updateStatus(
+  { pk: "TASK#mbc", sk: "data-export#01HXYZ123" },
+  "COMPLETED",
+  { result: { exportedRows: 100 } }
+);
+
+// Mark task as failed (タスクを失敗としてマーク)
+await this.taskService.updateStatus(
+  { pk: "TASK#mbc", sk: "data-export#01HXYZ123" },
+  "FAILED",
+  { error: { message: "Export failed", code: "EXPORT_ERROR" } }
+);
+```
+
+#### `updateSubTaskStatus(key: DetailKey, status: string, attributes?: { result?: any; error?: any }, notifyId?: string)`
+
+サブタスクのステータスを更新し、アクション`"sub-task-status"`でSNS通知を送信します。
+
+```ts
+await this.taskService.updateSubTaskStatus(
+  { pk: "SFN_TASK#mbc", sk: "batch-process#01HXYZ123#0" },
+  "COMPLETED",
+  { result: { processedItem: { id: 1 } } }
+);
+```
+
+#### `updateStepFunctionTask(key: DetailKey, attributes?: Record<string, any>, status?: string, notifyId?: string)`
+
+属性とステータスでStep Functionタスクを更新し、SNS通知を送信します。
+
+```ts
+await this.taskService.updateStepFunctionTask(
+  { pk: "SFN_TASK#mbc", sk: "batch-process#01HXYZ123" },
+  { executionArn: "arn:aws:states:..." },
+  "PROCESSING"
+);
+```
+
+### タスクステータス値
+
+| ステータス | 説明 |
+|------------|-----------------|
+| `CREATED` | タスクは作成されましたが、まだ開始されていません |
+| `PROCESSING` | タスクは現在処理中です |
+| `COMPLETED` | タスクは正常に完了しました |
+| `FAILED` | タスクはエラーで失敗しました |

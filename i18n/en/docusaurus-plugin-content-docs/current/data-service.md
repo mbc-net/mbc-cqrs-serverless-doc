@@ -128,6 +128,34 @@ const query = {
 const res = await this.dataService.listItemsByPk(pk, query);
 ```
 
+### *async* `publish(cmd: CommandModel): Promise<DataModel>`
+
+The `publish` method publishes command data to the data table. This is typically called internally by the framework's data sync handlers, but can be used directly when implementing custom synchronization logic.
+
+:::note
+This method is primarily used internally by the framework. In most cases, you should use `CommandService.publishSync()` or `CommandService.publishAsync()` which automatically handles data synchronization.
+:::
+
+```ts
+import { DataService, CommandModel } from "@mbc-cqrs-serverless/core";
+
+// Custom data sync handler example
+async up(cmd: CommandModel): Promise<void> {
+  // Publish command to data table
+  const dataModel = await this.dataService.publish(cmd);
+
+  // Additional synchronization to external systems
+  await this.syncToExternalSystem(dataModel);
+}
+```
+
+The method:
+- Converts CommandModel to DataModel format
+- Removes version suffix from sort key
+- Preserves original creation metadata (createdAt, createdBy, createdIp)
+- Updates modification metadata (updatedAt, updatedBy, updatedIp)
+- Stores the data in the data table
+
 ## Common Patterns
 
 ### Search by Code

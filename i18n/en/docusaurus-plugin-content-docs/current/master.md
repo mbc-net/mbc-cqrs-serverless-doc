@@ -259,18 +259,107 @@ Checks if a specific code exists within the given tenant and type.
 const masterData = await this.masterDataService.checkExistCode("mbc", "service", "01");
 ```
 
-#### `search(searchDto: CustomMasterDataSearchDto): Promise<MasterRdsListEntity>`
+#### `getDetail(key: DetailDto): Promise<MasterDataDetailEntity>`
+Retrieves detailed master data including related information. Throws NotFoundException if not found.
+
+```ts
+const masterData = await this.masterDataService.getDetail({
+  pk: "MASTER#mbc",
+  sk: "MASTER_DATA#service#01"
+});
+```
+
+#### `createSetting(createDto: MasterDataCreateDto, invokeContext: IInvoke): Promise<CommandModel>`
+Creates a new master data entity with automatic sequence generation if not provided.
+
+```ts
+const masterData = await this.masterDataService.createSetting(
+  {
+    code: 'MASTER001',
+    name: 'Example Master Data',
+    settingCode: "service",
+    tenantCode: "mbc",
+    attributes: {
+      homepage: "http://mbc.com",
+      desc: "description for mbc"
+    }
+  },
+  invokeContext
+);
+```
+
+#### `createBulk(createDto: MasterDataCreateBulkDto, invokeContext: IInvoke): Promise<CommandModel[]>`
+Creates multiple master data entities in bulk.
+
+```ts
+const masterDataList = await this.masterDataService.createBulk(
+  {
+    items: [
+      {
+        code: 'MASTER001',
+        name: 'First Master Data',
+        settingCode: "service",
+        tenantCode: "mbc"
+      },
+      {
+        code: 'MASTER002',
+        name: 'Second Master Data',
+        settingCode: "service",
+        tenantCode: "mbc"
+      }
+    ]
+  },
+  invokeContext
+);
+```
+
+#### `updateSetting(key: DetailDto, updateDto: MasterDataUpdateDto, invokeContext: IInvoke): Promise<CommandModel>`
+Updates an existing master data entity.
+
+```ts
+const masterData = await this.masterDataService.updateSetting(
+  {
+    pk: "MASTER#mbc",
+    sk: "MASTER_DATA#service#01"
+  },
+  {
+    name: 'Updated Master Data',
+    attributes: {
+      homepage: "http://updated-mbc.com"
+    }
+  },
+  invokeContext
+);
+```
+
+#### `deleteSetting(key: DetailDto, invokeContext: IInvoke): Promise<CommandModel>`
+Deletes a master data entity by key.
+
+```ts
+const result = await this.masterDataService.deleteSetting(
+  {
+    pk: "MASTER#mbc",
+    sk: "MASTER_DATA#service#01"
+  },
+  invokeContext
+);
+```
+
+#### `listByRds(searchDto: CustomMasterDataSearchDto, context: { invokeContext: IInvoke }): Promise<MasterRdsListEntity>`
 Searches master data in RDS with filtering and pagination. This method is used when Prisma service is configured.
 
 ```ts
-const result = await this.masterDataService.search({
-  settingCode: "service",    // Exact match for master type code
-  keyword: "example",        // Partial match (case-insensitive) for name
-  code: "001",               // Partial match (case-insensitive) for master code
-  page: 1,
-  pageSize: 10,
-  orderBys: ["seq", "masterCode"],
-});
+const result = await this.masterDataService.listByRds(
+  {
+    settingCode: "service",    // Exact match for master type code
+    keyword: "example",        // Partial match (case-insensitive) for name
+    code: "001",               // Partial match (case-insensitive) for master code
+    page: 1,
+    pageSize: 10,
+    orderBys: ["seq", "masterCode"],
+  },
+  { invokeContext }
+);
 ```
 
 ##### Search Parameters {#search-parameters}

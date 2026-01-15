@@ -139,6 +139,17 @@ The data transfer object that customizes the behavior of the sequence generation
       }
     }
     ```
+
+- `prefix?: string`
+  - Required: No.
+  - Description: Optional prefix to prepend to the formatted sequence. The prefix is added before the formatted pattern.
+  - Example: If prefix is `'INV-'` and format produces `'2024-001'`, the result will be `'INV-2024-001'`.
+
+- `postfix?: string`
+  - Required: No.
+  - Description: Optional postfix to append to the formatted sequence. The postfix is added after the formatted pattern.
+  - Example: If postfix is `'-DRAFT'` and format produces `'2024-001'`, the result will be `'2024-001-DRAFT'`.
+
 ####  Response
 The return value of this function  has type of `SequenceEntity` as follows:
   ```ts
@@ -235,6 +246,27 @@ const result = await this.sequencesService.generateSequenceItemWithProvideSettin
 ```
 
 Use this method when you need dynamic sequence settings that vary per request rather than fixed master data configuration.
+
+Example with prefix and postfix:
+
+```ts
+const result = await this.sequencesService.generateSequenceItemWithProvideSetting(
+  {
+    tenantCode: 'tenant001',
+    typeCode: 'ORDER',
+    setting: {
+      format: '%%fiscal_year%%-%%no#:0>4%%',
+      rotateBy: RotateByEnum.FISCAL_YEARLY,
+      startMonth: 4,
+    },
+    params: { code1: 'ORD' },
+    prefix: 'ORD-',    // {{Prepended to formatted sequence}}
+    postfix: '-DRAFT', // {{Appended to formatted sequence}}
+  },
+  { invokeContext },
+);
+// Returns: { formattedNo: 'ORD-2024-0001-DRAFT', no: 1, ... }
+```
 
 ### *async* `getCurrentSequence(key: DetailKey): Promise<DataEntity>` <span class="badge badge--warning">deprecated</span>
 

@@ -1318,7 +1318,7 @@ export class CustomEventFactory extends EventFactoryAddedTask {
     │ Yes     │ No
     ▼         ▼
 {{Update Master}}  {{Wait for
-  Job Status}}     more children}}
+  Job Status}}     {{more children}}
          │
     ┌────┴────┐
     │ Has     │ All

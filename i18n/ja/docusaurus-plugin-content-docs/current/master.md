@@ -259,18 +259,107 @@ const masterData = await this.masterDataService.delete(
 const masterData = await this.masterDataService.checkExistCode("mbc", "service", "01");
 ```
 
-#### `search(searchDto: CustomMasterDataSearchDto): Promise<MasterRdsListEntity>`
+#### `getDetail(key: DetailDto): Promise<MasterDataDetailEntity>`
+関連情報を含む詳細なマスターデータを取得します。見つからない場合はNotFoundExceptionをスローします。
+
+```ts
+const masterData = await this.masterDataService.getDetail({
+  pk: "MASTER#mbc",
+  sk: "MASTER_DATA#service#01"
+});
+```
+
+#### `createSetting(createDto: MasterDataCreateDto, invokeContext: IInvoke): Promise<CommandModel>`
+新しいマスターデータエンティティを作成します。シーケンスが指定されていない場合は自動生成されます。
+
+```ts
+const masterData = await this.masterDataService.createSetting(
+  {
+    code: 'MASTER001',
+    name: 'Example Master Data',
+    settingCode: "service",
+    tenantCode: "mbc",
+    attributes: {
+      homepage: "http://mbc.com",
+      desc: "description for mbc"
+    }
+  },
+  invokeContext
+);
+```
+
+#### `createBulk(createDto: MasterDataCreateBulkDto, invokeContext: IInvoke): Promise<CommandModel[]>`
+複数のマスターデータエンティティを一括作成します。
+
+```ts
+const masterDataList = await this.masterDataService.createBulk(
+  {
+    items: [
+      {
+        code: 'MASTER001',
+        name: 'First Master Data',
+        settingCode: "service",
+        tenantCode: "mbc"
+      },
+      {
+        code: 'MASTER002',
+        name: 'Second Master Data',
+        settingCode: "service",
+        tenantCode: "mbc"
+      }
+    ]
+  },
+  invokeContext
+);
+```
+
+#### `updateSetting(key: DetailDto, updateDto: MasterDataUpdateDto, invokeContext: IInvoke): Promise<CommandModel>`
+既存のマスターデータエンティティを更新します。
+
+```ts
+const masterData = await this.masterDataService.updateSetting(
+  {
+    pk: "MASTER#mbc",
+    sk: "MASTER_DATA#service#01"
+  },
+  {
+    name: 'Updated Master Data',
+    attributes: {
+      homepage: "http://updated-mbc.com"
+    }
+  },
+  invokeContext
+);
+```
+
+#### `deleteSetting(key: DetailDto, invokeContext: IInvoke): Promise<CommandModel>`
+キーでマスターデータエンティティを削除します。
+
+```ts
+const result = await this.masterDataService.deleteSetting(
+  {
+    pk: "MASTER#mbc",
+    sk: "MASTER_DATA#service#01"
+  },
+  invokeContext
+);
+```
+
+#### `listByRds(searchDto: CustomMasterDataSearchDto, context: { invokeContext: IInvoke }): Promise<MasterRdsListEntity>`
 フィルタリングとページネーションでRDS内のマスターデータを検索します。このメソッドはPrismaサービスが設定されている場合に使用されます。
 
 ```ts
-const result = await this.masterDataService.search({
-  settingCode: "service",    // マスタータイプコードの完全一致
-  keyword: "example",        // 名前の部分一致（大文字小文字を区別しない）
-  code: "001",               // マスターコードの部分一致（大文字小文字を区別しない）
-  page: 1,
-  pageSize: 10,
-  orderBys: ["seq", "masterCode"],
-});
+const result = await this.masterDataService.listByRds(
+  {
+    settingCode: "service",    // マスタータイプコードの完全一致
+    keyword: "example",        // 名前の部分一致（大文字小文字を区別しない）
+    code: "001",               // マスターコードの部分一致（大文字小文字を区別しない）
+    page: 1,
+    pageSize: 10,
+    orderBys: ["seq", "masterCode"],
+  },
+  { invokeContext }
+);
 ```
 
 ##### 検索パラメータ {#search-parameters}

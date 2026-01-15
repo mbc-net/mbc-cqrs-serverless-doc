@@ -1317,8 +1317,8 @@ Step Functionsワークフロー（例：ZIPインポート）の一部として
     ┌────┴────┐
     │ Yes     │ No
     ▼         ▼
-マスターを更新  {{Wait for
-  Job Status}}     more children}}
+マスターを更新  Wait for
+  Job Status     more children
          │
     ┌────┴────┐
     │ Has     │ All

@@ -128,6 +128,34 @@ const query = {
 const res = await this.dataService.listItemsByPk(pk, query);
 ```
 
+### *async* `publish(cmd: CommandModel): Promise<DataModel>`
+
+`publish`メソッドはコマンドデータをデータテーブルに発行します。これは通常、フレームワークのデータ同期ハンドラーによって内部的に呼び出されますが、カスタム同期ロジックを実装する際に直接使用することもできます。
+
+:::note
+このメソッドは主にフレームワーク内部で使用されます。ほとんどの場合、データ同期を自動的に処理する`CommandService.publishSync()`または`CommandService.publishAsync()`を使用してください。
+:::
+
+```ts
+import { DataService, CommandModel } from "@mbc-cqrs-serverless/core";
+
+// Custom data sync handler example (カスタムデータ同期ハンドラーの例)
+async up(cmd: CommandModel): Promise<void> {
+  // Publish command to data table (コマンドをデータテーブルに発行)
+  const dataModel = await this.dataService.publish(cmd);
+
+  // Additional synchronization to external systems (外部システムへの追加同期)
+  await this.syncToExternalSystem(dataModel);
+}
+```
+
+このメソッドは：
+- CommandModelをDataModel形式に変換
+- ソートキーからバージョンサフィックスを削除
+- 元の作成メタデータを保持（createdAt、createdBy、createdIp）
+- 更新メタデータを更新（updatedAt、updatedBy、updatedIp）
+- データをデータテーブルに保存
+
 ## 共通パターン
 
 ### コードで検索

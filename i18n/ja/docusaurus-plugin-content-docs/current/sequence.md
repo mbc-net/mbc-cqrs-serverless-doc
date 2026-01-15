@@ -139,6 +139,17 @@ GenerateFormattedSequenceDto オブジェクトで提供されたパラメータ
       }
     }
     ```
+
+- `prefix?: string`
+  - Required: No.
+  - 説明: フォーマットされたシーケンスの先頭に追加するオプションのプレフィックス。プレフィックスはフォーマットされたパターンの前に追加されます。
+  - 例: prefixが`'INV-'`でフォーマットが`'2024-001'`を生成する場合、結果は`'INV-2024-001'`になります。
+
+- `postfix?: string`
+  - Required: No.
+  - 説明: フォーマットされたシーケンスの末尾に追加するオプションのポストフィックス。ポストフィックスはフォーマットされたパターンの後に追加されます。
+  - 例: postfixが`'-DRAFT'`でフォーマットが`'2024-001'`を生成する場合、結果は`'2024-001-DRAFT'`になります。
+
 ####  Response
 この関数の戻り値は次のような `SequenceEntity` 型になります。
   ```ts
@@ -235,6 +246,27 @@ const result = await this.sequencesService.generateSequenceItemWithProvideSettin
 ```
 
 固定のマスターデータ設定ではなく、リクエストごとに異なる動的なシーケンス設定が必要な場合にこのメソッドを使用します。
+
+prefixとpostfixを使用した例：
+
+```ts
+const result = await this.sequencesService.generateSequenceItemWithProvideSetting(
+  {
+    tenantCode: 'tenant001',
+    typeCode: 'ORDER',
+    setting: {
+      format: '%%fiscal_year%%-%%no#:0>4%%',
+      rotateBy: RotateByEnum.FISCAL_YEARLY,
+      startMonth: 4,
+    },
+    params: { code1: 'ORD' },
+    prefix: 'ORD-',    // フォーマットされたシーケンスの先頭に追加
+    postfix: '-DRAFT', // フォーマットされたシーケンスの末尾に追加
+  },
+  { invokeContext },
+);
+// Returns: { formattedNo: 'ORD-2024-0001-DRAFT', no: 1, ... }
+```
 
 ### *async* `getCurrentSequence(key: DetailKey): Promise<DataEntity>` <span class="badge badge--warning">非推奨</span>
 

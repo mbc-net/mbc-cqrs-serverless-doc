@@ -1,170 +1,189 @@
 ---
-description: Learn how to use NotificationModule for email notifications in MBC CQRS Serverless.
+description: Learn about real-time notifications and email services in MBC CQRS Serverless.
 ---
 
-# NotificationModule
+# Notification
 
-## Overview
+The NotificationModule provides two types of notification capabilities in the MBC CQRS Serverless framework:
 
-The `NotificationModule` provides email notification capabilities using Amazon SES. It's designed for easy integration with minimal configuration.
+- **Real-time notifications** via AWS AppSync for WebSocket-based updates
+- **Email notifications** via AWS SES for sending emails
+
+## Architecture
 
 ```mermaid
-graph LR
-    subgraph "Application"
-        A["Your Service"] --> B["EmailService"]
+graph TB
+    subgraph "Real-time Notifications"
+        A["DynamoDB Stream"] --> B["NotificationEventHandler"]
+        B --> C["AppSyncService"]
+        C --> D["AppSync GraphQL"]
+        D --> E["WebSocket Clients"]
     end
 
-    subgraph "AWS"
-        B --> C["Amazon SES"]
-        C --> D["Email Recipients"]
+    subgraph "Email Notifications"
+        F["Application Code"] --> G["EmailService"]
+        G --> H["AWS SES"]
+        H --> I["Email Recipients"]
     end
 ```
 
-## Features
+## Real-time Notifications
 
-- Automatic AWS SES integration
-- HTML email support
-- File attachments
-- CC/BCC recipients
-- Global scope registration
+### Overview
 
-## Configuration
+Real-time notifications are automatically sent when data changes occur in DynamoDB. The system uses AWS AppSync to deliver notifications to subscribed WebSocket clients.
+
+### INotification Interface
+
+The notification payload structure:
+
+```ts
+interface INotification {
+  id: string;        // Unique notification ID
+  table: string;     // Source DynamoDB table name
+  pk: string;        // Partition key of the changed item
+  sk: string;        // Sort key of the changed item
+  tenantCode: string; // Tenant code for filtering notifications
+  action: string;    // Type of change: 'INSERT', 'MODIFY', 'REMOVE', or custom actions
+  content?: object;  // Optional payload with changed data
+}
+```
+
+### AppSyncService
+
+The `AppSyncService` sends real-time notifications to AppSync for WebSocket delivery.
+
+#### Configuration
 
 Set the following environment variables:
 
 ```bash
-# Required
-SES_FROM_EMAIL=noreply@your-domain.com
-
-# Optional (defaults to AWS SDK configuration)
-SES_ENDPOINT=
-SES_REGION=ap-northeast-1
+APPSYNC_ENDPOINT=https://xxxxx.appsync-api.ap-northeast-1.amazonaws.com/graphql
+APPSYNC_API_KEY=da2-xxxxxxxxxx  # Optional: Use API key auth instead of IAM
 ```
 
-## Module Registration
+#### Usage
 
-The `NotificationModule` is registered globally, so the `EmailService` is available for injection anywhere in your application:
-
-```typescript
-import { Module } from '@nestjs/common';
-import { NotificationModule } from '@mbc-cqrs-serverless/core';
-
-@Module({
-  imports: [NotificationModule],
-})
-export class AppModule {}
-```
-
-## Basic Usage
-
-Inject and use the `EmailService` in any service:
-
-```typescript
-import { Injectable } from '@nestjs/common';
-import { EmailService } from '@mbc-cqrs-serverless/core';
+```ts
+import { AppSyncService, INotification } from "@mbc-cqrs-serverless/core";
 
 @Injectable()
-export class OrderService {
-  constructor(private readonly emailService: EmailService) {}
+export class MyService {
+  constructor(private readonly appSyncService: AppSyncService) {}
 
-  async sendOrderConfirmation(order: Order): Promise<void> {
-    await this.emailService.sendEmail({
-      toAddrs: [order.customerEmail],
-      subject: `Order Confirmation - ${order.code}`,
-      body: `
-        <h1>Thank you for your order!</h1>
-        <p>Order Number: ${order.code}</p>
-        <p>Total: ${order.total}</p>
-      `,
-    });
+  async notifyClients() {
+    const notification: INotification = {
+      id: "notification-123",
+      table: "my-table",
+      pk: "ITEM#tenant1",
+      sk: "ITEM#item001",
+      tenantCode: "tenant1",
+      action: "MODIFY",
+      content: { status: "updated" },
+    };
+
+    await this.appSyncService.sendMessage(notification);
   }
 }
 ```
 
-## AWS SES Setup
+#### Authentication
 
-### Production Setup
+The AppSyncService supports two authentication methods:
 
-1. **Verify your domain**: Add DNS records for domain verification
-2. **Request production access**: Move out of sandbox mode
-3. **Set up IAM permissions**: Ensure Lambda has SES send permissions
+1. **API Key**: Set `APPSYNC_API_KEY` environment variable
+2. **IAM Signature V4**: Used automatically when API key is not set
 
-### IAM Policy
+### Automatic Notifications
 
-Required IAM permissions for sending emails:
+The framework automatically sends notifications when data changes through:
 
-```json
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ses:SendEmail",
-        "ses:SendRawEmail"
-      ],
-      "Resource": "*"
-    }
-  ]
-}
-```
+1. DynamoDB Streams trigger the `NotificationEventHandler`
+2. Handler extracts change information and creates `INotification`
+3. `AppSyncService.sendMessage()` delivers to AppSync
+4. Connected clients receive updates via WebSocket subscription
 
-### Local Development
+## Email Notifications
 
-For local development, you can use LocalStack or email testing services:
+### EmailService
+
+The `EmailService` sends emails using AWS SES.
+
+#### Configuration
 
 ```bash
-# Using LocalStack
-SES_ENDPOINT=http://localhost:4566
-SES_REGION=ap-northeast-1
+SES_FROM_EMAIL=noreply@your-domain.com  # Required: Default sender address
+SES_REGION=ap-northeast-1                # Optional: SES region
+SES_ENDPOINT=                            # Optional: Custom endpoint for LocalStack
 ```
 
-## Common Patterns
+#### Basic Usage
 
-### Email Templates
+```ts
+import { EmailService, EmailNotification } from "@mbc-cqrs-serverless/core";
 
-Create reusable email templates:
-
-```typescript
 @Injectable()
-export class EmailTemplateService {
-  private templates = {
-    welcome: (name: string) => ({
-      subject: 'Welcome to Our Platform',
-      body: `<h1>Welcome, ${name}!</h1><p>We're glad to have you.</p>`,
-    }),
-    passwordReset: (resetLink: string) => ({
-      subject: 'Password Reset Request',
-      body: `<p>Click <a href="${resetLink}">here</a> to reset your password.</p>`,
-    }),
-  };
+export class MyService {
+  constructor(private readonly emailService: EmailService) {}
 
-  getTemplate(name: keyof typeof this.templates, ...args: any[]) {
-    return this.templates[name](...args);
+  async sendWelcomeEmail(userEmail: string) {
+    const email: EmailNotification = {
+      toAddrs: [userEmail],
+      subject: "Welcome to Our Service",
+      body: "<h1>Welcome!</h1><p>Thank you for signing up.</p>",
+    };
+
+    await this.emailService.send(email);
   }
 }
 ```
 
-### Error Handling
+#### Email with Attachments
 
-```typescript
-async sendNotification(email: string, content: EmailContent): Promise<boolean> {
-  try {
-    await this.emailService.sendEmail({
-      toAddrs: [email],
-      subject: content.subject,
-      body: content.body,
-    });
-    return true;
-  } catch (error) {
-    console.error('Failed to send email:', error);
-    // Optionally: queue for retry or log to monitoring
-    return false;
-  }
-}
+```ts
+import { EmailNotification, Attachment } from "@mbc-cqrs-serverless/core";
+import * as fs from "fs";
+
+const pdfBuffer = fs.readFileSync("report.pdf");
+
+const email: EmailNotification = {
+  toAddrs: ["user@example.com"],
+  subject: "Monthly Report",
+  body: "<p>Please find attached your monthly report.</p>",
+  attachments: [
+    {
+      filename: "report.pdf",
+      content: pdfBuffer,
+      contentType: "application/pdf",
+    },
+  ],
+};
+
+await this.emailService.send(email);
 ```
 
-## Related Documentation
+#### EmailNotification Interface
 
-- [EmailService API](./email-service.md): Detailed API reference with all options
-- [Environment Variables](./environment-variables.md): Configuration options
+| Property | Type | Required | Description |
+|--------------|----------|--------------|-----------------|
+| `fromAddr` | `string` | No | Sender email (uses SES_FROM_EMAIL if not set) |
+| `toAddrs` | `string[]` | Yes | List of recipient email addresses |
+| `ccAddrs` | `string[]` | No | CC recipients |
+| `bccAddrs` | `string[]` | No | BCC recipients |
+| `subject` | `string` | Yes | Email subject line |
+| `body` | `string` | Yes | Email body as HTML |
+| `replyToAddrs` | `string[]` | No | Reply-to addresses |
+| `attachments` | `Attachment[]` | No | File attachments |
+
+#### Attachment Interface
+
+| Property | Type | Required | Description |
+|--------------|----------|--------------|-----------------|
+| `filename` | `string` | Yes | Filename shown to recipient |
+| `content` | `Buffer` | Yes | File content as Buffer |
+| `contentType` | `string` | No | MIME type (e.g., 'application/pdf') |
+
+## See Also
+
+- [Event Handling Patterns](./event-handling-patterns) - How notifications integrate with events
+- [Environment Variables](./environment-variables) - Configuration reference

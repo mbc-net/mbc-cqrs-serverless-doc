@@ -38,3 +38,101 @@ export class CatController {
   }
 }
 ```
+
+## デコレーター
+
+フレームワークは、コントローラーでよく使用されるパターンを簡略化するためのいくつかのデコレーターを提供しています。
+
+### `@INVOKE_CONTEXT()`
+
+リクエストから呼び出しコンテキストを抽出するパラメーターデコレーター。Lambdaコンテキスト、JWTクレーム、リクエストメタデータへのアクセスを提供します。
+
+```ts
+import { INVOKE_CONTEXT, IInvoke } from '@mbc-cqrs-serverless/core';
+
+@Get(':id')
+async getItem(
+  @INVOKE_CONTEXT() invokeContext: IInvoke,
+  @Param('id') id: string
+) {
+  return this.service.getItem(id, { invokeContext });
+}
+```
+
+### `@Auth(...roles)`
+
+認証とロールベースアクセス制御を適用するメソッド/クラスデコレーター。RolesGuardとSwaggerドキュメント（ApiBearerAuth、ApiUnauthorizedResponse）を組み合わせます。
+
+```ts
+import { Auth, ROLE_SYSTEM_ADMIN, ROLE_USER } from '@mbc-cqrs-serverless/core';
+
+@Controller('admin')
+@Auth(ROLE_SYSTEM_ADMIN)  // クラスレベル: すべてのメソッドに適用
+export class AdminController {
+
+  @Post()
+  @Auth(ROLE_SYSTEM_ADMIN, ROLE_USER)  // メソッドレベル: クラスデコレーターを上書き
+  async create() {}
+}
+```
+
+### `@HeaderTenant()`
+
+Swaggerドキュメントにテナントコードヘッダー要件を追加するメソッド/クラスデコレーター。エンドポイントがテナントコードヘッダーを必要とする場合に使用します。
+
+```ts
+import { HeaderTenant } from '@mbc-cqrs-serverless/core';
+
+@Controller('items')
+@HeaderTenant()  // Swaggerドキュメントにx-tenant-codeヘッダーを追加
+export class ItemController {
+
+  @Get()
+  async list() {
+    // invokeContext経由でテナントコードを取得可能
+  }
+}
+```
+
+デコレーターはSwaggerに以下のヘッダーを追加します：
+- **ヘッダー名**: `x-tenant-code`
+- **必須**: `true`
+- **説明**: 現在の作業テナントコード
+
+### `@SwaggerResponse(ApiResponse, options?)`
+
+標準化されたエラーレスポンスドキュメントを適用するメソッドデコレーターファクトリー。Swaggerレスポンスデコレーターと一緒に使用してエラーレスポンスを文書化します。
+
+```ts
+import { SwaggerResponse } from '@mbc-cqrs-serverless/core';
+import { ApiBadRequestResponse, ApiNotFoundResponse } from '@nestjs/swagger';
+
+@Controller('items')
+export class ItemController {
+
+  @Get(':id')
+  @SwaggerResponse(ApiNotFoundResponse, { description: 'Item not found' })
+  @SwaggerResponse(ApiBadRequestResponse, { description: 'Invalid ID format' })
+  async getItem(@Param('id') id: string) {}
+}
+```
+
+このデコレーターは、statusとmessageフィールドを持つ標準的なHttpExceptionResponseスキーマを自動的に含めます。
+
+### `@Roles(...roles)`
+
+エンドポイントにアクセスできるロールを指定するメソッド/クラスデコレーター。`@Auth()`によって内部的に使用されますが、カスタムガードと直接使用することもできます。
+
+```ts
+import { Roles, UseGuards } from '@mbc-cqrs-serverless/core';
+import { CustomGuard } from './guards/custom.guard';
+
+@Controller('custom')
+export class CustomController {
+
+  @Get()
+  @Roles('admin', 'manager')
+  @UseGuards(CustomGuard)
+  async protectedEndpoint() {}
+}
+```

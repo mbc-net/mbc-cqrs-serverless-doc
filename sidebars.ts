@@ -204,7 +204,7 @@ const sidebars: SidebarsConfig = {
     {
       type: "category",
       label: "Reference",
-      items: ["interfaces", "error-catalog", "glossary"],
+      items: ["helpers", "interfaces", "error-catalog", "glossary"],
     },
 
     // 15. Changelog - 変更履歴（トップレベル）

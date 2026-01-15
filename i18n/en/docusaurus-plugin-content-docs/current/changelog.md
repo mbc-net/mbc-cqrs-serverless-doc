@@ -21,11 +21,11 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ### Features
 
-- **import:** {{Add ZIP finalization hooks support to ImportModule}} ([See Details](./import-export-patterns#zip-finalization-hooks))
-  - {{Introduced `zipFinalizationHooks` option in `ImportModule.register()` for custom post-processing after ZIP imports}}
-  - {{Added `IZipFinalizationHook` interface and `ZipFinalizationContext` for hook implementations}}
-  - {{Hooks execute in parallel with error isolation - individual hook failures don't affect job status}}
-  - {{Common use cases: file backup, notifications, external system updates, report generation}}
+- **import:** Add ZIP finalization hooks support to ImportModule ([See Details](./import-export-patterns#zip-finalization-hooks))
+  - Introduced `zipFinalizationHooks` option in `ImportModule.register()` for custom post-processing after ZIP imports
+  - Added `IZipFinalizationHook` interface and `ZipFinalizationContext` for hook implementations
+  - Hooks execute in parallel with error isolation - individual hook failures don't affect job status
+  - Common use cases: file backup, notifications, external system updates, report generation
 
 ---
 

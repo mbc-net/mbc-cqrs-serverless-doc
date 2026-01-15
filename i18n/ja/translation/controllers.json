@@ -4,5 +4,22 @@
   "Controllers are responsible for handling incoming **requests** and returning **responses** to the client.": "コントローラーは、受信した **リクエスト**を処理し、**レスポンス**をクライアントに返す責務があります。",
   "Defining a controller in the MBC Serverless Framework is the same as in Nest.js, so please refer to this section using the [provided link](https://docs.nestjs.com/controllers).": "MBC サーバーレス フレームワークでのコントローラーの定義は Nest.js の場合と同じであるため、[Nest.js内のリンク](https://docs.nestjs.com/controllers) を使用してこのセクションを参照してください。",
   "To get the invoke context, you can provide the following argument in the controller function.": "コントローラ内で呼び出されたコンテキストを使用するには次の関数で取得します。",
-  "In the following example we'll use the `@Controller()` decorator, which is required to define a basic controller; `@Auth(ROLE_SYSTEM_ADMIN)` decorator, which is specified for authorization purpose; and `@ApiTags('cat')` to attach a controller to a specific tag.": "次の例では、基本的なコントローラーを定義するために必要な `@Controller()` デコレーターを使用します。 基本コントローラに `@Auth(ROLE_SYSTEM_ADMIN)` デコレータを認可の目的で指定します。そして `@ApiTags('cat')` を使用してコントローラーを特定のタグにアタッチします。"
+  "In the following example we'll use the `@Controller()` decorator, which is required to define a basic controller; `@Auth(ROLE_SYSTEM_ADMIN)` decorator, which is specified for authorization purpose; and `@ApiTags('cat')` to attach a controller to a specific tag.": "次の例では、基本的なコントローラーを定義するために必要な `@Controller()` デコレーターを使用します。 基本コントローラに `@Auth(ROLE_SYSTEM_ADMIN)` デコレータを認可の目的で指定します。そして `@ApiTags('cat')` を使用してコントローラーを特定のタグにアタッチします。",
+  "Decorators": "デコレーター",
+  "The framework provides several decorators to simplify common patterns in your controllers.": "フレームワークは、コントローラーでよく使用されるパターンを簡略化するためのいくつかのデコレーターを提供しています。",
+  "Parameter decorator that extracts the invocation context from the request. This provides access to Lambda context, JWT claims, and request metadata.": "リクエストから呼び出しコンテキストを抽出するパラメーターデコレーター。Lambdaコンテキスト、JWTクレーム、リクエストメタデータへのアクセスを提供します。",
+  "Method/class decorator that applies authentication and role-based access control. Combines RolesGuard with Swagger documentation (ApiBearerAuth, ApiUnauthorizedResponse).": "認証とロールベースアクセス制御を適用するメソッド/クラスデコレーター。RolesGuardとSwaggerドキュメント（ApiBearerAuth、ApiUnauthorizedResponse）を組み合わせます。",
+  "Class-level: applies to all methods": "クラスレベル: すべてのメソッドに適用",
+  "Method-level: override class decorator": "メソッドレベル: クラスデコレーターを上書き",
+  "Method/class decorator that adds tenant code header requirement to Swagger documentation. Use this when your endpoint requires a tenant code header.": "Swaggerドキュメントにテナントコードヘッダー要件を追加するメソッド/クラスデコレーター。エンドポイントがテナントコードヘッダーを必要とする場合に使用します。",
+  "Adds x-tenant-code header to Swagger docs": "Swaggerドキュメントにx-tenant-codeヘッダーを追加",
+  "Tenant code available via invokeContext": "invokeContext経由でテナントコードを取得可能",
+  "The decorator adds the following header to Swagger:": "デコレーターはSwaggerに以下のヘッダーを追加します：",
+  "Header name": "ヘッダー名",
+  "Required": "必須",
+  "Description": "説明",
+  "Current working tenant code": "現在の作業テナントコード",
+  "Method decorator factory that applies standardized error response documentation. Use with Swagger response decorators to document error responses.": "標準化されたエラーレスポンスドキュメントを適用するメソッドデコレーターファクトリー。Swaggerレスポンスデコレーターと一緒に使用してエラーレスポンスを文書化します。",
+  "This decorator automatically includes the standard HttpExceptionResponse schema with status and message fields.": "このデコレーターは、statusとmessageフィールドを持つ標準的なHttpExceptionResponseスキーマを自動的に含めます。",
+  "Method/class decorator that specifies which roles can access an endpoint. Used internally by `@Auth()` but can be used directly with custom guards.": "エンドポイントにアクセスできるロールを指定するメソッド/クラスデコレーター。`@Auth()`によって内部的に使用されますが、カスタムガードと直接使用することもできます。"
 }

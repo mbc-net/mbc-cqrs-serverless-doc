@@ -1087,18 +1087,18 @@ import { PolicyProcessStrategy } from './policy/strategies/policy.process-strate
 export class AppModule {}
 ```
 
-### {{ZIP Finalization Hooks}} {#zip-finalization-hooks}
+### ZIP Finalization Hooks {#zip-finalization-hooks}
 
-{{ZIP finalization hooks allow you to execute custom logic after a ZIP import job completes. Common use cases include:}}
+ZIP finalization hooks allow you to execute custom logic after a ZIP import job completes. Common use cases include:
 
-- {{Moving processed files to a backup location}}
-- {{Sending notifications (email, Slack, etc.)}}
-- {{Updating external systems}}
-- {{Generating reports}}
+- Moving processed files to a backup location
+- Sending notifications (email, Slack, etc.)
+- Updating external systems
+- Generating reports
 
-#### {{Implementing a Finalization Hook}}
+#### Implementing a Finalization Hook
 
-{{Create a class that implements `IZipFinalizationHook`:}}
+Create a class that implements `IZipFinalizationHook`:
 
 ```typescript
 import { Injectable, Logger } from '@nestjs/common';
@@ -1125,7 +1125,7 @@ export class BackupAndNotifyHook implements IZipFinalizationHook {
       `ZIP import completed: ${masterJobKey.pk}#${masterJobKey.sk}, status: ${status}`,
     );
 
-    // {{Move processed files to backup location}}
+    // Move processed files to backup location
     for (const s3Key of executionInput.sortedS3Keys) {
       const backupKey = `backup/${tenantCode}/${new Date().toISOString().slice(0, 10)}/${s3Key.split('/').pop()}`;
       await this.s3Service.copyObject({
@@ -1137,7 +1137,7 @@ export class BackupAndNotifyHook implements IZipFinalizationHook {
       this.logger.log(`Backed up ${s3Key} to ${backupKey}`);
     }
 
-    // {{Send notification}}
+    // Send notification
     await this.snsService.publish({
       topicArn: process.env.NOTIFICATION_TOPIC_ARN,
       subject: `ZIP Import ${status}`,
@@ -1152,9 +1152,9 @@ export class BackupAndNotifyHook implements IZipFinalizationHook {
 }
 ```
 
-#### {{Registering Finalization Hooks}}
+#### Registering Finalization Hooks
 
-{{Add your hooks to the `ImportModule.register()` configuration:}}
+Add your hooks to the `ImportModule.register()` configuration:
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -1167,7 +1167,7 @@ import { AuditLogHook } from './hooks/audit-log.hook';
     ImportModule.register({
       enableController: true,
       profiles: [...],
-      // {{Register ZIP finalization hooks}}
+      // Register ZIP finalization hooks
       zipFinalizationHooks: [
         BackupAndNotifyHook,
         AuditLogHook,
@@ -1178,26 +1178,26 @@ import { AuditLogHook } from './hooks/audit-log.hook';
 export class AppModule {}
 ```
 
-#### {{ZipFinalizationContext}}
+#### ZipFinalizationContext
 
-{{The context object passed to hooks contains:}}
+The context object passed to hooks contains:
 
-| {{Property}} | {{Type}} | Description |
+| Property | Type | Description |
 |--------------|----------|-----------------|
-| `event` | `ZipImportSfnEvent` | {{The original Step Functions event}} |
-| `masterJobKey` | `DetailKey` | {{The key (`pk`, `sk`) of the master ZIP job}} |
-| `results` | `object` | {{Aggregated results: `totalRows`, `processedRows`, `failedRows`}} |
-| `status` | `ImportStatusEnum` | {{Final status of the job (COMPLETED or FAILED)}} |
-| `executionInput` | `object` | {{Original Step Functions execution input including `parameters` and `sortedS3Keys`}} |
+| `event` | `ZipImportSfnEvent` | The original Step Functions event |
+| `masterJobKey` | `DetailKey` | The key (`pk`, `sk`) of the master ZIP job |
+| `results` | `object` | Aggregated results: `totalRows`, `processedRows`, `failedRows` |
+| `status` | `ImportStatusEnum` | Final status of the job (COMPLETED or FAILED) |
+| `executionInput` | `object` | Original Step Functions execution input including `parameters` and `sortedS3Keys` |
 
-#### {{Hook Execution Behavior}}
+#### Hook Execution Behavior
 
-- {{**Parallel Execution**: All registered hooks execute in parallel for better performance}}
-- {{**Error Isolation**: If a hook throws an error, it is logged but does not affect other hooks or the job status}}
-- {{**Dependency Injection**: Hooks are registered as NestJS providers, so you can inject any service}}
+- **Parallel Execution**: All registered hooks execute in parallel for better performance
+- **Error Isolation**: If a hook throws an error, it is logged but does not affect other hooks or the job status
+- **Dependency Injection**: Hooks are registered as NestJS providers, so you can inject any service
 
-:::info {{Version Note}}
-{{ZIP finalization hooks were added in version 1.0.21. See [Changelog](./changelog#v1021) for details.}}
+:::info Version Note
+ZIP finalization hooks were added in version 1.0.21. See [Changelog](./changelog#v1021) for details.
 :::
 
 ### Custom Event Factory for Imports
@@ -1317,8 +1317,8 @@ Check if All Children Complete
     ┌────┴────┐
     │ Yes     │ No
     ▼         ▼
-Update Master  {{Wait for
-  Job Status}}     more children}}
+Update Master  Wait for
+  Job Status     more children
          │
     ┌────┴────┐
     │ Has     │ All
