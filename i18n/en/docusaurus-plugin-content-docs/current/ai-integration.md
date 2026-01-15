@@ -39,7 +39,23 @@ curl https://raw.githubusercontent.com/mbc-net/mbc-cqrs-serverless/main/llms-ful
 
 The Model Context Protocol (MCP) server provides a more dynamic way for AI tools to interact with the framework.
 
-### Key Features
+### Context7 Integration
+
+Context7 is an MCP server that provides real-time, version-specific documentation to AI assistants.
+
+:::note
+MBC CQRS Serverless documentation will be available through Context7 after registration. Check the Context7 website for availability.
+:::
+
+To use Context7, add it to Claude Code:
+
+```bash
+claude mcp add context7 -- npx -y @upstash/context7-mcp@latest
+```
+
+### Custom MCP Server
+
+The framework also provides a custom MCP server for deeper integration:
 
 | Feature | Description |
 |---------|-------------|
@@ -102,6 +118,7 @@ The following AI tools can integrate with MBC CQRS Serverless:
 
 ## Related Resources
 
+- [AI Prompts Library](./ai-prompts) - Optimized prompts for common tasks
 - [MCP Server](./mcp-server) - Detailed MCP server documentation
 - [CLI Tool](./cli) - CLI commands for code generation
 - [Error Catalog](./error-catalog) - Error reference with solutions

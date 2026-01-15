@@ -70,6 +70,15 @@ const config: Config = {
         indexBlog: false,
       },
     ],
+    [
+      'docusaurus-plugin-llms',
+      {
+        generateLLMsTxt: true,
+        generateLLMsFullTxt: true,
+        title: 'MBC CQRS Serverless Framework',
+        description: 'Production-ready CQRS and Event Sourcing framework for building serverless applications on AWS with NestJS, DynamoDB, and other AWS services.',
+      },
+    ],
   ],
   themeConfig: {
     // Replace with your project's social card

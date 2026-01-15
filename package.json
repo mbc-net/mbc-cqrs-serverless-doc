@@ -6,7 +6,7 @@
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "start:watch": "ts-node scripts/hot-reload.ts",
-    "build": "docusaurus build",
+    "build": "docusaurus build && ts-node scripts/post-process-llms.ts",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
@@ -25,6 +25,7 @@
     "@easyops-cn/docusaurus-search-local": "^0.52.2",
     "@mdx-js/react": "^3.0.0",
     "clsx": "^2.0.0",
+    "docusaurus-plugin-llms": "^0.2.2",
     "prism-react-renderer": "^2.3.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"

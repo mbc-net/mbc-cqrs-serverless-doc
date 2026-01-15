@@ -198,7 +198,7 @@ const sidebars: SidebarsConfig = {
         type: "doc",
         id: "ai-integration",
       },
-      items: ["mcp-server"],
+      items: ["mcp-server", "ai-prompts"],
     },
 
     // 14. Reference - リファレンス

@@ -39,7 +39,23 @@ curl https://raw.githubusercontent.com/mbc-net/mbc-cqrs-serverless/main/llms-ful
 
 Model Context Protocol（MCP）サーバーは、AIツールがフレームワークと対話するためのより動的な方法を提供します。
 
-### 主な機能
+### Context7統合
+
+Context7はAIアシスタントにリアルタイムでバージョン固有のドキュメントを提供するMCPサーバーです。
+
+:::note
+MBC CQRS Serverlessのドキュメントは登録後にContext7で利用可能になります。利用可能かどうかはContext7のウェブサイトでご確認ください。
+:::
+
+Context7を使用するには、Claude Codeに追加してください：
+
+```bash
+claude mcp add context7 -- npx -y @upstash/context7-mcp@latest
+```
+
+### カスタムMCPサーバー
+
+フレームワークはより深い統合のためのカスタムMCPサーバーも提供しています：
 
 | 機能 | 説明 |
 |---------|-------------|
@@ -102,6 +118,7 @@ AIにモジュールを生成させる際は、具体的に記述してくださ
 
 ## 関連リソース
 
+- [AIプロンプトライブラリ](./ai-prompts) - 一般的なタスク用に最適化されたプロンプト
 - [MCPサーバー](./mcp-server) - 詳細なMCPサーバードキュメント
 - [CLIツール](./cli) - コード生成用CLIコマンド
 - [エラーカタログ](./error-catalog) - 解決策付きエラーリファレンス
