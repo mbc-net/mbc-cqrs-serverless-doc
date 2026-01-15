@@ -1,5 +1,5 @@
 {
-  "Directory": "ディレクトリ",
+  "Directory": "ディレクトリモジュール",
   "Directory management functionality with S3 integration for the MBC CQRS Serverless framework.": "MBC CQRS ServerlessフレームワークのためのS3統合を備えたディレクトリ管理機能です。",
   "Installation": "インストール",
   "Overview": "概要",

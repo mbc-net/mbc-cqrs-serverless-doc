@@ -2,7 +2,7 @@
 sidebar_position: 7
 ---
 
-# ディレクトリ
+# ディレクトリモジュール
 
 MBC CQRS ServerlessフレームワークのためのS3統合を備えたディレクトリ管理機能です。
 

@@ -32,7 +32,7 @@ const version = getSortKeyVersion('CAT#001@3');
 // Result: 3
 
 const latestVersion = getSortKeyVersion('CAT#001');
-// Result: VERSION_LATEST (Number.MAX_SAFE_INTEGER)
+// Result: VERSION_LATEST (-1)
 ```
 
 ### `removeSortKeyVersion(sk: string): string`
@@ -195,6 +195,222 @@ interface JwtClaims {
   'cognito:groups'?: string[];     // Cognito user groups
   'cognito:username': string;      // Cognito username
   // ... other standard JWT claims
+}
+```
+
+## DateTime Helpers
+
+Functions for working with dates and ISO strings.
+
+### `toISOString(date: Date): string | undefined`
+
+Converts a Date to ISO string format. Returns undefined if date is null/undefined.
+
+```ts
+import { toISOString } from '@mbc-cqrs-serverless/core';
+
+const isoString = toISOString(new Date('2024-01-15T10:30:00Z'));
+// Result: '2024-01-15T10:30:00.000Z'
+```
+
+### `toISOStringWithTimezone(date: Date): string | undefined`
+
+Converts a Date to ISO string format with timezone offset. Returns undefined if date is null/undefined.
+
+```ts
+import { toISOStringWithTimezone } from '@mbc-cqrs-serverless/core';
+
+const isoString = toISOStringWithTimezone(new Date('2024-01-15T10:30:00'));
+// Result: '2024-01-15T10:30:00+09:00' (in JST timezone)
+```
+
+### `isISOString(val: string): boolean`
+
+Checks if a string is a valid ISO date string.
+
+```ts
+import { isISOString } from '@mbc-cqrs-serverless/core';
+
+isISOString('2024-01-15T10:30:00.000Z'); // true
+isISOString('2024-01-15');               // false
+isISOString('invalid');                  // false
+```
+
+### `isISOStringWithTimezone(val: string): boolean`
+
+Checks if a string is a valid ISO date string with timezone.
+
+```ts
+import { isISOStringWithTimezone } from '@mbc-cqrs-serverless/core';
+
+isISOStringWithTimezone('2024-01-15T10:30:00+09:00'); // true
+isISOStringWithTimezone('2024-01-15T10:30:00.000Z'); // false
+```
+
+## Event-Type Helpers
+
+Functions for working with AWS event source ARNs.
+
+### `getEventTypeFromArn(source: string): string | null`
+
+Extracts the event type from an AWS ARN. Returns 'sqs', 'sns', 'dynamodb', 'event-bridge', or null.
+
+```ts
+import { getEventTypeFromArn } from '@mbc-cqrs-serverless/core';
+
+const eventType = getEventTypeFromArn('arn:aws:dynamodb:ap-northeast-1:123456789:table/my-table/stream/...');
+// Result: 'dynamodb'
+
+const sqsType = getEventTypeFromArn('arn:aws:sqs:ap-northeast-1:123456789:my-queue');
+// Result: 'sqs'
+```
+
+### `getResourceNameFromArn(source: string): string`
+
+Extracts the resource name from an AWS ARN.
+
+```ts
+import { getResourceNameFromArn } from '@mbc-cqrs-serverless/core';
+
+const tableName = getResourceNameFromArn('arn:aws:dynamodb:ap-northeast-1:123456789:table/my-table/stream/...');
+// Result: 'my-table'
+
+const queueName = getResourceNameFromArn('arn:aws:sqs:ap-northeast-1:123456789:my-queue');
+// Result: 'my-queue'
+```
+
+## Object Helpers
+
+Functions for working with objects.
+
+### `isObject(item: any): boolean`
+
+Checks if the value is a plain object (not array, not null).
+
+```ts
+import { isObject } from '@mbc-cqrs-serverless/core';
+
+isObject({ key: 'value' }); // true
+isObject([1, 2, 3]);        // false
+isObject(null);             // false
+isObject('string');         // false
+```
+
+### `mergeDeep(target: any, ...sources: any[]): any`
+
+Deep merges objects without mutating the original objects.
+
+```ts
+import { mergeDeep } from '@mbc-cqrs-serverless/core';
+
+const result = mergeDeep(
+  { a: 1, b: { c: 2 } },
+  { b: { d: 3 }, e: 4 }
+);
+// Result: { a: 1, b: { c: 2, d: 3 }, e: 4 }
+```
+
+### `objectBytes(obj: any): number`
+
+Calculates the byte size of a JSON-serialized object.
+
+```ts
+import { objectBytes } from '@mbc-cqrs-serverless/core';
+
+const size = objectBytes({ name: 'test', value: 123 });
+// Result: byte size of JSON string
+```
+
+### `pickKeys(obj: any, keys: string[]): object`
+
+Creates a new object with only the specified keys.
+
+```ts
+import { pickKeys } from '@mbc-cqrs-serverless/core';
+
+const result = pickKeys({ a: 1, b: 2, c: 3 }, ['a', 'c']);
+// Result: { a: 1, c: 3 }
+```
+
+### `omitKeys(obj: any, keys: string[]): object`
+
+Creates a new object without the specified keys.
+
+```ts
+import { omitKeys } from '@mbc-cqrs-serverless/core';
+
+const result = omitKeys({ a: 1, b: 2, c: 3 }, ['b']);
+// Result: { a: 1, c: 3 }
+```
+
+## Serializer Helpers
+
+Functions for converting between internal DynamoDB structure and external flat structure.
+
+### `serializeToExternal<T>(item: T, options?: SerializerOptions): Record<string, any> | null`
+
+Converts internal DynamoDB entity to external flat structure. Flattens the attributes object into the root level.
+
+```ts
+import { serializeToExternal } from '@mbc-cqrs-serverless/core';
+
+const entity = {
+  pk: 'TENANT#mbc',
+  sk: 'CAT#001',
+  name: 'Category 1',
+  attributes: { color: 'red', size: 'large' }
+};
+
+const external = serializeToExternal(entity);
+// Result: { id: 'TENANT#mbc#CAT#001', code: 'CAT#001', name: 'Category 1', pk: '...', sk: '...', color: 'red', size: 'large' }
+```
+
+### `deserializeToInternal<T>(data: Record<string, any>, EntityClass: new () => T): T | null`
+
+Converts external flat structure back to internal DynamoDB entity structure.
+
+```ts
+import { deserializeToInternal, DataEntity } from '@mbc-cqrs-serverless/core';
+
+const external = {
+  id: 'TENANT#mbc#CAT#001',
+  name: 'Category 1',
+  color: 'red',
+  size: 'large'
+};
+
+const entity = deserializeToInternal(external, DataEntity);
+// Result: DataEntity with pk, sk, name, and attributes: { color, size }
+```
+
+## Source Helper
+
+Function for generating command source identifiers.
+
+### `getCommandSource(moduleName: string, controllerName: string, method: string): string`
+
+Generates a standardized source string for commands.
+
+```ts
+import { getCommandSource } from '@mbc-cqrs-serverless/core';
+
+const source = getCommandSource('CatalogModule', 'CatalogController', 'create');
+// Result: '[CatalogModule]:CatalogController.create'
+```
+
+## Constants
+
+### `IS_LAMBDA_RUNNING: boolean`
+
+A constant that indicates whether the code is running in an AWS Lambda environment.
+
+```ts
+import { IS_LAMBDA_RUNNING } from '@mbc-cqrs-serverless/core';
+
+if (IS_LAMBDA_RUNNING) {
+  // Lambda-specific logic
+} else {
+  // Local development logic
 }
 ```
 

@@ -1,6 +1,6 @@
 {
   "Learn how to use TenantModule for multi-tenant management in MBC CQRS Serverless.": "MBC CQRS Serverlessでマルチテナント管理を行うためのTenantModuleの使用方法を学びます。",
-  "Tenant": "テナント",
+  "Tenant": "テナントモジュール",
   "The TenantModule provides multi-tenant management capabilities in the MBC CQRS Serverless framework. It enables creating, updating, and managing tenants and their group configurations.": "TenantModuleは、MBC CQRS Serverlessフレームワークでマルチテナント管理機能を提供します。テナントの作成、更新、およびグループ構成の管理が可能です。",
   "Architecture": "アーキテクチャ",
   "Tenant Management": "テナント管理",

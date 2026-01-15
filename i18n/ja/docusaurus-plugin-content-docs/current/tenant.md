@@ -2,7 +2,7 @@
 description: MBC CQRS Serverlessでマルチテナント管理を行うためのTenantModuleの使用方法を学びます。
 ---
 
-# テナント
+# テナントモジュール
 
 TenantModuleは、MBC CQRS Serverlessフレームワークでマルチテナント管理機能を提供します。テナントの作成、更新、およびグループ構成の管理が可能です。
 
@@ -18,7 +18,7 @@ graph TB
     end
 
     subgraph "テナント階層"
-        E["共通テナント"] --> F["テナント"]
+        E["共通テナント"] --> F["テナントモジュール"]
         F --> G["テナントグループ"]
     end
 ```
