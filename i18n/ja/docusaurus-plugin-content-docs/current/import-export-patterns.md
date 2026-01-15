@@ -943,26 +943,26 @@ for (const batch of batches) {
 }
 ```
 
-## ImportModule API Reference
+## ImportModule APIリファレンス
 
-The `@mbc-cqrs-serverless/import` package provides a comprehensive framework for managing data import tasks.
+`@mbc-cqrs-serverless/import`パッケージは、データインポートタスクを管理するための包括的なフレームワークを提供します。
 
-### Installation
+### インストール
 
 ```bash
 npm install @mbc-cqrs-serverless/import
 ```
 
-### Core Concepts
+### コアコンセプト
 
-The module operates on a two-phase architecture:
+このモジュールは2フェーズアーキテクチャで動作します：
 
-1. **Import Phase** (`IImportStrategy`): Transform raw data (from JSON or CSV) into a standardized DTO and validate it.
-2. **Process Phase** (`IProcessStrategy`): Compare validated DTO with existing data and map it to a command payload for creation or update.
+1. **インポートフェーズ**（`IImportStrategy`）：生データ（JSONまたはCSV）を標準化されたDTOに変換し、バリデーションを行います。
+2. **処理フェーズ**（`IProcessStrategy`）：バリデーション済みDTOを既存データと比較し、作成または更新用のコマンドペイロードにマッピングします。
 
-### Implementing Import Strategy
+### インポートストラテジーの実装
 
-The import strategy handles initial transformation and validation:
+インポートストラテジーは初期変換とバリデーションを処理します：
 
 ```typescript
 import { BadRequestException, Injectable } from '@nestjs/common';
@@ -994,9 +994,9 @@ export class PolicyImportStrategy
 }
 ```
 
-### Implementing Process Strategy
+### プロセスストラテジーの実装
 
-The process strategy contains core business logic for comparing and mapping data:
+プロセスストラテジーはデータの比較とマッピングのコアビジネスロジックを含みます：
 
 ```typescript
 import { Injectable } from '@nestjs/common';
@@ -1057,9 +1057,9 @@ export class PolicyProcessStrategy
 }
 ```
 
-### Module Configuration
+### モジュール設定
 
-Register the ImportModule with your profiles:
+プロファイルを使用してImportModuleを登録します：
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -1087,9 +1087,122 @@ import { PolicyProcessStrategy } from './policy/strategies/policy.process-strate
 export class AppModule {}
 ```
 
-### Custom Event Factory for Imports
+### ZIP終了フック {#zip-finalization-hooks}
 
-Configure the event factory to handle import events:
+ZIP終了フックは、ZIPインポートジョブの完了後にカスタムロジックを実行できます。一般的なユースケースは以下の通りです：
+
+- 処理済みファイルをバックアップ先に移動する
+- 通知を送信する（メール、Slackなど）
+- 外部システムを更新する
+- レポートを生成する
+
+#### 終了フックの実装
+
+`IZipFinalizationHook`を実装するクラスを作成します：
+
+```typescript
+import { Injectable, Logger } from '@nestjs/common';
+import {
+  IZipFinalizationHook,
+  ZipFinalizationContext,
+} from '@mbc-cqrs-serverless/import';
+import { S3Service, SNSService } from '@mbc-cqrs-serverless/core';
+
+@Injectable()
+export class BackupAndNotifyHook implements IZipFinalizationHook {
+  private readonly logger = new Logger(BackupAndNotifyHook.name);
+
+  constructor(
+    private readonly s3Service: S3Service,
+    private readonly snsService: SNSService,
+  ) {}
+
+  async execute(context: ZipFinalizationContext): Promise<void> {
+    const { masterJobKey, results, status, executionInput } = context;
+    const { bucket, tenantCode } = executionInput.parameters;
+
+    this.logger.log(
+      `ZIP import completed: ${masterJobKey.pk}#${masterJobKey.sk}, status: ${status}`,
+    );
+
+    // Move processed files to backup location (処理済みファイルをバックアップ先に移動)
+    for (const s3Key of executionInput.sortedS3Keys) {
+      const backupKey = `backup/${tenantCode}/${new Date().toISOString().slice(0, 10)}/${s3Key.split('/').pop()}`;
+      await this.s3Service.copyObject({
+        sourceBucket: bucket,
+        sourceKey: s3Key,
+        destinationBucket: bucket,
+        destinationKey: backupKey,
+      });
+      this.logger.log(`Backed up ${s3Key} to ${backupKey}`);
+    }
+
+    // Send notification (通知を送信)
+    await this.snsService.publish({
+      topicArn: process.env.NOTIFICATION_TOPIC_ARN,
+      subject: `ZIP Import ${status}`,
+      message: JSON.stringify({
+        jobKey: masterJobKey,
+        status,
+        results,
+        timestamp: new Date().toISOString(),
+      }),
+    });
+  }
+}
+```
+
+#### 終了フックの登録
+
+`ImportModule.register()`設定にフックを追加します：
+
+```typescript
+import { Module } from '@nestjs/common';
+import { ImportModule } from '@mbc-cqrs-serverless/import';
+import { BackupAndNotifyHook } from './hooks/backup-and-notify.hook';
+import { AuditLogHook } from './hooks/audit-log.hook';
+
+@Module({
+  imports: [
+    ImportModule.register({
+      enableController: true,
+      profiles: [...],
+      // Register ZIP finalization hooks (ZIP終了フックを登録)
+      zipFinalizationHooks: [
+        BackupAndNotifyHook,
+        AuditLogHook,
+      ],
+    }),
+  ],
+})
+export class AppModule {}
+```
+
+#### ZipFinalizationContext
+
+フックに渡されるコンテキストオブジェクトには以下が含まれます：
+
+| プロパティ | 型 | 説明 |
+|--------------|----------|-----------------|
+| `event` | `ZipImportSfnEvent` | 元のStep Functionsイベント |
+| `masterJobKey` | `DetailKey` | マスターZIPジョブのキー（`pk`、`sk`） |
+| `results` | `object` | 集計結果：`totalRows`、`processedRows`、`failedRows` |
+| `status` | `ImportStatusEnum` | ジョブの最終ステータス（COMPLETEDまたはFAILED） |
+| `executionInput` | `object` | `parameters`と`sortedS3Keys`を含むStep Functions実行の元の入力 |
+
+#### フック実行の動作
+
+- **並列実行**：すべての登録済みフックはパフォーマンス向上のため並列で実行されます
+- **エラー分離**：フックがエラーをスローしても、ログに記録されるだけで、他のフックやジョブステータスには影響しません
+- **依存性注入**：フックはNestJSプロバイダーとして登録されるため、任意のサービスを注入できます
+
+:::info バージョン情報
+ZIP終了フックはバージョン1.0.21で追加されました。詳細は[変更履歴](./changelog#v1021)を参照してください。
+:::
+
+### インポート用カスタムイベントファクトリー
+
+インポートイベントを処理するようにイベントファクトリーを設定します：
 
 ```typescript
 import {
@@ -1149,62 +1262,62 @@ export class CustomEventFactory extends EventFactoryAddedTask {
 
 ### ImportStatusHandler API {#importstatushandler-api}
 
-The `ImportStatusHandler` is an internal event handler that manages Step Functions callbacks for import jobs. When using Step Functions orchestration (ZIP imports or STEP_FUNCTION mode CSV imports), this handler ensures proper communication with the state machine.
+`ImportStatusHandler`は、インポートジョブのStep Functionsコールバックを管理する内部イベントハンドラーです。Step Functionsオーケストレーション（ZIPインポートまたはSTEP_FUNCTIONモードのCSVインポート）を使用する場合、このハンドラーはステートマシンとの適切な通信を保証します。
 
-#### Behavior
+#### 動作
 
-| Import Status | Action | Step Functions Command |
+| インポートステータス | アクション | Step Functionsコマンド |
 |-------------------|------------|---------------------------|
-| `COMPLETED` | Send success callback | `SendTaskSuccessCommand` |
-| `FAILED` | Send failure callback | `SendTaskFailureCommand` |
-| Other statuses | Ignored | None |
+| `COMPLETED` | 成功コールバックを送信 | `SendTaskSuccessCommand` |
+| `FAILED` | 失敗コールバックを送信 | `SendTaskFailureCommand` |
+| その他のステータス | 無視 | なし |
 
-#### Methods
+#### メソッド
 
-| Method | Description |
+| メソッド | 説明 |
 |------------|-----------------|
-| `sendTaskSuccess(taskToken, output)` | Sends success signal to Step Functions with the import result |
-| `sendTaskFailure(taskToken, error, cause)` | Sends failure signal to Step Functions with error details |
+| `sendTaskSuccess(taskToken, output)` | インポート結果とともにStep Functionsに成功シグナルを送信 |
+| `sendTaskFailure(taskToken, error, cause)` | エラー詳細とともにStep Functionsに失敗シグナルを送信 |
 
-#### Step Functions Integration
+#### Step Functions統合
 
-When an import job is created as part of a Step Functions workflow (e.g., ZIP import), a `taskToken` is stored in the job's attributes. The `ImportStatusHandler` listens for status change notifications and:
+Step Functionsワークフロー（例：ZIPインポート）の一部としてインポートジョブが作成されると、`taskToken`がジョブの属性に保存されます。`ImportStatusHandler`はステータス変更通知をリッスンし、以下を行います：
 
-1. Retrieves the import job from DynamoDB
-2. Checks if a `taskToken` exists in the job's attributes
-3. Sends the appropriate callback based on the final status:
-   - `COMPLETED` → `SendTaskSuccessCommand` with result data
-   - `FAILED` → `SendTaskFailureCommand` with error details
+1. DynamoDBからインポートジョブを取得
+2. ジョブの属性に`taskToken`が存在するか確認
+3. 最終ステータスに基づいて適切なコールバックを送信：
+   - `COMPLETED` → `SendTaskSuccessCommand` 結果データとともに
+   - `FAILED` → `SendTaskFailureCommand` エラー詳細とともに
 
-This ensures Step Functions workflows properly handle both success and failure cases without hanging indefinitely.
+これにより、Step Functionsワークフローが無限に待機することなく、成功と失敗の両方のケースを適切に処理できます。
 
 :::info Version Note
-The `sendTaskFailure()` method was added in [version 1.0.18](./changelog#v1018) to fix an issue where Step Functions would wait indefinitely when import jobs failed. See also [Import Module Errors](./error-catalog#import-module-errors) for troubleshooting.
+`sendTaskFailure()`メソッドは[バージョン1.0.18](./changelog#v1018)で追加され、インポートジョブが失敗した際にStep Functionsが無限に待機する問題を修正しました。トラブルシューティングについては[インポートモジュールエラー](./error-catalog#import-module-errors)も参照してください。
 :::
 
-### ImportQueueEventHandler Error Handling {#import-error-handling}
+### ImportQueueEventHandlerエラーハンドリング {#import-error-handling}
 
-The `ImportQueueEventHandler` processes individual import records from the SQS queue. When an error occurs during processing (e.g., `ConditionalCheckFailedException`), the handler properly updates the parent job status.
+`ImportQueueEventHandler`はSQSキューから個々のインポートレコードを処理します。処理中にエラーが発生した場合（例：`ConditionalCheckFailedException`）、ハンドラーは親ジョブのステータスを適切に更新します。
 
-#### Error Flow (v1.0.19+)
+#### エラーフロー（v1.0.19以降）
 
 ```
-Child Job Error Occurs
+子ジョブエラー発生
          │
          ▼
-Mark Child Job as FAILED
+子ジョブをFAILEDとしてマーク
          │
          ▼
-Update Parent Job Counters
+親ジョブカウンターを更新
   (incrementParentJobCounters)
          │
          ▼
-Check if All Children Complete
+すべての子ジョブが完了したか確認
          │
     ┌────┴────┐
     │ Yes     │ No
     ▼         ▼
-Update Master  {{Wait for
+マスターを更新  {{Wait for
   Job Status}}     more children}}
          │
     ┌────┴────┐
@@ -1214,45 +1327,45 @@ Update Master  {{Wait for
 FAILED    COMPLETED
          │
          ▼
-ImportStatusHandler Triggered
+ImportStatusHandlerがトリガー
          │
          ▼
 SendTaskFailure/SendTaskSuccess
 ```
 
-#### Key Methods
+#### 主要メソッド
 
-| Method | Description |
+| メソッド | 説明 |
 |------------|-----------------|
-| `handleImport(event)` | Orchestrates single import record processing with error handling |
-| `executeStrategy(...)` | Executes compare, map, and save lifecycle for a strategy |
+| `handleImport(event)` | エラーハンドリングを含む単一インポートレコード処理をオーケストレート |
+| `executeStrategy(...)` | ストラテジーの比較、マッピング、保存のライフサイクルを実行 |
 
-#### Error Handling Behavior
+#### エラーハンドリングの動作
 
-When a child import job fails:
+子インポートジョブが失敗した場合：
 
-1. Child job status is set to `FAILED` with error details
-2. Parent job counters are atomically updated (`failedRows` incremented)
-3. When all children complete, master job status is set based on results:
-   - If `failedRows > 0` → Master status = `FAILED`
-   - If all succeeded → Master status = `COMPLETED`
-4. Lambda does NOT crash - error is handled gracefully
+1. 子ジョブのステータスがエラー詳細とともに`FAILED`に設定される
+2. 親ジョブのカウンターがアトミックに更新される（`failedRows`がインクリメント）
+3. すべての子ジョブが完了すると、結果に基づいてマスタージョブのステータスが設定される：
+   - `failedRows > 0`の場合 → マスターステータス = `FAILED`
+   - すべて成功した場合 → マスターステータス = `COMPLETED`
+4. Lambdaはクラッシュしない - エラーは適切に処理される
 
 :::warning Common Errors
-`ConditionalCheckFailedException`: This occurs when attempting to import data that already exists with conflicting version. The import job will be marked as FAILED and the parent job will properly aggregate this failure.
+`ConditionalCheckFailedException`：競合するバージョンで既に存在するデータをインポートしようとした場合に発生します。インポートジョブはFAILEDとしてマークされ、親ジョブはこの失敗を適切に集計します。
 :::
 
 :::info Version Note
-Prior to v1.0.19, errors in child jobs would crash the Lambda and leave the master job in `PROCESSING` status indefinitely. The fixes in [version 1.0.19](./changelog#v1019) ensure proper error propagation and status updates.
+v1.0.19より前は、子ジョブのエラーによりLambdaがクラッシュし、マスタージョブが`PROCESSING`ステータスのまま無限に残っていました。[バージョン1.0.19](./changelog#v1019)の修正により、適切なエラー伝播とステータス更新が保証されます。
 :::
 
 ### CsvImportSfnEventHandler {#csvimportsfneventhandler}
 
 `CsvImportSfnEventHandler`はStep FunctionsのCSVインポートワークフローステートを処理します。インポートステートマシン内の`csv_loader`と`csv_finalizer`ステートを管理します。
 
-#### Key Methods
+#### 主要メソッド
 
-| Method | Description |
+| メソッド | 説明 |
 |------------|-----------------|
 | `handleCsvLoader(event)` | csv_loaderステートを処理し、子ジョブを作成し、早期終了を処理します |
 | `finalizeParentJob(event)` | すべての子ジョブ完了後に親ジョブを終了し、最終ステータスを設定します |

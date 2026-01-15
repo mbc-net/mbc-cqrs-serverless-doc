@@ -1,6 +1,11 @@
 {
   "Track all notable changes, new features, and bug fixes in MBC CQRS Serverless releases.": "MBC CQRS Serverlessのリリースにおけるすべての注目すべき変更、新機能、バグ修正を追跡します。",
   "Changelog": "変更履歴",
+  "Add ZIP finalization hooks support to ImportModule": "ImportModuleにZIP終了フックのサポートを追加",
+  "Introduced `zipFinalizationHooks` option in `ImportModule.register()` for custom post-processing after ZIP imports": "ZIPインポート後のカスタム後処理用に`ImportModule.register()`に`zipFinalizationHooks`オプションを導入",
+  "Added `IZipFinalizationHook` interface and `ZipFinalizationContext` for hook implementations": "フック実装用に`IZipFinalizationHook`インターフェースと`ZipFinalizationContext`を追加",
+  "Hooks execute in parallel with error isolation - individual hook failures don't affect job status": "フックはエラー分離付きで並列実行 - 個々のフック失敗はジョブステータスに影響しません",
+  "Common use cases: file backup, notifications, external system updates, report generation": "一般的なユースケース：ファイルバックアップ、通知、外部システム更新、レポート生成",
   "All notable changes to MBC CQRS Serverless are documented here. This project follows [Semantic Versioning](https://semver.org/) and [Conventional Commits](https://conventionalcommits.org/).": "MBC CQRS Serverlessのすべての注目すべき変更がここに記録されています。このプロジェクトは[セマンティックバージョニング](https://semver.org/)と[Conventional Commits](https://conventionalcommits.org/)に従っています。",
   "Version Scheme": "バージョン体系",
   "Production releases": "本番リリース",

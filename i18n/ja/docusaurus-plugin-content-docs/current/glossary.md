@@ -1,15 +1,15 @@
 ---
 sidebar_position: 3
-description: Comprehensive glossary of terms used in MBC CQRS Serverless framework.
+description: MBC CQRS Serverlessフレームワークで使用される用語の包括的な用語集。
 ---
 
 # 用語集
 
-This glossary provides definitions for key terms and concepts used throughout the MBC CQRS Serverless framework documentation.
+この用語集では、MBC CQRS Serverlessフレームワークのドキュメント全体で使用される主要な用語と概念の定義を提供します。
 
-## Design Patterns
+## デザインパターン
 
-### CQRS (Command Query Responsibility Segregation)
+### CQRS（コマンドクエリ責任分離）
 
 コマンド クエリ責任分離 (CQRS) パターンは、データの変更、つまりシステムのコマンド部分をクエリ部分から分離します。スループット、レイテンシ、一貫性などの要件が異なる場合は、CQRS パターンを使用して更新とクエリを分離できます。 CQRS パターンは、アプリケーションをコマンド側とクエリ側の 2 つの部分に分割します。コマンド側は、作成、更新、削除のリクエストを処理します。クエリ側はリードレプリカを使用してクエリ部分を実行します。
 
@@ -17,246 +17,246 @@ This glossary provides definitions for key terms and concepts used throughout th
 
 > See: [CQRS パターン](https://docs.aws.amazon.com/prescriptive-guidance/latest/modernization-data-persistence/cqrs-pattern.html)
 
-### Event Sourcing
+### イベントソーシング
 
 イベント ソーシング パターンは通常、読み取りワークロードと書き込みワークロードを分離し、パフォーマンス、スケーラビリティ、セキュリティを最適化するために CQRS パターンとともに使用されます。データは、データ ストアへの直接更新ではなく、一連のイベントとして保存されます。マイクロサービスは、イベント ストアからイベントを再生して、独自のデータ ストアの適切な状態を計算します。このパターンは、アプリケーションの現在の状態を可視化し、アプリケーションがその状態にどのように到達したかについての追加のコンテキストを提供します。コマンド データ ストアとクエリ データ ストアのスキーマが異なる場合でも、特定のイベントのデータを再現できるため、イベント ソーシング パターンは CQRS パターンと効果的に連携します。
 
 > See: [イベントソーシングパターン](https://docs.aws.amazon.com/prescriptive-guidance/latest/modernization-data-persistence/service-per-team.html)
 
-### Optimistic Locking
+### 楽観的ロック
 
-A concurrency control mechanism that allows multiple transactions to proceed without locking resources. Before committing, the system checks if another transaction has modified the data. In MBC CQRS Serverless, this is implemented using version numbers - each update must include the current version, and the update fails if the version doesn't match.
+リソースをロックせずに複数のトランザクションを進行させる並行性制御メカニズム。コミット前に、システムは別のトランザクションがデータを変更したかどうかを確認します。MBC CQRS Serverlessでは、バージョン番号を使用して実装されています - 各更新には現在のバージョンを含める必要があり、バージョンが一致しない場合は更新が失敗します。
 
-### Domain-Driven Design (DDD)
+### ドメイン駆動設計（DDD）
 
-A software design approach that focuses on modeling software based on the business domain. Key concepts include entities, value objects, aggregates, and bounded contexts. MBC CQRS Serverless uses DDD principles to structure modules and entities.
+ビジネスドメインに基づいてソフトウェアをモデリングすることに焦点を当てたソフトウェア設計アプローチ。主要な概念には、エンティティ、値オブジェクト、集約、境界づけられたコンテキストが含まれます。MBC CQRS ServerlessはDDDの原則を使用してモジュールとエンティティを構造化します。
 
-### Aggregate
+### 集約
 
-A cluster of domain objects that can be treated as a single unit. An aggregate has a root entity (the aggregate root) and boundary that defines what's inside the aggregate. In MBC CQRS Serverless, each command table typically represents an aggregate.
+単一のユニットとして扱うことができるドメインオブジェクトのクラスター。集約にはルートエンティティ（集約ルート）と集約内の内容を定義する境界があります。MBC CQRS Serverlessでは、各コマンドテーブルは通常、集約を表します。
 
-## Framework Concepts
+## フレームワークの概念
 
-### Command
+### コマンド
 
-A request to change the state of the system. Commands are processed by the command side of the CQRS pattern. In MBC CQRS Serverless, commands are published using CommandService and stored in DynamoDB command tables.
+システムの状態を変更するリクエスト。コマンドはCQRSパターンのコマンド側で処理されます。MBC CQRS Serverlessでは、コマンドはCommandServiceを使用して発行され、DynamoDBコマンドテーブルに保存されます。
 
-### Command Table
+### コマンドテーブル
 
-A DynamoDB table that stores the command (write) model. Contains the full history of changes with version tracking. Data flows from command tables to data tables via DynamoDB Streams.
+コマンド（書き込み）モデルを保存するDynamoDBテーブル。バージョン追跡による変更の完全な履歴を含みます。データはDynamoDB Streamsを介してコマンドテーブルからデータテーブルに流れます。
 
-### Data Table
+### データテーブル
 
-A DynamoDB table that stores the data (read) model. Contains the current state of entities, optimized for queries. Updated automatically when commands are processed.
+データ（読み取り）モデルを保存するDynamoDBテーブル。クエリ用に最適化されたエンティティの現在の状態を含みます。コマンドが処理されると自動的に更新されます。
 
-### Data Sync Handler
+### データ同期ハンドラー
 
-A handler that processes DynamoDB Stream events to synchronize data between tables or to external systems like RDS. Implements the IDataSyncHandler interface.
+DynamoDB Streamイベントを処理してテーブル間またはRDSなどの外部システムとデータを同期するハンドラー。IDataSyncHandlerインターフェースを実装します。
 
-### Invoke Context
+### 呼び出しコンテキスト
 
-The context object passed to service methods containing user information, tenant context, and request metadata. Created from the Lambda event and used for authorization and auditing.
+ユーザー情報、テナントコンテキスト、リクエストメタデータを含むサービスメソッドに渡されるコンテキストオブジェクト。Lambdaイベントから作成され、認可と監査に使用されます。
 
-### Partition Key (PK)
+### パーティションキー（PK）
 
-The primary key component in DynamoDB that determines data distribution across partitions. In MBC CQRS Serverless, typically formatted as `TYPE#tenantCode` (e.g., `ORDER#tenant001`).
+パーティション間のデータ分散を決定するDynamoDBのプライマリキーコンポーネント。MBC CQRS Serverlessでは、通常`TYPE#tenantCode`形式（例：`ORDER#tenant001`）。
 
-### Sort Key (SK)
+### ソートキー（SK）
 
-The secondary key component in DynamoDB that enables range queries within a partition. In MBC CQRS Serverless, typically formatted as `TYPE#code` for data tables or `TYPE#code#vN` for command tables.
+パーティション内での範囲クエリを可能にするDynamoDBのセカンダリキーコンポーネント。MBC CQRS Serverlessでは、データテーブルでは通常`TYPE#code`形式、コマンドテーブルでは`TYPE#code#vN`形式。
 
-### Tenant
+### テナント
 
-An isolated organizational unit in a multi-tenant application. Each tenant has its own data partition identified by a tenant code. Tenants share the application infrastructure but have completely isolated data.
+マルチテナントアプリケーションにおける分離された組織単位。各テナントはテナントコードで識別される独自のデータパーティションを持ちます。テナントはアプリケーションインフラストラクチャを共有しますが、データは完全に分離されています。
 
-### Version
+### バージョン
 
-A number that tracks the revision history of an entity. Incremented on each update. Used for optimistic locking to prevent concurrent update conflicts.
+エンティティのリビジョン履歴を追跡する番号。更新ごとにインクリメントされます。同時更新の競合を防ぐための楽観的ロックに使用されます。
 
-## AWS Services
+## AWSサービス
 
 ### Amazon DynamoDB
 
-A fully managed NoSQL database service that provides fast and predictable performance with seamless scalability. MBC CQRS Serverless uses DynamoDB as the primary data store for both command and data tables.
+シームレスなスケーラビリティで高速かつ予測可能なパフォーマンスを提供するフルマネージドNoSQLデータベースサービス。MBC CQRS ServerlessはDynamoDBをコマンドテーブルとデータテーブルの両方のプライマリデータストアとして使用します。
 
 ### DynamoDB Streams
 
-A feature that captures data modification events in DynamoDB tables. Used by MBC CQRS Serverless to trigger data synchronization between command and data tables, and to external systems.
+DynamoDBテーブルのデータ変更イベントをキャプチャする機能。MBC CQRS Serverlessがコマンドテーブルとデータテーブル間、および外部システムへのデータ同期をトリガーするために使用します。
 
 ### AWS Lambda
 
-A serverless compute service that runs code in response to events. MBC CQRS Serverless uses Lambda functions for API handlers, event processors, and background tasks.
+イベントに応答してコードを実行するサーバーレスコンピューティングサービス。MBC CQRS ServerlessはAPIハンドラー、イベントプロセッサー、バックグラウンドタスクにLambda関数を使用します。
 
 ### Amazon Cognito
 
-A service that provides user authentication, authorization, and user management. MBC CQRS Serverless uses Cognito for user authentication and JWT token validation.
+ユーザー認証、認可、ユーザー管理を提供するサービス。MBC CQRS ServerlessはCognitoをユーザー認証とJWTトークン検証に使用します。
 
 ### AWS Step Functions
 
-A serverless orchestration service that lets you combine Lambda functions and other AWS services. Used in MBC CQRS Serverless for long-running workflows like data imports and batch processing.
+Lambda関数と他のAWSサービスを組み合わせることができるサーバーレスオーケストレーションサービス。MBC CQRS Serverlessでデータインポートやバッチ処理などの長時間実行ワークフローに使用されます。
 
-### Amazon SES (Simple Email Service)
+### Amazon SES（Simple Email Service）
 
-An email platform that provides an easy, cost-effective way to send and receive email. Used by MBC CQRS Serverless for notification emails.
+メールの送受信を簡単かつコスト効率よく行えるメールプラットフォーム。MBC CQRS Serverlessが通知メールに使用します。
 
-### Amazon S3 (Simple Storage Service)
+### Amazon S3（Simple Storage Service）
 
-Object storage service for storing and retrieving any amount of data. Used for file uploads, exports, and static asset storage.
+任意の量のデータを保存・取得するためのオブジェクトストレージサービス。ファイルアップロード、エクスポート、静的アセットストレージに使用されます。
 
-### Amazon SQS (Simple Queue Service)
+### Amazon SQS（Simple Queue Service）
 
-A fully managed message queuing service. Used for asynchronous processing and decoupling components.
+フルマネージドメッセージキューイングサービス。非同期処理とコンポーネントの分離に使用されます。
 
-### Amazon RDS (Relational Database Service)
+### Amazon RDS（Relational Database Service）
 
-A managed relational database service. Used in MBC CQRS Serverless for complex queries that require SQL joins and aggregations.
+マネージドリレーショナルデータベースサービス。MBC CQRS ServerlessでSQLジョインと集計を必要とする複雑なクエリに使用されます。
 
-### AWS CDK (Cloud Development Kit)
+### AWS CDK（Cloud Development Kit）
 
-An open-source software development framework to define cloud infrastructure in code. MBC CQRS Serverless uses CDK for infrastructure provisioning.
+コードでクラウドインフラストラクチャを定義するオープンソースソフトウェア開発フレームワーク。MBC CQRS ServerlessはCDKをインフラストラクチャプロビジョニングに使用します。
 
 ### API Gateway
 
-A fully managed service for creating, publishing, and managing APIs. Provides the HTTP endpoints for MBC CQRS Serverless applications.
+APIの作成、公開、管理のためのフルマネージドサービス。MBC CQRS ServerlessアプリケーションにHTTPエンドポイントを提供します。
 
 ### CloudWatch
 
-A monitoring and observability service. Used for logging, metrics, and alarms in MBC CQRS Serverless applications.
+監視と可観測性サービス。MBC CQRS Serverlessアプリケーションでログ、メトリクス、アラームに使用されます。
 
-## Tooling & Libraries
+## ツールとライブラリ
 
 ### NestJS
 
 Nest (NestJS) は、効率的でスケーラブルな Node.js サーバー側アプリケーションを構築するためのフレームワークです。プログレッシブ JavaScript を使用し、TypeScript で構築され完全にサポートされており (それでも開発者は純粋な JavaScript でコードを作成できます)、OOP (オブジェクト指向プログラミング)、FP (関数型プログラミング)、および FRP (関数型リアクティブ プログラミング) の要素を組み合わせています。
 
-> See: [NestJS Documentation](https://docs.nestjs.com/)
+> See: [NestJSドキュメント](https://docs.nestjs.com/)
 
 ### Serverless Framework
 
 サーバーレス フレームワークは、コマンド ライン インターフェイスとオプションのダッシュボードで構成されており、他のクラウド プロバイダーのサポートを強化しながら、コードとインフラストラクチャをアマゾン ウェブ サービスに一緒にデプロイするのに役立ちます。このフレームワークは、簡素化された構文を使用する YAML ベースのエクスペリエンスであり、クラウドの専門家でなくても、複雑なインフラストラクチャ パターンを簡単に展開できます。
 
-> See: [Serverless Framework Documentation](https://www.serverless.com/framework/docs)
+> See: [Serverless Frameworkドキュメント](https://www.serverless.com/framework/docs)
 
 ### Prisma
 
-Prisma is an ORM for Node.js and TypeScript that serves as an alternative to writing plain SQL or using other database access tools, such as Knex or Sequelize. It simplifies database access and management by providing developers with a type-safe query builder and auto-generator.
+PrismaはNode.jsとTypeScript用のORMで、プレーンSQLを書いたりKnexやSequelizeなどの他のデータベースアクセスツールを使用する代替手段です。開発者に型安全なクエリビルダーと自動生成機能を提供することで、データベースのアクセスと管理を簡素化します。
 
-> See: [Prisma Documentation](https://www.prisma.io/docs/orm/overview/introduction/what-is-prisma)
+> See: [Prismaドキュメント](https://www.prisma.io/docs/orm/overview/introduction/what-is-prisma)
 
 ### class-validator
 
-A validation library that uses decorators for defining validation rules on class properties. Used in MBC CQRS Serverless for request DTO validation.
+クラスプロパティのバリデーションルールを定義するためにデコレーターを使用するバリデーションライブラリ。MBC CQRS ServerlessでリクエストDTOのバリデーションに使用されます。
 
 ### class-transformer
 
-A library for transforming plain objects into class instances and vice versa. Works with class-validator for type-safe request handling.
+プレーンオブジェクトをクラスインスタンスに変換したりその逆を行うライブラリ。型安全なリクエスト処理のためにclass-validatorと連携します。
 
-## API Concepts
+## API概念
 
-### DTO (Data Transfer Object)
+### DTO（データ転送オブジェクト）
 
-An object that carries data between processes. In MBC CQRS Serverless, DTOs define the structure of API request and response bodies, typically with validation decorators.
+プロセス間でデータを運ぶオブジェクト。MBC CQRS Serverlessでは、DTOはAPIリクエストとレスポンスボディの構造を定義し、通常はバリデーションデコレーターを持ちます。
 
-### Entity
+### エンティティ
 
-A domain object with a distinct identity that persists over time. In MBC CQRS Serverless, entities are TypeScript classes that define the structure of data stored in DynamoDB.
+時間を超えて永続する明確なアイデンティティを持つドメインオブジェクト。MBC CQRS Serverlessでは、エンティティはDynamoDBに保存されるデータの構造を定義するTypeScriptクラスです。
 
-### Controller
+### コントローラー
 
-A class that handles incoming HTTP requests. In NestJS/MBC CQRS Serverless, controllers define API routes and delegate business logic to services.
+受信HTTPリクエストを処理するクラス。NestJS/MBC CQRS Serverlessでは、コントローラーはAPIルートを定義し、ビジネスロジックをサービスに委譲します。
 
-### Service
+### サービス
 
-A class that contains business logic. In MBC CQRS Serverless, services orchestrate data operations using CommandService and DataService.
+ビジネスロジックを含むクラス。MBC CQRS Serverlessでは、サービスはCommandServiceとDataServiceを使用してデータ操作をオーケストレートします。
 
-### Module
+### モジュール
 
-A class annotated with @Module() decorator that organizes the application structure. Each feature area has its own module containing controllers, services, and providers.
+@Module()デコレーターで注釈されたクラスで、アプリケーション構造を整理します。各機能エリアには、コントローラー、サービス、プロバイダーを含む独自のモジュールがあります。
 
-### Guard
+### ガード
 
-A class that determines whether a request should be handled by the route handler. Used for authentication and authorization.
+リクエストがルートハンドラーで処理されるべきかどうかを決定するクラス。認証と認可に使用されます。
 
-### Pipe
+### パイプ
 
-A class that transforms or validates input data before it reaches the route handler. Used for validation and data transformation.
+ルートハンドラーに到達する前に入力データを変換またはバリデートするクラス。バリデーションとデータ変換に使用されます。
 
-### Middleware
+### ミドルウェア
 
-A function called before the route handler. Can perform operations like logging, authentication, and request modification.
+ルートハンドラーの前に呼び出される関数。ロギング、認証、リクエストの変更などの操作を実行できます。
 
-## Data Operations
+## データ操作
 
-### Publish (publishAsync/publishSync)
+### 発行（publishAsync/publishSync）
 
-Create a new entity. publishAsync processes asynchronously via DynamoDB Streams, while publishSync processes synchronously.
+新しいエンティティを作成します。publishAsyncはDynamoDB Streamsを介して非同期で処理し、publishSyncは同期で処理します。
 
-### Partial Update (publishPartialUpdateAsync/publishPartialUpdateSync)
+### 部分更新（publishPartialUpdateAsync/publishPartialUpdateSync）
 
-Update specific fields of an existing entity without providing all fields. Requires version for optimistic locking.
+すべてのフィールドを提供せずに既存エンティティの特定のフィールドを更新します。楽観的ロックのためにバージョンが必要です。
 
-### Soft Delete
+### 論理削除
 
-Mark an entity as deleted (isDeleted: true) without physically removing it from the database. Allows for data recovery and audit trails.
+データベースから物理的に削除せずにエンティティを削除済み（isDeleted: true）としてマークします。データ復旧と監査証跡を可能にします。
 
-### Hard Delete
+### 物理削除
 
-Physically remove an entity from the database. Typically done with TTL (Time-to-Live) or explicit delete operations.
+データベースからエンティティを物理的に削除します。通常、TTL（Time-to-Live）または明示的な削除操作で行われます。
 
-### Sequence
+### シーケンス
 
-An auto-incrementing number generator. Used to generate unique codes like order numbers. Can be rotated by day, month, or year.
+自動インクリメント番号ジェネレーター。注文番号などのユニークなコードを生成するために使用されます。日、月、年でローテーションできます。
 
-## Architecture Terms
+## アーキテクチャ用語
 
-### Cold Start
+### コールドスタート
 
-The initial startup time of a Lambda function when it's invoked after being idle. Can affect latency for the first request.
+アイドル状態後に呼び出されたLambda関数の初期起動時間。最初のリクエストのレイテンシに影響を与える可能性があります。
 
-### Warm Start
+### ウォームスタート
 
-Subsequent invocations of a Lambda function that reuse an existing execution environment. Faster than cold starts.
+既存の実行環境を再利用するLambda関数の後続の呼び出し。コールドスタートより高速です。
 
-### Idempotency
+### 冪等性
 
-The property where an operation produces the same result regardless of how many times it's executed. Critical for retry logic and event handling.
+何回実行されても同じ結果を生成する操作の特性。リトライロジックとイベント処理に重要です。
 
-### Eventually Consistent
+### 結果整合性
 
-A consistency model where reads may not immediately reflect the latest write, but will eventually become consistent. Default for DynamoDB reads.
+読み取りが最新の書き込みを即座に反映しない可能性があるが、最終的には整合性が取れる整合性モデル。DynamoDB読み取りのデフォルト。
 
-### Strongly Consistent
+### 強い整合性
 
-A consistency model where reads always return the most recent write. Available for DynamoDB reads with higher latency.
+読み取りが常に最新の書き込みを返す整合性モデル。より高いレイテンシでDynamoDB読み取りに利用可能です。
 
-### TTL (Time-to-Live)
+### TTL（Time-to-Live）
 
-A DynamoDB feature that automatically deletes items after a specified timestamp. Used for temporary data and automatic cleanup.
+指定されたタイムスタンプ後にアイテムを自動的に削除するDynamoDB機能。一時データと自動クリーンアップに使用されます。
 
-### GSI (Global Secondary Index)
+### GSI（グローバルセカンダリインデックス）
 
-An index with a partition key and optional sort key different from the table's primary key. Enables efficient queries on alternative access patterns.
+テーブルのプライマリキーとは異なるパーティションキーとオプションのソートキーを持つインデックス。代替アクセスパターンでの効率的なクエリを可能にします。
 
-### LSI (Local Secondary Index)
+### LSI（ローカルセカンダリインデックス）
 
-An index with the same partition key as the table but a different sort key. Must be created at table creation time.
+テーブルと同じパーティションキーだが異なるソートキーを持つインデックス。テーブル作成時に作成する必要があります。
 
-## Security Terms
+## セキュリティ用語
 
-### JWT (JSON Web Token)
+### JWT（JSON Web Token）
 
-A compact, URL-safe token format for securely transmitting claims. Used by Cognito for authentication tokens.
+クレームを安全に送信するためのコンパクトでURL安全なトークン形式。Cognitoが認証トークンに使用します。
 
-### IAM (Identity and Access Management)
+### IAM（Identity and Access Management）
 
-AWS service for managing access to AWS resources. Defines permissions for Lambda functions and other services.
+AWSリソースへのアクセスを管理するAWSサービス。Lambda関数やその他のサービスの権限を定義します。
 
-### RBAC (Role-Based Access Control)
+### RBAC（ロールベースアクセス制御）
 
-An access control method where permissions are assigned to roles, and users are assigned to roles. Implemented via Cognito groups.
+権限がロールに割り当てられ、ユーザーがロールに割り当てられるアクセス制御方法。Cognitoグループを介して実装されます。
 
-## See Also
+## 関連情報
 
-- [Architecture Overview](./architecture) - System architecture explanation
-- [CQRS Flow](./architecture/cqrs-flow) - Detailed CQRS implementation
-- [Key Patterns](./key-patterns) - PK/SK design patterns
+- [アーキテクチャ概要](./architecture) - システムアーキテクチャの説明
+- [CQRSフロー](./architecture/cqrs-flow) - 詳細なCQRS実装
+- [キーパターン](./key-patterns) - PK/SK設計パターン

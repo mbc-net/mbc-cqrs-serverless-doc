@@ -17,6 +17,18 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ## {{Stable Releases (1.x)}}
 
+## [1.0.21](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.21) (2026-01-15) {#v1021}
+
+### {{Features}}
+
+- **import:** {{Add ZIP finalization hooks support to ImportModule}} ([{{See Details}}](./import-export-patterns#zip-finalization-hooks))
+  - {{Introduced `zipFinalizationHooks` option in `ImportModule.register()` for custom post-processing after ZIP imports}}
+  - {{Added `IZipFinalizationHook` interface and `ZipFinalizationContext` for hook implementations}}
+  - {{Hooks execute in parallel with error isolation - individual hook failures don't affect job status}}
+  - {{Common use cases: file backup, notifications, external system updates, report generation}}
+
+---
+
 ## [1.0.20](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.20) (2026-01-11) {#v1020}
 
 ### {{Bug Fixes}}

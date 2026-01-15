@@ -1087,6 +1087,119 @@ import { PolicyProcessStrategy } from './policy/strategies/policy.process-strate
 export class AppModule {}
 ```
 
+### {{ZIP Finalization Hooks}} {#zip-finalization-hooks}
+
+{{ZIP finalization hooks allow you to execute custom logic after a ZIP import job completes. Common use cases include:}}
+
+- {{Moving processed files to a backup location}}
+- {{Sending notifications (email, Slack, etc.)}}
+- {{Updating external systems}}
+- {{Generating reports}}
+
+#### {{Implementing a Finalization Hook}}
+
+{{Create a class that implements `IZipFinalizationHook`:}}
+
+```typescript
+import { Injectable, Logger } from '@nestjs/common';
+import {
+  IZipFinalizationHook,
+  ZipFinalizationContext,
+} from '@mbc-cqrs-serverless/import';
+import { S3Service, SNSService } from '@mbc-cqrs-serverless/core';
+
+@Injectable()
+export class BackupAndNotifyHook implements IZipFinalizationHook {
+  private readonly logger = new Logger(BackupAndNotifyHook.name);
+
+  constructor(
+    private readonly s3Service: S3Service,
+    private readonly snsService: SNSService,
+  ) {}
+
+  async execute(context: ZipFinalizationContext): Promise<void> {
+    const { masterJobKey, results, status, executionInput } = context;
+    const { bucket, tenantCode } = executionInput.parameters;
+
+    this.logger.log(
+      `ZIP import completed: ${masterJobKey.pk}#${masterJobKey.sk}, status: ${status}`,
+    );
+
+    // {{Move processed files to backup location}}
+    for (const s3Key of executionInput.sortedS3Keys) {
+      const backupKey = `backup/${tenantCode}/${new Date().toISOString().slice(0, 10)}/${s3Key.split('/').pop()}`;
+      await this.s3Service.copyObject({
+        sourceBucket: bucket,
+        sourceKey: s3Key,
+        destinationBucket: bucket,
+        destinationKey: backupKey,
+      });
+      this.logger.log(`Backed up ${s3Key} to ${backupKey}`);
+    }
+
+    // {{Send notification}}
+    await this.snsService.publish({
+      topicArn: process.env.NOTIFICATION_TOPIC_ARN,
+      subject: `ZIP Import ${status}`,
+      message: JSON.stringify({
+        jobKey: masterJobKey,
+        status,
+        results,
+        timestamp: new Date().toISOString(),
+      }),
+    });
+  }
+}
+```
+
+#### {{Registering Finalization Hooks}}
+
+{{Add your hooks to the `ImportModule.register()` configuration:}}
+
+```typescript
+import { Module } from '@nestjs/common';
+import { ImportModule } from '@mbc-cqrs-serverless/import';
+import { BackupAndNotifyHook } from './hooks/backup-and-notify.hook';
+import { AuditLogHook } from './hooks/audit-log.hook';
+
+@Module({
+  imports: [
+    ImportModule.register({
+      enableController: true,
+      profiles: [...],
+      // {{Register ZIP finalization hooks}}
+      zipFinalizationHooks: [
+        BackupAndNotifyHook,
+        AuditLogHook,
+      ],
+    }),
+  ],
+})
+export class AppModule {}
+```
+
+#### {{ZipFinalizationContext}}
+
+{{The context object passed to hooks contains:}}
+
+| {{Property}} | {{Type}} | {{Description}} |
+|--------------|----------|-----------------|
+| `event` | `ZipImportSfnEvent` | {{The original Step Functions event}} |
+| `masterJobKey` | `DetailKey` | {{The key (`pk`, `sk`) of the master ZIP job}} |
+| `results` | `object` | {{Aggregated results: `totalRows`, `processedRows`, `failedRows`}} |
+| `status` | `ImportStatusEnum` | {{Final status of the job (COMPLETED or FAILED)}} |
+| `executionInput` | `object` | {{Original Step Functions execution input including `parameters` and `sortedS3Keys`}} |
+
+#### {{Hook Execution Behavior}}
+
+- {{**Parallel Execution**: All registered hooks execute in parallel for better performance}}
+- {{**Error Isolation**: If a hook throws an error, it is logged but does not affect other hooks or the job status}}
+- {{**Dependency Injection**: Hooks are registered as NestJS providers, so you can inject any service}}
+
+:::info {{Version Note}}
+{{ZIP finalization hooks were added in version 1.0.21. See [Changelog](./changelog#v1021) for details.}}
+:::
+
 ### {{Custom Event Factory for Imports}}
 
 {{Configure the event factory to handle import events:}}

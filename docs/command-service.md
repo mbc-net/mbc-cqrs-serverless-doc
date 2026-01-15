@@ -303,3 +303,152 @@ const item = await this.commandService.publishPartialUpdate(catCommand, {
 ```ts
 await this.commandService.reSyncData();
 ```
+
+### {{*async* `getItem(key: DetailKey): Promise<CommandModel>`}}
+
+{{Retrieves a command item by its primary key. If the sort key does not include a version separator, it automatically calls `getLatestItem` to get the latest version.}}
+
+```ts
+import { DetailKey } from "@mbc-cqrs-serverless/core";
+
+// {{Get a specific version of a command}}
+const command = await this.commandService.getItem({
+  pk: "CAT#tenant1",
+  sk: "CAT#cat001#00000002", // {{Includes version number}}
+});
+
+// {{If no version in sk, automatically gets latest version}}
+const latestCommand = await this.commandService.getItem({
+  pk: "CAT#tenant1",
+  sk: "CAT#cat001",
+});
+```
+
+### {{*async* `getLatestItem(key: DetailKey): Promise<CommandModel>`}}
+
+{{Retrieves the latest version of a command item by its primary key. This method uses a lookup algorithm that starts from the data table's version and searches up/down to find the most recent command version.}}
+
+```ts
+import { DetailKey } from "@mbc-cqrs-serverless/core";
+
+const latestCommand = await this.commandService.getLatestItem({
+  pk: "CAT#tenant1",
+  sk: "CAT#cat001", // {{Sort key without version}}
+});
+
+if (latestCommand) {
+  console.log(`Latest version: ${latestCommand.version}`);
+}
+```
+
+### {{*async* `getNextCommand(currentKey: DetailKey): Promise<CommandModel>`}}
+
+{{Retrieves the next version of a command based on the current command's key. This is useful for processing command chains or implementing retry logic.}}
+
+```ts
+import { DetailKey } from "@mbc-cqrs-serverless/core";
+
+const currentKey: DetailKey = {
+  pk: "CAT#tenant1",
+  sk: "CAT#cat001#00000002",
+};
+
+const nextCommand = await this.commandService.getNextCommand(currentKey);
+// {{Returns command with sk: "CAT#cat001#00000003" if exists}}
+```
+
+### {{*async* `updateStatus(key: DetailKey, status: string, notifyId?: string)`}}
+
+{{Updates the status of a command and sends an SNS notification. This is commonly used to update task or process statuses and notify subscribers of the change.}}
+
+```ts
+import { DetailKey } from "@mbc-cqrs-serverless/core";
+
+const key: DetailKey = {
+  pk: "CAT#tenant1",
+  sk: "CAT#cat001#00000001",
+};
+
+// {{Update status and send SNS notification}}
+await this.commandService.updateStatus(key, "COMPLETED");
+
+// {{With custom notification ID}}
+await this.commandService.updateStatus(key, "FAILED", "custom-notify-id");
+```
+
+{{The SNS notification payload includes:}}
+- `action`: `"command-status"`
+- `pk`, `sk`: {{The command key}}
+- `table`: {{The command table name}}
+- `id`: {{Notification ID (custom or auto-generated)}}
+- `tenantCode`: {{Extracted from pk}}
+- `content`: {{Object containing `status` and `source`}}
+
+### {{*async* `duplicate(key: DetailKey, options: ICommandOptions): Promise<CommandModel>`}}
+
+{{Creates a duplicate of an existing command with an incremented version number. The duplicated command will have `source` set to `"duplicated"` and updated metadata (timestamp, user, IP).}}
+
+```ts
+import { DetailKey, getCommandSource } from "@mbc-cqrs-serverless/core";
+import { basename } from "path";
+
+const key: DetailKey = {
+  pk: "CAT#tenant1",
+  sk: "CAT#cat001#00000001",
+};
+
+const commandSource = getCommandSource(
+  basename(__dirname),
+  this.constructor.name,
+  "duplicateCatCommand"
+);
+
+const duplicatedCommand = await this.commandService.duplicate(key, {
+  source: commandSource,
+  invokeContext,
+});
+
+// {{The duplicated command has:}}
+// {{- version incremented by 1}}
+// {{- source set to "duplicated"}}
+// {{- updated timestamps and user info}}
+```
+
+### {{*async* `updateTaskToken(key: DetailKey, token: string): Promise<CommandModel>`}}
+
+{{Stores an AWS Step Functions task token on a command item. This is used when integrating with Step Functions to enable callback patterns.}}
+
+```ts
+import { DetailKey } from "@mbc-cqrs-serverless/core";
+
+const key: DetailKey = {
+  pk: "CAT#tenant1",
+  sk: "CAT#cat001#00000001",
+};
+
+// {{Store the Step Functions task token}}
+await this.commandService.updateTaskToken(key, event.taskToken);
+
+// {{Later, use the token to send task success/failure}}
+// {{via SendTaskSuccessCommand or SendTaskFailureCommand}}
+```
+
+### {{*async* `updateTtl(key: DetailKey): Promise<CommandModel | null>`}}
+
+{{Updates the TTL (Time To Live) of the previous version of a command. This is typically used internally to manage command history retention. Returns `null` if the version is too low or the previous command doesn't exist.}}
+
+```ts
+import { DetailKey } from "@mbc-cqrs-serverless/core";
+
+const key: DetailKey = {
+  pk: "CAT#tenant1",
+  sk: "CAT#cat001#00000003", // {{Version 3}}
+};
+
+// {{Updates TTL of version 2 (previous version)}}
+const result = await this.commandService.updateTtl(key);
+```
+
+:::note
+{{This method is primarily used internally by the framework for command history management. Direct usage is rarely needed in application code.}}
+:::

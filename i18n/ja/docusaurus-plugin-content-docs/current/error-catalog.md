@@ -1,11 +1,11 @@
 ---
 sidebar_position: 2
-description: Comprehensive error catalog with causes, solutions, and recovery strategies for MBC CQRS Serverless.
+description: MBC CQRS Serverlessの原因、解決策、復旧戦略を含む包括的なエラーカタログ。
 ---
 
 # エラーカタログ
 
-This catalog provides comprehensive documentation of errors encountered in MBC CQRS Serverless, including their causes, solutions, and recovery strategies.
+このカタログでは、MBC CQRS Serverlessで発生するエラーの原因、解決策、復旧戦略を含む包括的なドキュメントを提供します。
 
 ## コマンドサービスエラー
 
@@ -135,13 +135,13 @@ if (existing) {
 
 ---
 
-## Sequence Errors
+## シーケンスエラー
 
 ### BadRequestException: "Sequence not found"
 
 **場所**: `packages/sequence/src/services/sequence.service.ts`
 
-**原因**: The requested sequence key does not exist.
+**原因**: リクエストされたシーケンスキーが存在しません。
 
 **解決策**:
 ```typescript
@@ -161,13 +161,13 @@ try {
 
 ---
 
-## Task Errors
+## タスクエラー
 
 ### BadRequestException: "Task not found"
 
 **場所**: `packages/task/src/services/task.service.ts`
 
-**原因**: The specified task does not exist or has been completed/deleted.
+**原因**: 指定されたタスクが存在しないか、完了/削除されています。
 
 **解決策**:
 ```typescript
@@ -191,7 +191,7 @@ if (task.status === 'completed') {
 
 **原因**: リクエストDTOがclass-validatorのバリデーションに失敗しました。
 
-**Common Validation Errors**:
+**一般的なバリデーションエラー**:
 ```typescript
 // Example DTO with validation
 export class CreateOrderDto {
@@ -237,7 +237,7 @@ if (errors.length > 0) {
 
 **場所**: AWS DynamoDB
 
-**原因**: Read or write capacity has been exceeded on on-demand or provisioned tables.
+**原因**: オンデマンドまたはプロビジョニングテーブルで読み取りまたは書き込み容量を超過しました。
 
 **解決策**:
 ```typescript
@@ -264,10 +264,10 @@ async function withRetry<T>(
 }
 ```
 
-**Prevention**:
-- Use on-demand capacity mode for unpredictable workloads
-- Implement request batching to reduce write operations
-- Use DAX for read-heavy workloads
+**予防策**:
+- 予測困難なワークロードにはオンデマンドキャパシティモードを使用
+- 書き込み操作を減らすためにリクエストバッチングを実装
+- 読み取りが多いワークロードにはDAXを使用
 
 ---
 
@@ -275,7 +275,7 @@ async function withRetry<T>(
 
 **場所**: AWS DynamoDB
 
-**原因**: Optimistic locking condition failed (version mismatch) or unique constraint violation.
+**原因**: 楽観的ロック条件が失敗（バージョン不一致）またはユニーク制約違反。
 
 **解決策**:
 ```typescript
@@ -300,7 +300,7 @@ try {
 
 **場所**: AWS DynamoDB
 
-**原因**: The specified table or index does not exist.
+**原因**: 指定されたテーブルまたはインデックスが存在しません。
 
 **解決策**:
 ```bash
@@ -317,7 +317,7 @@ echo $DYNAMODB_TABLE_NAME
 
 **場所**: AWS DynamoDB
 
-**原因**: Invalid key structure, empty string for non-key attribute, or reserved word conflict.
+**原因**: 無効なキー構造、非キー属性の空文字列、または予約語の競合。
 
 **解決策**:
 ```typescript
@@ -339,13 +339,13 @@ const params = {
 
 ---
 
-## Cognito Authentication Errors
+## Cognito認証エラー
 
 ### NotAuthorizedException
 
 **場所**: AWS Cognito
 
-**原因**: Invalid credentials or token expired.
+**原因**: 無効な認証情報またはトークンの有効期限切れ。
 
 **解決策**:
 ```typescript
@@ -367,7 +367,7 @@ try {
 
 **場所**: AWS Cognito
 
-**原因**: User does not exist in the user pool.
+**原因**: ユーザープールにユーザーが存在しません。
 
 **解決策**:
 ```typescript
@@ -387,7 +387,7 @@ try {
 
 **場所**: AWS Cognito
 
-**原因**: User has not confirmed their email/phone.
+**原因**: ユーザーがメール/電話を確認していません。
 
 **解決策**:
 ```typescript
@@ -404,22 +404,22 @@ try {
 
 ---
 
-## Import Module Errors {#import-module-errors}
+## インポートモジュールエラー {#import-module-errors}
 
 :::tip Related Documentation
-For API details and usage patterns, see [ImportStatusHandler API](./import-export-patterns#importstatushandler-api). For version history, see [Changelog v1.0.18](./changelog#v1018).
+APIの詳細と使用パターンについては[ImportStatusHandler API](./import-export-patterns#importstatushandler-api)を参照してください。バージョン履歴については[変更履歴 v1.0.18](./changelog#v1018)を参照してください。
 :::
 
-### Step Functions Timeout (Import Job)
+### Step Functionsタイムアウト（インポートジョブ）
 
 **場所**: `packages/import/src/event/import-status.queue.event.handler.ts`
 
-**Symptom**: Step Functions execution stays in `RUNNING` state indefinitely for import jobs.
+**症状**: インポートジョブでStep Functions実行が無期限に`RUNNING`状態のまま。
 
-**原因**: Prior to version 1.0.18, the `ImportStatusHandler` only sent `SendTaskSuccessCommand` for completed jobs. When an import job failed, no callback was sent to Step Functions, causing it to wait indefinitely for the `waitForTaskToken` callback.
+**原因**: バージョン1.0.18より前は、`ImportStatusHandler`は完了したジョブに対してのみ`SendTaskSuccessCommand`を送信していました。インポートジョブが失敗した場合、Step Functionsにコールバックが送信されず、`waitForTaskToken`コールバックを無期限に待機していました。
 
-**解決策** (Fixed in 1.0.18+):
-The handler now properly sends `SendTaskFailureCommand` when import jobs fail:
+**解決策** (1.0.18以降で修正):
+ハンドラーはインポートジョブが失敗した場合に適切に`SendTaskFailureCommand`を送信するようになりました：
 
 ```typescript
 // Internal behavior (automatic, no user action needed):
@@ -427,9 +427,9 @@ The handler now properly sends `SendTaskFailureCommand` when import jobs fail:
 // - FAILED status → SendTaskFailureCommand
 ```
 
-If you're on an older version:
-1. Upgrade to `@mbc-cqrs-serverless/import@^1.0.18`
-2. For stuck executions, manually stop them via AWS Console or CLI:
+古いバージョンを使用している場合：
+1. `@mbc-cqrs-serverless/import@^1.0.18`にアップグレード
+2. スタックした実行については、AWSコンソールまたはCLIで手動停止：
    ```bash
    aws stepfunctions stop-execution --execution-arn <execution-arn>
    ```
@@ -440,10 +440,10 @@ If you're on an older version:
 
 **場所**: `packages/import/src/import.service.ts`
 
-**原因**: No import strategy is registered for the specified table name.
+**原因**: 指定されたテーブル名にインポート戦略が登録されていません。
 
 **解決策**:
-Register an import strategy when configuring the ImportModule:
+ImportModuleを設定する際にインポート戦略を登録：
 
 ```typescript
 ImportModule.register({
@@ -459,17 +459,17 @@ ImportModule.register({
 
 ---
 
-### Import Job Stuck in PROCESSING Status
+### インポートジョブがPROCESSINGステータスでスタック
 
 **場所**: `packages/import/src/event/import.queue.event.handler.ts`
 
-**原因**: An error occurred during import processing but the job status wasn't properly updated, or DynamoDB streams failed to trigger the next step.
+**原因**: インポート処理中にエラーが発生したがジョブステータスが正しく更新されなかった、またはDynamoDBストリームが次のステップをトリガーできなかった。
 
 **解決策**:
 1. Lambdaエラーについては**CloudWatchログ**を確認
-2. Verify DynamoDB streams are enabled on the import_tmp table
-3. Check if the SNS topic for import status notifications exists
-4. Clean up stuck records:
+2. import_tmpテーブルでDynamoDBストリームが有効になっているか確認
+3. インポートステータス通知用のSNSトピックが存在するか確認
+4. スタックしたレコードをクリーンアップ：
    ```typescript
    await importService.updateStatus(
      { pk: 'CSV_IMPORT#tenant', sk: 'table#taskCode' },
@@ -480,13 +480,13 @@ ImportModule.register({
 
 ---
 
-## Step Functions Errors
+## Step Functionsエラー
 
 ### TaskTimedOut
 
 **場所**: AWS Step Functions
 
-**原因**: Lambda function did not respond within the configured timeout.
+**原因**: Lambda関数が設定されたタイムアウト内に応答しませんでした。
 
 **解決策**:
 ```typescript
@@ -511,7 +511,7 @@ async function processInChunks(items, chunkSize = 100) {
 
 **場所**: AWS Step Functions
 
-**原因**: Lambda function threw an unhandled error.
+**原因**: Lambda関数が未処理のエラーをスローしました。
 
 **解決策**:
 ```typescript
@@ -538,13 +538,13 @@ export async function handler(event: StepFunctionEvent) {
 
 ---
 
-## S3 Errors
+## S3エラー
 
 ### NoSuchKey
 
 **場所**: AWS S3
 
-**原因**: The specified object does not exist in the bucket.
+**原因**: 指定されたオブジェクトがバケットに存在しません。
 
 **解決策**:
 ```typescript
@@ -567,7 +567,7 @@ try {
 
 **場所**: AWS S3
 
-**原因**: IAM policy does not allow the requested operation.
+**原因**: IAMポリシーがリクエストされた操作を許可していません。
 
 **解決策**:
 ```yaml
@@ -587,13 +587,13 @@ provider:
 
 ---
 
-## SQS Errors
+## SQSエラー
 
 ### MessageNotInflight
 
 **場所**: AWS SQS
 
-**原因**: Attempting to delete or change visibility of a message that is no longer in flight.
+**原因**: フライト中でなくなったメッセージの削除または可視性の変更を試みています。
 
 **解決策**:
 ```typescript
@@ -615,25 +615,25 @@ export async function handler(event: SQSEvent) {
 
 ## HTTPステータスコードリファレンス
 
-| ステータス | 例外 | 意味 | Recovery Strategy |
+| ステータス | 例外 | 意味 | 復旧戦略 |
 |--------|-----------|---------|-------------------|
-| 400 | BadRequestException | 無効な入力またはビジネスルール違反 | Fix request data |
-| 401 | UnauthorizedException | 認証が欠落しているか無効 | Refresh token or re-login |
-| 403 | ForbiddenException | 認証済みだが権限がない | Check user permissions |
-| 404 | NotFoundException | リソースが見つからない | Verify resource exists |
-| 409 | ConflictException | バージョン競合（楽観的ロック） | Refresh and retry |
-| 422 | UnprocessableEntityException | Validation failed | Fix validation errors |
-| 429 | TooManyRequestsException | Rate limit exceeded | Implement backoff retry |
-| 500 | InternalServerErrorException | 予期しないサーバーエラー | Check logs, report bug |
-| 502 | BadGatewayException | Upstream service error | Retry with backoff |
-| 503 | ServiceUnavailableException | Service temporarily unavailable | Retry later |
-| 504 | GatewayTimeoutException | Upstream service timeout | Increase timeout or optimize |
+| 400 | BadRequestException | 無効な入力またはビジネスルール違反 | リクエストデータを修正 |
+| 401 | UnauthorizedException | 認証が欠落しているか無効 | トークンを更新または再ログイン |
+| 403 | ForbiddenException | 認証済みだが権限がない | ユーザー権限を確認 |
+| 404 | NotFoundException | リソースが見つからない | リソースの存在を確認 |
+| 409 | ConflictException | バージョン競合（楽観的ロック） | 更新して再試行 |
+| 422 | UnprocessableEntityException | バリデーション失敗 | バリデーションエラーを修正 |
+| 429 | TooManyRequestsException | レート制限超過 | バックオフリトライを実装 |
+| 500 | InternalServerErrorException | 予期しないサーバーエラー | ログを確認し、バグを報告 |
+| 502 | BadGatewayException | 上流サービスエラー | バックオフで再試行 |
+| 503 | ServiceUnavailableException | サービスが一時的に利用不可 | 後で再試行 |
+| 504 | GatewayTimeoutException | 上流サービスタイムアウト | タイムアウトを増やすか最適化 |
 
 ---
 
-## Error Handling Best Practices
+## エラーハンドリングのベストプラクティス
 
-### 1. Centralized Error Handler
+### 1. 集中エラーハンドラー
 
 ```typescript
 // Create a global exception filter
@@ -672,7 +672,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 }
 ```
 
-### 2. Retry with Exponential Backoff
+### 2. 指数バックオフでリトライ
 
 ```typescript
 async function retryWithBackoff<T>(
@@ -721,7 +721,7 @@ async function retryWithBackoff<T>(
 }
 ```
 
-### 3. Circuit Breaker Pattern
+### 3. サーキットブレーカーパターン
 
 ```typescript
 class CircuitBreaker {
@@ -787,7 +787,7 @@ class CircuitBreaker {
    console.log('RequestId:', context.awsRequestId);
    ```
 
-4. **Verify environment variables**:
+4. **環境変数を確認**:
    ```typescript
    console.log('Config:', {
      table: process.env.DYNAMODB_TABLE_NAME,
@@ -795,13 +795,13 @@ class CircuitBreaker {
    });
    ```
 
-5. **Test locally with serverless-offline**:
+5. **serverless-offlineでローカルテスト**:
    ```bash
    npm run offline -- --stage dev
    ```
 
-## See Also
+## 関連情報
 
-- [Debugging Guide](./debugging-guide) - Detailed debugging procedures
-- [Common Issues](./common-issues) - Frequently encountered problems
-- [Monitoring and Logging](./monitoring-logging) - Production monitoring setup
+- [デバッグガイド](./debugging-guide) - 詳細なデバッグ手順
+- [よくある問題](./common-issues) - よく発生する問題
+- [監視とログ](./monitoring-logging) - 本番監視の設定

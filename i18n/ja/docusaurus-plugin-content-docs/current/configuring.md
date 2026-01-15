@@ -1,17 +1,17 @@
 ---
 sidebar_position: 9
-description: Configuration guide for MBC CQRS Serverless framework including TypeScript, ESLint, and project settings.
+description: TypeScript、ESLint、プロジェクト設定を含むMBC CQRS Serverlessフレームワークの設定ガイド。
 ---
 
 # 設定
 
-MBC CQRS serverless framework allows you to customize your project to meet specific requirements. This guide covers all configuration options available in the framework.
+MBC CQRS サーバーレスフレームワークでは、特定の要件に合わせてプロジェクトをカスタマイズできます。このガイドでは、フレームワークで利用可能なすべての設定オプションについて説明します。
 
-## Project Configuration
+## プロジェクト設定
 
 ### serverless.yml
 
-The main configuration file for your serverless application.
+サーバーレスアプリケーションのメイン設定ファイルです。
 
 ```yaml
 service: my-app
@@ -66,9 +66,9 @@ custom:
       migrate: true
 ```
 
-### NestJS Configuration
+### NestJS設定
 
-Configure NestJS modules in your application.
+アプリケーションでNestJSモジュールを設定します。
 
 ```typescript
 // app.module.ts
@@ -94,11 +94,11 @@ import { CommandModule } from '@mbc-cqrs-serverless/core';
 export class AppModule {}
 ```
 
-## TypeScript Configuration
+## TypeScript設定
 
 ### tsconfig.json
 
-Recommended TypeScript configuration for MBC CQRS Serverless projects.
+MBC CQRS Serverlessプロジェクト向けの推奨TypeScript設定。
 
 ```json
 {
@@ -135,11 +135,11 @@ Recommended TypeScript configuration for MBC CQRS Serverless projects.
 }
 ```
 
-## ESLint Configuration
+## ESLint設定
 
 ### .eslintrc.js
 
-Recommended ESLint configuration.
+推奨ESLint設定。
 
 ```javascript
 module.exports = {
@@ -169,11 +169,11 @@ module.exports = {
 };
 ```
 
-## Module Configuration
+## モジュール設定
 
-### CommandModule Options
+### CommandModuleオプション
 
-Configure the core CommandModule.
+コアCommandModuleを設定します。
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -199,9 +199,9 @@ import { CommandModule } from '@mbc-cqrs-serverless/core';
 export class OrderModule {}
 ```
 
-### SequenceModule Options
+### SequenceModuleオプション
 
-Configure auto-incrementing sequences.
+自動インクリメントシーケンスを設定します。
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -220,9 +220,9 @@ export class AppModule {}
 
 注: ローテーション戦略（day、month、year、fiscal_yearly、none）はマスターデータ設定で設定され、モジュールオプションではありません。詳細は[シーケンスドキュメント](./sequence)を参照してください。
 
-### TenantModule Options
+### TenantModuleオプション
 
-Configure multi-tenant support.
+マルチテナントサポートを設定します。
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -259,7 +259,7 @@ import { NotificationModule } from '@mbc-cqrs-serverless/core';
 export class AppModule {}
 ```
 
-NotificationModuleは環境変数で設定されます。
+NotificationModuleは環境変数で設定されます：
 
 ```bash
 # Required: Default sender email address
@@ -272,11 +272,11 @@ SES_ENDPOINT=http://localhost:4566
 SES_REGION=ap-northeast-1
 ```
 
-## Logging Configuration
+## ログ設定
 
-### Configure Logger
+### ロガーの設定
 
-Set up structured logging for production.
+本番環境向けの構造化ログを設定します。
 
 ```typescript
 import { Logger } from '@nestjs/common';
@@ -310,11 +310,11 @@ export class OrderService {
 }
 ```
 
-## Validation Configuration
+## バリデーション設定
 
-### Global Validation Pipe
+### グローバルバリデーションパイプ
 
-Configure validation for all endpoints.
+すべてのエンドポイントのバリデーションを設定します。
 
 ```typescript
 import { ValidationPipe } from '@nestjs/common';
@@ -351,11 +351,11 @@ app.useGlobalPipes(
 );
 ```
 
-## CORS Configuration
+## CORS設定
 
-### Configure CORS
+### CORSの設定
 
-Set up Cross-Origin Resource Sharing.
+クロスオリジンリソース共有を設定します。
 
 ```typescript
 // In main.ts
@@ -370,11 +370,11 @@ app.enableCors({
 });
 ```
 
-## Stage-Specific Configuration
+## ステージ固有の設定
 
-### Environment-Based Settings
+### 環境ベースの設定
 
-Configure different settings per environment.
+環境ごとに異なる設定を設定します。
 
 ```typescript
 // config/configuration.ts
@@ -416,7 +416,7 @@ export class AppService {
 }
 ```
 
-## See Also
+## 関連情報
 
 ```mdx-code-block
 import DocCardList from '@theme/DocCardList';
@@ -424,6 +424,6 @@ import DocCardList from '@theme/DocCardList';
 <DocCardList />
 ```
 
-- [Environment Variables](./environment-variables) - Environment configuration
-- [Absolute Imports](./absolute_imports_and_module_path_aliases) - Path aliases
-- [Deployment Guide](./deployment-guide) - Deployment configuration
+- [環境変数](./environment-variables) - 環境設定
+- [絶対インポート](./absolute_imports_and_module_path_aliases) - パスエイリアス
+- [デプロイガイド](./deployment-guide) - デプロイ設定

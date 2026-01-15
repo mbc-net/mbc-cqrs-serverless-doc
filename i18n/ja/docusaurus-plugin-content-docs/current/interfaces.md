@@ -1,19 +1,19 @@
 ---
 sidebar_position: 1
-description: Complete reference of TypeScript interfaces used in MBC CQRS Serverless framework.
+description: MBC CQRS Serverlessフレームワークで使用されるTypeScriptインターフェースの完全なリファレンス。
 ---
 
 # インターフェース
 
-This document provides a comprehensive reference of all TypeScript interfaces used in the MBC CQRS Serverless framework.
+このドキュメントでは、MBC CQRS Serverlessフレームワークで使用されるすべてのTypeScriptインターフェースの包括的なリファレンスを提供します。
 
-## Core Interfaces
+## コアインターフェース
 
-### Command Interfaces
+### コマンドインターフェース
 
 #### CommandInputModel
 
-The primary interface for creating new commands. Used when publishing new entities.
+新しいコマンドを作成するためのプライマリインターフェース。新しいエンティティを発行する際に使用します。
 
 ```ts
 export interface CommandInputModel {
@@ -32,7 +32,7 @@ export interface CommandInputModel {
 }
 ```
 
-**Usage Example**:
+**使用例**:
 ```typescript
 const orderInput: CommandInputModel = {
   pk: 'ORDER#tenant001',
@@ -53,7 +53,7 @@ const orderInput: CommandInputModel = {
 
 #### CommandPartialInputModel
 
-Used for partial updates. Only pk, sk, and version are required.
+部分更新に使用します。pk、sk、versionのみが必須です。
 
 ```ts
 export interface CommandPartialInputModel extends Partial<CommandInputModel> {
@@ -63,7 +63,7 @@ export interface CommandPartialInputModel extends Partial<CommandInputModel> {
 }
 ```
 
-**Usage Example**:
+**使用例**:
 ```typescript
 const partialUpdate: CommandPartialInputModel = {
   pk: 'ORDER#tenant001',
@@ -78,7 +78,7 @@ const partialUpdate: CommandPartialInputModel = {
 
 #### ICommandOptions
 
-Options passed to command publishing methods.
+コマンド発行メソッドに渡されるオプション。
 
 ```ts
 export interface ICommandOptions {
@@ -88,7 +88,7 @@ export interface ICommandOptions {
 }
 ```
 
-**Usage Example**:
+**使用例**:
 ```typescript
 const options: ICommandOptions = {
   source: 'order-service',
@@ -100,11 +100,11 @@ const options: ICommandOptions = {
 };
 ```
 
-### Key Interfaces
+### キーインターフェース
 
 #### DetailKey
 
-Represents the primary key for DynamoDB items.
+DynamoDBアイテムのプライマリキーを表します。
 
 ```ts
 export interface DetailKey {
@@ -115,7 +115,7 @@ export interface DetailKey {
 
 #### SearchKey
 
-Extended key interface for search operations with optional tenant filtering.
+オプションのテナントフィルタリングを含む検索操作用の拡張キーインターフェース。
 
 ```ts
 export interface SearchKey extends DetailKey {
@@ -123,11 +123,11 @@ export interface SearchKey extends DetailKey {
 }
 ```
 
-### Context Interfaces
+### コンテキストインターフェース
 
 #### IInvoke
 
-Lambda/Express のイベントとコンテキストを含む呼び出しコンテキスト。
+Lambda/Expressのイベントとコンテキストを含む呼び出しコンテキスト。
 
 ```ts
 export interface IInvoke {
@@ -148,7 +148,7 @@ export class UserContext {
 }
 ```
 
-**Usage Example**:
+**使用例**:
 ```typescript
 import { getUserContext, IInvoke } from '@mbc-cqrs-serverless/core';
 
@@ -159,13 +159,13 @@ console.log(userContext.tenantCode);  // 'tenant001'
 console.log(userContext.tenantRole);  // 'admin'
 ```
 
-## Data Interfaces
+## データインターフェース
 
-### Entity Interfaces
+### エンティティインターフェース
 
 #### IDataEntity
 
-Base interface for data entities (read model).
+データエンティティ（読み取りモデル）の基本インターフェース。
 
 ```ts
 export interface IDataEntity {
@@ -190,7 +190,7 @@ export interface IDataEntity {
 
 #### ICommandEntity
 
-Interface for command entities (write model).
+コマンドエンティティ（書き込みモデル）のインターフェース。
 
 ```ts
 export interface ICommandEntity extends IDataEntity {
@@ -200,11 +200,11 @@ export interface ICommandEntity extends IDataEntity {
 }
 ```
 
-### List Response Interfaces
+### リストレスポンスインターフェース
 
 #### DataListEntity
 
-Paginated list response for data queries.
+データクエリ用のページネーション付きリストレスポンス。
 
 ```ts
 export class DataListEntity {
@@ -214,7 +214,7 @@ export class DataListEntity {
 }
 ```
 
-**Usage Example**:
+**使用例**:
 ```typescript
 const result = await dataService.listItemsByPk('ORDER#tenant001', {
   limit: 20,
@@ -227,13 +227,13 @@ if (result.lastSk) {
 }
 ```
 
-## Service Interfaces
+## サービスインターフェース
 
-### Query Options
+### クエリオプション
 
 #### ListOptions
 
-Options for list queries.
+リストクエリ用のオプション。
 
 ```ts
 export interface ListOptions {
@@ -246,7 +246,7 @@ export interface ListOptions {
 
 #### SearchOptions
 
-Options for search operations with full-text search.
+全文検索を含む検索操作用のオプション。
 
 ```ts
 export interface SearchOptions extends ListOptions {
@@ -256,7 +256,7 @@ export interface SearchOptions extends ListOptions {
 }
 ```
 
-### Sync Handler Interfaces
+### 同期ハンドラーインターフェース
 
 #### IDataSyncHandler
 
@@ -278,7 +278,7 @@ export interface IDataSyncHandler<TExecuteResult = any, TRollbackResult = any> {
 }
 ```
 
-**Implementation Example**:
+**実装例**:
 ```typescript
 @Injectable()
 export class OrderRdsSyncHandler implements IDataSyncHandler {
@@ -318,11 +318,11 @@ export class OrderRdsSyncHandler implements IDataSyncHandler {
 }
 ```
 
-## Notification Interfaces
+## 通知インターフェース
 
 ### EmailNotification
 
-Configuration for sending email notifications.
+メール通知送信用の設定。
 
 ```ts
 export interface EmailNotification {
@@ -343,7 +343,7 @@ export interface Attachment {
 }
 ```
 
-**Usage Example**:
+**使用例**:
 ```typescript
 await emailService.sendEmail({
   toAddrs: ['user@example.com'],
@@ -352,11 +352,11 @@ await emailService.sendEmail({
 });
 ```
 
-## Module Configuration Interfaces
+## モジュール設定インターフェース
 
 ### CommandModuleOptions
 
-Configuration options for CommandModule.
+CommandModuleの設定オプション。
 
 ```ts
 export interface CommandModuleOptions {
@@ -367,7 +367,7 @@ export interface CommandModuleOptions {
 }
 ```
 
-**Usage Example**:
+**使用例**:
 ```typescript
 @Module({
   imports: [
@@ -383,7 +383,7 @@ export class OrderModule {}
 
 ### SequencesModuleOptions
 
-Configuration options for SequenceModule.
+SequenceModuleの設定オプション。
 
 ```ts
 export interface SequencesModuleOptions {
@@ -391,11 +391,11 @@ export interface SequencesModuleOptions {
 }
 ```
 
-## Event Interfaces
+## イベントインターフェース
 
 ### StepFunctionEvent
 
-Event structure from AWS Step Functions.
+AWS Step Functionsからのイベント構造。
 
 ```ts
 export interface StepFunctionEvent {
@@ -407,7 +407,7 @@ export interface StepFunctionEvent {
 
 ### S3Event
 
-S3 event structure for file processing.
+ファイル処理用のS3イベント構造。
 
 ```ts
 export interface S3EventRecord {
@@ -419,11 +419,11 @@ export interface S3EventRecord {
 }
 ```
 
-## Error Interfaces
+## エラーインターフェース
 
 ### AppException
 
-Base exception interface for application errors.
+アプリケーションエラー用の基本例外インターフェース。
 
 ```ts
 export interface AppException {
@@ -434,9 +434,9 @@ export interface AppException {
 }
 ```
 
-## Type Utilities
+## 型ユーティリティ
 
-### Common Type Helpers
+### 共通型ヘルパー
 
 ```ts
 // Partial type that requires specific keys
@@ -451,9 +451,9 @@ type DeepPartial<T> = {
 type EntityInput<T> = Omit<T, 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'>;
 ```
 
-## See Also
+## 関連情報
 
-- [Command Service](./command-service) - Using commands with these interfaces
-- [Data Service](./data-service) - Querying data with these interfaces
-- [Entity Patterns](./entity-patterns) - Designing entities
-- [Error Catalog](./error-catalog) - Error handling
+- [コマンドサービス](./command-service) - これらのインターフェースを使用したコマンド
+- [データサービス](./data-service) - これらのインターフェースを使用したデータクエリ
+- [エンティティパターン](./entity-patterns) - エンティティの設計
+- [エラーカタログ](./error-catalog) - エラーハンドリング

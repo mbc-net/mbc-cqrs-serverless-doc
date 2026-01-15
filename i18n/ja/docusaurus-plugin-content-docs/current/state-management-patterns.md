@@ -16,35 +16,35 @@ description: フロントエンドアプリケーションでZustandとReact Que
 - より良いユーザー体験のための楽観的更新を実装する
 - SaaSアプリケーションでマルチテナントコンテキストを管理する
 
-## Choosing the Right Tool
+## 適切なツールの選択
 
-The most common mistake is using one tool for all state. Different types of state have different requirements:
+最も一般的な間違いは、すべての状態に1つのツールを使用することです。状態の種類によって要件が異なります：
 
-| カテゴリ | ツール | 例 | Why This Tool |
+| カテゴリ | ツール | 例 | このツールを選ぶ理由 |
 |----------|------|----------|--------------|
-| サーバー状態 | React Query | APIデータ、キャッシュされたレスポンス | Handles caching, background refetch, stale data automatically |
-| クライアント状態 | Zustand | UI状態、ユーザー設定 | Simple API, no boilerplate, performant selectors |
-| フォーム状態 | React Hook Form | フォーム入力、バリデーション | Optimized for form performance, built-in validation |
-| URL状態 | Next.js Router | クエリパラメータ、パスパラメータ | Shareable URLs, browser history integration |
+| サーバー状態 | React Query | APIデータ、キャッシュされたレスポンス | キャッシング、バックグラウンド再取得、古いデータを自動的に処理 |
+| クライアント状態 | Zustand | UI状態、ユーザー設定 | シンプルなAPI、ボイラープレート不要、高パフォーマンスなセレクター |
+| フォーム状態 | React Hook Form | フォーム入力、バリデーション | フォームパフォーマンスに最適化、組み込みバリデーション |
+| URL状態 | Next.js Router | クエリパラメータ、パスパラメータ | 共有可能なURL、ブラウザ履歴の統合 |
 
-## Common Problems and Solutions
+## よくある問題と解決策
 
-| Problem | Wrong Approach | Right Approach |
+| 問題 | 誤ったアプローチ | 正しいアプローチ |
 |---------|----------------|----------------|
-| Data becomes stale after mutation | Manually update local state | Use React Query cache invalidation |
-| Component re-renders on unrelated state changes | Subscribe to entire Zustand store | Use selectors to subscribe to specific values |
-| Loading state shown on every page visit | Always fetch fresh data | Configure staleTime to serve cached data |
-| User sees old data after edit | Wait for refetch | Use optimistic updates |
+| 変更後にデータが古くなる | ローカル状態を手動で更新 | React Queryのキャッシュ無効化を使用 |
+| 無関係な状態変更でコンポーネントが再レンダリングされる | Zustandストア全体をサブスクライブ | セレクターを使用して特定の値をサブスクライブ |
+| ページ訪問のたびにローディング状態が表示される | 常に新しいデータを取得 | staleTimeを設定してキャッシュデータを提供 |
+| 編集後にユーザーが古いデータを見る | 再取得を待つ | 楽観的更新を使用 |
 
 ## サーバー状態のためのReact Query
 
-### Use Case: Data List with Filtering
+### ユースケース: フィルタリング付きデータリスト
 
-Scenario: Display a paginated list of products that users can filter by status or search.
+シナリオ: ユーザーがステータスや検索でフィルタリングできるページネーション付き商品リストを表示します。
 
-Problem: Without caching, every filter change triggers a network request, even for previously loaded data.
+問題: キャッシングなしでは、以前読み込んだデータでもフィルター変更のたびにネットワークリクエストが発生します。
 
-Solution: React Query caches responses by query key, so returning to a previous filter serves cached data instantly.
+解決策: React Queryはクエリキーでレスポンスをキャッシュするため、以前のフィルターに戻るとキャッシュデータが即座に提供されます。
 
 ```typescript
 // src/hooks/useProducts.ts
@@ -78,13 +78,13 @@ export function useProduct(id: string) {
 }
 ```
 
-### Use Case: Create, Update, Delete with Cache Sync
+### ユースケース: キャッシュ同期を伴う作成、更新、削除
 
-Scenario: User creates a new product and expects to see it in the list immediately.
+シナリオ: ユーザーが新しい商品を作成し、リストにすぐに表示されることを期待します。
 
-Problem: After creating a product, the list still shows old data because it's cached.
+問題: 商品作成後、キャッシュされているためリストには古いデータが表示されます。
 
-Solution: Invalidate related queries after mutations to trigger automatic refetch.
+解決策: ミューテーション後に関連クエリを無効化して自動再取得をトリガーします。
 
 ```typescript
 // src/hooks/useProducts.ts
@@ -134,13 +134,13 @@ export function useDeleteProduct() {
 }
 ```
 
-### Use Case: Optimistic Updates for Better UX
+### ユースケース: より良いUXのための楽観的更新
 
-Scenario: User updates a product name and expects instant feedback.
+シナリオ: ユーザーが商品名を更新し、即座のフィードバックを期待します。
 
-Problem: Waiting for server response before showing the update feels slow.
+問題: 更新を表示する前にサーバーレスポンスを待つと遅く感じます。
 
-Solution: Update the UI immediately, then sync with server. Roll back if the request fails.
+解決策: UIを即座に更新し、サーバーと同期します。リクエストが失敗した場合はロールバックします。
 
 ```typescript
 export function useUpdateProduct() {
@@ -186,13 +186,13 @@ export function useUpdateProduct() {
 }
 ```
 
-### Use Case: Infinite Scroll List
+### ユースケース: 無限スクロールリスト
 
-Scenario: Display a long list of items that loads more as the user scrolls.
+シナリオ: ユーザーがスクロールするとさらに読み込む長いアイテムリストを表示します。
 
-Problem: Traditional pagination requires clicking "Next" buttons and loses scroll position.
+問題: 従来のページネーションは「次へ」ボタンのクリックが必要で、スクロール位置が失われます。
 
-Solution: Use infinite query to append pages as user scrolls down.
+解決策: 無限クエリを使用して、ユーザーがスクロールダウンするとページを追加します。
 
 ```typescript
 export function useInfiniteProducts(filters: ProductFilters = {}) {
@@ -241,13 +241,13 @@ function ProductInfiniteList() {
 
 ## クライアント状態のためのZustand
 
-### Use Case: UI State (Sidebar, Theme)
+### ユースケース: UI状態（サイドバー、テーマ）
 
-Scenario: User toggles sidebar, and it should stay open/closed as they navigate.
+シナリオ: ユーザーがサイドバーを切り替え、ナビゲーション中も開閉状態が維持されるべきです。
 
-Problem: Local component state resets on navigation.
+問題: ローカルコンポーネントの状態がナビゲーション時にリセットされます。
 
-Solution: Use Zustand store to persist UI state across page changes.
+解決策: Zustandストアを使用してページ遷移間でUI状態を永続化します。
 
 ```typescript
 // src/stores/useUIStore.ts
@@ -268,13 +268,13 @@ export const useUIStore = create<UIState>((set) => ({
 }));
 ```
 
-### Use Case: Persisted User Preferences
+### ユースケース: 永続化されたユーザー設定
 
-Scenario: User selects language and page size preferences that should persist across sessions.
+シナリオ: ユーザーがセッション間で永続化すべき言語とページサイズの設定を選択します。
 
-Problem: Settings are lost when user closes the browser.
+問題: ユーザーがブラウザを閉じると設定が失われます。
 
-Solution: Use Zustand persist middleware to save state to localStorage.
+解決策: Zustandのpersistミドルウェアを使用して状態をlocalStorageに保存します。
 
 ```typescript
 // src/stores/useSettingsStore.ts
@@ -304,13 +304,13 @@ export const useSettingsStore = create<SettingsState>()(
 );
 ```
 
-### Use Case: Large Store with Multiple Concerns
+### ユースケース: 複数の関心事を持つ大規模ストア
 
-Scenario: Application has authentication, UI, and notification state that need to be shared globally.
+シナリオ: アプリケーションには認証、UI、通知状態があり、グローバルに共有する必要があります。
 
-Problem: One large store becomes hard to maintain and test.
+問題: 1つの大きなストアは保守とテストが困難になります。
 
-Solution: Use slices pattern to organize related state together while sharing a single store.
+解決策: スライスパターンを使用して、単一のストアを共有しながら関連する状態を整理します。
 
 ```typescript
 // src/stores/slices/authSlice.ts
@@ -354,13 +354,13 @@ export const useAppStore = create<AppStore>()((...args) => ({
 }));
 ```
 
-### Use Case: Shopping Cart with Computed Values
+### ユースケース: 計算値を持つショッピングカート
 
-Scenario: Display cart total and item count in the header, updated in real-time as items are added.
+シナリオ: ヘッダーにカート合計とアイテム数を表示し、アイテムが追加されるとリアルタイムで更新されます。
 
-Problem: Computing totals on every render is wasteful; subscribing to entire cart causes unnecessary re-renders.
+問題: レンダリングのたびに合計を計算するのは無駄で、カート全体をサブスクライブすると不要な再レンダリングが発生します。
 
-Solution: Use selectors to compute derived values and subscribe only to what's needed.
+解決策: セレクターを使用して派生値を計算し、必要なものだけをサブスクライブします。
 
 ```typescript
 // src/stores/useCartStore.ts
@@ -431,13 +431,13 @@ function CartSummary() {
 
 ## React QueryとZustandの組み合わせ
 
-### Use Case: Authentication State
+### ユースケース: 認証状態
 
-Scenario: App needs to know if user is authenticated and fetch user profile data.
+シナリオ: アプリはユーザーが認証されているかを知り、ユーザープロファイルデータを取得する必要があります。
 
-Problem: Authentication state is needed immediately (client state), but profile data comes from API (server state).
+問題: 認証状態はすぐに必要（クライアント状態）ですが、プロファイルデータはAPIから取得（サーバー状態）します。
 
-Solution: Use Zustand for auth session state, React Query for profile data that depends on auth.
+解決策: 認証セッション状態にはZustandを、認証に依存するプロファイルデータにはReact Queryを使用します。
 
 ```typescript
 // src/stores/useAuthStore.ts
@@ -493,13 +493,13 @@ export function useCurrentUser() {
 }
 ```
 
-### Use Case: Multi-Tenant Context
+### ユースケース: マルチテナントコンテキスト
 
-Scenario: SaaS application where user can switch between tenants, and all data queries should filter by current tenant.
+シナリオ: ユーザーがテナント間を切り替えられるSaaSアプリケーションで、すべてのデータクエリは現在のテナントでフィルタリングする必要があります。
 
-Problem: Every query needs to know the current tenant, and switching tenants should refresh all data.
+問題: すべてのクエリは現在のテナントを知る必要があり、テナント切り替え時にすべてのデータを更新する必要があります。
 
-Solution: Store current tenant in Zustand, include tenant in React Query keys to auto-invalidate on switch.
+解決策: 現在のテナントをZustandに保存し、React Queryキーにテナントを含めて切り替え時に自動無効化します。
 
 ```typescript
 // src/stores/useTenantStore.ts
@@ -538,9 +538,9 @@ export function useTenantProducts() {
 
 ### 1. クエリキーの規則
 
-Use Case: Ensure consistent cache keys across the application.
+ユースケース: アプリケーション全体で一貫したキャッシュキーを確保します。
 
-Why: Inconsistent keys cause cache misses and duplicate requests.
+理由: 一貫性のないキーはキャッシュミスと重複リクエストを引き起こします。
 
 ```typescript
 // Use factory pattern for consistent query keys
@@ -561,9 +561,9 @@ export const queryKeys = {
 
 ### 2. 状態の重複を避ける
 
-Problem: Storing API data in both React Query cache and Zustand causes sync issues.
+問題: APIデータをReact QueryキャッシュとZustandの両方に保存すると同期の問題が発生します。
 
-Solution: Use React Query as the single source of truth for server data.
+解決策: サーバーデータの信頼できる唯一の情報源としてReact Queryを使用します。
 
 ```typescript
 // ❌ Bad: Duplicating server state in Zustand
@@ -583,9 +583,9 @@ function useProducts() {
 
 ### 3. 選択的なサブスクリプション
 
-Problem: Component re-renders whenever any store value changes.
+問題: ストアの値が変更されるたびにコンポーネントが再レンダリングされます。
 
-Solution: Use selectors to subscribe only to values the component needs.
+解決策: セレクターを使用してコンポーネントが必要とする値のみをサブスクライブします。
 
 ```typescript
 // ❌ Bad: Subscribe to entire store
@@ -601,7 +601,7 @@ function Component() {
 
 ### 4. セレクターをメモ化する
 
-Use Case: Select multiple values from store without causing extra re-renders.
+ユースケース: 余分な再レンダリングを引き起こさずにストアから複数の値を選択します。
 
 ```typescript
 import { shallow } from 'zustand/shallow';
@@ -617,7 +617,7 @@ function Component() {
 
 ### 5. DevToolsの統合
 
-Use Case: Debug state changes during development.
+ユースケース: 開発中に状態変更をデバッグします。
 
 ```typescript
 import { devtools } from 'zustand/middleware';
@@ -634,7 +634,7 @@ const useStore = create<State>()(
 
 ### 6. クエリのためのエラーバウンダリ
 
-Use Case: Gracefully handle API errors without crashing the entire page.
+ユースケース: ページ全体をクラッシュさせずにAPIエラーを適切に処理します。
 
 ```typescript
 // src/components/QueryErrorBoundary.tsx
