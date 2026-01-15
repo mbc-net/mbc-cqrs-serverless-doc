@@ -188,24 +188,25 @@ interface UserContext {
 ```ts
 interface JwtClaims {
   sub: string;                     // User's unique identifier
-  email: string;                   // User's email address
-  name: string;                    // User's name
-  username: string;                // Username
-  'custom:tenant'?: string;        // User's default tenant code
-  'custom:roles'?: string;         // JSON array of tenant roles
+  iss: string;                     // Token issuer URL
+  username?: string;               // Username
   'cognito:groups'?: string[];     // Cognito user groups
   'cognito:username': string;      // Cognito username
-  iss: string;                     // Token issuer URL
-  client_id: string;               // OAuth client ID
-  origin_jti: string;              // Original JWT ID
+  origin_jti?: string;             // Original JWT ID
+  client_id?: string;              // OAuth client ID
+  scope?: string;                  // OAuth scopes
+  aud: string;                     // {{Token audience}}
   event_id: string;                // Cognito event ID
   token_use: string;               // Token type (access/id)
-  scope: string;                   // OAuth scopes
   auth_time: number;               // Authentication timestamp
+  name: string;                    // User's name
+  'custom:tenant'?: string;        // User's default tenant code
+  'custom:roles'?: string;         // JSON array of tenant roles
   exp: number;                     // Expiration timestamp
+  email: string;                   // User's email address
+  email_verified?: boolean;        // Email verification status
   iat: number;                     // Issued at timestamp
   jti: string;                     // JWT ID
-  email_verified?: boolean;        // Email verification status
 }
 ```
 

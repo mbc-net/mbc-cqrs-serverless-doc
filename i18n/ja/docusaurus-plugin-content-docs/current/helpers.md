@@ -188,24 +188,25 @@ interface UserContext {
 ```ts
 interface JwtClaims {
   sub: string;                     // ユーザーの一意識別子
-  email: string;                   // ユーザーのメールアドレス
-  name: string;                    // ユーザー名
-  username: string;                // ユーザー名
-  'custom:tenant'?: string;        // ユーザーのデフォルトテナントコード
-  'custom:roles'?: string;         // テナントロールのJSON配列
+  iss: string;                     // トークン発行者URL
+  username?: string;               // ユーザー名
   'cognito:groups'?: string[];     // Cognitoユーザーグループ
   'cognito:username': string;      // Cognitoユーザー名
-  iss: string;                     // トークン発行者URL
-  client_id: string;               // OAuthクライアントID
-  origin_jti: string;              // 元のJWT ID
+  origin_jti?: string;             // 元のJWT ID
+  client_id?: string;              // OAuthクライアントID
+  scope?: string;                  // OAuthスコープ
+  aud: string;                     // {{Token audience}}
   event_id: string;                // Cognitoイベント ID
   token_use: string;               // トークンタイプ（access/id）
-  scope: string;                   // OAuthスコープ
   auth_time: number;               // 認証タイムスタンプ
+  name: string;                    // ユーザー名
+  'custom:tenant'?: string;        // ユーザーのデフォルトテナントコード
+  'custom:roles'?: string;         // テナントロールのJSON配列
   exp: number;                     // 有効期限タイムスタンプ
+  email: string;                   // ユーザーのメールアドレス
+  email_verified?: boolean;        // メール検証ステータス
   iat: number;                     // 発行タイムスタンプ
   jti: string;                     // JWT ID
-  email_verified?: boolean;        // メール検証ステータス
 }
 ```
 

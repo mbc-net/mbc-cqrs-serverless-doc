@@ -473,7 +473,7 @@ export class SendNotificationHandler
       body = await this.renderTemplate(event.templateId, event.templateData);
     }
 
-    await this.emailService.send({
+    await this.emailService.sendEmail({
       toAddrs: [event.recipient],
       subject: event.subject,
       body,
