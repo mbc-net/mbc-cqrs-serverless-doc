@@ -53,6 +53,22 @@ interface INotification {
 
 {{The `AppSyncService` sends real-time notifications to AppSync for WebSocket delivery.}}
 
+#### {{Method: `sendMessage(msg: INotification): Promise<any>`}}
+
+{{Sends a notification to AppSync via GraphQL mutation. The notification is delivered to all subscribed WebSocket clients.}}
+
+```ts
+await this.appSyncService.sendMessage({
+  id: "unique-id",
+  table: "my-table",
+  pk: "ITEM#tenant1",
+  sk: "ITEM#001",
+  tenantCode: "tenant1",
+  action: "MODIFY",
+  content: { status: "updated" },
+});
+```
+
 #### {{Configuration}}
 
 {{Set the following environment variables:}}
@@ -102,6 +118,41 @@ export class MyService {
 2. {{Handler extracts change information and creates `INotification`}}
 3. {{`AppSyncService.sendMessage()` delivers to AppSync}}
 4. {{Connected clients receive updates via WebSocket subscription}}
+
+### {{NotificationEvent}}
+
+{{The `NotificationEvent` class represents a notification event from SQS. It implements `IEvent` and wraps an SQS record containing notification data.}}
+
+```ts
+import { NotificationEvent } from "@mbc-cqrs-serverless/core";
+
+export class NotificationEvent implements IEvent, SQSRecord {
+  source: string;
+  messageId: string;
+  body: string;         // {{JSON string containing INotification data}}
+  // ... {{other SQS record properties}}
+
+  fromSqsRecord(record: SQSRecord): NotificationEvent;
+}
+```
+
+### {{NotificationEventHandler}}
+
+{{The `NotificationEventHandler` is the built-in event handler that processes `NotificationEvent` and sends notifications to AppSync. It is automatically registered when using the notification module.}}
+
+```ts
+import { NotificationEventHandler, NotificationEvent } from "@mbc-cqrs-serverless/core";
+
+@EventHandler(NotificationEvent)
+export class NotificationEventHandler implements IEventHandler<NotificationEvent> {
+  async execute(event: NotificationEvent): Promise<any> {
+    // {{Parses the notification from event body}}
+    // {{Sends to AppSync via sendMessage()}}
+  }
+}
+```
+
+{{You typically don't need to interact with this handler directly - it works automatically when notifications are published to the SQS queue.}}
 
 ## {{Email Notifications}}
 

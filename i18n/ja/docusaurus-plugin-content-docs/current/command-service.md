@@ -358,7 +358,7 @@ const nextCommand = await this.commandService.getNextCommand(currentKey);
 // Returns command with sk: "CAT#cat001#00000003" if exists (存在する場合、sk: "CAT#cat001#00000003"のコマンドを返す)
 ```
 
-### *async* `updateStatus(key: DetailKey, status: string, notifyId?: string)`
+### *async* `updateStatus(key: DetailKey, status: string, notifyId?: string): Promise<void>`
 
 コマンドのステータスを更新し、SNS通知を送信します。これは、タスクやプロセスのステータスを更新し、変更をサブスクライバーに通知するために一般的に使用されます。
 
@@ -453,3 +453,30 @@ const result = await this.commandService.updateTtl(key);
 :::note
 このメソッドは主にフレームワークがコマンド履歴管理のために内部的に使用します。アプリケーションコードでの直接使用はほとんど必要ありません。
 :::
+
+### `dataSyncHandlers` (getter): IDataSyncHandler[]
+
+このCommandServiceインスタンスに登録されているデータ同期ハンドラーの配列を返します。ハンドラーをプログラムで検査または反復処理する必要がある場合に便利です。
+
+```ts
+// Get all registered data sync handlers (登録済みのすべてのデータ同期ハンドラーを取得)
+const handlers = this.commandService.dataSyncHandlers;
+
+handlers.forEach((handler) => {
+  console.log(`Handler: ${handler.constructor.name}, Type: ${handler.type}`);
+});
+```
+
+### `getDataSyncHandler(name: string): IDataSyncHandler`
+
+クラス名で特定のデータ同期ハンドラーを取得します。指定された名前のハンドラーが見つからない場合は`undefined`を返します。
+
+```ts
+// Get a specific handler by name (名前で特定のハンドラーを取得)
+const rdsHandler = this.commandService.getDataSyncHandler('CatDataSyncRdsHandler');
+
+if (rdsHandler) {
+  // Use the handler directly (ハンドラーを直接使用)
+  await rdsHandler.up(commandModel);
+}
+```

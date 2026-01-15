@@ -443,6 +443,47 @@ try {
 - エラー詳細
 - アクションタイプ: `"sfn-alarm"`
 
+#### `formatTaskStatus(tasks: TaskEntity[]): FormattedTaskStatus`
+
+サブタスク数を計算しステータス情報を集計してタスクステータスをフォーマットします。UIでのタスク進捗表示に便利です。
+
+```ts
+// Get all subtasks for a parent task (親タスクのすべてのサブタスクを取得)
+const subTasks = await this.taskService.getAllSubTask({
+  pk: "SFN_TASK#mbc",
+  sk: "batch-process#01HXYZ123#0"
+});
+
+const formattedStatus = await this.taskService.formatTaskStatus(subTasks);
+// 戻り値:
+// {
+//   subTaskCount: 10,           // サブタスクの総数
+//   subTaskSucceedCount: 7,     // 完了したサブタスクの数
+//   subTaskFailedCount: 1,      // 失敗したサブタスクの数
+//   subTaskRunningCount: 2,     // 進行中のサブタスクの数
+//   subTasks: [                 // Array of subtask summaries (サブタスクサマリーの配列)
+//     { pk: "...", sk: "...", status: "COMPLETED" },
+//     ...
+//   ]
+// }
+```
+
+FormattedTaskStatusインターフェース:
+
+```ts
+interface FormattedTaskStatus {
+  subTaskCount: number;        // サブタスクの合計数
+  subTaskSucceedCount: number; // COMPLETEDサブタスク
+  subTaskFailedCount: number;  // FAILEDサブタスク
+  subTaskRunningCount: number; // PROCESSINGサブタスク
+  subTasks: Array<{            // Subtask summary array (サブタスクサマリー配列)
+    pk: string;
+    sk: string;
+    status: string;
+  }>;
+}
+```
+
 ### タスクステータス値
 
 | ステータス | 説明 |

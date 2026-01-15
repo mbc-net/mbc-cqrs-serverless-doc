@@ -78,7 +78,7 @@ Beside controller, we can directly use `SequencesService` to generating sequence
 
 The `SequencesService` have three public methods:
 
-### *async* `generateSequenceItem( dto: GenerateFormattedSequenceDto, options: {invokeContext:IInvoke}):  Promise<SequenceEntity>`
+### *async* `generateSequenceItem( dto: GenerateFormattedSequenceDto, options?: {invokeContext:IInvoke}):  Promise<SequenceEntity>`
 
 
 Generates a new sequence based on the parameters provided in the GenerateFormattedSequenceDto object.
@@ -223,7 +223,7 @@ In this case
 
 This allows you to customize the fiscal year calculation according to your specific business needs.
 
-### *async* `generateSequenceItemWithProvideSetting(dto, options): Promise<SequenceEntity>`
+### *async* `generateSequenceItemWithProvideSetting(dto, options?): Promise<SequenceEntity>`
 
 This method allows you to generate a sequence with custom settings directly provided in the DTO, without requiring master data configuration in DynamoDB.
 
@@ -234,10 +234,8 @@ const result = await this.sequencesService.generateSequenceItemWithProvideSettin
   {
     tenantCode: 'tenant001',
     typeCode: 'INVOICE',
-    setting: {
-      format: '%%code1%%-%%no#:0>5%%',
-      rotateBy: RotateByEnum.YEARLY,
-    },
+    format: '%%code1%%-%%no#:0>5%%',
+    rotateBy: RotateByEnum.YEARLY,
     params: { code1: 'INV' },
   },
   { invokeContext },
@@ -254,14 +252,12 @@ const result = await this.sequencesService.generateSequenceItemWithProvideSettin
   {
     tenantCode: 'tenant001',
     typeCode: 'ORDER',
-    setting: {
-      format: '%%fiscal_year%%-%%no#:0>4%%',
-      rotateBy: RotateByEnum.FISCAL_YEARLY,
-      startMonth: 4,
-    },
+    format: '%%fiscal_year%%-%%no#:0>4%%',
+    rotateBy: RotateByEnum.FISCAL_YEARLY,
+    startMonth: 4,
     params: { code1: 'ORD' },
-    prefix: 'ORD-',    // {{Prepended to formatted sequence}}
-    postfix: '-DRAFT', // {{Appended to formatted sequence}}
+    prefix: 'ORD-',    // Prepended to formatted sequence
+    postfix: '-DRAFT', // Appended to formatted sequence
   },
   { invokeContext },
 );

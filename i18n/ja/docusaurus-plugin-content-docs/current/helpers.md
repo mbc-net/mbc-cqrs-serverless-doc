@@ -79,7 +79,7 @@ const pk = masterPk('mbc');
 // 結果: 'MASTER#mbc'
 
 const commonPk = masterPk();
-// 結果: 'MASTER#COMMON'
+// 結果: 'MASTER#single' (DEFAULT_TENANT_CODE)
 ```
 
 ### `seqPk(tenantCode?: string): string`
@@ -145,7 +145,7 @@ const { bucket, key } = parseS3AttributeKey('s3://my-bucket/path/to/file.pdf');
 import { getUserContext } from '@mbc-cqrs-serverless/core';
 
 const userContext = getUserContext(invokeContext);
-// 戻り値: { userId: '...', tenantCode: 'mbc', tenantRole: 'admin' }
+// {{Returns: { userId: '...', tenantCode: 'mbc', tenantRole: 'admin' }}}
 ```
 
 ### `extractInvokeContext(ctx?: ExecutionContext): IInvoke`
@@ -190,11 +190,22 @@ interface JwtClaims {
   sub: string;                     // ユーザーの一意識別子
   email: string;                   // ユーザーのメールアドレス
   name: string;                    // ユーザー名
+  username: string;                // ユーザー名
   'custom:tenant'?: string;        // ユーザーのデフォルトテナントコード
   'custom:roles'?: string;         // テナントロールのJSON配列
   'cognito:groups'?: string[];     // Cognitoユーザーグループ
   'cognito:username': string;      // Cognitoユーザー名
-  // ... その他の標準JWTクレーム
+  iss: string;                     // トークン発行者URL
+  client_id: string;               // OAuthクライアントID
+  origin_jti: string;              // 元のJWT ID
+  event_id: string;                // Cognitoイベント ID
+  token_use: string;               // トークンタイプ（access/id）
+  scope: string;                   // OAuthスコープ
+  auth_time: number;               // 認証タイムスタンプ
+  exp: number;                     // 有効期限タイムスタンプ
+  iat: number;                     // 発行タイムスタンプ
+  jti: string;                     // JWT ID
+  email_verified?: boolean;        // メール検証ステータス
 }
 ```
 
@@ -307,7 +318,7 @@ const result = mergeDeep(
   { a: 1, b: { c: 2 } },
   { b: { d: 3 }, e: 4 }
 );
-// 結果: { a: 1, b: { c: 2, d: 3 }, e: 4 }
+// {{Result: { a: 1, b: { c: 2, d: 3 }, e: 4 }}}
 ```
 
 ### `objectBytes(obj: any): number`
@@ -329,7 +340,7 @@ const size = objectBytes({ name: 'test', value: 123 });
 import { pickKeys } from '@mbc-cqrs-serverless/core';
 
 const result = pickKeys({ a: 1, b: 2, c: 3 }, ['a', 'c']);
-// 結果: { a: 1, c: 3 }
+// {{Result: { a: 1, c: 3 }}}
 ```
 
 ### `omitKeys(obj: any, keys: string[]): object`
@@ -340,12 +351,21 @@ const result = pickKeys({ a: 1, b: 2, c: 3 }, ['a', 'c']);
 import { omitKeys } from '@mbc-cqrs-serverless/core';
 
 const result = omitKeys({ a: 1, b: 2, c: 3 }, ['b']);
-// 結果: { a: 1, c: 3 }
+// {{Result: { a: 1, c: 3 }}}
 ```
 
 ## シリアライザーヘルパー
 
 内部DynamoDB構造と外部フラット構造間の変換を行う関数。
+
+### SerializerOptionsインターフェース
+
+```ts
+interface SerializerOptions {
+  keepAttributes?: boolean;  // フラット化せずにattributesオブジェクトを保持（デフォルト: false）
+  flattenDepth?: number;     // ネストされたオブジェクトをフラット化する深さ（デフォルト: 1）
+}
+```
 
 ### `serializeToExternal<T>(item: T, options?: SerializerOptions): Record<string, any> | null`
 
@@ -357,12 +377,31 @@ import { serializeToExternal } from '@mbc-cqrs-serverless/core';
 const entity = {
   pk: 'TENANT#mbc',
   sk: 'CAT#001',
+  id: 'TENANT#mbc#CAT#001',
+  code: '001',
   name: 'Category 1',
+  version: 1,
+  tenantCode: 'mbc',
+  type: 'CAT',
+  isDeleted: false,
   attributes: { color: 'red', size: 'large' }
 };
 
 const external = serializeToExternal(entity);
-// 結果: { id: 'TENANT#mbc#CAT#001', code: 'CAT#001', name: 'Category 1', pk: '...', sk: '...', color: 'red', size: 'large' }
+// 結果:
+// {
+//   id: 'TENANT#mbc#CAT#001',
+//   pk: 'TENANT#mbc',
+//   sk: 'CAT#001',
+//   code: '001',
+//   name: 'Category 1',
+//   version: 1,
+//   tenantCode: 'mbc',
+//   type: 'CAT',
+//   isDeleted: false,
+//   color: 'red',        // attributesからフラット化
+//   size: 'large'        // attributesからフラット化
+// }
 ```
 
 ### `deserializeToInternal<T>(data: Record<string, any>, EntityClass: new () => T): T | null`
@@ -380,7 +419,7 @@ const external = {
 };
 
 const entity = deserializeToInternal(external, DataEntity);
-// 結果: pk、sk、name、およびattributes: { color, size }を持つDataEntity
+// {{Result: DataEntity with pk, sk, name, and attributes: { color, size }}}
 ```
 
 ## ソースヘルパー

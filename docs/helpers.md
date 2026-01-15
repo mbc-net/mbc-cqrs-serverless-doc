@@ -79,7 +79,7 @@ const pk = masterPk('mbc');
 // {{Result: 'MASTER#mbc'}}
 
 const commonPk = masterPk();
-// {{Result: 'MASTER#COMMON'}}
+// {{Result: 'MASTER#single'}} ({{DEFAULT_TENANT_CODE}})
 ```
 
 ### `seqPk(tenantCode?: string): string`
@@ -190,11 +190,22 @@ interface JwtClaims {
   sub: string;                     // {{User's unique identifier}}
   email: string;                   // {{User's email address}}
   name: string;                    // {{User's name}}
+  username: string;                // {{Username}}
   'custom:tenant'?: string;        // {{User's default tenant code}}
   'custom:roles'?: string;         // {{JSON array of tenant roles}}
   'cognito:groups'?: string[];     // {{Cognito user groups}}
   'cognito:username': string;      // {{Cognito username}}
-  // ... {{other standard JWT claims}}
+  iss: string;                     // {{Token issuer URL}}
+  client_id: string;               // {{OAuth client ID}}
+  origin_jti: string;              // {{Original JWT ID}}
+  event_id: string;                // {{Cognito event ID}}
+  token_use: string;               // {{Token type (access/id)}}
+  scope: string;                   // {{OAuth scopes}}
+  auth_time: number;               // {{Authentication timestamp}}
+  exp: number;                     // {{Expiration timestamp}}
+  iat: number;                     // {{Issued at timestamp}}
+  jti: string;                     // {{JWT ID}}
+  email_verified?: boolean;        // {{Email verification status}}
 }
 ```
 
@@ -347,6 +358,15 @@ const result = omitKeys({ a: 1, b: 2, c: 3 }, ['b']);
 
 {{Functions for converting between internal DynamoDB structure and external flat structure.}}
 
+### {{SerializerOptions Interface}}
+
+```ts
+interface SerializerOptions {
+  keepAttributes?: boolean;  // {{Keep attributes object instead of flattening (default: false)}}
+  flattenDepth?: number;     // {{Depth to flatten nested objects (default: 1)}}
+}
+```
+
 ### `serializeToExternal<T>(item: T, options?: SerializerOptions): Record<string, any> | null`
 
 {{Converts internal DynamoDB entity to external flat structure. Flattens the attributes object into the root level.}}
@@ -357,12 +377,31 @@ import { serializeToExternal } from '@mbc-cqrs-serverless/core';
 const entity = {
   pk: 'TENANT#mbc',
   sk: 'CAT#001',
+  id: 'TENANT#mbc#CAT#001',
+  code: '001',
   name: 'Category 1',
+  version: 1,
+  tenantCode: 'mbc',
+  type: 'CAT',
+  isDeleted: false,
   attributes: { color: 'red', size: 'large' }
 };
 
 const external = serializeToExternal(entity);
-// {{Result: { id: 'TENANT#mbc#CAT#001', code: 'CAT#001', name: 'Category 1', pk: '...', sk: '...', color: 'red', size: 'large' }}}
+// {{Result:}}
+// {
+//   id: 'TENANT#mbc#CAT#001',
+//   pk: 'TENANT#mbc',
+//   sk: 'CAT#001',
+//   code: '001',
+//   name: 'Category 1',
+//   version: 1,
+//   tenantCode: 'mbc',
+//   type: 'CAT',
+//   isDeleted: false,
+//   color: 'red',        // {{Flattened from attributes}}
+//   size: 'large'        // {{Flattened from attributes}}
+// }
 ```
 
 ### `deserializeToInternal<T>(data: Record<string, any>, EntityClass: new () => T): T | null`

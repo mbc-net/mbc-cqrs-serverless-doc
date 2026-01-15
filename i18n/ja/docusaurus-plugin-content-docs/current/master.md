@@ -172,11 +172,115 @@ const masterSetting = await this.masterSettingService.updateSetting(
 ```ts
 const masterSetting = await this.masterSettingService.deleteSetting(
   {
-    pk:"MASTER#abc", 
+    pk:"MASTER#abc",
     sk:"MASTER_SETTING#service"
   }
 );
 ```
+
+#### `list(searchDto: MasterSettingSearchDto, invokeContext: IInvoke): Promise<MasterRdsListEntity>`
+ページネーションとフィルタリングでマスター設定をリストします。RDS（Prisma）の設定が必要です。
+```ts
+const result = await this.masterSettingService.list(
+  {
+    name: "service",           // 名前の部分一致
+    code: "SVC",               // コードの部分一致
+    keyword: "description",    // 説明文を検索
+    page: 1,
+    pageSize: 10,
+    orderBys: ["-createdAt"],
+  },
+  invokeContext
+);
+```
+
+#### `getDetail(key: DetailDto): Promise<MasterRdsEntity>`
+詳細なマスター設定を取得します。見つからない場合はNotFoundExceptionをスローします。
+```ts
+const masterSetting = await this.masterSettingService.getDetail({
+  pk: "MASTER#mbc",
+  sk: "MASTER_SETTING#service"
+});
+```
+
+#### `create(createDto: CommonSettingDto, invokeContext: IInvoke): Promise<CommandModel>`
+新しいテナント設定を作成します。コンテキストからテナントコードを自動抽出するcreateTenantSettingのラッパーです。
+```ts
+const masterSetting = await this.masterSettingService.create(
+  {
+    code: "service",
+    name: "Service Setting",
+    settingValue: { key: "value" }
+  },
+  invokeContext
+);
+```
+
+#### `createBulk(createDto: CommonSettingBulkDto, invokeContext: IInvoke): Promise<CommandModel[]>`
+複数の設定を一度に作成します。
+```ts
+const settings = await this.masterSettingService.createBulk(
+  {
+    items: [
+      { code: "setting1", name: "Setting 1", settingValue: {} },
+      { code: "setting2", name: "Setting 2", settingValue: {} }
+    ]
+  },
+  invokeContext
+);
+```
+
+#### `update(key: DetailDto, updateDto: MasterSettingUpdateDto, invokeContext: IInvoke): Promise<CommandModel>`
+マスター設定を更新します。
+```ts
+const result = await this.masterSettingService.update(
+  { pk: "MASTER#mbc", sk: "MASTER_SETTING#service" },
+  {
+    name: "Updated Setting",
+    attributes: { newKey: "newValue" }
+  },
+  invokeContext
+);
+```
+
+#### `delete(key: DetailDto, invokeContext: IInvoke): Promise<CommandModel>`
+マスター設定を削除します。deleteSettingのラッパーです。
+```ts
+await this.masterSettingService.delete(
+  { pk: "MASTER#mbc", sk: "MASTER_SETTING#service" },
+  invokeContext
+);
+```
+
+#### `checkExistCode(code: string, invokeContext: IInvoke): Promise<boolean>`
+現在のテナントに設定コードが既に存在するかどうかを確認します。
+```ts
+const exists = await this.masterSettingService.checkExistCode("service", invokeContext);
+if (exists) {
+  // 重複コードの処理
+}
+```
+
+#### `copy(masterCopyDto: MasterCopyDto, opts: { invokeContext: IInvoke }): Promise<TaskEntity>`
+Step Functionsを使用して、マスター設定とデータを他のテナントに非同期でコピーします。既存のマスターデータで新しいテナントを初期化するのに便利です。
+```ts
+const task = await this.masterSettingService.copy(
+  {
+    masterSettingId: "MASTER#mbc#MASTER_SETTING#service",
+    targetTenants: ["tenant1", "tenant2"],
+    dataCopyOption: {
+      mode: DataCopyMode.ALL,  // またはDataCopyMode.PARTIAL
+      // id: ["id1", "id2"]    // modeがPARTIALの場合は必須
+    }
+  },
+  { invokeContext }
+);
+// TaskEntityを返します - コピー操作は非同期で実行されます
+```
+
+コピーモード:
+- `DataCopyMode.ALL`: 設定下のすべてのマスターデータをコピー
+- `DataCopyMode.PARTIAL`: 指定されたIDのみをコピー
 
 ### マスターデータサービス
 MasterDataService サービスは、マスターデータと操作を管理するためのメソッドを提供します。これには、リスト、取得、作成、更新、削除、および特定のコードの存在確認が含まれます。

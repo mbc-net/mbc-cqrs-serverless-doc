@@ -53,6 +53,22 @@ interface INotification {
 
 `AppSyncService`はリアルタイム通知をAppSyncに送信し、WebSocket経由で配信します。
 
+#### メソッド: `sendMessage(msg: INotification): Promise<any>`
+
+GraphQLミューテーション経由でAppSyncに通知を送信します。通知はすべての購読中のWebSocketクライアントに配信されます。
+
+```ts
+await this.appSyncService.sendMessage({
+  id: "unique-id",
+  table: "my-table",
+  pk: "ITEM#tenant1",
+  sk: "ITEM#001",
+  tenantCode: "tenant1",
+  action: "MODIFY",
+  content: { status: "updated" },
+});
+```
+
 #### 設定
 
 以下の環境変数を設定してください：
@@ -102,6 +118,41 @@ AppSyncServiceは2つの認証方法をサポートしています：
 2. ハンドラーが変更情報を抽出し`INotification`を作成
 3. `AppSyncService.sendMessage()`がAppSyncに配信
 4. 接続されたクライアントがWebSocket購読経由で更新を受信
+
+### NotificationEvent
+
+`NotificationEvent`クラスはSQSからの通知イベントを表します。`IEvent`を実装し、通知データを含むSQSレコードをラップします。
+
+```ts
+import { NotificationEvent } from "@mbc-cqrs-serverless/core";
+
+export class NotificationEvent implements IEvent, SQSRecord {
+  source: string;
+  messageId: string;
+  body: string;         // JSON string containing INotification data (INotificationデータを含むJSON文字列)
+  // ... other SQS record properties (その他のSQSレコードプロパティ)
+
+  fromSqsRecord(record: SQSRecord): NotificationEvent;
+}
+```
+
+### NotificationEventHandler
+
+`NotificationEventHandler`は`NotificationEvent`を処理してAppSyncに通知を送信する組み込みイベントハンドラーです。通知モジュールを使用する際に自動的に登録されます。
+
+```ts
+import { NotificationEventHandler, NotificationEvent } from "@mbc-cqrs-serverless/core";
+
+@EventHandler(NotificationEvent)
+export class NotificationEventHandler implements IEventHandler<NotificationEvent> {
+  async execute(event: NotificationEvent): Promise<any> {
+    // Parses the notification from event body (イベント本文から通知をパース)
+    // Sends to AppSync via sendMessage() (sendMessage()経由でAppSyncに送信)
+  }
+}
+```
+
+通常、このハンドラーと直接やり取りする必要はありません - SQSキューに通知が発行されると自動的に動作します。
 
 ## メール通知
 

@@ -17,7 +17,7 @@ graph LR
     end
 ```
 
-Before using the DataService, you need to set up the CommandModule as described in [the CommandService section](./command-service.md).
+DataServiceを使用する前に、[CommandServiceセクション](./command-service.md)で説明されているようにCommandModuleをセットアップする必要があります。
 
 ## メソッド
 
@@ -66,7 +66,7 @@ return new CatListEntity(res as CatListEntity);
 ```ts
 const query = {
   sk: {
-    skExpession: 'begins_with(sk, :typeCode)',
+    skExpression: 'begins_with(sk, :typeCode)',
     skAttributeValues: {
       ':typeCode': `CAT${KEY_SEPARATOR}`,
     },
@@ -118,7 +118,7 @@ async listCatsWithPagination(
 ```ts
 const query = {
   sk: {
-    skExpession: 'sk BETWEEN :start AND :end',
+    skExpression: 'sk BETWEEN :start AND :end',
     skAttributeValues: {
       ':start': 'ORDER#2024-01-01',
       ':end': 'ORDER#2024-12-31',
@@ -182,7 +182,7 @@ async listByType(tenantCode: string, type: string): Promise<CatDataEntity[]> {
 
   const result = await this.dataService.listItemsByPk(pk, {
     sk: {
-      skExpession: 'begins_with(sk, :type)',
+      skExpression: 'begins_with(sk, :type)',
       skAttributeValues: {
         ':type': `${type}#`,
       },
@@ -234,7 +234,7 @@ interface DetailKey {
 ```ts
 interface ListItemsOptions {
   sk?: {
-    skExpession: string;
+    skExpression: string;
     skAttributeValues: Record<string, string>;
     skAttributeNames?: Record<string, string>;
   };
@@ -244,13 +244,15 @@ interface ListItemsOptions {
 }
 ```
 
-### ListItemsResponse
+### DataListEntity
+
+`listItemsByPk`メソッドは`DataListEntity`インスタンスを返します：
 
 ```ts
-interface ListItemsResponse {
-  items: DataEntity[];
-  lastSk?: string;  // Sort key for pagination cursor
-  total?: number;   // Total count (if available)
+class DataListEntity {
+  items: DataEntity[];   // Array of data entities (データエンティティの配列)
+  lastSk?: string;       // Sort key for pagination cursor (ページネーションカーソル用のソートキー)
+  total?: number;        // Total count (if available) (利用可能な場合の合計数)
 }
 ```
 

@@ -357,7 +357,7 @@ const nextCommand = await this.commandService.getNextCommand(currentKey);
 // {{Returns command with sk: "CAT#cat001#00000003" if exists}}
 ```
 
-### {{*async* `updateStatus(key: DetailKey, status: string, notifyId?: string)`}}
+### {{*async* `updateStatus(key: DetailKey, status: string, notifyId?: string): Promise<void>`}}
 
 {{Updates the status of a command and sends an SNS notification. This is commonly used to update task or process statuses and notify subscribers of the change.}}
 
@@ -452,3 +452,30 @@ const result = await this.commandService.updateTtl(key);
 :::note
 {{This method is primarily used internally by the framework for command history management. Direct usage is rarely needed in application code.}}
 :::
+
+### {{`dataSyncHandlers` (getter): IDataSyncHandler[]}}
+
+{{Returns the array of registered data sync handlers for this CommandService instance. This is useful when you need to inspect or iterate over the handlers programmatically.}}
+
+```ts
+// {{Get all registered data sync handlers}}
+const handlers = this.commandService.dataSyncHandlers;
+
+handlers.forEach((handler) => {
+  console.log(`Handler: ${handler.constructor.name}, Type: ${handler.type}`);
+});
+```
+
+### {{`getDataSyncHandler(name: string): IDataSyncHandler`}}
+
+{{Retrieves a specific data sync handler by its class name. Returns `undefined` if no handler with the specified name is found.}}
+
+```ts
+// {{Get a specific handler by name}}
+const rdsHandler = this.commandService.getDataSyncHandler('CatDataSyncRdsHandler');
+
+if (rdsHandler) {
+  // {{Use the handler directly}}
+  await rdsHandler.up(commandModel);
+}
+```

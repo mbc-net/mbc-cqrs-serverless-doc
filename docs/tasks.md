@@ -443,6 +443,47 @@ try {
 - {{Error details}}
 - {{Action type: `"sfn-alarm"`}}
 
+#### `formatTaskStatus(tasks: TaskEntity[]): FormattedTaskStatus`
+
+{{Formats the task status by calculating subtask counts and aggregating status information. Useful for displaying task progress in UI.}}
+
+```ts
+// {{Get all subtasks for a parent task}}
+const subTasks = await this.taskService.getAllSubTask({
+  pk: "SFN_TASK#mbc",
+  sk: "batch-process#01HXYZ123#0"
+});
+
+const formattedStatus = await this.taskService.formatTaskStatus(subTasks);
+// {{Returns:}}
+// {
+//   subTaskCount: 10,           // {{Total number of subtasks}}
+//   subTaskSucceedCount: 7,     // {{Number of completed subtasks}}
+//   subTaskFailedCount: 1,      // {{Number of failed subtasks}}
+//   subTaskRunningCount: 2,     // {{Number of in-progress subtasks}}
+//   subTasks: [                 // {{Array of subtask summaries}}
+//     { pk: "...", sk: "...", status: "COMPLETED" },
+//     ...
+//   ]
+// }
+```
+
+{{The FormattedTaskStatus interface:}}
+
+```ts
+interface FormattedTaskStatus {
+  subTaskCount: number;        // {{Total subtask count}}
+  subTaskSucceedCount: number; // {{COMPLETED subtasks}}
+  subTaskFailedCount: number;  // {{FAILED subtasks}}
+  subTaskRunningCount: number; // {{PROCESSING subtasks}}
+  subTasks: Array<{            // {{Subtask summary array}}
+    pk: string;
+    sk: string;
+    status: string;
+  }>;
+}
+```
+
 ### {{Task Status Values}}
 
 | {{Status}} | {{Description}} |

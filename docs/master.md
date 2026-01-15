@@ -172,11 +172,115 @@ const masterSetting = await this.masterSettingService.updateSetting(
 ```ts
 const masterSetting = await this.masterSettingService.deleteSetting(
   {
-    pk:"MASTER#abc", 
+    pk:"MASTER#abc",
     sk:"MASTER_SETTING#service"
   }
 );
 ```
+
+#### `list(searchDto: MasterSettingSearchDto, invokeContext: IInvoke): Promise<MasterRdsListEntity>`
+{{Lists master settings with pagination and filtering. Requires RDS (Prisma) configuration.}}
+```ts
+const result = await this.masterSettingService.list(
+  {
+    name: "service",           // {{Partial match for name}}
+    code: "SVC",               // {{Partial match for code}}
+    keyword: "description",    // {{Search in description}}
+    page: 1,
+    pageSize: 10,
+    orderBys: ["-createdAt"],
+  },
+  invokeContext
+);
+```
+
+#### `getDetail(key: DetailDto): Promise<MasterRdsEntity>`
+{{Retrieves detailed master setting. Throws NotFoundException if not found.}}
+```ts
+const masterSetting = await this.masterSettingService.getDetail({
+  pk: "MASTER#mbc",
+  sk: "MASTER_SETTING#service"
+});
+```
+
+#### `create(createDto: CommonSettingDto, invokeContext: IInvoke): Promise<CommandModel>`
+{{Creates a new tenant setting. Wrapper for createTenantSetting with automatic tenant code extraction from context.}}
+```ts
+const masterSetting = await this.masterSettingService.create(
+  {
+    code: "service",
+    name: "Service Setting",
+    settingValue: { key: "value" }
+  },
+  invokeContext
+);
+```
+
+#### `createBulk(createDto: CommonSettingBulkDto, invokeContext: IInvoke): Promise<CommandModel[]>`
+{{Creates multiple settings at once.}}
+```ts
+const settings = await this.masterSettingService.createBulk(
+  {
+    items: [
+      { code: "setting1", name: "Setting 1", settingValue: {} },
+      { code: "setting2", name: "Setting 2", settingValue: {} }
+    ]
+  },
+  invokeContext
+);
+```
+
+#### `update(key: DetailDto, updateDto: MasterSettingUpdateDto, invokeContext: IInvoke): Promise<CommandModel>`
+{{Updates a master setting.}}
+```ts
+const result = await this.masterSettingService.update(
+  { pk: "MASTER#mbc", sk: "MASTER_SETTING#service" },
+  {
+    name: "Updated Setting",
+    attributes: { newKey: "newValue" }
+  },
+  invokeContext
+);
+```
+
+#### `delete(key: DetailDto, invokeContext: IInvoke): Promise<CommandModel>`
+{{Deletes a master setting. Wrapper for deleteSetting.}}
+```ts
+await this.masterSettingService.delete(
+  { pk: "MASTER#mbc", sk: "MASTER_SETTING#service" },
+  invokeContext
+);
+```
+
+#### `checkExistCode(code: string, invokeContext: IInvoke): Promise<boolean>`
+{{Checks if a setting code already exists for the current tenant.}}
+```ts
+const exists = await this.masterSettingService.checkExistCode("service", invokeContext);
+if (exists) {
+  // {{Handle duplicate code}}
+}
+```
+
+#### `copy(masterCopyDto: MasterCopyDto, opts: { invokeContext: IInvoke }): Promise<TaskEntity>`
+{{Copies master settings and data to other tenants asynchronously using Step Functions. This is useful for initializing new tenants with existing master data.}}
+```ts
+const task = await this.masterSettingService.copy(
+  {
+    masterSettingId: "MASTER#mbc#MASTER_SETTING#service",
+    targetTenants: ["tenant1", "tenant2"],
+    dataCopyOption: {
+      mode: DataCopyMode.ALL,  // {{or DataCopyMode.PARTIAL}}
+      // id: ["id1", "id2"]    // {{Required when mode is PARTIAL}}
+    }
+  },
+  { invokeContext }
+);
+// {{Returns a TaskEntity - the copy operation runs asynchronously}}
+```
+
+{{Copy modes:}}
+- {{`DataCopyMode.ALL`: Copies all master data under the setting}}
+- {{`DataCopyMode.PARTIAL`: Copies only specified IDs}}
 
 ### {{MasterDataService}}
 {{The MasterDataService service provides methods to manage master data and operations. This includes listing, retrieving, creating, updating, and deleting data, as well as checking for the existence of specific codes.}}

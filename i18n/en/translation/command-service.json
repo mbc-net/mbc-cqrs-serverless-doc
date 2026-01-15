@@ -52,7 +52,7 @@
   "*async* `getNextCommand(currentKey: DetailKey): Promise<CommandModel>`": "*async* `getNextCommand(currentKey: DetailKey): Promise<CommandModel>`",
   "Retrieves the next version of a command based on the current command's key. This is useful for processing command chains or implementing retry logic.": "Retrieves the next version of a command based on the current command's key. This is useful for processing command chains or implementing retry logic.",
   "Returns command with sk: \"CAT#cat001#00000003\" if exists": "Returns command with sk: \"CAT#cat001#00000003\" if exists",
-  "*async* `updateStatus(key: DetailKey, status: string, notifyId?: string)`": "*async* `updateStatus(key: DetailKey, status: string, notifyId?: string)`",
+  "*async* `updateStatus(key: DetailKey, status: string, notifyId?: string): Promise<void>`": "*async* `updateStatus(key: DetailKey, status: string, notifyId?: string): Promise<void>`",
   "Updates the status of a command and sends an SNS notification. This is commonly used to update task or process statuses and notify subscribers of the change.": "Updates the status of a command and sends an SNS notification. This is commonly used to update task or process statuses and notify subscribers of the change.",
   "Update status and send SNS notification": "Update status and send SNS notification",
   "With custom notification ID": "With custom notification ID",
@@ -77,5 +77,12 @@
   "Updates the TTL (Time To Live) of the previous version of a command. This is typically used internally to manage command history retention. Returns `null` if the version is too low or the previous command doesn't exist.": "Updates the TTL (Time To Live) of the previous version of a command. This is typically used internally to manage command history retention. Returns `null` if the version is too low or the previous command doesn't exist.",
   "Version 3": "Version 3",
   "Updates TTL of version 2 (previous version)": "Updates TTL of version 2 (previous version)",
-  "This method is primarily used internally by the framework for command history management. Direct usage is rarely needed in application code.": "This method is primarily used internally by the framework for command history management. Direct usage is rarely needed in application code."
+  "This method is primarily used internally by the framework for command history management. Direct usage is rarely needed in application code.": "This method is primarily used internally by the framework for command history management. Direct usage is rarely needed in application code.",
+  "`dataSyncHandlers` (getter): IDataSyncHandler[]": "`dataSyncHandlers` (getter): IDataSyncHandler[]",
+  "Returns the array of registered data sync handlers for this CommandService instance. This is useful when you need to inspect or iterate over the handlers programmatically.": "Returns the array of registered data sync handlers for this CommandService instance. This is useful when you need to inspect or iterate over the handlers programmatically.",
+  "Get all registered data sync handlers": "Get all registered data sync handlers",
+  "`getDataSyncHandler(name: string): IDataSyncHandler`": "`getDataSyncHandler(name: string): IDataSyncHandler`",
+  "Retrieves a specific data sync handler by its class name. Returns `undefined` if no handler with the specified name is found.": "Retrieves a specific data sync handler by its class name. Returns `undefined` if no handler with the specified name is found.",
+  "Get a specific handler by name": "Get a specific handler by name",
+  "Use the handler directly": "Use the handler directly"
 }

@@ -78,7 +78,7 @@ export class SeqModule {}
 
 `SequencesService` には3つのパブリックメソッドがあります:
 
-### *async* `generateSequenceItem( dto: GenerateFormattedSequenceDto, options: {invokeContext:IInvoke}):  Promise<SequenceEntity>`
+### *async* `generateSequenceItem( dto: GenerateFormattedSequenceDto, options?: {invokeContext:IInvoke}):  Promise<SequenceEntity>`
 
 
 GenerateFormattedSequenceDto オブジェクトで提供されたパラメータに基づいて新しいシーケンスを生成します。
@@ -223,7 +223,7 @@ GenerateFormattedSequenceDto オブジェクトで提供されたパラメータ
 
 これにより、特定のビジネス ニーズに応じて会計年度の計算をカスタマイズできます。
 
-### *async* `generateSequenceItemWithProvideSetting(dto, options): Promise<SequenceEntity>`
+### *async* `generateSequenceItemWithProvideSetting(dto, options?): Promise<SequenceEntity>`
 
 このメソッドを使用すると、DynamoDBでのマスターデータ設定なしで、DTOで直接提供されたカスタム設定でシーケンスを生成できます。
 
@@ -234,10 +234,8 @@ const result = await this.sequencesService.generateSequenceItemWithProvideSettin
   {
     tenantCode: 'tenant001',
     typeCode: 'INVOICE',
-    setting: {
-      format: '%%code1%%-%%no#:0>5%%',
-      rotateBy: RotateByEnum.YEARLY,
-    },
+    format: '%%code1%%-%%no#:0>5%%',
+    rotateBy: RotateByEnum.YEARLY,
     params: { code1: 'INV' },
   },
   { invokeContext },
@@ -254,11 +252,9 @@ const result = await this.sequencesService.generateSequenceItemWithProvideSettin
   {
     tenantCode: 'tenant001',
     typeCode: 'ORDER',
-    setting: {
-      format: '%%fiscal_year%%-%%no#:0>4%%',
-      rotateBy: RotateByEnum.FISCAL_YEARLY,
-      startMonth: 4,
-    },
+    format: '%%fiscal_year%%-%%no#:0>4%%',
+    rotateBy: RotateByEnum.FISCAL_YEARLY,
+    startMonth: 4,
     params: { code1: 'ORD' },
     prefix: 'ORD-',    // フォーマットされたシーケンスの先頭に追加
     postfix: '-DRAFT', // フォーマットされたシーケンスの末尾に追加
