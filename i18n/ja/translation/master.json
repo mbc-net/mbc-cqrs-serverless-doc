@@ -48,6 +48,7 @@
   "Partial match for name": "名前の部分一致",
   "Partial match for code": "コードの部分一致",
   "Search in description": "説明文を検索",
+  "Search in attributes.description": "attributes.description内を検索",
   "Retrieves detailed master setting. Throws NotFoundException if not found.": "詳細なマスター設定を取得します。見つからない場合はNotFoundExceptionをスローします。",
   "Creates a new tenant setting. Wrapper for createTenantSetting with automatic tenant code extraction from context.": "新しいテナント設定を作成します。コンテキストからテナントコードを自動抽出するcreateTenantSettingのラッパーです。",
   "Creates multiple settings at once.": "複数の設定を一度に作成します。",

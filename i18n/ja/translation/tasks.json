@@ -76,5 +76,16 @@
   "Task encountered an error during execution": "タスクは実行中にエラーが発生しました",
   "Task failed with an error": "タスクはエラーで失敗しました",
   "For pagination": "For pagination (ページネーション用)",
-  "Paginate through results": "Paginate through results (結果をページネーション)"
+  "Paginate through results": "Paginate through results (結果をページネーション)",
+  "CreateTaskDto": "CreateTaskDto",
+  "The `CreateTaskDto` class defines the structure for creating a new task:": "`CreateTaskDto`クラスは、新しいタスクを作成するための構造を定義します：",
+  "Required: Tenant identifier": "Required: Tenant identifier (必須: テナント識別子)",
+  "Required: Type/category of the task": "Required: Type/category of the task (必須: タスクのタイプ/カテゴリ)",
+  "Optional: Display name (defaults to taskType)": "Optional: Display name (defaults to taskType) (オプション: 表示名、デフォルトはtaskType)",
+  "Required: Task input data": "Required: Task input data (必須: タスク入力データ)",
+  "ITaskQueueEventFactory Interface": "ITaskQueueEventFactoryインターフェース",
+  "The `ITaskQueueEventFactory` interface defines optional methods for transforming task events. You only need to implement the method(s) relevant to your use case:": "`ITaskQueueEventFactory`インターフェースは、タスクイベントを変換するためのオプションメソッドを定義します。使用するケースに関連するメソッドのみを実装する必要があります：",
+  "Optional: For single task processing": "Optional: For single task processing (オプション: 単一タスク処理用)",
+  "Optional: For Step Function task processing": "Optional: For Step Function task processing (オプション: Step Functionタスク処理用)",
+  "Note: Both methods are optional. Implement `transformTask` for single task processing, or `transformStepFunctionTask` for Step Function task processing, or both if your application uses both types.": "注意: 両方のメソッドはオプションです。単一タスク処理には`transformTask`を、Step Functionタスク処理には`transformStepFunctionTask`を実装します。アプリケーションが両方のタイプを使用する場合は両方を実装してください。"
 }

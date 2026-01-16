@@ -197,7 +197,7 @@ const result = await this.masterSettingService.list(
   {
     name: "service",           // {{Partial match for name}}
     code: "SVC",               // {{Partial match for code}}
-    keyword: "description",    // {{Search in description}}
+    keyword: "description",    // {{Search in attributes.description}}
     page: 1,
     pageSize: 10,
     orderBys: ["-createdAt"],

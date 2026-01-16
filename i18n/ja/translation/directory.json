@@ -115,5 +115,19 @@
   "Soft delete (marks as deleted)": "Soft delete (marks as deleted) (論理削除、削除済みとしてマーク)",
   "Permanently remove file and delete from S3": "Permanently remove file and delete from S3 (ファイルを完全に削除してS3からも削除)",
   "Remove file and delete from S3": "Remove file and delete from S3 (ファイルを削除してS3からも削除)",
-  "Tenant isolation is handled through the pk structure": "Tenant isolation is handled through the pk structure (テナント分離はpk構造を通じて処理されます)"
+  "Tenant isolation is handled through the pk structure": "Tenant isolation is handled through the pk structure (テナント分離はpk構造を通じて処理されます)",
+  "Updating Items": "アイテムの更新",
+  "Directory DTOs": "ディレクトリDTO",
+  "The directory package provides several DTOs for different operations:": "ディレクトリパッケージは各種操作用にいくつかのDTOを提供しています：",
+  "Item name": "Item name (アイテム名)",
+  "Item type (e.g., 'folder', 'file')": "Item type (e.g., 'folder', 'file') (アイテムタイプ、例: 'folder', 'file')",
+  "Optional attributes": "Optional attributes (オプションの属性)",
+  "Requester's email for permission check": "Requester's email for permission check (権限チェック用のリクエスト者のメール)",
+  "New name (optional)": "New name (optional) (新しい名前、オプション)",
+  "Deletion flag": "Deletion flag (削除フラグ)",
+  "Updated attributes": "Updated attributes (更新された属性)",
+  "New name": "New name (新しい名前)",
+  "Target parent folder ID": "Target parent folder ID (移動先の親フォルダID)",
+  "S3 path for the copied file": "S3 path for the copied file (コピーファイルのS3パス)",
+  "New permission settings": "New permission settings (新しい権限設定)"
 }

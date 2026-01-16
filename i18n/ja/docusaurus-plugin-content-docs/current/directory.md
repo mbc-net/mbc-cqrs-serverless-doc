@@ -151,6 +151,20 @@ async removeFile(
 }
 ```
 
+## アイテムの更新
+
+```typescript
+import { DirectoryUpdateDto } from '@mbc-cqrs-serverless/directory';
+
+async updateItem(
+  detailDto: DetailDto,
+  updateDto: DirectoryUpdateDto,
+  invokeContext: IInvoke,
+): Promise<DirectoryDataEntity> {
+  return this.directoryService.update(detailDto, updateDto, { invokeContext });
+}
+```
+
 ## アイテムの名前変更
 
 ```typescript
@@ -322,6 +336,79 @@ async restoreTemporary(
   invokeContext: IInvoke,
 ): Promise<DirectoryDataEntity> {
   return this.directoryService.restoreTemporary(detailDto, queryDto, { invokeContext });
+}
+```
+
+## ディレクトリDTO
+
+ディレクトリパッケージは各種操作用にいくつかのDTOを提供しています：
+
+### DirectoryCreateDto
+
+```typescript
+interface DirectoryCreateDto {
+  name: string;              // Item name (アイテム名)
+  type: string;              // Item type (e.g., 'folder', 'file') (アイテムタイプ、例: 'folder', 'file')
+  attributes?: DirectoryAttributes; // Optional attributes (オプションの属性)
+}
+```
+
+### DirectoryUpdateDto
+
+```typescript
+interface DirectoryUpdateDto {
+  email: string;                    // Requester's email for permission check (権限チェック用のリクエスト者のメール)
+  name?: string;                    // New name (optional) (新しい名前、オプション)
+  isDeleted?: boolean;              // Deletion flag (削除フラグ)
+  attributes?: DirectoryAttributes; // Updated attributes (更新された属性)
+}
+```
+
+### DirectoryRenameDto
+
+```typescript
+interface DirectoryRenameDto {
+  name: string;  // New name (新しい名前)
+  email: string; // Requester's email for permission check (権限チェック用のリクエスト者のメール)
+}
+```
+
+### DirectoryMoveDto
+
+```typescript
+interface DirectoryMoveDto {
+  parentId?: string; // Target parent folder ID (移動先の親フォルダID)
+  email: string;     // Requester's email for permission check (権限チェック用のリクエスト者のメール)
+}
+```
+
+### DirectoryCopyDto
+
+```typescript
+interface DirectoryCopyDto {
+  path: string;       // S3 path for the copied file (コピーファイルのS3パス)
+  parentId?: string;  // Target parent folder ID (移動先の親フォルダID)
+  email: string;      // Requester's email for permission check (権限チェック用のリクエスト者のメール)
+}
+```
+
+### DirectoryDetailDto
+
+```typescript
+interface DirectoryDetailDto {
+  email: string; // Requester's email for permission check (権限チェック用のリクエスト者のメール)
+}
+```
+
+### DirectoryUpdatePermissionDto
+
+```typescript
+interface DirectoryUpdatePermissionDto {
+  email: string;     // Requester's email for permission check (権限チェック用のリクエスト者のメール)
+  attributes?: {
+    permission?: PermissionDto; // New permission settings (新しい権限設定)
+    inheritance?: boolean;      // Whether to inherit parent permissions (親の権限を継承するかどうか)
+  };
 }
 ```
 

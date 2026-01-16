@@ -151,6 +151,20 @@ async removeFile(
 }
 ```
 
+## Updating Items
+
+```typescript
+import { DirectoryUpdateDto } from '@mbc-cqrs-serverless/directory';
+
+async updateItem(
+  detailDto: DetailDto,
+  updateDto: DirectoryUpdateDto,
+  invokeContext: IInvoke,
+): Promise<DirectoryDataEntity> {
+  return this.directoryService.update(detailDto, updateDto, { invokeContext });
+}
+```
+
 ## Renaming Items
 
 ```typescript
@@ -322,6 +336,79 @@ async restoreTemporary(
   invokeContext: IInvoke,
 ): Promise<DirectoryDataEntity> {
   return this.directoryService.restoreTemporary(detailDto, queryDto, { invokeContext });
+}
+```
+
+## Directory DTOs
+
+The directory package provides several DTOs for different operations:
+
+### DirectoryCreateDto
+
+```typescript
+interface DirectoryCreateDto {
+  name: string;              // Item name
+  type: string;              // Item type (e.g., 'folder', 'file')
+  attributes?: DirectoryAttributes; // Optional attributes
+}
+```
+
+### DirectoryUpdateDto
+
+```typescript
+interface DirectoryUpdateDto {
+  email: string;                    // Requester's email for permission check
+  name?: string;                    // New name (optional)
+  isDeleted?: boolean;              // Deletion flag
+  attributes?: DirectoryAttributes; // Updated attributes
+}
+```
+
+### DirectoryRenameDto
+
+```typescript
+interface DirectoryRenameDto {
+  name: string;  // New name
+  email: string; // Requester's email for permission check
+}
+```
+
+### DirectoryMoveDto
+
+```typescript
+interface DirectoryMoveDto {
+  parentId?: string; // Target parent folder ID
+  email: string;     // Requester's email for permission check
+}
+```
+
+### DirectoryCopyDto
+
+```typescript
+interface DirectoryCopyDto {
+  path: string;       // S3 path for the copied file
+  parentId?: string;  // Target parent folder ID
+  email: string;      // Requester's email for permission check
+}
+```
+
+### DirectoryDetailDto
+
+```typescript
+interface DirectoryDetailDto {
+  email: string; // Requester's email for permission check
+}
+```
+
+### DirectoryUpdatePermissionDto
+
+```typescript
+interface DirectoryUpdatePermissionDto {
+  email: string;     // Requester's email for permission check
+  attributes?: {
+    permission?: PermissionDto; // New permission settings
+    inheritance?: boolean;      // Whether to inherit parent permissions
+  };
 }
 ```
 

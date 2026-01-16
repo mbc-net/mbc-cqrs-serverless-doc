@@ -76,7 +76,7 @@ export class SeqModule {}
 
 Beside controller, we can directly use `SequencesService` to generating sequence by injecting service.
 
-The `SequencesService` have three public methods:
+The `SequencesService` has four public methods (two current and two deprecated):
 
 ### *async* `generateSequenceItem( dto: GenerateFormattedSequenceDto, options?: {invokeContext:IInvoke}):  Promise<SequenceEntity>`
 

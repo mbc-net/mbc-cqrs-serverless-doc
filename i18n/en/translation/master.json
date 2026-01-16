@@ -48,6 +48,7 @@
   "Partial match for name": "Partial match for name",
   "Partial match for code": "Partial match for code",
   "Search in description": "Search in description",
+  "Search in attributes.description": "Search in attributes.description",
   "Retrieves detailed master setting. Throws NotFoundException if not found.": "Retrieves detailed master setting. Throws NotFoundException if not found.",
   "Creates a new tenant setting. Wrapper for createTenantSetting with automatic tenant code extraction from context.": "Creates a new tenant setting. Wrapper for createTenantSetting with automatic tenant code extraction from context.",
   "Creates multiple settings at once.": "Creates multiple settings at once.",

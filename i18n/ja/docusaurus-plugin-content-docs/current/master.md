@@ -197,7 +197,7 @@ const result = await this.masterSettingService.list(
   {
     name: "service",           // 名前の部分一致
     code: "SVC",               // コードの部分一致
-    keyword: "description",    // 説明文を検索
+    keyword: "description",    // attributes.description内を検索
     page: 1,
     pageSize: 10,
     orderBys: ["-createdAt"],

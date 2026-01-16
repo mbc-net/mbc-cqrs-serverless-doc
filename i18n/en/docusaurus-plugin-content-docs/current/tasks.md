@@ -516,3 +516,29 @@ The return object structure:
 | `COMPLETED` | Task finished successfully |
 | `ERRORED` | Task encountered an error during execution |
 | `FAILED` | Task failed with an error |
+
+### CreateTaskDto
+
+The `CreateTaskDto` class defines the structure for creating a new task:
+
+```ts
+interface CreateTaskDto {
+  tenantCode: string;  // Required: Tenant identifier
+  taskType: string;    // Required: Type/category of the task
+  name?: string;       // Optional: Display name (defaults to taskType)
+  input: Record<string, any>;  // Required: Task input data
+}
+```
+
+### ITaskQueueEventFactory Interface
+
+The `ITaskQueueEventFactory` interface defines optional methods for transforming task events. You only need to implement the method(s) relevant to your use case:
+
+```ts
+interface ITaskQueueEventFactory<TEvent extends IEvent = any> {
+  transformTask?(event: TaskQueueEvent): Promise<TEvent[]>;           // Optional: For single task processing
+  transformStepFunctionTask?(event: StepFunctionTaskEvent): Promise<TEvent[]>;  // Optional: For Step Function task processing
+}
+```
+
+Note: Both methods are optional. Implement `transformTask` for single task processing, or `transformStepFunctionTask` for Step Function task processing, or both if your application uses both types.

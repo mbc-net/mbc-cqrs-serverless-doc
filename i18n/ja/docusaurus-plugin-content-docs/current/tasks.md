@@ -516,3 +516,29 @@ const formattedStatus = await this.taskService.formatTaskStatus(subTasks);
 | `COMPLETED` | タスクは正常に完了しました |
 | `ERRORED` | タスクは実行中にエラーが発生しました |
 | `FAILED` | タスクはエラーで失敗しました |
+
+### CreateTaskDto
+
+`CreateTaskDto`クラスは、新しいタスクを作成するための構造を定義します：
+
+```ts
+interface CreateTaskDto {
+  tenantCode: string;  // Required: Tenant identifier (必須: テナント識別子)
+  taskType: string;    // Required: Type/category of the task (必須: タスクのタイプ/カテゴリ)
+  name?: string;       // Optional: Display name (defaults to taskType) (オプション: 表示名、デフォルトはtaskType)
+  input: Record<string, any>;  // Required: Task input data (必須: タスク入力データ)
+}
+```
+
+### ITaskQueueEventFactoryインターフェース
+
+`ITaskQueueEventFactory`インターフェースは、タスクイベントを変換するためのオプションメソッドを定義します。使用するケースに関連するメソッドのみを実装する必要があります：
+
+```ts
+interface ITaskQueueEventFactory<TEvent extends IEvent = any> {
+  transformTask?(event: TaskQueueEvent): Promise<TEvent[]>;           // Optional: For single task processing (オプション: 単一タスク処理用)
+  transformStepFunctionTask?(event: StepFunctionTaskEvent): Promise<TEvent[]>;  // Optional: For Step Function task processing (オプション: Step Functionタスク処理用)
+}
+```
+
+注意: 両方のメソッドはオプションです。単一タスク処理には`transformTask`を、Step Functionタスク処理には`transformStepFunctionTask`を実装します。アプリケーションが両方のタイプを使用する場合は両方を実装してください。

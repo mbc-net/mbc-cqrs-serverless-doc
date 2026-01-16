@@ -115,5 +115,19 @@
   "Soft delete (marks as deleted)": "Soft delete (marks as deleted)",
   "Permanently remove file and delete from S3": "Permanently remove file and delete from S3",
   "Remove file and delete from S3": "Remove file and delete from S3",
-  "Tenant isolation is handled through the pk structure": "Tenant isolation is handled through the pk structure"
+  "Tenant isolation is handled through the pk structure": "Tenant isolation is handled through the pk structure",
+  "Updating Items": "Updating Items",
+  "Directory DTOs": "Directory DTOs",
+  "The directory package provides several DTOs for different operations:": "The directory package provides several DTOs for different operations:",
+  "Item name": "Item name",
+  "Item type (e.g., 'folder', 'file')": "Item type (e.g., 'folder', 'file')",
+  "Optional attributes": "Optional attributes",
+  "Requester's email for permission check": "Requester's email for permission check",
+  "New name (optional)": "New name (optional)",
+  "Deletion flag": "Deletion flag",
+  "Updated attributes": "Updated attributes",
+  "New name": "New name",
+  "Target parent folder ID": "Target parent folder ID",
+  "S3 path for the copied file": "S3 path for the copied file",
+  "New permission settings": "New permission settings"
 }
