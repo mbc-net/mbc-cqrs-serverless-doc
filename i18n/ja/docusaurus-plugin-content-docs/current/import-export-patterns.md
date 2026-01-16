@@ -1168,11 +1168,6 @@ import {
 
 export interface IProcessStrategy<TEntity extends DataModel, TAttributesDto extends object> {
   /**
-   * Get the command service for publishing commands (コマンド発行用のコマンドサービスを取得)
-   */
-  getCommandService(): CommandService;
-
-  /**
    * Compare the validated DTO with existing data (バリデーション済みDTOを既存データと比較)
    */
   compare(
@@ -1191,6 +1186,11 @@ export interface IProcessStrategy<TEntity extends DataModel, TAttributesDto exte
     tenantCode: string,
     existingData?: TEntity,
   ): Promise<CommandInputModel | CommandPartialInputModel>;
+
+  /**
+   * Get the command service for publishing commands (コマンド発行用のコマンドサービスを取得)
+   */
+  getCommandService(): CommandService;
 }
 ```
 
@@ -1204,11 +1204,6 @@ import { DataModel } from '@mbc-cqrs-serverless/core';
 export abstract class BaseProcessStrategy<TEntity extends DataModel, TTransformedDto extends object>
   implements IProcessStrategy<TEntity, TTransformedDto>
 {
-  /**
-   * Abstract method - must be implemented to return the command service (抽象メソッド - コマンドサービスを返すために実装が必要)
-   */
-  abstract getCommandService(): CommandService;
-
   /**
    * Abstract method - must be implemented to compare data (抽象メソッド - データ比較のために実装が必要)
    */
@@ -1227,11 +1222,16 @@ export abstract class BaseProcessStrategy<TEntity extends DataModel, TTransforme
     tenantCode: string,
     existingData?: TEntity,
   ): Promise<CommandInputModel | CommandPartialInputModel>;
+
+  /**
+   * Abstract method - must be implemented to return the command service (抽象メソッド - コマンドサービスを返すために実装が必要)
+   */
+  abstract getCommandService(): CommandService;
 }
 ```
 
 :::info 注意
-`BaseProcessStrategy`の3つのメソッド（`getCommandService()`、`compare()`、`map()`）はすべて抽象メソッドであり、サブクラスで実装する必要があります。
+`BaseProcessStrategy`の3つのメソッド（`compare()`、`map()`、`getCommandService()`）はすべて抽象メソッドであり、サブクラスで実装する必要があります。
 :::
 
 ### プロセスストラテジーの実装
@@ -1544,6 +1544,12 @@ const status = failedRows > 0
 |------------|-----------------|
 | `triggerSingleCsvJob(event)` | STEP_FUNCTIONモードでCSVインポートジョブを作成し、コールバック用のtaskTokenを渡す |
 | `finalizeZipMasterJob(event)` | 処理されたすべてのCSVファイルの結果を集計し、ZIPマスタージョブのステータスを更新 |
+
+:::warning 既知の問題
+`finalizeZipMasterJob`メソッドは現在、子CSVインポートジョブの失敗に関係なく、常にマスタージョブのステータスを`COMPLETED`に設定します。これは、個々のCSVファイルのインポートが失敗しても、ZIPインポートワークフローが成功を報告することを意味します。
+
+これを回避するには、resultオブジェクトの`failedRows`カウントを確認して、処理中にエラーが発生したかどうかを判断してください。
+:::
 
 #### ファイル命名規則
 

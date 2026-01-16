@@ -10,7 +10,7 @@ description: EmailService
 
 ## メソッド
 
-### *async* `sendEmail(msg: EmailNotification)`
+### *async* `sendEmail(msg: EmailNotification): Promise<any>`
 
 メールメッセージを作成し、送信のためにすぐにキューに入れます。
 

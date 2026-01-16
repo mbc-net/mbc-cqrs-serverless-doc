@@ -33,7 +33,7 @@ The Survey Web package (`@mbc-cqrs-serverless/survey-web`) provides React compon
 Displays a list of survey templates with search and management capabilities.
 
 ```tsx
-import { SurveyTemplatePage } from "@mbc-cqrs-serverless/survey-web";
+import { SurveyTemplatePage } from "@mbc-cqrs-serverless/survey-web/SurveyTemplatePage";
 import "@mbc-cqrs-serverless/survey-web/styles.css";
 
 export default function SurveyTemplatesPage() {
@@ -48,7 +48,7 @@ Editor for creating and modifying survey templates with drag-and-drop functional
 This component uses `useParams()` from `next/navigation` internally to get the survey ID from the URL. For new surveys (create mode), render on a route without an ID parameter. For editing existing surveys, render on a route with an ID parameter (e.g., `/surveys/[id]/edit`).
 
 ```tsx
-import { EditSurveyTemplatePage } from "@mbc-cqrs-serverless/survey-web";
+import { EditSurveyTemplatePage } from "@mbc-cqrs-serverless/survey-web/EditSurveyTemplatePage";
 
 // Route: /surveys/new (create mode)
 // Route: /surveys/[id]/edit (edit mode - ID extracted from URL via useParams)
@@ -62,11 +62,25 @@ export default function EditSurveyPage() {
 Renders a survey template as a fillable form for respondents.
 
 ```tsx
-import { SurveyForm } from "@mbc-cqrs-serverless/survey-web";
+import { SurveyForm } from "@mbc-cqrs-serverless/survey-web/SurveyForm";
 
-export default function SurveyResponsePage({ schema }) {
-  const handleSubmit = (responses) => {
-    console.log("Survey responses:", responses);
+// Answer values can be string (single value) or string[] (multiple choice)
+type SurveyAnswers = Record<string, string | string[] | undefined>;
+
+// Define schema type based on the Survey Template Structure section below
+interface SurveySchema {
+  title: string;
+  description?: string;
+  items: SurveyItem[];
+}
+
+interface Props {
+  schema: SurveySchema;
+}
+
+export default function SurveyResponsePage({ schema }: Props) {
+  const handleSubmit = (answers: SurveyAnswers) => {
+    console.log("Survey answers:", answers);
   };
 
   return (
@@ -75,11 +89,18 @@ export default function SurveyResponsePage({ schema }) {
       onSubmit={handleSubmit}
       disabled={false}
     >
-      {/* Optional: Custom content or actions */}
+      {/* {{Optional: Custom content rendered inside the current section}} */}
     </SurveyForm>
   );
 }
 ```
+
+| Prop | Type | Required | Description |
+|----------|----------|--------------|-----------------|
+| `schema` | `SurveySchema` | Yes | The survey template schema to render |
+| `onSubmit` | `(answers: SurveyAnswers) => void` | Yes | Callback when survey is submitted with all answers |
+| `disabled` | `boolean` | No | Disable form interactions (default: false) |
+| `children` | `React.ReactNode` | No | Optional content rendered inside the current section |
 
 ## Question Types
 
@@ -267,7 +288,7 @@ Time picker for time or duration input.
 ## Custom Hooks
 
 :::warning Internal Hooks
-The hooks documented below (`useSurveyTemplates`, `useEditSurveyTemplate`, `useDeleteSurveyTemplate`) are internal hooks used by the page components. They are NOT exported from the main package index. Use the page components (`SurveyTemplatePage`, `EditSurveyTemplatePage`) instead for standard use cases.
+The hooks documented below (`useSurveyTemplates`, `useEditSurveyTemplate`, `useDeleteSurveyTemplate`) are internal hooks used by the page components. They are NOT exported from the main package index and cannot be imported directly. The import paths shown are for illustration purposes only. Use the page components (`SurveyTemplatePage`, `EditSurveyTemplatePage`) instead for standard use cases.
 :::
 
 ### useSurveyTemplates
@@ -275,16 +296,17 @@ The hooks documented below (`useSurveyTemplates`, `useEditSurveyTemplate`, `useD
 Fetch and manage survey templates with pagination and search support.
 
 ```tsx
-// Note: This is an internal hook, not exported from main index
-import { useSurveyTemplates } from "@mbc-cqrs-serverless/survey-web/hooks/use-survey-templates";
+// IMPORTANT: This hook is internal and cannot be imported directly.
+// This code example is for reference only to show the hook's interface.
+// Use SurveyTemplatePage component instead for standard use cases.
 
 function TemplateList() {
   const {
-    surveys,        // Array of survey templates
+    surveys,        // Array of survey templates (SurveyTemplateDataEntity[])
     totalItems,     // Total number of templates
     isLoading,
-    error,
-    refetch         // Function to refresh the list
+    error,          // Error | null
+    refetch         // () => Promise<void> - Function to refresh the list
   } = useSurveyTemplates({
     page: 1,
     pageSize: 10,
@@ -314,28 +336,29 @@ function TemplateList() {
 Hook for editing survey templates with schema management and submission handling.
 
 ```tsx
-// Note: This is an internal hook, not exported from main index
-import { useEditSurveyTemplate } from "@mbc-cqrs-serverless/survey-web/hooks/use-edit-survey-template";
-import type { SurveySchemaType } from "@mbc-cqrs-serverless/survey-web/types/schema";
+// IMPORTANT: This hook is internal and cannot be imported directly.
+// This code example is for reference only to show the hook's interface.
+// Use EditSurveyTemplatePage component instead for standard use cases.
 
 function TemplateEditor({ id }: { id?: string }) {
   const {
-    surveyData,           // Current survey data from server
-    currentSchema,        // Current editable schema
-    originalSchema,       // Original schema for change detection
+    surveyData,           // Current survey data from server (SurveyTemplateDataEntity | null)
+    currentSchema,        // Current editable schema (SurveySchemaType | null)
+    originalSchema,       // Original schema for change detection (SurveySchemaType | null)
     isLoading,
     isSubmitting,
     error,
     setCurrentSchema,     // Function to update current schema
-    handleCreateSurvey,   // (schema: SurveySchemaType) => Promise<void> - Function to create new survey
-    handleUpdateSurvey,   // (schema: SurveySchemaType) => Promise<void> - Function to update existing survey
-    retryFetchSurvey,     // Function to retry fetching survey data
-    isSchemaChanged,      // Boolean indicating if schema has changes
-    isButtonDisabled,     // Boolean for submit button disabled state
-    submitButtonRef       // Ref for submit button
+    handleCreateSurvey,   // {{(schema: SurveySchemaType) => Promise<void> - Create new survey}}
+    handleUpdateSurvey,   // {{(schema: SurveySchemaType) => Promise<void> - Update existing survey}}
+    retryFetchSurvey,     // () => Promise<void> - Retry fetching survey data
+    isSchemaChanged,      // boolean - True if schema differs from original
+    isButtonDisabled,     // boolean - True if submit should be disabled
+    submitButtonRef       // React.RefObject<HTMLButtonElement> - Ref for submit button
   } = useEditSurveyTemplate({ id });
 
   const handleSave = async () => {
+    if (!currentSchema) return;
     if (id) {
       await handleUpdateSurvey(currentSchema);
     } else {
@@ -363,11 +386,14 @@ function TemplateEditor({ id }: { id?: string }) {
 Hook for deleting survey templates with success callback.
 
 ```tsx
-// Note: This is an internal hook, not exported from main index
-import { useDeleteSurveyTemplate } from "@mbc-cqrs-serverless/survey-web/hooks/use-delete-survey-template";
+// IMPORTANT: This hook is internal and cannot be imported directly.
+// This code example is for reference only to show the hook's interface.
 
 function DeleteButton({ surveyId }: { surveyId: string }) {
-  const { handleDeleteSurvey, isDeleting } = useDeleteSurveyTemplate({
+  const {
+    handleDeleteSurvey,  // (id: string) => Promise<void> - Delete survey by ID
+    isDeleting           // boolean - True while deletion is in progress
+  } = useDeleteSurveyTemplate({
     onSuccess: () => {
       console.log("Survey deleted successfully");
       // Navigate back to list or refresh
@@ -665,13 +691,17 @@ NEXT_PUBLIC_AWS_APPSYNC_REGION=us-east-1
 
 ## Styling
 
-Import the package styles:
+Import the package styles in your application:
 
 ```tsx
+// In your layout or entry file
 import "@mbc-cqrs-serverless/survey-web/styles.css";
 ```
 
-The components use Tailwind CSS. Ensure your project has Tailwind CSS configured.
+The components use Tailwind CSS. Ensure your project has Tailwind CSS configured with the following requirements:
+
+- Tailwind CSS 3.x
+- tailwindcss-animate plugin
 
 ## Dependencies
 

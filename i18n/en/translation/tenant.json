@@ -52,5 +52,13 @@
   "Multi-Tenant Patterns": "Multi-Tenant Patterns",
   "Advanced multi-tenant implementation patterns": "Advanced multi-tenant implementation patterns",
   "Command Service": "Command Service",
-  "Command operations used by TenantService": "Command operations used by TenantService"
+  "Command operations used by TenantService": "Command operations used by TenantService",
+  "CommonTenantCreateDto": "CommonTenantCreateDto",
+  "Common tenant display name": "Common tenant display name",
+  "Additional attributes": "Additional attributes",
+  "TenantUpdateDto": "TenantUpdateDto",
+  "Tenant code (optional for update)": "Tenant code (optional for update)",
+  "Interfaces": "Interfaces",
+  "ITenantService": "ITenantService",
+  "The `ITenantService` interface defines the contract for tenant management operations. You can use this interface for dependency injection or creating mock implementations for testing.": "The `ITenantService` interface defines the contract for tenant management operations. You can use this interface for dependency injection or creating mock implementations for testing."
 }

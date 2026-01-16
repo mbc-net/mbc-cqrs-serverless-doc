@@ -74,5 +74,7 @@
   "Task execution has finished": "Task execution has finished",
   "Task finished successfully": "Task finished successfully",
   "Task encountered an error during execution": "Task encountered an error during execution",
-  "Task failed with an error": "Task failed with an error"
+  "Task failed with an error": "Task failed with an error",
+  "For pagination": "For pagination",
+  "Paginate through results": "Paginate through results"
 }

@@ -118,7 +118,7 @@ const item = await this.commandService.publishAsync(catCommand, {
 });
 ```
 
-### *async* `publishPartialUpdateAsync( input: CommandPartialInputModel, options: ICommandOptions)` {#publishpartialupdateasync}
+### *async* `publishPartialUpdateAsync( input: CommandPartialInputModel, options: ICommandOptions): Promise<CommandModel>` {#publishpartialupdateasync}
 
 この方法を使用すると、同じ `pk` および `sk` (主キー) 値を持つ前のコマンドに基づいて新しいコマンド データを作成できます。
 
@@ -150,7 +150,7 @@ const item = await this.commandService.publishPartialUpdateAsync(catCommand, {
 });
 ```
 
-### *async* `publishSync( input: CommandInputModel, options: ICommandOptions)`
+### *async* `publishSync( input: CommandInputModel, options: ICommandOptions): Promise<CommandModel>`
 
 このメソッドは、`publishAsync` メソッドに相当する同期メソッドとして機能します。つまり、コマンドが完全に処理されるまでコードの実行を停止します。これにより、コード内で以降の操作を続行する前にコマンドの結果を確実に受け取ることができます。
 
@@ -189,7 +189,7 @@ const item = await this.commandService.publishSync(catCommand, {
 });
 ```
 
-### *async* `publishPartialUpdateSync( input: CommandPartialInputModel, options: ICommandOptions)`
+### *async* `publishPartialUpdateSync( input: CommandPartialInputModel, options: ICommandOptions): Promise<CommandModel>`
 
 このメソッドは、`publishPartialUpdateAsync` メソッドの同期バージョンです。コマンドが処理されるまでコードの実行がブロックされます。
 
@@ -219,7 +219,7 @@ const item = await this.commandService.publishPartialUpdateSync(catCommand, {
 });
 ```
 
-### *async* `publish(input: CommandInputModel, options: ICommandOptions)` <span class="badge badge--warning">非推奨</span>
+### *async* `publish(input: CommandInputModel, options: ICommandOptions): Promise<CommandModel | null>` <span class="badge badge--warning">非推奨</span>
 
 :::info
 
@@ -264,7 +264,7 @@ const item = await this.commandService.publish(catCommand, {
 
 このメソッドはコマンド データを返します。
 
-### *async* `publishPartialUpdate( input: CommandPartialInputModel, options: ICommandOptions)` <span class="badge badge--warning">非推奨</span>
+### *async* `publishPartialUpdate( input: CommandPartialInputModel, options: ICommandOptions): Promise<CommandModel | null>` <span class="badge badge--warning">非推奨</span>
 
 :::info
 
@@ -302,7 +302,7 @@ const item = await this.commandService.publishPartialUpdate(catCommand, {
 
 このメソッドは更新されたコマンド データを返します。
 
-### *async* `reSyncData()`
+### *async* `reSyncData(): Promise<void>`
 
 データ同期ハンドラーを再適用する場合は、このメソッドを使用できるように設計されています。次のように関数を呼び出すだけです。
 
@@ -439,7 +439,7 @@ await this.commandService.updateTaskToken(key, event.taskToken);
 // via SendTaskSuccessCommand or SendTaskFailureCommand (SendTaskSuccessCommandまたはSendTaskFailureCommandを使用)
 ```
 
-### *async* `updateTtl(key: DetailKey): Promise<CommandModel | null>`
+### *async* `updateTtl(key: DetailKey): Promise<any | null>`
 
 コマンドの前のバージョンのTTL（Time To Live）を更新します。これは通常、コマンド履歴の保持を管理するために内部的に使用されます。バージョンが低すぎるか、前のコマンドが存在しない場合は`null`を返します。
 

@@ -1168,11 +1168,6 @@ import {
 
 export interface IProcessStrategy<TEntity extends DataModel, TAttributesDto extends object> {
   /**
-   * Get the command service for publishing commands
-   */
-  getCommandService(): CommandService;
-
-  /**
    * Compare the validated DTO with existing data
    */
   compare(
@@ -1191,6 +1186,11 @@ export interface IProcessStrategy<TEntity extends DataModel, TAttributesDto exte
     tenantCode: string,
     existingData?: TEntity,
   ): Promise<CommandInputModel | CommandPartialInputModel>;
+
+  /**
+   * Get the command service for publishing commands
+   */
+  getCommandService(): CommandService;
 }
 ```
 
@@ -1204,11 +1204,6 @@ import { DataModel } from '@mbc-cqrs-serverless/core';
 export abstract class BaseProcessStrategy<TEntity extends DataModel, TTransformedDto extends object>
   implements IProcessStrategy<TEntity, TTransformedDto>
 {
-  /**
-   * Abstract method - must be implemented to return the command service
-   */
-  abstract getCommandService(): CommandService;
-
   /**
    * Abstract method - must be implemented to compare data
    */
@@ -1227,11 +1222,16 @@ export abstract class BaseProcessStrategy<TEntity extends DataModel, TTransforme
     tenantCode: string,
     existingData?: TEntity,
   ): Promise<CommandInputModel | CommandPartialInputModel>;
+
+  /**
+   * Abstract method - must be implemented to return the command service
+   */
+  abstract getCommandService(): CommandService;
 }
 ```
 
 :::info Note
-All three methods (`getCommandService()`, `compare()`, `map()`) in `BaseProcessStrategy` are abstract and must be implemented by subclasses.
+All three methods (`compare()`, `map()`, `getCommandService()`) in `BaseProcessStrategy` are abstract and must be implemented by subclasses.
 :::
 
 ### Implementing Process Strategy
@@ -1544,6 +1544,12 @@ The `ZipImportSfnEventHandler` handles Step Functions ZIP import workflow states
 |------------|-----------------|
 | `triggerSingleCsvJob(event)` | Creates a CSV import job with STEP_FUNCTION mode, passing the taskToken for callback |
 | `finalizeZipMasterJob(event)` | Aggregates results from all processed CSV files and updates the ZIP master job status |
+
+:::warning Known Issue
+The `finalizeZipMasterJob` method currently always sets the master job status to `COMPLETED`, regardless of whether any child CSV import jobs failed. This means ZIP import workflows will report success even when individual CSV files failed to import correctly.
+
+To work around this, check the `failedRows` count in the result object to determine if any errors occurred during processing.
+:::
 
 #### File Naming Convention
 

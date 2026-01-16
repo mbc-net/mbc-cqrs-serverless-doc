@@ -118,8 +118,8 @@ GenerateFormattedSequenceDto オブジェクトで提供されたパラメータ
       @IsString()
       code1: string
 
-      @IsOptional()
       @IsString()
+      @IsOptional()
       code2?: string
 
       @IsOptional()
@@ -223,11 +223,57 @@ GenerateFormattedSequenceDto オブジェクトで提供されたパラメータ
 
 これにより、特定のビジネス ニーズに応じて会計年度の計算をカスタマイズできます。
 
-### *async* `generateSequenceItemWithProvideSetting(dto, options?): Promise<SequenceEntity>`
+### *async* `generateSequenceItemWithProvideSetting(dto: GenerateFormattedSequenceWithProvidedSettingDto, options?: {invokeContext: IInvoke}): Promise<SequenceEntity>`
 
 このメソッドを使用すると、DynamoDBでのマスターデータ設定なしで、DTOで直接提供されたカスタム設定でシーケンスを生成できます。
 
-例：
+#### パラメータ
+
+`dto: GenerateFormattedSequenceWithProvidedSettingDto`
+シーケンスパラメータとフォーマット設定の両方を含むデータ転送オブジェクト。プロパティには以下が含まれます：
+
+- `date?: Date`
+  - デフォルト: 現在の日付。
+  - 説明: シーケンスが生成される日付を指定します。
+
+- `rotateBy?: RotateByEnum`
+  - デフォルト: NONE。
+  - オプション: FISCAL_YEARLY, YEARLY, MONTHLY, DAILY, NONE
+  - 説明: シーケンスの回転タイプを決定します。
+
+- `tenantCode: string`
+  - 必須: はい。
+  - 説明: シーケンスのテナントを識別します。
+
+- `typeCode: string`
+  - 必須: はい。
+  - 説明: シーケンスのタイプコードを識別します。
+
+- `params?: SequenceParamsDto`
+  - Required: No.
+  - 説明: シーケンスを識別するためのパラメータを定義します（code1からcode5）。
+
+- `prefix?: string`
+  - Required: No.
+  - 説明: フォーマットされたシーケンスの先頭に追加するオプションのプレフィックス。
+
+- `postfix?: string`
+  - Required: No.
+  - 説明: フォーマットされたシーケンスの末尾に追加するオプションのポストフィックス。
+
+- `format: string`
+  - 必須: はい。
+  - 説明: 生成されるシーケンスの構造を定義するフォーマット文字列。例: `%%code1%%-%%no#:0>5%%`。
+
+- `registerDate?: string`
+  - Required: No.
+  - 説明: 会計年度計算に影響を与えるオプションの登録日（ISO 8601形式）。
+
+- `startMonth?: number`
+  - Required: No.
+  - 説明: 会計年度の開始月（1-12）。指定しない場合のデフォルトは4（4月）。
+
+#### 例
 
 ```ts
 const result = await this.sequencesService.generateSequenceItemWithProvideSetting(
@@ -272,7 +318,7 @@ const result = await this.sequencesService.generateSequenceItemWithProvideSettin
 
 :::
 
-### *async* `genNewSequence( dto: GenSequenceDto, options: {invokeContext: IInvoke}): Promise<DataEntity>` <span class="badge badge--warning">非推奨</span>
+### *async* `genNewSequence( dto: GenerateSequenceDto, options: {invokeContext: IInvoke}): Promise<DataEntity>` <span class="badge badge--warning">非推奨</span>
 
 :::info
 

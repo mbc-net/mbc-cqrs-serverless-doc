@@ -10,7 +10,7 @@ This service is designed to send emails using [AWS SES (Simple Email Service)](h
 
 ## Methods
 
-### *async* `sendEmail(msg: EmailNotification)`
+### *async* `sendEmail(msg: EmailNotification): Promise<any>`
 
 Composes an email message and immediately queues it for sending.
 

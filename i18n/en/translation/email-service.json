@@ -3,7 +3,7 @@
   "Description": "Description",
   "This service is designed to send emails using [AWS SES (Simple Email Service)](https://aws.amazon.com/ses/).": "This service is designed to send emails using [AWS SES (Simple Email Service)](https://aws.amazon.com/ses/).",
   "Methods": "Methods",
-  "*async* `sendEmail(msg: EmailNotification)`": "*async* `sendEmail(msg: EmailNotification)`",
+  "*async* `sendEmail(msg: EmailNotification): Promise<any>`": "*async* `sendEmail(msg: EmailNotification): Promise<any>`",
   "Composes an email message and immediately queues it for sending.": "Composes an email message and immediately queues it for sending.",
   "Basic Example": "Basic Example",
   "With CC and BCC": "With CC and BCC",

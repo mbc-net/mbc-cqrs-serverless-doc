@@ -33,7 +33,7 @@ Survey Webパッケージ（`@mbc-cqrs-serverless/survey-web`）は、アンケ�
 検索・管理機能を備えたアンケートテンプレート一覧を表示します。
 
 ```tsx
-import { SurveyTemplatePage } from "@mbc-cqrs-serverless/survey-web";
+import { SurveyTemplatePage } from "@mbc-cqrs-serverless/survey-web/SurveyTemplatePage";
 import "@mbc-cqrs-serverless/survey-web/styles.css";
 
 export default function SurveyTemplatesPage() {
@@ -48,7 +48,7 @@ export default function SurveyTemplatesPage() {
 このコンポーネントは内部的に`next/navigation`の`useParams()`を使用してURLからアンケートIDを取得します。新規作成モードでは、IDパラメータのないルートでレンダリングします。既存のアンケートを編集する場合は、IDパラメータ付きのルート（例：`/surveys/[id]/edit`）でレンダリングします。
 
 ```tsx
-import { EditSurveyTemplatePage } from "@mbc-cqrs-serverless/survey-web";
+import { EditSurveyTemplatePage } from "@mbc-cqrs-serverless/survey-web/EditSurveyTemplatePage";
 
 // Route: /surveys/new (create mode) (新規作成モード)
 // Route: /surveys/[id]/edit (edit mode - ID extracted from URL via useParams) (編集モード - useParamsでURLからIDを取得)
@@ -62,11 +62,25 @@ export default function EditSurveyPage() {
 アンケートテンプレートを回答者向けの入力フォームとしてレンダリングします。
 
 ```tsx
-import { SurveyForm } from "@mbc-cqrs-serverless/survey-web";
+import { SurveyForm } from "@mbc-cqrs-serverless/survey-web/SurveyForm";
 
-export default function SurveyResponsePage({ schema }) {
-  const handleSubmit = (responses) => {
-    console.log("Survey responses:", responses);
+// Answer values can be string (single value) or string[] (multiple choice) (回答値は文字列（単一値）または文字列配列（複数選択）)
+type SurveyAnswers = Record<string, string | string[] | undefined>;
+
+// Define schema type based on the Survey Template Structure section below (以下のアンケートテンプレート構造セクションに基づいてスキーマ型を定義)
+interface SurveySchema {
+  title: string;
+  description?: string;
+  items: SurveyItem[];
+}
+
+interface Props {
+  schema: SurveySchema;
+}
+
+export default function SurveyResponsePage({ schema }: Props) {
+  const handleSubmit = (answers: SurveyAnswers) => {
+    console.log("Survey answers:", answers);
   };
 
   return (
@@ -75,11 +89,18 @@ export default function SurveyResponsePage({ schema }) {
       onSubmit={handleSubmit}
       disabled={false}
     >
-      {/* Optional: Custom content or actions (オプション: カスタムコンテンツやアクション) */}
+      {/* {{Optional: Custom content rendered inside the current section}} */}
     </SurveyForm>
   );
 }
 ```
+
+| プロパティ | 型 | 必須 | 説明 |
+|----------|----------|--------------|-----------------|
+| `schema` | `SurveySchema` | はい | レンダリングするアンケートテンプレートスキーマ (The survey template schema to render) |
+| `onSubmit` | `(answers: SurveyAnswers) => void` | はい | すべての回答でアンケートが送信されたときのコールバック (Callback when survey is submitted with all answers) |
+| `disabled` | `boolean` | いいえ | フォーム操作を無効化（デフォルト：false）(Disable form interactions) |
+| `children` | `React.ReactNode` | いいえ | 現在のセクション内にレンダリングされるオプションのコンテンツ (Optional content rendered inside the current section) |
 
 ## 質問タイプ
 
@@ -267,7 +288,7 @@ Survey Webパッケージは9種類の質問タイプをサポートしていま
 ## カスタムフック
 
 :::warning 内部フック
-以下に記載されているフック（`useSurveyTemplates`、`useEditSurveyTemplate`、`useDeleteSurveyTemplate`）は、ページコンポーネントで使用される内部フックです。メインパッケージのインデックスからはエクスポートされていません。通常のユースケースでは、代わりにページコンポーネント（`SurveyTemplatePage`、`EditSurveyTemplatePage`）を使用してください。
+以下に記載されているフック（`useSurveyTemplates`、`useEditSurveyTemplate`、`useDeleteSurveyTemplate`）は、ページコンポーネントで使用される内部フックです。メインパッケージのインデックスからはエクスポートされておらず、直接インポートすることはできません。表示されているインポートパスは説明目的のみです。通常のユースケースでは、代わりにページコンポーネント（`SurveyTemplatePage`、`EditSurveyTemplatePage`）を使用してください。
 :::
 
 ### useSurveyTemplates
@@ -275,16 +296,17 @@ Survey Webパッケージは9種類の質問タイプをサポートしていま
 ページネーションと検索機能を備えたアンケートテンプレートの取得と管理。
 
 ```tsx
-// Note: This is an internal hook, not exported from main index (注意: これは内部フックで、メインインデックスからエクスポートされていません)
-import { useSurveyTemplates } from "@mbc-cqrs-serverless/survey-web/hooks/use-survey-templates";
+// IMPORTANT: This hook is internal and cannot be imported directly. (重要: このフックは内部用であり、直接インポートできません)
+// This code example is for reference only to show the hook's interface. (このコード例はフックのインターフェースを示すための参考用です)
+// Use SurveyTemplatePage component instead for standard use cases. (通常のユースケースでは代わりにSurveyTemplatePageコンポーネントを使用してください)
 
 function TemplateList() {
   const {
-    surveys,        // アンケートテンプレートの配列 (Array of survey templates)
+    surveys,        // Array of survey templates (SurveyTemplateDataEntity[]) (アンケートテンプレートの配列)
     totalItems,     // テンプレートの総数 (Total number of templates)
     isLoading,
-    error,
-    refetch         // リストを更新する関数 (Function to refresh the list)
+    error,          // Error | null (エラーまたはnull)
+    refetch         // () => Promise<void> - Function to refresh the list (リストを更新する関数)
   } = useSurveyTemplates({
     page: 1,
     pageSize: 10,
@@ -314,28 +336,29 @@ function TemplateList() {
 スキーマ管理と送信処理を備えたアンケートテンプレート編集用フック。
 
 ```tsx
-// Note: This is an internal hook, not exported from main index (注意: これは内部フックで、メインインデックスからエクスポートされていません)
-import { useEditSurveyTemplate } from "@mbc-cqrs-serverless/survey-web/hooks/use-edit-survey-template";
-import type { SurveySchemaType } from "@mbc-cqrs-serverless/survey-web/types/schema";
+// IMPORTANT: This hook is internal and cannot be imported directly. (重要: このフックは内部用であり、直接インポートできません)
+// This code example is for reference only to show the hook's interface. (このコード例はフックのインターフェースを示すための参考用です)
+// Use EditSurveyTemplatePage component instead for standard use cases. (通常のユースケースでは代わりにEditSurveyTemplatePageコンポーネントを使用してください)
 
 function TemplateEditor({ id }: { id?: string }) {
   const {
-    surveyData,           // サーバーからの現在のアンケートデータ (Current survey data from server)
-    currentSchema,        // 現在の編集可能なスキーマ (Current editable schema)
-    originalSchema,       // 変更検出用の元のスキーマ (Original schema for change detection)
+    surveyData,           // Current survey data from server (SurveyTemplateDataEntity | null) (サーバーからの現在のアンケートデータ)
+    currentSchema,        // Current editable schema (SurveySchemaType | null) (現在の編集可能なスキーマ)
+    originalSchema,       // Original schema for change detection (SurveySchemaType | null) (変更検出用の元のスキーマ)
     isLoading,
     isSubmitting,
     error,
     setCurrentSchema,     // 現在のスキーマを更新する関数 (Function to update current schema)
-    handleCreateSurvey,   // (schema: SurveySchemaType) => Promise<void> - Function to create new survey (新しいアンケートを作成する関数)
-    handleUpdateSurvey,   // (schema: SurveySchemaType) => Promise<void> - Function to update existing survey (既存のアンケートを更新する関数)
-    retryFetchSurvey,     // アンケートデータの取得をリトライする関数 (Function to retry fetching survey data)
-    isSchemaChanged,      // スキーマに変更があるかを示すブール値 (Boolean indicating if schema has changes)
-    isButtonDisabled,     // 送信ボタンの無効状態を示すブール値 (Boolean for submit button disabled state)
-    submitButtonRef       // 送信ボタンのRef (Ref for submit button)
+    handleCreateSurvey,   // {{(schema: SurveySchemaType) => Promise<void> - Create new survey}}
+    handleUpdateSurvey,   // {{(schema: SurveySchemaType) => Promise<void> - Update existing survey}}
+    retryFetchSurvey,     // () => Promise<void> - Retry fetching survey data (アンケートデータの再取得)
+    isSchemaChanged,      // boolean - True if schema differs from original (スキーマが元と異なる場合はtrue)
+    isButtonDisabled,     // boolean - True if submit should be disabled (送信を無効にすべき場合はtrue)
+    submitButtonRef       // React.RefObject<HTMLButtonElement> - Ref for submit button (送信ボタンのRef)
   } = useEditSurveyTemplate({ id });
 
   const handleSave = async () => {
+    if (!currentSchema) return;
     if (id) {
       await handleUpdateSurvey(currentSchema);
     } else {
@@ -363,11 +386,14 @@ function TemplateEditor({ id }: { id?: string }) {
 成功コールバック付きのアンケートテンプレート削除用フック。
 
 ```tsx
-// Note: This is an internal hook, not exported from main index (注意: これは内部フックで、メインインデックスからエクスポートされていません)
-import { useDeleteSurveyTemplate } from "@mbc-cqrs-serverless/survey-web/hooks/use-delete-survey-template";
+// IMPORTANT: This hook is internal and cannot be imported directly. (重要: このフックは内部用であり、直接インポートできません)
+// This code example is for reference only to show the hook's interface. (このコード例はフックのインターフェースを示すための参考用です)
 
 function DeleteButton({ surveyId }: { surveyId: string }) {
-  const { handleDeleteSurvey, isDeleting } = useDeleteSurveyTemplate({
+  const {
+    handleDeleteSurvey,  // (id: string) => Promise<void> - Delete survey by ID (IDでアンケートを削除する関数)
+    isDeleting           // boolean - True while deletion is in progress (削除中はtrue)
+  } = useDeleteSurveyTemplate({
     onSuccess: () => {
       console.log("アンケートが正常に削除されました (Survey deleted successfully)");
       // リストに戻るか更新 (Navigate back to list or refresh)
@@ -665,13 +691,17 @@ NEXT_PUBLIC_AWS_APPSYNC_REGION=us-east-1
 
 ## スタイリング
 
-パッケージのスタイルをインポートします：
+アプリケーションでパッケージのスタイルをインポートします：
 
 ```tsx
+// レイアウトまたはエントリファイルで (In your layout or entry file)
 import "@mbc-cqrs-serverless/survey-web/styles.css";
 ```
 
-コンポーネントはTailwind CSSを使用しています。プロジェクトでTailwind CSSが設定されていることを確認してください。
+コンポーネントはTailwind CSSを使用しています。以下の要件でTailwind CSSが設定されていることを確認してください：
+
+- Tailwind CSS 3.x
+- tailwindcss-animateプラグイン
 
 ## 依存関係
 

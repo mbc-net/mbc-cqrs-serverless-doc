@@ -28,12 +28,23 @@ The Master Web package (`@mbc-cqrs-serverless/master-web`) provides a complete s
 
 ## Main Components
 
+:::info Import Options
+Components can be imported from the main package or via sub-path imports:
+```tsx
+// Main package import
+import { MasterSetting } from "@mbc-cqrs-serverless/master-web";
+
+// Sub-path import
+import MasterSetting from "@mbc-cqrs-serverless/master-web/MasterSetting";
+```
+:::
+
 ### MasterSetting
 
 Displays a list of master settings with search, filter, and pagination capabilities.
 
 ```tsx
-import { MasterSetting } from "@mbc-cqrs-serverless/master-web/MasterSetting";
+import { MasterSetting } from "@mbc-cqrs-serverless/master-web";
 import "@mbc-cqrs-serverless/master-web/styles.css";
 
 export default function MasterSettingsPage() {
@@ -46,10 +57,46 @@ export default function MasterSettingsPage() {
 Form component for creating and editing master settings.
 
 ```tsx
-import { EditMasterSettings } from "@mbc-cqrs-serverless/master-web/EditMasterSettings";
+import { EditMasterSettings } from "@mbc-cqrs-serverless/master-web";
 
 export default function EditMasterSettingsPage({ params }: { params: { id: string } }) {
   return <EditMasterSettings id={params.id} />;
+}
+```
+
+### CopyMasterSettings
+
+Component for copying master settings to create new settings based on existing ones.
+
+```tsx
+import { CopyMasterSettings } from "@mbc-cqrs-serverless/master-web";
+
+export default function CopyMasterSettingsPage({ params }: { params: { id: string } }) {
+  return <CopyMasterSettings id={params.id} />;
+}
+```
+
+### NewCopyMasterSettings
+
+Component for creating a new copy of master settings with a new identifier.
+
+```tsx
+import { NewCopyMasterSettings } from "@mbc-cqrs-serverless/master-web";
+
+export default function NewCopyMasterSettingsPage({ params }: { params: { id: string } }) {
+  return <NewCopyMasterSettings id={params.id} />;
+}
+```
+
+### DetailCopy
+
+Component for viewing detailed copy information of master settings.
+
+```tsx
+import { DetailCopy } from "@mbc-cqrs-serverless/master-web";
+
+export default function DetailCopyPage({ params }: { params: { id: string } }) {
+  return <DetailCopy id={params.id} />;
 }
 ```
 
@@ -58,7 +105,7 @@ export default function EditMasterSettingsPage({ params }: { params: { id: strin
 Displays master data records in a table format with CRUD operations.
 
 ```tsx
-import { MasterData } from "@mbc-cqrs-serverless/master-web/MasterData";
+import { MasterData } from "@mbc-cqrs-serverless/master-web";
 
 export default function MasterDataPage() {
   return <MasterData />;
@@ -70,7 +117,7 @@ export default function MasterDataPage() {
 Form component for creating and editing master data records.
 
 ```tsx
-import { EditMasterData } from "@mbc-cqrs-serverless/master-web/EditMasterData";
+import { EditMasterData } from "@mbc-cqrs-serverless/master-web";
 
 export default function EditMasterDataPage({ params }: { params: { id: string } }) {
   return <EditMasterData id={params.id} />;
@@ -86,7 +133,7 @@ Wrap your application with the required providers for authentication and API acc
 The `AppProviders` component requires a `user` prop of type `UserContext` containing tenant information.
 
 ```tsx
-import { AppProviders } from "@mbc-cqrs-serverless/master-web/AppProviders";
+import { AppProviders } from "@mbc-cqrs-serverless/master-web";
 import type { UserContext } from "@mbc-cqrs-serverless/master-web";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -115,12 +162,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 ### UserContext Type
 
+The `UserContext` type defines the shape of the user object. You can use the `useUserContext` hook's return type or define a compatible type:
+
 ```tsx
 type UserContext = {
   tenantCode: string;  // Tenant identifier
   tenantRole: string;  // User role within the tenant
 };
 ```
+
+:::info Type Usage
+While `UserContext` is used internally, you can create a compatible object type for the `user` prop.
+:::
 
 ## URL Provider
 
@@ -131,6 +184,9 @@ The package provides a URL provider system for managing application URLs.
 The `IUrlProvider` interface defines the contract for URL generation:
 
 ```tsx
+import type { IUrlProvider } from "@mbc-cqrs-serverless/master-web";
+
+// Interface definition
 interface IUrlProvider {
   // Static URLs
   readonly SETTINGS_PAGE_URL: string;
@@ -150,7 +206,7 @@ interface IUrlProvider {
 
 ### BaseUrlProvider Class
 
-The `BaseUrlProvider` class provides a default implementation:
+The `BaseUrlProvider` class provides a default implementation that can be extended:
 
 ```tsx
 import { BaseUrlProvider, IUrlProvider } from "@mbc-cqrs-serverless/master-web/UrlProvider";
@@ -166,14 +222,19 @@ console.log(urlProvider.DATA_PAGE_URL);      // "/my-tenant/master-data"
 console.log(urlProvider.getCopySettingPageUrl("123"));  // "/my-tenant/master-setting/123/copy/new"
 ```
 
+:::info Sub-path Import
+The `BaseUrlProvider` and `IUrlProvider` are available via the sub-path import `@mbc-cqrs-serverless/master-web/UrlProvider`. The `IUrlProvider` type is also exported from the main package.
+:::
+
 ### Custom URL Provider
 
-You can create a custom URL provider by implementing the `IUrlProvider` interface or extending `BaseUrlProvider`:
+You can create a custom URL provider by extending `BaseUrlProvider` or implementing the `IUrlProvider` interface:
 
 ```tsx
+import { AppProviders } from "@mbc-cqrs-serverless/master-web";
 import { BaseUrlProvider } from "@mbc-cqrs-serverless/master-web/UrlProvider";
-import { AppProviders } from "@mbc-cqrs-serverless/master-web/AppProviders";
 
+// Extend BaseUrlProvider for custom path structure
 class CustomUrlProvider extends BaseUrlProvider {
   constructor(tenantCode: string) {
     super(`members/${tenantCode}`);
@@ -707,16 +768,18 @@ The package includes several reusable UI components:
 
 ### JsonEditor
 
-A JSON editor component for editing structured data.
+A JSON editor component for editing structured data. Uses the jsoneditor library with tree mode.
 
 ```tsx
 import { JsonEditor } from "@mbc-cqrs-serverless/master-web";
 
 function MyForm() {
+  const [jsonData, setJsonData] = useState({ key: "value" });
+
   return (
     <JsonEditor
       json={jsonData}
-      onChange={handleChange}
+      onChange={setJsonData}
     />
   );
 }
@@ -731,16 +794,18 @@ function MyForm() {
 
 ### RichTextEditor
 
-A rich text editor for content fields.
+A rich text editor for content fields. Built on React Quill with customizable toolbar.
 
 ```tsx
 import { RichTextEditor } from "@mbc-cqrs-serverless/master-web";
 
 function MyForm() {
+  const [content, setContent] = useState("");
+
   return (
     <RichTextEditor
       value={content}
-      onChange={handleChange}
+      onChange={setContent}
       placeholder="Enter your content here..."
     />
   );
@@ -751,16 +816,16 @@ function MyForm() {
 
 | Prop | Type | Required | Description |
 |----------|----------|--------------|-----------------|
-| `value` | `string` | Yes | The HTML content for the editor |
+| `value` | `string` | No | The HTML content for the editor (defaults to empty string) |
 | `onChange` | `(value: string) => void` | Yes | Callback when content changes |
-| `placeholder` | `string` | No | Placeholder text when editor is empty |
+| `placeholder` | `string` | No | Placeholder text when editor is empty (defaults to empty string) |
 
 ### MsLayout
 
 Layout component for master management pages. Provides loading overlay and toast notifications.
 
 ```tsx
-import { MsLayout } from "@mbc-cqrs-serverless/master-web/MsLayout";
+import { MsLayout } from "@mbc-cqrs-serverless/master-web";
 
 function MasterPage() {
   return (

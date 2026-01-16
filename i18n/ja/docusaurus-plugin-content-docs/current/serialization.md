@@ -80,12 +80,19 @@ const internal = deserializeToInternal(external, CommandEntity);
 ### serializeToExternal
 ```typescript
 function serializeToExternal<T extends CommandEntity | DataEntity>(
-  item: T | null | undefined
+  item: T | null | undefined,
+  options?: SerializerOptions
 ): Record<string, any> | null
+
+interface SerializerOptions {
+  keepAttributes?: boolean;  // フラット化せずにattributesオブジェクトを保持 (Keep attributes object instead of flattening)（デフォルト: false）
+  flattenDepth?: number;     // ネストされたオブジェクトをフラット化する深さ (Depth to flatten nested objects)（デフォルト: 1）
+}
 ```
 
 パラメータ
 - `item`: 内部エンティティ（CommandEntityまたはDataEntity）
+- `options`: オプションのシリアライズオプション
 
 戻り値
 - フラット化された外部構造、または入力がnull/undefinedの場合はnull

@@ -44,7 +44,7 @@ interface INotification {
   pk: string;        // Partition key of the changed item
   sk: string;        // Sort key of the changed item
   tenantCode: string; // Tenant code for filtering notifications
-  action: string;    // Type of change: 'INSERT', 'MODIFY', 'REMOVE', or custom actions
+  action: string;    // {{Type of change: 'INSERT', 'MODIFY', 'REMOVE'}}
   content?: object;  // Optional payload with changed data
 }
 ```
@@ -129,8 +129,14 @@ import { NotificationEvent } from "@mbc-cqrs-serverless/core";
 export class NotificationEvent implements IEvent, SQSRecord {
   source: string;
   messageId: string;
-  body: string;         // JSON string containing INotification data
-  // ... other SQS record properties
+  receiptHandle: string;
+  body: string;              // JSON string containing INotification data
+  attributes: SQSRecordAttributes;
+  messageAttributes: SQSMessageAttributes;
+  md5OfBody: string;
+  eventSource: string;
+  eventSourceARN: string;
+  awsRegion: string;
 
   fromSqsRecord(record: SQSRecord): NotificationEvent;
 }

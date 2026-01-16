@@ -43,9 +43,9 @@ Model Context Protocol（MCP）サーバーは、AIツールがフレームワ�
 
 Context7はAIアシスタントにリアルタイムでバージョン固有のドキュメントを提供するMCPサーバーです。
 
-:::note
-MBC CQRS Serverlessのドキュメントは登録後にContext7で利用可能になります。利用可能かどうかはContext7のウェブサイトでご確認ください。
-:::
+MBC CQRS ServerlessのドキュメントはContext7で利用可能です。以下からアクセスできます：
+
+- Context7 URL: [https://context7.com/mbc-net/mbc-cqrs-serverless-doc](https://context7.com/mbc-net/mbc-cqrs-serverless-doc)
 
 Context7を使用するには、Claude Codeに追加してください：
 

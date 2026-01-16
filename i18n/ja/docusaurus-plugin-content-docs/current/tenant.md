@@ -211,6 +211,31 @@ const tenantGroup = await this.tenantService.createTenantGroup(
 | `role` | `string` | はい | 更新するロール |
 | `settingGroups` | `string[]` | はい | 新しい設定グループ配列 |
 
+### CommonTenantCreateDto
+
+| プロパティ | 型 | 必須 | 説明 |
+|--------------|----------|--------------|-----------------|
+| `name` | `string` | はい | 共通テナント表示名 |
+| `attributes` | `object` | いいえ | 追加の属性 |
+
+### TenantUpdateDto
+
+| プロパティ | 型 | 必須 | 説明 |
+|--------------|----------|--------------|-----------------|
+| `code` | `string` | いいえ | テナントコード（更新時はオプション） |
+| `name` | `string` | いいえ | テナント表示名 |
+| `attributes` | `object` | いいえ | 追加のテナント属性 |
+
+## インターフェース
+
+### ITenantService
+
+`ITenantService`インターフェースは、テナント管理操作の契約を定義します。依存性注入やテスト用のモック実装の作成に使用できます。
+
+```ts
+import { ITenantService } from "@mbc-cqrs-serverless/tenant";
+```
+
 ## 関連項目
 
 - [マルチテナントパターン](./multi-tenant-patterns) - 高度なマルチテナント実装パターン

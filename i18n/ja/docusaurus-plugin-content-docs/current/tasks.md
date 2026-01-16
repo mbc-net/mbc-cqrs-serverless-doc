@@ -338,9 +338,23 @@ const task = await this.taskService.getTask({
 });
 ```
 
-#### `listItemsByPk(tenantCode: string, type?: string, options?): Promise<TaskListEntity>`
+#### `listItemsByPk(tenantCode: string, type?: string, options?: ListTaskOptions): Promise<TaskListEntity>`
 
 テナントコードとタイプでタスクを一覧表示します。
+
+**ListTaskOptions:**
+```ts
+interface ListTaskOptions {
+  sk?: {
+    skExpession: string;
+    skAttributeValues: Record<string, string>;
+    skAttributeNames?: Record<string, string>;
+  };
+  startFromSk?: string;  // For pagination (ページネーション用)
+  limit?: number;
+  order?: 'asc' | 'desc';
+}
+```
 
 ```ts
 // List all tasks for a tenant (テナントのすべてのタスクを一覧表示)
@@ -351,6 +365,12 @@ const tasks = await this.taskService.listItemsByPk("mbc", "TASK", {
 
 // List Step Function tasks (Step Functionタスクを一覧表示)
 const sfnTasks = await this.taskService.listItemsByPk("mbc", "SFN_TASK");
+
+// Paginate through results (結果をページネーション)
+const nextPage = await this.taskService.listItemsByPk("mbc", "TASK", {
+  startFromSk: tasks.lastSk,
+  limit: 10,
+});
 ```
 
 #### `createSubTask(event: TaskQueueEvent): Promise<TaskEntity[]>`
@@ -375,7 +395,7 @@ const subTasks = await this.taskService.getAllSubTask({
 // Returns all subtasks under the parent task (親タスク配下のすべてのサブタスクを返す)
 ```
 
-#### `updateStatus(key: DetailKey, status: string, attributes?: { result?: any; error?: any }, notifyId?: string)`
+#### `updateStatus(key: DetailKey, status: string, attributes?: { result?: any; error?: any }, notifyId?: string): Promise<void>`
 
 タスクのステータスを更新し、SNS通知を送信します。
 
@@ -395,7 +415,7 @@ await this.taskService.updateStatus(
 );
 ```
 
-#### `updateSubTaskStatus(key: DetailKey, status: string, attributes?: { result?: any; error?: any }, notifyId?: string)`
+#### `updateSubTaskStatus(key: DetailKey, status: string, attributes?: { result?: any; error?: any }, notifyId?: string): Promise<void>`
 
 サブタスクのステータスを更新し、アクション`"sub-task-status"`でSNS通知を送信します。
 
@@ -407,7 +427,7 @@ await this.taskService.updateSubTaskStatus(
 );
 ```
 
-#### `updateStepFunctionTask(key: DetailKey, attributes?: Record<string, any>, status?: string, notifyId?: string)`
+#### `updateStepFunctionTask(key: DetailKey, attributes?: Record<string, any>, status?: string, notifyId?: string): Promise<void>`
 
 属性とステータスでStep Functionタスクを更新し、SNS通知を送信します。
 
@@ -443,7 +463,7 @@ try {
 - エラー詳細
 - アクションタイプ: `"sfn-alarm"`
 
-#### `formatTaskStatus(tasks: TaskEntity[]): FormattedTaskStatus`
+#### `formatTaskStatus(tasks: TaskEntity[]): Promise<FormattedTaskStatus>`
 
 サブタスク数を計算しステータス情報を集計してタスクステータスをフォーマットします。UIでのタスク進捗表示に便利です。
 

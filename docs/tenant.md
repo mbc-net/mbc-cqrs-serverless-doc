@@ -211,6 +211,31 @@ const tenantGroup = await this.tenantService.createTenantGroup(
 | `role` | `string` | {{Yes}} | {{Role to update}} |
 | `settingGroups` | `string[]` | {{Yes}} | {{New setting groups array}} |
 
+### {{CommonTenantCreateDto}}
+
+| {{Property}} | {{Type}} | {{Required}} | {{Description}} |
+|--------------|----------|--------------|-----------------|
+| `name` | `string` | {{Yes}} | {{Common tenant display name}} |
+| `attributes` | `object` | {{No}} | {{Additional attributes}} |
+
+### {{TenantUpdateDto}}
+
+| {{Property}} | {{Type}} | {{Required}} | {{Description}} |
+|--------------|----------|--------------|-----------------|
+| `code` | `string` | {{No}} | {{Tenant code (optional for update)}} |
+| `name` | `string` | {{No}} | {{Tenant display name}} |
+| `attributes` | `object` | {{No}} | {{Additional tenant attributes}} |
+
+## {{Interfaces}}
+
+### {{ITenantService}}
+
+{{The `ITenantService` interface defines the contract for tenant management operations. You can use this interface for dependency injection or creating mock implementations for testing.}}
+
+```ts
+import { ITenantService } from "@mbc-cqrs-serverless/tenant";
+```
+
 ## {{See Also}}
 
 - [{{Multi-Tenant Patterns}}](./multi-tenant-patterns) - {{Advanced multi-tenant implementation patterns}}

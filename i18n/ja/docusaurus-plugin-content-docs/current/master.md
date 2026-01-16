@@ -273,13 +273,14 @@ if (exists) {
 }
 ```
 
-#### `copy(masterCopyDto: MasterCopyDto, opts: { invokeContext: IInvoke }): Promise<TaskEntity>`
+#### `copy(masterCopyDto: MasterCopyDto, opts: { invokeContext: IInvoke }): Promise<any>`
 Step Functionsを使用して、マスター設定とデータを他のテナントに非同期でコピーします。既存のマスターデータで新しいテナントを初期化するのに便利です。
 ```ts
 const task = await this.masterSettingService.copy(
   {
     masterSettingId: "MASTER#mbc#MASTER_SETTING#service",
     targetTenants: ["tenant1", "tenant2"],
+    copyType: CopyType.BOTH,   // CopyType.SETTING_ONLY、CopyType.DATA_ONLY、またはCopyType.BOTH
     dataCopyOption: {
       mode: DataCopyMode.ALL,  // またはDataCopyMode.PARTIAL
       // id: ["id1", "id2"]    // modeがPARTIALの場合は必須
@@ -287,25 +288,28 @@ const task = await this.masterSettingService.copy(
   },
   { invokeContext }
 );
-// TaskEntityを返します - コピー操作は非同期で実行されます
+// タスクエンティティを返します - コピー操作は非同期で実行されます
 ```
 
-コピーモード:
+コピータイプ:
+- `CopyType.SETTING_ONLY`: 設定のみをコピー
+- `CopyType.DATA_ONLY`: データのみをコピー
+- `CopyType.BOTH`: 設定とデータの両方をコピー
+
+データコピーモード（copyTypeがDATA_ONLYまたはBOTHの場合に使用）:
 - `DataCopyMode.ALL`: 設定下のすべてのマスターデータをコピー
 - `DataCopyMode.PARTIAL`: 指定されたIDのみをコピー
 
 ### マスターデータサービス
 MasterDataService サービスは、マスターデータと操作を管理するためのメソッドを提供します。これには、リスト、取得、作成、更新、削除、および特定のコードの存在確認が含まれます。
 
-#### `list( searchDto: MasterDataSearchDto): Promise<MasterDataListEntity>`
-指定された検索条件に基づいてマスターデータをリストします。
+#### `list(searchDto: MasterDataSearchDto): Promise<MasterDataListEntity>`
+指定された検索条件に基づいてマスターデータをリストします。注: このメソッドはinvokeコンテキストを必要としません。
 ```ts
-const masterData = await this.masterDataService.list(
-  {
-    tenantCode: "mbc",
-    settingCode: "service"
-  }
-);
+const masterData = await this.masterDataService.list({
+  tenantCode: "mbc",
+  settingCode: "service"
+});
 ```
 
 #### `get(key: DetailDto): Promise<MasterDataEntity>`
@@ -321,43 +325,48 @@ const masterData = await this.masterDataService.get(
 ```
 
   
-#### `create(data: CreateMasterDataDto, context: { invokeContext: IInvoke })`
+#### `create(data: CreateMasterDataDto, context: { invokeContext: IInvoke }): Promise<MasterDataEntity>`
 
 新しいマスターデータエンティティを作成します。
 
 ```ts
-const masterData = await this.masterDataService.create({
-  code: 'MASTER001',
-  name: 'Example Master Data',
-  settingCode: "service",
-  tenantCode: "COMMON",
-  attributes: {
-    homepage: "http://mbc.com",
-    desc: "description for mbc"
-  }
-});
+const masterData = await this.masterDataService.create(
+  {
+    code: 'MASTER001',
+    name: 'Example Master Data',
+    settingCode: "service",
+    tenantCode: "COMMON",
+    attributes: {
+      homepage: "http://mbc.com",
+      desc: "description for mbc"
+    }
+  },
+  { invokeContext }
+);
 ```
 
-#### `update(key: DetailDto, updateDto: UpdateDataSettingDto, context: { invokeContext: IInvoke })`
+#### `update(key: DetailDto, updateDto: UpdateDataSettingDto, context: { invokeContext: IInvoke }): Promise<MasterDataEntity>`
 既存のマスターデータを更新します。
 
 ```ts
 const masterData = await this.masterDataService.update(
   {
-    pk:"MASTER#abc", 
-    sk:"MASTER_DATA#service#01"
+    pk: "MASTER#abc",
+    sk: "MASTER_DATA#service#01"
   },
   {
-  name: 'Example Master Data',
-  attributes: {
-    homepage: "http://mbc.com",
-    desc: "description for mbc"
-  }
-});
+    name: 'Example Master Data',
+    attributes: {
+      homepage: "http://mbc.com",
+      desc: "description for mbc"
+    }
+  },
+  { invokeContext }
+);
 ```
 
 
-#### `delete(key: DetailDto, opts: { invokeContext: IInvoke })`
+#### `delete(key: DetailDto, opts: { invokeContext: IInvoke }): Promise<MasterDataEntity>`
 指定されたキーに基づいて特定のマスターデータを削除します。
 ```ts
 const masterData = await this.masterDataService.delete(
@@ -369,14 +378,17 @@ const masterData = await this.masterDataService.delete(
 );
 ```
 
-#### `checkExistCode(tenantCode: string, type: string, code: string)`
+#### `checkExistCode(tenantCode: string, type: string, code: string): Promise<boolean>`
 指定されたテナントとタイプ内で特定のコードが存在するかどうかを確認します。
 
 ```ts
-const masterData = await this.masterDataService.checkExistCode("mbc", "service", "01");
+const exists = await this.masterDataService.checkExistCode("mbc", "service", "01");
+if (exists) {
+  // 既存コードの処理
+}
 ```
 
-#### `getDetail(key: DetailDto): Promise<MasterDataDetailEntity>`
+#### `getDetail(key: DetailDto): Promise<MasterRdsEntity>`
 関連情報を含む詳細なマスターデータを取得します。見つからない場合はNotFoundExceptionをスローします。
 
 ```ts
@@ -386,7 +398,7 @@ const masterData = await this.masterDataService.getDetail({
 });
 ```
 
-#### `createSetting(createDto: MasterDataCreateDto, invokeContext: IInvoke): Promise<CommandModel>`
+#### `createSetting(createDto: MasterDataCreateDto, invokeContext: IInvoke): Promise<MasterDataEntity>`
 新しいマスターデータエンティティを作成します。シーケンスが指定されていない場合は自動生成されます。
 
 ```ts
@@ -405,7 +417,7 @@ const masterData = await this.masterDataService.createSetting(
 );
 ```
 
-#### `createBulk(createDto: MasterDataCreateBulkDto, invokeContext: IInvoke): Promise<CommandModel[]>`
+#### `createBulk(createDto: MasterDataCreateBulkDto, invokeContext: IInvoke): Promise<MasterDataEntity[]>`
 複数のマスターデータエンティティを一括作成します。
 
 ```ts
@@ -416,13 +428,15 @@ const masterDataList = await this.masterDataService.createBulk(
         code: 'MASTER001',
         name: 'First Master Data',
         settingCode: "service",
-        tenantCode: "mbc"
+        tenantCode: "mbc",
+        attributes: {}
       },
       {
         code: 'MASTER002',
         name: 'Second Master Data',
         settingCode: "service",
-        tenantCode: "mbc"
+        tenantCode: "mbc",
+        attributes: {}
       }
     ]
   },
@@ -430,7 +444,7 @@ const masterDataList = await this.masterDataService.createBulk(
 );
 ```
 
-#### `updateSetting(key: DetailDto, updateDto: MasterDataUpdateDto, invokeContext: IInvoke): Promise<CommandModel>`
+#### `updateSetting(key: DetailDto, updateDto: MasterDataUpdateDto, invokeContext: IInvoke): Promise<MasterDataEntity>`
 既存のマスターデータエンティティを更新します。
 
 ```ts
@@ -449,7 +463,7 @@ const masterData = await this.masterDataService.updateSetting(
 );
 ```
 
-#### `deleteSetting(key: DetailDto, invokeContext: IInvoke): Promise<CommandModel>`
+#### `deleteSetting(key: DetailDto, invokeContext: IInvoke): Promise<MasterDataEntity>`
 キーでマスターデータエンティティを削除します。
 
 ```ts

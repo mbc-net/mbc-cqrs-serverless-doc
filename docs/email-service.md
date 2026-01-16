@@ -10,7 +10,7 @@ description: {{EmailService}}
 
 ## {{Methods}}
 
-### {{*async* `sendEmail(msg: EmailNotification)`}}
+### {{*async* `sendEmail(msg: EmailNotification): Promise<any>`}}
 
 {{Composes an email message and immediately queues it for sending.}}
 

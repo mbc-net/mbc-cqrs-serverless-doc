@@ -24,6 +24,7 @@ Directoryパッケージは、マルチテナントCQRSアーキテクチャに�
 - **マルチテナントサポート**: テナント分離されたディレクトリ管理
 - **イベント駆動アーキテクチャ**: コマンド/イベントハンドリングを備えたCQRSパターン上に構築
 - **RESTful API**: ディレクトリ操作のための完全なREST API
+- **バージョン履歴**: ファイルとフォルダの以前のバージョンを追跡および復元
 
 ## 基本セットアップ
 
@@ -32,11 +33,14 @@ Directoryパッケージは、マルチテナントCQRSアーキテクチャに�
 ```typescript
 import { DirectoryStorageModule } from '@mbc-cqrs-serverless/directory';
 import { Module } from '@nestjs/common';
+import { PrismaService } from './prisma.service';
 
 @Module({
   imports: [
     DirectoryStorageModule.register({
-      enableController: true,  // Enable REST API endpoints
+      enableController: true,  // Enable REST API endpoints (REST APIエンドポイントを有効化)
+      prismaService: PrismaService,  // Required when enableController is true (enableControllerがtrueの場合に必須)
+      dataSyncHandlers: [],  // Optional data sync handlers (オプションのデータ同期ハンドラー)
     }),
   ],
 })
@@ -47,26 +51,38 @@ export class AppModule {}
 
 | メソッド | エンドポイント | 説明 |
 |--------|----------|-------------|
-| GET | `/api/directory/` | ファイルとフォルダの検索と一覧表示 |
 | POST | `/api/directory/` | 新しいファイルまたはフォルダを作成 |
+| GET | `/api/directory/summary` | テナントのファイルサイズサマリーを取得 |
 | GET | `/api/directory/:id` | 特定のファイルまたはフォルダの詳細を取得 |
-| PUT | `/api/directory/:id` | 特定のファイルまたはフォルダを更新 |
-| DELETE | `/api/directory/:id` | 特定のファイルまたはフォルダを削除 |
+| GET | `/api/directory/:id/history` | ファイルまたはフォルダのバージョン履歴を取得 |
+| POST | `/api/directory/:id/history/:version/restore` | 特定のバージョンを復元 |
+| PUT | `/api/directory/:id/restore` | 一時削除されたアイテムを復元 |
+| PATCH | `/api/directory/:id` | 特定のファイルまたはフォルダを更新 |
+| PATCH | `/api/directory/:id/permission` | ファイルまたはフォルダの権限を更新 |
+| PATCH | `/api/directory/:id/rename` | ファイルまたはフォルダの名前を変更 |
+| PATCH | `/api/directory/:id/copy` | ファイルまたはフォルダをコピー |
+| PATCH | `/api/directory/:id/move` | ファイルまたはフォルダを移動 |
+| DELETE | `/api/directory/:id` | ファイルまたはフォルダを論理削除 |
+| DELETE | `/api/directory/:id/bin` | ファイルを完全に削除してS3からも削除 |
+| POST | `/api/directory/file/view` | ファイル閲覧用の署名付きURLを生成 |
+| POST | `/api/directory/file` | ファイルアップロード用の署名付きURLを生成 |
 
 ## フォルダの作成
 
 ```typescript
-import { DirectoryService } from '@mbc-cqrs-serverless/directory';
+import { DirectoryService, DirectoryCreateDto, DirectoryDataEntity } from '@mbc-cqrs-serverless/directory';
+import { IInvoke } from '@mbc-cqrs-serverless/core';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class FolderService {
   constructor(private readonly directoryService: DirectoryService) {}
 
   async createFolder(
-    dto: DirectoryCreateDto,
+    createDto: DirectoryCreateDto,
     invokeContext: IInvoke,
   ): Promise<DirectoryDataEntity> {
-    return this.directoryService.create(dto, { invokeContext });
+    return this.directoryService.create(createDto, { invokeContext });
   }
 }
 ```
@@ -75,11 +91,11 @@ export class FolderService {
 
 ```typescript
 async uploadFile(
-  dto: DirectoryCreateDto,
+  createDto: DirectoryCreateDto,
   invokeContext: IInvoke,
 ): Promise<DirectoryDataEntity> {
   // File upload is handled through the create method with file content (ファイルアップロードはcreateメソッドを通じて処理されます)
-  return this.directoryService.create(dto, { invokeContext });
+  return this.directoryService.create(createDto, { invokeContext });
 }
 ```
 
@@ -87,19 +103,19 @@ async uploadFile(
 
 ```typescript
 async getDirectory(
-  key: DetailDto,
+  detailDto: DetailDto,
   invokeContext: IInvoke,
   queryDto: DirectoryDetailDto,
 ): Promise<DirectoryDataEntity> {
-  return this.directoryService.findOne(key, { invokeContext }, queryDto);
+  return this.directoryService.findOne(detailDto, { invokeContext }, queryDto);
 }
 
 async getDirectoryHistory(
-  key: DetailDto,
+  detailDto: DetailDto,
   invokeContext: IInvoke,
   queryDto: DirectoryDetailDto,
 ): Promise<DirectoryDataListEntity> {
-  return this.directoryService.findHistory(key, { invokeContext }, queryDto);
+  return this.directoryService.findHistory(detailDto, { invokeContext }, queryDto);
 }
 ```
 
@@ -107,31 +123,82 @@ async getDirectoryHistory(
 
 ```typescript
 // Get file attributes (ファイル属性を取得)
-async getFileAttributes(key: DetailDto): Promise<DirectoryAttributes> {
-  return this.directoryService.getItemAttributes(key);
+async getFileAttributes(detailDto: DetailDto): Promise<DirectoryAttributes> {
+  return this.directoryService.getItemAttributes(detailDto);
 }
 
-// Remove file and delete from S3 (ファイルを削除してS3からも削除)
-async removeFile(
-  key: DetailDto,
+// Get file item (ファイルアイテムを取得)
+async getFile(detailDto: DetailDto): Promise<DirectoryDataEntity> {
+  return this.directoryService.getItem(detailDto);
+}
+
+// Soft delete (marks as deleted) (論理削除、削除済みとしてマーク)
+async removeItem(
+  detailDto: DetailDto,
   invokeContext: IInvoke,
   queryDto: DirectoryDetailDto,
 ): Promise<DirectoryDataEntity> {
-  return this.directoryService.removeFile(key, { invokeContext }, queryDto);
+  return this.directoryService.remove(detailDto, { invokeContext }, queryDto);
+}
+
+// Permanently remove file and delete from S3 (ファイルを完全に削除してS3からも削除)
+async removeFile(
+  detailDto: DetailDto,
+  invokeContext: IInvoke,
+  queryDto: DirectoryDetailDto,
+): Promise<DirectoryDataEntity> {
+  return this.directoryService.removeFile(detailDto, { invokeContext }, queryDto);
+}
+```
+
+## アイテムの名前変更
+
+```typescript
+import { DirectoryRenameDto } from '@mbc-cqrs-serverless/directory';
+
+async renameItem(
+  detailDto: DetailDto,
+  renameDto: DirectoryRenameDto,
+  invokeContext: IInvoke,
+): Promise<DirectoryDataEntity> {
+  return this.directoryService.rename(detailDto, renameDto, { invokeContext });
 }
 ```
 
 ## 権限の管理
 
+### 権限タイプ
+
+ディレクトリパッケージは以下の権限タイプをサポートしています：
+
+```typescript
+enum FilePermission {
+  GENERAL = 'GENERAL',      // General access for everyone (全員に対する一般アクセス)
+  RESTRICTED = 'RESTRICTED', // Restricted to specific users (特定ユーザーに制限)
+  DOMAIN = 'DOMAIN',        // Restricted to specific email domain (特定メールドメインに制限)
+  TENANT = 'TENANT',        // Restricted to tenant members (テナントメンバーに制限)
+}
+
+enum FileRole {
+  READ = 'READ',
+  WRITE = 'WRITE',
+  DELETE = 'DELETE',
+  CHANGE_PERMISSION = 'CHANGE_PERMISSION',
+  TAKE_OWNERSHIP = 'TAKE_OWNERSHIP',
+}
+```
+
 ### 権限の更新
 
 ```typescript
+import { DirectoryUpdatePermissionDto } from '@mbc-cqrs-serverless/directory';
+
 async updatePermission(
-  key: DetailDto,
-  dto: DirectoryUpdatePermissionDto,
+  detailDto: DetailDto,
+  updateDto: DirectoryUpdatePermissionDto,
   invokeContext: IInvoke,
 ): Promise<DirectoryDataEntity> {
-  return this.directoryService.updatePermission(key, dto, { invokeContext });
+  return this.directoryService.updatePermission(detailDto, updateDto, { invokeContext });
 }
 ```
 
@@ -139,18 +206,18 @@ async updatePermission(
 
 ```typescript
 async hasPermission(
-  key: DetailDto,
+  itemId: DetailDto,
   requiredRole: FileRole[],
   user?: { email?: string; tenant?: string },
 ): Promise<boolean> {
-  return this.directoryService.hasPermission(key, requiredRole, user);
+  return this.directoryService.hasPermission(itemId, requiredRole, user);
 }
 
 async getEffectiveRole(
-  key: DetailDto,
+  itemId: DetailDto,
   user?: { email?: string; tenant?: string },
 ): Promise<FileRole | null> {
-  return this.directoryService.getEffectiveRole(key, user);
+  return this.directoryService.getEffectiveRole(itemId, user);
 }
 ```
 
@@ -159,24 +226,55 @@ async getEffectiveRole(
 ### アイテムの移動
 
 ```typescript
+import { DirectoryMoveDto } from '@mbc-cqrs-serverless/directory';
+
 async moveItem(
-  key: DetailDto,
-  dto: DirectoryMoveDto,
+  detailDto: DetailDto,
+  moveDto: DirectoryMoveDto,
   invokeContext: IInvoke,
 ): Promise<DirectoryDataEntity> {
-  return this.directoryService.move(key, dto, { invokeContext });
+  return this.directoryService.move(detailDto, moveDto, { invokeContext });
 }
 ```
 
 ### アイテムのコピー
 
 ```typescript
+import { DirectoryCopyDto } from '@mbc-cqrs-serverless/directory';
+
 async copyItem(
-  key: DetailDto,
-  dto: DirectoryCopyDto,
+  detailDto: DetailDto,
+  copyDto: DirectoryCopyDto,
   invokeContext: IInvoke,
 ): Promise<DirectoryDataEntity> {
-  return this.directoryService.copy(key, dto, { invokeContext });
+  return this.directoryService.copy(detailDto, copyDto, { invokeContext });
+}
+```
+
+## バージョン履歴
+
+### 以前のバージョンを復元
+
+```typescript
+async restoreVersion(
+  detailDto: DetailDto,
+  version: string,
+  queryDto: DirectoryDetailDto,
+  invokeContext: IInvoke,
+): Promise<DirectoryDataEntity> {
+  return this.directoryService.restoreHistoryItem(detailDto, version, queryDto, { invokeContext });
+}
+```
+
+### 一時削除されたアイテムを復元
+
+```typescript
+async restoreTemporary(
+  detailDto: DetailDto,
+  queryDto: DirectoryDetailDto,
+  invokeContext: IInvoke,
+): Promise<DirectoryDataEntity> {
+  return this.directoryService.restoreTemporary(detailDto, queryDto, { invokeContext });
 }
 ```
 
@@ -208,15 +306,14 @@ async copyItem(
 export class DirectoryController {
   constructor(private readonly directoryService: DirectoryService) {}
 
-  @Get(':pk/:sk')
+  @Get(':id')
   async findOne(
     @INVOKE_CONTEXT() invokeContext: IInvoke,
-    @Param('pk') pk: string,
-    @Param('sk') sk: string,
+    @DetailKeys() detailDto: DetailDto,
     @Query() queryDto: DirectoryDetailDto,
   ): Promise<DirectoryDataEntity> {
     // Tenant isolation is handled through the pk structure (テナント分離はpk構造を通じて処理されます)
-    return this.directoryService.findOne({ pk, sk }, { invokeContext }, queryDto);
+    return this.directoryService.findOne(detailDto, { invokeContext }, queryDto);
   }
 }
 ```
@@ -231,7 +328,7 @@ import { IDataSyncHandler, DataEntity } from '@mbc-cqrs-serverless/core';
 export class DirectoryDataSyncHandler implements IDataSyncHandler {
   async onCreated(data: DataEntity): Promise<void> {
     console.log('Directory created:', data.name);
-    // Sync to RDS, notify users, update indexes, etc.
+    // Sync to RDS, notify users, update indexes, etc. (RDSへの同期、ユーザーへの通知、インデックスの更新など)
   }
 
   async onUpdated(data: DataEntity): Promise<void> {
@@ -251,3 +348,4 @@ export class DirectoryDataSyncHandler implements IDataSyncHandler {
 3. **大きなファイルの処理**: 大きなファイルには、S3への直接アップロード用の署名付きURLを使用
 4. **クリーンアップ**: 一時ファイルの保持ポリシーを実装
 5. **監査証跡**: すべての操作の監査証跡を維持するためにイベントを使用
+6. **論理削除を使用**: データ復旧のために完全削除（removeFile）よりも論理削除（remove）を推奨

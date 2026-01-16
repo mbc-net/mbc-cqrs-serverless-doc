@@ -271,11 +271,11 @@ const createDto: CreateDataSettingDto = {
 このモジュールはマルチテナントのデータ分離を自動的に処理します。各テナントの設定とデータはテナント固有のキーで保存されます：
 
 ```typescript
-// Settings are stored with tenant-prefixed keys
+// {{Settings are stored with tenant-prefixed keys}}
 // pk: MASTER#<tenantCode>
-// sk: SETTING#<code>
+// sk: MASTER_SETTING#<code>
 
-// Data settings are stored with setting-prefixed keys
+// {{Data settings are stored with setting-prefixed keys}}
 // pk: MASTER#<tenantCode>
 // sk: <settingCode>#<code>
 ```

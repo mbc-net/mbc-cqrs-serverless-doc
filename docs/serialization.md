@@ -80,12 +80,19 @@ const internal = deserializeToInternal(external, CommandEntity);
 ### {{serializeToExternal}}
 ```typescript
 function serializeToExternal<T extends CommandEntity | DataEntity>(
-  item: T | null | undefined
+  item: T | null | undefined,
+  options?: SerializerOptions
 ): Record<string, any> | null
+
+interface SerializerOptions {
+  keepAttributes?: boolean;  // {{Keep attributes object instead of flattening (default: false)}}
+  flattenDepth?: number;     // {{Depth to flatten nested objects (default: 1)}}
+}
 ```
 
 {{Parameters:}}
 - {{`item`: Internal entity (CommandEntity or DataEntity).}}
+- {{`options`: Optional serialization options.}}
 
 {{Returns:}}
 - {{Flattened external structure or null if input is null/undefined}}

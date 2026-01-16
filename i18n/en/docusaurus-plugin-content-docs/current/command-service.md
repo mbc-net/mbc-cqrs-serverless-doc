@@ -118,7 +118,7 @@ const item = await this.commandService.publishAsync(catCommand, {
 });
 ```
 
-### *async* `publishPartialUpdateAsync( input: CommandPartialInputModel, options: ICommandOptions)` {#publishpartialupdateasync}
+### *async* `publishPartialUpdateAsync( input: CommandPartialInputModel, options: ICommandOptions): Promise<CommandModel>` {#publishpartialupdateasync}
 
 This method allows you to create new command data based on the previous command with the same `pk` and `sk` (primary key) values.
 
@@ -150,7 +150,7 @@ const item = await this.commandService.publishPartialUpdateAsync(catCommand, {
 });
 ```
 
-### *async* `publishSync( input: CommandInputModel, options: ICommandOptions)`
+### *async* `publishSync( input: CommandInputModel, options: ICommandOptions): Promise<CommandModel>`
 
 This method serves as a synchronous counterpart to the `publishAsync` method, meaning that it will halt the execution of the code until the command has been fully processed. This ensures that you receive the result of the command before proceeding with any further operations in your code.
 
@@ -189,7 +189,7 @@ const item = await this.commandService.publishSync(catCommand, {
 });
 ```
 
-### *async* `publishPartialUpdateSync( input: CommandPartialInputModel, options: ICommandOptions)`
+### *async* `publishPartialUpdateSync( input: CommandPartialInputModel, options: ICommandOptions): Promise<CommandModel>`
 
 This method is a synchronous version of the `publishPartialUpdateAsync` method. It will block the execution of the code until the command is processed.
 
@@ -219,7 +219,7 @@ const item = await this.commandService.publishPartialUpdateSync(catCommand, {
 });
 ```
 
-### *async* `publish(input: CommandInputModel, options: ICommandOptions)` <span class="badge badge--warning">deprecated</span>
+### *async* `publish(input: CommandInputModel, options: ICommandOptions): Promise<CommandModel | null>` <span class="badge badge--warning">deprecated</span>
 
 :::info
 
@@ -264,7 +264,7 @@ const item = await this.commandService.publish(catCommand, {
 
 The method returns the command data.
 
-### *async* `publishPartialUpdate( input: CommandPartialInputModel, options: ICommandOptions)` <span class="badge badge--warning">deprecated</span>
+### *async* `publishPartialUpdate( input: CommandPartialInputModel, options: ICommandOptions): Promise<CommandModel | null>` <span class="badge badge--warning">deprecated</span>
 
 :::info
 
@@ -302,7 +302,7 @@ const item = await this.commandService.publishPartialUpdate(catCommand, {
 
 The method returns the updated command data.
 
-### *async* `reSyncData()`
+### *async* `reSyncData(): Promise<void>`
 
 If you want to reapply the data sync handler, this method is designed for you to use. You only need to call the function as follows:
 
@@ -439,7 +439,7 @@ await this.commandService.updateTaskToken(key, event.taskToken);
 // via SendTaskSuccessCommand or SendTaskFailureCommand
 ```
 
-### *async* `updateTtl(key: DetailKey): Promise<CommandModel | null>`
+### *async* `updateTtl(key: DetailKey): Promise<any | null>`
 
 Updates the TTL (Time To Live) of the previous version of a command. This is typically used internally to manage command history retention. Returns `null` if the version is too low or the previous command doesn't exist.
 

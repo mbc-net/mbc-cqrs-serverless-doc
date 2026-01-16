@@ -338,9 +338,23 @@ const task = await this.taskService.getTask({
 });
 ```
 
-#### `listItemsByPk(tenantCode: string, type?: string, options?): Promise<TaskListEntity>`
+#### `listItemsByPk(tenantCode: string, type?: string, options?: ListTaskOptions): Promise<TaskListEntity>`
 
 {{Lists tasks by tenant code and type.}}
+
+**ListTaskOptions:**
+```ts
+interface ListTaskOptions {
+  sk?: {
+    skExpession: string;
+    skAttributeValues: Record<string, string>;
+    skAttributeNames?: Record<string, string>;
+  };
+  startFromSk?: string;  // {{For pagination}}
+  limit?: number;
+  order?: 'asc' | 'desc';
+}
+```
 
 ```ts
 // {{List all tasks for a tenant}}
@@ -351,6 +365,12 @@ const tasks = await this.taskService.listItemsByPk("mbc", "TASK", {
 
 // {{List Step Function tasks}}
 const sfnTasks = await this.taskService.listItemsByPk("mbc", "SFN_TASK");
+
+// {{Paginate through results}}
+const nextPage = await this.taskService.listItemsByPk("mbc", "TASK", {
+  startFromSk: tasks.lastSk,
+  limit: 10,
+});
 ```
 
 #### `createSubTask(event: TaskQueueEvent): Promise<TaskEntity[]>`
@@ -375,7 +395,7 @@ const subTasks = await this.taskService.getAllSubTask({
 // {{Returns all subtasks under the parent task}}
 ```
 
-#### `updateStatus(key: DetailKey, status: string, attributes?: { result?: any; error?: any }, notifyId?: string)`
+#### `updateStatus(key: DetailKey, status: string, attributes?: { result?: any; error?: any }, notifyId?: string): Promise<void>`
 
 {{Updates the status of a task and sends an SNS notification.}}
 
@@ -395,7 +415,7 @@ await this.taskService.updateStatus(
 );
 ```
 
-#### `updateSubTaskStatus(key: DetailKey, status: string, attributes?: { result?: any; error?: any }, notifyId?: string)`
+#### `updateSubTaskStatus(key: DetailKey, status: string, attributes?: { result?: any; error?: any }, notifyId?: string): Promise<void>`
 
 {{Updates the status of a subtask and sends an SNS notification with action `"sub-task-status"`.}}
 
@@ -407,7 +427,7 @@ await this.taskService.updateSubTaskStatus(
 );
 ```
 
-#### `updateStepFunctionTask(key: DetailKey, attributes?: Record<string, any>, status?: string, notifyId?: string)`
+#### `updateStepFunctionTask(key: DetailKey, attributes?: Record<string, any>, status?: string, notifyId?: string): Promise<void>`
 
 {{Updates a Step Function task with attributes and status, then sends an SNS notification.}}
 
@@ -443,7 +463,7 @@ try {
 - {{Error details}}
 - {{Action type: `"sfn-alarm"`}}
 
-#### `formatTaskStatus(tasks: TaskEntity[]): FormattedTaskStatus`
+#### `formatTaskStatus(tasks: TaskEntity[]): Promise<FormattedTaskStatus>`
 
 {{Formats the task status by calculating subtask counts and aggregating status information. Useful for displaying task progress in UI.}}
 

@@ -24,6 +24,7 @@ The Directory package provides comprehensive file and folder management in a mul
 - **Multi-tenant Support**: Tenant-isolated directory management
 - **Event-Driven Architecture**: Built on CQRS pattern with command/event handling
 - **RESTful API**: Complete REST API for directory operations
+- **Version History**: Track and restore previous versions of files and folders
 
 ## Basic Setup
 
@@ -32,11 +33,14 @@ The Directory package provides comprehensive file and folder management in a mul
 ```typescript
 import { DirectoryStorageModule } from '@mbc-cqrs-serverless/directory';
 import { Module } from '@nestjs/common';
+import { PrismaService } from './prisma.service';
 
 @Module({
   imports: [
     DirectoryStorageModule.register({
       enableController: true,  // Enable REST API endpoints
+      prismaService: PrismaService,  // Required when enableController is true
+      dataSyncHandlers: [],  // Optional data sync handlers
     }),
   ],
 })
@@ -47,26 +51,38 @@ export class AppModule {}
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/directory/` | Search and list files and folders |
 | POST | `/api/directory/` | Create a new file or folder |
+| GET | `/api/directory/summary` | Get tenant file size summary |
 | GET | `/api/directory/:id` | Get details for a specific file or folder |
-| PUT | `/api/directory/:id` | Update a specific file or folder |
-| DELETE | `/api/directory/:id` | Delete a specific file or folder |
+| GET | `/api/directory/:id/history` | Get version history of a file or folder |
+| POST | `/api/directory/:id/history/:version/restore` | Restore a specific version |
+| PUT | `/api/directory/:id/restore` | Restore a temporarily deleted item |
+| PATCH | `/api/directory/:id` | Update a specific file or folder |
+| PATCH | `/api/directory/:id/permission` | Update permissions for a file or folder |
+| PATCH | `/api/directory/:id/rename` | Rename a file or folder |
+| PATCH | `/api/directory/:id/copy` | Copy a file or folder |
+| PATCH | `/api/directory/:id/move` | Move a file or folder |
+| DELETE | `/api/directory/:id` | Soft delete a file or folder |
+| DELETE | `/api/directory/:id/bin` | Permanently delete a file and remove from S3 |
+| POST | `/api/directory/file/view` | Generate a presigned URL for viewing a file |
+| POST | `/api/directory/file` | Generate a presigned URL for uploading a file |
 
 ## Creating Folders
 
 ```typescript
-import { DirectoryService } from '@mbc-cqrs-serverless/directory';
+import { DirectoryService, DirectoryCreateDto, DirectoryDataEntity } from '@mbc-cqrs-serverless/directory';
+import { IInvoke } from '@mbc-cqrs-serverless/core';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class FolderService {
   constructor(private readonly directoryService: DirectoryService) {}
 
   async createFolder(
-    dto: DirectoryCreateDto,
+    createDto: DirectoryCreateDto,
     invokeContext: IInvoke,
   ): Promise<DirectoryDataEntity> {
-    return this.directoryService.create(dto, { invokeContext });
+    return this.directoryService.create(createDto, { invokeContext });
   }
 }
 ```
@@ -75,11 +91,11 @@ export class FolderService {
 
 ```typescript
 async uploadFile(
-  dto: DirectoryCreateDto,
+  createDto: DirectoryCreateDto,
   invokeContext: IInvoke,
 ): Promise<DirectoryDataEntity> {
   // File upload is handled through the create method with file content
-  return this.directoryService.create(dto, { invokeContext });
+  return this.directoryService.create(createDto, { invokeContext });
 }
 ```
 
@@ -87,19 +103,19 @@ async uploadFile(
 
 ```typescript
 async getDirectory(
-  key: DetailDto,
+  detailDto: DetailDto,
   invokeContext: IInvoke,
   queryDto: DirectoryDetailDto,
 ): Promise<DirectoryDataEntity> {
-  return this.directoryService.findOne(key, { invokeContext }, queryDto);
+  return this.directoryService.findOne(detailDto, { invokeContext }, queryDto);
 }
 
 async getDirectoryHistory(
-  key: DetailDto,
+  detailDto: DetailDto,
   invokeContext: IInvoke,
   queryDto: DirectoryDetailDto,
 ): Promise<DirectoryDataListEntity> {
-  return this.directoryService.findHistory(key, { invokeContext }, queryDto);
+  return this.directoryService.findHistory(detailDto, { invokeContext }, queryDto);
 }
 ```
 
@@ -107,31 +123,82 @@ async getDirectoryHistory(
 
 ```typescript
 // Get file attributes
-async getFileAttributes(key: DetailDto): Promise<DirectoryAttributes> {
-  return this.directoryService.getItemAttributes(key);
+async getFileAttributes(detailDto: DetailDto): Promise<DirectoryAttributes> {
+  return this.directoryService.getItemAttributes(detailDto);
 }
 
-// Remove file and delete from S3
-async removeFile(
-  key: DetailDto,
+// Get file item
+async getFile(detailDto: DetailDto): Promise<DirectoryDataEntity> {
+  return this.directoryService.getItem(detailDto);
+}
+
+// Soft delete (marks as deleted)
+async removeItem(
+  detailDto: DetailDto,
   invokeContext: IInvoke,
   queryDto: DirectoryDetailDto,
 ): Promise<DirectoryDataEntity> {
-  return this.directoryService.removeFile(key, { invokeContext }, queryDto);
+  return this.directoryService.remove(detailDto, { invokeContext }, queryDto);
+}
+
+// Permanently remove file and delete from S3
+async removeFile(
+  detailDto: DetailDto,
+  invokeContext: IInvoke,
+  queryDto: DirectoryDetailDto,
+): Promise<DirectoryDataEntity> {
+  return this.directoryService.removeFile(detailDto, { invokeContext }, queryDto);
+}
+```
+
+## Renaming Items
+
+```typescript
+import { DirectoryRenameDto } from '@mbc-cqrs-serverless/directory';
+
+async renameItem(
+  detailDto: DetailDto,
+  renameDto: DirectoryRenameDto,
+  invokeContext: IInvoke,
+): Promise<DirectoryDataEntity> {
+  return this.directoryService.rename(detailDto, renameDto, { invokeContext });
 }
 ```
 
 ## Managing Permissions
 
+### Permission Types
+
+The directory package supports different permission types:
+
+```typescript
+enum FilePermission {
+  GENERAL = 'GENERAL',      // General access for everyone
+  RESTRICTED = 'RESTRICTED', // Restricted to specific users
+  DOMAIN = 'DOMAIN',        // Restricted to specific email domain
+  TENANT = 'TENANT',        // Restricted to tenant members
+}
+
+enum FileRole {
+  READ = 'READ',
+  WRITE = 'WRITE',
+  DELETE = 'DELETE',
+  CHANGE_PERMISSION = 'CHANGE_PERMISSION',
+  TAKE_OWNERSHIP = 'TAKE_OWNERSHIP',
+}
+```
+
 ### Updating Permissions
 
 ```typescript
+import { DirectoryUpdatePermissionDto } from '@mbc-cqrs-serverless/directory';
+
 async updatePermission(
-  key: DetailDto,
-  dto: DirectoryUpdatePermissionDto,
+  detailDto: DetailDto,
+  updateDto: DirectoryUpdatePermissionDto,
   invokeContext: IInvoke,
 ): Promise<DirectoryDataEntity> {
-  return this.directoryService.updatePermission(key, dto, { invokeContext });
+  return this.directoryService.updatePermission(detailDto, updateDto, { invokeContext });
 }
 ```
 
@@ -139,18 +206,18 @@ async updatePermission(
 
 ```typescript
 async hasPermission(
-  key: DetailDto,
+  itemId: DetailDto,
   requiredRole: FileRole[],
   user?: { email?: string; tenant?: string },
 ): Promise<boolean> {
-  return this.directoryService.hasPermission(key, requiredRole, user);
+  return this.directoryService.hasPermission(itemId, requiredRole, user);
 }
 
 async getEffectiveRole(
-  key: DetailDto,
+  itemId: DetailDto,
   user?: { email?: string; tenant?: string },
 ): Promise<FileRole | null> {
-  return this.directoryService.getEffectiveRole(key, user);
+  return this.directoryService.getEffectiveRole(itemId, user);
 }
 ```
 
@@ -159,24 +226,55 @@ async getEffectiveRole(
 ### Move Item
 
 ```typescript
+import { DirectoryMoveDto } from '@mbc-cqrs-serverless/directory';
+
 async moveItem(
-  key: DetailDto,
-  dto: DirectoryMoveDto,
+  detailDto: DetailDto,
+  moveDto: DirectoryMoveDto,
   invokeContext: IInvoke,
 ): Promise<DirectoryDataEntity> {
-  return this.directoryService.move(key, dto, { invokeContext });
+  return this.directoryService.move(detailDto, moveDto, { invokeContext });
 }
 ```
 
 ### Copy Item
 
 ```typescript
+import { DirectoryCopyDto } from '@mbc-cqrs-serverless/directory';
+
 async copyItem(
-  key: DetailDto,
-  dto: DirectoryCopyDto,
+  detailDto: DetailDto,
+  copyDto: DirectoryCopyDto,
   invokeContext: IInvoke,
 ): Promise<DirectoryDataEntity> {
-  return this.directoryService.copy(key, dto, { invokeContext });
+  return this.directoryService.copy(detailDto, copyDto, { invokeContext });
+}
+```
+
+## Version History
+
+### Restore Previous Version
+
+```typescript
+async restoreVersion(
+  detailDto: DetailDto,
+  version: string,
+  queryDto: DirectoryDetailDto,
+  invokeContext: IInvoke,
+): Promise<DirectoryDataEntity> {
+  return this.directoryService.restoreHistoryItem(detailDto, version, queryDto, { invokeContext });
+}
+```
+
+### Restore Temporarily Deleted Item
+
+```typescript
+async restoreTemporary(
+  detailDto: DetailDto,
+  queryDto: DirectoryDetailDto,
+  invokeContext: IInvoke,
+): Promise<DirectoryDataEntity> {
+  return this.directoryService.restoreTemporary(detailDto, queryDto, { invokeContext });
 }
 ```
 
@@ -208,15 +306,14 @@ Directories are automatically isolated by tenant through the invoke context:
 export class DirectoryController {
   constructor(private readonly directoryService: DirectoryService) {}
 
-  @Get(':pk/:sk')
+  @Get(':id')
   async findOne(
     @INVOKE_CONTEXT() invokeContext: IInvoke,
-    @Param('pk') pk: string,
-    @Param('sk') sk: string,
+    @DetailKeys() detailDto: DetailDto,
     @Query() queryDto: DirectoryDetailDto,
   ): Promise<DirectoryDataEntity> {
     // Tenant isolation is handled through the pk structure
-    return this.directoryService.findOne({ pk, sk }, { invokeContext }, queryDto);
+    return this.directoryService.findOne(detailDto, { invokeContext }, queryDto);
   }
 }
 ```
@@ -251,3 +348,4 @@ export class DirectoryDataSyncHandler implements IDataSyncHandler {
 3. **Handle Large Files**: For large files, use presigned URLs for direct S3 upload
 4. **Clean Up**: Implement retention policies for temporary files
 5. **Audit Trail**: Use events to maintain an audit trail of all operations
+6. **Use Soft Delete**: Prefer soft delete (remove) over permanent delete (removeFile) for data recovery

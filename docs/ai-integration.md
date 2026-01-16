@@ -43,9 +43,9 @@ curl https://raw.githubusercontent.com/mbc-net/mbc-cqrs-serverless/main/llms-ful
 
 {{Context7 is an MCP server that provides real-time, version-specific documentation to AI assistants.}}
 
-:::note
-{{MBC CQRS Serverless documentation will be available through Context7 after registration. Check the Context7 website for availability.}}
-:::
+{{MBC CQRS Serverless documentation is available through Context7. You can access it at:}}
+
+- {{Context7 URL}}: [https://context7.com/mbc-net/mbc-cqrs-serverless-doc](https://context7.com/mbc-net/mbc-cqrs-serverless-doc)
 
 {{To use Context7, add it to Claude Code:}}
 

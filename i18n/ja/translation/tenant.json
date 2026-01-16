@@ -52,5 +52,13 @@
   "Multi-Tenant Patterns": "マルチテナントパターン",
   "Advanced multi-tenant implementation patterns": "高度なマルチテナント実装パターン",
   "Command Service": "コマンドサービス",
-  "Command operations used by TenantService": "TenantServiceで使用されるコマンド操作"
+  "Command operations used by TenantService": "TenantServiceで使用されるコマンド操作",
+  "CommonTenantCreateDto": "CommonTenantCreateDto",
+  "Common tenant display name": "共通テナント表示名",
+  "Additional attributes": "追加の属性",
+  "TenantUpdateDto": "TenantUpdateDto",
+  "Tenant code (optional for update)": "テナントコード（更新時はオプション）",
+  "Interfaces": "インターフェース",
+  "ITenantService": "ITenantService",
+  "The `ITenantService` interface defines the contract for tenant management operations. You can use this interface for dependency injection or creating mock implementations for testing.": "`ITenantService`インターフェースは、テナント管理操作の契約を定義します。依存性注入やテスト用のモック実装の作成に使用できます。"
 }

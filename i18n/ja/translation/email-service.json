@@ -3,7 +3,7 @@
   "Description": "説明",
   "This service is designed to send emails using [AWS SES (Simple Email Service)](https://aws.amazon.com/ses/).": "このサービスは、[AWS SES (Simple Email Service)](https://aws.amazon.com/ses/)を使用してメールを送信するように設計されています。",
   "Methods": "メソッド",
-  "*async* `sendEmail(msg: EmailNotification)`": "*async* `sendEmail(msg: EmailNotification)`",
+  "*async* `sendEmail(msg: EmailNotification): Promise<any>`": "*async* `sendEmail(msg: EmailNotification): Promise<any>`",
   "Composes an email message and immediately queues it for sending.": "メールメッセージを作成し、送信のためにすぐにキューに入れます。",
   "Basic Example": "基本的な例",
   "With CC and BCC": "CCとBCCを使用",

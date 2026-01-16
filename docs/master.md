@@ -273,13 +273,14 @@ if (exists) {
 }
 ```
 
-#### `copy(masterCopyDto: MasterCopyDto, opts: { invokeContext: IInvoke }): Promise<TaskEntity>`
+#### `copy(masterCopyDto: MasterCopyDto, opts: { invokeContext: IInvoke }): Promise<any>`
 {{Copies master settings and data to other tenants asynchronously using Step Functions. This is useful for initializing new tenants with existing master data.}}
 ```ts
 const task = await this.masterSettingService.copy(
   {
     masterSettingId: "MASTER#mbc#MASTER_SETTING#service",
     targetTenants: ["tenant1", "tenant2"],
+    copyType: CopyType.BOTH,   // {{CopyType.SETTING_ONLY, CopyType.DATA_ONLY, or CopyType.BOTH}}
     dataCopyOption: {
       mode: DataCopyMode.ALL,  // {{or DataCopyMode.PARTIAL}}
       // id: ["id1", "id2"]    // {{Required when mode is PARTIAL}}
@@ -287,25 +288,28 @@ const task = await this.masterSettingService.copy(
   },
   { invokeContext }
 );
-// {{Returns a TaskEntity - the copy operation runs asynchronously}}
+// {{Returns a task entity - the copy operation runs asynchronously}}
 ```
 
-{{Copy modes:}}
+{{Copy types:}}
+- {{`CopyType.SETTING_ONLY`: Copies only the setting}}
+- {{`CopyType.DATA_ONLY`: Copies only the data}}
+- {{`CopyType.BOTH`: Copies both setting and data}}
+
+{{Data copy modes (used when copyType is DATA_ONLY or BOTH):}}
 - {{`DataCopyMode.ALL`: Copies all master data under the setting}}
 - {{`DataCopyMode.PARTIAL`: Copies only specified IDs}}
 
 ### {{MasterDataService}}
 {{The MasterDataService service provides methods to manage master data and operations. This includes listing, retrieving, creating, updating, and deleting data, as well as checking for the existence of specific codes.}}
 
-#### `list( searchDto: MasterDataSearchDto): Promise<MasterDataListEntity>`
-{{Lists master data based on the provided search criteria.}}
+#### `list(searchDto: MasterDataSearchDto): Promise<MasterDataListEntity>`
+{{Lists master data based on the provided search criteria. Note: This method does not require an invoke context.}}
 ```ts
-const masterData = await this.masterDataService.list(
-  {
-    tenantCode: "mbc",
-    settingCode: "service"
-  }
-);
+const masterData = await this.masterDataService.list({
+  tenantCode: "mbc",
+  settingCode: "service"
+});
 ```
 
 #### `get(key: DetailDto): Promise<MasterDataEntity>`
@@ -321,43 +325,48 @@ const masterData = await this.masterDataService.get(
 ```
 
   
-#### `create(data: CreateMasterDataDto, context: { invokeContext: IInvoke })`
+#### `create(data: CreateMasterDataDto, context: { invokeContext: IInvoke }): Promise<MasterDataEntity>`
 
 {{Creates a new master data entity}}
 
 ```ts
-const masterData = await this.masterDataService.create({
-  code: 'MASTER001',
-  name: 'Example Master Data',
-  settingCode: "service",
-  tenantCode: "COMMON",
-  attributes: {
-    homepage: "http://mbc.com",
-    desc: "description for mbc"
-  }
-});
+const masterData = await this.masterDataService.create(
+  {
+    code: 'MASTER001',
+    name: 'Example Master Data',
+    settingCode: "service",
+    tenantCode: "COMMON",
+    attributes: {
+      homepage: "http://mbc.com",
+      desc: "description for mbc"
+    }
+  },
+  { invokeContext }
+);
 ```
 
-#### `update(key: DetailDto, updateDto: UpdateDataSettingDto, context: { invokeContext: IInvoke })`
+#### `update(key: DetailDto, updateDto: UpdateDataSettingDto, context: { invokeContext: IInvoke }): Promise<MasterDataEntity>`
 {{Updates existing master data.}}
 
 ```ts
 const masterData = await this.masterDataService.update(
   {
-    pk:"MASTER#abc", 
-    sk:"MASTER_DATA#service#01"
+    pk: "MASTER#abc",
+    sk: "MASTER_DATA#service#01"
   },
   {
-  name: 'Example Master Data',
-  attributes: {
-    homepage: "http://mbc.com",
-    desc: "description for mbc"
-  }
-});
+    name: 'Example Master Data',
+    attributes: {
+      homepage: "http://mbc.com",
+      desc: "description for mbc"
+    }
+  },
+  { invokeContext }
+);
 ```
 
 
-#### `delete(key: DetailDto, opts: { invokeContext: IInvoke })`
+#### `delete(key: DetailDto, opts: { invokeContext: IInvoke }): Promise<MasterDataEntity>`
 {{Deletes specific master data based on the provided key.}}
 ```ts
 const masterData = await this.masterDataService.delete(
@@ -369,14 +378,17 @@ const masterData = await this.masterDataService.delete(
 );
 ```
 
-#### `checkExistCode(tenantCode: string, type: string, code: string)`
+#### `checkExistCode(tenantCode: string, type: string, code: string): Promise<boolean>`
 {{Checks if a specific code exists within the given tenant and type.}}
 
 ```ts
-const masterData = await this.masterDataService.checkExistCode("mbc", "service", "01");
+const exists = await this.masterDataService.checkExistCode("mbc", "service", "01");
+if (exists) {
+  // {{Handle existing code}}
+}
 ```
 
-#### `getDetail(key: DetailDto): Promise<MasterDataDetailEntity>`
+#### `getDetail(key: DetailDto): Promise<MasterRdsEntity>`
 {{Retrieves detailed master data including related information. Throws NotFoundException if not found.}}
 
 ```ts
@@ -386,7 +398,7 @@ const masterData = await this.masterDataService.getDetail({
 });
 ```
 
-#### `createSetting(createDto: MasterDataCreateDto, invokeContext: IInvoke): Promise<CommandModel>`
+#### `createSetting(createDto: MasterDataCreateDto, invokeContext: IInvoke): Promise<MasterDataEntity>`
 {{Creates a new master data entity with automatic sequence generation if not provided.}}
 
 ```ts
@@ -405,7 +417,7 @@ const masterData = await this.masterDataService.createSetting(
 );
 ```
 
-#### `createBulk(createDto: MasterDataCreateBulkDto, invokeContext: IInvoke): Promise<CommandModel[]>`
+#### `createBulk(createDto: MasterDataCreateBulkDto, invokeContext: IInvoke): Promise<MasterDataEntity[]>`
 {{Creates multiple master data entities in bulk.}}
 
 ```ts
@@ -416,13 +428,15 @@ const masterDataList = await this.masterDataService.createBulk(
         code: 'MASTER001',
         name: 'First Master Data',
         settingCode: "service",
-        tenantCode: "mbc"
+        tenantCode: "mbc",
+        attributes: {}
       },
       {
         code: 'MASTER002',
         name: 'Second Master Data',
         settingCode: "service",
-        tenantCode: "mbc"
+        tenantCode: "mbc",
+        attributes: {}
       }
     ]
   },
@@ -430,7 +444,7 @@ const masterDataList = await this.masterDataService.createBulk(
 );
 ```
 
-#### `updateSetting(key: DetailDto, updateDto: MasterDataUpdateDto, invokeContext: IInvoke): Promise<CommandModel>`
+#### `updateSetting(key: DetailDto, updateDto: MasterDataUpdateDto, invokeContext: IInvoke): Promise<MasterDataEntity>`
 {{Updates an existing master data entity.}}
 
 ```ts
@@ -449,7 +463,7 @@ const masterData = await this.masterDataService.updateSetting(
 );
 ```
 
-#### `deleteSetting(key: DetailDto, invokeContext: IInvoke): Promise<CommandModel>`
+#### `deleteSetting(key: DetailDto, invokeContext: IInvoke): Promise<MasterDataEntity>`
 {{Deletes a master data entity by key.}}
 
 ```ts

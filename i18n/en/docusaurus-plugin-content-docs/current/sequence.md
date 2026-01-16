@@ -118,8 +118,8 @@ The data transfer object that customizes the behavior of the sequence generation
       @IsString()
       code1: string
 
-      @IsOptional()
       @IsString()
+      @IsOptional()
       code2?: string
 
       @IsOptional()
@@ -223,11 +223,57 @@ In this case
 
 This allows you to customize the fiscal year calculation according to your specific business needs.
 
-### *async* `generateSequenceItemWithProvideSetting(dto, options?): Promise<SequenceEntity>`
+### *async* `generateSequenceItemWithProvideSetting(dto: GenerateFormattedSequenceWithProvidedSettingDto, options?: {invokeContext: IInvoke}): Promise<SequenceEntity>`
 
 This method allows you to generate a sequence with custom settings directly provided in the DTO, without requiring master data configuration in DynamoDB.
 
-Example:
+#### Parameters
+
+`dto: GenerateFormattedSequenceWithProvidedSettingDto`
+The data transfer object that contains both sequence parameters and format settings. Its properties include:
+
+- `date?: Date`
+  - Default: Current date.
+  - Description: Specifies the date for which the sequence is generated.
+
+- `rotateBy?: RotateByEnum`
+  - Default: NONE.
+  - Options: FISCAL_YEARLY, YEARLY, MONTHLY, DAILY, NONE
+  - Description: Determines the rotation type for the sequence.
+
+- `tenantCode: string`
+  - Required: Yes.
+  - Description: Identifies the tenant for the sequence.
+
+- `typeCode: string`
+  - Required: Yes.
+  - Description: Identifies the type code for the sequence.
+
+- `params?: SequenceParamsDto`
+  - Required: No.
+  - Description: Defines parameters to identify the sequence (code1 to code5).
+
+- `prefix?: string`
+  - Required: No.
+  - Description: Optional prefix to prepend to the formatted sequence.
+
+- `postfix?: string`
+  - Required: No.
+  - Description: Optional postfix to append to the formatted sequence.
+
+- `format: string`
+  - Required: Yes.
+  - Description: Format string defining the structure of the generated sequence. Example: `%%code1%%-%%no#:0>5%%`.
+
+- `registerDate?: string`
+  - Required: No.
+  - Description: Optional registration date (ISO 8601 format) to influence fiscal year calculation.
+
+- `startMonth?: number`
+  - Required: No.
+  - Description: Starting month of the fiscal year (1-12). Defaults to 4 (April) if not provided.
+
+#### Example
 
 ```ts
 const result = await this.sequencesService.generateSequenceItemWithProvideSetting(
@@ -272,7 +318,7 @@ Deprecated, for removal: This API element is subject to removal in a future vers
 
 :::
 
-### *async* `genNewSequence( dto: GenSequenceDto, options: {invokeContext: IInvoke}): Promise<DataEntity>` <span class="badge badge--warning">deprecated</span>
+### *async* `genNewSequence( dto: GenerateSequenceDto, options: {invokeContext: IInvoke}): Promise<DataEntity>` <span class="badge badge--warning">deprecated</span>
 
 :::info
 
