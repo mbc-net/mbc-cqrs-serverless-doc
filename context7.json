@@ -1,4 +1,6 @@
 {
+  "url": "https://context7.com/magiclane/magiclane-maps-sdk-for-flutter-docs-context7",
+  "public_key": "pk_lFhIEpbwbaZKMm8AUDyPf",
   "projectTitle": "MBC CQRS Serverless Framework",
   "description": "Production-ready CQRS and Event Sourcing framework for building serverless applications on AWS with NestJS, DynamoDB, and other AWS services.",
   "folders": [
