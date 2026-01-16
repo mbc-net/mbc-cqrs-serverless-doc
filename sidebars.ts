@@ -44,6 +44,7 @@ const sidebars: SidebarsConfig = {
         "architecture/event-sourcing",
         "key-patterns",
         "entity-patterns",
+        "version-conflict-guide",
       ],
     },
 
@@ -115,6 +116,7 @@ const sidebars: SidebarsConfig = {
         "architecture/cdk-infrastructure",
         "architecture/step-functions",
         "dynamodb",
+        "database-selection-guide",
         "prisma",
       ],
     },
