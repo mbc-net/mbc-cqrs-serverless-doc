@@ -485,6 +485,8 @@ function DataListPage() {
 | `setStorage` | `(props) => void` | {{Function to save search conditions}} |
 | `reset` | `UseFormReset` | {{Form reset function from react-hook-form}} |
 | `setValue` | `UseFormSetValue` | {{Form setValue function from react-hook-form}} |
+| `convertSearchProps` | `(props) => SearchProps` | {{Optional function to convert search props before executing search}} |
+| `convertChangeQueries` | `(props) => SearchProps` | {{Optional function to convert query parameters before URL change}} |
 
 **{{Return Value}}:**
 
@@ -492,9 +494,16 @@ function DataListPage() {
 |----------|------|-------------|
 | `searchProps` | `SearchProps` | {{Current search parameters}} |
 | `queries` | `SearchProps` | {{URL query parameters}} |
+| `setQueries` | `(props) => Promise<void>` | {{Update URL query parameters directly}} |
 | `paginate` | `Paginate<T>` | {{Paginated results with count and data}} |
+| `setPaginate` | `(paginate) => void` | {{Manually set paginate state}} |
+| `setPaginateClient` | `(items, page?) => void` | {{Set paginate for client-side data}} |
+| `getPaginateClient` | `(items) => Paginate` | {{Convert array to paginate object}} |
+| `isCalledSearch` | `boolean` | {{Whether search has been triggered}} |
 | `onSubmitSearch` | `(props) => Promise<void>` | {{Submit search with new parameters}} |
 | `executeSearch` | `() => Promise<object>` | {{Execute search with current parameters}} |
+| `searchUsingTableView` | `(props, tableView) => Promise<void>` | {{Search using a predefined table view}} |
+| `getSearchQuery` | `() => SearchProps \| null` | {{Get current search query from URL or storage}} |
 | `handlePaginationChange` | `OnChangeFn<PaginationState>` | {{Handler for page/size changes}} |
 | `handleSortChange` | `OnChangeFn<SortingState>` | {{Handler for sort changes}} |
 | `onResetSearchForm` | `() => Promise<void>` | {{Reset search form to empty values}} |
@@ -612,6 +621,7 @@ function MyForm() {
 | `reset` | `UseFormReset<T>` | {{Reset form}} |
 | `trigger` | `UseFormTrigger<T>` | {{Trigger validation}} |
 | `errors` | `FieldErrors<T>` | {{Form validation errors}} |
+| `setError` | `UseFormSetError<T>` | {{Set form error manually}} |
 | `loading` | `boolean` | {{Current loading state}} |
 | `loadingStore` | `LoadingState` | {{Loading store with setLoading/closeLoading}} |
 | `isValid` | `boolean` | {{Whether form is valid}} |

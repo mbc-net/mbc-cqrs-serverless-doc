@@ -1134,28 +1134,39 @@ export enum ComparisonStatus {
 
 ### ComparisonResultインターフェース {#comparisonresult-interface}
 
-`ComparisonResult<T>`インターフェースは、比較ステータスとオプションの既存データをラップします：
+`ComparisonResult<TEntity>`インターフェースは、比較ステータスとオプションの既存データをラップします。ジェネリック型`TEntity`は`DataModel`を拡張する必要があります：
 
 ```typescript
-export interface ComparisonResult<T> {
+import { DataModel } from '@mbc-cqrs-serverless/core'
+
+export interface ComparisonResult<TEntity extends DataModel> {
   status: ComparisonStatus;  // The result of the comparison (比較結果)
-  existingData?: T;          // The existing data if found (for EQUAL or CHANGED status) (見つかった場合の既存データ、EQUALまたはCHANGEDステータス用)
+  /**
+   * If the status is 'CHANGED', this property holds the existing entity data (ステータスが'CHANGED'の場合、このプロパティは既存エンティティデータを保持)
+   * retrieved from the database. It is undefined otherwise. (データベースから取得。それ以外の場合はundefined)
+   */
+  existingData?: TEntity;
 }
 ```
 
 | プロパティ | 型 | 説明 |
 |--------------|----------|-----------------|
 | `status` | `ComparisonStatus` | 比較結果ステータス |
-| `existingData` | `T \| undefined` | 既存エンティティデータ、ステータスがEQUALまたはCHANGEDの場合に存在 |
+| `existingData` | `TEntity \| undefined` | 既存エンティティデータ、ステータスがCHANGEDの場合に存在 |
 
 ### IProcessStrategyインターフェース {#iprocessstrategy-interface}
 
-`IProcessStrategy`インターフェースは、バリデーション済みインポートデータを処理するための契約を定義します：
+`IProcessStrategy`インターフェースは、バリデーション済みインポートデータを処理するための契約を定義します。ジェネリック型`TEntity`は`DataModel`を拡張する必要があることに注意してください：
 
 ```typescript
-import { CommandInputModel, CommandPartialInputModel, CommandService } from '@mbc-cqrs-serverless/core';
+import {
+  CommandInputModel,
+  CommandPartialInputModel,
+  CommandService,
+  DataModel,
+} from '@mbc-cqrs-serverless/core';
 
-export interface IProcessStrategy<TExistingData, TAttributesDto> {
+export interface IProcessStrategy<TEntity extends DataModel, TAttributesDto extends object> {
   /**
    * Get the command service for publishing commands (コマンド発行用のコマンドサービスを取得)
    */
@@ -1164,28 +1175,34 @@ export interface IProcessStrategy<TExistingData, TAttributesDto> {
   /**
    * Compare the validated DTO with existing data (バリデーション済みDTOを既存データと比較)
    */
-  compare(dto: TAttributesDto, tenantCode: string): Promise<ComparisonResult<TExistingData>>;
+  compare(
+    importAttributes: TAttributesDto,
+    tenantCode: string,
+  ): Promise<ComparisonResult<TEntity>>;
 
   /**
    * Map the DTO to a command payload based on comparison status (比較ステータスに基づいてDTOをコマンドペイロードにマッピング)
+   * Note: status excludes EQUAL since no mapping is needed for identical data (注意: 同一データではマッピング不要のためstatusはEQUALを除外)
    * @returns CommandInputModel for create, CommandPartialInputModel for update (作成用CommandInputModel、更新用CommandPartialInputModel)
    */
   map(
-    status: ComparisonStatus,
-    dto: TAttributesDto,
+    status: Exclude<ComparisonStatus, ComparisonStatus.EQUAL>,
+    importAttributes: TAttributesDto,
     tenantCode: string,
-    existingData?: TExistingData,
+    existingData?: TEntity,
   ): Promise<CommandInputModel | CommandPartialInputModel>;
 }
 ```
 
 ### BaseProcessStrategy抽象クラス {#baseprocessstrategy-class}
 
-`BaseProcessStrategy`抽象クラスは、サブクラスが拡張する必要がある基本実装を提供します：
+`BaseProcessStrategy`抽象クラスは、サブクラスが拡張する必要がある基本実装を提供します。ジェネリック型`TEntity`は`DataModel`を拡張する必要があります：
 
 ```typescript
-export abstract class BaseProcessStrategy<TExistingData, TAttributesDto>
-  implements IProcessStrategy<TExistingData, TAttributesDto>
+import { DataModel } from '@mbc-cqrs-serverless/core';
+
+export abstract class BaseProcessStrategy<TEntity extends DataModel, TTransformedDto extends object>
+  implements IProcessStrategy<TEntity, TTransformedDto>
 {
   /**
    * Abstract method - must be implemented to return the command service (抽象メソッド - コマンドサービスを返すために実装が必要)
@@ -1196,18 +1213,19 @@ export abstract class BaseProcessStrategy<TExistingData, TAttributesDto>
    * Abstract method - must be implemented to compare data (抽象メソッド - データ比較のために実装が必要)
    */
   abstract compare(
-    dto: TAttributesDto,
+    transformedData: TTransformedDto,
     tenantCode: string,
-  ): Promise<ComparisonResult<TExistingData>>;
+  ): Promise<ComparisonResult<TEntity>>;
 
   /**
    * Abstract method - must be implemented to map data to command payload (抽象メソッド - データをコマンドペイロードにマッピングするために実装が必要)
+   * Note: status excludes EQUAL since no mapping is needed for identical data (注意: 同一データではマッピング不要のためstatusはEQUALを除外)
    */
   abstract map(
-    status: ComparisonStatus,
-    dto: TAttributesDto,
+    status: Exclude<ComparisonStatus, ComparisonStatus.EQUAL>,
+    transformedData: TTransformedDto,
     tenantCode: string,
-    existingData?: TExistingData,
+    existingData?: TEntity,
   ): Promise<CommandInputModel | CommandPartialInputModel>;
 }
 ```
@@ -1263,7 +1281,7 @@ export class PolicyProcessStrategy
   }
 
   async map(
-    status: ComparisonStatus,
+    status: Exclude<ComparisonStatus, ComparisonStatus.EQUAL>,
     dto: PolicyCommandDto,
     tenantCode: string,
     existingData?: PolicyDataEntity,
@@ -1272,16 +1290,14 @@ export class PolicyProcessStrategy
       // Return CommandInputModel for creating new records (新規レコード作成用にCommandInputModelを返す)
       return { ...dto, version: 0 } as CommandInputModel;
     }
-    if (status === ComparisonStatus.CHANGED) {
-      // Return CommandPartialInputModel for updating existing records (既存レコード更新用にCommandPartialInputModelを返す)
-      return {
-        pk: dto.pk,
-        sk: dto.sk,
-        attributes: dto.attributes,
-        version: existingData.version,
-      } as CommandPartialInputModel;
-    }
-    throw new Error('Invalid map status');
+    // status === ComparisonStatus.CHANGED (ステータスがCHANGEDの場合)
+    // Return CommandPartialInputModel for updating existing records (既存レコード更新用にCommandPartialInputModelを返す)
+    return {
+      pk: dto.pk,
+      sk: dto.sk,
+      attributes: dto.attributes,
+      version: existingData.version,
+    } as CommandPartialInputModel;
   }
 }
 ```
@@ -1477,13 +1493,14 @@ v1.0.19より前は、子ジョブのエラーによりLambdaがクラッシュ�
 
 ### CsvImportSfnEventHandler {#csvimportsfneventhandler}
 
-`CsvImportSfnEventHandler`はStep FunctionsのCSVインポートワークフローステートを処理します。インポートステートマシン内の`csv_loader`と`csv_finalizer`ステートを管理します。
+`CsvImportSfnEventHandler`はStep FunctionsのCSVインポートワークフローステートを処理します。インポートステートマシン内の`csv_loader`と`finalize_parent_job`ステートを管理します。
 
 #### 主要メソッド
 
 | メソッド | 説明 |
 |------------|-----------------|
-| `handleCsvLoader(event)` | csv_loaderステートを処理し、子ジョブを作成し、早期終了を処理します |
+| `handleStepState(event)` | ステート名（`csv_loader`または`finalize_parent_job`）に基づいてイベントを適切なハンドラーにルーティング |
+| `loadCsv(input)` | csv_loaderステートを処理し、CSV行の子ジョブを作成します |
 | `finalizeParentJob(event)` | すべての子ジョブ完了後に親ジョブを終了し、最終ステータスを設定します |
 
 #### ステータス判定（v1.0.20以降）

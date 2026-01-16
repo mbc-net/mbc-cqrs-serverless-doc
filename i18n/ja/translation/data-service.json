@@ -65,7 +65,6 @@
   "DataListEntity": "DataListEntity",
   "`DataListEntity` is a class (not an interface) that wraps list query results. It provides a constructor for easy instantiation:": "`DataListEntity`はリストクエリ結果をラップするクラス（インターフェースではありません）です。簡単にインスタンス化するためのコンストラクタを提供します：",
   "The constructor accepts a partial object, allowing you to create instances from query results:": "コンストラクタは部分オブジェクトを受け取り、クエリ結果からインスタンスを作成できます：",
-  "The `tableName` getter and setter allow you to access or modify the associated table name for the list result.": "`tableName`のgetterとsetterを使用して、リスト結果に関連付けられたテーブル名にアクセスまたは変更できます。",
   "Array of data entities": "Array of data entities (データエンティティの配列)",
   "Sort key for pagination cursor": "Sort key for pagination cursor (ページネーションカーソル用のソートキー)",
   "Total count (if available)": "Total count (if available) (利用可能な場合の合計数)",

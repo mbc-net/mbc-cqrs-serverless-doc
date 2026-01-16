@@ -54,5 +54,9 @@
   "Clean Up": "Clean Up",
   "Implement retention policies for temporary files": "Implement retention policies for temporary files",
   "Audit Trail": "Audit Trail",
-  "Use events to maintain an audit trail of all operations": "Use events to maintain an audit trail of all operations"
+  "Use events to maintain an audit trail of all operations": "Use events to maintain an audit trail of all operations",
+  "File upload is handled through the create method with file content": "File upload is handled through the create method with file content",
+  "Get file attributes": "Get file attributes",
+  "Remove file and delete from S3": "Remove file and delete from S3",
+  "Tenant isolation is handled through the pk structure": "Tenant isolation is handled through the pk structure"
 }

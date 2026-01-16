@@ -290,9 +290,6 @@ class DataListEntity {
   total?: number;        // Total count (if available) (利用可能な場合の合計数)
 
   constructor(data: Partial<DataListEntity>);
-
-  get tableName(): string;
-  set tableName(name: string);
 }
 ```
 
@@ -302,8 +299,6 @@ class DataListEntity {
 const result = await this.dataService.listItemsByPk(pk);
 const listEntity = new DataListEntity(result);
 ```
-
-`tableName`のgetterとsetterを使用して、リスト結果に関連付けられたテーブル名にアクセスまたは変更できます。
 
 ## ベストプラクティス
 

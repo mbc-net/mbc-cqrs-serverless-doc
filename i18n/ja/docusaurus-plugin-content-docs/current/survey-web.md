@@ -276,7 +276,7 @@ Survey Webパッケージは9種類の質問タイプをサポートしていま
 
 ```tsx
 // Note: This is an internal hook, not exported from main index (注意: これは内部フックで、メインインデックスからエクスポートされていません)
-import { useSurveyTemplates } from "@mbc-cqrs-serverless/survey-web/hooks/useSurveyTemplates";
+import { useSurveyTemplates } from "@mbc-cqrs-serverless/survey-web/hooks/use-survey-templates";
 
 function TemplateList() {
   const {
@@ -315,8 +315,8 @@ function TemplateList() {
 
 ```tsx
 // Note: This is an internal hook, not exported from main index (注意: これは内部フックで、メインインデックスからエクスポートされていません)
-import { useEditSurveyTemplate } from "@mbc-cqrs-serverless/survey-web/hooks/useEditSurveyTemplate";
-import type { SurveySchemaType } from "@mbc-cqrs-serverless/survey-web";
+import { useEditSurveyTemplate } from "@mbc-cqrs-serverless/survey-web/hooks/use-edit-survey-template";
+import type { SurveySchemaType } from "@mbc-cqrs-serverless/survey-web/types/schema";
 
 function TemplateEditor({ id }: { id?: string }) {
   const {
@@ -364,7 +364,7 @@ function TemplateEditor({ id }: { id?: string }) {
 
 ```tsx
 // Note: This is an internal hook, not exported from main index (注意: これは内部フックで、メインインデックスからエクスポートされていません)
-import { useDeleteSurveyTemplate } from "@mbc-cqrs-serverless/survey-web/hooks/useDeleteSurveyTemplate";
+import { useDeleteSurveyTemplate } from "@mbc-cqrs-serverless/survey-web/hooks/use-delete-survey-template";
 
 function DeleteButton({ surveyId }: { surveyId: string }) {
   const { handleDeleteSurvey, isDeleting } = useDeleteSurveyTemplate({

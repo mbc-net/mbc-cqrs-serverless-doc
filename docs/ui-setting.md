@@ -38,14 +38,6 @@ description: {{Learn how to manage UI settings and data configurations with the 
 npm install @mbc-cqrs-serverless/ui-setting
 ```
 
-## {{Core Concepts}}
-
-{{The module operates with two main components:}}
-
-1. **{{Settings}}**: {{Define the schema/structure for data entries. Each setting has a code, name, and a list of fields that describe the data structure.}}
-
-2. **{{Data Settings}}**: {{Actual data entries that conform to a setting's schema. Each data setting belongs to a specific setting code.}}
-
 ## {{Module Configuration}}
 
 {{Register the `SettingModule` in your application:}}

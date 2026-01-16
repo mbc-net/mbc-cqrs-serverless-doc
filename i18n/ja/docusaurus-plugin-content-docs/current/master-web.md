@@ -485,6 +485,8 @@ function DataListPage() {
 | `setStorage` | `(props) => void` | 検索条件を保存する関数 |
 | `reset` | `UseFormReset` | react-hook-formのフォームリセット関数 |
 | `setValue` | `UseFormSetValue` | react-hook-formのsetValue関数 |
+| `convertSearchProps` | `(props) => SearchProps` | 検索実行前に検索プロパティを変換するオプション関数 |
+| `convertChangeQueries` | `(props) => SearchProps` | URL変更前にクエリパラメータを変換するオプション関数 |
 
 **戻り値:**
 
@@ -492,9 +494,16 @@ function DataListPage() {
 |----------|------|-------------|
 | `searchProps` | `SearchProps` | 現在の検索パラメータ |
 | `queries` | `SearchProps` | URLクエリパラメータ |
+| `setQueries` | `(props) => Promise<void>` | URLクエリパラメータを直接更新 |
 | `paginate` | `Paginate<T>` | カウントとデータを含むページネーション結果 |
+| `setPaginate` | `(paginate) => void` | ページネーション状態を手動で設定 |
+| `setPaginateClient` | `(items, page?) => void` | クライアントサイドデータ用のページネーションを設定 |
+| `getPaginateClient` | `(items) => Paginate` | 配列をページネーションオブジェクトに変換 |
+| `isCalledSearch` | `boolean` | 検索がトリガーされたかどうか |
 | `onSubmitSearch` | `(props) => Promise<void>` | 新しいパラメータで検索を送信 |
 | `executeSearch` | `() => Promise<object>` | 現在のパラメータで検索を実行 |
+| `searchUsingTableView` | `(props, tableView) => Promise<void>` | 事前定義されたテーブルビューを使用して検索 |
+| `getSearchQuery` | `() => SearchProps \| null` | URLまたはストレージから現在の検索クエリを取得 |
 | `handlePaginationChange` | `OnChangeFn<PaginationState>` | ページ/サイズ変更のハンドラー |
 | `handleSortChange` | `OnChangeFn<SortingState>` | ソート変更のハンドラー |
 | `onResetSearchForm` | `() => Promise<void>` | 検索フォームを空の値にリセット |
@@ -612,6 +621,7 @@ function MyForm() {
 | `reset` | `UseFormReset<T>` | フォームをリセット |
 | `trigger` | `UseFormTrigger<T>` | バリデーションをトリガー |
 | `errors` | `FieldErrors<T>` | フォームバリデーションエラー |
+| `setError` | `UseFormSetError<T>` | フォームエラーを手動で設定 |
 | `loading` | `boolean` | 現在のローディング状態 |
 | `loadingStore` | `LoadingState` | setLoading/closeLoading付きのローディングストア |
 | `isValid` | `boolean` | フォームが有効かどうか |

@@ -56,18 +56,17 @@ export class AppModule {}
 ## Creating Folders
 
 ```typescript
-import { DirectoryStorageService } from '@mbc-cqrs-serverless/directory';
+import { DirectoryService } from '@mbc-cqrs-serverless/directory';
 
 @Injectable()
 export class FolderService {
-  constructor(private readonly directoryService: DirectoryStorageService) {}
+  constructor(private readonly directoryService: DirectoryService) {}
 
   async createFolder(
-    tenantCode: string,
-    dto: CreateDirectoryDto,
+    dto: DirectoryCreateDto,
     invokeContext: IInvoke,
-  ): Promise<DirectoryEntity> {
-    return this.directoryService.create(tenantCode, dto, { invokeContext });
+  ): Promise<DirectoryDataEntity> {
+    return this.directoryService.create(dto, { invokeContext });
   }
 }
 ```
@@ -76,24 +75,31 @@ export class FolderService {
 
 ```typescript
 async uploadFile(
-  tenantCode: string,
-  dto: CreateDirectoryDto,
+  dto: DirectoryCreateDto,
   invokeContext: IInvoke,
-): Promise<DirectoryEntity> {
+): Promise<DirectoryDataEntity> {
   // File upload is handled through the create method with file content
-  return this.directoryService.create(tenantCode, dto, { invokeContext });
+  return this.directoryService.create(dto, { invokeContext });
 }
 ```
 
 ## Listing Contents
 
 ```typescript
-async getDirectory(key: DetailKey): Promise<DirectoryEntity> {
-  return this.directoryService.findOne(key);
+async getDirectory(
+  key: DetailDto,
+  invokeContext: IInvoke,
+  queryDto: DirectoryDetailDto,
+): Promise<DirectoryDataEntity> {
+  return this.directoryService.findOne(key, { invokeContext }, queryDto);
 }
 
-async getDirectoryHistory(key: DetailKey): Promise<DirectoryEntity[]> {
-  return this.directoryService.findHistory(key);
+async getDirectoryHistory(
+  key: DetailDto,
+  invokeContext: IInvoke,
+  queryDto: DirectoryDetailDto,
+): Promise<DirectoryDataListEntity> {
+  return this.directoryService.findHistory(key, { invokeContext }, queryDto);
 }
 ```
 
@@ -101,13 +107,17 @@ async getDirectoryHistory(key: DetailKey): Promise<DirectoryEntity[]> {
 
 ```typescript
 // Get file attributes
-async getFileAttributes(key: DetailKey): Promise<any> {
+async getFileAttributes(key: DetailDto): Promise<DirectoryAttributes> {
   return this.directoryService.getItemAttributes(key);
 }
 
-// Remove file from S3
-async removeFile(s3Key: string): Promise<void> {
-  await this.directoryService.removeFile(s3Key);
+// Remove file and delete from S3
+async removeFile(
+  key: DetailDto,
+  invokeContext: IInvoke,
+  queryDto: DirectoryDetailDto,
+): Promise<DirectoryDataEntity> {
+  return this.directoryService.removeFile(key, { invokeContext }, queryDto);
 }
 ```
 
@@ -117,10 +127,10 @@ async removeFile(s3Key: string): Promise<void> {
 
 ```typescript
 async updatePermission(
-  key: DetailKey,
-  dto: UpdatePermissionDto,
+  key: DetailDto,
+  dto: DirectoryUpdatePermissionDto,
   invokeContext: IInvoke,
-): Promise<DirectoryEntity> {
+): Promise<DirectoryDataEntity> {
   return this.directoryService.updatePermission(key, dto, { invokeContext });
 }
 ```
@@ -129,18 +139,18 @@ async updatePermission(
 
 ```typescript
 async hasPermission(
-  key: DetailKey,
-  userId: string,
-  action: DirectoryAction,
+  key: DetailDto,
+  requiredRole: FileRole[],
+  user?: { email?: string; tenant?: string },
 ): Promise<boolean> {
-  return this.directoryService.hasPermission(key, userId, action);
+  return this.directoryService.hasPermission(key, requiredRole, user);
 }
 
 async getEffectiveRole(
-  key: DetailKey,
-  userId: string,
-): Promise<DirectoryRole | null> {
-  return this.directoryService.getEffectiveRole(key, userId);
+  key: DetailDto,
+  user?: { email?: string; tenant?: string },
+): Promise<FileRole | null> {
+  return this.directoryService.getEffectiveRole(key, user);
 }
 ```
 
@@ -150,10 +160,10 @@ async getEffectiveRole(
 
 ```typescript
 async moveItem(
-  key: DetailKey,
-  dto: MoveDirectoryDto,
+  key: DetailDto,
+  dto: DirectoryMoveDto,
   invokeContext: IInvoke,
-): Promise<DirectoryEntity> {
+): Promise<DirectoryDataEntity> {
   return this.directoryService.move(key, dto, { invokeContext });
 }
 ```
@@ -162,10 +172,10 @@ async moveItem(
 
 ```typescript
 async copyItem(
-  key: DetailKey,
-  dto: CopyDirectoryDto,
+  key: DetailDto,
+  dto: DirectoryCopyDto,
   invokeContext: IInvoke,
-): Promise<DirectoryEntity> {
+): Promise<DirectoryDataEntity> {
   return this.directoryService.copy(key, dto, { invokeContext });
 }
 ```
@@ -196,16 +206,17 @@ Directories are automatically isolated by tenant through the invoke context:
 ```typescript
 @Controller('api/directory')
 export class DirectoryController {
-  constructor(private readonly directoryService: DirectoryStorageService) {}
+  constructor(private readonly directoryService: DirectoryService) {}
 
   @Get(':pk/:sk')
   async findOne(
     @INVOKE_CONTEXT() invokeContext: IInvoke,
     @Param('pk') pk: string,
     @Param('sk') sk: string,
-  ): Promise<DirectoryEntity> {
+    @Query() queryDto: DirectoryDetailDto,
+  ): Promise<DirectoryDataEntity> {
     // Tenant isolation is handled through the pk structure
-    return this.directoryService.findOne({ pk, sk });
+    return this.directoryService.findOne({ pk, sk }, { invokeContext }, queryDto);
   }
 }
 ```

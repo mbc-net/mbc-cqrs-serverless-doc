@@ -276,7 +276,7 @@ Fetch and manage survey templates with pagination and search support.
 
 ```tsx
 // Note: This is an internal hook, not exported from main index
-import { useSurveyTemplates } from "@mbc-cqrs-serverless/survey-web/hooks/useSurveyTemplates";
+import { useSurveyTemplates } from "@mbc-cqrs-serverless/survey-web/hooks/use-survey-templates";
 
 function TemplateList() {
   const {
@@ -315,8 +315,8 @@ Hook for editing survey templates with schema management and submission handling
 
 ```tsx
 // Note: This is an internal hook, not exported from main index
-import { useEditSurveyTemplate } from "@mbc-cqrs-serverless/survey-web/hooks/useEditSurveyTemplate";
-import type { SurveySchemaType } from "@mbc-cqrs-serverless/survey-web";
+import { useEditSurveyTemplate } from "@mbc-cqrs-serverless/survey-web/hooks/use-edit-survey-template";
+import type { SurveySchemaType } from "@mbc-cqrs-serverless/survey-web/types/schema";
 
 function TemplateEditor({ id }: { id?: string }) {
   const {
@@ -364,7 +364,7 @@ Hook for deleting survey templates with success callback.
 
 ```tsx
 // Note: This is an internal hook, not exported from main index
-import { useDeleteSurveyTemplate } from "@mbc-cqrs-serverless/survey-web/hooks/useDeleteSurveyTemplate";
+import { useDeleteSurveyTemplate } from "@mbc-cqrs-serverless/survey-web/hooks/use-delete-survey-template";
 
 function DeleteButton({ surveyId }: { surveyId: string }) {
   const { handleDeleteSurvey, isDeleting } = useDeleteSurveyTemplate({

@@ -290,9 +290,6 @@ class DataListEntity {
   total?: number;        // Total count (if available)
 
   constructor(data: Partial<DataListEntity>);
-
-  get tableName(): string;
-  set tableName(name: string);
 }
 ```
 
@@ -302,8 +299,6 @@ The constructor accepts a partial object, allowing you to create instances from 
 const result = await this.dataService.listItemsByPk(pk);
 const listEntity = new DataListEntity(result);
 ```
-
-The `tableName` getter and setter allow you to access or modify the associated table name for the list result.
 
 ## Best Practices
 

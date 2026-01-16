@@ -54,5 +54,9 @@
   "Clean Up": "クリーンアップ",
   "Implement retention policies for temporary files": "一時ファイルの保持ポリシーを実装",
   "Audit Trail": "監査証跡",
-  "Use events to maintain an audit trail of all operations": "すべての操作の監査証跡を維持するためにイベントを使用"
+  "Use events to maintain an audit trail of all operations": "すべての操作の監査証跡を維持するためにイベントを使用",
+  "File upload is handled through the create method with file content": "File upload is handled through the create method with file content (ファイルアップロードはcreateメソッドを通じて処理されます)",
+  "Get file attributes": "Get file attributes (ファイル属性を取得)",
+  "Remove file and delete from S3": "Remove file and delete from S3 (ファイルを削除してS3からも削除)",
+  "Tenant isolation is handled through the pk structure": "Tenant isolation is handled through the pk structure (テナント分離はpk構造を通じて処理されます)"
 }

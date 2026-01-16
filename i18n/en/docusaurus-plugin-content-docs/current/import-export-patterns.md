@@ -1134,28 +1134,39 @@ export enum ComparisonStatus {
 
 ### ComparisonResult Interface {#comparisonresult-interface}
 
-The `ComparisonResult<T>` interface wraps the comparison status with optional existing data:
+The `ComparisonResult<TEntity>` interface wraps the comparison status with optional existing data. The generic type `TEntity` must extend `DataModel`:
 
 ```typescript
-export interface ComparisonResult<T> {
+import { DataModel } from '@mbc-cqrs-serverless/core'
+
+export interface ComparisonResult<TEntity extends DataModel> {
   status: ComparisonStatus;  // The result of the comparison
-  existingData?: T;          // The existing data if found (for EQUAL or CHANGED status)
+  /**
+   * If the status is 'CHANGED', this property holds the existing entity data
+   * retrieved from the database. It is undefined otherwise.
+   */
+  existingData?: TEntity;
 }
 ```
 
 | Property | Type | Description |
 |--------------|----------|-----------------|
 | `status` | `ComparisonStatus` | The comparison result status |
-| `existingData` | `T \| undefined` | The existing entity data, present when status is EQUAL or CHANGED |
+| `existingData` | `TEntity \| undefined` | The existing entity data, present when status is CHANGED |
 
 ### IProcessStrategy Interface {#iprocessstrategy-interface}
 
-The `IProcessStrategy` interface defines the contract for processing validated import data:
+The `IProcessStrategy` interface defines the contract for processing validated import data. Note that the generic type `TEntity` must extend `DataModel`:
 
 ```typescript
-import { CommandInputModel, CommandPartialInputModel, CommandService } from '@mbc-cqrs-serverless/core';
+import {
+  CommandInputModel,
+  CommandPartialInputModel,
+  CommandService,
+  DataModel,
+} from '@mbc-cqrs-serverless/core';
 
-export interface IProcessStrategy<TExistingData, TAttributesDto> {
+export interface IProcessStrategy<TEntity extends DataModel, TAttributesDto extends object> {
   /**
    * Get the command service for publishing commands
    */
@@ -1164,28 +1175,34 @@ export interface IProcessStrategy<TExistingData, TAttributesDto> {
   /**
    * Compare the validated DTO with existing data
    */
-  compare(dto: TAttributesDto, tenantCode: string): Promise<ComparisonResult<TExistingData>>;
+  compare(
+    importAttributes: TAttributesDto,
+    tenantCode: string,
+  ): Promise<ComparisonResult<TEntity>>;
 
   /**
    * Map the DTO to a command payload based on comparison status
+   * Note: status excludes EQUAL since no mapping is needed for identical data
    * @returns CommandInputModel for create, CommandPartialInputModel for update
    */
   map(
-    status: ComparisonStatus,
-    dto: TAttributesDto,
+    status: Exclude<ComparisonStatus, ComparisonStatus.EQUAL>,
+    importAttributes: TAttributesDto,
     tenantCode: string,
-    existingData?: TExistingData,
+    existingData?: TEntity,
   ): Promise<CommandInputModel | CommandPartialInputModel>;
 }
 ```
 
 ### BaseProcessStrategy Abstract Class {#baseprocessstrategy-class}
 
-The `BaseProcessStrategy` abstract class provides a base implementation that subclasses must extend:
+The `BaseProcessStrategy` abstract class provides a base implementation that subclasses must extend. The generic type `TEntity` must extend `DataModel`:
 
 ```typescript
-export abstract class BaseProcessStrategy<TExistingData, TAttributesDto>
-  implements IProcessStrategy<TExistingData, TAttributesDto>
+import { DataModel } from '@mbc-cqrs-serverless/core';
+
+export abstract class BaseProcessStrategy<TEntity extends DataModel, TTransformedDto extends object>
+  implements IProcessStrategy<TEntity, TTransformedDto>
 {
   /**
    * Abstract method - must be implemented to return the command service
@@ -1196,18 +1213,19 @@ export abstract class BaseProcessStrategy<TExistingData, TAttributesDto>
    * Abstract method - must be implemented to compare data
    */
   abstract compare(
-    dto: TAttributesDto,
+    transformedData: TTransformedDto,
     tenantCode: string,
-  ): Promise<ComparisonResult<TExistingData>>;
+  ): Promise<ComparisonResult<TEntity>>;
 
   /**
    * Abstract method - must be implemented to map data to command payload
+   * Note: status excludes EQUAL since no mapping is needed for identical data
    */
   abstract map(
-    status: ComparisonStatus,
-    dto: TAttributesDto,
+    status: Exclude<ComparisonStatus, ComparisonStatus.EQUAL>,
+    transformedData: TTransformedDto,
     tenantCode: string,
-    existingData?: TExistingData,
+    existingData?: TEntity,
   ): Promise<CommandInputModel | CommandPartialInputModel>;
 }
 ```
@@ -1263,7 +1281,7 @@ export class PolicyProcessStrategy
   }
 
   async map(
-    status: ComparisonStatus,
+    status: Exclude<ComparisonStatus, ComparisonStatus.EQUAL>,
     dto: PolicyCommandDto,
     tenantCode: string,
     existingData?: PolicyDataEntity,
@@ -1272,16 +1290,14 @@ export class PolicyProcessStrategy
       // Return CommandInputModel for creating new records
       return { ...dto, version: 0 } as CommandInputModel;
     }
-    if (status === ComparisonStatus.CHANGED) {
-      // Return CommandPartialInputModel for updating existing records
-      return {
-        pk: dto.pk,
-        sk: dto.sk,
-        attributes: dto.attributes,
-        version: existingData.version,
-      } as CommandPartialInputModel;
-    }
-    throw new Error('Invalid map status');
+    // status === ComparisonStatus.CHANGED
+    // Return CommandPartialInputModel for updating existing records
+    return {
+      pk: dto.pk,
+      sk: dto.sk,
+      attributes: dto.attributes,
+      version: existingData.version,
+    } as CommandPartialInputModel;
   }
 }
 ```
@@ -1477,13 +1493,14 @@ Prior to v1.0.19, errors in child jobs would crash the Lambda and leave the mast
 
 ### CsvImportSfnEventHandler {#csvimportsfneventhandler}
 
-The `CsvImportSfnEventHandler` handles Step Functions CSV import workflow states. It manages the `csv_loader` and `csv_finalizer` states in the import state machine.
+The `CsvImportSfnEventHandler` handles Step Functions CSV import workflow states. It manages the `csv_loader` and `finalize_parent_job` states in the import state machine.
 
 #### Key Methods
 
 | Method | Description |
 |------------|-----------------|
-| `handleCsvLoader(event)` | Processes the csv_loader state, creates child jobs, and handles early finalization |
+| `handleStepState(event)` | Routes events to appropriate handlers based on state name (`csv_loader` or `finalize_parent_job`) |
+| `loadCsv(input)` | Processes the csv_loader state, creates child jobs for CSV rows |
 | `finalizeParentJob(event)` | Finalizes the parent job after all children complete, sets final status |
 
 #### Status Determination (v1.0.20+)
