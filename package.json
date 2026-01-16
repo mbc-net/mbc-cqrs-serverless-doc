@@ -6,7 +6,7 @@
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "start:watch": "ts-node scripts/hot-reload.ts",
-    "build": "docusaurus build && ts-node scripts/post-process-llms.ts",
+    "build": "docusaurus build && ts-node scripts/generate-llms-txt.ts",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
