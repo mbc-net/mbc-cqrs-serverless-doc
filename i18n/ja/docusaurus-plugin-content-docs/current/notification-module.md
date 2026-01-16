@@ -225,7 +225,7 @@ await this.emailService.sendEmail(email);
 `sendInlineTemplateEmail()`メソッドを使用すると、SESに事前登録されたテンプレートを必要とせずに、動的データ置換を使用したテンプレートメールを送信できます。
 
 :::info バージョン情報
-インラインテンプレートメール（`sendInlineTemplateEmail()`）は[バージョン1.0.23](./changelog#v1023)で追加されました。
+インラインテンプレートメール（`sendInlineTemplateEmail()`）は[バージョン1.0.23](/docs/changelog#v1023)で追加されました。
 :::
 
 #### 基本的な使い方

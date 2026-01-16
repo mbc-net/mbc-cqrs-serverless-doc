@@ -21,7 +21,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ### {{Features}}
 
-- **core:** {{Add inline template email support with `sendInlineTemplateEmail()` method}} ([{{See Details}}](./notification-module#inline-template-emails))
+- **core:** {{Add inline template email support with `sendInlineTemplateEmail()` method}} ([{{See Details}}](/docs/notification-module#inline-template-emails))
   - {{New `sendInlineTemplateEmail(msg: TemplatedEmailNotification)` method in EmailService}}
   - {{Support for inline HTML/text templates with dynamic data substitution}}
   - {{Local development fallback with manual template compilation when SES is unavailable}}

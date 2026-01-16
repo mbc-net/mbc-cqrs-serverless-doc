@@ -21,7 +21,7 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ### 新機能
 
-- **core:** インラインテンプレートメールサポートと`sendInlineTemplateEmail()`メソッドを追加 ([詳細を見る](./notification-module#inline-template-emails))
+- **core:** インラインテンプレートメールサポートと`sendInlineTemplateEmail()`メソッドを追加 ([詳細を見る](/docs/notification-module#inline-template-emails))
   - EmailServiceに新しい`sendInlineTemplateEmail(msg: TemplatedEmailNotification)`メソッド
   - 動的データ置換によるインラインHTML/テキストテンプレートのサポート
   - SESが利用できない場合の手動テンプレートコンパイルによるローカル開発フォールバック

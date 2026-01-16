@@ -88,7 +88,7 @@
   "Inline Template Emails": "Inline Template Emails",
   "The `sendInlineTemplateEmail()` method allows you to send templated emails with dynamic data substitution, without requiring pre-registered SES templates.": "The `sendInlineTemplateEmail()` method allows you to send templated emails with dynamic data substitution, without requiring pre-registered SES templates.",
   "Version Note": "Version Note",
-  "Inline template emails (`sendInlineTemplateEmail()`) were added in [version 1.0.23](./changelog#v1023).": "Inline template emails (`sendInlineTemplateEmail()`) were added in [version 1.0.23](./changelog#v1023).",
+  "Inline template emails (`sendInlineTemplateEmail()`) were added in [version 1.0.23](/docs/changelog#v1023).": "Inline template emails (`sendInlineTemplateEmail()`) were added in [version 1.0.23](/docs/changelog#v1023).",
   "Optional plain text version": "Optional plain text version",
   "Template Syntax": "Template Syntax",
   "Templates use `{{variableName}}` placeholders that are replaced with values from the `data` object:": "Templates use `{{variableName}}` placeholders that are replaced with values from the `data` object:",

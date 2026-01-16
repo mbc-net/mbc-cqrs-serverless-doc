@@ -88,7 +88,7 @@
   "Inline Template Emails": "インラインテンプレートメール",
   "The `sendInlineTemplateEmail()` method allows you to send templated emails with dynamic data substitution, without requiring pre-registered SES templates.": "`sendInlineTemplateEmail()`メソッドを使用すると、SESに事前登録されたテンプレートを必要とせずに、動的データ置換を使用したテンプレートメールを送信できます。",
   "Version Note": "バージョン情報",
-  "Inline template emails (`sendInlineTemplateEmail()`) were added in [version 1.0.23](./changelog#v1023).": "インラインテンプレートメール（`sendInlineTemplateEmail()`）は[バージョン1.0.23](./changelog#v1023)で追加されました。",
+  "Inline template emails (`sendInlineTemplateEmail()`) were added in [version 1.0.23](/docs/changelog#v1023).": "インラインテンプレートメール（`sendInlineTemplateEmail()`）は[バージョン1.0.23](/docs/changelog#v1023)で追加されました。",
   "Optional plain text version": "Optional plain text version (オプションのプレーンテキスト版)",
   "Template Syntax": "テンプレート構文",
   "Templates use `{{variableName}}` placeholders that are replaced with values from the `data` object:": "テンプレートは`{{variableName}}`プレースホルダーを使用し、`data`オブジェクトの値で置換されます：",

@@ -225,7 +225,7 @@ await this.emailService.sendEmail(email);
 The `sendInlineTemplateEmail()` method allows you to send templated emails with dynamic data substitution, without requiring pre-registered SES templates.
 
 :::info Version Note
-Inline template emails (`sendInlineTemplateEmail()`) were added in [version 1.0.23](./changelog#v1023).
+Inline template emails (`sendInlineTemplateEmail()`) were added in [version 1.0.23](/docs/changelog#v1023).
 :::
 
 #### Basic Usage
