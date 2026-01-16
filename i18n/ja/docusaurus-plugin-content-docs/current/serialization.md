@@ -85,17 +85,21 @@ function serializeToExternal<T extends CommandEntity | DataEntity>(
 ): Record<string, any> | null
 
 interface SerializerOptions {
-  keepAttributes?: boolean;  // フラット化せずにattributesオブジェクトを保持 (Keep attributes object instead of flattening)（デフォルト: false）
-  flattenDepth?: number;     // ネストされたオブジェクトをフラット化する深さ (Depth to flatten nested objects)（デフォルト: 1）
+  keepAttributes?: boolean;  // Reserved for future use (将来の使用のために予約)
+  flattenDepth?: number;     // Reserved for future use (将来の使用のために予約)
 }
 ```
 
 パラメータ
 - `item`: 内部エンティティ（CommandEntityまたはDataEntity）
-- `options`: オプションのシリアライズオプション
+- `options`: オプションのシリアライズオプション（将来の使用のために予約）
 
 戻り値
 - フラット化された外部構造、または入力がnull/undefinedの場合はnull
+
+:::note
+`SerializerOptions`インターフェースは将来の拡張性のために定義されていますが、現在この関数では使用されていません。関数は常にattributesをトップレベルにフラット化します。
+:::
 
 ### deserializeToInternal
 ```typescript

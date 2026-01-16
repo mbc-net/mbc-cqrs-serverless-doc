@@ -79,8 +79,11 @@
   "Check if a data setting code exists": "データ設定コードの存在確認",
   "Multi-Tenant Support": "マルチテナントサポート",
   "The module automatically handles multi-tenant data isolation. Each tenant's settings and data are stored with tenant-specific keys:": "このモジュールはマルチテナントのデータ分離を自動的に処理します。各テナントの設定とデータはテナント固有のキーで保存されます：",
-  "Example Use Cases": "",
-  "Use Case 1: User Notification Preferences": "",
-  "Scenario: Each user can configure their notification preferences (email on/off, SMS on/off).": "",
-  "Implementation: Create a \"notification-settings\" schema, then store each user's preferences as data entries.": ""
+  "Settings are stored with tenant-prefixed keys:": "Settings are stored with tenant-prefixed keys: (設定はテナントプレフィックス付きキーで保存されます)",
+  "Data settings are stored with setting-prefixed keys:": "Data settings are stored with setting-prefixed keys: (データ設定は設定プレフィックス付きキーで保存されます)",
+  "Example Use Cases": "使用例",
+  "Use Case 1: User Notification Preferences": "ユースケース1：ユーザー通知設定",
+  "Scenario: Each user can configure their notification preferences (email on/off, SMS on/off).": "シナリオ：各ユーザーが通知設定（メールのオン/オフ、SMSのオン/オフ）を構成できます。",
+  "Implementation: Create a \"notification-settings\" schema, then store each user's preferences as data entries.": "実装：「notification-settings」スキーマを作成し、各ユーザーの設定をデータエントリとして保存します。",
+  "Create a setting schema for notification preferences": "Create a setting schema for notification preferences (通知設定用のスキーマを作成)"
 }

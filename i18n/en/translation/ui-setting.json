@@ -79,8 +79,11 @@
   "Check if a data setting code exists": "Check if a data setting code exists",
   "Multi-Tenant Support": "Multi-Tenant Support",
   "The module automatically handles multi-tenant data isolation. Each tenant's settings and data are stored with tenant-specific keys:": "The module automatically handles multi-tenant data isolation. Each tenant's settings and data are stored with tenant-specific keys:",
+  "Settings are stored with tenant-prefixed keys:": "Settings are stored with tenant-prefixed keys:",
+  "Data settings are stored with setting-prefixed keys:": "Data settings are stored with setting-prefixed keys:",
   "Example Use Cases": "Example Use Cases",
   "Use Case 1: User Notification Preferences": "Use Case 1: User Notification Preferences",
   "Scenario: Each user can configure their notification preferences (email on/off, SMS on/off).": "Scenario: Each user can configure their notification preferences (email on/off, SMS on/off).",
-  "Implementation: Create a \"notification-settings\" schema, then store each user's preferences as data entries.": "Implementation: Create a \"notification-settings\" schema, then store each user's preferences as data entries."
+  "Implementation: Create a \"notification-settings\" schema, then store each user's preferences as data entries.": "Implementation: Create a \"notification-settings\" schema, then store each user's preferences as data entries.",
+  "Create a setting schema for notification preferences": "Create a setting schema for notification preferences"
 }

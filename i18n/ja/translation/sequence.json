@@ -51,7 +51,7 @@
   "`MASTER_DATA${KEY_SEPARATOR}${typeCode}`": "",
   "The data structure should be as follows:": "データ構造は以下のとおりです：",
   "Example": "例",
-  "For example, if you want to add `code1` to `code5`,  `month`, `day `, `date`, `no` as well as `fiscal_year`, into your format, the format would look like this:": "たとえば、「code1」から「code5」、「month」、「day」、「date」、「no」、および「fiscal_year」をフォーマットに追加する場合、フォーマットは次のようになります。",
+  "For example, if you want to add `code1` to `code5`, `year`, `month`, `day`, `date`, `no` as well as `fiscal_year`, into your format, the format would look like this:": "たとえば、「code1」から「code5」、「year」、「month」、「day」、「date」、「no」、および「fiscal_year」をフォーマットに追加する場合、フォーマットは次のようになります。",
   "In this format": "このフォーマットでは",
   "Variables are written inside `%% <param> %%.`": "変数は `%% <param> %%` 内に記述されます。",
   "After the #, the length of the variable is specified, indicating the desired length of the field when the formatted sequence number is returned.": "`#` の後に変数の長さを指定し、フォーマットされたシーケンス番号が返されるときに必要なフィールドの長さを示します。",

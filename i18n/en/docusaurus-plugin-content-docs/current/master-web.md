@@ -867,7 +867,8 @@ Button component that displays a confirmation dialog before executing an action.
 | `variant` | `string` | - | Button variant style |
 
 ```tsx
-import ConfirmButton from "@mbc-cqrs-serverless/master-web/components/buttons/ConfirmButton";
+// Note: Internal import path - may change without notice
+import ConfirmButton from "@mbc-cqrs-serverless/master-web/dist/components/buttons/ConfirmButton";
 
 function DeleteAction() {
   const handleDelete = () => {
@@ -903,7 +904,8 @@ Navigation button component for returning to the previous page or a specified lo
 | `className` | `string` | - | Additional CSS classes |
 
 ```tsx
-import { BackButton } from "@mbc-cqrs-serverless/master-web/components/buttons";
+// Note: Internal import path - may change without notice
+import { BackButton } from "@mbc-cqrs-serverless/master-web/dist/components/buttons/back-button";
 import { useRouter } from "next/navigation";
 
 function DetailPage() {
@@ -935,7 +937,8 @@ Date selection component with calendar popup. Uses date-fns for formatting and J
 | `disabled` | `boolean` | `false` | Disables the date picker |
 
 ```tsx
-import DatePicker from "@mbc-cqrs-serverless/master-web/components/form/DatePicker";
+// Note: Internal import path - may change without notice
+import DatePicker from "@mbc-cqrs-serverless/master-web/dist/components/form/DatePicker";
 import { useState } from "react";
 
 function DateForm() {
@@ -973,7 +976,8 @@ The button is automatically disabled when:
 - The form has not been modified (unless `disableDirty` is true)
 
 ```tsx
-import FormSubmitButton from "@mbc-cqrs-serverless/master-web/components/form/FormSubmitButton";
+// Note: Internal import path - may change without notice
+import FormSubmitButton from "@mbc-cqrs-serverless/master-web/dist/components/form/FormSubmitButton";
 import { FormProvider, useForm } from "react-hook-form";
 import { useState } from "react";
 
@@ -1011,9 +1015,9 @@ Full-featured data table component built on TanStack Table. Supports server-side
 | `pageCount` | `number` | - | Total number of pages |
 | `rowCount` | `number` | - | Total number of rows |
 | `pagination` | `PaginationState` | - | Current pagination state (pageIndex, pageSize) |
-| `onPaginationChange` | `OnChangeFn<PaginationState>` | - | Callback when pagination changes |
+| `onPaginationChange` | `(pagination: PaginationState) => void` | - | Callback when pagination changes |
 | `sorting` | `SortingState` | - | Current sorting state |
-| `onSortingChange` | `OnChangeFn<SortingState>` | - | Callback when sorting changes |
+| `onSortingChange` | `(sorting: SortingState) => void` | - | Callback when sorting changes |
 | `onClickRow` | `(row: TData) => void` | - | Callback when a row is clicked |
 | `rowKey` | `keyof TData \| ((row: TData) => string)` | - | Key extractor for row identification |
 | `rowSelection` | `RowSelectionState` | - | Current row selection state |
@@ -1030,8 +1034,9 @@ Full-featured data table component built on TanStack Table. Supports server-side
 - Custom column widths via column meta
 
 ```tsx
-import { DataTable } from "@mbc-cqrs-serverless/master-web/components/table/data-table";
-import { ColumnDef, OnChangeFn, PaginationState, SortingState } from "@tanstack/react-table";
+// Note: Internal import path - may change without notice
+import { DataTable } from "@mbc-cqrs-serverless/master-web/dist/components/table/data-table";
+import { ColumnDef, PaginationState, SortingState } from "@tanstack/react-table";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -1096,7 +1101,8 @@ Full-screen loading overlay component with spinner animation. Useful for indicat
 | `isLoading` | `boolean` | - | Controls visibility of the overlay |
 
 ```tsx
-import LoadingOverlay from "@mbc-cqrs-serverless/master-web/components/LoadingOverlay";
+// Note: Internal import path - may change without notice
+import LoadingOverlay from "@mbc-cqrs-serverless/master-web/dist/components/LoadingOverlay";
 import { useState } from "react";
 
 function MyPage() {

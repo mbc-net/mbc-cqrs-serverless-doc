@@ -44,7 +44,7 @@ interface INotification {
   pk: string;        // Partition key of the changed item
   sk: string;        // Sort key of the changed item
   tenantCode: string; // Tenant code for filtering notifications
-  action: string;    // {{Type of change: 'INSERT', 'MODIFY', 'REMOVE'}}
+  action: string;    // Type of change: 'INSERT', 'MODIFY', 'REMOVE'
   content?: object;  // Optional payload with changed data
 }
 ```
@@ -126,7 +126,7 @@ The `NotificationEvent` class represents a notification event from SQS. It imple
 ```ts
 import { NotificationEvent } from "@mbc-cqrs-serverless/core";
 
-export class NotificationEvent implements IEvent, SQSRecord {
+class NotificationEvent implements IEvent, SQSRecord {
   source: string;
   messageId: string;
   receiptHandle: string;
@@ -138,6 +138,7 @@ export class NotificationEvent implements IEvent, SQSRecord {
   eventSourceARN: string;
   awsRegion: string;
 
+  // Creates a NotificationEvent from an SQS record
   fromSqsRecord(record: SQSRecord): NotificationEvent;
 }
 ```

@@ -271,11 +271,11 @@ const createDto: CreateDataSettingDto = {
 {{The module automatically handles multi-tenant data isolation. Each tenant's settings and data are stored with tenant-specific keys:}}
 
 ```typescript
-// {{Settings are stored with tenant-prefixed keys}}
+// {{Settings are stored with tenant-prefixed keys:}}
 // pk: MASTER#<tenantCode>
 // sk: MASTER_SETTING#<code>
 
-// {{Data settings are stored with setting-prefixed keys}}
+// {{Data settings are stored with setting-prefixed keys:}}
 // pk: MASTER#<tenantCode>
 // sk: <settingCode>#<code>
 ```
@@ -297,7 +297,7 @@ export class AppConfigService {
   ) {}
 
   async initializeDefaultSettings(tenantCode: string, invokeContext: IInvoke) {
-    // Create a setting schema for notification preferences
+    // {{Create a setting schema for notification preferences}}
     const settingDto: CreateSettingDto = {
       code: 'notification-settings',
       name: 'Notification Settings',

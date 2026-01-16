@@ -183,7 +183,7 @@ GenerateFormattedSequenceDto オブジェクトで提供されたパラメータ
 
 #### 例
 
-たとえば、「code1」から「code5」、「month」、「day」、「date」、「no」、および「fiscal_year」をフォーマットに追加する場合、フォーマットは次のようになります。
+たとえば、「code1」から「code5」、「year」、「month」、「day」、「date」、「no」、および「fiscal_year」をフォーマットに追加する場合、フォーマットは次のようになります。
 ```json
 {
   "format": "%%code2#:0>7%%-%%fiscal_year#:0>2%%-%%code3%%%%no#:0>3%%"

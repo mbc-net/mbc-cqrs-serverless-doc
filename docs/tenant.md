@@ -236,6 +236,20 @@ const tenantGroup = await this.tenantService.createTenantGroup(
 import { ITenantService } from "@mbc-cqrs-serverless/tenant";
 ```
 
+{{The interface includes the following methods:}}
+
+- `getTenant(key: DetailKey): Promise<DataModel>`
+- `createTenant(dto: TenantCreateDto, context): Promise<CommandModel>`
+- `updateTenant(key: DetailKey, dto: TenantUpdateDto, context): Promise<CommandModel>`
+- `deleteTenant(key: DetailKey, context): Promise<CommandModel>`
+- `createCommonTenant(dto: CommonTenantCreateDto, context): Promise<CommandModel>`
+- `addTenantGroup(dto: TenantGroupAddDto, context): Promise<CommandModel>`
+- `customizeSettingGroups(dto: TenantGroupUpdateDto, context): Promise<CommandModel>`
+
+:::note
+{{The `createTenantGroup` method is available on `TenantService` but is not part of the `ITenantService` interface.}}
+:::
+
 ## {{See Also}}
 
 - [{{Multi-Tenant Patterns}}](./multi-tenant-patterns) - {{Advanced multi-tenant implementation patterns}}

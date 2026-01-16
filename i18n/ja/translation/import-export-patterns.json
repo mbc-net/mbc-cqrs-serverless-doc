@@ -276,6 +276,7 @@
   "The `context.Execution.Input` contains:": "`context.Execution.Input`には以下が含まれます：",
   "Primary key of the ZIP master job in DynamoDB": "DynamoDBのZIPマスタージョブのプライマリキー",
   "Original import parameters (bucket, tenantCode, tableName)": "元のインポートパラメータ（bucket、tenantCode、tableName）",
+  "The export patterns shown below are example implementations for your application. Unlike the import module (`@mbc-cqrs-serverless/import`), there is no dedicated export package in the framework. You can implement these patterns directly in your application code.": "以下に示すエクスポートパターンは、アプリケーション用の実装例です。インポートモジュール（`@mbc-cqrs-serverless/import`）とは異なり、フレームワークには専用のエクスポートパッケージはありません。これらのパターンをアプリケーションコードに直接実装できます。",
   "Related Documentation": "関連ドキュメント",
   "[Backend Development Guide](./backend-development) - Core backend patterns": "[バックエンド開発ガイド](./backend-development) - コアバックエンドパターン",
   "[Service Patterns](./service-patterns) - Service implementation": "[サービスパターン](./service-patterns) - サービス実装",

@@ -547,10 +547,29 @@ type SurveyTemplateDataEntity = {
 {{Validation rules are defined inside the `validation` object with a discriminated union structure:}}
 
 ```typescript
-interface ValidationRules {
+// {{Base validation rules - applies to all question types}}
+interface BaseValidationRules {
   required?: boolean;
-  custom?: CustomValidationRule;  // {{For short-text and long-text questions}}
-  shuffleOptions?: boolean;       // {{For choice questions - randomize option order}}
+}
+
+// {{For short-text questions}}
+interface ShortTextValidationRules extends BaseValidationRules {
+  custom?: CustomValidationRule;  // {{Supports all validation types}}
+}
+
+// {{For long-text questions}}
+interface LongTextValidationRules extends BaseValidationRules {
+  custom?: LongTextValidationRule;  // {{Supports only LengthValidation and RegexValidation}}
+}
+
+// {{For single-choice, dropdown, and multiple-choice questions}}
+interface ChoiceValidationRules extends BaseValidationRules {
+  shuffleOptions?: boolean;  // {{Randomize option order}}
+}
+
+// {{For multiple-choice questions}}
+interface MultipleChoiceValidationRules extends ChoiceValidationRules {
+  custom?: MultipleChoiceValidationRule;  // {{For min/max/exact selection count}}
 }
 
 // {{Discriminated union for custom validation rules}}
@@ -561,6 +580,11 @@ type CustomValidationRule =
   | TextValidation     // {{short-text only}}
   | LengthValidation   // {{short-text and long-text}}
   | RegexValidation;   // {{short-text and long-text}}
+
+// {{For long-text questions - subset of CustomValidationRule}}
+type LongTextValidationRule =
+  | LengthValidation
+  | RegexValidation;
 
 interface NumberValidation {
   type: "number";

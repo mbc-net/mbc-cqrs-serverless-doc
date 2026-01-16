@@ -463,7 +463,7 @@ The alarm notification includes:
 - Error details
 - Action type: `"sfn-alarm"`
 
-#### `formatTaskStatus(tasks: TaskEntity[]): Promise<FormattedTaskStatus>`
+#### `formatTaskStatus(tasks: TaskEntity[]): Promise<object>`
 
 Formats the task status by calculating subtask counts and aggregating status information. Useful for displaying task progress in UI.
 
@@ -488,10 +488,10 @@ const formattedStatus = await this.taskService.formatTaskStatus(subTasks);
 // }
 ```
 
-The FormattedTaskStatus interface:
+The return object structure:
 
 ```ts
-interface FormattedTaskStatus {
+{
   subTaskCount: number;        // Total subtask count
   subTaskSucceedCount: number; // COMPLETED subtasks
   subTaskFailedCount: number;  // FAILED subtasks

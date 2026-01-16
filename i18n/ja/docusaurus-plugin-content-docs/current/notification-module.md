@@ -44,7 +44,7 @@ interface INotification {
   pk: string;        // Partition key of the changed item (変更されたアイテムのパーティションキー)
   sk: string;        // Sort key of the changed item (変更されたアイテムのソートキー)
   tenantCode: string; // Tenant code for filtering notifications (通知フィルタリング用のテナントコード)
-  action: string;    // {{Type of change: 'INSERT', 'MODIFY', 'REMOVE'}}
+  action: string;    // Type of change: 'INSERT', 'MODIFY', 'REMOVE' (変更タイプ)
   content?: object;  // Optional payload with changed data (変更データを含むオプションのペイロード)
 }
 ```
@@ -126,7 +126,7 @@ AppSyncServiceは2つの認証方法をサポートしています：
 ```ts
 import { NotificationEvent } from "@mbc-cqrs-serverless/core";
 
-export class NotificationEvent implements IEvent, SQSRecord {
+class NotificationEvent implements IEvent, SQSRecord {
   source: string;
   messageId: string;
   receiptHandle: string;
@@ -138,6 +138,7 @@ export class NotificationEvent implements IEvent, SQSRecord {
   eventSourceARN: string;
   awsRegion: string;
 
+  // Creates a NotificationEvent from an SQS record (SQSレコードからNotificationEventを作成)
   fromSqsRecord(record: SQSRecord): NotificationEvent;
 }
 ```

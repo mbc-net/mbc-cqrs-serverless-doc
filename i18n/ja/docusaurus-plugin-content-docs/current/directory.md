@@ -186,6 +186,53 @@ enum FileRole {
   CHANGE_PERMISSION = 'CHANGE_PERMISSION',
   TAKE_OWNERSHIP = 'TAKE_OWNERSHIP',
 }
+
+enum EmailType {
+  EMAIL = 'EMAIL',           // Individual email address (個人のメールアドレス)
+  EMAIL_GROUP = 'EMAIL_GROUP', // Email group or distribution list (メールグループまたは配布リスト)
+}
+```
+
+### ディレクトリ属性
+
+DirectoryAttributesインターフェースはファイルとフォルダのメタデータを定義します：
+
+```typescript
+interface DirectoryAttributes {
+  expirationTime?: string;   // Expiration time for the item (アイテムの有効期限)
+  fileSize?: number;         // File size in bytes (バイト単位のファイルサイズ)
+  fileType?: string;         // MIME type of the file (ファイルのMIMEタイプ)
+  parentId?: string;         // Parent folder ID (親フォルダID)
+  owner: OwnerDto;           // Owner information (所有者情報)
+  s3Key?: string;            // S3 object key (S3オブジェクトキー)
+  ancestors?: string[];      // Array of ancestor folder IDs (祖先フォルダIDの配列)
+  inheritance?: boolean;     // Whether to inherit parent permissions (親の権限を継承するかどうか)
+  tags?: string[];           // Tags for categorization (分類用タグ)
+  permission?: PermissionDto; // Permission settings (権限設定)
+}
+
+interface OwnerDto {
+  email: string;   // Owner's email address (所有者のメールアドレス)
+  ownerId: string; // Owner's user ID (所有者のユーザーID)
+}
+
+interface PermissionDto {
+  type: FilePermission;        // Permission type (権限タイプ)
+  role: FileRole;              // Default role for this permission (この権限のデフォルトロール)
+  domain?: DomainDto;          // Domain restriction (for DOMAIN type) (DOMAINタイプ用のドメイン制限)
+  users?: UserPermissionDto[]; // User-specific permissions (for RESTRICTED type) (RESTRICTEDタイプ用のユーザー固有権限)
+}
+
+interface DomainDto {
+  email: string; // Email domain (e.g., "example.com") (メールドメイン、例：「example.com」)
+}
+
+interface UserPermissionDto {
+  email: string;    // User's email address (ユーザーのメールアドレス)
+  role: FileRole;   // Role assigned to this user (このユーザーに割り当てられたロール)
+  id: string;       // User ID (ユーザーID)
+  type: EmailType;  // Email type (EMAIL or EMAIL_GROUP) (メールタイプ、EMAILまたはEMAIL_GROUP)
+}
 ```
 
 ### 権限の更新

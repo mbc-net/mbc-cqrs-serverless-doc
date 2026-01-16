@@ -57,7 +57,7 @@
   "`MASTER_DATA${KEY_SEPARATOR}${typeCode}`": "`MASTER_DATA${KEY_SEPARATOR}${typeCode}`",
   "The data structure should be as follows:": "The data structure should be as follows:",
   "Example": "Example",
-  "For example, if you want to add `code1` to `code5`,  `month`, `day `, `date`, `no` as well as `fiscal_year`, into your format, the format would look like this:": "For example, if you want to add `code1` to `code5`,  `month`, `day `, `date`, `no` as well as `fiscal_year`, into your format, the format would look like this:",
+  "For example, if you want to add `code1` to `code5`, `year`, `month`, `day`, `date`, `no` as well as `fiscal_year`, into your format, the format would look like this:": "For example, if you want to add `code1` to `code5`, `year`, `month`, `day`, `date`, `no` as well as `fiscal_year`, into your format, the format would look like this:",
   "In this format": "In this format",
   "Variables are written inside `%% <param> %%.`": "Variables are written inside `%% <param> %%.`",
   "After the #, the length of the variable is specified, indicating the desired length of the field when the formatted sequence number is returned.": "After the #, the length of the variable is specified, indicating the desired length of the field when the formatted sequence number is returned.",

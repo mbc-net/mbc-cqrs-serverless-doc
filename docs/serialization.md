@@ -85,17 +85,21 @@ function serializeToExternal<T extends CommandEntity | DataEntity>(
 ): Record<string, any> | null
 
 interface SerializerOptions {
-  keepAttributes?: boolean;  // {{Keep attributes object instead of flattening (default: false)}}
-  flattenDepth?: number;     // {{Depth to flatten nested objects (default: 1)}}
+  keepAttributes?: boolean;  // {{Reserved for future use}}
+  flattenDepth?: number;     // {{Reserved for future use}}
 }
 ```
 
 {{Parameters:}}
 - {{`item`: Internal entity (CommandEntity or DataEntity).}}
-- {{`options`: Optional serialization options.}}
+- {{`options`: Optional serialization options (reserved for future use).}}
 
 {{Returns:}}
 - {{Flattened external structure or null if input is null/undefined}}
+
+:::note
+{{The `SerializerOptions` interface is defined for future extensibility but is not currently used by the function. The function always flattens attributes to the top level.}}
+:::
 
 ### {{deserializeToInternal}}
 ```typescript

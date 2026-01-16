@@ -58,7 +58,7 @@
   "Number of failed subtasks": "Number of failed subtasks",
   "Number of in-progress subtasks": "Number of in-progress subtasks",
   "Array of subtask summaries": "Array of subtask summaries",
-  "The FormattedTaskStatus interface:": "The FormattedTaskStatus interface:",
+  "The return object structure:": "The return object structure:",
   "Total subtask count": "Total subtask count",
   "COMPLETED subtasks": "COMPLETED subtasks",
   "FAILED subtasks": "FAILED subtasks",

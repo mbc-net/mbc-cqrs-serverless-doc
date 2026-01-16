@@ -126,7 +126,7 @@ export class MyService {
 ```ts
 import { NotificationEvent } from "@mbc-cqrs-serverless/core";
 
-export class NotificationEvent implements IEvent, SQSRecord {
+class NotificationEvent implements IEvent, SQSRecord {
   source: string;
   messageId: string;
   receiptHandle: string;
@@ -138,6 +138,7 @@ export class NotificationEvent implements IEvent, SQSRecord {
   eventSourceARN: string;
   awsRegion: string;
 
+  // {{Creates a NotificationEvent from an SQS record}}
   fromSqsRecord(record: SQSRecord): NotificationEvent;
 }
 ```

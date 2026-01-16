@@ -183,7 +183,7 @@ export class SeqModule {}
 
 #### {{Example}}
 
-{{For example, if you want to add `code1` to `code5`,  `month`, `day `, `date`, `no` as well as `fiscal_year`, into your format, the format would look like this:}}
+{{For example, if you want to add `code1` to `code5`, `year`, `month`, `day`, `date`, `no` as well as `fiscal_year`, into your format, the format would look like this:}}
 ```json
 {
   "format": "%%code2#:0>7%%-%%fiscal_year#:0>2%%-%%code3%%%%no#:0>3%%"

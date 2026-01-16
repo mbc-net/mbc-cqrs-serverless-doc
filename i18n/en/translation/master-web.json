@@ -310,5 +310,6 @@
   "Radix UI components": "Radix UI components",
   "Tailwind CSS 3.x": "Tailwind CSS 3.x",
   "react-hook-form": "react-hook-form",
-  "Zod for validation": "Zod for validation"
+  "Zod for validation": "Zod for validation",
+  "Note: Internal import path - may change without notice": "Note: Internal import path - may change without notice"
 }

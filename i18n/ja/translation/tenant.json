@@ -60,5 +60,7 @@
   "Tenant code (optional for update)": "テナントコード（更新時はオプション）",
   "Interfaces": "インターフェース",
   "ITenantService": "ITenantService",
-  "The `ITenantService` interface defines the contract for tenant management operations. You can use this interface for dependency injection or creating mock implementations for testing.": "`ITenantService`インターフェースは、テナント管理操作の契約を定義します。依存性注入やテスト用のモック実装の作成に使用できます。"
+  "The `ITenantService` interface defines the contract for tenant management operations. You can use this interface for dependency injection or creating mock implementations for testing.": "`ITenantService`インターフェースは、テナント管理操作の契約を定義します。依存性注入やテスト用のモック実装の作成に使用できます。",
+  "The interface includes the following methods:": "インターフェースには以下のメソッドが含まれています：",
+  "The `createTenantGroup` method is available on `TenantService` but is not part of the `ITenantService` interface.": "`createTenantGroup`メソッドは`TenantService`で利用可能ですが、`ITenantService`インターフェースには含まれていません。"
 }

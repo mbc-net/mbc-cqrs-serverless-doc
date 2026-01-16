@@ -60,5 +60,7 @@
   "Tenant code (optional for update)": "Tenant code (optional for update)",
   "Interfaces": "Interfaces",
   "ITenantService": "ITenantService",
-  "The `ITenantService` interface defines the contract for tenant management operations. You can use this interface for dependency injection or creating mock implementations for testing.": "The `ITenantService` interface defines the contract for tenant management operations. You can use this interface for dependency injection or creating mock implementations for testing."
+  "The `ITenantService` interface defines the contract for tenant management operations. You can use this interface for dependency injection or creating mock implementations for testing.": "The `ITenantService` interface defines the contract for tenant management operations. You can use this interface for dependency injection or creating mock implementations for testing.",
+  "The interface includes the following methods:": "The interface includes the following methods:",
+  "The `createTenantGroup` method is available on `TenantService` but is not part of the `ITenantService` interface.": "The `createTenantGroup` method is available on `TenantService` but is not part of the `ITenantService` interface."
 }

@@ -547,10 +547,29 @@ type SurveyTemplateDataEntity = {
 バリデーションルールは`validation`オブジェクト内に判別共用体構造で定義されます：
 
 ```typescript
-interface ValidationRules {
+// Base validation rules - applies to all question types (ベースバリデーションルール - すべての質問タイプに適用)
+interface BaseValidationRules {
   required?: boolean;
-  custom?: CustomValidationRule;  // short-textおよびlong-text質問用 (For short-text and long-text questions)
-  shuffleOptions?: boolean;       // 選択質問用 - 選択肢の順序をランダム化 (For choice questions - randomize option order)
+}
+
+// For short-text questions (short-text質問用)
+interface ShortTextValidationRules extends BaseValidationRules {
+  custom?: CustomValidationRule;  // Supports all validation types (すべてのバリデーションタイプをサポート)
+}
+
+// For long-text questions (long-text質問用)
+interface LongTextValidationRules extends BaseValidationRules {
+  custom?: LongTextValidationRule;  // Supports only LengthValidation and RegexValidation (LengthValidationとRegexValidationのみサポート)
+}
+
+// For single-choice, dropdown, and multiple-choice questions (single-choice、dropdown、multiple-choice質問用)
+interface ChoiceValidationRules extends BaseValidationRules {
+  shuffleOptions?: boolean;  // Randomize option order (選択肢の順序をランダム化)
+}
+
+// 複数選択質問用 (For multiple-choice questions)
+interface MultipleChoiceValidationRules extends ChoiceValidationRules {
+  custom?: MultipleChoiceValidationRule;  // For min/max/exact selection count (最小/最大/正確な選択数用)
 }
 
 // カスタムバリデーションルール用の判別共用体 (Discriminated union for custom validation rules)
@@ -561,6 +580,11 @@ type CustomValidationRule =
   | TextValidation     // short-text only (short-textのみ)
   | LengthValidation   // short-text and long-text (short-textとlong-text)
   | RegexValidation;   // short-text and long-text (short-textとlong-text)
+
+// For long-text questions - subset of CustomValidationRule (long-text質問用 - CustomValidationRuleのサブセット)
+type LongTextValidationRule =
+  | LengthValidation
+  | RegexValidation;
 
 interface NumberValidation {
   type: "number";

@@ -271,22 +271,22 @@ const createDto: CreateDataSettingDto = {
 このモジュールはマルチテナントのデータ分離を自動的に処理します。各テナントの設定とデータはテナント固有のキーで保存されます：
 
 ```typescript
-// {{Settings are stored with tenant-prefixed keys}}
+// Settings are stored with tenant-prefixed keys: (設定はテナントプレフィックス付きキーで保存されます)
 // pk: MASTER#<tenantCode>
 // sk: MASTER_SETTING#<code>
 
-// {{Data settings are stored with setting-prefixed keys}}
+// Data settings are stored with setting-prefixed keys: (データ設定は設定プレフィックス付きキーで保存されます)
 // pk: MASTER#<tenantCode>
 // sk: <settingCode>#<code>
 ```
 
-## Example Use Cases
+## 使用例
 
-### Use Case 1: User Notification Preferences
+### ユースケース1：ユーザー通知設定
 
-Scenario: Each user can configure their notification preferences (email on/off, SMS on/off).
+シナリオ：各ユーザーが通知設定（メールのオン/オフ、SMSのオン/オフ）を構成できます。
 
-Implementation: Create a "notification-settings" schema, then store each user's preferences as data entries.
+実装：「notification-settings」スキーマを作成し、各ユーザーの設定をデータエントリとして保存します。
 
 ```typescript
 @Injectable()
@@ -297,7 +297,7 @@ export class AppConfigService {
   ) {}
 
   async initializeDefaultSettings(tenantCode: string, invokeContext: IInvoke) {
-    // Create a setting schema for notification preferences
+    // Create a setting schema for notification preferences (通知設定用のスキーマを作成)
     const settingDto: CreateSettingDto = {
       code: 'notification-settings',
       name: 'Notification Settings',

@@ -186,6 +186,53 @@ enum FileRole {
   CHANGE_PERMISSION = 'CHANGE_PERMISSION',
   TAKE_OWNERSHIP = 'TAKE_OWNERSHIP',
 }
+
+enum EmailType {
+  EMAIL = 'EMAIL',           // {{Individual email address}}
+  EMAIL_GROUP = 'EMAIL_GROUP', // {{Email group or distribution list}}
+}
+```
+
+### {{Directory Attributes}}
+
+{{The DirectoryAttributes interface defines the metadata for files and folders:}}
+
+```typescript
+interface DirectoryAttributes {
+  expirationTime?: string;   // {{Expiration time for the item}}
+  fileSize?: number;         // {{File size in bytes}}
+  fileType?: string;         // {{MIME type of the file}}
+  parentId?: string;         // {{Parent folder ID}}
+  owner: OwnerDto;           // {{Owner information}}
+  s3Key?: string;            // {{S3 object key}}
+  ancestors?: string[];      // {{Array of ancestor folder IDs}}
+  inheritance?: boolean;     // {{Whether to inherit parent permissions}}
+  tags?: string[];           // {{Tags for categorization}}
+  permission?: PermissionDto; // {{Permission settings}}
+}
+
+interface OwnerDto {
+  email: string;   // {{Owner's email address}}
+  ownerId: string; // {{Owner's user ID}}
+}
+
+interface PermissionDto {
+  type: FilePermission;        // {{Permission type}}
+  role: FileRole;              // {{Default role for this permission}}
+  domain?: DomainDto;          // {{Domain restriction (for DOMAIN type)}}
+  users?: UserPermissionDto[]; // {{User-specific permissions (for RESTRICTED type)}}
+}
+
+interface DomainDto {
+  email: string; // {{Email domain (e.g., "example.com")}}
+}
+
+interface UserPermissionDto {
+  email: string;    // {{User's email address}}
+  role: FileRole;   // {{Role assigned to this user}}
+  id: string;       // {{User ID}}
+  type: EmailType;  // {{Email type (EMAIL or EMAIL_GROUP)}}
+}
 ```
 
 ### {{Updating Permissions}}

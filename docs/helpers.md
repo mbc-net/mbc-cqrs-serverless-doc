@@ -374,10 +374,14 @@ const result = omitKeys({ a: 1, b: 2, c: 3 }, ['b']);
 
 ```ts
 interface SerializerOptions {
-  keepAttributes?: boolean;  // {{Keep attributes object instead of flattening (default: false)}}
-  flattenDepth?: number;     // {{Depth to flatten nested objects (default: 1)}}
+  keepAttributes?: boolean;  // {{Reserved for future use}}
+  flattenDepth?: number;     // {{Reserved for future use}}
 }
 ```
+
+:::note
+{{The `SerializerOptions` interface is defined for future extensibility but is not currently used by the function. The function always flattens attributes to the top level.}}
+:::
 
 ### `serializeToExternal<T extends CommandEntity | DataEntity>(item: T | null | undefined, options?: SerializerOptions): Record<string, any> | null`
 

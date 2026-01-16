@@ -58,7 +58,7 @@
   "Number of failed subtasks": "失敗したサブタスクの数",
   "Number of in-progress subtasks": "進行中のサブタスクの数",
   "Array of subtask summaries": "Array of subtask summaries (サブタスクサマリーの配列)",
-  "The FormattedTaskStatus interface:": "FormattedTaskStatusインターフェース:",
+  "The return object structure:": "戻り値オブジェクトの構造:",
   "Total subtask count": "サブタスクの合計数",
   "COMPLETED subtasks": "COMPLETEDサブタスク",
   "FAILED subtasks": "FAILEDサブタスク",

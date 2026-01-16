@@ -726,6 +726,10 @@ export class ProductImportStrategy
 
 ## {{Export Pattern}}
 
+:::info {{Note}}
+{{The export patterns shown below are example implementations for your application. Unlike the import module (`@mbc-cqrs-serverless/import`), there is no dedicated export package in the framework. You can implement these patterns directly in your application code.}}
+:::
+
 ### {{Export Service}}
 
 ```typescript

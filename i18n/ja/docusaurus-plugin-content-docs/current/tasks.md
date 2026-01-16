@@ -463,7 +463,7 @@ try {
 - エラー詳細
 - アクションタイプ: `"sfn-alarm"`
 
-#### `formatTaskStatus(tasks: TaskEntity[]): Promise<FormattedTaskStatus>`
+#### `formatTaskStatus(tasks: TaskEntity[]): Promise<object>`
 
 サブタスク数を計算しステータス情報を集計してタスクステータスをフォーマットします。UIでのタスク進捗表示に便利です。
 
@@ -488,10 +488,10 @@ const formattedStatus = await this.taskService.formatTaskStatus(subTasks);
 // }
 ```
 
-FormattedTaskStatusインターフェース:
+戻り値オブジェクトの構造:
 
 ```ts
-interface FormattedTaskStatus {
+{
   subTaskCount: number;        // サブタスクの合計数
   subTaskSucceedCount: number; // COMPLETEDサブタスク
   subTaskFailedCount: number;  // FAILEDサブタスク

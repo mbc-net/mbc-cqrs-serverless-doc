@@ -867,7 +867,8 @@ function MasterPage() {
 | `variant` | `string` | - | ボタンのバリアントスタイル |
 
 ```tsx
-import ConfirmButton from "@mbc-cqrs-serverless/master-web/components/buttons/ConfirmButton";
+// Note: Internal import path - may change without notice (注意: 内部インポートパス - 予告なく変更される可能性があります)
+import ConfirmButton from "@mbc-cqrs-serverless/master-web/dist/components/buttons/ConfirmButton";
 
 function DeleteAction() {
   const handleDelete = () => {
@@ -903,7 +904,8 @@ function DeleteAction() {
 | `className` | `string` | - | 追加のCSSクラス |
 
 ```tsx
-import { BackButton } from "@mbc-cqrs-serverless/master-web/components/buttons";
+// Note: Internal import path - may change without notice (注意: 内部インポートパス - 予告なく変更される可能性があります)
+import { BackButton } from "@mbc-cqrs-serverless/master-web/dist/components/buttons/back-button";
 import { useRouter } from "next/navigation";
 
 function DetailPage() {
@@ -935,7 +937,8 @@ function DetailPage() {
 | `disabled` | `boolean` | `false` | 日付ピッカーを無効化 |
 
 ```tsx
-import DatePicker from "@mbc-cqrs-serverless/master-web/components/form/DatePicker";
+// Note: Internal import path - may change without notice (注意: 内部インポートパス - 予告なく変更される可能性があります)
+import DatePicker from "@mbc-cqrs-serverless/master-web/dist/components/form/DatePicker";
 import { useState } from "react";
 
 function DateForm() {
@@ -973,7 +976,8 @@ react-hook-formと連携するように設計された送信ボタンコンポ�
 - フォームが変更されていない場合（`disableDirty`がtrueでない限り）
 
 ```tsx
-import FormSubmitButton from "@mbc-cqrs-serverless/master-web/components/form/FormSubmitButton";
+// Note: Internal import path - may change without notice (注意: 内部インポートパス - 予告なく変更される可能性があります)
+import FormSubmitButton from "@mbc-cqrs-serverless/master-web/dist/components/form/FormSubmitButton";
 import { FormProvider, useForm } from "react-hook-form";
 import { useState } from "react";
 
@@ -1011,9 +1015,9 @@ TanStack Table上に構築されたフル機能のデータテーブルコンポ
 | `pageCount` | `number` | - | 総ページ数 |
 | `rowCount` | `number` | - | 総行数 |
 | `pagination` | `PaginationState` | - | 現在のページネーション状態（pageIndex、pageSize） |
-| `onPaginationChange` | `OnChangeFn<PaginationState>` | - | ページネーション変更時のコールバック |
+| `onPaginationChange` | `(pagination: PaginationState) => void` | - | ページネーション変更時のコールバック |
 | `sorting` | `SortingState` | - | 現在のソート状態 |
-| `onSortingChange` | `OnChangeFn<SortingState>` | - | ソート変更時のコールバック |
+| `onSortingChange` | `(sorting: SortingState) => void` | - | ソート変更時のコールバック |
 | `onClickRow` | `(row: TData) => void` | - | 行がクリックされた時のコールバック |
 | `rowKey` | `keyof TData \| ((row: TData) => string)` | - | 行識別用のキー抽出 |
 | `rowSelection` | `RowSelectionState` | - | 現在の行選択状態 |
@@ -1030,8 +1034,9 @@ TanStack Table上に構築されたフル機能のデータテーブルコンポ
 - カラムメタによるカスタムカラム幅
 
 ```tsx
-import { DataTable } from "@mbc-cqrs-serverless/master-web/components/table/data-table";
-import { ColumnDef, OnChangeFn, PaginationState, SortingState } from "@tanstack/react-table";
+// Note: Internal import path - may change without notice (注意: 内部インポートパス - 予告なく変更される可能性があります)
+import { DataTable } from "@mbc-cqrs-serverless/master-web/dist/components/table/data-table";
+import { ColumnDef, PaginationState, SortingState } from "@tanstack/react-table";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -1096,7 +1101,8 @@ function UserList() {
 | `isLoading` | `boolean` | - | オーバーレイの表示/非表示を制御 |
 
 ```tsx
-import LoadingOverlay from "@mbc-cqrs-serverless/master-web/components/LoadingOverlay";
+// Note: Internal import path - may change without notice (注意: 内部インポートパス - 予告なく変更される可能性があります)
+import LoadingOverlay from "@mbc-cqrs-serverless/master-web/dist/components/LoadingOverlay";
 import { useState } from "react";
 
 function MyPage() {
