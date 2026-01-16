@@ -16,7 +16,7 @@
     "*.js",
     "*.css"
   ],
-  "rules": [
+  "customRules": [
     "This framework uses CQRS (Command Query Responsibility Segregation) pattern with Event Sourcing",
     "Commands are processed asynchronously by default, use *Sync methods for synchronous processing",
     "All entities use pk (partition key) and sk (sort key) for DynamoDB storage",
