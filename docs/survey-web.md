@@ -692,7 +692,8 @@ interface MultipleChoiceValidationRule {
 
 | {{Variable}} | {{Description}} | {{Required}} |
 |----------|-------------|----------|
-| `NEXT_PUBLIC_API_URL` | {{Base URL for REST API endpoints}} | {{Yes}} |
+| `API_URL` | {{Base URL for REST API endpoints (server-side only, takes precedence over NEXT_PUBLIC_API_URL)}} | {{No}} |
+| `NEXT_PUBLIC_API_URL` | {{Base URL for REST API endpoints (client-side)}} | {{Yes}} |
 | `NEXT_PUBLIC_TENANT_CODE` | {{Tenant code for x-tenant-code header (default: 'common')}} | {{No}} |
 | `NEXT_PUBLIC_AWS_APPSYNC_GRAPHQLENDPOINT` | {{AWS AppSync GraphQL endpoint}} | {{Yes}} |
 | `NEXT_PUBLIC_AWS_APPSYNC_APIKEY` | {{AWS AppSync API key for authentication}} | {{Yes}} |
@@ -702,6 +703,7 @@ interface MultipleChoiceValidationRule {
 
 ```bash
 # {{REST API Configuration}}
+# {{API_URL is optional (server-side only), NEXT_PUBLIC_API_URL is required}}
 NEXT_PUBLIC_API_URL=https://api.example.com
 
 # {{Tenant Configuration}}

@@ -320,7 +320,7 @@ import { DetailKey } from "@mbc-cqrs-serverless/core";
 // Get a specific version of a command (特定バージョンのコマンドを取得)
 const command = await this.commandService.getItem({
   pk: "CAT#tenant1",
-  sk: "CAT#cat001#00000002", // Includes version number (バージョン番号を含む)
+  sk: "CAT#cat001@2", // Includes version number (バージョン番号を含む)
 });
 
 // If no version in sk, automatically gets latest version (skにバージョンがない場合、自動的に最新バージョンを取得)
@@ -356,11 +356,11 @@ import { DetailKey } from "@mbc-cqrs-serverless/core";
 
 const currentKey: DetailKey = {
   pk: "CAT#tenant1",
-  sk: "CAT#cat001#00000002",
+  sk: "CAT#cat001@2",
 };
 
 const nextCommand = await this.commandService.getNextCommand(currentKey);
-// Returns command with sk: "CAT#cat001#00000003" if exists (存在する場合、sk: "CAT#cat001#00000003"のコマンドを返す)
+// Returns command with sk: "CAT#cat001@3" if exists (存在する場合、sk: "CAT#cat001@3"のコマンドを返す)
 ```
 
 ### *async* `updateStatus(key: DetailKey, status: string, notifyId?: string): Promise<void>`
@@ -372,7 +372,7 @@ import { DetailKey } from "@mbc-cqrs-serverless/core";
 
 const key: DetailKey = {
   pk: "CAT#tenant1",
-  sk: "CAT#cat001#00000001",
+  sk: "CAT#cat001@1",
 };
 
 // Update status and send SNS notification (ステータスを更新してSNS通知を送信)
@@ -400,7 +400,7 @@ import { basename } from "path";
 
 const key: DetailKey = {
   pk: "CAT#tenant1",
-  sk: "CAT#cat001#00000001",
+  sk: "CAT#cat001@1",
 };
 
 const commandSource = getCommandSource(
@@ -429,7 +429,7 @@ import { DetailKey } from "@mbc-cqrs-serverless/core";
 
 const key: DetailKey = {
   pk: "CAT#tenant1",
-  sk: "CAT#cat001#00000001",
+  sk: "CAT#cat001@1",
 };
 
 // Store the Step Functions task token (Step Functionsタスクトークンを保存)
@@ -448,7 +448,7 @@ import { DetailKey } from "@mbc-cqrs-serverless/core";
 
 const key: DetailKey = {
   pk: "CAT#tenant1",
-  sk: "CAT#cat001#00000003", // Version 3 (バージョン3)
+  sk: "CAT#cat001@3", // Version 3 (バージョン3)
 };
 
 // Updates TTL of version 2 (previous version) (バージョン2（前のバージョン）のTTLを更新)

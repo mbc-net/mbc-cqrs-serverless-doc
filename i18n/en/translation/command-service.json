@@ -54,7 +54,7 @@
   "Sort key without version": "Sort key without version",
   "*async* `getNextCommand(currentKey: DetailKey): Promise<CommandModel>`": "*async* `getNextCommand(currentKey: DetailKey): Promise<CommandModel>`",
   "Retrieves the next version of a command based on the current command's key. This is useful for processing command chains or implementing retry logic.": "Retrieves the next version of a command based on the current command's key. This is useful for processing command chains or implementing retry logic.",
-  "Returns command with sk: \"CAT#cat001#00000003\" if exists": "Returns command with sk: \"CAT#cat001#00000003\" if exists",
+  "Returns command with sk: \"CAT#cat001@3\" if exists": "Returns command with sk: \"CAT#cat001@3\" if exists",
   "*async* `updateStatus(key: DetailKey, status: string, notifyId?: string): Promise<void>`": "*async* `updateStatus(key: DetailKey, status: string, notifyId?: string): Promise<void>`",
   "Updates the status of a command and sends an SNS notification. This is commonly used to update task or process statuses and notify subscribers of the change.": "Updates the status of a command and sends an SNS notification. This is commonly used to update task or process statuses and notify subscribers of the change.",
   "Update status and send SNS notification": "Update status and send SNS notification",

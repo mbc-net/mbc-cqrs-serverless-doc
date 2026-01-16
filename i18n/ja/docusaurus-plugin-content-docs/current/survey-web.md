@@ -692,7 +692,8 @@ interface MultipleChoiceValidationRule {
 
 | 変数 | 説明 | 必須 |
 |----------|-------------|----------|
-| `NEXT_PUBLIC_API_URL` | REST APIエンドポイントのベースURL | はい |
+| `API_URL` | REST APIエンドポイントのベースURL（サーバーサイドのみ、NEXT_PUBLIC_API_URLより優先） | いいえ |
+| `NEXT_PUBLIC_API_URL` | REST APIエンドポイントのベースURL（クライアントサイド） | はい |
 | `NEXT_PUBLIC_TENANT_CODE` | x-tenant-codeヘッダー用のテナントコード（デフォルト：'common'） | いいえ |
 | `NEXT_PUBLIC_AWS_APPSYNC_GRAPHQLENDPOINT` | AWS AppSync GraphQLエンドポイント | はい |
 | `NEXT_PUBLIC_AWS_APPSYNC_APIKEY` | 認証用AWS AppSync APIキー | はい |
@@ -702,6 +703,7 @@ interface MultipleChoiceValidationRule {
 
 ```bash
 # REST API設定 (REST API Configuration)
+# API_URLはオプション（サーバーサイドのみ）、NEXT_PUBLIC_API_URLは必須 (API_URL is optional (server-side only), NEXT_PUBLIC_API_URL is required)
 NEXT_PUBLIC_API_URL=https://api.example.com
 
 # テナント設定 (Tenant Configuration)

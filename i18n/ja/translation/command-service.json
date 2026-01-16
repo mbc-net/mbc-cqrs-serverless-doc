@@ -54,7 +54,7 @@
   "Sort key without version": "Sort key without version (バージョンなしのソートキー)",
   "*async* `getNextCommand(currentKey: DetailKey): Promise<CommandModel>`": "*async* `getNextCommand(currentKey: DetailKey): Promise<CommandModel>`",
   "Retrieves the next version of a command based on the current command's key. This is useful for processing command chains or implementing retry logic.": "現在のコマンドのキーに基づいて、次のバージョンのコマンドを取得します。これは、コマンドチェーンの処理やリトライロジックの実装に役立ちます。",
-  "Returns command with sk: \"CAT#cat001#00000003\" if exists": "Returns command with sk: \"CAT#cat001#00000003\" if exists (存在する場合、sk: \"CAT#cat001#00000003\"のコマンドを返す)",
+  "Returns command with sk: \"CAT#cat001@3\" if exists": "Returns command with sk: \"CAT#cat001@3\" if exists (存在する場合、sk: \"CAT#cat001@3\"のコマンドを返す)",
   "*async* `updateStatus(key: DetailKey, status: string, notifyId?: string): Promise<void>`": "*async* `updateStatus(key: DetailKey, status: string, notifyId?: string): Promise<void>`",
   "Updates the status of a command and sends an SNS notification. This is commonly used to update task or process statuses and notify subscribers of the change.": "コマンドのステータスを更新し、SNS通知を送信します。これは、タスクやプロセスのステータスを更新し、変更をサブスクライバーに通知するために一般的に使用されます。",
   "Update status and send SNS notification": "Update status and send SNS notification (ステータスを更新してSNS通知を送信)",

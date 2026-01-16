@@ -320,7 +320,7 @@ import { DetailKey } from "@mbc-cqrs-serverless/core";
 // {{Get a specific version of a command}}
 const command = await this.commandService.getItem({
   pk: "CAT#tenant1",
-  sk: "CAT#cat001#00000002", // {{Includes version number}}
+  sk: "CAT#cat001@2", // {{Includes version number}}
 });
 
 // {{If no version in sk, automatically gets latest version}}
@@ -356,11 +356,11 @@ import { DetailKey } from "@mbc-cqrs-serverless/core";
 
 const currentKey: DetailKey = {
   pk: "CAT#tenant1",
-  sk: "CAT#cat001#00000002",
+  sk: "CAT#cat001@2",
 };
 
 const nextCommand = await this.commandService.getNextCommand(currentKey);
-// {{Returns command with sk: "CAT#cat001#00000003" if exists}}
+// {{Returns command with sk: "CAT#cat001@3" if exists}}
 ```
 
 ### {{*async* `updateStatus(key: DetailKey, status: string, notifyId?: string): Promise<void>`}}
@@ -372,7 +372,7 @@ import { DetailKey } from "@mbc-cqrs-serverless/core";
 
 const key: DetailKey = {
   pk: "CAT#tenant1",
-  sk: "CAT#cat001#00000001",
+  sk: "CAT#cat001@1",
 };
 
 // {{Update status and send SNS notification}}
@@ -400,7 +400,7 @@ import { basename } from "path";
 
 const key: DetailKey = {
   pk: "CAT#tenant1",
-  sk: "CAT#cat001#00000001",
+  sk: "CAT#cat001@1",
 };
 
 const commandSource = getCommandSource(
@@ -429,7 +429,7 @@ import { DetailKey } from "@mbc-cqrs-serverless/core";
 
 const key: DetailKey = {
   pk: "CAT#tenant1",
-  sk: "CAT#cat001#00000001",
+  sk: "CAT#cat001@1",
 };
 
 // {{Store the Step Functions task token}}
@@ -448,7 +448,7 @@ import { DetailKey } from "@mbc-cqrs-serverless/core";
 
 const key: DetailKey = {
   pk: "CAT#tenant1",
-  sk: "CAT#cat001#00000003", // {{Version 3}}
+  sk: "CAT#cat001@3", // {{Version 3}}
 };
 
 // {{Updates TTL of version 2 (previous version)}}
