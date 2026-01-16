@@ -121,10 +121,10 @@ Add the new version entry at the top of the "Stable Releases" section. **Always 
 ## [x.y.z](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/vx.y.z) (YYYY-MM-DD) {#vxyz}
 
 ### {{Bug Fixes}}
-- **package:** {{Description of the fix}} ([{{See Details}}](./feature.md#section-anchor))
+- **package:** {{Description of the fix}} ([{{See Details}}](/docs/feature#section-anchor))
 
 ### {{Features}}
-- **package:** {{Description of new feature}} ([{{See Details}}](./feature.md#section-anchor))
+- **package:** {{Description of new feature}} ([{{See Details}}](/docs/feature#section-anchor))
   - {{Sub-feature 1}}
   - {{Sub-feature 2}}
 
@@ -168,7 +168,7 @@ Use this when documenting a new feature that was added in a specific version:
 {{Description of the feature...}}
 
 :::info {{Version Note}}
-{{Feature name (`tool1`, `tool2`, `tool3`) were added in [version X.Y.Z](./changelog#vxyz).}}
+{{Feature name (`tool1`, `tool2`, `tool3`) were added in [version X.Y.Z](/docs/changelog#vxyz).}}
 :::
 ```
 
@@ -178,7 +178,7 @@ Use this when documenting a new feature that was added in a specific version:
 ## {{Code Analysis Tools}} {#code-analysis-tools}
 
 :::info {{Version Note}}
-{{Code analysis tools (`mbc_check_anti_patterns`, `mbc_health_check`, `mbc_explain_code`) were added in [version 1.0.22](./changelog#v1022).}}
+{{Code analysis tools (`mbc_check_anti_patterns`, `mbc_health_check`, `mbc_explain_code`) were added in [version 1.0.22](/docs/changelog#v1022).}}
 :::
 
 ### {{Anti-Pattern Detection}}
@@ -205,7 +205,7 @@ Use this when documenting a bug that was fixed:
 
 {{Example of the problematic behavior or impact}}
 
-{{See also:}} [{{Changelog vX.Y.Z}}](./changelog#vxyz)
+{{See also:}} [{{Changelog vX.Y.Z}}](/docs/changelog#vxyz)
 :::
 ```
 
@@ -219,7 +219,7 @@ Use this when documenting a bug that was fixed:
 
 {{If you are using v1.0.16 or earlier and need exact matching, upgrade to v1.0.17 or later.}}
 
-{{See also:}} [{{Changelog v1.0.17}}](./changelog#v1017)
+{{See also:}} [{{Changelog v1.0.17}}](/docs/changelog#v1017)
 :::
 ```
 
@@ -239,7 +239,7 @@ Always create bidirectional links between the changelog and the related feature 
 ## [1.0.22](...) (2026-01-16) {#v1022}
 
 ### {{Features}}
-- **mcp-server:** {{Add code analysis tools}} ([{{See Details}}](./mcp-server#code-analysis-tools))
+- **mcp-server:** {{Add code analysis tools}} ([{{See Details}}](/docs/mcp-server#code-analysis-tools))
 ```
 
 **In Feature Documentation (e.g., `docs/mcp-server.md`):**
@@ -247,13 +247,15 @@ Always create bidirectional links between the changelog and the related feature 
 ## {{Code Analysis Tools}} {#code-analysis-tools}
 
 :::info {{Version Note}}
-{{Code analysis tools were added in [version 1.0.22](./changelog#v1022).}}
+{{Code analysis tools were added in [version 1.0.22](/docs/changelog#v1022).}}
 :::
 ```
 
 **Link Format:**
-- Changelog to feature: `(./feature#section-anchor)` - links to the specific section (no `.md` extension)
-- Feature to changelog: `(./changelog#vxyz)` - links to the version heading (e.g., `#v1022` for v1.0.22)
+- Changelog to feature: `(/docs/feature#section-anchor)` - **MUST use absolute path** (no `.md` extension)
+- Feature to changelog: `(/docs/changelog#vxyz)` - **MUST use absolute path** (e.g., `#v1022` for v1.0.22)
+
+**IMPORTANT:** Always use absolute paths (`/docs/...`) instead of relative paths (`./...`) for cross-links. Relative paths cause 404 errors in the Japanese version because Docusaurus resolves them incorrectly (e.g., `./feature` from `/docs/changelog` becomes `/docs/changelog/feature` instead of `/docs/feature`).
 
 **Anchor Naming Convention:**
 - Changelog: `{#v1022}` (version number without dots)
@@ -271,9 +273,9 @@ For each new entry, add translations to:
 - [ ] Update related feature documentation:
   - [ ] Add section anchor (e.g., `{#code-analysis-tools}`)
   - [ ] Add version note: `:::info` for new features, `:::warning` for bug fixes
-- [ ] Create bidirectional cross-links:
-  - [ ] Changelog → Feature: `([{{See Details}}](./feature#section-anchor))`
-  - [ ] Feature → Changelog: `[version X.Y.Z](./changelog#vxyz)`
+- [ ] Create bidirectional cross-links (use absolute paths `/docs/...`):
+  - [ ] Changelog → Feature: `([{{See Details}}](/docs/feature#section-anchor))`
+  - [ ] Feature → Changelog: `[version X.Y.Z](/docs/changelog#vxyz)`
 - [ ] Add Japanese translations:
   - [ ] `i18n/ja/translation/changelog.json`
   - [ ] `i18n/ja/translation/<feature>.json`
