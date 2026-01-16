@@ -278,6 +278,8 @@
   "Key extractor for row identification": "Key extractor for row identification",
   "Current row selection state": "Current row selection state",
   "Callback when row selection changes": "Callback when row selection changes",
+  "OnChangeFn Type": "OnChangeFn Type",
+  "`OnChangeFn<T>` is a TanStack Table type: `(updater: T | ((prev: T) => T)) => void`. This is compatible with React's `useState` setter functions.": "`OnChangeFn<T>` is a TanStack Table type: `(updater: T | ((prev: T) => T)) => void`. This is compatible with React's `useState` setter functions.",
   "DataTable Features": "DataTable Features",
   "Server-side pagination with page size options (10, 20, 50, 100)": "Server-side pagination with page size options (10, 20, 50, 100)",
   "Jump to specific page functionality": "Jump to specific page functionality",

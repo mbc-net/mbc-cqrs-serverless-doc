@@ -1015,13 +1015,17 @@ Full-featured data table component built on TanStack Table. Supports server-side
 | `pageCount` | `number` | - | Total number of pages |
 | `rowCount` | `number` | - | Total number of rows |
 | `pagination` | `PaginationState` | - | Current pagination state (pageIndex, pageSize) |
-| `onPaginationChange` | `(pagination: PaginationState) => void` | - | Callback when pagination changes |
+| `onPaginationChange` | `OnChangeFn<PaginationState>` | - | Callback when pagination changes |
 | `sorting` | `SortingState` | - | Current sorting state |
-| `onSortingChange` | `(sorting: SortingState) => void` | - | Callback when sorting changes |
+| `onSortingChange` | `OnChangeFn<SortingState>` | - | Callback when sorting changes |
 | `onClickRow` | `(row: TData) => void` | - | Callback when a row is clicked |
 | `rowKey` | `keyof TData \| ((row: TData) => string)` | - | Key extractor for row identification |
 | `rowSelection` | `RowSelectionState` | - | Current row selection state |
-| `onRowSelectionChange` | `(state: RowSelectionState) => void` | - | Callback when row selection changes |
+| `onRowSelectionChange` | `OnChangeFn<RowSelectionState>` | - | Callback when row selection changes |
+
+:::info OnChangeFn Type
+`OnChangeFn<T>` is a TanStack Table type: `(updater: T | ((prev: T) => T)) => void`. This is compatible with React's `useState` setter functions.
+:::
 
 #### DataTable Features
 
@@ -1036,7 +1040,7 @@ Full-featured data table component built on TanStack Table. Supports server-side
 ```tsx
 // Note: Internal import path - may change without notice
 import { DataTable } from "@mbc-cqrs-serverless/master-web/dist/components/table/data-table";
-import { ColumnDef, PaginationState, SortingState } from "@tanstack/react-table";
+import { ColumnDef, OnChangeFn, PaginationState, SortingState } from "@tanstack/react-table";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 

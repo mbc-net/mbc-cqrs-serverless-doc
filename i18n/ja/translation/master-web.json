@@ -278,6 +278,8 @@
   "Key extractor for row identification": "行識別用のキー抽出",
   "Current row selection state": "現在の行選択状態",
   "Callback when row selection changes": "行選択変更時のコールバック",
+  "OnChangeFn Type": "OnChangeFn 型",
+  "`OnChangeFn<T>` is a TanStack Table type: `(updater: T | ((prev: T) => T)) => void`. This is compatible with React's `useState` setter functions.": "`OnChangeFn<T>`はTanStack Tableの型で、`(updater: T | ((prev: T) => T)) => void`の形式です。ReactのuseStateセッター関数と互換性があります。",
   "DataTable Features": "DataTable 機能",
   "Server-side pagination with page size options (10, 20, 50, 100)": "ページサイズオプション（10、20、50、100）付きのサーバーサイドページネーション",
   "Jump to specific page functionality": "特定ページへのジャンプ機能",

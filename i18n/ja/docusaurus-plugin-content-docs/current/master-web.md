@@ -1015,13 +1015,17 @@ TanStack Table上に構築されたフル機能のデータテーブルコンポ
 | `pageCount` | `number` | - | 総ページ数 |
 | `rowCount` | `number` | - | 総行数 |
 | `pagination` | `PaginationState` | - | 現在のページネーション状態（pageIndex、pageSize） |
-| `onPaginationChange` | `(pagination: PaginationState) => void` | - | ページネーション変更時のコールバック |
+| `onPaginationChange` | `OnChangeFn<PaginationState>` | - | ページネーション変更時のコールバック |
 | `sorting` | `SortingState` | - | 現在のソート状態 |
-| `onSortingChange` | `(sorting: SortingState) => void` | - | ソート変更時のコールバック |
+| `onSortingChange` | `OnChangeFn<SortingState>` | - | ソート変更時のコールバック |
 | `onClickRow` | `(row: TData) => void` | - | 行がクリックされた時のコールバック |
 | `rowKey` | `keyof TData \| ((row: TData) => string)` | - | 行識別用のキー抽出 |
 | `rowSelection` | `RowSelectionState` | - | 現在の行選択状態 |
-| `onRowSelectionChange` | `(state: RowSelectionState) => void` | - | 行選択変更時のコールバック |
+| `onRowSelectionChange` | `OnChangeFn<RowSelectionState>` | - | 行選択変更時のコールバック |
+
+:::info OnChangeFn 型
+`OnChangeFn<T>`はTanStack Tableの型で、`(updater: T | ((prev: T) => T)) => void`の形式です。ReactのuseStateセッター関数と互換性があります。
+:::
 
 #### DataTable 機能
 
@@ -1036,7 +1040,7 @@ TanStack Table上に構築されたフル機能のデータテーブルコンポ
 ```tsx
 // Note: Internal import path - may change without notice (注意: 内部インポートパス - 予告なく変更される可能性があります)
 import { DataTable } from "@mbc-cqrs-serverless/master-web/dist/components/table/data-table";
-import { ColumnDef, PaginationState, SortingState } from "@tanstack/react-table";
+import { ColumnDef, OnChangeFn, PaginationState, SortingState } from "@tanstack/react-table";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
