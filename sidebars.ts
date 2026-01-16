@@ -65,6 +65,8 @@ const sidebars: SidebarsConfig = {
         "service-patterns",
         "multi-tenant-patterns",
         "import-export-patterns",
+        "api-integration-guide",
+        "data-migration-patterns",
       ],
     },
 

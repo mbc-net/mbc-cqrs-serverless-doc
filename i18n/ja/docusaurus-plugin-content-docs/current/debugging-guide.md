@@ -398,6 +398,444 @@ function debugLog(message: string, data?: any): void {
 6. **最近の変更を確認**: 最後に動作した時から何が変わりましたか？
 7. **依存関係を確認**: すべてのサービスは正常ですか？
 
+## ローカルStep Functionsデバッグ
+
+フレームワークはAWS Step Functions Localをサポートしており、ローカル開発環境でStep Functionsワークフローをテストおよびデバッグできます。
+
+### Step Functions Localの起動
+
+Step Functions Localは他のローカルサービスと並行してDockerコンテナとして実行されます：
+
+```bash
+# Start all local services including Step Functions (Step Functionsを含むすべてのローカルサービスを起動)
+cd infra-local
+docker-compose up -d
+```
+
+Step Functions Localサービスはポート8083で実行され、ローカルのLambda関数に接続します。
+
+### ローカルでのステートマシン作成
+
+AWS CLIを使用してStep Functions Localでステートマシンを作成します：
+
+```bash
+# Create state machine from definition (定義からステートマシンを作成)
+aws stepfunctions create-state-machine \
+  --endpoint-url http://localhost:8083 \
+  --name command \
+  --definition file://state-machine-definition.json \
+  --role-arn "arn:aws:iam::101010101010:role/DummyRole"
+```
+
+### 実行の開始とモニタリング
+
+ローカルでStep Functions実行を開始およびモニタリングします：
+
+```bash
+# Start an execution (実行を開始)
+aws stepfunctions start-execution \
+  --endpoint-url http://localhost:8083 \
+  --state-machine-arn arn:aws:states:ap-northeast-1:101010101010:stateMachine:command \
+  --input '{"pk":"TODO#tenant","sk":"item#001@1"}'
+
+# List executions (実行一覧を表示)
+aws stepfunctions list-executions \
+  --endpoint-url http://localhost:8083 \
+  --state-machine-arn arn:aws:states:ap-northeast-1:101010101010:stateMachine:command
+
+# Get execution history (実行履歴を取得)
+aws stepfunctions get-execution-history \
+  --endpoint-url http://localhost:8083 \
+  --execution-arn arn:aws:states:ap-northeast-1:101010101010:execution:command:execution-id
+```
+
+### waitForTaskTokenのデバッグ
+
+waitForTaskTokenを使用するStep Functions（コマンド処理ワークフローなど）をデバッグする場合、手動でタスク成功または失敗を送信できます：
+
+```bash
+# Send task success (タスク成功を送信)
+aws stepfunctions send-task-success \
+  --endpoint-url http://localhost:8083 \
+  --task-token "YOUR_TASK_TOKEN" \
+  --task-output '{"Payload":[[{"result":0}]]}'
+
+# Send task failure (タスク失敗を送信)
+aws stepfunctions send-task-failure \
+  --endpoint-url http://localhost:8083 \
+  --task-token "YOUR_TASK_TOKEN" \
+  --cause "Debug failure" \
+  --error "TestError"
+```
+
+## CloudWatchを使用した本番デバッグ
+
+### Lambdaログ分析
+
+各Lambda関数はCloudWatchにログを書き込みます。これらのパターンを使用して本番環境の問題を分析します：
+
+```bash
+# Find log groups for your application (アプリケーションのロググループを検索)
+aws logs describe-log-groups \
+  --log-group-name-prefix /aws/lambda/prod-myapp
+
+# Get recent log events (最近のログイベントを取得)
+aws logs get-log-events \
+  --log-group-name /aws/lambda/prod-myapp-handler \
+  --log-stream-name '2024/01/15/[$LATEST]abc123' \
+  --limit 100
+
+# Filter for errors in the last hour (過去1時間のエラーをフィルタリング)
+aws logs filter-log-events \
+  --log-group-name /aws/lambda/prod-myapp-handler \
+  --start-time $(date -d '1 hour ago' +%s000) \
+  --filter-pattern "ERROR"
+```
+
+### Step Functions実行分析
+
+本番環境のStep Functionsデバッグの場合：
+
+```bash
+# List failed executions (失敗した実行を一覧表示)
+aws stepfunctions list-executions \
+  --state-machine-arn arn:aws:states:REGION:ACCOUNT:stateMachine:command \
+  --status-filter FAILED
+
+# Get detailed execution history (詳細な実行履歴を取得)
+aws stepfunctions get-execution-history \
+  --execution-arn arn:aws:states:REGION:ACCOUNT:execution:command:exec-id \
+  --include-execution-data
+
+# Describe execution for input/output (入出力の実行詳細を取得)
+aws stepfunctions describe-execution \
+  --execution-arn arn:aws:states:REGION:ACCOUNT:execution:command:exec-id
+```
+
+### CQRS向けCloudWatch Logs Insights
+
+MBC CQRSアプリケーション向けにカスタマイズされたCloudWatch Logs Insightsクエリを使用します：
+
+```
+# Find version conflicts (バージョン競合を検索)
+fields @timestamp, @message
+| filter @message like /version not match|ConditionalCheckFailed/
+| sort @timestamp desc
+| limit 50
+
+# Track command processing (コマンド処理を追跡)
+fields @timestamp, @message
+| filter @message like /publish|publishSync|publishAsync/
+| parse @message "pk=* sk=*" as pk, sk
+| sort @timestamp desc
+| limit 100
+
+# Analyze data sync operations (データ同期操作を分析)
+fields @timestamp, @message
+| filter @message like /DataSyncHandler|sync_data/
+| sort @timestamp desc
+| limit 100
+
+# Find Step Functions timeouts (Step Functionsタイムアウトを検索)
+fields @timestamp, @message
+| filter @message like /waitForTaskToken|taskToken/
+| sort @timestamp desc
+| limit 50
+```
+
+## バージョン競合のデバッグ
+
+バージョン競合は、複数のプロセスが同時に同じアイテムを更新しようとした場合に発生します。フレームワークは楽観的ロックを使用してデータの一貫性を確保します。
+
+### バージョン番号の理解
+
+MBC CQRS Serverlessでは、バージョン管理は以下のように機能します：
+
+- ソートキー（sk）形式：`ITEM#code@version`（例：`TODO#001@3`）
+- バージョン区切り文字：`@`
+- VERSION_FIRST：`0`（初期バージョン）
+- VERSION_LATEST：`-1`（最新バージョンを自動取得）
+
+### バージョン競合の特定
+
+コマンドテーブルでバージョン履歴を確認：
+
+```bash
+# Query all versions of an item (アイテムの全バージョンをクエリ)
+aws dynamodb query \
+  --table-name prod-myapp-command \
+  --endpoint-url http://localhost:8000 \
+  --key-condition-expression "pk = :pk AND begins_with(sk, :sk)" \
+  --expression-attribute-values '{
+    ":pk": {"S": "TODO#tenant"},
+    ":sk": {"S": "TODO#001@"}
+  }' \
+  --scan-index-forward false
+```
+
+### バージョン競合の解決
+
+```typescript
+// Option 1: Use VERSION_LATEST (-1) for auto-versioning (オプション1：自動バージョニングにVERSION_LATEST (-1)を使用)
+await commandService.publishPartialUpdateAsync({
+  pk: 'TODO#tenant',
+  sk: 'TODO#001',
+  version: -1,  // Auto-fetches latest version (最新バージョンを自動取得)
+  name: 'Updated Name',
+}, options);
+
+// Option 2: Fetch and retry pattern (オプション2：フェッチとリトライパターン)
+async function updateWithRetry(pk: string, sk: string, updates: any, maxRetries = 3) {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      const latest = await dataService.getItem({ pk, sk });
+      return await commandService.publishPartialUpdateSync({
+        pk,
+        sk,
+        version: latest.version,
+        ...updates,
+      }, options);
+    } catch (error) {
+      if (error.message.includes('version not match') && i < maxRetries - 1) {
+        await new Promise(r => setTimeout(r, 100 * Math.pow(2, i)));
+        continue;
+      }
+      throw error;
+    }
+  }
+}
+```
+
+## DynamoDBコマンド履歴の検査
+
+コマンドテーブルはすべてのコマンドの完全な履歴を保存し、完全な監査証跡とデバッグを可能にします。
+
+### テーブル構造
+
+フレームワークはモジュールごとに2つのDynamoDBテーブルを使用します：
+
+- `{env}-{app}-{module}-command`：バージョン付きのコマンド履歴を保存
+- `{env}-{app}-{module}-data`：現在の状態（最新バージョン）を保存
+
+### コマンド履歴のクエリ
+
+```bash
+# Get the latest version from data table (データテーブルから最新バージョンを取得)
+aws dynamodb get-item \
+  --table-name dev-myapp-sample-data \
+  --endpoint-url http://localhost:8000 \
+  --key '{"pk":{"S":"TODO#tenant"},"sk":{"S":"TODO#001"}}'
+
+# Get all command versions (すべてのコマンドバージョンを取得)
+aws dynamodb query \
+  --table-name dev-myapp-sample-command \
+  --endpoint-url http://localhost:8000 \
+  --key-condition-expression "pk = :pk AND begins_with(sk, :sk)" \
+  --expression-attribute-values '{
+    ":pk": {"S": "TODO#tenant"},
+    ":sk": {"S": "TODO#001@"}
+  }' \
+  --projection-expression "pk, sk, version, createdAt, createdBy, #s, requestId" \
+  --expression-attribute-names '{"#s": "source"}' \
+  --scan-index-forward false
+
+# Get a specific version (特定のバージョンを取得)
+aws dynamodb get-item \
+  --table-name dev-myapp-sample-command \
+  --endpoint-url http://localhost:8000 \
+  --key '{"pk":{"S":"TODO#tenant"},"sk":{"S":"TODO#001@3"}}'
+```
+
+### DynamoDB Admin UIの使用
+
+DynamoDB Adminはローカルの DynamoDBテーブルを閲覧するためのWebインターフェースを提供します：
+
+1. ローカルサービス実行中に http://localhost:8001 にアクセス
+2. テーブルを選択（例：`dev-myapp-sample-command`）
+3. pkまたはskで特定のアイテムを検索するためにフィルターを使用
+
+### プログラムによる履歴アクセス
+
+```typescript
+import { DynamoDbService } from '@mbc-cqrs-serverless/core';
+
+// Get all versions of an item (アイテムの全バージョンを取得)
+async function getCommandHistory(pk: string, baseSk: string) {
+  const result = await dynamoDbService.listItemsByPk(
+    commandTableName,
+    pk,
+    {
+      skExpession: 'begins_with(sk, :sk)',
+      skAttributeValues: { ':sk': `${baseSk}@` },
+    },
+    undefined,
+    100,
+    'desc', // Latest first (最新順)
+  );
+  return result.items;
+}
+```
+
+## 一般的なデバッグシナリオ
+
+### シナリオ1：コマンドがデータテーブルに表示されない
+
+症状：コマンドは公開されましたが、データテーブルには古いバージョンが表示されています。
+
+デバッグ手順：
+
+1. コマンドテーブルで新しいバージョンを確認：
+   ```bash
+   aws dynamodb query --table-name dev-myapp-sample-command \
+     --endpoint-url http://localhost:8000 \
+     --key-condition-expression "pk = :pk" \
+     --expression-attribute-values '{":pk":{"S":"TODO#tenant"}}' \
+     --scan-index-forward false --limit 5
+   ```
+
+2. DynamoDB Streamsが有効で処理中か確認：
+   - .envでLOCAL_DDB_SAMPLE_STREAMが設定されているか確認
+   - Lambdaログでストリーム処理エラーを確認
+
+3. Step Functions実行を確認：
+   ```bash
+   aws stepfunctions list-executions \
+     --endpoint-url http://localhost:8083 \
+     --state-machine-arn arn:aws:states:ap-northeast-1:101010101010:stateMachine:command \
+     --status-filter RUNNING
+   ```
+
+4. データ同期ハンドラーが登録されているか確認：
+   ```typescript
+   // Check in your module (モジュールで確認)
+   @Module({
+     imports: [
+       CommandModule.register({
+         tableName: 'sample',
+         dataSyncHandlers: [YourSyncHandler], // Ensure registered (登録を確認)
+       }),
+     ],
+   })
+   ```
+
+### シナリオ2：Step FunctionがRUNNING状態で停止
+
+症状：Step Functions実行が完了しません。
+
+デバッグ手順：
+
+1. 実行詳細を取得：
+   ```bash
+   aws stepfunctions describe-execution \
+     --endpoint-url http://localhost:8083 \
+     --execution-arn YOUR_EXECUTION_ARN
+   ```
+
+2. taskTokenを待っているか確認：
+   - `wait_prev_command`で停止している場合、前のバージョンがまだ処理中です
+   - 前のコマンドのtaskTokenコールバックが送信されたか確認
+
+3. コマンドテーブルでtaskTokenを確認：
+   ```bash
+   aws dynamodb get-item \
+     --table-name dev-myapp-sample-command \
+     --endpoint-url http://localhost:8000 \
+     --key '{"pk":{"S":"TODO#tenant"},"sk":{"S":"TODO#001@2"}}' \
+     --projection-expression "taskToken, version, #s" \
+     --expression-attribute-names '{"#s": "status"}'
+   ```
+
+4. 必要に応じて手動で再開（デバッグ目的のみ）：
+   ```bash
+   aws stepfunctions send-task-success \
+     --endpoint-url http://localhost:8083 \
+     --task-token "TASK_TOKEN_FROM_COMMAND" \
+     --task-output '{"Payload":[[{"result":0}]]}'
+   ```
+
+### シナリオ3：重複コマンドが処理されている
+
+症状：同じコマンドが複数回処理されています。
+
+デバッグ手順：
+
+1. 同じデータで複数のバージョンを確認：
+   ```bash
+   aws dynamodb query --table-name dev-myapp-sample-command \
+     --endpoint-url http://localhost:8000 \
+     --key-condition-expression "pk = :pk AND begins_with(sk, :sk)" \
+     --expression-attribute-values '{":pk":{"S":"TODO#tenant"},":sk":{"S":"TODO#001@"}}' \
+     --projection-expression "sk, version, requestId, createdAt"
+   ```
+
+2. requestIdの値を比較して重複送信を特定
+
+3. クライアントがタイムアウト時にリトライしているか確認：
+   - クライアント側のエラーハンドリングを確認
+   - 冪等性キーを実装
+
+### シナリオ4：データ同期ハンドラーが実行されない
+
+症状：コマンドは保存されましたが、外部システムは更新されていません。
+
+デバッグ手順：
+
+1. ハンドラーが正しくデコレートされているか確認：
+   ```typescript
+   @DataSyncHandler({
+     tableName: 'sample',
+     type: 'custom-sync',
+   })
+   export class CustomSyncHandler implements IDataSyncHandler {
+     // ...
+   }
+   ```
+
+2. ハンドラーが検出されているか確認：
+   - デバッグロギングを有効化：`DEBUG=* npm run offline`
+   - "find data sync handlers from decorator"メッセージを探す
+
+3. ハンドラーにデバッグを追加：
+   ```typescript
+   async up(command: CommandModel): Promise<void> {
+     this.logger.debug(`CustomSyncHandler.up called: ${command.pk}#${command.sk}`);
+     // Your sync logic (同期ロジック)
+   }
+   ```
+
+### シナリオ5：X-Rayトレースが表示されない
+
+症状：X-Rayサービスマップまたはトレースが表示されません。
+
+デバッグ手順：
+
+1. CDKでX-Rayが有効になっているか確認：
+   ```typescript
+   // Check Lambda function configuration (Lambda関数の設定を確認)
+   const handler = new NodejsFunction(this, 'Handler', {
+     tracing: lambda.Tracing.ACTIVE, // Should be ACTIVE (ACTIVEであるべき)
+   });
+   ```
+
+2. IAM権限にX-Rayが含まれているか確認：
+   ```json
+   {
+     "Effect": "Allow",
+     "Action": [
+       "xray:PutTraceSegments",
+       "xray:PutTelemetryRecords"
+     ],
+     "Resource": "*"
+   }
+   ```
+
+3. SDKインストルメンテーションの場合、セットアップを確認：
+   ```typescript
+   import * as AWSXRay from 'aws-xray-sdk';
+   // Must be called before any AWS SDK usage (AWS SDK使用前に呼び出す必要がある)
+   const AWS = AWSXRay.captureAWS(require('aws-sdk'));
+   ```
+
 ## 次のステップ
 
 - [よくある問題](./common-issues) - 既知の問題と解決策
