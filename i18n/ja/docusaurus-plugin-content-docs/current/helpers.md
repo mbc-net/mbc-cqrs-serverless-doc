@@ -93,6 +93,17 @@ const pk = seqPk('mbc');
 // 結果: 'SEQ#mbc'
 ```
 
+### `ttlSk(tableName: string): string`
+
+テーブル用のTTLソートキーを生成します。TTL関連のレコードを識別するために使用されます。
+
+```ts
+import { ttlSk } from '@mbc-cqrs-serverless/core';
+
+const sk = ttlSk('my-table');
+// 結果: 'TTL#my-table'
+```
+
 ## S3属性ヘルパー
 
 S3 URI属性を操作するための関数。
@@ -368,9 +379,9 @@ interface SerializerOptions {
 }
 ```
 
-### `serializeToExternal<T>(item: T, options?: SerializerOptions): Record<string, any> | null`
+### `serializeToExternal<T extends CommandEntity | DataEntity>(item: T | null | undefined, options?: SerializerOptions): Record<string, any> | null`
 
-内部DynamoDBエンティティを外部フラット構造に変換します。attributesオブジェクトをルートレベルにフラット化します。
+内部DynamoDBエンティティを外部フラット構造に変換します。attributesオブジェクトをルートレベルにフラット化します。入力がnullまたはundefinedの場合はnullを返します。
 
 ```ts
 import { serializeToExternal } from '@mbc-cqrs-serverless/core';
@@ -405,9 +416,9 @@ const external = serializeToExternal(entity);
 // }
 ```
 
-### `deserializeToInternal<T>(data: Record<string, any>, EntityClass: new () => T): T | null`
+### `deserializeToInternal<T extends CommandEntity | DataEntity>(data: Record<string, any> | null | undefined, EntityClass: new () => T): T | null`
 
-外部フラット構造を内部DynamoDBエンティティ構造に変換します。
+外部フラット構造を内部DynamoDBエンティティ構造に変換します。入力がnullまたはundefinedの場合はnullを返します。
 
 ```ts
 import { deserializeToInternal, DataEntity } from '@mbc-cqrs-serverless/core';

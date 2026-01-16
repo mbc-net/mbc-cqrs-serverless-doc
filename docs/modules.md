@@ -126,8 +126,135 @@ SequencesModule.register({
 ```typescript
 MasterModule.register({
   enableController: true,
+  prismaService: PrismaService,
 })
 ```
+
+:::warning {{MasterModule Configuration Note}}
+{{When `enableController: true`, the `prismaService` parameter is **required**. You must provide your application's PrismaService class. The framework will throw an error if `prismaService` is not provided when controllers are enabled.}}
+:::
+
+### {{TaskModule}}
+
+{{TaskModule handles asynchronous task execution using AWS Step Functions. It requires a custom event factory that implements `ITaskQueueEventFactory`.}}
+
+```typescript
+import { TaskModule } from '@mbc-cqrs-serverless/task';
+import { MyTaskQueueEventFactory } from './my-task-queue-event.factory';
+
+TaskModule.register({
+  taskQueueEventFactory: MyTaskQueueEventFactory,
+  enableController: true,
+})
+```
+
+| {{Option}} | {{Type}} | {{Default}} | {{Description}} |
+|--------|------|---------|-------------|
+| `taskQueueEventFactory` | `Type<ITaskQueueEventFactory>` | {{Required}} | {{Factory class for transforming task queue events}} |
+| `enableController` | `boolean` | `false` | {{Enable built-in task REST endpoints}} |
+
+{{The `taskQueueEventFactory` must implement the `ITaskQueueEventFactory` interface:}}
+
+```typescript
+import { ITaskQueueEventFactory, TaskQueueEvent, StepFunctionTaskEvent } from '@mbc-cqrs-serverless/task';
+import { IEvent } from '@mbc-cqrs-serverless/core';
+
+export class MyTaskQueueEventFactory implements ITaskQueueEventFactory {
+  async transformTask(event: TaskQueueEvent): Promise<IEvent[]> {
+    // {{Transform task queue events into domain events}}
+    return [];
+  }
+
+  async transformStepFunctionTask(event: StepFunctionTaskEvent): Promise<IEvent[]> {
+    // {{Transform Step Function task events into domain events}}
+    return [];
+  }
+}
+```
+
+### {{ImportModule}}
+
+{{The ImportModule provides CSV and API data import functionality. It requires defining import profiles that specify how data should be imported and processed for each entity type.}}
+
+```typescript
+import { ImportModule } from '@mbc-cqrs-serverless/import';
+import { PolicyImportStrategy } from './strategies/policy-import.strategy';
+import { PolicyProcessStrategy } from './strategies/policy-process.strategy';
+import { PolicyModule } from './policy.module';
+
+@Module({
+  imports: [
+    ImportModule.register({
+      profiles: [
+        {
+          tableName: 'policy',
+          importStrategy: PolicyImportStrategy,
+          processStrategy: PolicyProcessStrategy,
+        },
+      ],
+      imports: [PolicyModule], // {{Modules that export providers needed by strategies}}
+      enableController: true,
+    }),
+  ],
+})
+export class AppModule {}
+```
+
+| {{Option}} | {{Type}} | {{Default}} | {{Description}} |
+|--------|------|---------|-------------|
+| `profiles` | `ImportEntityProfile[]` | {{Required}} | {{Array of import profiles for each entity type}} |
+| `imports` | `ModuleMetadata['imports']` | `[]` | {{Modules that export providers needed by strategy classes}} |
+| `enableController` | `boolean` | `false` | {{Enable built-in `/import` and `/import/csv` endpoints}} |
+
+{{Each `ImportEntityProfile` requires:}}
+
+| {{Property}} | {{Type}} | {{Description}} |
+|----------|------|-------------|
+| `tableName` | `string` | {{Unique identifier for the data type (e.g., 'policy', 'user')}} |
+| `importStrategy` | `Type<IImportStrategy>` | {{Class implementing import logic (transform & validate)}} |
+| `processStrategy` | `Type<IProcessStrategy>` | {{Class implementing business processing logic (compare & map)}} |
+
+### {{SettingModule}}
+
+{{The SettingModule manages user interface settings. It can optionally expose REST endpoints for managing settings.}}
+
+```typescript
+import { SettingModule } from '@mbc-cqrs-serverless/ui-setting';
+
+@Module({
+  imports: [
+    SettingModule.register({
+      enableSettingController: true,
+      enableDataController: true,
+    }),
+  ],
+})
+export class AppModule {}
+```
+
+| {{Option}} | {{Type}} | {{Default}} | {{Description}} |
+|--------|------|---------|-------------|
+| `enableSettingController` | `boolean` | `false` | {{Enable the setting controller for UI settings management}} |
+| `enableDataController` | `boolean` | `false` | {{Enable the data setting controller for data-related settings}} |
+
+### {{NotificationModule (Static)}}
+
+{{The NotificationModule is a static (not dynamic) module that provides email notifications via SES and real-time updates via AppSync. It is automatically registered as a global module, so you only need to import it once in your AppModule.}}
+
+```typescript
+import { NotificationModule } from '@mbc-cqrs-serverless/core';
+
+@Module({
+  imports: [
+    NotificationModule, // {{No configuration needed - static module}}
+  ],
+})
+export class AppModule {}
+```
+
+{{This module exports:}}
+- `EmailService` - {{Send emails via Amazon SES}}
+- `AppSyncService` - {{Send real-time notifications via AppSync}}
 
 ## {{Creating Custom Modules}}
 

@@ -126,8 +126,135 @@ SequencesModule.register({
 ```typescript
 MasterModule.register({
   enableController: true,
+  prismaService: PrismaService,
 })
 ```
+
+:::warning MasterModule 設定の注意点
+`enableController: true` の場合、`prismaService` パラメータは**必須**です。アプリケーションのPrismaServiceクラスを指定する必要があります。コントローラーが有効な状態で `prismaService` が指定されていない場合、フレームワークはエラーをスローします。
+:::
+
+### TaskModule
+
+TaskModuleはAWS Step Functionsを使用した非同期タスク実行を処理します。`ITaskQueueEventFactory`を実装したカスタムイベントファクトリが必要です。
+
+```typescript
+import { TaskModule } from '@mbc-cqrs-serverless/task';
+import { MyTaskQueueEventFactory } from './my-task-queue-event.factory';
+
+TaskModule.register({
+  taskQueueEventFactory: MyTaskQueueEventFactory,
+  enableController: true,
+})
+```
+
+| オプション | 型 | デフォルト | 説明 |
+|--------|------|---------|-------------|
+| `taskQueueEventFactory` | `Type<ITaskQueueEventFactory>` | 必須 | タスクキューイベントを変換するファクトリクラス |
+| `enableController` | `boolean` | `false` | 組み込みタスクRESTエンドポイントを有効化 |
+
+`taskQueueEventFactory`は`ITaskQueueEventFactory`インターフェースを実装する必要があります：
+
+```typescript
+import { ITaskQueueEventFactory, TaskQueueEvent, StepFunctionTaskEvent } from '@mbc-cqrs-serverless/task';
+import { IEvent } from '@mbc-cqrs-serverless/core';
+
+export class MyTaskQueueEventFactory implements ITaskQueueEventFactory {
+  async transformTask(event: TaskQueueEvent): Promise<IEvent[]> {
+    // Transform task queue events into domain events (タスクキューイベントをドメインイベントに変換)
+    return [];
+  }
+
+  async transformStepFunctionTask(event: StepFunctionTaskEvent): Promise<IEvent[]> {
+    // Transform Step Function task events into domain events (Step Functionタスクイベントをドメインイベントに変換)
+    return [];
+  }
+}
+```
+
+### ImportModule
+
+ImportModuleはCSVおよびAPIデータインポート機能を提供します。各エンティティタイプに対してデータのインポートと処理方法を指定するインポートプロファイルの定義が必要です。
+
+```typescript
+import { ImportModule } from '@mbc-cqrs-serverless/import';
+import { PolicyImportStrategy } from './strategies/policy-import.strategy';
+import { PolicyProcessStrategy } from './strategies/policy-process.strategy';
+import { PolicyModule } from './policy.module';
+
+@Module({
+  imports: [
+    ImportModule.register({
+      profiles: [
+        {
+          tableName: 'policy',
+          importStrategy: PolicyImportStrategy,
+          processStrategy: PolicyProcessStrategy,
+        },
+      ],
+      imports: [PolicyModule], // Modules that export providers needed by strategies (ストラテジーが必要とするプロバイダーをエクスポートするモジュール)
+      enableController: true,
+    }),
+  ],
+})
+export class AppModule {}
+```
+
+| オプション | 型 | デフォルト | 説明 |
+|--------|------|---------|-------------|
+| `profiles` | `ImportEntityProfile[]` | 必須 | 各エンティティタイプのインポートプロファイルの配列 |
+| `imports` | `ModuleMetadata['imports']` | `[]` | ストラテジークラスが必要とするプロバイダーをエクスポートするモジュール |
+| `enableController` | `boolean` | `false` | 組み込みの`/import`および`/import/csv`エンドポイントを有効化 |
+
+各`ImportEntityProfile`には以下が必要です：
+
+| プロパティ | 型 | 説明 |
+|----------|------|-------------|
+| `tableName` | `string` | データタイプの一意識別子（例：'policy'、'user'） |
+| `importStrategy` | `Type<IImportStrategy>` | インポートロジック（変換と検証）を実装するクラス |
+| `processStrategy` | `Type<IProcessStrategy>` | ビジネス処理ロジック（比較とマッピング）を実装するクラス |
+
+### SettingModule
+
+SettingModuleはユーザーインターフェース設定を管理します。オプションで設定管理用のRESTエンドポイントを公開できます。
+
+```typescript
+import { SettingModule } from '@mbc-cqrs-serverless/ui-setting';
+
+@Module({
+  imports: [
+    SettingModule.register({
+      enableSettingController: true,
+      enableDataController: true,
+    }),
+  ],
+})
+export class AppModule {}
+```
+
+| オプション | 型 | デフォルト | 説明 |
+|--------|------|---------|-------------|
+| `enableSettingController` | `boolean` | `false` | UI設定管理用のセッティングコントローラーを有効化 |
+| `enableDataController` | `boolean` | `false` | データ関連設定用のデータセッティングコントローラーを有効化 |
+
+### NotificationModule（静的）
+
+NotificationModuleはSES経由のメール通知とAppSync経由のリアルタイム更新を提供する静的モジュール（動的ではない）です。グローバルモジュールとして自動的に登録されるため、AppModuleで一度だけインポートするだけで済みます。
+
+```typescript
+import { NotificationModule } from '@mbc-cqrs-serverless/core';
+
+@Module({
+  imports: [
+    NotificationModule, // No configuration needed - static module (設定不要 - 静的モジュール)
+  ],
+})
+export class AppModule {}
+```
+
+このモジュールは以下をエクスポートします：
+- `EmailService` - Amazon SES経由でメールを送信
+- `AppSyncService` - AppSync経由でリアルタイム通知を送信
 
 ## カスタムモジュールの作成
 

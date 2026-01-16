@@ -967,6 +967,108 @@ for (const batch of batches) {
 npm install @mbc-cqrs-serverless/import
 ```
 
+### {{ProcessingMode Enum}} {#processingmode-enum}
+
+{{The `ProcessingMode` enum defines how import jobs are executed:}}
+
+```typescript
+export enum ProcessingMode {
+  DIRECT = 'DIRECT',           // {{Direct processing without Step Functions}}
+  STEP_FUNCTION = 'STEP_FUNCTION', // {{Processing orchestrated by Step Functions}}
+}
+```
+
+| {{Mode}} | {{Description}} | {{Use Case}} |
+|----------|-----------------|--------------|
+| `DIRECT` | {{Import is processed directly without Step Functions orchestration}} | {{Small imports, simple data}} |
+| `STEP_FUNCTION` | {{Import is orchestrated by Step Functions for reliability}} | {{Large imports, complex workflows, ZIP imports}} |
+
+### {{CreateCsvImportDto}} {#createcsvimportdto}
+
+{{The `CreateCsvImportDto` is used to start a CSV import job:}}
+
+```typescript
+import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator'
+import { ProcessingMode } from '@mbc-cqrs-serverless/import'
+
+export class CreateCsvImportDto {
+  @IsString()
+  @IsOptional()
+  sourceId?: string           // {{Optional source identifier}}
+
+  @IsNotEmpty()
+  @IsEnum(ProcessingMode)
+  processingMode: ProcessingMode // {{How the import should be processed}}
+
+  @IsString()
+  @IsNotEmpty()
+  bucket: string              // {{S3 bucket containing the CSV file}}
+
+  @IsString()
+  @IsNotEmpty()
+  key: string                 // {{S3 key (path) to the CSV file}}
+
+  @IsString()
+  @IsNotEmpty()
+  tableName: string           // {{Target table name for import profile matching}}
+
+  @IsString()
+  @IsNotEmpty()
+  tenantCode: string          // {{Tenant code for multi-tenancy}}
+}
+```
+
+| {{Property}} | {{Type}} | {{Required}} | {{Description}} |
+|--------------|----------|--------------|-----------------|
+| `sourceId` | `string` | {{No}} | {{Optional identifier for the import source}} |
+| `processingMode` | `ProcessingMode` | {{Yes}} | {{DIRECT or STEP_FUNCTION mode}} |
+| `bucket` | `string` | {{Yes}} | {{S3 bucket containing the CSV file}} |
+| `key` | `string` | {{Yes}} | {{S3 key (path) to the CSV file}} |
+| `tableName` | `string` | {{Yes}} | {{Target table name, used to match import profile}} |
+| `tenantCode` | `string` | {{Yes}} | {{Tenant code for multi-tenancy}} |
+
+### {{CreateZipImportDto}} {#createzipimportdto}
+
+{{The `CreateZipImportDto` is used to start a ZIP import job that contains multiple CSV files:}}
+
+```typescript
+import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator'
+
+export class CreateZipImportDto {
+  @IsString()
+  @IsNotEmpty()
+  bucket: string              // {{S3 bucket containing the ZIP file}}
+
+  @IsString()
+  @IsNotEmpty()
+  key: string                 // {{S3 key (path) to the ZIP file}}
+
+  @IsString()
+  @IsNotEmpty()
+  tenantCode: string          // {{Tenant code for multi-tenancy}}
+
+  // {{High priority: sortedFileKeys}}
+  // {{If not provided, it will use the default sorting logic}}
+  @IsArray()
+  @IsOptional()
+  sortedFileKeys?: string[]   // {{Optional ordered list of file keys to process}}
+
+  // {{High priority: tableName}}
+  // {{If not provided, it will be extracted from the filename}}
+  @IsString()
+  @IsOptional()
+  tableName?: string = null   // {{Optional table name override}}
+}
+```
+
+| {{Property}} | {{Type}} | {{Required}} | {{Description}} |
+|--------------|----------|--------------|-----------------|
+| `bucket` | `string` | {{Yes}} | {{S3 bucket containing the ZIP file}} |
+| `key` | `string` | {{Yes}} | {{S3 key (path) to the ZIP file}} |
+| `tenantCode` | `string` | {{Yes}} | {{Tenant code for multi-tenancy}} |
+| `sortedFileKeys` | `string[]` | {{No}} | {{Ordered list of file keys to process. If not provided, default sorting is used}} |
+| `tableName` | `string` | {{No}} | {{Table name override. If not provided, extracted from filename (format: yyyymmddhhMMss-\{tableName\}.csv)}} |
+
 ### {{Core Concepts}}
 
 {{The module operates on a two-phase architecture:}}
@@ -1294,6 +1396,84 @@ const status = failedRows > 0
 
 {{This caused Step Functions to report SUCCESS even when child import jobs failed. See [version 1.0.20](./changelog#v1020) for details.}}
 :::
+
+### {{ZipImportSfnEventHandler}} {#zipimportsfneventhandler}
+
+{{The `ZipImportSfnEventHandler` handles Step Functions ZIP import workflow states. It orchestrates the processing of multiple CSV files extracted from a ZIP archive.}}
+
+#### {{Workflow States}}
+
+| {{State}} | {{Description}} |
+|-----------|-----------------|
+| `trigger_single_csv_and_wait` | {{Triggers a single CSV import job for each file in the ZIP}} |
+| `finalize_zip_job` | {{Aggregates results from all CSV imports and finalizes the master job}} |
+
+#### {{Key Methods}}
+
+| {{Method}} | {{Description}} |
+|------------|-----------------|
+| `triggerSingleCsvJob(event)` | {{Creates a CSV import job with STEP_FUNCTION mode, passing the taskToken for callback}} |
+| `finalizeZipMasterJob(event)` | {{Aggregates results from all processed CSV files and updates the ZIP master job status}} |
+
+#### {{File Naming Convention}}
+
+{{When processing CSV files from a ZIP archive, the handler extracts the table name from the filename:}}
+
+```
+{{Format: yyyymmddhhMMss-\{tableName\}.csv}}
+{{Example: 20240115120000-products.csv → extracts tableName = "products"}}
+```
+
+{{If `tableName` is provided in the `CreateZipImportDto`, it overrides the extracted name.}}
+
+#### {{Processing Flow}}
+
+```
+{{ZIP File Uploaded to S3}}
+         │
+         ▼
+{{Step Functions Triggered}}
+         │
+         ▼
+{{Unzip and List CSV Files}}
+         │
+         ▼
+{{Map State: For Each CSV File}}
+    ┌────┴────┐
+    │         │
+    ▼         ▼
+{{trigger_single_csv_and_wait}}
+    │         │
+    ▼         ▼
+{{CSV Import Job Created}}    {{CSV Import Job Created}}
+{{(with taskToken)}}          {{(with taskToken)}}
+    │         │
+    ▼         ▼
+{{Wait for Completion}}       {{Wait for Completion}}
+    │         │
+    └────┬────┘
+         │
+         ▼
+{{finalize_zip_job}}
+         │
+         ▼
+{{Aggregate Results & Update Master Job}}
+```
+
+#### {{ZipImportSfnEvent Structure}}
+
+```typescript
+export class ZipImportSfnEvent implements IEvent {
+  source: string           // {{Execution ID from Step Functions}}
+  context: StepFunctionsContext // {{Step Functions context with state info}}
+  input: string | any[]    // {{S3 key or array of results}}
+  taskToken: string        // {{Token for callback to Step Functions}}
+}
+```
+
+{{The `context.Execution.Input` contains:}}
+- `masterJobKey`: {{Primary key of the ZIP master job in DynamoDB}}
+- `parameters`: {{Original import parameters (bucket, tenantCode, tableName)}}
 
 ---
 

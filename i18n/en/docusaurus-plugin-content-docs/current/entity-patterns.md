@@ -67,25 +67,32 @@ export class ProductDataEntity extends DataEntity {
 
 The `DataEntity` base class includes:
 
-```ts
-// Inherited from DataEntity
-{
-  id: string;           // Unique identifier (pk#sk)
-  pk: string;           // Partition key
-  sk: string;           // Sort key
-  tenantCode: string;   // Tenant identifier
-  code: string;         // Business code
-  type: string;         // Entity type
-  name: string;         // Display name
-  version: number;      // Version number
-  seq?: number;         // Sequence number
-  isDeleted?: boolean;  // Soft delete flag
-  createdAt?: Date;     // Creation timestamp
-  createdBy?: string;   // Creator identifier
-  updatedAt?: Date;     // Update timestamp
-  updatedBy?: string;   // Updater identifier
-}
-```
+| Property | Type | Required | Description |
+|--------------|----------|--------------|-----------------|
+| `pk` | `string` | Yes | Partition key. Format: `{tenantCode}#{entityType}` |
+| `sk` | `string` | Yes | Sort key. Format: `{entityType}#{entityId}` |
+| `id` | `string` | Yes | Unique entity identifier |
+| `code` | `string` | Yes | Business code |
+| `name` | `string` | Yes | Display name |
+| `version` | `number` | Yes | Version number for optimistic locking |
+| `tenantCode` | `string` | Yes | Tenant code for multi-tenant isolation |
+| `type` | `string` | Yes | Entity type identifier |
+| `cpk` | `string` | No | Command partition key - references source command record |
+| `csk` | `string` | No | Command sort key with version - references exact command version |
+| `seq` | `number` | No | Sequence number |
+| `ttl` | `number` | No | Time-to-live in seconds for DynamoDB TTL |
+| `isDeleted` | `boolean` | No | Soft delete flag |
+| `source` | `string` | No | Event source identifier (e.g., 'POST /api/master', 'SQS') |
+| `requestId` | `string` | No | Unique request ID for tracing and idempotency |
+| `createdAt` | `Date` | No | Timestamp when the entity was created |
+| `createdBy` | `string` | No | User ID who created the entity |
+| `createdIp` | `string` | No | IP address of the creator |
+| `updatedAt` | `Date` | No | Timestamp when the entity was last updated |
+| `updatedBy` | `string` | No | User ID who last updated the entity |
+| `updatedIp` | `string` | No | IP address of the last updater |
+| `attributes` | `any` | No | Custom attributes object for domain-specific data |
+
+The `key` getter returns a `DetailKey` object with `pk` and `sk` for DynamoDB operations.
 
 ## Command Entity
 
@@ -117,6 +124,46 @@ export class ProductCommandEntity extends CommandEntity {
   }
 }
 ```
+
+The `CommandEntity` base class includes:
+
+| Property | Type | Required | Description |
+|--------------|----------|--------------|-----------------|
+| `pk` | `string` | Yes | Partition key. Format: `{tenantCode}#{entityType}` |
+| `sk` | `string` | Yes | Sort key. Format: `{entityType}#{entityId}@{version}` |
+| `id` | `string` | Yes | Unique entity identifier |
+| `code` | `string` | Yes | Business code |
+| `name` | `string` | Yes | Display name |
+| `version` | `number` | Yes | Version number for optimistic locking |
+| `tenantCode` | `string` | Yes | Tenant code for multi-tenant isolation |
+| `type` | `string` | Yes | Entity type identifier |
+| `status` | `string` | No | Processing status (e.g., 'PENDING', 'COMPLETED', 'FAILED') |
+| `seq` | `number` | No | Sequence number |
+| `ttl` | `number` | No | Time-to-live in seconds for DynamoDB TTL |
+| `isDeleted` | `boolean` | No | Soft delete flag |
+| `source` | `string` | No | Event source identifier (e.g., 'POST /api/master', 'SQS') |
+| `requestId` | `string` | No | Unique request ID for tracing and idempotency |
+| `createdAt` | `Date` | No | Timestamp when the command was created |
+| `createdBy` | `string` | No | User ID who created the command |
+| `createdIp` | `string` | No | IP address of the creator |
+| `updatedAt` | `Date` | No | Timestamp when the command was last updated |
+| `updatedBy` | `string` | No | User ID who last updated the command |
+| `updatedIp` | `string` | No | IP address of the last updater |
+| `attributes` | `any` | No | Custom attributes object for domain-specific data |
+
+The `key` getter returns a `DetailKey` object with `pk` and `sk` for DynamoDB operations.
+
+:::info CommandEntity vs DataEntity
+The main differences between `CommandEntity` and `DataEntity` are:
+
+| Aspect | `CommandEntity` | `DataEntity` |
+|------------|-----------------|--------------|
+| Table | Command (write) table | Data (read) table |
+| Sort Key | Includes version suffix (`@{version}`) | No version suffix |
+| `status` | Yes (processing status) | No |
+| `cpk`/`csk` | No | Yes (references source command) |
+
+:::
 
 ## Data List Entity
 

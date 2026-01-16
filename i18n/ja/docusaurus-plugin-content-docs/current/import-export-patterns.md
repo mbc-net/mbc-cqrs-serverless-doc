@@ -967,6 +967,108 @@ for (const batch of batches) {
 npm install @mbc-cqrs-serverless/import
 ```
 
+### ProcessingMode列挙型 {#processingmode-enum}
+
+`ProcessingMode`列挙型は、インポートジョブの実行方法を定義します：
+
+```typescript
+export enum ProcessingMode {
+  DIRECT = 'DIRECT',           // Direct processing without Step Functions (Step Functionsを使用しない直接処理)
+  STEP_FUNCTION = 'STEP_FUNCTION', // Processing orchestrated by Step Functions (Step Functionsによるオーケストレーション処理)
+}
+```
+
+| モード | 説明 | ユースケース |
+|----------|-----------------|--------------|
+| `DIRECT` | Step Functionsオーケストレーションを使用せずにインポートを直接処理 | 小規模インポート、シンプルなデータ |
+| `STEP_FUNCTION` | 信頼性のためにStep Functionsでインポートをオーケストレーション | 大規模インポート、複雑なワークフロー、ZIPインポート |
+
+### CreateCsvImportDto {#createcsvimportdto}
+
+`CreateCsvImportDto`はCSVインポートジョブを開始するために使用されます：
+
+```typescript
+import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator'
+import { ProcessingMode } from '@mbc-cqrs-serverless/import'
+
+export class CreateCsvImportDto {
+  @IsString()
+  @IsOptional()
+  sourceId?: string           // Optional source identifier (オプションのソース識別子)
+
+  @IsNotEmpty()
+  @IsEnum(ProcessingMode)
+  processingMode: ProcessingMode // How the import should be processed (インポートの処理方法)
+
+  @IsString()
+  @IsNotEmpty()
+  bucket: string              // S3 bucket containing the CSV file (CSVファイルを含むS3バケット)
+
+  @IsString()
+  @IsNotEmpty()
+  key: string                 // S3 key (path) to the CSV file (CSVファイルへのS3キー（パス）)
+
+  @IsString()
+  @IsNotEmpty()
+  tableName: string           // Target table name for import profile matching (インポートプロファイルマッチング用のターゲットテーブル名)
+
+  @IsString()
+  @IsNotEmpty()
+  tenantCode: string          // Tenant code for multi-tenancy (マルチテナンシー用のテナントコード)
+}
+```
+
+| プロパティ | 型 | 必須 | 説明 |
+|--------------|----------|--------------|-----------------|
+| `sourceId` | `string` | いいえ | インポートソースのオプション識別子 |
+| `processingMode` | `ProcessingMode` | はい | DIRECTまたはSTEP_FUNCTIONモード |
+| `bucket` | `string` | はい | S3 bucket containing the CSV file (CSVファイルを含むS3バケット) |
+| `key` | `string` | はい | S3 key (path) to the CSV file (CSVファイルへのS3キー（パス）) |
+| `tableName` | `string` | はい | ターゲットテーブル名、インポートプロファイルのマッチングに使用 |
+| `tenantCode` | `string` | はい | Tenant code for multi-tenancy (マルチテナンシー用のテナントコード) |
+
+### CreateZipImportDto {#createzipimportdto}
+
+`CreateZipImportDto`は複数のCSVファイルを含むZIPインポートジョブを開始するために使用されます：
+
+```typescript
+import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator'
+
+export class CreateZipImportDto {
+  @IsString()
+  @IsNotEmpty()
+  bucket: string              // S3 bucket containing the ZIP file (ZIPファイルを含むS3バケット)
+
+  @IsString()
+  @IsNotEmpty()
+  key: string                 // S3 key (path) to the ZIP file (ZIPファイルへのS3キー（パス）)
+
+  @IsString()
+  @IsNotEmpty()
+  tenantCode: string          // Tenant code for multi-tenancy (マルチテナンシー用のテナントコード)
+
+  // High priority: sortedFileKeys (高優先度: sortedFileKeys)
+  // If not provided, it will use the default sorting logic (指定されない場合、デフォルトのソートロジックを使用)
+  @IsArray()
+  @IsOptional()
+  sortedFileKeys?: string[]   // Optional ordered list of file keys to process (処理するファイルキーのオプションの順序付きリスト)
+
+  // High priority: tableName (高優先度: tableName)
+  // If not provided, it will be extracted from the filename (指定されない場合、ファイル名から抽出)
+  @IsString()
+  @IsOptional()
+  tableName?: string = null   // Optional table name override (オプションのテーブル名オーバーライド)
+}
+```
+
+| プロパティ | 型 | 必須 | 説明 |
+|--------------|----------|--------------|-----------------|
+| `bucket` | `string` | はい | S3 bucket containing the ZIP file (ZIPファイルを含むS3バケット) |
+| `key` | `string` | はい | S3 key (path) to the ZIP file (ZIPファイルへのS3キー（パス）) |
+| `tenantCode` | `string` | はい | Tenant code for multi-tenancy (マルチテナンシー用のテナントコード) |
+| `sortedFileKeys` | `string[]` | いいえ | 処理するファイルキーの順序付きリスト。指定されない場合、デフォルトのソートが使用される |
+| `tableName` | `string` | いいえ | テーブル名のオーバーライド。指定されない場合、ファイル名から抽出（形式: yyyymmddhhMMss-\{tableName\}.csv） |
+
 ### コアコンセプト
 
 このモジュールは2フェーズアーキテクチャで動作します：
@@ -1295,11 +1397,89 @@ const status = failedRows > 0
 このバグにより、子インポートジョブが失敗しても、Step FunctionsがSUCCESSを報告していました。詳細は[バージョン1.0.20](./changelog#v1020)を参照してください。
 :::
 
+### ZipImportSfnEventHandler {#zipimportsfneventhandler}
+
+`ZipImportSfnEventHandler`はStep FunctionsのZIPインポートワークフローステートを処理します。ZIPアーカイブから抽出された複数のCSVファイルの処理をオーケストレーションします。
+
+#### ワークフローステート
+
+| ステート | 説明 |
+|-----------|-----------------|
+| `trigger_single_csv_and_wait` | ZIP内の各ファイルに対して単一のCSVインポートジョブをトリガー |
+| `finalize_zip_job` | すべてのCSVインポートの結果を集計し、マスタージョブを終了 |
+
+#### 主要メソッド
+
+| メソッド | 説明 |
+|------------|-----------------|
+| `triggerSingleCsvJob(event)` | STEP_FUNCTIONモードでCSVインポートジョブを作成し、コールバック用のtaskTokenを渡す |
+| `finalizeZipMasterJob(event)` | 処理されたすべてのCSVファイルの結果を集計し、ZIPマスタージョブのステータスを更新 |
+
+#### ファイル命名規則
+
+ZIPアーカイブからCSVファイルを処理する際、ハンドラーはファイル名からテーブル名を抽出します：
+
+```
+形式: yyyymmddhhMMss-\{tableName\}.csv
+例: 20240115120000-products.csv → tableName = "products" を抽出
+```
+
+`CreateZipImportDto`で`tableName`が指定されている場合、抽出された名前をオーバーライドします。
+
+#### 処理フロー
+
+```
+ZIPファイルがS3にアップロード
+         │
+         ▼
+Step Functionsがトリガー
+         │
+         ▼
+解凍してCSVファイルをリスト
+         │
+         ▼
+Mapステート: 各CSVファイルに対して
+    ┌────┴────┐
+    │         │
+    ▼         ▼
+trigger_single_csv_and_wait
+    │         │
+    ▼         ▼
+CSVインポートジョブ作成    CSVインポートジョブ作成
+(taskToken付き)          (taskToken付き)
+    │         │
+    ▼         ▼
+完了を待機       完了を待機
+    │         │
+    └────┬────┘
+         │
+         ▼
+finalize_zip_job
+         │
+         ▼
+結果を集計してマスタージョブを更新
+```
+
+#### ZipImportSfnEvent構造
+
+```typescript
+export class ZipImportSfnEvent implements IEvent {
+  source: string           // Execution ID from Step Functions (Step Functionsからの実行ID)
+  context: StepFunctionsContext // Step Functions context with state info (ステート情報を含むStep Functionsコンテキスト)
+  input: string | any[]    // S3 key or array of results (S3キーまたは結果の配列)
+  taskToken: string        // Token for callback to Step Functions (Step Functionsへのコールバック用トークン)
+}
+```
+
+`context.Execution.Input`には以下が含まれます：
+- `masterJobKey`: DynamoDBのZIPマスタージョブのプライマリキー
+- `parameters`: 元のインポートパラメータ（bucket、tenantCode、tableName）
+
 ---
 
 ## 関連ドキュメント
 
-- [Backend Development Guide](./backend-development) - Core backend patterns
-- [Service Patterns](./service-patterns) - Service implementation
-- [Step Functions](./architecture/step-functions) - Workflow orchestration
-- [Data Sync Handler Examples](./data-sync-handler-examples) - Sync handler patterns
+- [バックエンド開発ガイド](./backend-development) - コアバックエンドパターン
+- [サービスパターン](./service-patterns) - サービス実装
+- [Step Functions](./architecture/step-functions) - ワークフローオーケストレーション
+- [データ同期ハンドラー例](./data-sync-handler-examples) - 同期ハンドラーパターン

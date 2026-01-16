@@ -93,6 +93,17 @@ const pk = seqPk('mbc');
 // Result: 'SEQ#mbc'
 ```
 
+### `ttlSk(tableName: string): string`
+
+Generates a TTL sort key for a table. Used to identify TTL-related records.
+
+```ts
+import { ttlSk } from '@mbc-cqrs-serverless/core';
+
+const sk = ttlSk('my-table');
+// Result: 'TTL#my-table'
+```
+
 ## S3 Attribute Helpers
 
 Functions for working with S3 URI attributes.
@@ -368,9 +379,9 @@ interface SerializerOptions {
 }
 ```
 
-### `serializeToExternal<T>(item: T, options?: SerializerOptions): Record<string, any> | null`
+### `serializeToExternal<T extends CommandEntity | DataEntity>(item: T | null | undefined, options?: SerializerOptions): Record<string, any> | null`
 
-Converts internal DynamoDB entity to external flat structure. Flattens the attributes object into the root level.
+Converts internal DynamoDB entity to external flat structure. Flattens the attributes object into the root level. Returns null if input is null or undefined.
 
 ```ts
 import { serializeToExternal } from '@mbc-cqrs-serverless/core';
@@ -405,9 +416,9 @@ const external = serializeToExternal(entity);
 // }
 ```
 
-### `deserializeToInternal<T>(data: Record<string, any>, EntityClass: new () => T): T | null`
+### `deserializeToInternal<T extends CommandEntity | DataEntity>(data: Record<string, any> | null | undefined, EntityClass: new () => T): T | null`
 
-Converts external flat structure back to internal DynamoDB entity structure.
+Converts external flat structure back to internal DynamoDB entity structure. Returns null if input is null or undefined.
 
 ```ts
 import { deserializeToInternal, DataEntity } from '@mbc-cqrs-serverless/core';

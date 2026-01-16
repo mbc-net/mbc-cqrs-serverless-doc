@@ -67,25 +67,32 @@ export class ProductDataEntity extends DataEntity {
 
 `DataEntity`基底クラスに含まれるもの：
 
-```ts
-// Inherited from DataEntity
-{
-  id: string;           // Unique identifier (pk#sk)
-  pk: string;           // Partition key
-  sk: string;           // Sort key
-  tenantCode: string;   // Tenant identifier
-  code: string;         // Business code
-  type: string;         // Entity type
-  name: string;         // Display name
-  version: number;      // Version number
-  seq?: number;         // Sequence number
-  isDeleted?: boolean;  // Soft delete flag
-  createdAt?: Date;     // Creation timestamp
-  createdBy?: string;   // Creator identifier
-  updatedAt?: Date;     // Update timestamp
-  updatedBy?: string;   // Updater identifier
-}
-```
+| プロパティ | 型 | 必須 | 説明 |
+|--------------|----------|--------------|-----------------|
+| `pk` | `string` | はい | パーティションキー。形式: `{tenantCode}#{entityType}` |
+| `sk` | `string` | はい | ソートキー。形式: `{entityType}#{entityId}` |
+| `id` | `string` | はい | エンティティの一意識別子 |
+| `code` | `string` | はい | ビジネスコード |
+| `name` | `string` | はい | 表示名 |
+| `version` | `number` | はい | 楽観的ロック用のバージョン番号 |
+| `tenantCode` | `string` | はい | マルチテナント分離用のテナントコード |
+| `type` | `string` | はい | エンティティタイプ識別子 |
+| `cpk` | `string` | いいえ | コマンドパーティションキー - ソースコマンドレコードを参照 |
+| `csk` | `string` | いいえ | バージョン付きコマンドソートキー - 正確なコマンドバージョンを参照 |
+| `seq` | `number` | いいえ | シーケンス番号 |
+| `ttl` | `number` | いいえ | DynamoDB TTL用の有効期限（秒） |
+| `isDeleted` | `boolean` | いいえ | 論理削除フラグ |
+| `source` | `string` | いいえ | イベントソース識別子（例: 'POST /api/master', 'SQS'） |
+| `requestId` | `string` | いいえ | トレースと冪等性のための一意のリクエストID |
+| `createdAt` | `Date` | いいえ | エンティティが作成されたタイムスタンプ |
+| `createdBy` | `string` | いいえ | エンティティを作成したユーザーID |
+| `createdIp` | `string` | いいえ | 作成者のIPアドレス |
+| `updatedAt` | `Date` | いいえ | エンティティが最後に更新されたタイムスタンプ |
+| `updatedBy` | `string` | いいえ | エンティティを最後に更新したユーザーID |
+| `updatedIp` | `string` | いいえ | 最終更新者のIPアドレス |
+| `attributes` | `any` | いいえ | ドメイン固有データ用のカスタム属性オブジェクト |
+
+`key`ゲッターはDynamoDB操作用の`pk`と`sk`を持つ`DetailKey`オブジェクトを返します。
 
 ## Command Entity
 
@@ -117,6 +124,46 @@ export class ProductCommandEntity extends CommandEntity {
   }
 }
 ```
+
+`CommandEntity`基底クラスに含まれるもの：
+
+| プロパティ | 型 | 必須 | 説明 |
+|--------------|----------|--------------|-----------------|
+| `pk` | `string` | はい | パーティションキー。形式: `{tenantCode}#{entityType}` |
+| `sk` | `string` | はい | ソートキー。形式: `{entityType}#{entityId}@{version}` |
+| `id` | `string` | はい | エンティティの一意識別子 |
+| `code` | `string` | はい | ビジネスコード |
+| `name` | `string` | はい | 表示名 |
+| `version` | `number` | はい | 楽観的ロック用のバージョン番号 |
+| `tenantCode` | `string` | はい | マルチテナント分離用のテナントコード |
+| `type` | `string` | はい | エンティティタイプ識別子 |
+| `status` | `string` | いいえ | 処理ステータス（例: 'PENDING', 'COMPLETED', 'FAILED'） |
+| `seq` | `number` | いいえ | シーケンス番号 |
+| `ttl` | `number` | いいえ | DynamoDB TTL用の有効期限（秒） |
+| `isDeleted` | `boolean` | いいえ | 論理削除フラグ |
+| `source` | `string` | いいえ | イベントソース識別子（例: 'POST /api/master', 'SQS'） |
+| `requestId` | `string` | いいえ | トレースと冪等性のための一意のリクエストID |
+| `createdAt` | `Date` | いいえ | コマンドが作成されたタイムスタンプ |
+| `createdBy` | `string` | いいえ | コマンドを作成したユーザーID |
+| `createdIp` | `string` | いいえ | 作成者のIPアドレス |
+| `updatedAt` | `Date` | いいえ | コマンドが最後に更新されたタイムスタンプ |
+| `updatedBy` | `string` | いいえ | コマンドを最後に更新したユーザーID |
+| `updatedIp` | `string` | いいえ | 最終更新者のIPアドレス |
+| `attributes` | `any` | いいえ | ドメイン固有データ用のカスタム属性オブジェクト |
+
+`key`ゲッターはDynamoDB操作用の`pk`と`sk`を持つ`DetailKey`オブジェクトを返します。
+
+:::info CommandEntityとDataEntityの違い
+`CommandEntity`と`DataEntity`の主な違いは以下の通りです：
+
+| 観点 | `CommandEntity` | `DataEntity` |
+|------------|-----------------|--------------|
+| テーブル | コマンド（書き込み）テーブル | データ（読み取り）テーブル |
+| ソートキー | バージョンサフィックス（`@{version}`）を含む | バージョンサフィックスなし |
+| `status` | あり（処理ステータス） | いいえ |
+| `cpk`/`csk` | いいえ | あり（ソースコマンドを参照） |
+
+:::
 
 ## Data List Entity
 
