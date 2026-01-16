@@ -21,15 +21,15 @@ graph LR
 
 ## {{Methods}}
 
-### {{*async* `getItem(key: DetailKey)`}}
+### {{*async* `getItem(key: DetailKey): Promise<DataModel>`}}
 
-{{The `getItem` method returns a set of attributes for the item with the given detail/primary key. If there is no matching item, `getItem` does not return any data and there will be no item element in the response.}}
+{{The `getItem` method returns a set of attributes for the item with the given detail/primary key. If there is no matching item, `getItem` returns `undefined`.}}
 
 {{Example:}}
 
 ```ts
+import { DataService, DataModel } from '@mbc-cqrs-serverless/core';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { DataService } from '@mbc-cqrs-serverless/core';
 
 @Injectable()
 export class CatService {
@@ -46,7 +46,7 @@ export class CatService {
 }
 ```
 
-### {{*async* `listItemsByPk(pk: string, opts?: ListItemsOptions)`}}
+### {{*async* `listItemsByPk(pk: string, opts?: ListItemsOptions): Promise<DataListEntity>`}}
 
 {{The `listItemsByPk` method returns one or more items matching the partition key. It supports filtering, pagination, and sorting.}}
 
@@ -56,7 +56,7 @@ export class CatService {
 
 ```ts
 const res = await this.dataService.listItemsByPk(pk);
-return new CatListEntity(res as CatListEntity);
+return new CatListEntity(res);
 ```
 
 #### {{With Sort Key Filter}}
@@ -64,6 +64,8 @@ return new CatListEntity(res as CatListEntity);
 {{List items by primary key (`pk`) and use a filter expression on the sort key (`sk`). For example, get items where the sort key starts with `CAT#` and limit to 100 items:}}
 
 ```ts
+import { KEY_SEPARATOR } from '@mbc-cqrs-serverless/core';
+
 const query = {
   sk: {
     skExpression: 'begins_with(sk, :typeCode)',
@@ -74,7 +76,7 @@ const query = {
   limit: 100,
 };
 const res = await this.dataService.listItemsByPk(pk, query);
-return new CatDataListEntity(res as CatDataListEntity);
+return new CatDataListEntity(res);
 ```
 
 #### {{Pagination}}
@@ -137,15 +139,38 @@ const res = await this.dataService.listItemsByPk(pk, query);
 :::
 
 ```ts
-import { DataService, CommandModel } from "@mbc-cqrs-serverless/core";
+import {
+  CommandModel,
+  DataModel,
+  DataService,
+  DataSyncHandler,
+  IDataSyncHandler,
+} from "@mbc-cqrs-serverless/core";
+import { Injectable } from "@nestjs/common";
 
 // {{Custom data sync handler example}}
-async up(cmd: CommandModel): Promise<void> {
-  // {{Publish command to data table}}
-  const dataModel = await this.dataService.publish(cmd);
+@DataSyncHandler()
+@Injectable()
+export class CustomDataSyncHandler implements IDataSyncHandler {
+  constructor(private readonly dataService: DataService) {}
 
-  // {{Additional synchronization to external systems}}
-  await this.syncToExternalSystem(dataModel);
+  async up(cmd: CommandModel): Promise<DataModel> {
+    // {{Publish command to data table}}
+    const dataModel = await this.dataService.publish(cmd);
+
+    // {{Additional synchronization to external systems}}
+    await this.syncToExternalSystem(dataModel);
+
+    return dataModel;
+  }
+
+  async down(cmd: CommandModel): Promise<void> {
+    // {{Handle rollback if needed}}
+  }
+
+  private async syncToExternalSystem(data: DataModel): Promise<void> {
+    // {{Custom sync logic}}
+  }
 }
 ```
 
@@ -198,7 +223,15 @@ async listByType(tenantCode: string, type: string): Promise<CatDataEntity[]> {
 {{Handle common query errors gracefully:}}
 
 ```ts
+import {
+  InternalServerErrorException,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
+
 async getItemSafely(pk: string, sk: string): Promise<CatDataEntity> {
+  const logger = new Logger('CatService');
+
   try {
     const item = await this.dataService.getItem({ pk, sk });
 
@@ -211,8 +244,8 @@ async getItemSafely(pk: string, sk: string): Promise<CatDataEntity> {
     if (error instanceof NotFoundException) {
       throw error;
     }
-    // Log and rethrow unexpected errors
-    console.error('Unexpected error querying item:', error);
+    // {{Log and rethrow unexpected errors}}
+    logger.error('Unexpected error querying item:', error);
     throw new InternalServerErrorException('Failed to retrieve item');
   }
 }

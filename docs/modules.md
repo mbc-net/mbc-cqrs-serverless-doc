@@ -153,20 +153,27 @@ TaskModule.register({
 | `taskQueueEventFactory` | `Type<ITaskQueueEventFactory>` | {{Required}} | {{Factory class for transforming task queue events}} |
 | `enableController` | `boolean` | `false` | {{Enable built-in task REST endpoints}} |
 
-{{The `taskQueueEventFactory` must implement the `ITaskQueueEventFactory` interface:}}
+{{The `taskQueueEventFactory` must implement the `ITaskQueueEventFactory` interface. Both methods are optional - implement only what you need:}}
 
 ```typescript
 import { ITaskQueueEventFactory, TaskQueueEvent, StepFunctionTaskEvent } from '@mbc-cqrs-serverless/task';
 import { IEvent } from '@mbc-cqrs-serverless/core';
+import { MyTaskEvent } from './my-task.event';
+import { MyStepFunctionTaskEvent } from './my-sfn-task.event';
 
 export class MyTaskQueueEventFactory implements ITaskQueueEventFactory {
+  // {{Optional: Transform SQS task queue events into domain events}}
   async transformTask(event: TaskQueueEvent): Promise<IEvent[]> {
-    // {{Transform task queue events into domain events}}
-    return [];
+    // {{Create domain-specific events from task queue events}}
+    return [new MyTaskEvent().fromSqsRecord(event)];
   }
 
+  // {{Optional: Transform Step Function task events into domain events}}
   async transformStepFunctionTask(event: StepFunctionTaskEvent): Promise<IEvent[]> {
-    // {{Transform Step Function task events into domain events}}
+    // {{Check taskKey.sk to determine which event type to create}}
+    if (event.taskKey.sk.startsWith('MY_TASK')) {
+      return [new MyStepFunctionTaskEvent(event)];
+    }
     return [];
   }
 }

@@ -35,6 +35,7 @@ import {
   DataService,
   generateId,
   getUserContext,
+  IInvoke,
   VERSION_FIRST,
   KEY_SEPARATOR,
 } from "@mbc-cqrs-serverless/core";
@@ -46,7 +47,6 @@ import { ProductCommandDto } from "./dto/product-command.dto";
 import { ProductDataEntity } from "./entity/product-data.entity";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
-import { IInvoke } from "./interfaces";
 
 const PRODUCT_PK_PREFIX = "PRODUCT";
 
@@ -192,6 +192,14 @@ Scenario: User updates product name or price through an edit form.
 Important: Include the version field to enable optimistic locking and prevent concurrent update conflicts.
 
 ```ts
+import {
+  CommandPartialInputModel,
+  CommandService,
+  DataService,
+  IInvoke,
+} from "@mbc-cqrs-serverless/core";
+import { NotFoundException } from "@nestjs/common";
+
 async update(
   detailDto: { pk: string; sk: string },
   updateDto: UpdateProductDto,
@@ -201,7 +209,7 @@ async update(
   const existing = await this.dataService.getItem(detailDto);
 
   if (!existing) {
-    throw new Error("Product not found");
+    throw new NotFoundException("Product not found");
   }
 
   // Merge existing attributes with updates
@@ -237,6 +245,14 @@ Scenario: Admin removes a discontinued product.
 Why Soft Delete: Data is marked as deleted (isDeleted=true) rather than physically removed, preserving audit history.
 
 ```ts
+import {
+  CommandPartialInputModel,
+  CommandService,
+  DataService,
+  IInvoke,
+} from "@mbc-cqrs-serverless/core";
+import { NotFoundException } from "@nestjs/common";
+
 async remove(
   detailDto: { pk: string; sk: string },
   opts: { invokeContext: IInvoke },
@@ -245,7 +261,7 @@ async remove(
   const existing = await this.dataService.getItem(detailDto);
 
   if (!existing) {
-    throw new Error("Product not found");
+    throw new NotFoundException("Product not found");
   }
 
   // Create soft delete command
@@ -569,6 +585,17 @@ Scenario: Multi-tenant SaaS where a template product needs to be copied to a new
 Solution: Read source entity and create new entity with different tenant's keys.
 
 ```ts
+import {
+  CommandService,
+  DataService,
+  generateId,
+  IInvoke,
+  KEY_SEPARATOR,
+  VERSION_FIRST,
+} from "@mbc-cqrs-serverless/core";
+import { NotFoundException } from "@nestjs/common";
+import { ulid } from "ulid";
+
 async copy(
   sourceKey: { pk: string; sk: string },
   targetTenantCode: string,
@@ -616,7 +643,16 @@ Scenario: Audit requirement to show what a document looked like at a specific ve
 Solution: Use HistoryService to retrieve a specific version from the history table.
 
 ```ts
-import { HistoryService, addSortKeyVersion } from "@mbc-cqrs-serverless/core";
+import {
+  addSortKeyVersion,
+  CommandService,
+  DataService,
+  HistoryService,
+} from "@mbc-cqrs-serverless/core";
+import { Injectable, NotFoundException } from "@nestjs/common";
+
+import { PrismaService } from "src/prisma";
+import { ProductDataEntity } from "./entity/product-data.entity";
 
 @Injectable()
 export class ProductService {

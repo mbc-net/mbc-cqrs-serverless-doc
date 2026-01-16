@@ -153,20 +153,27 @@ TaskModule.register({
 | `taskQueueEventFactory` | `Type<ITaskQueueEventFactory>` | 必須 | タスクキューイベントを変換するファクトリクラス |
 | `enableController` | `boolean` | `false` | 組み込みタスクRESTエンドポイントを有効化 |
 
-`taskQueueEventFactory`は`ITaskQueueEventFactory`インターフェースを実装する必要があります：
+`taskQueueEventFactory`は`ITaskQueueEventFactory`インターフェースを実装する必要があります。両方のメソッドはオプションです - 必要なものだけ実装してください：
 
 ```typescript
 import { ITaskQueueEventFactory, TaskQueueEvent, StepFunctionTaskEvent } from '@mbc-cqrs-serverless/task';
 import { IEvent } from '@mbc-cqrs-serverless/core';
+import { MyTaskEvent } from './my-task.event';
+import { MyStepFunctionTaskEvent } from './my-sfn-task.event';
 
 export class MyTaskQueueEventFactory implements ITaskQueueEventFactory {
+  // Optional: Transform SQS task queue events into domain events (オプション: SQSタスクキューイベントをドメインイベントに変換)
   async transformTask(event: TaskQueueEvent): Promise<IEvent[]> {
-    // Transform task queue events into domain events (タスクキューイベントをドメインイベントに変換)
-    return [];
+    // Create domain-specific events from task queue events (タスクキューイベントからドメイン固有のイベントを作成)
+    return [new MyTaskEvent().fromSqsRecord(event)];
   }
 
+  // Optional: Transform Step Function task events into domain events (オプション: Step Functionタスクイベントをドメインイベントに変換)
   async transformStepFunctionTask(event: StepFunctionTaskEvent): Promise<IEvent[]> {
-    // Transform Step Function task events into domain events (Step Functionタスクイベントをドメインイベントに変換)
+    // Check taskKey.sk to determine which event type to create (taskKey.skをチェックして作成するイベントタイプを決定)
+    if (event.taskKey.sk.startsWith('MY_TASK')) {
+      return [new MyStepFunctionTaskEvent(event)];
+    }
     return [];
   }
 }

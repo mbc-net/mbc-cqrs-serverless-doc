@@ -21,15 +21,15 @@ DataServiceを使用する前に、[CommandServiceセクション](./command-ser
 
 ## メソッド
 
-### *async* `getItem(key: DetailKey)`
+### *async* `getItem(key: DetailKey): Promise<DataModel>`
 
-`getItem`メソッドは、指定された詳細キー/主キーを持つアイテムの属性セットを返します。一致するアイテムがない場合、`getItem`はデータを返さず、レスポンスにはitem要素がありません。
+`getItem`メソッドは、指定された詳細キー/主キーを持つアイテムの属性セットを返します。一致するアイテムがない場合、`getItem`は`undefined`を返します。
 
 例：
 
 ```ts
+import { DataService, DataModel } from '@mbc-cqrs-serverless/core';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { DataService } from '@mbc-cqrs-serverless/core';
 
 @Injectable()
 export class CatService {
@@ -46,7 +46,7 @@ export class CatService {
 }
 ```
 
-### *async* `listItemsByPk(pk: string, opts?: ListItemsOptions)`
+### *async* `listItemsByPk(pk: string, opts?: ListItemsOptions): Promise<DataListEntity>`
 
 `listItemsByPk`メソッドは、パーティションキーに一致する1つ以上のアイテムを返します。フィルタリング、ページネーション、ソートをサポートしています。
 
@@ -56,7 +56,7 @@ export class CatService {
 
 ```ts
 const res = await this.dataService.listItemsByPk(pk);
-return new CatListEntity(res as CatListEntity);
+return new CatListEntity(res);
 ```
 
 #### ソートキーフィルター付き
@@ -64,6 +64,8 @@ return new CatListEntity(res as CatListEntity);
 主キー（`pk`）でアイテムを一覧取得し、ソートキー（`sk`）にフィルター式を使用します。例えば、ソートキーが`CAT#`で始まるアイテムを取得し、100件に制限：
 
 ```ts
+import { KEY_SEPARATOR } from '@mbc-cqrs-serverless/core';
+
 const query = {
   sk: {
     skExpression: 'begins_with(sk, :typeCode)',
@@ -74,7 +76,7 @@ const query = {
   limit: 100,
 };
 const res = await this.dataService.listItemsByPk(pk, query);
-return new CatDataListEntity(res as CatDataListEntity);
+return new CatDataListEntity(res);
 ```
 
 #### ページネーション
@@ -137,15 +139,38 @@ const res = await this.dataService.listItemsByPk(pk, query);
 :::
 
 ```ts
-import { DataService, CommandModel } from "@mbc-cqrs-serverless/core";
+import {
+  CommandModel,
+  DataModel,
+  DataService,
+  DataSyncHandler,
+  IDataSyncHandler,
+} from "@mbc-cqrs-serverless/core";
+import { Injectable } from "@nestjs/common";
 
 // Custom data sync handler example (カスタムデータ同期ハンドラーの例)
-async up(cmd: CommandModel): Promise<void> {
-  // Publish command to data table (コマンドをデータテーブルに発行)
-  const dataModel = await this.dataService.publish(cmd);
+@DataSyncHandler()
+@Injectable()
+export class CustomDataSyncHandler implements IDataSyncHandler {
+  constructor(private readonly dataService: DataService) {}
 
-  // Additional synchronization to external systems (外部システムへの追加同期)
-  await this.syncToExternalSystem(dataModel);
+  async up(cmd: CommandModel): Promise<DataModel> {
+    // Publish command to data table (コマンドをデータテーブルに発行)
+    const dataModel = await this.dataService.publish(cmd);
+
+    // Additional synchronization to external systems (外部システムへの追加同期)
+    await this.syncToExternalSystem(dataModel);
+
+    return dataModel;
+  }
+
+  async down(cmd: CommandModel): Promise<void> {
+    // Handle rollback if needed (必要に応じてロールバックを処理)
+  }
+
+  private async syncToExternalSystem(data: DataModel): Promise<void> {
+    // Custom sync logic (カスタム同期ロジック)
+  }
 }
 ```
 
@@ -198,7 +223,15 @@ async listByType(tenantCode: string, type: string): Promise<CatDataEntity[]> {
 一般的なクエリエラーを適切に処理：
 
 ```ts
+import {
+  InternalServerErrorException,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
+
 async getItemSafely(pk: string, sk: string): Promise<CatDataEntity> {
+  const logger = new Logger('CatService');
+
   try {
     const item = await this.dataService.getItem({ pk, sk });
 
@@ -211,8 +244,8 @@ async getItemSafely(pk: string, sk: string): Promise<CatDataEntity> {
     if (error instanceof NotFoundException) {
       throw error;
     }
-    // Log and rethrow unexpected errors
-    console.error('Unexpected error querying item:', error);
+    // Log and rethrow unexpected errors (予期しないエラーをログに記録して再スロー)
+    logger.error('Unexpected error querying item:', error);
     throw new InternalServerErrorException('Failed to retrieve item');
   }
 }

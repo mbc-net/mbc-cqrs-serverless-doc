@@ -54,10 +54,11 @@ import {
 import { S3Event } from 'aws-lambda';
 import { StepFunctionsEvent, SQSEvent, DynamoDBStreamEvent } from './types';
 
-// Import event classes
+// {{Import event classes}}
 import { CsvImportEvent } from './csv-import/event/csv-import.event';
 import { FileProcessEvent } from './file/event/file-process.event';
 import { OrderCreatedEvent } from './order/event/order-created.event';
+import { SendNotificationEvent } from './notification/event/send-notification.event';
 
 @EventFactory()
 @Injectable()
@@ -127,8 +128,8 @@ export class CustomEventFactory extends DefaultEventFactory {
       const body = JSON.parse(record.body);
 
       switch (body.type) {
-        case 'NOTIFICATION':
-          events.push(new NotificationEvent(body));
+        case 'SEND_NOTIFICATION':
+          events.push(new SendNotificationEvent(body));
           break;
         // {{Add more event types as needed}}
       }
@@ -204,9 +205,14 @@ import { OrderCreatedEvent } from './order-created.event';
 import { NotificationService } from '../../notification/notification.service';
 import { InventoryService } from '../../inventory/inventory.service';
 
+interface OrderProcessingResult {
+  success: boolean;
+  orderId: string;
+}
+
 @EventHandler(OrderCreatedEvent)
 @Injectable()
-export class OrderCreatedHandler implements IEventHandler<OrderCreatedEvent> {
+export class OrderCreatedHandler implements IEventHandler<OrderCreatedEvent, OrderProcessingResult> {
   private readonly logger = new Logger(OrderCreatedHandler.name);
 
   constructor(
@@ -217,7 +223,7 @@ export class OrderCreatedHandler implements IEventHandler<OrderCreatedEvent> {
   /**
    * {{Handle order created event}}
    */
-  async execute(event: OrderCreatedEvent): Promise<any> {
+  async execute(event: OrderCreatedEvent): Promise<OrderProcessingResult> {
     this.logger.log(`Processing order: ${event.orderId}`);
 
     try {
@@ -263,11 +269,21 @@ import {
   EventHandler,
   IEventHandler,
   StepFunctionService,
-  SNSService,
+  SnsService,
+  SnsEvent,
 } from '@mbc-cqrs-serverless/core';
 import { ConfigService } from '@nestjs/config';
 import { ImportProcessEvent } from './import-process.event';
 import { ImportService } from '../import.service';
+
+// {{Define SNS event for alarm notifications}}
+class AlarmSnsEvent extends SnsEvent {
+  importId: string;
+  bucket: string;
+  key: string;
+  errorMessage: string;
+  timestamp: string;
+}
 
 @EventHandler(ImportProcessEvent)
 @Injectable()
@@ -280,7 +296,7 @@ export class ImportProcessEventHandler
   constructor(
     private readonly importService: ImportService,
     private readonly sfnService: StepFunctionService,
-    private readonly snsService: SNSService,
+    private readonly snsService: SnsService,
     private readonly configService: ConfigService,
   ) {
     this.alarmTopicArn = this.configService.get<string>('SNS_ALARM_TOPIC_ARN');
@@ -289,51 +305,40 @@ export class ImportProcessEventHandler
   /**
    * {{Process import with Step Function callback}}
    */
-  async execute(event: ImportProcessEvent): Promise<any> {
+  async execute(event: ImportProcessEvent): Promise<{ success: boolean; importId: string }> {
     this.logger.log(`Processing import: ${event.importId}`);
 
     try {
-      // Process the import
+      // {{Process the import}}
       const result = await this.importService.processImport(event);
 
-      // {{Report success to Step Functions}}
+      // {{Resume Step Functions execution on success}}
       if (event.taskToken) {
-        await this.sfnService.sendTaskSuccess(event.taskToken, result);
+        await this.sfnService.resumeExecution(event.taskToken, result);
       }
 
-      return result;
+      return { success: true, importId: event.importId };
     } catch (error) {
       this.logger.error(`Import failed: ${event.importId}`, error);
 
       // {{Send alarm notification}}
-      await this.sendAlarm(event, error);
-
-      // {{Report failure to Step Functions}}
-      if (event.taskToken) {
-        await this.sfnService.sendTaskFailure(
-          event.taskToken,
-          error.message,
-          'ImportProcessError',
-        );
-      }
+      await this.sendAlarm(event, error as Error);
 
       throw error;
     }
   }
 
   private async sendAlarm(event: ImportProcessEvent, error: Error): Promise<void> {
-    await this.snsService.publish({
-      topicArn: this.alarmTopicArn,
-      subject: `Import Error: ${event.importId}`,
-      message: JSON.stringify({
-        importId: event.importId,
-        bucket: event.bucket,
-        key: event.key,
-        error: error.message,
-        stack: error.stack,
-        timestamp: new Date().toISOString(),
-      }, null, 2),
-    });
+    const alarmEvent: AlarmSnsEvent = {
+      action: 'IMPORT_ERROR',
+      importId: event.importId,
+      bucket: event.bucket,
+      key: event.key,
+      errorMessage: error.message,
+      timestamp: new Date().toISOString(),
+    };
+
+    await this.snsService.publish(alarmEvent, this.alarmTopicArn);
   }
 }
 ```
@@ -362,9 +367,15 @@ import { GetObjectCommand } from '@aws-sdk/client-s3';
 import { FileUploadEvent } from './file-upload.event';
 import { FileProcessService } from '../file-process.service';
 
+interface FileProcessingResult {
+  status: 'processed' | 'skipped';
+  fileType?: string;
+  reason?: string;
+}
+
 @EventHandler(FileUploadEvent)
 @Injectable()
-export class FileUploadHandler implements IEventHandler<FileUploadEvent> {
+export class FileUploadHandler implements IEventHandler<FileUploadEvent, FileProcessingResult> {
   private readonly logger = new Logger(FileUploadHandler.name);
 
   constructor(
@@ -375,10 +386,10 @@ export class FileUploadHandler implements IEventHandler<FileUploadEvent> {
   /**
    * {{Process uploaded file}}
    */
-  async execute(event: FileUploadEvent): Promise<any> {
+  async execute(event: FileUploadEvent): Promise<FileProcessingResult> {
     this.logger.log(`Processing file: ${event.key}`);
 
-    // Get file content
+    // {{Get file content from S3}}
     const command = new GetObjectCommand({
       Bucket: event.bucket,
       Key: event.key,
@@ -390,16 +401,20 @@ export class FileUploadHandler implements IEventHandler<FileUploadEvent> {
 
     switch (fileExtension) {
       case 'csv':
-        return this.fileProcessService.processCsv(response.Body, event);
+        await this.fileProcessService.processCsv(response.Body, event);
+        return { status: 'processed', fileType: 'csv' };
       case 'xlsx':
       case 'xls':
-        return this.fileProcessService.processExcel(response.Body, event);
+        await this.fileProcessService.processExcel(response.Body, event);
+        return { status: 'processed', fileType: fileExtension };
       case 'pdf':
-        return this.fileProcessService.processPdf(response.Body, event);
+        await this.fileProcessService.processPdf(response.Body, event);
+        return { status: 'processed', fileType: 'pdf' };
       case 'jpg':
       case 'jpeg':
       case 'png':
-        return this.fileProcessService.processImage(response.Body, event);
+        await this.fileProcessService.processImage(response.Body, event);
+        return { status: 'processed', fileType: fileExtension };
       default:
         this.logger.warn(`Unsupported file type: ${fileExtension}`);
         return { status: 'skipped', reason: 'Unsupported file type' };
@@ -436,10 +451,16 @@ import {
 } from '@mbc-cqrs-serverless/core';
 import { SendNotificationEvent } from './send-notification.event';
 
+interface NotificationResult {
+  status: 'sent' | 'skipped';
+  type: 'EMAIL' | 'SMS' | 'PUSH';
+  reason?: string;
+}
+
 @EventHandler(SendNotificationEvent)
 @Injectable()
 export class SendNotificationHandler
-  implements IEventHandler<SendNotificationEvent>
+  implements IEventHandler<SendNotificationEvent, NotificationResult>
 {
   private readonly logger = new Logger(SendNotificationHandler.name);
 
@@ -448,7 +469,7 @@ export class SendNotificationHandler
   /**
    * {{Send notification based on type}}
    */
-  async execute(event: SendNotificationEvent): Promise<any> {
+  async execute(event: SendNotificationEvent): Promise<NotificationResult> {
     this.logger.log(`Sending ${event.type} notification to ${event.recipient}`);
 
     switch (event.type) {
@@ -463,7 +484,7 @@ export class SendNotificationHandler
     }
   }
 
-  private async sendEmail(event: SendNotificationEvent): Promise<any> {
+  private async sendEmail(event: SendNotificationEvent): Promise<NotificationResult> {
     let body = event.body;
 
     // {{Render template if provided}}
@@ -480,16 +501,16 @@ export class SendNotificationHandler
     return { status: 'sent', type: 'EMAIL' };
   }
 
-  private async sendSms(event: SendNotificationEvent): Promise<any> {
+  private async sendSms(event: SendNotificationEvent): Promise<NotificationResult> {
     // {{Implement SMS sending logic}}
     this.logger.log('SMS sending not implemented');
-    return { status: 'skipped', type: 'SMS' };
+    return { status: 'skipped', type: 'SMS', reason: 'Not implemented' };
   }
 
-  private async sendPush(event: SendNotificationEvent): Promise<any> {
+  private async sendPush(event: SendNotificationEvent): Promise<NotificationResult> {
     // {{Implement push notification logic}}
     this.logger.log('Push notification not implemented');
-    return { status: 'skipped', type: 'PUSH' };
+    return { status: 'skipped', type: 'PUSH', reason: 'Not implemented' };
   }
 
   private async renderTemplate(
@@ -529,9 +550,14 @@ import { DataChangeEvent } from './data-change.event';
 import { ExternalSyncService } from '../external-sync.service';
 import { CacheService } from '../../cache/cache.service';
 
+interface DataSyncResult {
+  synced: boolean;
+  type?: string;
+}
+
 @EventHandler(DataChangeEvent)
 @Injectable()
-export class DataChangeHandler implements IEventHandler<DataChangeEvent> {
+export class DataChangeHandler implements IEventHandler<DataChangeEvent, DataSyncResult> {
   private readonly logger = new Logger(DataChangeHandler.name);
 
   constructor(
@@ -542,7 +568,7 @@ export class DataChangeHandler implements IEventHandler<DataChangeEvent> {
   /**
    * {{Handle data changes from DynamoDB stream}}
    */
-  async execute(event: DataChangeEvent): Promise<any> {
+  async execute(event: DataChangeEvent): Promise<DataSyncResult> {
     this.logger.log(
       `Data change: ${event.eventType} on ${event.pk}/${event.sk}`,
     );
@@ -566,7 +592,7 @@ export class DataChangeHandler implements IEventHandler<DataChangeEvent> {
     }
   }
 
-  private async syncProduct(event: DataChangeEvent): Promise<any> {
+  private async syncProduct(event: DataChangeEvent): Promise<DataSyncResult> {
     if (event.eventType === 'REMOVE') {
       await this.externalSyncService.deleteProduct(event.pk, event.sk);
     } else {
@@ -575,13 +601,13 @@ export class DataChangeHandler implements IEventHandler<DataChangeEvent> {
     return { synced: true, type: 'PRODUCT' };
   }
 
-  private async syncOrder(event: DataChangeEvent): Promise<any> {
+  private async syncOrder(event: DataChangeEvent): Promise<DataSyncResult> {
     // {{Sync order to external ERP system}}
     await this.externalSyncService.syncOrder(event.newImage);
     return { synced: true, type: 'ORDER' };
   }
 
-  private async syncUser(event: DataChangeEvent): Promise<any> {
+  private async syncUser(event: DataChangeEvent): Promise<DataSyncResult> {
     // {{Sync user to external identity provider}}
     await this.externalSyncService.syncUser(event.newImage);
     return { synced: true, type: 'USER' };
@@ -671,8 +697,13 @@ export function WithRetry(options: Partial<RetryOptions> = {}) {
 ### {{1. Idempotent Event Handlers}}
 
 ```typescript
+interface IdempotentResult {
+  skipped?: boolean;
+  processed?: boolean;
+}
+
 // {{Always check if event was already processed}}
-async execute(event: OrderEvent): Promise<any> {
+async execute(event: OrderEvent): Promise<IdempotentResult> {
   const existing = await this.prismaService.processedEvent.findUnique({
     where: { eventId: event.eventId },
   });
@@ -682,15 +713,15 @@ async execute(event: OrderEvent): Promise<any> {
     return { skipped: true };
   }
 
-  // Process event
+  // {{Process event}}
   const result = await this.processEvent(event);
 
-  // Mark as processed
+  // {{Mark as processed}}
   await this.prismaService.processedEvent.create({
     data: { eventId: event.eventId, processedAt: new Date() },
   });
 
-  return result;
+  return { processed: true, ...result };
 }
 ```
 
@@ -710,13 +741,18 @@ this.logger.log({
 ### {{3. Timeout Handling}}
 
 ```typescript
+interface TimeoutResult {
+  success: boolean;
+  data?: Record<string, unknown>;
+}
+
 // {{Implement timeout for long-running operations}}
-async execute(event: LongRunningEvent): Promise<any> {
-  const timeout = 25000; // 25 seconds (Lambda default is 30s)
+async execute(event: LongRunningEvent): Promise<TimeoutResult> {
+  const timeout = 25000; // {{25 seconds (Lambda default is 30s)}}
 
   const result = await Promise.race([
     this.processEvent(event),
-    new Promise((_, reject) =>
+    new Promise<never>((_, reject) =>
       setTimeout(() => reject(new Error('Operation timeout')), timeout),
     ),
   ]);
@@ -728,16 +764,21 @@ async execute(event: LongRunningEvent): Promise<any> {
 ### {{4. Graceful Degradation}}
 
 ```typescript
+interface BatchProcessingResult {
+  processed: number;
+  failed: number;
+}
+
 // {{Continue processing even if some operations fail}}
-async execute(event: BatchEvent): Promise<any> {
-  const results = [];
-  const errors = [];
+async execute(event: BatchEvent): Promise<BatchProcessingResult> {
+  const results: unknown[] = [];
+  const errors: Array<{ item: unknown; error: string }> = [];
 
   for (const item of event.items) {
     try {
       results.push(await this.processItem(item));
     } catch (error) {
-      errors.push({ item, error: error.message });
+      errors.push({ item, error: (error as Error).message });
       // {{Continue with next item}}
     }
   }
@@ -764,7 +805,7 @@ import { Injectable, Logger } from "@nestjs/common";
 import { PrismaService } from "src/prisma";
 
 @Injectable()
-export class ProductDataSyncRdsHandler implements IDataSyncHandler {
+export class ProductDataSyncRdsHandler implements IDataSyncHandler<void, void> {
   private readonly logger = new Logger(ProductDataSyncRdsHandler.name);
 
   constructor(private readonly prismaService: PrismaService) {}
@@ -772,7 +813,7 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
   /**
    * {{Sync data from DynamoDB to RDS on create/update}}
    */
-  async up(cmd: CommandModel): Promise<any> {
+  async up(cmd: CommandModel): Promise<void> {
     this.logger.debug('Syncing to RDS:', cmd.pk, cmd.sk);
 
     const { pk, sk, id, code, name, tenantCode, attributes } = cmd;
@@ -801,7 +842,7 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
   /**
    * {{Handle delete/rollback operations}}
    */
-  async down(cmd: CommandModel): Promise<any> {
+  async down(cmd: CommandModel): Promise<void> {
     this.logger.debug('Removing from RDS:', cmd.pk, cmd.sk);
 
     await this.prismaService.product.delete({
