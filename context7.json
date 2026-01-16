@@ -1,6 +1,4 @@
 {
-  "url": "https://context7.com/mbc-net/mbc-cqrs-serverless-doc",
-  "public_key": "pk_lFhIEpbwbaZKMm8AUDyPf",
   "projectTitle": "MBC CQRS Serverless Framework",
   "description": "Production-ready CQRS and Event Sourcing framework for building serverless applications on AWS with NestJS, DynamoDB, and other AWS services.",
   "folders": [
