@@ -60,14 +60,14 @@ export default function EditSurveyPage({ params }: { params: { id: string } }) {
 ```tsx
 import { SurveyForm } from "@mbc-cqrs-serverless/survey-web/SurveyForm";
 
-export default function SurveyResponsePage({ template }) {
+export default function SurveyResponsePage({ schema }) {
   const handleSubmit = (responses) => {
     console.log("Survey responses:", responses);
   };
 
   return (
     <SurveyForm
-      template={template}
+      schema={schema}
       onSubmit={handleSubmit}
     />
   );
@@ -84,10 +84,12 @@ Survey Webパッケージは9種類の質問タイプをサポートしていま
 
 ```json
 {
-  "type": "short_text",
-  "text": "What is your name?",
-  "required": true,
-  "placeholder": "Enter your name"
+  "id": "q1",
+  "type": "short-text",
+  "label": "What is your name?",
+  "validation": {
+    "required": true
+  }
 }
 ```
 
@@ -97,10 +99,18 @@ Survey Webパッケージは9種類の質問タイプをサポートしていま
 
 ```json
 {
-  "type": "long_text",
-  "text": "Please describe your experience",
-  "required": false,
-  "maxLength": 1000
+  "id": "q2",
+  "type": "long-text",
+  "label": "Please describe your experience",
+  "validation": {
+    "required": false,
+    "custom": {
+      "type": "length",
+      "rule": "max",
+      "value": 1000,
+      "customError": "Response must be 1000 characters or less"
+    }
+  }
 }
 ```
 
@@ -110,14 +120,17 @@ Survey Webパッケージは9種類の質問タイプをサポートしていま
 
 ```json
 {
-  "type": "single_choice",
-  "text": "What is your preferred contact method?",
-  "required": true,
+  "id": "q3",
+  "type": "single-choice",
+  "label": "What is your preferred contact method?",
   "options": [
     { "value": "email", "label": "Email" },
     { "value": "phone", "label": "Phone" },
     { "value": "mail", "label": "Mail" }
-  ]
+  ],
+  "validation": {
+    "required": true
+  }
 }
 ```
 
@@ -127,14 +140,17 @@ Survey Webパッケージは9種類の質問タイプをサポートしていま
 
 ```json
 {
-  "type": "multiple_choice",
-  "text": "Which products are you interested in?",
-  "required": true,
+  "id": "q4",
+  "type": "multiple-choice",
+  "label": "Which products are you interested in?",
   "options": [
     { "value": "product_a", "label": "Product A" },
     { "value": "product_b", "label": "Product B" },
     { "value": "product_c", "label": "Product C" }
-  ]
+  ],
+  "validation": {
+    "required": true
+  }
 }
 ```
 
@@ -144,14 +160,17 @@ Survey Webパッケージは9種類の質問タイプをサポートしていま
 
 ```json
 {
+  "id": "q5",
   "type": "dropdown",
-  "text": "Select your country",
-  "required": true,
+  "label": "Select your country",
   "options": [
     { "value": "jp", "label": "Japan" },
     { "value": "us", "label": "United States" },
     { "value": "uk", "label": "United Kingdom" }
-  ]
+  ],
+  "validation": {
+    "required": true
+  }
 }
 ```
 
@@ -161,95 +180,165 @@ Survey Webパッケージは9種類の質問タイプをサポートしていま
 
 ```json
 {
-  "type": "linear_scale",
-  "text": "How likely are you to recommend us?",
-  "required": true,
-  "min": 1,
+  "id": "q6",
+  "type": "linear-scale",
+  "label": "How likely are you to recommend us?",
+  "min": 0,
   "max": 10,
   "minLabel": "Not likely",
-  "maxLabel": "Very likely"
+  "maxLabel": "Very likely",
+  "validation": {
+    "required": true
+  }
 }
 ```
 
 ### 7. 評価
 
-5つ星評価入力。
+2〜10段階で設定可能な星/ハート/サムズアップ評価入力。
 
 ```json
 {
+  "id": "q7",
   "type": "rating",
-  "text": "Rate your overall satisfaction",
-  "required": true
+  "label": "Rate your overall satisfaction",
+  "levels": 5,
+  "symbol": "star",
+  "validation": {
+    "required": true
+  }
 }
 ```
+
+| プロパティ | 型 | デフォルト | 説明 |
+|----------|------|---------|-------------|
+| `levels` | `number` | `5` | 評価レベル数（2〜10） |
+| `symbol` | `'star' \| 'heart' \| 'thumb'` | `'star'` | 評価表示に使用するシンボル |
 
 ### 8. 日付
 
-日付選択用の日付ピッカー。
+設定可能なオプション付きの日付選択ピッカー。
 
 ```json
 {
+  "id": "q8",
   "type": "date",
-  "text": "When did you first use our service?",
-  "required": false
+  "label": "When did you first use our service?",
+  "includeTime": false,
+  "includeYear": true,
+  "validation": {
+    "required": false
+  }
 }
 ```
+
+| プロパティ | 型 | デフォルト | 説明 |
+|----------|------|---------|-------------|
+| `includeTime` | `boolean` | `false` | 日付と一緒に時間選択を含める |
+| `includeYear` | `boolean` | `true` | 日付選択に年を含める |
 
 ### 9. 時間
 
-時間選択用のタイムピッカー。
+時間または期間入力用のタイムピッカー。
 
 ```json
 {
+  "id": "q9",
   "type": "time",
-  "text": "What time works best for a callback?",
-  "required": false
+  "label": "What time works best for a callback?",
+  "answerType": "time",
+  "validation": {
+    "required": false
+  }
 }
 ```
+
+| プロパティ | 型 | デフォルト | 説明 |
+|----------|------|---------|-------------|
+| `answerType` | `'time' \| 'duration'` | `'time'` | 入力モード：特定の時間または期間 |
 
 ## カスタムフック
 
 ### useSurveyTemplates
 
-アンケートテンプレートの取得と管理。
+ページネーションと検索機能を備えたアンケートテンプレートの取得と管理。
 
 ```tsx
 import { useSurveyTemplates } from "@mbc-cqrs-serverless/survey-web";
 
 function TemplateList() {
-  const { templates, isLoading, error } = useSurveyTemplates();
+  const {
+    surveys,        // アンケートテンプレートの配列 (Array of survey templates)
+    totalItems,     // テンプレートの総数 (Total number of templates)
+    isLoading,
+    error,
+    refetch         // リストを更新する関数 (Function to refresh the list)
+  } = useSurveyTemplates({
+    page: 1,
+    pageSize: 10,
+    keyword: "",           // オプション：検索キーワード (Optional: search keyword)
+    orderBy: "createdAt",  // オプション：ソートフィールド (Optional: sort field)
+    orderType: "DESC"      // オプション：ソート順 (Optional: sort direction)
+  });
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <ul>
-      {templates.map((template) => (
-        <li key={template.id}>{template.name}</li>
-      ))}
-    </ul>
+    <div>
+      <p>合計: {totalItems}</p>
+      <ul>
+        {surveys.map((survey) => (
+          <li key={survey.id}>{survey.name}</li>
+        ))}
+      </ul>
+    </div>
   );
 }
 ```
 
 ### useEditSurveyTemplate
 
-アンケートテンプレート編集用フック。
+スキーマ管理と送信処理を備えたアンケートテンプレート編集用フック。
 
 ```tsx
 import { useEditSurveyTemplate } from "@mbc-cqrs-serverless/survey-web";
 
-function TemplateEditor({ templateId }) {
-  const { template, updateTemplate, saveTemplate } = useEditSurveyTemplate(templateId);
+function TemplateEditor({ id }: { id?: string }) {
+  const {
+    surveyData,           // サーバーからの現在のアンケートデータ (Current survey data from server)
+    currentSchema,        // 現在の編集可能なスキーマ (Current editable schema)
+    originalSchema,       // 変更検出用の元のスキーマ (Original schema for change detection)
+    isLoading,
+    isSubmitting,
+    error,
+    setCurrentSchema,     // 現在のスキーマを更新する関数 (Function to update current schema)
+    handleCreateSurvey,   // 新しいアンケートを作成する関数 (Function to create new survey)
+    handleUpdateSurvey,   // 既存のアンケートを更新する関数 (Function to update existing survey)
+    retryFetchSurvey,     // アンケートデータの取得をリトライする関数 (Function to retry fetching survey data)
+    isSchemaChanged,      // スキーマに変更があるかを示すブール値 (Boolean indicating if schema has changes)
+    isButtonDisabled,     // 送信ボタンの無効状態を示すブール値 (Boolean for submit button disabled state)
+    submitButtonRef       // 送信ボタンのRef (Ref for submit button)
+  } = useEditSurveyTemplate({ id });
 
   const handleSave = async () => {
-    await saveTemplate();
+    if (id) {
+      await handleUpdateSurvey();
+    } else {
+      await handleCreateSurvey();
+    }
   };
 
   return (
     <div>
-      {/* Editor UI */}
-      <button onClick={handleSave}>Save</button>
+      {/* エディタUI (Editor UI) */}
+      <button
+        ref={submitButtonRef}
+        onClick={handleSave}
+        disabled={isButtonDisabled}
+      >
+        {isSubmitting ? "保存中..." : "保存"}
+      </button>
     </div>
   );
 }
@@ -257,20 +346,25 @@ function TemplateEditor({ templateId }) {
 
 ### useDeleteSurveyTemplate
 
-アンケートテンプレート削除用フック。
+成功コールバック付きのアンケートテンプレート削除用フック。
 
 ```tsx
 import { useDeleteSurveyTemplate } from "@mbc-cqrs-serverless/survey-web";
 
-function DeleteButton({ templateId }) {
-  const { deleteTemplate, isDeleting } = useDeleteSurveyTemplate();
+function DeleteButton({ surveyId }: { surveyId: string }) {
+  const { handleDeleteSurvey, isDeleting } = useDeleteSurveyTemplate({
+    onSuccess: () => {
+      console.log("アンケートが正常に削除されました (Survey deleted successfully)");
+      // リストに戻るか更新 (Navigate back to list or refresh)
+    }
+  });
 
   return (
     <button
-      onClick={() => deleteTemplate(templateId)}
+      onClick={() => handleDeleteSurvey(surveyId)}
       disabled={isDeleting}
     >
-      Delete
+      削除
     </button>
   );
 }
@@ -278,61 +372,242 @@ function DeleteButton({ templateId }) {
 
 ## アンケートテンプレート構造
 
-アンケートテンプレートは以下の構造に従います：
+アンケートテンプレートはセクションヘッダーを含むフラットリスト構造を使用します：
 
 ```typescript
-interface SurveyTemplate {
-  id: string;
-  name: string;
-  description?: string;
-  sections: Section[];
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-interface Section {
-  id: string;
+interface SurveySchema {
   title: string;
   description?: string;
-  questions: Question[];
-  nextSectionId?: string; // For conditional branching
+  items: SurveyItem[];  // セクションヘッダーと質問のフラットリスト (Flat list of section headers and questions)
 }
 
+// セクションヘッダー項目 - ブックマークまたはページ区切りとして機能 (Section header item - acts as a bookmark or page break)
+interface SectionHeader {
+  id: string;
+  type: "section-header";
+  title: string;
+  description?: string;
+  action?: {
+    type: "submit";
+  } | {
+    type: "jump";
+    targetSectionId: string;  // 条件分岐用の別のsection-headerのID (ID of another section-header for conditional branching)
+  };
+}
+
+// 質問項目 (Question item)
 interface Question {
   id: string;
-  type: QuestionType;
-  text: string;
-  required: boolean;
-  options?: Option[];
-  validation?: ValidationRule[];
+  type: QuestionType;  // short-text、long-text、single-choiceなど (short-text, long-text, single-choice, etc.)
+  label: string;
+  description?: string;
+  options?: Option[];  // 選択ベースの質問用 (For choice-based questions)
+  validation?: ValidationRules;
+}
+
+// すべての項目タイプの共用体 (Union of all item types)
+type SurveyItem = SectionHeader | Question;
+```
+
+アンケート構造の例：
+
+```json
+{
+  "title": "Customer Feedback Survey",
+  "description": "Help us improve our service",
+  "items": [
+    {
+      "id": "section-intro",
+      "type": "section-header",
+      "title": "Introduction",
+      "description": "Please answer a few questions about yourself"
+    },
+    {
+      "id": "q1",
+      "type": "short-text",
+      "label": "What is your name?",
+      "validation": { "required": true }
+    },
+    {
+      "id": "section-feedback",
+      "type": "section-header",
+      "title": "Feedback",
+      "description": "Tell us about your experience"
+    },
+    {
+      "id": "q2",
+      "type": "linear-scale",
+      "label": "How satisfied are you?",
+      "min": 1,
+      "max": 10,
+      "minLabel": "Not satisfied",
+      "maxLabel": "Very satisfied",
+      "validation": { "required": true }
+    }
+  ]
+}
+```
+
+## SurveyTemplateDataEntity型
+
+`SurveyTemplateDataEntity`型は、実際のDynamoDBエンティティ構造を表します：
+
+```typescript
+type SurveyTemplateDataEntity = {
+  // プライマリキー (Primary keys)
+  pk: string;                    // パーティションキー (Partition key)
+  sk: string;                    // ソートキー (Sort key)
+
+  // エンティティ識別子 (Entity identifiers)
+  id: string;                    // 一意の識別子 (Unique identifier)
+  code: string;                  // テンプレートコード (Template code)
+  name: string;                  // テンプレート名 (Template name)
+  version: number;               // バージョン番号 (Version number)
+  tenantCode: string;            // テナントコード (Tenant code)
+  type: string;                  // エンティティタイプ (Entity type)
+
+  // 監査フィールド（文字列） (Audit fields)
+  createdAt?: string;            // 作成日時 (Creation timestamp)
+  updatedAt?: string;            // 最終更新日時 (Last update timestamp)
+  createdBy?: string;            // 作成者ユーザーID (Creator user ID)
+  updatedBy?: string;            // 最終更新者ユーザーID (Last updater user ID)
+
+  // オプションフィールド (Optional fields)
+  cpk?: string;                  // コマンドパーティションキー (Command partition key)
+  csk?: string;                  // コマンドソートキー (Command sort key)
+  source?: string;               // ソース識別子 (Source identifier)
+  requestId?: string;            // リクエストID (Request ID)
+  createdIp?: string;            // 作成者IPアドレス (Creator IP address)
+  updatedIp?: string;            // 更新者IPアドレス (Updater IP address)
+  seq?: number;                  // シーケンス番号 (Sequence number)
+  ttl?: number;                  // 有効期限 (Time to live)
+  isDeleted?: boolean;           // 論理削除フラグ (Soft delete flag)
+
+  // アンケートテンプレートデータ (Survey template data)
+  attributes: {
+    description?: string;        // テンプレート説明 (Template description)
+    surveyTemplate: {            // アンケートテンプレートJSON構造 (Survey template JSON structure)
+      [key: string]: unknown;
+    };
+  };
 }
 ```
 
 ## バリデーションルール
 
-質問用のカスタムバリデーションルールを定義：
+バリデーションルールは`validation`オブジェクト内に判別共用体構造で定義されます：
 
 ```typescript
-interface ValidationRule {
-  type: "min_length" | "max_length" | "pattern" | "email" | "number_range";
-  value: string | number;
-  message: string;
+interface ValidationRules {
+  required?: boolean;
+  custom?: CustomValidationRule;  // short-textおよびlong-text質問用 (For short-text and long-text questions)
+  shuffleOptions?: boolean;       // 選択質問用 - 選択肢の順序をランダム化 (For choice questions - randomize option order)
+}
+
+// カスタムバリデーションルール用の判別共用体 (Discriminated union for custom validation rules)
+type CustomValidationRule =
+  | NumberValidation
+  | TextValidation
+  | LengthValidation
+  | RegexValidation;
+
+interface NumberValidation {
+  type: "number";
+  rule: "gt" | "gte" | "lt" | "lte" | "eq" | "neq" | "between" | "not_between" | "is_number" | "is_whole";
+  value?: number;
+  value2?: number;  // 'between'および'not_between'ルール用 (For 'between' and 'not_between' rules)
+  customError?: string;
+}
+
+interface TextValidation {
+  type: "text";
+  rule: "contains" | "not_contains" | "is_email" | "is_url";
+  value?: string;
+  customError?: string;
+}
+
+interface LengthValidation {
+  type: "length";
+  rule: "min" | "max";
+  value: number;
+  customError?: string;
+}
+
+interface RegexValidation {
+  type: "regex";
+  rule: "contains" | "not_contains" | "matches" | "not_matches";
+  value: string;
+  customError?: string;
+}
+
+// 複数選択質問用 (For multiple-choice questions)
+interface MultipleChoiceValidationRule {
+  rule: "min" | "max" | "exact";
+  value: number;
+  customError?: string;
 }
 ```
 
-バリデーション付きの例：
+メールバリデーションの例：
 
 ```json
 {
-  "type": "short_text",
-  "text": "Enter your email",
-  "required": true,
-  "validation": [
-    {
-      "type": "email",
-      "message": "Please enter a valid email address"
+  "id": "email",
+  "type": "short-text",
+  "label": "Enter your email",
+  "validation": {
+    "required": true,
+    "custom": {
+      "type": "text",
+      "rule": "is_email",
+      "customError": "Please enter a valid email address"
     }
-  ]
+  }
+}
+```
+
+数値範囲バリデーションの例：
+
+```json
+{
+  "id": "age",
+  "type": "short-text",
+  "label": "Enter your age",
+  "validation": {
+    "required": true,
+    "custom": {
+      "type": "number",
+      "rule": "between",
+      "value": 18,
+      "value2": 120,
+      "customError": "Age must be between 18 and 120"
+    }
+  }
+}
+```
+
+複数選択バリデーション（最小/最大選択数）の例：
+
+```json
+{
+  "id": "interests",
+  "type": "multiple-choice",
+  "label": "Select your interests (2-5 choices)",
+  "options": [
+    { "value": "sports", "label": "Sports" },
+    { "value": "music", "label": "Music" },
+    { "value": "reading", "label": "Reading" },
+    { "value": "travel", "label": "Travel" },
+    { "value": "cooking", "label": "Cooking" }
+  ],
+  "validation": {
+    "required": true,
+    "custom": {
+      "rule": "min",
+      "value": 2,
+      "customError": "Please select at least 2 options"
+    }
+  }
 }
 ```
 
@@ -340,11 +615,28 @@ interface ValidationRule {
 
 以下の環境変数を設定します：
 
-| 変数 | 説明 |
-|----------|-------------|
-| `NEXT_PUBLIC_API_URL` | REST APIエンドポイントのベースURL |
-| `NEXT_PUBLIC_AWS_APPSYNC_GRAPHQLENDPOINT` | AWS AppSync GraphQLエンドポイント |
-| `NEXT_PUBLIC_AWS_APPSYNC_REGION` | AppSync用のAWSリージョン |
+| 変数 | 説明 | 必須 |
+|----------|-------------|----------|
+| `NEXT_PUBLIC_API_URL` | REST APIエンドポイントのベースURL | はい |
+| `NEXT_PUBLIC_TENANT_CODE` | x-tenant-codeヘッダー用のテナントコード（デフォルト：'common'） | いいえ |
+| `NEXT_PUBLIC_AWS_APPSYNC_GRAPHQLENDPOINT` | AWS AppSync GraphQLエンドポイント | はい |
+| `NEXT_PUBLIC_AWS_APPSYNC_APIKEY` | 認証用AWS AppSync APIキー | はい |
+| `NEXT_PUBLIC_AWS_APPSYNC_REGION` | AppSync用のAWSリージョン | はい |
+
+`.env.local`の設定例：
+
+```bash
+# REST API設定 (REST API Configuration)
+NEXT_PUBLIC_API_URL=https://api.example.com
+
+# テナント設定 (Tenant Configuration)
+NEXT_PUBLIC_TENANT_CODE=my-tenant
+
+# AWS AppSync設定 (AWS AppSync Configuration)
+NEXT_PUBLIC_AWS_APPSYNC_GRAPHQLENDPOINT=https://xxxxx.appsync-api.us-east-1.amazonaws.com/graphql
+NEXT_PUBLIC_AWS_APPSYNC_APIKEY=da2-xxxxxxxxxxxxxxxxxxxxxxxxxx
+NEXT_PUBLIC_AWS_APPSYNC_REGION=us-east-1
+```
 
 ## スタイリング
 
