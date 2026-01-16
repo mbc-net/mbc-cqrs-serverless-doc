@@ -153,40 +153,33 @@ console.log(userContext.tenantRole);  // 'admin'
 
 ### Entity Interfaces
 
-#### IDataEntity
-
-Base interface for data entities (read model).
-
-```ts
-export interface IDataEntity {
-  pk: string
-  sk: string
-  id: string
-  code: string
-  name: string
-  version: number
-  tenantCode: string
-  type: string
-  isDeleted: boolean
-  createdAt: string   // ISO 8601 timestamp
-  createdBy: string   // User ID
-  createdIp?: string  // Client IP
-  updatedAt: string   // ISO 8601 timestamp
-  updatedBy: string   // User ID
-  updatedIp?: string  // Client IP
-  attributes?: Record<string, any>
-}
-```
-
-#### ICommandEntity
+#### CommandModel
 
 Interface for command entities (write model).
 
 ```ts
-export interface ICommandEntity extends IDataEntity {
-  cpk: string   // Command partition key
-  csk: string   // Command sort key (includes version)
-  seq: number   // Sequence number
+export interface CommandModel extends CommandInputModel {
+  status?: string       // Processing status (e.g., 'PENDING', 'COMPLETED', 'FAILED')
+  source?: string       // Event source identifier (e.g., 'POST /api/master', 'SQS')
+  requestId?: string    // Unique request ID for tracing and idempotency
+  createdAt?: Date      // Timestamp when the command was created
+  updatedAt?: Date      // Timestamp when the command was last updated
+  createdBy?: string    // User ID who created the command
+  updatedBy?: string    // User ID who last updated the command
+  createdIp?: string    // IP address of the creator
+  updatedIp?: string    // IP address of the last updater
+  taskToken?: string    // Step Functions task token for async workflows
+}
+```
+
+#### DataModel
+
+Base interface for data entities (read model).
+
+```ts
+export interface DataModel extends Omit<CommandModel, 'status'> {
+  cpk?: string  // Command partition key - references source command record
+  csk?: string  // Command sort key with version - references exact command version
 }
 ```
 
@@ -356,44 +349,39 @@ export interface SequencesModuleOptions {
 
 ## Event Interfaces
 
-### StepFunctionEvent
+### StepFunctionsEvent
 
 Event structure from AWS Step Functions.
 
 ```ts
-export interface StepFunctionEvent {
-  taskToken: string           // Step Functions callback token
-  input: Record<string, any>  // Input data from state machine
-  executionId: string         // State machine execution ID
+export interface StepFunctionsContextExecution {
+  Id: string                    // Execution ID
+  Input: { [id: string]: any }  // Input data
+  Name: string                  // Execution name
+  RoleArn: string               // IAM role ARN
+  StartTime: string             // Execution start time
 }
-```
 
-### S3Event
-
-S3 event structure for file processing.
-
-```ts
-export interface S3EventRecord {
-  s3: {
-    bucket: { name: string }
-    object: { key: string; size: number }
-  }
-  eventName: string  // e.g., "ObjectCreated:Put"
+export interface StepFunctionsContextState {
+  EnteredTime: string   // State entered time
+  Name: string          // State name
+  RetryCount: number    // Retry count
 }
-```
 
-## Error Interfaces
+export interface StepFunctionsContextStateMachine {
+  Id: string    // State machine ID
+  Name: string  // State machine name
+}
 
-### AppException
+export interface StepFunctionsContext {
+  Execution: StepFunctionsContextExecution
+  State: StepFunctionsContextState
+  StateMachine: StepFunctionsContextStateMachine
+}
 
-Base exception interface for application errors.
-
-```ts
-export interface AppException {
-  statusCode: number      // HTTP status code
-  message: string         // Error message
-  code?: string           // Error code for client handling
-  details?: any           // Additional error details
+export interface StepFunctionsEvent<TInput> {
+  input: TInput                    // Input data passed to the state
+  context: StepFunctionsContext    // Step Functions context information
 }
 ```
 

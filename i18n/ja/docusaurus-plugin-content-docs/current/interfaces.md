@@ -153,40 +153,33 @@ console.log(userContext.tenantRole);  // 'admin'
 
 ### エンティティインターフェース
 
-#### IDataEntity
-
-データエンティティ（読み取りモデル）の基本インターフェース。
-
-```ts
-export interface IDataEntity {
-  pk: string
-  sk: string
-  id: string
-  code: string
-  name: string
-  version: number
-  tenantCode: string
-  type: string
-  isDeleted: boolean
-  createdAt: string   // ISO 8601 timestamp
-  createdBy: string   // User ID
-  createdIp?: string  // Client IP
-  updatedAt: string   // ISO 8601 timestamp
-  updatedBy: string   // User ID
-  updatedIp?: string  // Client IP
-  attributes?: Record<string, any>
-}
-```
-
-#### ICommandEntity
+#### CommandModel
 
 コマンドエンティティ（書き込みモデル）のインターフェース。
 
 ```ts
-export interface ICommandEntity extends IDataEntity {
-  cpk: string   // Command partition key
-  csk: string   // Command sort key (includes version)
-  seq: number   // Sequence number
+export interface CommandModel extends CommandInputModel {
+  status?: string       // Processing status (処理ステータス: 'PENDING', 'COMPLETED', 'FAILED'等)
+  source?: string       // Event source identifier (イベントソース識別子: 'POST /api/master', 'SQS'等)
+  requestId?: string    // Unique request ID for tracing and idempotency (トレースと冪等性のための一意のリクエストID)
+  createdAt?: Date      // Timestamp when the command was created (コマンド作成時のタイムスタンプ)
+  updatedAt?: Date      // Timestamp when the command was last updated (コマンド最終更新時のタイムスタンプ)
+  createdBy?: string    // User ID who created the command (コマンドを作成したユーザーID)
+  updatedBy?: string    // User ID who last updated the command (コマンドを最後に更新したユーザーID)
+  createdIp?: string    // IP address of the creator (作成者のIPアドレス)
+  updatedIp?: string    // IP address of the last updater (最終更新者のIPアドレス)
+  taskToken?: string    // Step Functions task token for async workflows (非同期ワークフロー用のStep Functionsタスクトークン)
+}
+```
+
+#### DataModel
+
+データエンティティ（読み取りモデル）の基本インターフェース。
+
+```ts
+export interface DataModel extends Omit<CommandModel, 'status'> {
+  cpk?: string  // Command partition key - references source command record (コマンドパーティションキー - ソースコマンドレコードへの参照)
+  csk?: string  // Command sort key with version - references exact command version (バージョン付きコマンドソートキー - 正確なコマンドバージョンへの参照)
 }
 ```
 
@@ -356,44 +349,39 @@ export interface SequencesModuleOptions {
 
 ## イベントインターフェース
 
-### StepFunctionEvent
+### StepFunctionsEvent
 
 AWS Step Functionsからのイベント構造。
 
 ```ts
-export interface StepFunctionEvent {
-  taskToken: string           // Step Functions callback token
-  input: Record<string, any>  // Input data from state machine
-  executionId: string         // State machine execution ID
+export interface StepFunctionsContextExecution {
+  Id: string                    // Execution ID (実行ID)
+  Input: { [id: string]: any }  // Input data (入力データ)
+  Name: string                  // Execution name (実行名)
+  RoleArn: string               // IAM role ARN (IAMロールARN)
+  StartTime: string             // Execution start time (実行開始時刻)
 }
-```
 
-### S3Event
-
-ファイル処理用のS3イベント構造。
-
-```ts
-export interface S3EventRecord {
-  s3: {
-    bucket: { name: string }
-    object: { key: string; size: number }
-  }
-  eventName: string  // e.g., "ObjectCreated:Put"
+export interface StepFunctionsContextState {
+  EnteredTime: string   // State entered time (ステート開始時刻)
+  Name: string          // State name (ステート名)
+  RetryCount: number    // Retry count (リトライ回数)
 }
-```
 
-## エラーインターフェース
+export interface StepFunctionsContextStateMachine {
+  Id: string    // State machine ID (ステートマシンID)
+  Name: string  // State machine name (ステートマシン名)
+}
 
-### AppException
+export interface StepFunctionsContext {
+  Execution: StepFunctionsContextExecution
+  State: StepFunctionsContextState
+  StateMachine: StepFunctionsContextStateMachine
+}
 
-アプリケーションエラー用の基本例外インターフェース。
-
-```ts
-export interface AppException {
-  statusCode: number      // HTTP status code
-  message: string         // Error message
-  code?: string           // Error code for client handling
-  details?: any           // Additional error details
+export interface StepFunctionsEvent<TInput> {
+  input: TInput                    // Input data passed to the state (ステートに渡された入力データ)
+  context: StepFunctionsContext    // Step Functions context information (Step Functionsコンテキスト情報)
 }
 ```
 

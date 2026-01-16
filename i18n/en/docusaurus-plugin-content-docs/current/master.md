@@ -85,37 +85,42 @@ Retrieves a specific setting based on the provided setting code.
 const masterSetting = await this.masterSettingService.getSetting(
   {
     code: "service",
-  }
+  },
+  { invokeContext }
 );
 ```
 
 #### `createCommonTenantSetting(dto: CommonSettingDto, context: { invokeContext: IInvoke }): Promise<CommandModel>`
 Creates a common tenant setting that is shared across the system.
 ```ts
-const masterSetting = await this.masterSettingService.createGroupSetting(
+const masterSetting = await this.masterSettingService.createCommonTenantSetting(
   {
-  name: "common setting",
-  code: "service",
-  settingValue: {
-    region: "US",
-    plan: "common"
-  }
-});
+    name: "common setting",
+    code: "service",
+    settingValue: {
+      region: "US",
+      plan: "common"
+    }
+  },
+  { invokeContext }
+);
 ```
 
 #### `createTenantSetting(dto: TenantSettingDto, context: { invokeContext: IInvoke }): Promise<CommandModel>`
 Creates a tenant-specific setting.
 ```ts
-const masterSetting = await this.masterSettingService.createGroupSetting(
+const masterSetting = await this.masterSettingService.createTenantSetting(
   {
-  name: "tenant setting",
-  code: "service",
-  tenantCode: "mbc",
-  settingValue: {
-    region: "US",
-    plan: "tenant"
-  }
-});
+    name: "tenant setting",
+    code: "service",
+    tenantCode: "mbc",
+    settingValue: {
+      region: "US",
+      plan: "tenant"
+    }
+  },
+  { invokeContext }
+);
 ```
 
 #### `createGroupSetting(dto: GroupSettingDto, context: { invokeContext: IInvoke }): Promise<CommandModel>`
@@ -123,30 +128,34 @@ Creates a group-specific setting within a tenant.
 ```ts
 const masterSetting = await this.masterSettingService.createGroupSetting(
   {
-  name: "group setting",
-  code: "service",
-  tenantCode: "mbc",
-  groupId: "12",
-  settingValue: {
-    region: "US",
-    plan: "USER"
-  }
-});
+    name: "group setting",
+    code: "service",
+    tenantCode: "mbc",
+    groupId: "12",
+    settingValue: {
+      region: "US",
+      plan: "USER"
+    }
+  },
+  { invokeContext }
+);
 ```
 #### `createUserSetting(dto: UserSettingDto, context: { invokeContext: IInvoke }): Promise<CommandModel>`
 Creates a user-specific setting within a tenant.
 ```ts
 const masterSetting = await this.masterSettingService.createUserSetting(
   {
-  name: "user setting",
-  code: "service",
-  tenantCode: "mbc",
-  userId: "92ca4f68-9ac6-4080-9ae2-2f02a86206a4",
-  settingValue: {
-    region: "US",
-    plan: "USER"
-  }
-});
+    name: "user setting",
+    code: "service",
+    tenantCode: "mbc",
+    userId: "92ca4f68-9ac6-4080-9ae2-2f02a86206a4",
+    settingValue: {
+      region: "US",
+      plan: "USER"
+    }
+  },
+  { invokeContext }
+);
 ```
 
 
@@ -155,16 +164,18 @@ Updates an existing setting.
 ```ts
 const masterSetting = await this.masterSettingService.updateSetting(
   {
-    pk:"MASTER#abc", 
-    sk:"MASTER_SETTING#service"
+    pk: "MASTER#abc",
+    sk: "MASTER_SETTING#service"
   },
   {
-  name: 'Example Master Setting',
-  settingValue: {
-    homepage: "url",
-    desc: "string"
-  }
-});
+    name: 'Example Master Setting',
+    settingValue: {
+      homepage: "url",
+      desc: "string"
+    }
+  },
+  { invokeContext }
+);
 ```
 
 #### `deleteSetting(key: DetailKey, context: { invokeContext: IInvoke }): Promise<CommandModel>`
@@ -172,9 +183,10 @@ Deletes a specific setting based on the provided key.
 ```ts
 const masterSetting = await this.masterSettingService.deleteSetting(
   {
-    pk:"MASTER#abc",
-    sk:"MASTER_SETTING#service"
-  }
+    pk: "MASTER#abc",
+    sk: "MASTER_SETTING#service"
+  },
+  { invokeContext }
 );
 ```
 
@@ -350,9 +362,10 @@ Deletes specific master data based on the provided key.
 ```ts
 const masterData = await this.masterDataService.delete(
   {
-    pk:"MASTER#abc", 
-    sk:"MASTER_DATA#service#01"
-  }
+    pk: "MASTER#abc",
+    sk: "MASTER_DATA#service#01"
+  },
+  { invokeContext }
 );
 ```
 

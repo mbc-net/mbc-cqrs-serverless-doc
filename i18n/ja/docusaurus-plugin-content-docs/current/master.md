@@ -85,37 +85,42 @@ MasterSettingService インターフェースは、ユーザー、グループ�
 const masterSetting = await this.masterSettingService.getSetting(
   {
     code: "service",
-  }
+  },
+  { invokeContext }
 );
 ```
 
 #### `createCommonTenantSetting(dto: CommonSettingDto, context: { invokeContext: IInvoke }): Promise<CommandModel>`
 システム全体で共有される共通のテナント設定を作成します。
 ```ts
-const masterSetting = await this.masterSettingService.createGroupSetting(
+const masterSetting = await this.masterSettingService.createCommonTenantSetting(
   {
-  name: "common setting",
-  code: "service",
-  settingValue: {
-    region: "US",
-    plan: "common"
-  }
-});
+    name: "common setting",
+    code: "service",
+    settingValue: {
+      region: "US",
+      plan: "common"
+    }
+  },
+  { invokeContext }
+);
 ```
 
 #### `createTenantSetting(dto: TenantSettingDto, context: { invokeContext: IInvoke }): Promise<CommandModel>`
 テナント固有の設定を作成します。
 ```ts
-const masterSetting = await this.masterSettingService.createGroupSetting(
+const masterSetting = await this.masterSettingService.createTenantSetting(
   {
-  name: "tenant setting",
-  code: "service",
-  tenantCode: "mbc",
-  settingValue: {
-    region: "US",
-    plan: "tenant"
-  }
-});
+    name: "tenant setting",
+    code: "service",
+    tenantCode: "mbc",
+    settingValue: {
+      region: "US",
+      plan: "tenant"
+    }
+  },
+  { invokeContext }
+);
 ```
 
 #### `createGroupSetting(dto: GroupSettingDto, context: { invokeContext: IInvoke }): Promise<CommandModel>`
@@ -123,30 +128,34 @@ const masterSetting = await this.masterSettingService.createGroupSetting(
 ```ts
 const masterSetting = await this.masterSettingService.createGroupSetting(
   {
-  name: "group setting",
-  code: "service",
-  tenantCode: "mbc",
-  groupId: "12",
-  settingValue: {
-    region: "US",
-    plan: "USER"
-  }
-});
+    name: "group setting",
+    code: "service",
+    tenantCode: "mbc",
+    groupId: "12",
+    settingValue: {
+      region: "US",
+      plan: "USER"
+    }
+  },
+  { invokeContext }
+);
 ```
 #### `createUserSetting(dto: UserSettingDto, context: { invokeContext: IInvoke }): Promise<CommandModel>`
 テナント内でユーザー固有の設定を作成します。
 ```ts
 const masterSetting = await this.masterSettingService.createUserSetting(
   {
-  name: "user setting",
-  code: "service",
-  tenantCode: "mbc",
-  userId: "92ca4f68-9ac6-4080-9ae2-2f02a86206a4",
-  settingValue: {
-    region: "US",
-    plan: "USER"
-  }
-});
+    name: "user setting",
+    code: "service",
+    tenantCode: "mbc",
+    userId: "92ca4f68-9ac6-4080-9ae2-2f02a86206a4",
+    settingValue: {
+      region: "US",
+      plan: "USER"
+    }
+  },
+  { invokeContext }
+);
 ```
 
 
@@ -155,16 +164,18 @@ const masterSetting = await this.masterSettingService.createUserSetting(
 ```ts
 const masterSetting = await this.masterSettingService.updateSetting(
   {
-    pk:"MASTER#abc", 
-    sk:"MASTER_SETTING#service"
+    pk: "MASTER#abc",
+    sk: "MASTER_SETTING#service"
   },
   {
-  name: 'Example Master Setting',
-  settingValue: {
-    homepage: "url",
-    desc: "string"
-  }
-});
+    name: 'Example Master Setting',
+    settingValue: {
+      homepage: "url",
+      desc: "string"
+    }
+  },
+  { invokeContext }
+);
 ```
 
 #### `deleteSetting(key: DetailKey, context: { invokeContext: IInvoke }): Promise<CommandModel>`
@@ -172,9 +183,10 @@ const masterSetting = await this.masterSettingService.updateSetting(
 ```ts
 const masterSetting = await this.masterSettingService.deleteSetting(
   {
-    pk:"MASTER#abc",
-    sk:"MASTER_SETTING#service"
-  }
+    pk: "MASTER#abc",
+    sk: "MASTER_SETTING#service"
+  },
+  { invokeContext }
 );
 ```
 
@@ -350,9 +362,10 @@ const masterData = await this.masterDataService.update(
 ```ts
 const masterData = await this.masterDataService.delete(
   {
-    pk:"MASTER#abc", 
-    sk:"MASTER_DATA#service#01"
-  }
+    pk: "MASTER#abc",
+    sk: "MASTER_DATA#service#01"
+  },
+  { invokeContext }
 );
 ```
 

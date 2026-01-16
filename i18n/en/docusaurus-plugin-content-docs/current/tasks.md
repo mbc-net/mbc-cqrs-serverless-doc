@@ -24,14 +24,14 @@ sequenceDiagram
     participant Lambda
 
     Client->>TaskService: createTask() / createStepFunctionTask()
-    TaskService->>DynamoDB: Save task (PENDING)
+    TaskService->>DynamoDB: Save task (CREATED)
     TaskService->>StepFunctions: Start execution
     StepFunctions-->>TaskService: Execution ARN
     TaskService-->>Client: TaskEntity
 
     loop For each sub-task
         StepFunctions->>Lambda: Execute sub-task
-        Lambda->>DynamoDB: Update status (IN_PROGRESS)
+        Lambda->>DynamoDB: Update status (PROCESSING)
         Lambda->>Lambda: Process
         Lambda->>DynamoDB: Update status (COMPLETED/FAILED)
     end

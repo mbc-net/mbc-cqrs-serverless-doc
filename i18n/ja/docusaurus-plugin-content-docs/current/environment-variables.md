@@ -30,7 +30,7 @@ APP_NAME=demo
 # Lambda以外の環境でのアプリケーションポート（デフォルト: 3000）
 APP_PORT=3000
 # set log levels
-LOG_LEVEL=info # debug, info, warn, error, verbose
+LOG_LEVEL=verbose # debug, info, warn, error, verbose
 # JSONおよびURLエンコードデータのリクエストボディサイズ制限（デフォルト: 100kb）
 REQUEST_BODY_SIZE_LIMIT=100kb
 # disable event route for API GW integration
@@ -58,7 +58,7 @@ SNS_ALARM_TOPIC_ARN=arn:aws:sns:ap-northeast-1:101010101010:AlarmSnsTopic
 # Cognito endpoint, useful for local development
 COGNITO_URL=http://localhost:9229
 COGNITO_USER_POOL_ID=local_2G7noHgW
-COGNITO_USER_POLL_CLIENT_ID=dnk8y7ii3wled35p3lw0l2cd7
+COGNITO_USER_POOL_CLIENT_ID=dnk8y7ii3wled35p3lw0l2cd7
 COGNITO_REGION=ap-northeast-1
 # AppSync endpoint, useful for local development
 APPSYNC_ENDPOINT=http://localhost:4001/graphql
