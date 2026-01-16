@@ -106,3 +106,81 @@ await this.mailService.sendEmail({
 | `filename` | `string` | はい | 受信者に表示されるファイル名 |
 | `content` | `Buffer` | はい | Bufferとしてのファイル内容 |
 | `contentType` | `string` | いいえ | MIMEタイプ（例：'application/pdf'） |
+
+## インラインテンプレートメール {#inline-template-emails}
+
+:::info バージョン情報
+インラインテンプレートメールのサポートは[バージョン1.0.23](./changelog#v1023)で追加されました。
+:::
+
+### *async* `sendInlineTemplateEmail(msg: TemplatedEmailNotification)`
+
+SES v2インラインテンプレートを使用してメールを送信します。このメソッドは、AWSコンソールで事前登録されたテンプレートを必要とせず、メールテンプレートの変数置換をサポートします。
+
+#### 機能
+
+- `{{variableName}}`構文を使用して変数付きのメールテンプレートを定義
+- 送信時の自動変数置換
+- 手動テンプレートコンパイルへのフォールバックによるローカル開発サポート
+- プライバシー安全なログ記録（アドレスではなく受信者数を記録）
+
+#### 基本的な例
+
+```ts
+await this.mailService.sendInlineTemplateEmail({
+  toAddrs: ["user@example.com"],
+  template: {
+    subject: "Welcome, {{name}}!",
+    html: "<h1>Hello {{name}}</h1><p>Your verification code is: {{code}}</p>",
+    text: "Hello {{name}}, Your verification code is: {{code}}",
+  },
+  data: {
+    name: "John",
+    code: "123456",
+  },
+});
+```
+
+#### Configuration Setを使用
+
+開封とクリックのトラッキング用にConfiguration Setを指定できます：
+
+```ts
+await this.mailService.sendInlineTemplateEmail({
+  toAddrs: ["user@example.com"],
+  template: {
+    subject: "Order Confirmation #{{orderId}}",
+    html: "<p>Thank you for your order, {{customerName}}!</p>",
+  },
+  data: {
+    orderId: "ORD-12345",
+    customerName: "Jane Doe",
+  },
+  configurationSetName: "my-tracking-config",
+});
+```
+
+## TemplatedEmailNotificationインターフェース
+
+| プロパティ | 型 | 必須 | 説明 |
+|----------|------|----------|-------------|
+| `fromAddr` | `string` | いいえ | 送信者メールアドレス（指定しない場合はデフォルトを使用） |
+| `toAddrs` | `string[]` | はい | 受信者メールアドレスのリスト |
+| `ccAddrs` | `string[]` | いいえ | CC受信者 |
+| `bccAddrs` | `string[]` | いいえ | BCC受信者 |
+| `replyToAddrs` | `string[]` | いいえ | 返信先アドレス |
+| `template` | `InlineTemplateContent` | はい | テンプレート構造（件名、HTML、テキスト） |
+| `data` | `Record<string, any>` | はい | テンプレート変数に挿入するデータ |
+| `configurationSetName` | `string` | いいえ | 開封/クリックトラッキング用のConfiguration Set名 |
+
+## InlineTemplateContentインターフェース
+
+| プロパティ | 型 | 必須 | 説明 |
+|----------|------|----------|-------------|
+| `subject` | `string` | はい | メール件名（変数を含めることができます） |
+| `html` | `string` | はい | HTML本文（変数を含めることができます） |
+| `text` | `string` | いいえ | HTML非対応クライアント用のプレーンテキスト本文 |
+
+## ローカル開発
+
+オフラインモード（`IS_OFFLINE=true`）で実行する場合、サービスは自動的に手動テンプレートコンパイルにフォールバックします。これにより、AWS SES接続を必要とせずにテンプレートメールをテストできます。

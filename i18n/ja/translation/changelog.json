@@ -1,5 +1,11 @@
 {
   "Track all notable changes, new features, and bug fixes in MBC CQRS Serverless releases.": "MBC CQRS Serverlessのリリースにおけるすべての注目すべき変更、新機能、バグ修正を追跡します。",
+  "Add SES v2 inline template email support": "SES v2インラインテンプレートメールのサポートを追加",
+  "New `sendInlineTemplateEmail()` method for sending templated emails": "テンプレートメール送信用の新しい`sendInlineTemplateEmail()`メソッド",
+  "`InlineTemplateContent` interface for defining email templates with variables": "変数付きメールテンプレート定義用の`InlineTemplateContent`インターフェース",
+  "`TemplatedEmailNotification` interface for template-based email notifications": "テンプレートベースのメール通知用`TemplatedEmailNotification`インターフェース",
+  "Local development support with automatic template variable substitution": "自動テンプレート変数置換によるローカル開発サポート",
+  "Updated IAM policy to include `ses:SendTemplatedEmail` permission": "IAMポリシーを更新して`ses:SendTemplatedEmail`権限を追加",
   "Add code analysis tools for AI-assisted development": "AI支援開発のためのコード分析ツールを追加",
   "`mbc_check_anti_patterns`: Detect common anti-patterns in code with severity levels": "`mbc_check_anti_patterns`: 重大度レベル付きでコード内の一般的なアンチパターンを検出",
   "`mbc_health_check`: Project health check (dependencies, structure, configuration)": "`mbc_health_check`: プロジェクトヘルスチェック（依存関係、構造、設定）",

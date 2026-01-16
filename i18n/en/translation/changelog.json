@@ -1,5 +1,11 @@
 {
   "Track all notable changes, new features, and bug fixes in MBC CQRS Serverless releases.": "Track all notable changes, new features, and bug fixes in MBC CQRS Serverless releases.",
+  "Add SES v2 inline template email support": "Add SES v2 inline template email support",
+  "New `sendInlineTemplateEmail()` method for sending templated emails": "New `sendInlineTemplateEmail()` method for sending templated emails",
+  "`InlineTemplateContent` interface for defining email templates with variables": "`InlineTemplateContent` interface for defining email templates with variables",
+  "`TemplatedEmailNotification` interface for template-based email notifications": "`TemplatedEmailNotification` interface for template-based email notifications",
+  "Local development support with automatic template variable substitution": "Local development support with automatic template variable substitution",
+  "Updated IAM policy to include `ses:SendTemplatedEmail` permission": "Updated IAM policy to include `ses:SendTemplatedEmail` permission",
   "Add code analysis tools for AI-assisted development": "Add code analysis tools for AI-assisted development",
   "`mbc_check_anti_patterns`: Detect common anti-patterns in code with severity levels": "`mbc_check_anti_patterns`: Detect common anti-patterns in code with severity levels",
   "`mbc_health_check`: Project health check (dependencies, structure, configuration)": "`mbc_health_check`: Project health check (dependencies, structure, configuration)",
