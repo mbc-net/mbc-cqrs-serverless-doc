@@ -130,5 +130,17 @@
   "Added schematic for generating module": "モジュール生成用スキーマティックを追加",
   "Fixed serialize helper entity field processing": "シリアライズヘルパーのエンティティフィールド処理を修正",
   "Added serialize helper functions for internal/external structure conversion": "内部/外部構造変換用のシリアライズヘルパー関数を追加",
-  "Related Links": "関連リンク"
+  "Related Links": "関連リンク",
+  "Add Claude Code Skills for guided development assistance": "ガイド付き開発支援のためのClaude Code Skillsを追加",
+  "`/mbc-generate`: Generate boilerplate code (modules, services, controllers, DTOs, handlers)": "`/mbc-generate`: ボイラープレートコードを生成（モジュール、サービス、コントローラー、DTO、ハンドラー）",
+  "`/mbc-review`: Review code for best practices and anti-patterns (20 patterns)": "`/mbc-review`: ベストプラクティスとアンチパターン（20パターン）のコードレビュー",
+  "`/mbc-migrate`: Guide version migrations and breaking changes": "`/mbc-migrate`: バージョン移行と破壊的変更のガイド",
+  "`/mbc-debug`: Debug and troubleshoot common issues": "`/mbc-debug`: 一般的な問題のデバッグとトラブルシューティング",
+  "Skills are distributed via npm package and can be installed to `~/.claude/skills/` or `.claude/skills/`": "Skillsはnpmパッケージ経由で配布され、`~/.claude/skills/`または`.claude/skills/`にインストール可能",
+  "Fix typo in parameter name `skExpession` to `skExpression`": "パラメータ名のタイポを修正：`skExpession`を`skExpression`に",
+  "Affected packages: core, directory, master, task, ui-setting": "影響するパッケージ: core, directory, master, task, ui-setting",
+  "This was a breaking change for TypeScript users who referenced the old parameter name": "これは古いパラメータ名を参照していたTypeScriptユーザーにとっては破壊的変更でした",
+  "Add `mbc install-skills` command for easy skills installation": "簡単なskillsインストールのための`mbc install-skills`コマンドを追加",
+  "Install skills to personal directory (`~/.claude/skills/`) or project directory (`.claude/skills/`)": "skillsを個人ディレクトリ（`~/.claude/skills/`）またはプロジェクトディレクトリ（`.claude/skills/`）にインストール",
+  "Options: `--project`, `--force`, `--list`": "オプション: `--project`, `--force`, `--list`"
 }

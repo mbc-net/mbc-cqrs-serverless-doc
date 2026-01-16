@@ -231,6 +231,91 @@ Install using HTTPS with token authentication:
 mbc ui -p src/common-ui --auth "HTTPS - Token" --token "user:password"
 ```
 
+## install-skills Command {#install-skills}
+
+### Use Case: Install Claude Code Skills
+
+Scenario: You want to use Claude Code skills for MBC CQRS Serverless development assistance.
+
+```bash
+mbc install-skills [options]
+# or
+mbc skills [options]
+```
+
+This command installs Claude Code skills that provide guided assistance for code generation, code review, migration, and debugging.
+
+### Options
+
+| Option | Description |
+|--------|-------------|
+| `-p, --project` | Install to project directory (`.claude/skills/`) instead of personal (`~/.claude/skills/`) |
+| `-f, --force` | Overwrite existing skills |
+| `-l, --list` | List available skills without installing |
+| `-c, --check` | Check if updates are available without installing |
+
+### Examples
+
+Install to personal skills directory (available in all projects):
+
+```bash
+mbc install-skills
+```
+
+Install to project directory (shared with team via git):
+
+```bash
+mbc install-skills --project
+# or
+mbc skills -p
+```
+
+List available skills:
+
+```bash
+mbc install-skills --list
+```
+
+Force overwrite existing skills:
+
+```bash
+mbc install-skills --force
+```
+
+Check for updates:
+
+```bash
+mbc install-skills --check
+```
+
+### Upgrading Skills
+
+Skills do not auto-update. To upgrade to the latest version:
+
+```bash
+# Update CLI to latest version
+npm update -g @mbc-cqrs-serverless/cli
+
+# Check if updates are available
+mbc install-skills --check
+
+# Force reinstall to get latest version
+mbc install-skills --force
+```
+
+### Available Skills
+
+| Skill | Description |
+|-------|-------------|
+| `/mbc-generate` | Generate boilerplate code (modules, services, controllers, DTOs, handlers) |
+| `/mbc-review` | Review code for best practices and anti-patterns (20 patterns) |
+| `/mbc-migrate` | Guide version migrations and breaking changes |
+| `/mbc-debug` | Debug and troubleshoot common issues |
+
+:::info Version Note
+The `install-skills` command was added in [version 1.0.24](/docs/changelog#v1024).
+:::
+
 ## Troubleshooting
 
 ### Version not found

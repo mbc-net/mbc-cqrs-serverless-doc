@@ -231,6 +231,91 @@ mbc ui -p src/common-ui -b develop
 mbc ui -p src/common-ui --auth "HTTPS - Token" --token "user:password"
 ```
 
+## install-skillsコマンド {#install-skills}
+
+### ユースケース: Claude Codeスキルをインストールする
+
+シナリオ: MBC CQRS Serverless開発支援のためにClaude Codeスキルを使用したい場合。
+
+```bash
+mbc install-skills [options]
+# or
+mbc skills [options]
+```
+
+このコマンドは、コード生成、コードレビュー、マイグレーション、デバッグのガイダンスを提供するClaude Codeスキルをインストールします。
+
+### オプション
+
+| オプション | 説明 |
+|--------|-------------|
+| `-p, --project` | 個人ディレクトリ（`~/.claude/skills/`）ではなくプロジェクトディレクトリ（`.claude/skills/`）にインストール |
+| `-f, --force` | 既存のスキルを上書き |
+| `-l, --list` | インストールせずに利用可能なスキルを一覧表示 |
+| `-c, --check` | インストールせずに更新があるかどうかを確認 |
+
+### 使用例
+
+個人スキルディレクトリにインストール（すべてのプロジェクトで利用可能）：
+
+```bash
+mbc install-skills
+```
+
+プロジェクトディレクトリにインストール（git経由でチームと共有）：
+
+```bash
+mbc install-skills --project
+# or
+mbc skills -p
+```
+
+利用可能なスキルを一覧表示：
+
+```bash
+mbc install-skills --list
+```
+
+既存のスキルを強制的に上書き：
+
+```bash
+mbc install-skills --force
+```
+
+更新を確認：
+
+```bash
+mbc install-skills --check
+```
+
+### スキルのアップグレード
+
+スキルは自動更新されません。最新バージョンにアップグレードするには：
+
+```bash
+# CLIを最新バージョンに更新
+npm update -g @mbc-cqrs-serverless/cli
+
+# 更新があるかどうかを確認
+mbc install-skills --check
+
+# 強制的に再インストールして最新バージョンを取得
+mbc install-skills --force
+```
+
+### 利用可能なスキル
+
+| スキル | 説明 |
+|-------|-------------|
+| `/mbc-generate` | ボイラープレートコードを生成（モジュール、サービス、コントローラー、DTO、ハンドラー） |
+| `/mbc-review` | ベストプラクティスとアンチパターン（20パターン）のコードレビュー |
+| `/mbc-migrate` | バージョンマイグレーションと破壊的変更のガイド |
+| `/mbc-debug` | 一般的な問題のデバッグとトラブルシューティング |
+
+:::info バージョンノート
+`install-skills`コマンドは[バージョン1.0.24](/docs/changelog#v1024)で追加されました。
+:::
+
 ## トラブルシューティング
 
 ### バージョンが見つからない

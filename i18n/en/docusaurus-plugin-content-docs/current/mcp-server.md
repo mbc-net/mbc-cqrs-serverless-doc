@@ -183,6 +183,143 @@ The `mbc_explain_code` tool analyzes code and explains:
 - CQRS command publishing patterns
 - Data sync handler behavior
 
+## Claude Code Skills {#claude-code-skills}
+
+:::info Version Note
+Claude Code Skills were added in [version 1.0.24](/docs/changelog#v1024).
+:::
+
+Claude Code Skills provide guided assistance for MBC CQRS Serverless development. Skills are specialized prompts that help developers with common tasks.
+
+### Available Skills
+
+| Skill | Description |
+|-------|-------------|
+| `/mbc-generate` | Generate boilerplate code (modules, services, controllers, DTOs, handlers) |
+| `/mbc-review` | Review code for best practices and anti-patterns (20 patterns) |
+| `/mbc-migrate` | Guide version migrations and breaking changes |
+| `/mbc-debug` | Debug and troubleshoot common issues |
+
+### Installing Skills
+
+#### Using CLI (Recommended)
+
+The easiest way to install skills is using the MBC CLI:
+
+```bash
+# Install to personal skills directory (available in all projects)
+mbc install-skills
+
+# Install to project directory (shared with team via git)
+mbc install-skills --project
+
+# List available skills
+mbc install-skills --list
+
+# Force overwrite existing skills
+mbc install-skills --force
+```
+
+#### Manual Installation
+
+Alternatively, copy them manually to your Claude Code skills directory:
+
+```bash
+# Copy to personal skills (available in all projects)
+cp -r node_modules/@mbc-cqrs-serverless/mcp-server/skills/* ~/.claude/skills/
+
+# Or copy to project skills (shared with team)
+cp -r node_modules/@mbc-cqrs-serverless/mcp-server/skills/* .claude/skills/
+```
+
+### /mbc-generate Skill
+
+Generates boilerplate code following MBC CQRS Serverless best practices.
+
+**Core Templates:**
+- Module, Controller, Service, DTOs, DataSyncHandler
+
+**Additional Templates:**
+- Event Handler for custom event processing
+- Query Handler for complex searches
+- Elasticsearch Sync Handler
+- GraphQL Resolver
+
+**Example Usage:**
+```
+/mbc-generate
+Create an Order module with RDS synchronization
+```
+
+### /mbc-review Skill
+
+Reviews code for MBC CQRS Serverless best practices and identifies anti-patterns.
+
+**Anti-Patterns Detected (20 patterns):**
+
+| Code | Description | Severity |
+|------|-------------|----------|
+| AP001 | Using publishSync instead of publishAsync | Warning |
+| AP002 | Missing tenantCode in multi-tenant operations | Error |
+| AP003 | Hardcoded version numbers | Error |
+| AP004 | Missing DataSyncHandler registration | Error |
+| AP005 | Not handling ConditionalCheckFailedException | Warning |
+| AP006 | Using wrong PK/SK format | Error |
+| AP007 | Missing invokeContext in service methods | Error |
+| AP008 | Not using generateId for entity IDs | Warning |
+| AP009 | Missing DTO validation decorators | Warning |
+| AP010 | Deprecated method usage | Warning |
+| AP011 | Missing getCommandSource for tracing | Warning |
+| AP012 | Direct DynamoDB access instead of DataService | Warning |
+| AP013 | Missing type declaration in DataSyncHandler | Error |
+| AP014 | Not using DetailKey type | Info |
+| AP015 | Hardcoded table names | Warning |
+| AP016 | Missing error logging | Warning |
+| AP017 | Incorrect attribute merging | Error |
+| AP018 | Missing Swagger documentation | Info |
+| AP019 | Not handling pagination correctly | Warning |
+| AP020 | Circular module dependencies | Error |
+
+**Example Usage:**
+```
+/mbc-review
+Review the code in src/order/order.service.ts
+```
+
+### /mbc-migrate Skill
+
+Guides version migrations for MBC CQRS Serverless framework.
+
+**Features:**
+- Version migration matrix (v1.0.16 to v1.0.23)
+- Detailed migration guides for each version
+- Deprecated API migration instructions
+- Migration checklist (before, during, after)
+- Version compatibility matrix
+
+**Example Usage:**
+```
+/mbc-migrate
+I need to upgrade from v1.0.20 to v1.0.23
+```
+
+### /mbc-debug Skill
+
+Helps debug and troubleshoot issues in MBC CQRS Serverless applications.
+
+**Features:**
+- Error code quick lookup
+- 6 debugging workflows (Command, ConditionalCheckFailedException, DataSyncHandler, Tenant, Import, Performance)
+- CloudWatch log queries
+- Local development debugging (LocalStack, Serverless Offline)
+- Troubleshooting decision tree
+
+**Example Usage:**
+```
+/mbc-debug
+I'm getting ConditionalCheckFailedException errors
+```
+
 ## Related Packages
 
 - [CLI Tool](./cli) - CLI tool for code generation

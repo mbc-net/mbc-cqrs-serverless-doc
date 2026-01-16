@@ -130,5 +130,17 @@
   "Added schematic for generating module": "Added schematic for generating module",
   "Fixed serialize helper entity field processing": "Fixed serialize helper entity field processing",
   "Added serialize helper functions for internal/external structure conversion": "Added serialize helper functions for internal/external structure conversion",
-  "Related Links": "Related Links"
+  "Related Links": "Related Links",
+  "Add Claude Code Skills for guided development assistance": "Add Claude Code Skills for guided development assistance",
+  "`/mbc-generate`: Generate boilerplate code (modules, services, controllers, DTOs, handlers)": "`/mbc-generate`: Generate boilerplate code (modules, services, controllers, DTOs, handlers)",
+  "`/mbc-review`: Review code for best practices and anti-patterns (20 patterns)": "`/mbc-review`: Review code for best practices and anti-patterns (20 patterns)",
+  "`/mbc-migrate`: Guide version migrations and breaking changes": "`/mbc-migrate`: Guide version migrations and breaking changes",
+  "`/mbc-debug`: Debug and troubleshoot common issues": "`/mbc-debug`: Debug and troubleshoot common issues",
+  "Skills are distributed via npm package and can be installed to `~/.claude/skills/` or `.claude/skills/`": "Skills are distributed via npm package and can be installed to `~/.claude/skills/` or `.claude/skills/`",
+  "Fix typo in parameter name `skExpession` to `skExpression`": "Fix typo in parameter name `skExpession` to `skExpression`",
+  "Affected packages: core, directory, master, task, ui-setting": "Affected packages: core, directory, master, task, ui-setting",
+  "This was a breaking change for TypeScript users who referenced the old parameter name": "This was a breaking change for TypeScript users who referenced the old parameter name",
+  "Add `mbc install-skills` command for easy skills installation": "Add `mbc install-skills` command for easy skills installation",
+  "Install skills to personal directory (`~/.claude/skills/`) or project directory (`.claude/skills/`)": "Install skills to personal directory (`~/.claude/skills/`) or project directory (`.claude/skills/`)",
+  "Options: `--project`, `--force`, `--list`": "Options: `--project`, `--force`, `--list`"
 }

@@ -17,6 +17,28 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ## {{Stable Releases (1.x)}}
 
+## [1.0.24](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.24) (2026-01-17) {#v1024}
+
+### {{Features}}
+
+- **mcp-server:** {{Add Claude Code Skills for guided development assistance}} ([{{See Details}}](/docs/mcp-server#claude-code-skills))
+  - {{`/mbc-generate`: Generate boilerplate code (modules, services, controllers, DTOs, handlers)}}
+  - {{`/mbc-review`: Review code for best practices and anti-patterns (20 patterns)}}
+  - {{`/mbc-migrate`: Guide version migrations and breaking changes}}
+  - {{`/mbc-debug`: Debug and troubleshoot common issues}}
+  - {{Skills are distributed via npm package and can be installed to `~/.claude/skills/` or `.claude/skills/`}}
+- **cli:** {{Add `mbc install-skills` command for easy skills installation}} ([{{See Details}}](/docs/cli#install-skills))
+  - {{Install skills to personal directory (`~/.claude/skills/`) or project directory (`.claude/skills/`)}}
+  - {{Options: `--project`, `--force`, `--list`}}
+
+### {{Bug Fixes}}
+
+- **core:** {{Fix typo in parameter name `skExpession` to `skExpression`}}
+  - {{Affected packages: core, directory, master, task, ui-setting}}
+  - {{This was a breaking change for TypeScript users who referenced the old parameter name}}
+
+---
+
 ## [1.0.23](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.23) (2026-01-16) {#v1023}
 
 ### {{Features}}

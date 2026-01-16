@@ -183,6 +183,143 @@ Claude Codeに以下のように依頼できます:
 - CQRSコマンド発行パターン
 - データ同期ハンドラーの動作
 
+## Claude Code Skills {#claude-code-skills}
+
+:::info バージョン情報
+Claude Code Skillsは[バージョン1.0.24](/docs/changelog#v1024)で追加されました。
+:::
+
+Claude Code Skillsは、MBC CQRS Serverless開発のためのガイド付きアシスタンスを提供します。Skillsは、開発者が一般的なタスクを行うための特化したプロンプトです。
+
+### 利用可能なSkills
+
+| Skill | 説明 |
+|-------|-------------|
+| `/mbc-generate` | ボイラープレートコードを生成（モジュール、サービス、コントローラー、DTO、ハンドラー） |
+| `/mbc-review` | ベストプラクティスとアンチパターン（20パターン）のコードレビュー |
+| `/mbc-migrate` | バージョン移行と破壊的変更のガイド |
+| `/mbc-debug` | 一般的な問題のデバッグとトラブルシューティング |
+
+### Skillsのインストール
+
+#### CLIを使用（推奨）
+
+最も簡単なインストール方法はMBC CLIを使用することです：
+
+```bash
+# 個人skillsディレクトリにインストール（すべてのプロジェクトで利用可能）
+mbc install-skills
+
+# プロジェクトディレクトリにインストール（gitでチームと共有）
+mbc install-skills --project
+
+# 利用可能なskillsを一覧表示
+mbc install-skills --list
+
+# 既存のskillsを強制上書き
+mbc install-skills --force
+```
+
+#### 手動インストール
+
+または、Claude Codeのskillsディレクトリに手動でコピーできます：
+
+```bash
+# 個人skillsにコピー（すべてのプロジェクトで利用可能）
+cp -r node_modules/@mbc-cqrs-serverless/mcp-server/skills/* ~/.claude/skills/
+
+# またはプロジェクトskillsにコピー（チームで共有）
+cp -r node_modules/@mbc-cqrs-serverless/mcp-server/skills/* .claude/skills/
+```
+
+### /mbc-generate Skill
+
+MBC CQRS Serverlessのベストプラクティスに従ってボイラープレートコードを生成します。
+
+**コアテンプレート：**
+- モジュール、コントローラー、サービス、DTO、DataSyncHandler
+
+**追加テンプレート：**
+- カスタムイベント処理用のイベントハンドラー
+- 複雑な検索用のクエリハンドラー
+- Elasticsearch同期ハンドラー
+- GraphQLリゾルバー
+
+**使用例：**
+```
+/mbc-generate
+Create an Order module with RDS synchronization
+```
+
+### /mbc-review Skill
+
+MBC CQRS Serverlessのベストプラクティスに基づいてコードをレビューし、アンチパターンを特定します。
+
+**検出されるアンチパターン（20パターン）：**
+
+| コード | 説明 | 重大度 |
+|------|-------------|----------|
+| AP001 | publishAsyncの代わりにpublishSyncを使用 | 警告 |
+| AP002 | マルチテナント操作でtenantCodeが欠落 | エラー |
+| AP003 | ハードコードされたバージョン番号 | エラー |
+| AP004 | DataSyncHandlerの登録漏れ | エラー |
+| AP005 | ConditionalCheckFailedExceptionを処理していない | 警告 |
+| AP006 | 誤ったPK/SK形式の使用 | エラー |
+| AP007 | サービスメソッドでinvokeContextが欠落 | エラー |
+| AP008 | エンティティIDにgenerateIdを使用していない | 警告 |
+| AP009 | DTOバリデーションデコレーターが欠落 | 警告 |
+| AP010 | 非推奨メソッドの使用 | 警告 |
+| AP011 | トレーシング用のgetCommandSourceが欠落 | 警告 |
+| AP012 | DataServiceの代わりに直接DynamoDBアクセス | 警告 |
+| AP013 | DataSyncHandlerでtype宣言が欠落 | エラー |
+| AP014 | DetailKey型を使用していない | 情報 |
+| AP015 | ハードコードされたテーブル名 | 警告 |
+| AP016 | エラーログが欠落 | 警告 |
+| AP017 | 不正な属性マージ | エラー |
+| AP018 | Swaggerドキュメントが欠落 | 情報 |
+| AP019 | ページネーションを正しく処理していない | 警告 |
+| AP020 | モジュールの循環依存 | エラー |
+
+**使用例：**
+```
+/mbc-review
+Review the code in src/order/order.service.ts
+```
+
+### /mbc-migrate Skill
+
+MBC CQRS Serverlessフレームワークのバージョン移行をガイドします。
+
+**機能：**
+- バージョン移行マトリックス（v1.0.16からv1.0.23）
+- 各バージョンの詳細な移行ガイド
+- 非推奨APIの移行手順
+- 移行チェックリスト（移行前、移行中、移行後）
+- バージョン互換性マトリックス
+
+**使用例：**
+```
+/mbc-migrate
+I need to upgrade from v1.0.20 to v1.0.23
+```
+
+### /mbc-debug Skill
+
+MBC CQRS Serverlessアプリケーションの問題のデバッグとトラブルシューティングを支援します。
+
+**機能：**
+- エラーコードクイックルックアップ
+- 6つのデバッグワークフロー（コマンド、ConditionalCheckFailedException、DataSyncHandler、テナント、インポート、パフォーマンス）
+- CloudWatchログクエリ
+- ローカル開発デバッグ（LocalStack、Serverless Offline）
+- トラブルシューティング決定木
+
+**使用例：**
+```
+/mbc-debug
+I'm getting ConditionalCheckFailedException errors
+```
+
 ## 関連パッケージ
 
 - [CLIツール](./cli) - コード生成用CLIツール
