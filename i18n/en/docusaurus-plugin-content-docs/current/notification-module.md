@@ -220,6 +220,90 @@ const email: EmailNotification = {
 await this.emailService.sendEmail(email);
 ```
 
+### Inline Template Emails {#inline-template-emails}
+
+The `sendInlineTemplateEmail()` method allows you to send templated emails with dynamic data substitution, without requiring pre-registered SES templates.
+
+:::info Version Note
+Inline template emails (`sendInlineTemplateEmail()`) were added in [version 1.0.23](./changelog#v1023).
+:::
+
+#### Basic Usage
+
+```ts
+import { EmailService, TemplatedEmailNotification } from "@mbc-cqrs-serverless/core";
+
+@Injectable()
+export class MyService {
+  constructor(private readonly emailService: EmailService) {}
+
+  async sendWelcomeEmail(user: { name: string; email: string }) {
+    const notification: TemplatedEmailNotification = {
+      toAddrs: [user.email],
+      template: {
+        subject: "Welcome, {{name}}!",
+        html: "<h1>Hello {{name}}</h1><p>Welcome to our service!</p>",
+        text: "Hello {{name}}, Welcome to our service!", // Optional plain text version
+      },
+      data: {
+        name: user.name,
+      },
+    };
+
+    await this.emailService.sendInlineTemplateEmail(notification);
+  }
+}
+```
+
+#### Template Syntax
+
+Templates use `{{variableName}}` placeholders that are replaced with values from the `data` object:
+
+```ts
+const notification: TemplatedEmailNotification = {
+  toAddrs: ["user@example.com"],
+  template: {
+    subject: "Order {{orderId}} Confirmation",
+    html: `
+      <h1>Thank you, {{customerName}}!</h1>
+      <p>Your order #{{orderId}} has been confirmed.</p>
+      <p>Total: {{currency}}{{totalAmount}}</p>
+    `,
+  },
+  data: {
+    customerName: "John Doe",
+    orderId: "12345",
+    currency: "$",
+    totalAmount: "99.99",
+  },
+};
+```
+
+#### TemplatedEmailNotification Interface
+
+| Property | Type | Required | Description |
+|--------------|----------|--------------|-----------------|
+| `fromAddr` | `string` | No | Sender email (uses SES_FROM_EMAIL if not set) |
+| `toAddrs` | `string[]` | Yes | List of recipient email addresses |
+| `ccAddrs` | `string[]` | No | CC recipients |
+| `bccAddrs` | `string[]` | No | BCC recipients |
+| `replyToAddrs` | `string[]` | No | Reply-to addresses |
+| `template` | `InlineTemplateContent` | Yes | Template with subject, HTML, and optional text |
+| `data` | `Record<string, any>` | Yes | Data object for template variable substitution |
+| `configurationSetName` | `string` | No | SES configuration set name for tracking |
+
+#### InlineTemplateContent Interface
+
+| Property | Type | Required | Description |
+|--------------|----------|--------------|-----------------|
+| `subject` | `string` | Yes | Email subject line (supports template variables) |
+| `html` | `string` | Yes | HTML body (supports template variables) |
+| `text` | `string` | No | Plain text body (supports template variables) |
+
+#### Local Development
+
+When running locally without SES access, the method automatically falls back to manual template compilation, allowing you to test email flows during development.
+
 #### EmailNotification Interface
 
 | Property | Type | Required | Description |

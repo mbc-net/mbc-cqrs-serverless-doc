@@ -17,6 +17,18 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ## Stable Releases (1.x)
 
+## [1.0.23](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.23) (2026-01-16) {#v1023}
+
+### Features
+
+- **core:** Add inline template email support with `sendInlineTemplateEmail()` method ([See Details](./notification-module#inline-template-emails))
+  - New `sendInlineTemplateEmail(msg: TemplatedEmailNotification)` method in EmailService
+  - Support for inline HTML/text templates with dynamic data substitution
+  - Local development fallback with manual template compilation when SES is unavailable
+  - New interfaces: `InlineTemplateContent`, `TemplatedEmailNotification`
+
+---
+
 ## [1.0.22](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.22) (2026-01-16) {#v1022}
 
 ### Features

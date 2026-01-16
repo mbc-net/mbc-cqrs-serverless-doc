@@ -220,6 +220,90 @@ const email: EmailNotification = {
 await this.emailService.sendEmail(email);
 ```
 
+### インラインテンプレートメール {#inline-template-emails}
+
+`sendInlineTemplateEmail()`メソッドを使用すると、SESに事前登録されたテンプレートを必要とせずに、動的データ置換を使用したテンプレートメールを送信できます。
+
+:::info バージョン情報
+インラインテンプレートメール（`sendInlineTemplateEmail()`）は[バージョン1.0.23](./changelog#v1023)で追加されました。
+:::
+
+#### 基本的な使い方
+
+```ts
+import { EmailService, TemplatedEmailNotification } from "@mbc-cqrs-serverless/core";
+
+@Injectable()
+export class MyService {
+  constructor(private readonly emailService: EmailService) {}
+
+  async sendWelcomeEmail(user: { name: string; email: string }) {
+    const notification: TemplatedEmailNotification = {
+      toAddrs: [user.email],
+      template: {
+        subject: "Welcome, {{name}}!",
+        html: "<h1>Hello {{name}}</h1><p>Welcome to our service!</p>",
+        text: "Hello {{name}}, Welcome to our service!", // Optional plain text version (オプションのプレーンテキスト版)
+      },
+      data: {
+        name: user.name,
+      },
+    };
+
+    await this.emailService.sendInlineTemplateEmail(notification);
+  }
+}
+```
+
+#### テンプレート構文
+
+テンプレートは`{{variableName}}`プレースホルダーを使用し、`data`オブジェクトの値で置換されます：
+
+```ts
+const notification: TemplatedEmailNotification = {
+  toAddrs: ["user@example.com"],
+  template: {
+    subject: "Order {{orderId}} Confirmation",
+    html: `
+      <h1>Thank you, {{customerName}}!</h1>
+      <p>Your order #{{orderId}} has been confirmed.</p>
+      <p>Total: {{currency}}{{totalAmount}}</p>
+    `,
+  },
+  data: {
+    customerName: "John Doe",
+    orderId: "12345",
+    currency: "$",
+    totalAmount: "99.99",
+  },
+};
+```
+
+#### TemplatedEmailNotificationインターフェース
+
+| プロパティ | 型 | 必須 | 説明 |
+|--------------|----------|--------------|-----------------|
+| `fromAddr` | `string` | いいえ | 送信者メール（設定されていない場合はSES_FROM_EMAILを使用） |
+| `toAddrs` | `string[]` | はい | 受信者メールアドレスのリスト |
+| `ccAddrs` | `string[]` | いいえ | CC受信者 |
+| `bccAddrs` | `string[]` | いいえ | BCC受信者 |
+| `replyToAddrs` | `string[]` | いいえ | 返信先アドレス |
+| `template` | `InlineTemplateContent` | はい | 件名、HTML、オプションのテキストを含むテンプレート |
+| `data` | `Record<string, any>` | はい | テンプレート変数置換用のデータオブジェクト |
+| `configurationSetName` | `string` | いいえ | トラッキング用のSES設定セット名 |
+
+#### InlineTemplateContentインターフェース
+
+| プロパティ | 型 | 必須 | 説明 |
+|--------------|----------|--------------|-----------------|
+| `subject` | `string` | はい | メール件名（テンプレート変数をサポート） |
+| `html` | `string` | はい | HTML本文（テンプレート変数をサポート） |
+| `text` | `string` | いいえ | プレーンテキスト本文（テンプレート変数をサポート） |
+
+#### ローカル開発
+
+SESアクセスなしでローカルで実行する場合、メソッドは自動的に手動テンプレートコンパイルにフォールバックし、開発中にメールフローをテストできます。
+
 #### EmailNotificationインターフェース
 
 | プロパティ | 型 | 必須 | 説明 |

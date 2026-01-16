@@ -84,5 +84,22 @@
   "Event Handling Patterns": "Event Handling Patterns",
   "How notifications integrate with events": "How notifications integrate with events",
   "Environment Variables": "Environment Variables",
-  "Configuration reference": "Configuration reference"
+  "Configuration reference": "Configuration reference",
+  "Inline Template Emails": "Inline Template Emails",
+  "The `sendInlineTemplateEmail()` method allows you to send templated emails with dynamic data substitution, without requiring pre-registered SES templates.": "The `sendInlineTemplateEmail()` method allows you to send templated emails with dynamic data substitution, without requiring pre-registered SES templates.",
+  "Version Note": "Version Note",
+  "Inline template emails (`sendInlineTemplateEmail()`) were added in [version 1.0.23](./changelog#v1023).": "Inline template emails (`sendInlineTemplateEmail()`) were added in [version 1.0.23](./changelog#v1023).",
+  "Optional plain text version": "Optional plain text version",
+  "Template Syntax": "Template Syntax",
+  "Templates use `{{variableName}}` placeholders that are replaced with values from the `data` object:": "Templates use `{{variableName}}` placeholders that are replaced with values from the `data` object:",
+  "TemplatedEmailNotification Interface": "TemplatedEmailNotification Interface",
+  "Template with subject, HTML, and optional text": "Template with subject, HTML, and optional text",
+  "Data object for template variable substitution": "Data object for template variable substitution",
+  "SES configuration set name for tracking": "SES configuration set name for tracking",
+  "InlineTemplateContent Interface": "InlineTemplateContent Interface",
+  "Email subject line (supports template variables)": "Email subject line (supports template variables)",
+  "HTML body (supports template variables)": "HTML body (supports template variables)",
+  "Plain text body (supports template variables)": "Plain text body (supports template variables)",
+  "Local Development": "Local Development",
+  "When running locally without SES access, the method automatically falls back to manual template compilation, allowing you to test email flows during development.": "When running locally without SES access, the method automatically falls back to manual template compilation, allowing you to test email flows during development."
 }

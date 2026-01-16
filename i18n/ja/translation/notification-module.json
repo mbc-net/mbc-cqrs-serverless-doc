@@ -84,5 +84,22 @@
   "Event Handling Patterns": "イベントハンドリングパターン",
   "How notifications integrate with events": "通知がイベントとどのように統合されるか",
   "Environment Variables": "環境変数",
-  "Configuration reference": "設定リファレンス"
+  "Configuration reference": "設定リファレンス",
+  "Inline Template Emails": "インラインテンプレートメール",
+  "The `sendInlineTemplateEmail()` method allows you to send templated emails with dynamic data substitution, without requiring pre-registered SES templates.": "`sendInlineTemplateEmail()`メソッドを使用すると、SESに事前登録されたテンプレートを必要とせずに、動的データ置換を使用したテンプレートメールを送信できます。",
+  "Version Note": "バージョン情報",
+  "Inline template emails (`sendInlineTemplateEmail()`) were added in [version 1.0.23](./changelog#v1023).": "インラインテンプレートメール（`sendInlineTemplateEmail()`）は[バージョン1.0.23](./changelog#v1023)で追加されました。",
+  "Optional plain text version": "Optional plain text version (オプションのプレーンテキスト版)",
+  "Template Syntax": "テンプレート構文",
+  "Templates use `{{variableName}}` placeholders that are replaced with values from the `data` object:": "テンプレートは`{{variableName}}`プレースホルダーを使用し、`data`オブジェクトの値で置換されます：",
+  "TemplatedEmailNotification Interface": "TemplatedEmailNotificationインターフェース",
+  "Template with subject, HTML, and optional text": "件名、HTML、オプションのテキストを含むテンプレート",
+  "Data object for template variable substitution": "テンプレート変数置換用のデータオブジェクト",
+  "SES configuration set name for tracking": "トラッキング用のSES設定セット名",
+  "InlineTemplateContent Interface": "InlineTemplateContentインターフェース",
+  "Email subject line (supports template variables)": "メール件名（テンプレート変数をサポート）",
+  "HTML body (supports template variables)": "HTML本文（テンプレート変数をサポート）",
+  "Plain text body (supports template variables)": "プレーンテキスト本文（テンプレート変数をサポート）",
+  "Local Development": "ローカル開発",
+  "When running locally without SES access, the method automatically falls back to manual template compilation, allowing you to test email flows during development.": "SESアクセスなしでローカルで実行する場合、メソッドは自動的に手動テンプレートコンパイルにフォールバックし、開発中にメールフローをテストできます。"
 }

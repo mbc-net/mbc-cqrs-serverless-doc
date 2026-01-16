@@ -1,5 +1,10 @@
 {
   "Track all notable changes, new features, and bug fixes in MBC CQRS Serverless releases.": "MBC CQRS Serverlessのリリースにおけるすべての注目すべき変更、新機能、バグ修正を追跡します。",
+  "Add inline template email support with `sendInlineTemplateEmail()` method": "インラインテンプレートメールサポートと`sendInlineTemplateEmail()`メソッドを追加",
+  "New `sendInlineTemplateEmail(msg: TemplatedEmailNotification)` method in EmailService": "EmailServiceに新しい`sendInlineTemplateEmail(msg: TemplatedEmailNotification)`メソッド",
+  "Support for inline HTML/text templates with dynamic data substitution": "動的データ置換によるインラインHTML/テキストテンプレートのサポート",
+  "Local development fallback with manual template compilation when SES is unavailable": "SESが利用できない場合の手動テンプレートコンパイルによるローカル開発フォールバック",
+  "New interfaces: `InlineTemplateContent`, `TemplatedEmailNotification`": "新しいインターフェース: `InlineTemplateContent`, `TemplatedEmailNotification`",
   "Add SES v2 inline template email support": "SES v2インラインテンプレートメールのサポートを追加",
   "New `sendInlineTemplateEmail()` method for sending templated emails": "テンプレートメール送信用の新しい`sendInlineTemplateEmail()`メソッド",
   "`InlineTemplateContent` interface for defining email templates with variables": "変数付きメールテンプレート定義用の`InlineTemplateContent`インターフェース",
