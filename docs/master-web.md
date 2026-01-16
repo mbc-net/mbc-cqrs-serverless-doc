@@ -153,7 +153,7 @@ interface IUrlProvider {
 {{The `BaseUrlProvider` class provides a default implementation:}}
 
 ```tsx
-import { BaseUrlProvider, IUrlProvider } from "@mbc-cqrs-serverless/master-web";
+import { BaseUrlProvider, IUrlProvider } from "@mbc-cqrs-serverless/master-web/UrlProvider";
 
 // {{Create a URL provider with a base segment}}
 const urlProvider = new BaseUrlProvider("my-tenant");
@@ -171,7 +171,8 @@ console.log(urlProvider.getCopySettingPageUrl("123"));  // "/my-tenant/master-se
 {{You can create a custom URL provider by implementing the `IUrlProvider` interface or extending `BaseUrlProvider`:}}
 
 ```tsx
-import { BaseUrlProvider, AppProviders } from "@mbc-cqrs-serverless/master-web";
+import { BaseUrlProvider } from "@mbc-cqrs-serverless/master-web/UrlProvider";
+import { AppProviders } from "@mbc-cqrs-serverless/master-web/AppProviders";
 
 class CustomUrlProvider extends BaseUrlProvider {
   constructor(tenantCode: string) {
@@ -294,6 +295,10 @@ function MyComponent() {
 
 ### {{useSubscribeCommandStatus}}
 
+:::warning {{Internal API}}
+{{This hook is not exported from the main package and is for internal use only. It may change without notice.}}
+:::
+
 {{Subscribe to AppSync command status updates. Used to track the progress and completion of backend commands.}}
 
 ```tsx
@@ -338,6 +343,10 @@ function MyComponent() {
 | `start` | `(reqId: string, timeoutMs?: number) => void` | {{Start listening for a request ID}} |
 
 ### {{useSubscribeBulkCommandStatus}}
+
+:::warning {{Internal API}}
+{{This hook is not exported from the main package and is for internal use only. It may change without notice.}}
+:::
 
 {{Subscribe to bulk command status updates. Used when processing multiple items where each receives its own completion message.}}
 
@@ -388,6 +397,10 @@ function BulkOperationComponent() {
 
 ### {{useHealthCheck}}
 
+:::warning {{Internal API}}
+{{This hook is not exported from the main package and is for internal use only. It may change without notice.}}
+:::
+
 {{Performs a health check API call on component mount. Controlled by the `NEXT_PUBLIC_ENABLE_HEALTH_CHECK` environment variable.}}
 
 ```tsx
@@ -408,6 +421,10 @@ function App() {
 | `NEXT_PUBLIC_ENABLE_HEALTH_CHECK` | {{Set to "true" to enable health check calls}} |
 
 ### {{usePagination}}
+
+:::warning {{Internal API}}
+{{This hook is not exported from the main package and is for internal use only. It may change without notice.}}
+:::
 
 {{Comprehensive hook for handling pagination with search, sorting, and table views. Integrates with URL query parameters for persistent state.}}
 
@@ -484,6 +501,10 @@ function DataListPage() {
 
 ### {{usePaginationRange}}
 
+:::warning {{Internal API}}
+{{This hook and the `DOTS` constant are not exported from the main package and are for internal use only. They may change without notice.}}
+:::
+
 {{Calculates the page number range for pagination UI, including ellipsis for large page counts.}}
 
 ```tsx
@@ -525,6 +546,10 @@ function PaginationUI({ totalPages, currentPage }: Props) {
 `(number | string)[]` - {{Array of page numbers and DOTS ("...") for ellipsis}}
 
 ### {{useLoadingForm}}
+
+:::warning {{Internal API}}
+{{This hook is not exported from the main package and is for internal use only. It may change without notice.}}
+:::
 
 {{Combines react-hook-form with global loading state. Provides form utilities along with loading state management.}}
 
@@ -593,6 +618,10 @@ function MyForm() {
 
 ### {{useAsyncAction}}
 
+:::warning {{Internal API}}
+{{This hook is not exported from the main package and is for internal use only. It may change without notice.}}
+:::
+
 {{Execute async functions with automatic loading overlay. Shows global loading indicator during async operations.}}
 
 ```tsx
@@ -625,6 +654,10 @@ function MyComponent() {
 | `isLoading` | `boolean` | {{Current loading state}} |
 
 ### {{useNavigation}}
+
+:::warning {{Internal API}}
+{{This hook is not exported from the main package and is for internal use only. It may change without notice.}}
+:::
 
 {{Navigate between pages with automatic loading indicator. Wraps Next.js router with loading state management.}}
 
@@ -737,6 +770,10 @@ function MasterPage() {
 
 ### {{ConfirmButton}}
 
+:::warning {{Internal API}}
+{{This component is not exported from the main package and is for internal use only. It may change without notice.}}
+:::
+
 {{Button component that displays a confirmation dialog before executing an action. Useful for destructive operations like delete.}}
 
 #### {{ConfirmButton Props}}
@@ -777,6 +814,10 @@ function DeleteAction() {
 
 ### {{BackButton}}
 
+:::warning {{Internal API}}
+{{This component is not exported from the main package and is for internal use only. It may change without notice.}}
+:::
+
 {{Navigation button component for returning to the previous page or a specified location.}}
 
 #### {{BackButton Props}}
@@ -803,6 +844,10 @@ function DetailPage() {
 ```
 
 ### {{DatePicker}}
+
+:::warning {{Internal API}}
+{{This component is not exported from the main package and is for internal use only. It may change without notice.}}
+:::
 
 {{Date selection component with calendar popup. Uses date-fns for formatting and Japanese locale support.}}
 
@@ -831,6 +876,10 @@ function DateForm() {
 ```
 
 ### {{FormSubmitButton}}
+
+:::warning {{Internal API}}
+{{This component is not exported from the main package and is for internal use only. It may change without notice.}}
+:::
 
 {{Submit button component designed to work with react-hook-form. Automatically handles form state, validation errors, and loading states.}}
 
@@ -872,6 +921,10 @@ function MyForm() {
 
 ### {{DataTable}}
 
+:::warning {{Internal API}}
+{{This component is not exported from the main package and is for internal use only. It may change without notice.}}
+:::
+
 {{Full-featured data table component built on TanStack Table. Supports server-side pagination, sorting, row selection, and custom column definitions.}}
 
 #### {{DataTable Props}}
@@ -883,9 +936,9 @@ function MyForm() {
 | `pageCount` | `number` | - | {{Total number of pages}} |
 | `rowCount` | `number` | - | {{Total number of rows}} |
 | `pagination` | `PaginationState` | - | {{Current pagination state (pageIndex, pageSize)}} |
-| `onPaginationChange` | `(pagination: PaginationState) => void` | - | {{Callback when pagination changes}} |
+| `onPaginationChange` | `OnChangeFn<PaginationState>` | - | {{Callback when pagination changes}} |
 | `sorting` | `SortingState` | - | {{Current sorting state}} |
-| `onSortingChange` | `(sorting: SortingState) => void` | - | {{Callback when sorting changes}} |
+| `onSortingChange` | `OnChangeFn<SortingState>` | - | {{Callback when sorting changes}} |
 | `onClickRow` | `(row: TData) => void` | - | {{Callback when a row is clicked}} |
 | `rowKey` | `keyof TData \| ((row: TData) => string)` | - | {{Key extractor for row identification}} |
 | `rowSelection` | `RowSelectionState` | - | {{Current row selection state}} |
@@ -903,7 +956,7 @@ function MyForm() {
 
 ```tsx
 import { DataTable } from "@mbc-cqrs-serverless/master-web/components/table/data-table";
-import { ColumnDef, PaginationState, SortingState } from "@tanstack/react-table";
+import { ColumnDef, OnChangeFn, PaginationState, SortingState } from "@tanstack/react-table";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -954,6 +1007,10 @@ function UserList() {
 ```
 
 ### {{LoadingOverlay}}
+
+:::warning {{Internal API}}
+{{This component is not exported from the main package and is for internal use only. It may change without notice.}}
+:::
 
 {{Full-screen loading overlay component with spinner animation. Useful for indicating loading state during async operations.}}
 

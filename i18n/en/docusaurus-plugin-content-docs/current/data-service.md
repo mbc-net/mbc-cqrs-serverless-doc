@@ -264,8 +264,10 @@ interface DetailKey {
 
 ### ListItemsOptions
 
+`ListItemsOptions` is an inline type definition in the method signature, not a separately exported interface. The type structure is as follows:
+
 ```ts
-interface ListItemsOptions {
+{
   sk?: {
     skExpression: string;
     skAttributeValues: Record<string, string>;
@@ -279,15 +281,29 @@ interface ListItemsOptions {
 
 ### DataListEntity
 
-The `listItemsByPk` method returns a `DataListEntity` instance:
+`DataListEntity` is a class (not an interface) that wraps list query results. It provides a constructor for easy instantiation:
 
 ```ts
 class DataListEntity {
   items: DataEntity[];   // Array of data entities
   lastSk?: string;       // Sort key for pagination cursor
   total?: number;        // Total count (if available)
+
+  constructor(data: Partial<DataListEntity>);
+
+  get tableName(): string;
+  set tableName(name: string);
 }
 ```
+
+The constructor accepts a partial object, allowing you to create instances from query results:
+
+```ts
+const result = await this.dataService.listItemsByPk(pk);
+const listEntity = new DataListEntity(result);
+```
+
+The `tableName` getter and setter allow you to access or modify the associated table name for the list result.
 
 ## Best Practices
 

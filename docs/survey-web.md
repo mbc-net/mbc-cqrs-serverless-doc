@@ -33,7 +33,7 @@ npm install @mbc-cqrs-serverless/survey-web
 {{Displays a list of survey templates with search and management capabilities.}}
 
 ```tsx
-import { SurveyTemplatePage } from "@mbc-cqrs-serverless/survey-web/SurveyTemplatePage";
+import { SurveyTemplatePage } from "@mbc-cqrs-serverless/survey-web";
 import "@mbc-cqrs-serverless/survey-web/styles.css";
 
 export default function SurveyTemplatesPage() {
@@ -45,11 +45,15 @@ export default function SurveyTemplatesPage() {
 
 {{Editor for creating and modifying survey templates with drag-and-drop functionality.}}
 
-```tsx
-import { EditSurveyTemplatePage } from "@mbc-cqrs-serverless/survey-web/EditSurveyTemplatePage";
+{{This component uses `useParams()` from `next/navigation` internally to get the survey ID from the URL. For new surveys (create mode), render on a route without an ID parameter. For editing existing surveys, render on a route with an ID parameter (e.g., `/surveys/[id]/edit`).}}
 
-export default function EditSurveyPage({ params }: { params: { id: string } }) {
-  return <EditSurveyTemplatePage id={params.id} />;
+```tsx
+import { EditSurveyTemplatePage } from "@mbc-cqrs-serverless/survey-web";
+
+// {{Route: /surveys/new (create mode)}}
+// {{Route: /surveys/[id]/edit (edit mode - ID extracted from URL via useParams)}}
+export default function EditSurveyPage() {
+  return <EditSurveyTemplatePage />;
 }
 ```
 
@@ -58,7 +62,7 @@ export default function EditSurveyPage({ params }: { params: { id: string } }) {
 {{Renders a survey template as a fillable form for respondents.}}
 
 ```tsx
-import { SurveyForm } from "@mbc-cqrs-serverless/survey-web/SurveyForm";
+import { SurveyForm } from "@mbc-cqrs-serverless/survey-web";
 
 export default function SurveyResponsePage({ schema }) {
   const handleSubmit = (responses) => {
@@ -69,7 +73,10 @@ export default function SurveyResponsePage({ schema }) {
     <SurveyForm
       schema={schema}
       onSubmit={handleSubmit}
-    />
+      disabled={false}
+    >
+      {/* {{Optional: Custom content or actions}} */}
+    </SurveyForm>
   );
 }
 ```
@@ -259,12 +266,17 @@ export default function SurveyResponsePage({ schema }) {
 
 ## {{Custom Hooks}}
 
+:::warning {{Internal Hooks}}
+{{The hooks documented below (`useSurveyTemplates`, `useEditSurveyTemplate`, `useDeleteSurveyTemplate`) are internal hooks used by the page components. They are NOT exported from the main package index. Use the page components (`SurveyTemplatePage`, `EditSurveyTemplatePage`) instead for standard use cases.}}
+:::
+
 ### {{useSurveyTemplates}}
 
 {{Fetch and manage survey templates with pagination and search support.}}
 
 ```tsx
-import { useSurveyTemplates } from "@mbc-cqrs-serverless/survey-web";
+// {{Note: This is an internal hook, not exported from main index}}
+import { useSurveyTemplates } from "@mbc-cqrs-serverless/survey-web/hooks/useSurveyTemplates";
 
 function TemplateList() {
   const {
@@ -278,7 +290,7 @@ function TemplateList() {
     pageSize: 10,
     keyword: "",           // {{Optional: search keyword}}
     orderBy: "createdAt",  // {{Optional: sort field}}
-    orderType: "DESC"      // {{Optional: sort direction}}
+    orderType: "desc"      // {{Optional: sort direction ('asc' | 'desc')}}
   });
 
   if (isLoading) return <div>Loading...</div>;
@@ -302,7 +314,9 @@ function TemplateList() {
 {{Hook for editing survey templates with schema management and submission handling.}}
 
 ```tsx
-import { useEditSurveyTemplate } from "@mbc-cqrs-serverless/survey-web";
+// {{Note: This is an internal hook, not exported from main index}}
+import { useEditSurveyTemplate } from "@mbc-cqrs-serverless/survey-web/hooks/useEditSurveyTemplate";
+import type { SurveySchemaType } from "@mbc-cqrs-serverless/survey-web";
 
 function TemplateEditor({ id }: { id?: string }) {
   const {
@@ -313,8 +327,8 @@ function TemplateEditor({ id }: { id?: string }) {
     isSubmitting,
     error,
     setCurrentSchema,     // {{Function to update current schema}}
-    handleCreateSurvey,   // {{Function to create new survey}}
-    handleUpdateSurvey,   // {{Function to update existing survey}}
+    handleCreateSurvey,   // {{(schema: SurveySchemaType) => Promise<void> - Function to create new survey}}
+    handleUpdateSurvey,   // {{(schema: SurveySchemaType) => Promise<void> - Function to update existing survey}}
     retryFetchSurvey,     // {{Function to retry fetching survey data}}
     isSchemaChanged,      // {{Boolean indicating if schema has changes}}
     isButtonDisabled,     // {{Boolean for submit button disabled state}}
@@ -323,9 +337,9 @@ function TemplateEditor({ id }: { id?: string }) {
 
   const handleSave = async () => {
     if (id) {
-      await handleUpdateSurvey();
+      await handleUpdateSurvey(currentSchema);
     } else {
-      await handleCreateSurvey();
+      await handleCreateSurvey(currentSchema);
     }
   };
 
@@ -349,7 +363,8 @@ function TemplateEditor({ id }: { id?: string }) {
 {{Hook for deleting survey templates with success callback.}}
 
 ```tsx
-import { useDeleteSurveyTemplate } from "@mbc-cqrs-serverless/survey-web";
+// {{Note: This is an internal hook, not exported from main index}}
+import { useDeleteSurveyTemplate } from "@mbc-cqrs-serverless/survey-web/hooks/useDeleteSurveyTemplate";
 
 function DeleteButton({ surveyId }: { surveyId: string }) {
   const { handleDeleteSurvey, isDeleting } = useDeleteSurveyTemplate({
@@ -401,8 +416,16 @@ interface Question {
   type: QuestionType;  // {{short-text, long-text, single-choice, etc.}}
   label: string;
   description?: string;
-  options?: Option[];  // {{For choice-based questions}}
+  options?: QuestionOption[];  // {{For choice-based questions}}
   validation?: ValidationRules;
+}
+
+// {{Option for choice-based questions}}
+interface QuestionOption {
+  value: string;        // {{Unique value for the option}}
+  label: string;        // {{Display label for the option}}
+  nextSectionId?: string;  // {{ID of section to jump to when this option is selected (for conditional branching)}}
+  isOther?: boolean;    // {{If true, shows a text input for custom "Other" response}}
 }
 
 // {{Union of all item types}}
@@ -505,11 +528,13 @@ interface ValidationRules {
 }
 
 // {{Discriminated union for custom validation rules}}
+// {{Note: short-text supports all validation types}}
+// {{Note: long-text only supports LengthValidation and RegexValidation}}
 type CustomValidationRule =
-  | NumberValidation
-  | TextValidation
-  | LengthValidation
-  | RegexValidation;
+  | NumberValidation   // {{short-text only}}
+  | TextValidation     // {{short-text only}}
+  | LengthValidation   // {{short-text and long-text}}
+  | RegexValidation;   // {{short-text and long-text}}
 
 interface NumberValidation {
   type: "number";

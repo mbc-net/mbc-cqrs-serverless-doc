@@ -75,11 +75,13 @@ For complete CRUD implementation patterns using CommandService, see [Service Pat
 
 ## Methods
 
-### *async* `publishAsync(input: CommandInputModel, options: ICommandOptions)`
+### *async* `publishAsync(input: CommandInputModel, options: ICommandOptions): Promise<CommandModel | null>` {#publishasync}
 
 Utilize this method to publish a full command, as it will insert the command data into the **command** table.
 
 The method provides immediate feedback by returning the command data right away, allowing you to proceed without waiting for the command to be processed. Subsequently, the command is handled asynchronously in the background, ensuring that your application remains responsive while the processing occurs.
+
+**Return Value:** Returns `Promise<CommandModel>` on success, or `Promise<null>` when the command is not dirty (no changes detected compared to the existing command).
 
 For example, you can publish a new cat command as bellow:
 
@@ -116,7 +118,7 @@ const item = await this.commandService.publishAsync(catCommand, {
 });
 ```
 
-### *async* `publishPartialUpdateAsync( input: CommandPartialInputModel, options: ICommandOptions)`
+### *async* `publishPartialUpdateAsync( input: CommandPartialInputModel, options: ICommandOptions)` {#publishpartialupdateasync}
 
 This method allows you to create new command data based on the previous command with the same `pk` and `sk` (primary key) values.
 
@@ -221,7 +223,7 @@ const item = await this.commandService.publishPartialUpdateSync(catCommand, {
 
 :::info
 
-Deprecated, for removal: This API element is subject to removal in a future version. Use [`publishAsync` method](#async-publishasyncinput-commandinputmodel-options-icommandoptions) instead.
+Deprecated, for removal: This API element is subject to removal in a future version. Use [`publishAsync` method](#publishasync) instead.
 
 :::
 
@@ -266,7 +268,7 @@ The method returns the command data.
 
 :::info
 
-Deprecated, for removal: This API element is subject to removal in a future version. Use [`publishPartialUpdateAsync` method](#async-publishpartialupdateasync-input-commandpartialinputmodel-options-icommandoptions) instead.
+Deprecated, for removal: This API element is subject to removal in a future version. Use [`publishPartialUpdateAsync` method](#publishpartialupdateasync) instead.
 
 :::
 
@@ -483,3 +485,40 @@ if (rdsHandler) {
   await rdsHandler.up(commandModel);
 }
 ```
+
+### `isNotCommandDirty(item: CommandModel, input: CommandInputModel): boolean`
+
+Compares an existing command item with a new input to determine if there are any actual changes. Returns `true` if the command is NOT dirty (no changes), returns `false` if there ARE changes.
+
+This method is used internally by publish methods to skip unnecessary writes when no changes are detected. You can also use it directly to check if an update would result in any changes before calling publish.
+
+```ts
+// Check if an update would result in changes
+const existingCommand = await this.commandService.getItem({ pk, sk });
+
+if (existingCommand && this.commandService.isNotCommandDirty(existingCommand, newInput)) {
+  // No changes detected, skip the update
+  console.log('Command has no changes, skipping update');
+  return existingCommand;
+}
+
+// Proceed with the update
+const result = await this.commandService.publishAsync(newInput, options);
+```
+
+### `tableName` (getter/setter): string
+
+Gets or sets the DynamoDB table name for this CommandService instance. The table name is configured when registering the `CommandModule`, but can be changed at runtime if needed.
+
+```ts
+// Get the current table name
+const currentTable = this.commandService.tableName;
+console.log(`Operating on table: ${currentTable}`);
+
+// Set a different table name
+this.commandService.tableName = 'another-table';
+```
+
+:::note
+Changing the table name at runtime is an advanced use case. In most applications, you should configure the table name through `CommandModule.register()` and not change it afterwards.
+:::

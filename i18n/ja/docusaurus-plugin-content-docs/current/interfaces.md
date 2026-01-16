@@ -135,6 +135,8 @@ export class UserContext {
   userId: string      // Cognito user ID (from JWT sub claim)
   tenantRole: string  // User's role within the tenant
   tenantCode: string  // Current tenant code
+
+  constructor(partial: Partial<UserContext>)  // Initialize with partial properties (部分的なプロパティで初期化)
 }
 ```
 
@@ -183,6 +185,62 @@ export interface DataModel extends Omit<CommandModel, 'status'> {
 }
 ```
 
+### エンティティクラス
+
+#### CommandEntity
+
+APIレスポンス用にCommandModelを実装したクラス。Swaggerデコレータを含みます。
+
+```ts
+export class CommandEntity implements CommandModel {
+  // All properties from CommandModel (CommandModelのすべてのプロパティ)
+  pk: string
+  sk: string
+  // ...
+
+  get key(): DetailKey  // Returns { pk, sk } for DynamoDB operations (DynamoDB操作用の { pk, sk } を返す)
+}
+```
+
+**使用例**:
+```typescript
+const command: CommandEntity = await commandService.findOne({
+  pk: 'ORDER#tenant001',
+  sk: 'ORDER#ORD001',
+});
+
+// Access the DynamoDB key pair (DynamoDBキーペアにアクセス)
+const key = command.key;  // { pk: 'ORDER#tenant001', sk: 'ORDER#ORD001' }
+```
+
+#### DataEntity
+
+APIレスポンス用にDataModelを実装したクラス。Swaggerデコレータを含みます。
+
+```ts
+export class DataEntity implements DataModel {
+  // All properties from DataModel (DataModelのすべてのプロパティ)
+  pk: string
+  sk: string
+  // ...
+
+  constructor(data: Partial<DataEntity>)  // Initialize with partial properties (部分的なプロパティで初期化)
+
+  get key(): DetailKey  // Returns { pk, sk } for DynamoDB operations (DynamoDB操作用の { pk, sk } を返す)
+}
+```
+
+**使用例**:
+```typescript
+const data: DataEntity = await dataService.findOne({
+  pk: 'ORDER#tenant001',
+  sk: 'ORDER#ORD001',
+});
+
+// Access the DynamoDB key pair (DynamoDBキーペアにアクセス)
+const key = data.key;  // { pk: 'ORDER#tenant001', sk: 'ORDER#ORD001' }
+```
+
 ### リストレスポンスインターフェース
 
 #### DataListEntity
@@ -194,6 +252,8 @@ export class DataListEntity {
   items: DataEntity[]   // Array of entities
   total?: number        // Total count (if available)
   lastSk?: string       // Pagination cursor (last sort key)
+
+  constructor(data: Partial<DataListEntity>)  // Initialize with partial properties (部分的なプロパティで初期化)
 }
 ```
 

@@ -135,6 +135,8 @@ export class UserContext {
   userId: string      // Cognito user ID (from JWT sub claim)
   tenantRole: string  // User's role within the tenant
   tenantCode: string  // Current tenant code
+
+  constructor(partial: Partial<UserContext>)  // Initialize with partial properties
 }
 ```
 
@@ -183,6 +185,62 @@ export interface DataModel extends Omit<CommandModel, 'status'> {
 }
 ```
 
+### Entity Classes
+
+#### CommandEntity
+
+Class implementing CommandModel for API responses. Includes Swagger decorators.
+
+```ts
+export class CommandEntity implements CommandModel {
+  // All properties from CommandModel
+  pk: string
+  sk: string
+  // ...
+
+  get key(): DetailKey  // Returns { pk, sk } for DynamoDB operations
+}
+```
+
+**Usage Example**:
+```typescript
+const command: CommandEntity = await commandService.findOne({
+  pk: 'ORDER#tenant001',
+  sk: 'ORDER#ORD001',
+});
+
+// Access the DynamoDB key pair
+const key = command.key;  // { pk: 'ORDER#tenant001', sk: 'ORDER#ORD001' }
+```
+
+#### DataEntity
+
+Class implementing DataModel for API responses. Includes Swagger decorators.
+
+```ts
+export class DataEntity implements DataModel {
+  // All properties from DataModel
+  pk: string
+  sk: string
+  // ...
+
+  constructor(data: Partial<DataEntity>)  // Initialize with partial properties
+
+  get key(): DetailKey  // Returns { pk, sk } for DynamoDB operations
+}
+```
+
+**Usage Example**:
+```typescript
+const data: DataEntity = await dataService.findOne({
+  pk: 'ORDER#tenant001',
+  sk: 'ORDER#ORD001',
+});
+
+// Access the DynamoDB key pair
+const key = data.key;  // { pk: 'ORDER#tenant001', sk: 'ORDER#ORD001' }
+```
+
 ### List Response Interfaces
 
 #### DataListEntity
@@ -194,6 +252,8 @@ export class DataListEntity {
   items: DataEntity[]   // Array of entities
   total?: number        // Total count (if available)
   lastSk?: string       // Pagination cursor (last sort key)
+
+  constructor(data: Partial<DataListEntity>)  // Initialize with partial properties
 }
 ```
 

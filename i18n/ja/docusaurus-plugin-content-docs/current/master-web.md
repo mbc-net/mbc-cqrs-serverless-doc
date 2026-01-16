@@ -153,7 +153,7 @@ interface IUrlProvider {
 `BaseUrlProvider`クラスはデフォルト実装を提供します：
 
 ```tsx
-import { BaseUrlProvider, IUrlProvider } from "@mbc-cqrs-serverless/master-web";
+import { BaseUrlProvider, IUrlProvider } from "@mbc-cqrs-serverless/master-web/UrlProvider";
 
 // Create a URL provider with a base segment (ベースセグメントでURLプロバイダーを作成)
 const urlProvider = new BaseUrlProvider("my-tenant");
@@ -171,7 +171,8 @@ console.log(urlProvider.getCopySettingPageUrl("123"));  // "/my-tenant/master-se
 `IUrlProvider`インターフェースを実装するか、`BaseUrlProvider`を拡張してカスタムURLプロバイダーを作成できます：
 
 ```tsx
-import { BaseUrlProvider, AppProviders } from "@mbc-cqrs-serverless/master-web";
+import { BaseUrlProvider } from "@mbc-cqrs-serverless/master-web/UrlProvider";
+import { AppProviders } from "@mbc-cqrs-serverless/master-web/AppProviders";
 
 class CustomUrlProvider extends BaseUrlProvider {
   constructor(tenantCode: string) {
@@ -294,6 +295,10 @@ function MyComponent() {
 
 ### useSubscribeCommandStatus
 
+:::warning 内部API
+このフックはメインパッケージからエクスポートされておらず、内部使用専用です。予告なく変更される可能性があります。
+:::
+
 AppSyncコマンドステータスの更新を購読します。バックエンドコマンドの進捗と完了を追跡するために使用します。
 
 ```tsx
@@ -338,6 +343,10 @@ function MyComponent() {
 | `start` | `(reqId: string, timeoutMs?: number) => void` | リクエストIDのリスニングを開始 |
 
 ### useSubscribeBulkCommandStatus
+
+:::warning 内部API
+このフックはメインパッケージからエクスポートされておらず、内部使用専用です。予告なく変更される可能性があります。
+:::
 
 一括コマンドステータスの更新を購読します。各アイテムが独自の完了メッセージを受信する複数アイテムの処理時に使用します。
 
@@ -388,6 +397,10 @@ function BulkOperationComponent() {
 
 ### useHealthCheck
 
+:::warning 内部API
+このフックはメインパッケージからエクスポートされておらず、内部使用専用です。予告なく変更される可能性があります。
+:::
+
 コンポーネントマウント時にヘルスチェックAPI呼び出しを実行します。`NEXT_PUBLIC_ENABLE_HEALTH_CHECK`環境変数で制御されます。
 
 ```tsx
@@ -408,6 +421,10 @@ function App() {
 | `NEXT_PUBLIC_ENABLE_HEALTH_CHECK` | "true"に設定してヘルスチェック呼び出しを有効化 |
 
 ### usePagination
+
+:::warning 内部API
+このフックはメインパッケージからエクスポートされておらず、内部使用専用です。予告なく変更される可能性があります。
+:::
 
 検索、ソート、テーブルビューを含むページネーションを処理するための包括的なフック。永続的な状態のためにURLクエリパラメータと統合されます。
 
@@ -484,6 +501,10 @@ function DataListPage() {
 
 ### usePaginationRange
 
+:::warning 内部API
+このフックと`DOTS`定数はメインパッケージからエクスポートされておらず、内部使用専用です。予告なく変更される可能性があります。
+:::
+
 大きなページ数の省略記号を含む、ページネーションUI用のページ番号範囲を計算します。
 
 ```tsx
@@ -525,6 +546,10 @@ function PaginationUI({ totalPages, currentPage }: Props) {
 `(number | string)[]` - ページ番号と省略記号用のDOTS（"..."）の配列
 
 ### useLoadingForm
+
+:::warning 内部API
+このフックはメインパッケージからエクスポートされておらず、内部使用専用です。予告なく変更される可能性があります。
+:::
 
 react-hook-formとグローバルローディング状態を組み合わせます。ローディング状態管理とともにフォームユーティリティを提供します。
 
@@ -593,6 +618,10 @@ function MyForm() {
 
 ### useAsyncAction
 
+:::warning 内部API
+このフックはメインパッケージからエクスポートされておらず、内部使用専用です。予告なく変更される可能性があります。
+:::
+
 自動ローディングオーバーレイ付きで非同期関数を実行します。非同期操作中にグローバルローディングインジケーターを表示します。
 
 ```tsx
@@ -625,6 +654,10 @@ function MyComponent() {
 | `isLoading` | `boolean` | 現在のローディング状態 |
 
 ### useNavigation
+
+:::warning 内部API
+このフックはメインパッケージからエクスポートされておらず、内部使用専用です。予告なく変更される可能性があります。
+:::
 
 自動ローディングインジケーター付きでページ間を移動します。Next.jsルーターをローディング状態管理でラップします。
 
@@ -737,6 +770,10 @@ function MasterPage() {
 
 ### ConfirmButton
 
+:::warning 内部API
+このコンポーネントはメインパッケージからエクスポートされておらず、内部使用専用です。予告なく変更される可能性があります。
+:::
+
 アクションを実行する前に確認ダイアログを表示するボタンコンポーネント。削除などの破壊的な操作に便利です。
 
 #### ConfirmButton プロパティ
@@ -777,6 +814,10 @@ function DeleteAction() {
 
 ### BackButton
 
+:::warning 内部API
+このコンポーネントはメインパッケージからエクスポートされておらず、内部使用専用です。予告なく変更される可能性があります。
+:::
+
 前のページまたは指定された場所に戻るためのナビゲーションボタンコンポーネント。
 
 #### BackButton プロパティ
@@ -803,6 +844,10 @@ function DetailPage() {
 ```
 
 ### DatePicker
+
+:::warning 内部API
+このコンポーネントはメインパッケージからエクスポートされておらず、内部使用専用です。予告なく変更される可能性があります。
+:::
 
 カレンダーポップアップ付きの日付選択コンポーネント。フォーマットと日本語ロケールサポートにdate-fnsを使用。
 
@@ -831,6 +876,10 @@ function DateForm() {
 ```
 
 ### FormSubmitButton
+
+:::warning 内部API
+このコンポーネントはメインパッケージからエクスポートされておらず、内部使用専用です。予告なく変更される可能性があります。
+:::
 
 react-hook-formと連携するように設計された送信ボタンコンポーネント。フォームの状態、バリデーションエラー、ローディング状態を自動的に処理します。
 
@@ -872,6 +921,10 @@ function MyForm() {
 
 ### DataTable
 
+:::warning 内部API
+このコンポーネントはメインパッケージからエクスポートされておらず、内部使用専用です。予告なく変更される可能性があります。
+:::
+
 TanStack Table上に構築されたフル機能のデータテーブルコンポーネント。サーバーサイドページネーション、ソート、行選択、カスタムカラム定義をサポート。
 
 #### DataTable プロパティ
@@ -883,9 +936,9 @@ TanStack Table上に構築されたフル機能のデータテーブルコンポ
 | `pageCount` | `number` | - | 総ページ数 |
 | `rowCount` | `number` | - | 総行数 |
 | `pagination` | `PaginationState` | - | 現在のページネーション状態（pageIndex、pageSize） |
-| `onPaginationChange` | `(pagination: PaginationState) => void` | - | ページネーション変更時のコールバック |
+| `onPaginationChange` | `OnChangeFn<PaginationState>` | - | ページネーション変更時のコールバック |
 | `sorting` | `SortingState` | - | 現在のソート状態 |
-| `onSortingChange` | `(sorting: SortingState) => void` | - | ソート変更時のコールバック |
+| `onSortingChange` | `OnChangeFn<SortingState>` | - | ソート変更時のコールバック |
 | `onClickRow` | `(row: TData) => void` | - | 行がクリックされた時のコールバック |
 | `rowKey` | `keyof TData \| ((row: TData) => string)` | - | 行識別用のキー抽出 |
 | `rowSelection` | `RowSelectionState` | - | 現在の行選択状態 |
@@ -903,7 +956,7 @@ TanStack Table上に構築されたフル機能のデータテーブルコンポ
 
 ```tsx
 import { DataTable } from "@mbc-cqrs-serverless/master-web/components/table/data-table";
-import { ColumnDef, PaginationState, SortingState } from "@tanstack/react-table";
+import { ColumnDef, OnChangeFn, PaginationState, SortingState } from "@tanstack/react-table";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -954,6 +1007,10 @@ function UserList() {
 ```
 
 ### LoadingOverlay
+
+:::warning 内部API
+このコンポーネントはメインパッケージからエクスポートされておらず、内部使用専用です。予告なく変更される可能性があります。
+:::
 
 スピナーアニメーション付きのフルスクリーンローディングオーバーレイコンポーネント。非同期操作中のローディング状態を示すのに便利です。
 

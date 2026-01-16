@@ -33,7 +33,7 @@ Survey Webパッケージ（`@mbc-cqrs-serverless/survey-web`）は、アンケ�
 検索・管理機能を備えたアンケートテンプレート一覧を表示します。
 
 ```tsx
-import { SurveyTemplatePage } from "@mbc-cqrs-serverless/survey-web/SurveyTemplatePage";
+import { SurveyTemplatePage } from "@mbc-cqrs-serverless/survey-web";
 import "@mbc-cqrs-serverless/survey-web/styles.css";
 
 export default function SurveyTemplatesPage() {
@@ -45,11 +45,15 @@ export default function SurveyTemplatesPage() {
 
 ドラッグ&ドロップ機能を備えたアンケートテンプレートの作成・編集エディタ。
 
-```tsx
-import { EditSurveyTemplatePage } from "@mbc-cqrs-serverless/survey-web/EditSurveyTemplatePage";
+このコンポーネントは内部的に`next/navigation`の`useParams()`を使用してURLからアンケートIDを取得します。新規作成モードでは、IDパラメータのないルートでレンダリングします。既存のアンケートを編集する場合は、IDパラメータ付きのルート（例：`/surveys/[id]/edit`）でレンダリングします。
 
-export default function EditSurveyPage({ params }: { params: { id: string } }) {
-  return <EditSurveyTemplatePage id={params.id} />;
+```tsx
+import { EditSurveyTemplatePage } from "@mbc-cqrs-serverless/survey-web";
+
+// Route: /surveys/new (create mode) (新規作成モード)
+// Route: /surveys/[id]/edit (edit mode - ID extracted from URL via useParams) (編集モード - useParamsでURLからIDを取得)
+export default function EditSurveyPage() {
+  return <EditSurveyTemplatePage />;
 }
 ```
 
@@ -58,7 +62,7 @@ export default function EditSurveyPage({ params }: { params: { id: string } }) {
 アンケートテンプレートを回答者向けの入力フォームとしてレンダリングします。
 
 ```tsx
-import { SurveyForm } from "@mbc-cqrs-serverless/survey-web/SurveyForm";
+import { SurveyForm } from "@mbc-cqrs-serverless/survey-web";
 
 export default function SurveyResponsePage({ schema }) {
   const handleSubmit = (responses) => {
@@ -69,7 +73,10 @@ export default function SurveyResponsePage({ schema }) {
     <SurveyForm
       schema={schema}
       onSubmit={handleSubmit}
-    />
+      disabled={false}
+    >
+      {/* Optional: Custom content or actions (オプション: カスタムコンテンツやアクション) */}
+    </SurveyForm>
   );
 }
 ```
@@ -259,12 +266,17 @@ Survey Webパッケージは9種類の質問タイプをサポートしていま
 
 ## カスタムフック
 
+:::warning 内部フック
+以下に記載されているフック（`useSurveyTemplates`、`useEditSurveyTemplate`、`useDeleteSurveyTemplate`）は、ページコンポーネントで使用される内部フックです。メインパッケージのインデックスからはエクスポートされていません。通常のユースケースでは、代わりにページコンポーネント（`SurveyTemplatePage`、`EditSurveyTemplatePage`）を使用してください。
+:::
+
 ### useSurveyTemplates
 
 ページネーションと検索機能を備えたアンケートテンプレートの取得と管理。
 
 ```tsx
-import { useSurveyTemplates } from "@mbc-cqrs-serverless/survey-web";
+// Note: This is an internal hook, not exported from main index (注意: これは内部フックで、メインインデックスからエクスポートされていません)
+import { useSurveyTemplates } from "@mbc-cqrs-serverless/survey-web/hooks/useSurveyTemplates";
 
 function TemplateList() {
   const {
@@ -278,7 +290,7 @@ function TemplateList() {
     pageSize: 10,
     keyword: "",           // オプション：検索キーワード (Optional: search keyword)
     orderBy: "createdAt",  // オプション：ソートフィールド (Optional: sort field)
-    orderType: "DESC"      // オプション：ソート順 (Optional: sort direction)
+    orderType: "desc"      // Optional: sort direction ('asc' | 'desc') (オプション: ソート順)
   });
 
   if (isLoading) return <div>Loading...</div>;
@@ -302,7 +314,9 @@ function TemplateList() {
 スキーマ管理と送信処理を備えたアンケートテンプレート編集用フック。
 
 ```tsx
-import { useEditSurveyTemplate } from "@mbc-cqrs-serverless/survey-web";
+// Note: This is an internal hook, not exported from main index (注意: これは内部フックで、メインインデックスからエクスポートされていません)
+import { useEditSurveyTemplate } from "@mbc-cqrs-serverless/survey-web/hooks/useEditSurveyTemplate";
+import type { SurveySchemaType } from "@mbc-cqrs-serverless/survey-web";
 
 function TemplateEditor({ id }: { id?: string }) {
   const {
@@ -313,8 +327,8 @@ function TemplateEditor({ id }: { id?: string }) {
     isSubmitting,
     error,
     setCurrentSchema,     // 現在のスキーマを更新する関数 (Function to update current schema)
-    handleCreateSurvey,   // 新しいアンケートを作成する関数 (Function to create new survey)
-    handleUpdateSurvey,   // 既存のアンケートを更新する関数 (Function to update existing survey)
+    handleCreateSurvey,   // (schema: SurveySchemaType) => Promise<void> - Function to create new survey (新しいアンケートを作成する関数)
+    handleUpdateSurvey,   // (schema: SurveySchemaType) => Promise<void> - Function to update existing survey (既存のアンケートを更新する関数)
     retryFetchSurvey,     // アンケートデータの取得をリトライする関数 (Function to retry fetching survey data)
     isSchemaChanged,      // スキーマに変更があるかを示すブール値 (Boolean indicating if schema has changes)
     isButtonDisabled,     // 送信ボタンの無効状態を示すブール値 (Boolean for submit button disabled state)
@@ -323,9 +337,9 @@ function TemplateEditor({ id }: { id?: string }) {
 
   const handleSave = async () => {
     if (id) {
-      await handleUpdateSurvey();
+      await handleUpdateSurvey(currentSchema);
     } else {
-      await handleCreateSurvey();
+      await handleCreateSurvey(currentSchema);
     }
   };
 
@@ -349,7 +363,8 @@ function TemplateEditor({ id }: { id?: string }) {
 成功コールバック付きのアンケートテンプレート削除用フック。
 
 ```tsx
-import { useDeleteSurveyTemplate } from "@mbc-cqrs-serverless/survey-web";
+// Note: This is an internal hook, not exported from main index (注意: これは内部フックで、メインインデックスからエクスポートされていません)
+import { useDeleteSurveyTemplate } from "@mbc-cqrs-serverless/survey-web/hooks/useDeleteSurveyTemplate";
 
 function DeleteButton({ surveyId }: { surveyId: string }) {
   const { handleDeleteSurvey, isDeleting } = useDeleteSurveyTemplate({
@@ -401,8 +416,16 @@ interface Question {
   type: QuestionType;  // short-text、long-text、single-choiceなど (short-text, long-text, single-choice, etc.)
   label: string;
   description?: string;
-  options?: Option[];  // 選択ベースの質問用 (For choice-based questions)
+  options?: QuestionOption[];  // 選択ベースの質問用 (For choice-based questions)
   validation?: ValidationRules;
+}
+
+// 選択ベースの質問用オプション (Option for choice-based questions)
+interface QuestionOption {
+  value: string;        // オプションの一意の値 (Unique value for the option)
+  label: string;        // オプションの表示ラベル (Display label for the option)
+  nextSectionId?: string;  // このオプションが選択されたときにジャンプするセクションのID（条件分岐用） (ID of section to jump to when this option is selected)
+  isOther?: boolean;    // trueの場合、カスタム「その他」回答用のテキスト入力を表示 (If true, shows a text input for custom "Other" response)
 }
 
 // すべての項目タイプの共用体 (Union of all item types)
@@ -505,11 +528,13 @@ interface ValidationRules {
 }
 
 // カスタムバリデーションルール用の判別共用体 (Discriminated union for custom validation rules)
+// Note: short-text supports all validation types (注意: short-textはすべてのバリデーションタイプをサポート)
+// Note: long-text only supports LengthValidation and RegexValidation (注意: long-textはLengthValidationとRegexValidationのみサポート)
 type CustomValidationRule =
-  | NumberValidation
-  | TextValidation
-  | LengthValidation
-  | RegexValidation;
+  | NumberValidation   // short-text only (short-textのみ)
+  | TextValidation     // short-text only (short-textのみ)
+  | LengthValidation   // short-text and long-text (short-textとlong-text)
+  | RegexValidation;   // short-text and long-text (short-textとlong-text)
 
 interface NumberValidation {
   type: "number";

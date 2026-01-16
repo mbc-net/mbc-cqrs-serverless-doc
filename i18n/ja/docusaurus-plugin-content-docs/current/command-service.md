@@ -75,11 +75,13 @@ CommandServiceを使用した完全なCRUD実装パターンについては、[S
 
 ## メソッド
 
-### *async* `publishAsync(input: CommandInputModel, options: ICommandOptions)`
+### *async* `publishAsync(input: CommandInputModel, options: ICommandOptions): Promise<CommandModel | null>` {#publishasync}
 
 このメソッドを使用すると、コマンド データが **command** テーブルに挿入されるため、完全なコマンドを公開できます。
 
 このメソッドはコマンド データをすぐに返すことによって即時フィードバックを提供するため、コマンドの処理を待たずに続行できます。その後、コマンドはバックグラウンドで非同期に処理され、処理中もアプリケーションの応答性が維持されます。
+
+**戻り値:** 成功時は`Promise<CommandModel>`を返します。コマンドがdirtyでない場合（既存のコマンドと比較して変更が検出されない場合）は`Promise<null>`を返します。
 
 たとえば、次のように新しい cat コマンドを発行できます。
 
@@ -116,7 +118,7 @@ const item = await this.commandService.publishAsync(catCommand, {
 });
 ```
 
-### *async* `publishPartialUpdateAsync( input: CommandPartialInputModel, options: ICommandOptions)`
+### *async* `publishPartialUpdateAsync( input: CommandPartialInputModel, options: ICommandOptions)` {#publishpartialupdateasync}
 
 この方法を使用すると、同じ `pk` および `sk` (主キー) 値を持つ前のコマンドに基づいて新しいコマンド データを作成できます。
 
@@ -221,7 +223,7 @@ const item = await this.commandService.publishPartialUpdateSync(catCommand, {
 
 :::info
 
-非推奨、削除予定: この API 要素は将来のバージョンで削除される可能性があります。代わりに [`publishAsync` メソッド](#async-publishasyncinput-commandinputmodel-options-icommandoptions) を使用してください。
+非推奨、削除予定: この API 要素は将来のバージョンで削除される可能性があります。代わりに [`publishAsync` メソッド](#publishasync) を使用してください。
 
 :::
 
@@ -266,8 +268,7 @@ const item = await this.commandService.publish(catCommand, {
 
 :::info
 
-
-非推奨、削除予定: この API 要素は将来のバージョンで削除される可能性があります。代わりに [`publishPartialUpdateAsync` メソッド](#async-publishpartialupdateasync-input-commandpartialinputmodel-options-icommandoptions) を使用してください。
+非推奨、削除予定: この API 要素は将来のバージョンで削除される可能性があります。代わりに [`publishPartialUpdateAsync` メソッド](#publishpartialupdateasync) を使用してください。
 
 :::
 
@@ -484,3 +485,40 @@ if (rdsHandler) {
   await rdsHandler.up(commandModel);
 }
 ```
+
+### `isNotCommandDirty(item: CommandModel, input: CommandInputModel): boolean`
+
+既存のコマンドアイテムと新しい入力を比較して、実際に変更があるかどうかを判定します。コマンドがdirtyでない場合（変更なし）は`true`を返し、変更がある場合は`false`を返します。
+
+このメソッドは、変更が検出されない場合に不要な書き込みをスキップするためにpublishメソッド内部で使用されます。publishを呼び出す前に更新で変更が発生するかどうかを直接確認することもできます。
+
+```ts
+// Check if an update would result in changes (更新で変更が発生するか確認)
+const existingCommand = await this.commandService.getItem({ pk, sk });
+
+if (existingCommand && this.commandService.isNotCommandDirty(existingCommand, newInput)) {
+  // No changes detected, skip the update (変更が検出されないため、更新をスキップ)
+  console.log('Command has no changes, skipping update');
+  return existingCommand;
+}
+
+// Proceed with the update (更新を続行)
+const result = await this.commandService.publishAsync(newInput, options);
+```
+
+### `tableName` (getter/setter): string
+
+このCommandServiceインスタンスのDynamoDBテーブル名を取得または設定します。テーブル名は`CommandModule`を登録する際に設定されますが、必要に応じて実行時に変更することもできます。
+
+```ts
+// Get the current table name (現在のテーブル名を取得)
+const currentTable = this.commandService.tableName;
+console.log(`Operating on table: ${currentTable}`);
+
+// Set a different table name (別のテーブル名を設定)
+this.commandService.tableName = 'another-table';
+```
+
+:::note
+実行時にテーブル名を変更することは高度なユースケースです。ほとんどのアプリケーションでは、`CommandModule.register()`でテーブル名を設定し、その後は変更しないでください。
+:::

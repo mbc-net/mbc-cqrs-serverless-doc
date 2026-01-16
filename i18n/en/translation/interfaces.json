@@ -60,5 +60,13 @@
   "State machine ID": "State machine ID",
   "State machine name": "State machine name",
   "Input data passed to the state": "Input data passed to the state",
-  "Step Functions context information": "Step Functions context information"
+  "Step Functions context information": "Step Functions context information",
+  "Initialize with partial properties": "Initialize with partial properties",
+  "Entity Classes": "Entity Classes",
+  "Class implementing CommandModel for API responses. Includes Swagger decorators.": "Class implementing CommandModel for API responses. Includes Swagger decorators.",
+  "All properties from CommandModel": "All properties from CommandModel",
+  "Returns { pk, sk } for DynamoDB operations": "Returns { pk, sk } for DynamoDB operations",
+  "Access the DynamoDB key pair": "Access the DynamoDB key pair",
+  "Class implementing DataModel for API responses. Includes Swagger decorators.": "Class implementing DataModel for API responses. Includes Swagger decorators.",
+  "All properties from DataModel": "All properties from DataModel"
 }

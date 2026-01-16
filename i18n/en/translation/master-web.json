@@ -1,4 +1,8 @@
 {
+  "Internal API": "Internal API",
+  "This hook is not exported from the main package and is for internal use only. It may change without notice.": "This hook is not exported from the main package and is for internal use only. It may change without notice.",
+  "This hook and the `DOTS` constant are not exported from the main package and are for internal use only. They may change without notice.": "This hook and the `DOTS` constant are not exported from the main package and are for internal use only. They may change without notice.",
+  "This component is not exported from the main package and is for internal use only. It may change without notice.": "This component is not exported from the main package and is for internal use only. It may change without notice.",
   "Learn about the Master Web package for building master data management UI components.": "Learn about the Master Web package for building master data management UI components.",
   "Master Web": "Master Web",
   "Frontend component library for master data and settings management in MBC CQRS Serverless applications.": "Frontend component library for master data and settings management in MBC CQRS Serverless applications.",

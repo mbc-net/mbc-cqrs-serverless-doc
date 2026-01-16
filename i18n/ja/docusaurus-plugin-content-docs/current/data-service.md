@@ -264,8 +264,10 @@ interface DetailKey {
 
 ### ListItemsOptions
 
+`ListItemsOptions`はメソッドシグネチャ内のインライン型定義であり、個別にエクスポートされるインターフェースではありません。型構造は以下の通りです：
+
 ```ts
-interface ListItemsOptions {
+{
   sk?: {
     skExpression: string;
     skAttributeValues: Record<string, string>;
@@ -279,15 +281,29 @@ interface ListItemsOptions {
 
 ### DataListEntity
 
-`listItemsByPk`メソッドは`DataListEntity`インスタンスを返します：
+`DataListEntity`はリストクエリ結果をラップするクラス（インターフェースではありません）です。簡単にインスタンス化するためのコンストラクタを提供します：
 
 ```ts
 class DataListEntity {
   items: DataEntity[];   // Array of data entities (データエンティティの配列)
   lastSk?: string;       // Sort key for pagination cursor (ページネーションカーソル用のソートキー)
   total?: number;        // Total count (if available) (利用可能な場合の合計数)
+
+  constructor(data: Partial<DataListEntity>);
+
+  get tableName(): string;
+  set tableName(name: string);
 }
 ```
+
+コンストラクタは部分オブジェクトを受け取り、クエリ結果からインスタンスを作成できます：
+
+```ts
+const result = await this.dataService.listItemsByPk(pk);
+const listEntity = new DataListEntity(result);
+```
+
+`tableName`のgetterとsetterを使用して、リスト結果に関連付けられたテーブル名にアクセスまたは変更できます。
 
 ## ベストプラクティス
 

@@ -583,8 +583,10 @@ import { IInvoke } from '@mbc-cqrs-serverless/core';
 
 /**
  * Base interface for import strategies (インポート戦略の基本インターフェース)
+ * @typeParam TInput - The input type, must be an object (入力型、オブジェクトである必要があります)
+ * @typeParam TAttributesDto - The output DTO type, must be an object (出力DTO型、オブジェクトである必要があります)
  */
-export interface IImportStrategy<TInput, TAttributesDto> {
+export interface IImportStrategy<TInput extends object, TAttributesDto extends object> {
   /**
    * Transform raw input to command DTO (生の入力をコマンドDTOに変換)
    */
@@ -598,8 +600,10 @@ export interface IImportStrategy<TInput, TAttributesDto> {
 
 /**
  * Base import strategy with common functionality (共通機能を持つ基本インポート戦略)
+ * @typeParam TInput - The input type, must be an object (入力型、オブジェクトである必要があります)
+ * @typeParam TAttributesDto - The output DTO type, must be an object (出力DTO型、オブジェクトである必要があります)
  */
-export abstract class BaseImportStrategy<TInput, TAttributesDto>
+export abstract class BaseImportStrategy<TInput extends object, TAttributesDto extends object>
   implements IImportStrategy<TInput, TAttributesDto>
 {
   /**
@@ -1110,13 +1114,120 @@ export class PolicyImportStrategy
 }
 ```
 
+### ComparisonStatus列挙型 {#comparisonstatus-enum}
+
+`ComparisonStatus`列挙型は、インポートデータと既存データの比較結果を定義します：
+
+```typescript
+export enum ComparisonStatus {
+  EQUAL = 'EQUAL',         // Data exists and is identical - no action needed (データが存在し同一 - アクション不要)
+  NOT_EXIST = 'NOT_EXIST', // Data does not exist - create new record (データが存在しない - 新規レコード作成)
+  CHANGED = 'CHANGED',     // Data exists but differs - update existing record (データは存在するが異なる - 既存レコード更新)
+}
+```
+
+| 値 | 説明 | アクション |
+|-----------|-----------------|------------|
+| `EQUAL` | インポートデータが既存データと一致 | スキップ（操作なし） |
+| `NOT_EXIST` | 既存データが見つからない | 新規レコード作成 |
+| `CHANGED` | 既存データがインポートデータと異なる | 既存レコード更新 |
+
+### ComparisonResultインターフェース {#comparisonresult-interface}
+
+`ComparisonResult<T>`インターフェースは、比較ステータスとオプションの既存データをラップします：
+
+```typescript
+export interface ComparisonResult<T> {
+  status: ComparisonStatus;  // The result of the comparison (比較結果)
+  existingData?: T;          // The existing data if found (for EQUAL or CHANGED status) (見つかった場合の既存データ、EQUALまたはCHANGEDステータス用)
+}
+```
+
+| プロパティ | 型 | 説明 |
+|--------------|----------|-----------------|
+| `status` | `ComparisonStatus` | 比較結果ステータス |
+| `existingData` | `T \| undefined` | 既存エンティティデータ、ステータスがEQUALまたはCHANGEDの場合に存在 |
+
+### IProcessStrategyインターフェース {#iprocessstrategy-interface}
+
+`IProcessStrategy`インターフェースは、バリデーション済みインポートデータを処理するための契約を定義します：
+
+```typescript
+import { CommandInputModel, CommandPartialInputModel, CommandService } from '@mbc-cqrs-serverless/core';
+
+export interface IProcessStrategy<TExistingData, TAttributesDto> {
+  /**
+   * Get the command service for publishing commands (コマンド発行用のコマンドサービスを取得)
+   */
+  getCommandService(): CommandService;
+
+  /**
+   * Compare the validated DTO with existing data (バリデーション済みDTOを既存データと比較)
+   */
+  compare(dto: TAttributesDto, tenantCode: string): Promise<ComparisonResult<TExistingData>>;
+
+  /**
+   * Map the DTO to a command payload based on comparison status (比較ステータスに基づいてDTOをコマンドペイロードにマッピング)
+   * @returns CommandInputModel for create, CommandPartialInputModel for update (作成用CommandInputModel、更新用CommandPartialInputModel)
+   */
+  map(
+    status: ComparisonStatus,
+    dto: TAttributesDto,
+    tenantCode: string,
+    existingData?: TExistingData,
+  ): Promise<CommandInputModel | CommandPartialInputModel>;
+}
+```
+
+### BaseProcessStrategy抽象クラス {#baseprocessstrategy-class}
+
+`BaseProcessStrategy`抽象クラスは、サブクラスが拡張する必要がある基本実装を提供します：
+
+```typescript
+export abstract class BaseProcessStrategy<TExistingData, TAttributesDto>
+  implements IProcessStrategy<TExistingData, TAttributesDto>
+{
+  /**
+   * Abstract method - must be implemented to return the command service (抽象メソッド - コマンドサービスを返すために実装が必要)
+   */
+  abstract getCommandService(): CommandService;
+
+  /**
+   * Abstract method - must be implemented to compare data (抽象メソッド - データ比較のために実装が必要)
+   */
+  abstract compare(
+    dto: TAttributesDto,
+    tenantCode: string,
+  ): Promise<ComparisonResult<TExistingData>>;
+
+  /**
+   * Abstract method - must be implemented to map data to command payload (抽象メソッド - データをコマンドペイロードにマッピングするために実装が必要)
+   */
+  abstract map(
+    status: ComparisonStatus,
+    dto: TAttributesDto,
+    tenantCode: string,
+    existingData?: TExistingData,
+  ): Promise<CommandInputModel | CommandPartialInputModel>;
+}
+```
+
+:::info 注意
+`BaseProcessStrategy`の3つのメソッド（`getCommandService()`、`compare()`、`map()`）はすべて抽象メソッドであり、サブクラスで実装する必要があります。
+:::
+
 ### プロセスストラテジーの実装
 
 プロセスストラテジーはデータの比較とマッピングのコアビジネスロジックを含みます：
 
 ```typescript
 import { Injectable } from '@nestjs/common';
-import { CommandService, DataService } from '@mbc-cqrs-serverless/core';
+import {
+  CommandInputModel,
+  CommandPartialInputModel,
+  CommandService,
+  DataService,
+} from '@mbc-cqrs-serverless/core';
 import {
   BaseProcessStrategy,
   ComparisonResult,
@@ -1156,17 +1267,19 @@ export class PolicyProcessStrategy
     dto: PolicyCommandDto,
     tenantCode: string,
     existingData?: PolicyDataEntity,
-  ) {
+  ): Promise<CommandInputModel | CommandPartialInputModel> {
     if (status === ComparisonStatus.NOT_EXIST) {
-      return { ...dto, version: 0 };
+      // Return CommandInputModel for creating new records (新規レコード作成用にCommandInputModelを返す)
+      return { ...dto, version: 0 } as CommandInputModel;
     }
     if (status === ComparisonStatus.CHANGED) {
+      // Return CommandPartialInputModel for updating existing records (既存レコード更新用にCommandPartialInputModelを返す)
       return {
         pk: dto.pk,
         sk: dto.sk,
         attributes: dto.attributes,
         version: existingData.version,
-      };
+      } as CommandPartialInputModel;
     }
     throw new Error('Invalid map status');
   }

@@ -60,5 +60,13 @@
   "State machine ID": "State machine ID (ステートマシンID)",
   "State machine name": "State machine name (ステートマシン名)",
   "Input data passed to the state": "Input data passed to the state (ステートに渡された入力データ)",
-  "Step Functions context information": "Step Functions context information (Step Functionsコンテキスト情報)"
+  "Step Functions context information": "Step Functions context information (Step Functionsコンテキスト情報)",
+  "Initialize with partial properties": "Initialize with partial properties (部分的なプロパティで初期化)",
+  "Entity Classes": "エンティティクラス",
+  "Class implementing CommandModel for API responses. Includes Swagger decorators.": "APIレスポンス用にCommandModelを実装したクラス。Swaggerデコレータを含みます。",
+  "All properties from CommandModel": "All properties from CommandModel (CommandModelのすべてのプロパティ)",
+  "Returns { pk, sk } for DynamoDB operations": "Returns { pk, sk } for DynamoDB operations (DynamoDB操作用の { pk, sk } を返す)",
+  "Access the DynamoDB key pair": "Access the DynamoDB key pair (DynamoDBキーペアにアクセス)",
+  "Class implementing DataModel for API responses. Includes Swagger decorators.": "APIレスポンス用にDataModelを実装したクラス。Swaggerデコレータを含みます。",
+  "All properties from DataModel": "All properties from DataModel (DataModelのすべてのプロパティ)"
 }

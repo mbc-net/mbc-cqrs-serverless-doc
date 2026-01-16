@@ -583,8 +583,10 @@ import { IInvoke } from '@mbc-cqrs-serverless/core';
 
 /**
  * Base interface for import strategies
+ * @typeParam TInput - The input type, must be an object
+ * @typeParam TAttributesDto - The output DTO type, must be an object
  */
-export interface IImportStrategy<TInput, TAttributesDto> {
+export interface IImportStrategy<TInput extends object, TAttributesDto extends object> {
   /**
    * Transform raw input to command DTO
    */
@@ -598,8 +600,10 @@ export interface IImportStrategy<TInput, TAttributesDto> {
 
 /**
  * Base import strategy with common functionality
+ * @typeParam TInput - The input type, must be an object
+ * @typeParam TAttributesDto - The output DTO type, must be an object
  */
-export abstract class BaseImportStrategy<TInput, TAttributesDto>
+export abstract class BaseImportStrategy<TInput extends object, TAttributesDto extends object>
   implements IImportStrategy<TInput, TAttributesDto>
 {
   /**
@@ -1110,13 +1114,120 @@ export class PolicyImportStrategy
 }
 ```
 
+### ComparisonStatus Enum {#comparisonstatus-enum}
+
+The `ComparisonStatus` enum defines the result of comparing imported data with existing data:
+
+```typescript
+export enum ComparisonStatus {
+  EQUAL = 'EQUAL',         // Data exists and is identical - no action needed
+  NOT_EXIST = 'NOT_EXIST', // Data does not exist - create new record
+  CHANGED = 'CHANGED',     // Data exists but differs - update existing record
+}
+```
+
+| Value | Description | Action |
+|-----------|-----------------|------------|
+| `EQUAL` | Imported data matches existing data | Skip (no operation) |
+| `NOT_EXIST` | No existing data found | Create new record |
+| `CHANGED` | Existing data differs from imported data | Update existing record |
+
+### ComparisonResult Interface {#comparisonresult-interface}
+
+The `ComparisonResult<T>` interface wraps the comparison status with optional existing data:
+
+```typescript
+export interface ComparisonResult<T> {
+  status: ComparisonStatus;  // The result of the comparison
+  existingData?: T;          // The existing data if found (for EQUAL or CHANGED status)
+}
+```
+
+| Property | Type | Description |
+|--------------|----------|-----------------|
+| `status` | `ComparisonStatus` | The comparison result status |
+| `existingData` | `T \| undefined` | The existing entity data, present when status is EQUAL or CHANGED |
+
+### IProcessStrategy Interface {#iprocessstrategy-interface}
+
+The `IProcessStrategy` interface defines the contract for processing validated import data:
+
+```typescript
+import { CommandInputModel, CommandPartialInputModel, CommandService } from '@mbc-cqrs-serverless/core';
+
+export interface IProcessStrategy<TExistingData, TAttributesDto> {
+  /**
+   * Get the command service for publishing commands
+   */
+  getCommandService(): CommandService;
+
+  /**
+   * Compare the validated DTO with existing data
+   */
+  compare(dto: TAttributesDto, tenantCode: string): Promise<ComparisonResult<TExistingData>>;
+
+  /**
+   * Map the DTO to a command payload based on comparison status
+   * @returns CommandInputModel for create, CommandPartialInputModel for update
+   */
+  map(
+    status: ComparisonStatus,
+    dto: TAttributesDto,
+    tenantCode: string,
+    existingData?: TExistingData,
+  ): Promise<CommandInputModel | CommandPartialInputModel>;
+}
+```
+
+### BaseProcessStrategy Abstract Class {#baseprocessstrategy-class}
+
+The `BaseProcessStrategy` abstract class provides a base implementation that subclasses must extend:
+
+```typescript
+export abstract class BaseProcessStrategy<TExistingData, TAttributesDto>
+  implements IProcessStrategy<TExistingData, TAttributesDto>
+{
+  /**
+   * Abstract method - must be implemented to return the command service
+   */
+  abstract getCommandService(): CommandService;
+
+  /**
+   * Abstract method - must be implemented to compare data
+   */
+  abstract compare(
+    dto: TAttributesDto,
+    tenantCode: string,
+  ): Promise<ComparisonResult<TExistingData>>;
+
+  /**
+   * Abstract method - must be implemented to map data to command payload
+   */
+  abstract map(
+    status: ComparisonStatus,
+    dto: TAttributesDto,
+    tenantCode: string,
+    existingData?: TExistingData,
+  ): Promise<CommandInputModel | CommandPartialInputModel>;
+}
+```
+
+:::info Note
+All three methods (`getCommandService()`, `compare()`, `map()`) in `BaseProcessStrategy` are abstract and must be implemented by subclasses.
+:::
+
 ### Implementing Process Strategy
 
 The process strategy contains core business logic for comparing and mapping data:
 
 ```typescript
 import { Injectable } from '@nestjs/common';
-import { CommandService, DataService } from '@mbc-cqrs-serverless/core';
+import {
+  CommandInputModel,
+  CommandPartialInputModel,
+  CommandService,
+  DataService,
+} from '@mbc-cqrs-serverless/core';
 import {
   BaseProcessStrategy,
   ComparisonResult,
@@ -1156,17 +1267,19 @@ export class PolicyProcessStrategy
     dto: PolicyCommandDto,
     tenantCode: string,
     existingData?: PolicyDataEntity,
-  ) {
+  ): Promise<CommandInputModel | CommandPartialInputModel> {
     if (status === ComparisonStatus.NOT_EXIST) {
-      return { ...dto, version: 0 };
+      // Return CommandInputModel for creating new records
+      return { ...dto, version: 0 } as CommandInputModel;
     }
     if (status === ComparisonStatus.CHANGED) {
+      // Return CommandPartialInputModel for updating existing records
       return {
         pk: dto.pk,
         sk: dto.sk,
         attributes: dto.attributes,
         version: existingData.version,
-      };
+      } as CommandPartialInputModel;
     }
     throw new Error('Invalid map status');
   }
