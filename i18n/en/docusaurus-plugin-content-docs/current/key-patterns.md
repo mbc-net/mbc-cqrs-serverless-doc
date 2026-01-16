@@ -16,6 +16,12 @@ Use this guide when you need to:
 - Enable efficient query patterns (list by tenant, filter by date)
 - Handle versioning for optimistic locking
 
+:::tip Related Documentation
+- [Entity Definition Patterns](./entity-patterns.md) - How to define entities that use these key patterns
+- [Multi-Tenant Patterns](./multi-tenant-patterns.md) - Tenant isolation and cross-tenant operations
+- [Backend Development Guide](./backend-development.md) - Complete module implementation patterns
+:::
+
 ## Problems This Pattern Solves
 
 | Problem | Solution |
@@ -24,6 +30,44 @@ Use this guide when you need to:
 | Can't list child items without knowing all keys | Use shared PK with different SK prefixes |
 | IDs are not sortable by creation time | Use ULID which is both unique and time-sortable |
 | Version conflicts in concurrent updates | Version suffix in SK enables optimistic locking |
+
+## Pattern Selection Guide {#pattern-selection}
+
+Use this decision tree to choose the right key pattern for your use case:
+
+### Decision Matrix
+
+| Requirement | Recommended Pattern | PK Structure | SK Structure |
+|-----------------|------------------------|------------------|------------------|
+| Simple CRUD with tenant isolation | [Simple Entity](#pattern-1-simple-entity) | `ENTITY#tenantCode` | `ulid()` |
+| Parent with multiple children | [Hierarchical](#pattern-2-hierarchical-entity) | `PARENT#tenantCode` | `TYPE#parentId[#childId]` |
+| Multiple entity variants | [Composite SK](#pattern-3-user-with-multiple-auth-providers) | `ENTITY#tenantCode` | `variant#identifier` |
+| Cross-tenant shared data | [Common Tenant](#pattern-4-multi-tenant-association) | `ENTITY#common` | `tenantCode#identifier` |
+| Categorized configurations | [Master Data](#pattern-5-master-data-with-categories) | `MASTER#tenantCode` | `TYPE#category#code` |
+| Time-based queries | [Time-Series](#pattern-6-time-series-data) | `LOG#tenantCode#YYYY-MM` | `timestamp#eventId` |
+
+### Decision Tree
+
+```
+Start: What type of data are you storing?
+│
+├─ Standalone entity (Product, Customer)
+│  └─ Use Simple Entity Pattern
+│
+├─ Parent-child relationship (Order → Items)
+│  └─ Do children need independent access?
+│     ├─ Yes → Use separate PK with reference
+│     └─ No → Use Hierarchical Pattern (shared PK)
+│
+├─ Configuration/Master data
+│  └─ Use Master Data Pattern
+│
+├─ Time-based events (logs, audit)
+│  └─ Use Time-Series Pattern
+│
+└─ User/Entity with multiple variants
+   └─ Use Composite SK Pattern
+```
 
 ## Key Structure Overview
 
@@ -37,6 +81,37 @@ ID = PK#SK (without version)
 
 The `KEY_SEPARATOR` constant (`#`) is used to separate key components.
 
+### Framework Constants {#framework-constants}
+
+The framework provides these constants in `@mbc-cqrs-serverless/core`:
+
+| Constant | Value | Description |
+|--------------|-----------|-----------------|
+| `KEY_SEPARATOR` | `#` | Separates key components (PK segments, SK segments, ID) |
+| `VER_SEPARATOR` | `@` | Separates sort key from version number |
+| `VERSION_FIRST` | `0` | Initial version for new entities |
+| `VERSION_LATEST` | `-1` | Indicates query for latest version |
+| `TENANT_COMMON` | `common` | Tenant code for shared/cross-tenant data |
+| `DEFAULT_TENANT_CODE` | `single` | Default tenant for single-tenant mode |
+
+### Built-in Key Generators {#built-in-generators}
+
+The framework provides these pre-built key generators:
+
+```ts
+import { masterPk, seqPk, ttlSk } from "@mbc-cqrs-serverless/core";
+
+// Master data partition key
+masterPk("tenant001");      // "MASTER#tenant001"
+masterPk();                 // "MASTER#single" (default tenant)
+
+// Sequence partition key
+seqPk("tenant001");         // "SEQ#tenant001"
+
+// TTL sort key for table-level TTL settings
+ttlSk("product");           // "TTL#product"
+```
+
 ## Basic Key Generation
 
 Import utilities from the core package:
@@ -44,10 +119,15 @@ Import utilities from the core package:
 ```ts
 import {
   generateId,
+  getTenantCode,
   KEY_SEPARATOR,
+  VER_SEPARATOR,
   removeSortKeyVersion,
   addSortKeyVersion,
+  getSortKeyVersion,
   VERSION_FIRST,
+  VERSION_LATEST,
+  TENANT_COMMON,
 } from "@mbc-cqrs-serverless/core";
 import { ulid } from "ulid";
 ```
@@ -80,11 +160,33 @@ const skWithVersion = addSortKeyVersion(sk, 3);
 // Remove version from SK
 const baseSk = removeSortKeyVersion(skWithVersion);
 // Result: "01HX7MBJK3V9WQBZ7XNDK5ZT2M"
+
+// Get version number from SK
+const version = getSortKeyVersion(skWithVersion);
+// Result: 3
+
+// Get version from SK without version suffix
+const latestVersion = getSortKeyVersion(sk);
+// Result: -1 (VERSION_LATEST)
+```
+
+### Tenant Code Extraction
+
+```ts
+import { getTenantCode } from "@mbc-cqrs-serverless/core";
+
+// Extract tenant code from PK
+const tenantCode = getTenantCode("PRODUCT#tenant001");
+// Result: "tenant001"
+
+// Returns undefined if no separator found
+const noTenant = getTenantCode("PRODUCT");
+// Result: undefined
 ```
 
 ## Common Key Patterns
 
-### Pattern 1: Simple Entity
+### Pattern 1: Simple Entity {#pattern-1-simple-entity}
 
 #### Use Case: Product Catalog
 
@@ -109,7 +211,7 @@ const sk = ulid();
 const id = generateId(pk, sk);
 ```
 
-### Pattern 2: Hierarchical Entity
+### Pattern 2: Hierarchical Entity {#pattern-2-hierarchical-entity}
 
 #### Use Case: Order with Line Items
 
@@ -150,7 +252,7 @@ const orderSk = `${ORDER_SK_PREFIX}${KEY_SEPARATOR}${orderId}`;
 const itemSk = `${ORDER_ITEM_SK_PREFIX}${KEY_SEPARATOR}${orderId}${KEY_SEPARATOR}${itemId}`;
 ```
 
-### Pattern 3: User with Multiple Auth Providers
+### Pattern 3: User with Multiple Auth Providers {#pattern-3-user-with-multiple-auth-providers}
 
 #### Use Case: Unified User Identity
 
@@ -183,7 +285,7 @@ const pk = `USER${KEY_SEPARATOR}common`;
 const sk = generateUserSk("sso", cognitoSubId);
 ```
 
-### Pattern 4: Multi-Tenant Association
+### Pattern 4: Multi-Tenant Association {#pattern-4-multi-tenant-association}
 
 #### Use Case: User Belongs to Multiple Organizations
 
@@ -207,7 +309,7 @@ const pk = `USER_TENANT${KEY_SEPARATOR}common`;
 const sk = `${tenantCode}${KEY_SEPARATOR}${userCode}`;
 ```
 
-### Pattern 5: Master Data with Categories
+### Pattern 5: Master Data with Categories {#pattern-5-master-data-with-categories}
 
 #### Use Case: Application Settings and Configuration
 
@@ -241,7 +343,7 @@ const pk = `MASTER${KEY_SEPARATOR}${tenantCode}`;
 const sk = generateMasterSk(DATA_PREFIX, "product_category", "electronics");
 ```
 
-### Pattern 6: Time-Series Data
+### Pattern 6: Time-Series Data {#pattern-6-time-series-data}
 
 #### Use Case: Activity Logs and Audit Trail
 
@@ -542,3 +644,43 @@ SK: ORDER-01HX7M_item:001
 // Better - consistent separator
 SK: ORDER#01HX7M#ITEM#001
 ```
+
+### 4. Version Suffix in Data Operations
+
+```ts
+// Avoid - including version in data table SK
+await dataService.getItem({
+  pk: "PRODUCT#tenant001",
+  sk: "01HX7MBJK3V9WQBZ7XNDK5ZT2M@3"  // Version should not be here
+});
+
+// Better - always use removeSortKeyVersion
+const cleanSk = removeSortKeyVersion(skWithVersion);
+await dataService.getItem({ pk, sk: cleanSk });
+```
+
+## API Reference {#api-reference}
+
+### Key Functions
+
+| Function | Signature | Description |
+|--------------|---------------|-----------------|
+| `generateId` | `(pk: string, sk: string) => string` | Combines PK and SK into ID, removes version from SK |
+| `getTenantCode` | `(pk: string) => string \| undefined` | Extracts tenant code from PK |
+| `addSortKeyVersion` | `(sk: string, version: number) => string` | Adds version suffix to SK |
+| `removeSortKeyVersion` | `(sk: string) => string` | Removes version suffix from SK |
+| `getSortKeyVersion` | `(sk: string) => number` | Gets version number from SK (returns -1 if no version) |
+| `masterPk` | `(tenantCode?: string) => string` | Generates MASTER#tenantCode PK |
+| `seqPk` | `(tenantCode?: string) => string` | Generates SEQ#tenantCode PK |
+| `ttlSk` | `(tableName: string) => string` | Generates TTL#tableName SK |
+
+### Constants
+
+| Constant | Value | Usage |
+|--------------|-----------|-----------|
+| `KEY_SEPARATOR` | `#` | Use for joining key components |
+| `VER_SEPARATOR` | `@` | Used internally for version suffix |
+| `VERSION_FIRST` | `0` | Use when creating new entities |
+| `VERSION_LATEST` | `-1` | Returned when SK has no version |
+| `TENANT_COMMON` | `common` | Use for cross-tenant shared data |
+| `DEFAULT_TENANT_CODE` | `single` | Default for single-tenant mode |

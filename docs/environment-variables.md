@@ -13,68 +13,141 @@ description: {{Learn how to add and validate your environment variables in your 
 
 {{MBC CQRS serverless framework has built-in support for loading environment variables from `.env*` files into `process.env.`}}
 
-```
-TODO:
-# AWS_PROFILE
+### {{Core Configuration}}
+
+| {{Variable}} | {{Description}} | {{Required}} | {{Default}} | {{Example}} |
+|-------------|-----------------|--------------|-------------|-------------|
+| `NODE_ENV` | {{Running environment: local, dev, stg, prod}} | {{Yes}} | - | `local` |
+| `APP_NAME` | {{Application name used for table prefixes}} | {{Yes}} | - | `demo` |
+| `APP_PORT` | {{Application port for non-Lambda environments}} | {{No}} | `3000` | `3000` |
+| `LOG_LEVEL` | {{Log level: debug, verbose, info, warn, error, fatal}} | {{Yes}} | - | `verbose` |
+| `EVENT_SOURCE_DISABLED` | {{Disable event source route for API Gateway integration}} | {{Yes}} | - | `false` |
+| `REQUEST_BODY_SIZE_LIMIT` | {{Request body size limit for JSON and URL-encoded data}} | {{No}} | `100kb` | `100kb` |
+
+### {{AWS Credentials}}
+
+| {{Variable}} | {{Description}} | {{Required}} | {{Example}} |
+|-------------|-----------------|--------------|-------------|
+| `AWS_ACCESS_KEY_ID` | {{AWS access key ID for local development}} | {{No}} | `local` |
+| `AWS_SECRET_ACCESS_KEY` | {{AWS secret access key for local development}} | {{No}} | `local` |
+| `AWS_DEFAULT_REGION` | {{Default AWS region}} | {{No}} | `ap-northeast-1` |
+
+### {{DynamoDB Configuration}}
+
+| {{Variable}} | {{Description}} | {{Required}} | {{Example}} |
+|-------------|-----------------|--------------|-------------|
+| `DYNAMODB_ENDPOINT` | {{DynamoDB endpoint URL for local development}} | {{No}} | `http://localhost:8000` |
+| `DYNAMODB_REGION` | {{DynamoDB region}} | {{No}} | `ap-northeast-1` |
+| `ATTRIBUTE_LIMIT_SIZE` | {{Maximum size in bytes for DynamoDB item attributes}} | {{Yes}} | `389120` |
+
+### {{S3 Configuration}}
+
+| {{Variable}} | {{Description}} | {{Required}} | {{Example}} |
+|-------------|-----------------|--------------|-------------|
+| `S3_ENDPOINT` | {{S3 endpoint URL for local development}} | {{No}} | `http://localhost:4566` |
+| `S3_REGION` | {{S3 region}} | {{No}} | `ap-northeast-1` |
+| `S3_BUCKET_NAME` | {{S3 bucket name for storing large DynamoDB attributes}} | {{Yes}} | `local-bucket` |
+
+### {{Step Functions Configuration}}
+
+| {{Variable}} | {{Description}} | {{Required}} | {{Example}} |
+|-------------|-----------------|--------------|-------------|
+| `SFN_ENDPOINT` | {{Step Functions endpoint URL for local development}} | {{No}} | `http://localhost:8083` |
+| `SFN_REGION` | {{Step Functions region}} | {{No}} | `ap-northeast-1` |
+| `SFN_COMMAND_ARN` | {{Step Functions state machine ARN for command processing}} | {{Yes}} | `arn:aws:states:ap-northeast-1:101010101010:stateMachine:command` |
+
+### {{SNS Configuration}}
+
+| {{Variable}} | {{Description}} | {{Required}} | {{Example}} |
+|-------------|-----------------|--------------|-------------|
+| `SNS_ENDPOINT` | {{SNS endpoint URL for local development}} | {{No}} | `http://localhost:4002` |
+| `SNS_REGION` | {{SNS region}} | {{No}} | `ap-northeast-1` |
+| `SNS_TOPIC_ARN` | {{Default SNS topic ARN for event notifications}} | {{Yes}} | `arn:aws:sns:ap-northeast-1:101010101010:CqrsSnsTopic` |
+| `SNS_ALARM_TOPIC_ARN` | {{SNS topic ARN for alarm notifications (error alerts)}} | {{No}} | `arn:aws:sns:ap-northeast-1:101010101010:AlarmSnsTopic` |
+
+### {{Cognito Configuration}}
+
+| {{Variable}} | {{Description}} | {{Required}} | {{Example}} |
+|-------------|-----------------|--------------|-------------|
+| `COGNITO_URL` | {{Cognito endpoint URL for local development}} | {{No}} | `http://localhost:9229` |
+| `COGNITO_USER_POOL_ID` | {{Cognito User Pool ID}} | {{Yes}} | `local_2G7noHgW` |
+| `COGNITO_USER_POOL_CLIENT_ID` | {{Cognito User Pool Client ID}} | {{Yes}} | `dnk8y7ii3wled35p3lw0l2cd7` |
+| `COGNITO_REGION` | {{Cognito region}} | {{No}} | `ap-northeast-1` |
+
+### {{AppSync Configuration}}
+
+| {{Variable}} | {{Description}} | {{Required}} | {{Example}} |
+|-------------|-----------------|--------------|-------------|
+| `APPSYNC_ENDPOINT` | {{AppSync GraphQL endpoint URL}} | {{No}} | `http://localhost:4001/graphql` |
+| `APPSYNC_API_KEY` | {{AppSync API key for local development}} | {{No}} | `da2-fakeApiId123456` |
+
+### {{SES Email Configuration}}
+
+| {{Variable}} | {{Description}} | {{Required}} | {{Example}} |
+|-------------|-----------------|--------------|-------------|
+| `SES_ENDPOINT` | {{SES endpoint URL for local development}} | {{No}} | `http://localhost:8005` |
+| `SES_REGION` | {{SES region}} | {{No}} | `ap-northeast-1` |
+| `SES_FROM_EMAIL` | {{Default sender email address}} | {{Yes}} | `email@example.com` |
+
+### {{Database Configuration (Prisma)}}
+
+| {{Variable}} | {{Description}} | {{Required}} | {{Example}} |
+|-------------|-----------------|--------------|-------------|
+| `DATABASE_URL` | {{Database connection URL for Prisma ORM}} | {{No}} | `mysql://root:RootCqrs@localhost:3306/cqrs?schema=public&connection_limit=1` |
+
+### {{Example .env file}}
+
+```bash
+# {{AWS Credentials}}
 AWS_ACCESS_KEY_ID=local
 AWS_SECRET_ACCESS_KEY=local
 AWS_DEFAULT_REGION=ap-northeast-1
-# running environment
-# local, dev, stg, prod
+
+# {{Core Configuration}}
 NODE_ENV=local
-# NODE_ENV=dev
-# name of application
-# APP_NAME=suisss-recruit
 APP_NAME=demo
-# APP_NAME=cqrs
-# {{Application port for non-Lambda environments (default: 3000)}}
 APP_PORT=3000
-# set log levels
-LOG_LEVEL=verbose # debug, info, warn, error, verbose
-# {{Request body size limit for JSON and URL-encoded data (default: 100kb)}}
-REQUEST_BODY_SIZE_LIMIT=100kb
-# disable event route for API GW integration
+LOG_LEVEL=verbose
 EVENT_SOURCE_DISABLED=false
-# DynamoDB endpoint, useful for local development
+REQUEST_BODY_SIZE_LIMIT=100kb
+
+# {{DynamoDB Configuration}}
 DYNAMODB_ENDPOINT=http://localhost:8000
 DYNAMODB_REGION=ap-northeast-1
-# set the limit size for `attributes` of object in DDB
-ATTRIBUTE_LIMIT_SIZE=389120 # bytes, refer to https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ServiceQuotas.html#limits-attributes
-# S3 endpoint, useful for local development
+ATTRIBUTE_LIMIT_SIZE=389120
+
+# {{S3 Configuration}}
 S3_ENDPOINT=http://localhost:4566
 S3_REGION=ap-northeast-1
-# save DDB attributes
 S3_BUCKET_NAME=local-bucket
-# Step Function endpoint, useful for local development
+
+# {{Step Functions Configuration}}
 SFN_ENDPOINT=http://localhost:8083
 SFN_REGION=ap-northeast-1
 SFN_COMMAND_ARN=arn:aws:states:ap-northeast-1:101010101010:stateMachine:command
-# SNS endpoint, useful for local development
+
+# {{SNS Configuration}}
 SNS_ENDPOINT=http://localhost:4002
 SNS_REGION=ap-northeast-1
-SNS_TOPIC_ARN=arn:aws:sns:ap-northeast-1:101010101010:MySnsTopic
-# {{SNS topic ARN for alarm notifications (error alerts)}}
+SNS_TOPIC_ARN=arn:aws:sns:ap-northeast-1:101010101010:CqrsSnsTopic
 SNS_ALARM_TOPIC_ARN=arn:aws:sns:ap-northeast-1:101010101010:AlarmSnsTopic
-# Cognito endpoint, useful for local development
+
+# {{Cognito Configuration}}
 COGNITO_URL=http://localhost:9229
 COGNITO_USER_POOL_ID=local_2G7noHgW
 COGNITO_USER_POOL_CLIENT_ID=dnk8y7ii3wled35p3lw0l2cd7
 COGNITO_REGION=ap-northeast-1
-# AppSync endpoint, useful for local development
+
+# {{AppSync Configuration}}
 APPSYNC_ENDPOINT=http://localhost:4001/graphql
 APPSYNC_API_KEY=da2-fakeApiId123456
-# SES email endpoint, useful for local development
+
+# {{SES Configuration}}
 SES_ENDPOINT=http://localhost:8005
 SES_REGION=ap-northeast-1
 SES_FROM_EMAIL=email@example.com
 
-# This was inserted by `prisma init`:
-# Environment variables declared in this file are automatically made available to Prisma.
-# See the documentation for more detail: https://pris.ly/d/prisma-schema#accessing-environment-variables-from-the-schema
-
-# Prisma supports the native connection string format for PostgreSQL, MySQL, SQLite, SQL Server, MongoDB and CockroachDB.
-# See the documentation for all the connection string options: https://pris.ly/d/connection-strings
-
+# {{Database Configuration}}
 DATABASE_URL="mysql://root:RootCqrs@localhost:3306/cqrs?schema=public&connection_limit=1"
 ```
 

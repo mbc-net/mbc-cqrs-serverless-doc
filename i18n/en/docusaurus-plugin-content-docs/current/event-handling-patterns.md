@@ -54,7 +54,7 @@ import {
 import { S3Event } from 'aws-lambda';
 import { StepFunctionsEvent, SQSEvent, DynamoDBStreamEvent } from './types';
 
-// {{Import event classes}}
+// Import event classes
 import { CsvImportEvent } from './csv-import/event/csv-import.event';
 import { FileProcessEvent } from './file/event/file-process.event';
 import { OrderCreatedEvent } from './order/event/order-created.event';
@@ -276,7 +276,7 @@ import { ConfigService } from '@nestjs/config';
 import { ImportProcessEvent } from './import-process.event';
 import { ImportService } from '../import.service';
 
-// {{Define SNS event for alarm notifications}}
+// Define SNS event for alarm notifications
 class AlarmSnsEvent extends SnsEvent {
   importId: string;
   bucket: string;
@@ -309,10 +309,10 @@ export class ImportProcessEventHandler
     this.logger.log(`Processing import: ${event.importId}`);
 
     try {
-      // {{Process the import}}
+      // Process the import
       const result = await this.importService.processImport(event);
 
-      // {{Resume Step Functions execution on success}}
+      // Resume Step Functions execution on success
       if (event.taskToken) {
         await this.sfnService.resumeExecution(event.taskToken, result);
       }
@@ -389,7 +389,7 @@ export class FileUploadHandler implements IEventHandler<FileUploadEvent, FilePro
   async execute(event: FileUploadEvent): Promise<FileProcessingResult> {
     this.logger.log(`Processing file: ${event.key}`);
 
-    // {{Get file content from S3}}
+    // Get file content from S3
     const command = new GetObjectCommand({
       Bucket: event.bucket,
       Key: event.key,
@@ -713,10 +713,10 @@ async execute(event: OrderEvent): Promise<IdempotentResult> {
     return { skipped: true };
   }
 
-  // {{Process event}}
+  // Process event
   const result = await this.processEvent(event);
 
-  // {{Mark as processed}}
+  // Mark as processed
   await this.prismaService.processedEvent.create({
     data: { eventId: event.eventId, processedAt: new Date() },
   });
@@ -748,7 +748,7 @@ interface TimeoutResult {
 
 // Implement timeout for long-running operations
 async execute(event: LongRunningEvent): Promise<TimeoutResult> {
-  const timeout = 25000; // {{25 seconds (Lambda default is 30s)}}
+  const timeout = 25000; // 25 seconds (Lambda default is 30s)
 
   const result = await Promise.race([
     this.processEvent(event),

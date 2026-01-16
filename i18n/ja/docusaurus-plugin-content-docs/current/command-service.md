@@ -69,6 +69,10 @@ export class CatModule {}
 
 これで、`CommandService` と `DataService` を他のサービスに挿入して使用できるようになります。
 
+:::tip 実装パターンについて
+CommandServiceを使用した完全なCRUD実装パターンについては、[Service実装パターン](./service-patterns.md)を参照してください。
+:::
+
 ## メソッド
 
 ### *async* `publishAsync(input: CommandInputModel, options: ICommandOptions)`

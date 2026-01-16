@@ -119,7 +119,7 @@ Sends an email using SES v2 Inline Templates. This method supports variable subs
 
 #### Features
 
-- Define email templates with variables using `{{variableName}}` syntax
+- Define email templates with variables using `{{variableName` syntax}}
 - Automatic variable substitution at send time
 - Local development support with fallback to manual template compilation
 - Privacy-safe logging (logs recipient count, not addresses)
@@ -130,9 +130,9 @@ Sends an email using SES v2 Inline Templates. This method supports variable subs
 await this.mailService.sendInlineTemplateEmail({
   toAddrs: ["user@example.com"],
   template: {
-    subject: "Welcome, {{name}}!",
-    html: "<h1>Hello {{name}}</h1><p>Your verification code is: {{code}}</p>",
-    text: "Hello {{name}}, Your verification code is: {{code}}",
+    subject: "Welcome, name!",
+    html: "<h1>Hello name</h1><p>Your verification code is: code</p>",
+    text: "Hello name, Your verification code is: code",
   },
   data: {
     name: "John",
@@ -149,8 +149,8 @@ You can specify a Configuration Set for tracking opens and clicks:
 await this.mailService.sendInlineTemplateEmail({
   toAddrs: ["user@example.com"],
   template: {
-    subject: "Order Confirmation #{{orderId}}",
-    html: "<p>Thank you for your order, {{customerName}}!</p>",
+    subject: "Order Confirmation #orderId",
+    html: "<p>Thank you for your order, customerName!</p>",
   },
   data: {
     orderId: "ORD-12345",

@@ -472,7 +472,7 @@ export class ProductService {
 }
 ```
 
-## バッチ操作
+## バッチ操作 {#batch-operations}
 
 ### ユースケース：複数の商品をインポートする
 

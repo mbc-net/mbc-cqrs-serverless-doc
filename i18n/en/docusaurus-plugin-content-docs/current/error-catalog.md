@@ -23,7 +23,7 @@ Use this table to quickly identify errors and jump to solutions.
 
 | Code | Error Message | Severity | Quick Fix |
 |----------|-------------------|--------------|---------------|
-| MBC-TNT-001 | Tenant not found | High | Verify tenant exists with listTenants(). |
+| MBC-TNT-001 | Tenant not found | High | Verify tenant exists with listTenants() |
 | MBC-TNT-002 | Tenant code already existed | Low | Check existence before creating |
 
 ### Sequence & Task Errors

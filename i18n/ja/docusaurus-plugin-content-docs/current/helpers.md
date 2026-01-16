@@ -206,7 +206,7 @@ interface JwtClaims {
   origin_jti?: string;             // 元のJWT ID
   client_id?: string;              // OAuthクライアントID
   scope?: string;                  // OAuthスコープ
-  aud: string;                     // {{Token audience}}
+  aud: string;                     // Token audience
   event_id: string;                // Cognitoイベント ID
   token_use: string;               // トークンタイプ（access/id）
   auth_time: number;               // 認証タイムスタンプ

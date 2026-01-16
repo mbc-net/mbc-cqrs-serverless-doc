@@ -16,6 +16,12 @@ description: DynamoDBのパーティションキー（PK）とソートキー（
 - 効率的なクエリパターンを有効にする（テナント別リスト、日付フィルター）
 - 楽観的ロック用のバージョニングを処理する
 
+:::tip 関連ドキュメント
+- [エンティティ定義パターン](./entity-patterns.md) - これらのキーパターンを使用するエンティティの定義方法
+- [マルチテナントパターン](./multi-tenant-patterns.md) - テナント分離とクロステナント操作
+- [バックエンド開発ガイド](./backend-development.md) - 完全なモジュール実装パターン
+:::
+
 ## このパターンが解決する問題
 
 | 問題 | 解決策 |
@@ -24,6 +30,44 @@ description: DynamoDBのパーティションキー（PK）とソートキー（
 | すべてのキーを知らないと子アイテムをリストできない | 異なるSKプレフィックスで共有PKを使用する |
 | IDが作成時間でソートできない | 一意性と時間ソートの両方を持つULIDを使用する |
 | 同時更新でバージョン競合が発生する | SKのバージョンサフィックスで楽観的ロックを有効にする |
+
+## パターン選択ガイド {#pattern-selection}
+
+このデシジョンツリーを使用して、ユースケースに適したキーパターンを選択してください：
+
+### デシジョンマトリックス
+
+| 要件 | 推奨パターン | PK構造 | SK構造 |
+|-----------------|------------------------|------------------|------------------|
+| テナント分離を伴うシンプルなCRUD | [シンプルエンティティ](#pattern-1-simple-entity) | `ENTITY#tenantCode` | `ulid()` |
+| 複数の子を持つ親 | [階層構造](#pattern-2-hierarchical-entity) | `PARENT#tenantCode` | `TYPE#parentId[#childId]` |
+| 複数のエンティティバリアント | [複合SK](#pattern-3-user-with-multiple-auth-providers) | `ENTITY#tenantCode` | `variant#identifier` |
+| クロステナント共有データ | [共通テナント](#pattern-4-multi-tenant-association) | `ENTITY#common` | `tenantCode#identifier` |
+| カテゴリ別設定 | [マスターデータ](#pattern-5-master-data-with-categories) | `MASTER#tenantCode` | `TYPE#category#code` |
+| 時間ベースのクエリ | [時系列](#pattern-6-time-series-data) | `LOG#tenantCode#YYYY-MM` | `timestamp#eventId` |
+
+### デシジョンツリー
+
+```
+開始: どのような種類のデータを保存しますか？
+│
+├─ スタンドアロンエンティティ（商品、顧客）
+│  └─ シンプルエンティティパターンを使用
+│
+├─ 親子関係（注文 → 明細）
+│  └─ 子は独立したアクセスが必要ですか？
+│     ├─ はい → 参照付きの別PKを使用
+│     └─ いいえ → 階層パターン（共有PK）を使用
+│
+├─ 設定/マスターデータ
+│  └─ マスターデータパターンを使用
+│
+├─ 時間ベースのイベント（ログ、監査）
+│  └─ 時系列パターンを使用
+│
+└─ 複数のバリアントを持つユーザー/エンティティ
+   └─ 複合SKパターンを使用
+```
 
 ## キー構造の概要
 
@@ -37,6 +81,37 @@ ID = PK#SK (without version)
 
 `KEY_SEPARATOR`定数（`#`）はキーコンポーネントを区切るために使用されます。
 
+### フレームワーク定数 {#framework-constants}
+
+フレームワークは`@mbc-cqrs-serverless/core`で以下の定数を提供します：
+
+| 定数 | 値 | 説明 |
+|--------------|-----------|-----------------|
+| `KEY_SEPARATOR` | `#` | キーコンポーネントを区切る（PKセグメント、SKセグメント、ID） |
+| `VER_SEPARATOR` | `@` | ソートキーとバージョン番号を区切る |
+| `VERSION_FIRST` | `0` | 新しいエンティティの初期バージョン |
+| `VERSION_LATEST` | `-1` | 最新バージョンのクエリを示す |
+| `TENANT_COMMON` | `common` | 共有/クロステナントデータ用のテナントコード |
+| `DEFAULT_TENANT_CODE` | `single` | シングルテナントモードのデフォルトテナント |
+
+### 組み込みキージェネレーター {#built-in-generators}
+
+フレームワークは以下の組み込みキージェネレーターを提供します：
+
+```ts
+import { masterPk, seqPk, ttlSk } from "@mbc-cqrs-serverless/core";
+
+// マスターデータパーティションキー
+masterPk("tenant001");      // "MASTER#tenant001"
+masterPk();                 // "MASTER#single" (default tenant)
+
+// シーケンスパーティションキー
+seqPk("tenant001");         // "SEQ#tenant001"
+
+// テーブルレベルTTL設定用のTTLソートキー
+ttlSk("product");           // "TTL#product"
+```
+
 ## 基本的なキー生成
 
 コアパッケージからユーティリティをインポートします：
@@ -44,10 +119,15 @@ ID = PK#SK (without version)
 ```ts
 import {
   generateId,
+  getTenantCode,
   KEY_SEPARATOR,
+  VER_SEPARATOR,
   removeSortKeyVersion,
   addSortKeyVersion,
+  getSortKeyVersion,
   VERSION_FIRST,
+  VERSION_LATEST,
+  TENANT_COMMON,
 } from "@mbc-cqrs-serverless/core";
 import { ulid } from "ulid";
 ```
@@ -73,18 +153,40 @@ const id = generateId(pk, sk);
 ### バージョン管理
 
 ```ts
-// Add version to SK
+// SKにバージョンを追加
 const skWithVersion = addSortKeyVersion(sk, 3);
 // Result: "01HX7MBJK3V9WQBZ7XNDK5ZT2M@3"
 
-// Remove version from SK
+// SKからバージョンを削除
 const baseSk = removeSortKeyVersion(skWithVersion);
 // Result: "01HX7MBJK3V9WQBZ7XNDK5ZT2M"
+
+// SKからバージョン番号を取得
+const version = getSortKeyVersion(skWithVersion);
+// Result: 3
+
+// バージョンサフィックスなしのSKからバージョンを取得
+const latestVersion = getSortKeyVersion(sk);
+// Result: -1 (VERSION_LATEST)
+```
+
+### テナントコード抽出
+
+```ts
+import { getTenantCode } from "@mbc-cqrs-serverless/core";
+
+// PKからテナントコードを抽出
+const tenantCode = getTenantCode("PRODUCT#tenant001");
+// Result: "tenant001"
+
+// セパレーターが見つからない場合はundefinedを返す
+const noTenant = getTenantCode("PRODUCT");
+// Result: undefined
 ```
 
 ## 一般的なキーパターン
 
-### パターン1: シンプルなエンティティ
+### パターン1: シンプルなエンティティ {#pattern-1-simple-entity}
 
 #### ユースケース: 商品カタログ
 
@@ -109,7 +211,7 @@ const sk = ulid();
 const id = generateId(pk, sk);
 ```
 
-### パターン2: 階層エンティティ
+### パターン2: 階層エンティティ {#pattern-2-hierarchical-entity}
 
 #### ユースケース: 明細付き注文
 
@@ -150,7 +252,7 @@ const orderSk = `${ORDER_SK_PREFIX}${KEY_SEPARATOR}${orderId}`;
 const itemSk = `${ORDER_ITEM_SK_PREFIX}${KEY_SEPARATOR}${orderId}${KEY_SEPARATOR}${itemId}`;
 ```
 
-### パターン3: 複数認証プロバイダーを持つユーザー
+### パターン3: 複数認証プロバイダーを持つユーザー {#pattern-3-user-with-multiple-auth-providers}
 
 #### ユースケース: 統合ユーザーアイデンティティ
 
@@ -183,7 +285,7 @@ const pk = `USER${KEY_SEPARATOR}common`;
 const sk = generateUserSk("sso", cognitoSubId);
 ```
 
-### パターン4: マルチテナント関連付け
+### パターン4: マルチテナント関連付け {#pattern-4-multi-tenant-association}
 
 #### ユースケース: ユーザーが複数の組織に所属
 
@@ -207,7 +309,7 @@ const pk = `USER_TENANT${KEY_SEPARATOR}common`;
 const sk = `${tenantCode}${KEY_SEPARATOR}${userCode}`;
 ```
 
-### パターン5: カテゴリ付きマスターデータ
+### パターン5: カテゴリ付きマスターデータ {#pattern-5-master-data-with-categories}
 
 #### ユースケース: アプリケーション設定と構成
 
@@ -241,7 +343,7 @@ const pk = `MASTER${KEY_SEPARATOR}${tenantCode}`;
 const sk = generateMasterSk(DATA_PREFIX, "product_category", "electronics");
 ```
 
-### パターン6: 時系列データ
+### パターン6: 時系列データ {#pattern-6-time-series-data}
 
 #### ユースケース: アクティビティログと監査証跡
 
@@ -536,9 +638,49 @@ attributes: { status: "pending" }
 ### 3. 一貫性のないセパレーター
 
 ```ts
-// Avoid - mixed separators
+// 避ける - 混在したセパレーター
 SK: ORDER-01HX7M_item:001
 
-// Better - consistent separator
+// 良い - 一貫したセパレーター
 SK: ORDER#01HX7M#ITEM#001
 ```
+
+### 4. データ操作でのバージョンサフィックス
+
+```ts
+// 避ける - データテーブルSKにバージョンを含める
+await dataService.getItem({
+  pk: "PRODUCT#tenant001",
+  sk: "01HX7MBJK3V9WQBZ7XNDK5ZT2M@3"  // バージョンはここにあるべきではない
+});
+
+// 良い - 常にremoveSortKeyVersionを使用
+const cleanSk = removeSortKeyVersion(skWithVersion);
+await dataService.getItem({ pk, sk: cleanSk });
+```
+
+## APIリファレンス {#api-reference}
+
+### キー関数
+
+| 関数 | シグネチャ | 説明 |
+|--------------|---------------|-----------------|
+| `generateId` | `(pk: string, sk: string) => string` | PKとSKをIDに結合し、SKからバージョンを削除 |
+| `getTenantCode` | `(pk: string) => string \| undefined` | PKからテナントコードを抽出 |
+| `addSortKeyVersion` | `(sk: string, version: number) => string` | SKにバージョンサフィックスを追加 |
+| `removeSortKeyVersion` | `(sk: string) => string` | SKからバージョンサフィックスを削除 |
+| `getSortKeyVersion` | `(sk: string) => number` | SKからバージョン番号を取得（バージョンがない場合は-1を返す） |
+| `masterPk` | `(tenantCode?: string) => string` | MASTER#tenantCode PKを生成 |
+| `seqPk` | `(tenantCode?: string) => string` | SEQ#tenantCode PKを生成 |
+| `ttlSk` | `(tableName: string) => string` | TTL#tableName SKを生成 |
+
+### 定数
+
+| 定数 | 値 | 使用方法 |
+|--------------|-----------|-----------|
+| `KEY_SEPARATOR` | `#` | キーコンポーネントの結合に使用 |
+| `VER_SEPARATOR` | `@` | バージョンサフィックスに内部的に使用 |
+| `VERSION_FIRST` | `0` | 新しいエンティティ作成時に使用 |
+| `VERSION_LATEST` | `-1` | SKにバージョンがない場合に返される |
+| `TENANT_COMMON` | `common` | クロステナント共有データに使用 |
+| `DEFAULT_TENANT_CODE` | `single` | シングルテナントモードのデフォルト |

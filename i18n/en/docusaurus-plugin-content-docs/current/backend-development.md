@@ -226,25 +226,24 @@ export class ProductController {
 
 ### Basic Service Pattern
 
-Services contain business logic and orchestrate data operations:
+Services contain business logic and orchestrate data operations. Here is a minimal example:
 
 ```typescript
 // product.service.ts
 import { Injectable, Logger } from '@nestjs/common';
-import { basename } from 'path';
 import {
   CommandService,
   DataService,
   IInvoke,
-  getCommandSource,
   KEY_SEPARATOR,
   generateId,
+  getUserContext,
+  VERSION_FIRST,
 } from '@mbc-cqrs-serverless/core';
 import { ulid } from 'ulid';
 import { PrismaService } from '../prisma/prisma.service';
 import { ProductCommandDto } from './dto/product-command.dto';
-import { ProductDataEntity, ProductDataListEntity } from './entity';
-import { getCustomUserContext } from '../helpers/context';
+import { ProductDataEntity } from './entity';
 
 const PRODUCT_PK_PREFIX = 'PRODUCT';
 
@@ -259,160 +258,49 @@ export class ProductService {
   ) {}
 
   /**
-   * Create or update a product command
+   * Create a new product
    */
-  async publishCommand(
-    cmdDto: ProductCommandDto,
-    invokeContext: IInvoke,
+  async create(
+    createDto: { name: string; description?: string },
+    opts: { invokeContext: IInvoke },
   ): Promise<ProductDataEntity> {
-    const { tenantCode } = getCustomUserContext(invokeContext);
+    const { tenantCode } = getUserContext(opts.invokeContext);
 
-    // Generate keys if not provided
-    if (!cmdDto.pk) {
-      cmdDto.pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
-    }
-    if (!cmdDto.sk) {
-      cmdDto.sk = ulid();
-    }
-    if (!cmdDto.id) {
-      cmdDto.id = generateId(cmdDto.pk, cmdDto.sk);
-    }
+    const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
+    const sk = ulid();
 
-    // Set tenant context
-    cmdDto.tenantCode = tenantCode;
-
-    const opts = {
-      source: getCommandSource(
-        basename(__dirname),
-        this.constructor.name,
-        'publishCommand',
-      ),
-      invokeContext,
-    };
-
-    const result = await this.commandService.publishSync(cmdDto, opts);
-    return result as ProductDataEntity;
-  }
-
-  /**
-   * Bulk publish commands with batch processing
-   */
-  async publishBulkCommands(
-    cmdDtos: ProductCommandDto[],
-    invokeContext: IInvoke,
-  ): Promise<ProductDataEntity[]> {
-    const results: ProductDataEntity[] = [];
-    const batchSize = 30;
-
-    for (let i = 0; i < cmdDtos.length; i += batchSize) {
-      const batch = cmdDtos.slice(i, i + batchSize);
-      const batchResults = await Promise.all(
-        batch.map(dto => this.publishCommand(dto, invokeContext)),
-      );
-      results.push(...batchResults);
-    }
-
-    return results;
-  }
-
-  /**
-   * Get product data by key
-   */
-  async getData(pk: string, sk: string): Promise<ProductDataEntity> {
-    return this.dataService.getItem({ pk, sk }) as Promise<ProductDataEntity>;
-  }
-
-  /**
-   * List products by partition key
-   */
-  async listDataByPk(pk: string, searchDto: any): Promise<ProductDataListEntity> {
-    const result = await this.dataService.listItemsByPk(pk, searchDto);
-    return result as ProductDataListEntity;
-  }
-
-  /**
-   * Search products with pagination
-   */
-  async searchData(searchDto: any): Promise<ProductDataListEntity> {
-    const { page = 1, pageSize = 20, keyword, orderBys } = searchDto;
-
-    const where: any = {
-      isDeleted: false,
-    };
-
-    if (keyword) {
-      where.OR = [
-        { name: { contains: keyword } },
-        { code: { contains: keyword } },
-      ];
-    }
-
-    const [total, items] = await Promise.all([
-      this.prismaService.product.count({ where }),
-      this.prismaService.product.findMany({
-        where,
-        take: pageSize,
-        skip: pageSize * (page - 1),
-        orderBy: orderBys || [{ createdAt: 'desc' }],
-      }),
-    ]);
-
-    return new ProductDataListEntity({
-      total,
-      items: items as unknown as ProductDataEntity[],
+    const command = new ProductCommandDto({
+      pk,
+      sk,
+      id: generateId(pk, sk),
+      tenantCode,
+      code: sk,
+      type: 'PRODUCT',
+      name: createDto.name,
+      version: VERSION_FIRST,
+      attributes: { description: createDto.description },
     });
+
+    const item = await this.commandService.publishAsync(command, {
+      invokeContext: opts.invokeContext,
+    });
+
+    return new ProductDataEntity(item);
   }
 
   /**
-   * Resync all data from DynamoDB to RDS
-   * Pass pk parameter to specify which partition to resync
+   * Get product by key
    */
-  async resyncData(pk: string): Promise<void> {
-    this.logger.log('Starting data resync...');
-
-    let lastSk: string | undefined = undefined;
-    let processedCount = 0;
-
-    do {
-      const result = await this.dataService.listItemsByPk(pk, {
-        limit: 100,
-        startFromSk: lastSk,
-      });
-
-      for (const item of result.items) {
-        await this.prismaService.product.upsert({
-          where: { id: item.id },
-          update: this.mapToRdsRecord(item),
-          create: this.mapToRdsRecord(item),
-        });
-        processedCount++;
-      }
-
-      lastSk = result.lastSk;
-    } while (lastSk);
-
-    this.logger.log(`Resync completed. Processed ${processedCount} items.`);
-  }
-
-  private mapToRdsRecord(item: ProductDataEntity): any {
-    return {
-      id: item.id,
-      pk: item.pk,
-      sk: item.sk,
-      code: item.code,
-      name: item.name,
-      tenantCode: item.tenantCode,
-      version: item.version,
-      isDeleted: item.isDeleted ?? false,
-      attributes: item.attributes,
-      createdAt: item.createdAt,
-      createdBy: item.createdBy ?? '',
-      updatedAt: item.updatedAt,
-      updatedBy: item.updatedBy ?? '',
-    };
+  async findOne(pk: string, sk: string): Promise<ProductDataEntity> {
+    const item = await this.dataService.getItem({ pk, sk });
+    return new ProductDataEntity(item);
   }
 }
 ```
+
+:::tip For Complete Service Patterns
+For comprehensive CRUD operations, batch processing, optimistic locking, and more advanced patterns, see [Service Patterns](./service-patterns.md).
+:::
 
 ## Data Sync Handler
 
@@ -580,25 +468,7 @@ const opts = {
 
 ### 2. Batch Processing
 
-Process large datasets in batches to avoid timeouts:
-
-```typescript
-async processBatch<T, R>(
-  items: T[],
-  processor: (item: T) => Promise<R>,
-  batchSize = 30,
-): Promise<R[]> {
-  const results: R[] = [];
-
-  for (let i = 0; i < items.length; i += batchSize) {
-    const batch = items.slice(i, i + batchSize);
-    const batchResults = await Promise.all(batch.map(processor));
-    results.push(...batchResults);
-  }
-
-  return results;
-}
-```
+Process large datasets in batches to avoid timeouts. See [Service Patterns - Batch Operations](./service-patterns.md#batch-operations) for detailed examples.
 
 ### 3. Error Handling
 

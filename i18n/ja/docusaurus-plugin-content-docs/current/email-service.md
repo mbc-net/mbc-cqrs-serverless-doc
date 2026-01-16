@@ -119,7 +119,7 @@ SES v2インラインテンプレートを使用してメールを送信しま�
 
 #### 機能
 
-- `{{variableName}}`構文を使用して変数付きのメールテンプレートを定義
+- Define email templates with variables using `{{variableName` syntax}}
 - 送信時の自動変数置換
 - 手動テンプレートコンパイルへのフォールバックによるローカル開発サポート
 - プライバシー安全なログ記録（アドレスではなく受信者数を記録）
@@ -130,9 +130,9 @@ SES v2インラインテンプレートを使用してメールを送信しま�
 await this.mailService.sendInlineTemplateEmail({
   toAddrs: ["user@example.com"],
   template: {
-    subject: "Welcome, {{name}}!",
-    html: "<h1>Hello {{name}}</h1><p>Your verification code is: {{code}}</p>",
-    text: "Hello {{name}}, Your verification code is: {{code}}",
+    subject: "Welcome, name!",
+    html: "<h1>Hello name</h1><p>Your verification code is: code</p>",
+    text: "Hello name, Your verification code is: code",
   },
   data: {
     name: "John",
@@ -149,8 +149,8 @@ await this.mailService.sendInlineTemplateEmail({
 await this.mailService.sendInlineTemplateEmail({
   toAddrs: ["user@example.com"],
   template: {
-    subject: "Order Confirmation #{{orderId}}",
-    html: "<p>Thank you for your order, {{customerName}}!</p>",
+    subject: "Order Confirmation #orderId",
+    html: "<p>Thank you for your order, customerName!</p>",
   },
   data: {
     orderId: "ORD-12345",

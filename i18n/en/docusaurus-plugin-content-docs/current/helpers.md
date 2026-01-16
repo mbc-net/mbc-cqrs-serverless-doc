@@ -206,7 +206,7 @@ interface JwtClaims {
   origin_jti?: string;             // Original JWT ID
   client_id?: string;              // OAuth client ID
   scope?: string;                  // OAuth scopes
-  aud: string;                     // {{Token audience}}
+  aud: string;                     // Token audience
   event_id: string;                // Cognito event ID
   token_use: string;               // Token type (access/id)
   auth_time: number;               // Authentication timestamp

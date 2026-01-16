@@ -472,7 +472,7 @@ export class ProductService {
 }
 ```
 
-## Batch Operations
+## Batch Operations {#batch-operations}
 
 ### Use Case: Import Multiple Products
 

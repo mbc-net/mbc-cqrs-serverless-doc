@@ -2,6 +2,8 @@
   "Learn how to use CommandModule and CommandService for publishing and managing commands.": "Learn how to use CommandModule and CommandService for publishing and managing commands.",
   "CommandService": "CommandService",
   "Overview": "Overview",
+  "For Implementation Patterns": "For Implementation Patterns",
+  "For complete CRUD implementation patterns using CommandService, see [Service Patterns](./service-patterns.md).": "For complete CRUD implementation patterns using CommandService, see [Service Patterns](./service-patterns.md).",
   "The `CommandService` is a core component of the framework that facilitates the management and synchronization of commands. It primarily provides methods for publishing both full commands and partial commands, allowing for their processing either synchronously or asynchronously, thereby enhancing the overall efficiency and flexibility of command handling within the system.": "The `CommandService` is a core component of the framework that facilitates the management and synchronization of commands. It primarily provides methods for publishing both full commands and partial commands, allowing for their processing either synchronously or asynchronously, thereby enhancing the overall efficiency and flexibility of command handling within the system.",
   "CommandModule Configuration": "CommandModule Configuration",
   "CommandModule structure": "CommandModule structure",

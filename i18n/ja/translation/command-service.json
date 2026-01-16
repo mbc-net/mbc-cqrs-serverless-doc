@@ -2,6 +2,8 @@
   "Learn how to use CommandModule and CommandService for publishing and managing commands.": "CommandModuleとCommandServiceを使用してコマンドを発行・管理する方法を学びます。",
   "CommandService": "CommandService",
   "Overview": "概要",
+  "For Implementation Patterns": "実装パターンについて",
+  "For complete CRUD implementation patterns using CommandService, see [Service Patterns](./service-patterns.md).": "CommandServiceを使用した完全なCRUD実装パターンについては、[Service実装パターン](./service-patterns.md)を参照してください。",
   "The `CommandService` is a core component of the framework that facilitates the management and synchronization of commands. It primarily provides methods for publishing both full commands and partial commands, allowing for their processing either synchronously or asynchronously, thereby enhancing the overall efficiency and flexibility of command handling within the system.": "「CommandService」は、コマンドの管理と同期を容易にするフレームワークのコアコンポーネントです。主に、完全なコマンドと部分的なコマンドの両方を発行する方法を提供し、それらの処理を同期または非同期で行うことができるため、システム内のコマンド処理の全体的な効率と柔軟性が向上します。",
   "CommandModule Configuration": "CommandModule設定",
   "CommandModule structure": "CommandModule構造",

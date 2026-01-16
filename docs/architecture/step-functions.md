@@ -780,6 +780,344 @@ async approveRequest(requestId: string) {
 }
 ```
 
+## {{Callback Patterns with Task Tokens}}
+
+{{The framework implements callback patterns using AWS Step Functions task tokens for coordinating long-running workflows and waiting for external events.}}
+
+### {{How Callback Patterns Work}}
+
+{{When a Step Function state uses the `WAIT_FOR_TASK_TOKEN` integration pattern, the execution pauses until an external process sends a success or failure response with the task token.}}
+
+```mermaid
+sequenceDiagram
+    participant SFN as Step Functions
+    participant Lambda
+    participant DDB as DynamoDB
+    participant External as External Process
+
+    SFN->>Lambda: Invoke with taskToken
+    Lambda->>DDB: Store taskToken
+    Lambda-->>SFN: Return (execution pauses)
+    Note over SFN: Waiting for callback...
+    External->>Lambda: Trigger callback
+    Lambda->>DDB: Retrieve taskToken
+    Lambda->>SFN: SendTaskSuccess(taskToken)
+    Note over SFN: Execution resumes
+    SFN->>Lambda: Continue to next state
+```
+
+### {{StepFunctionService Implementation}}
+
+{{The `StepFunctionService` provides methods for starting executions and resuming paused workflows:}}
+
+```typescript
+import {
+  SFNClient,
+  SendTaskSuccessCommand,
+  StartExecutionCommand,
+} from '@aws-sdk/client-sfn';
+
+@Injectable()
+export class StepFunctionService {
+  private readonly client: SFNClient;
+
+  constructor(private readonly config: ConfigService) {
+    this.client = new SFNClient({
+      endpoint: config.get<string>('SFN_ENDPOINT'),
+      region: config.get<string>('SFN_REGION'),
+    });
+  }
+
+  // {{Start a new state machine execution}}
+  startExecution(arn: string, input: any, name?: string) {
+    return this.client.send(
+      new StartExecutionCommand({
+        stateMachineArn: arn,
+        name: name && name.length <= 80 ? name : undefined,
+        input: JSON.stringify(input),
+      }),
+    );
+  }
+
+  // {{Resume a paused execution using task token}}
+  async resumeExecution(taskToken: string, output: any = {}) {
+    // {{Wrap output in the expected format for Lambda integration}}
+    const wrappedOutput = {
+      Payload: [[output]],
+    };
+
+    return await this.client.send(
+      new SendTaskSuccessCommand({
+        taskToken: taskToken,
+        output: JSON.stringify(wrappedOutput),
+      }),
+    );
+  }
+}
+```
+
+### {{Version-Based Command Chaining}}
+
+{{The command state machine uses callback patterns to ensure commands are processed in version order:}}
+
+```typescript
+// {{Wait for previous command to complete using task token}}
+protected async waitConfirmToken(
+  event: DataSyncCommandSfnEvent,
+): Promise<StepFunctionStateInput> {
+  // {{Store task token in DynamoDB for later callback}}
+  await this.commandService.updateTaskToken(event.commandKey, event.taskToken);
+  return {
+    result: {
+      token: event.taskToken,
+    },
+  };
+}
+
+// {{When a command finishes, check if next version is waiting}}
+protected async checkNextToken(
+  event: DataSyncCommandSfnEvent,
+): Promise<StepFunctionStateInput> {
+  const nextCommand = await this.commandService.getNextCommand(
+    event.commandKey,
+  );
+
+  if (!nextCommand) {
+    return null; // {{No next command, chain ends}}
+  }
+
+  if (nextCommand.taskToken) {
+    // {{Resume the waiting command}}
+    try {
+      await this.sfnService.resumeExecution(nextCommand.taskToken, {
+        result: 'resumed_by_prev_version',
+        prevVersion: event.commandRecord.version,
+      });
+    } catch (e) {
+      this.logger.warn(
+        `Could not resume command v${nextCommand.version}: ${e.message}`,
+      );
+    }
+  }
+
+  return null;
+}
+```
+
+### {{CDK Configuration for Callback Pattern}}
+
+{{Configure the state to wait for task token in your CDK stack:}}
+
+```typescript
+// {{Create a state that waits for callback}}
+const waitPrevCommand = new tasks.LambdaInvoke(this, 'wait_prev_command', {
+  lambdaFunction,
+  payload: sfn.TaskInput.fromObject({
+    'input.$': '$',
+    'context.$': '$$',
+    'taskToken': sfn.JsonPath.taskToken, // {{Include task token in payload}}
+  }),
+  stateName: 'wait_prev_command',
+  outputPath: '$.Payload[0][0]',
+  // {{Use WAIT_FOR_TASK_TOKEN integration pattern}}
+  integrationPattern: sfn.IntegrationPattern.WAIT_FOR_TASK_TOKEN,
+});
+```
+
+## {{Long-Running Workflow Strategies}}
+
+{{The framework provides several strategies for handling long-running workflows:}}
+
+### {{ZIP Import Orchestration}}
+
+{{For complex multi-file imports, the framework uses a hierarchical orchestration pattern:}}
+
+```mermaid
+flowchart TB
+    subgraph ZipOrchestrator["ZIP Orchestrator State Machine"]
+        A[Start] --> B[Extract ZIP]
+        B --> C[Map: Process Each CSV]
+        C --> D1[CSV 1: trigger_single_csv_and_wait]
+        C --> D2[CSV 2: trigger_single_csv_and_wait]
+        C --> D3[CSV N: trigger_single_csv_and_wait]
+        D1 --> E[finalize_zip_job]
+        D2 --> E
+        D3 --> E
+        E --> F[End]
+    end
+
+    subgraph CsvStateMachine["CSV State Machine (per file)"]
+        G[csv_loader] --> H[Distributed Map]
+        H --> I[csv_rows_handler x N]
+        I --> J[finalize_parent_job]
+    end
+
+    D1 -.->|taskToken| G
+    J -.->|SendTaskSuccess| D1
+```
+
+### {{Task Token Propagation for Child Workflows}}
+
+{{When triggering child workflows, the parent stores the task token for later callback:}}
+
+```typescript
+// {{Trigger a child CSV job and wait for completion}}
+private async triggerSingleCsvJob(event: ZipImportSfnEvent) {
+  const s3Key = event.input?.s3Key || event.input;
+  const { taskToken } = event; // {{Task token from parent workflow}}
+  const { masterJobKey, parameters } = event.context.Execution.Input;
+
+  // {{Create CSV job with stored task token}}
+  await this.importService.createCsvJobWithTaskToken(
+    {
+      processingMode: ProcessingMode.STEP_FUNCTION,
+      bucket: parameters.bucket,
+      key: s3Key,
+      tenantCode: parameters.tenantCode,
+      tableName: tableName,
+    },
+    taskToken, // {{Store for callback when CSV processing completes}}
+    masterJobKey,
+  );
+}
+```
+
+### {{Workflow Timeout Configuration}}
+
+{{Set appropriate timeouts for long-running workflows:}}
+
+```typescript
+const taskStateMachine = new sfn.StateMachine(this, 'task-handler', {
+  stateMachineName: 'task-handler',
+  definition: sfnTaskMapState,
+  timeout: cdk.Duration.minutes(15), // {{Overall workflow timeout}}
+  tracingEnabled: true,
+  logs: {
+    destination: logGroup,
+    level: sfn.LogLevel.ALL,
+  },
+});
+```
+
+## {{Integration with Import/Export Patterns}}
+
+{{The framework integrates Step Functions with the import module for scalable data processing:}}
+
+### {{CSV Import Flow}}
+
+{{The CSV import uses a two-phase approach with Step Functions:}}
+
+```typescript
+// {{Phase 1: Create import job and trigger Step Function}}
+async handleCsvImport(
+  dto: CreateCsvImportDto,
+  options: ICommandOptions,
+): Promise<ImportEntity[] | ImportEntity> {
+  if (dto.processingMode === 'DIRECT') {
+    // {{Process directly in Lambda (for small files)}}
+    return this._processCsvDirectly(dto, options);
+  } else {
+    // {{Create job and let Step Function handle processing}}
+    return this.createCsvJob(dto, options);
+  }
+}
+
+// {{Phase 2: Step Function handler processes rows}}
+@EventHandler(CsvImportSfnEvent)
+export class CsvImportSfnEventHandler {
+  async handleStepState(event: CsvImportSfnEvent): Promise<any> {
+    if (event.context.State.Name === 'csv_loader') {
+      // {{Count total rows and initialize job}}
+      const totalRows = await this.countCsvRows(input);
+      await this.importService.updateImportJob(parentKey, {
+        set: { totalRows },
+      });
+      return this.loadCsv(input);
+    }
+
+    if (event.context.State.Name === 'finalize_parent_job') {
+      return this.finalizeParentJob(event);
+    }
+
+    // {{Process batch of rows}}
+    const items = event.input.Items;
+    for (const item of items) {
+      const transformedData = await strategy.transform(item);
+      await strategy.validate(transformedData);
+      await this.importService.createImport(createImportDto, options);
+    }
+  }
+}
+```
+
+### {{Progress Tracking with Atomic Counters}}
+
+{{The import service uses atomic DynamoDB counters for accurate progress tracking:}}
+
+```typescript
+// {{Atomically increment progress counters}}
+async incrementParentJobCounters(
+  parentKey: DetailKey,
+  childSucceeded: boolean,
+): Promise<ImportEntity> {
+  const countersToIncrement: { [key: string]: number } = {
+    processedRows: 1,
+  };
+  if (childSucceeded) {
+    countersToIncrement.succeededRows = 1;
+  } else {
+    countersToIncrement.failedRows = 1;
+  }
+
+  // {{Use atomic update expression}}
+  const command = new UpdateItemCommand({
+    TableName: this.tableName,
+    Key: marshall(parentKey),
+    UpdateExpression: 'SET #processedRows = if_not_exists(#processedRows, :start) + :inc',
+    ExpressionAttributeNames: { '#processedRows': 'processedRows' },
+    ExpressionAttributeValues: marshall({ ':start': 0, ':inc': 1 }),
+    ReturnValues: 'ALL_NEW',
+  });
+
+  const response = await this.dynamoDbService.client.send(command);
+  const updatedEntity = unmarshall(response.Attributes) as ImportEntity;
+
+  // {{Check if job is complete and update final status}}
+  if (updatedEntity.totalRows > 0 && updatedEntity.processedRows >= updatedEntity.totalRows) {
+    const finalStatus = updatedEntity.failedRows > 0
+      ? ImportStatusEnum.FAILED
+      : ImportStatusEnum.COMPLETED;
+    await this.updateStatus(parentKey, finalStatus);
+  }
+
+  return updatedEntity;
+}
+```
+
+### {{Processing Mode Selection}}
+
+{{Choose the appropriate processing mode based on data size:}}
+
+| {{Processing Mode}} | {{Use Case}} | {{Max Rows}} | {{Concurrency}} |
+|---------------------|--------------|--------------|-----------------|
+| `DIRECT` | {{Small files, immediate feedback}} | ~1,000 | {{Single Lambda}} |
+| `STEP_FUNCTION` | {{Large files, background processing}} | {{Millions}} | {{Up to 50}} |
+
+```typescript
+// {{Example: Selecting processing mode based on file size}}
+const processingMode = estimatedRows > 1000
+  ? ProcessingMode.STEP_FUNCTION
+  : ProcessingMode.DIRECT;
+
+await importService.handleCsvImport({
+  bucket: 'my-bucket',
+  key: 'data/large-file.csv',
+  tableName: 'products',
+  tenantCode: 'tenant1',
+  processingMode,
+}, { invokeContext });
+```
+
 ## {{Step Functions Context}}
 
 {{Every Step Function event includes context information about the execution:}}
@@ -809,27 +1147,113 @@ interface StepFunctionsContext {
 
 {{Implement robust error handling in your state machines:}}
 
-```typescript
-// In your handler
-async execute(event: WorkflowEvent): Promise<StepStateOutput> {
-  try {
-    const result = await this.processEvent(event);
-    return { status: 'success', result };
-  } catch (error) {
-    // Log error for debugging
-    this.logger.error('Workflow step failed', error);
+### {{Handler-Level Error Handling}}
 
-    // Return error information for state machine
-    return {
-      status: 'error',
-      error: error.message,
-      cause: error.stack,
-    };
+{{The framework provides built-in error handling patterns for Step Function handlers:}}
+
+```typescript
+// {{Command event handler with status tracking and error handling}}
+@Injectable()
+export class CommandEventHandler {
+  async execute(
+    event: DataSyncCommandSfnEvent,
+  ): Promise<StepFunctionStateInput | StepFunctionStateInput[]> {
+    // {{Update status to STARTED before processing}}
+    await this.commandService.updateStatus(
+      event.commandKey,
+      getCommandStatus(event.stepStateName, CommandStatus.STATUS_STARTED),
+      event.commandRecord.requestId,
+    );
+
+    try {
+      const ret = await this.handleStepState(event);
+      // {{Update status to FINISHED on success}}
+      await this.commandService.updateStatus(
+        event.commandKey,
+        getCommandStatus(event.stepStateName, CommandStatus.STATUS_FINISHED),
+        event.commandRecord.requestId,
+      );
+      return ret;
+    } catch (error) {
+      // {{Update status to FAILED and publish alarm on error}}
+      await this.commandService.updateStatus(
+        event.commandKey,
+        getCommandStatus(event.stepStateName, CommandStatus.STATUS_FAILED),
+        event.commandRecord.requestId,
+      );
+      await this.publishAlarm(event, (error as Error).stack);
+      throw error;
+    }
   }
 }
 ```
 
-{{State machine error handling configuration:}}
+### {{Task Error Handling with Continuation}}
+
+{{For task handlers, the framework supports continuing execution even after errors:}}
+
+```typescript
+// {{Task handler with error handling that allows workflow continuation}}
+@EventHandler(StepFunctionTaskEvent)
+export class TaskSfnEventHandler implements IEventHandler<StepFunctionTaskEvent> {
+  async execute(event: StepFunctionTaskEvent): Promise<any> {
+    const taskKey = event.taskKey;
+
+    try {
+      await this.taskService.updateSubTaskStatus(taskKey, TaskStatusEnum.PROCESSING);
+      const events = await this.eventFactory.transformStepFunctionTask(event);
+      const result = await Promise.all(
+        events.map((event) => this.eventBus.execute(event)),
+      );
+      // {{Update status to COMPLETED on success}}
+      await this.taskService.updateSubTaskStatus(taskKey, TaskStatusEnum.COMPLETED, {
+        result,
+      });
+    } catch (error) {
+      // {{Update status to FAILED and publish alarm, but don't throw}}
+      this.logger.error(error);
+      await Promise.all([
+        this.taskService.updateSubTaskStatus(taskKey, TaskStatusEnum.FAILED, {
+          error: (error as Error).stack,
+        }),
+        this.taskService.publishAlarm(event, (error as Error).stack),
+      ]);
+      // {{Note: Error is not re-thrown to allow Step Function to continue}}
+      // throw error // {{Uncomment to fail the entire workflow on error}}
+    }
+  }
+}
+```
+
+### {{Alarm Publishing}}
+
+{{The framework publishes alarms to SNS for monitoring and alerting:}}
+
+```typescript
+// {{Publish alarm notification to SNS topic}}
+async publishAlarm(
+  event: DataSyncCommandSfnEvent,
+  errorDetails: any,
+): Promise<void> {
+  const alarm: INotification = {
+    action: 'sfn-alarm',
+    id: `${event.commandKey.pk}#${event.commandKey.sk}`,
+    table: this.options.tableName,
+    pk: event.commandKey.pk,
+    sk: event.commandKey.sk,
+    tenantCode: event.commandKey.pk.substring(
+      event.commandKey.pk.indexOf('#') + 1,
+    ),
+    content: {
+      errorMessage: errorDetails,
+      sfnId: event.context.Execution.Id,
+    },
+  };
+  await this.snsService.publish<INotification>(alarm, this.alarmTopicArn);
+}
+```
+
+### {{State machine error handling configuration:}}
 
 ```json
 {

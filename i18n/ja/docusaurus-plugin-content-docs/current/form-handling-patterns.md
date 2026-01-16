@@ -373,7 +373,7 @@ import { Label } from './label';
 // FormはFormProviderを再エクスポートしたもの
 const Form = FormProvider;
 
-// {{Context type for FormField}}
+// Context type for FormField
 type FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
@@ -423,7 +423,7 @@ const useFormField = () => {
   };
 };
 
-// {{Context type for FormItem}}
+// Context type for FormItem
 type FormItemContextValue = {
   id: string;
 };
@@ -432,7 +432,7 @@ const FormItemContext = React.createContext<FormItemContextValue>(
   {} as FormItemContextValue
 );
 
-// {{FormItem provides unique ID via context}}
+// FormItem provides unique ID via context
 const FormItem = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -447,7 +447,7 @@ const FormItem = React.forwardRef<
 });
 FormItem.displayName = 'FormItem';
 
-// {{FormLabel shows error state via color}}
+// FormLabel shows error state via color
 const FormLabel = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
@@ -488,7 +488,7 @@ const FormControl = React.forwardRef<
 });
 FormControl.displayName = 'FormControl';
 
-// {{FormDescription provides help text}}
+// FormDescription provides help text
 const FormDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
