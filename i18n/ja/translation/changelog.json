@@ -142,5 +142,22 @@
   "This was a breaking change for TypeScript users who referenced the old parameter name": "これは古いパラメータ名を参照していたTypeScriptユーザーにとっては破壊的変更でした",
   "Add `mbc install-skills` command for easy skills installation": "簡単なskillsインストールのための`mbc install-skills`コマンドを追加",
   "Install skills to personal directory (`~/.claude/skills/`) or project directory (`.claude/skills/`)": "skillsを個人ディレクトリ（`~/.claude/skills/`）またはプロジェクトディレクトリ（`.claude/skills/`）にインストール",
-  "Options: `--project`, `--force`, `--list`": "オプション: `--project`, `--force`, `--list`"
+  "Options: `--project`, `--force`, `--list`": "オプション: `--project`, `--force`, `--list`",
+  "Add ZIP finalization hooks support to ImportModule": "ImportModuleにZIPファイナライゼーションフックのサポートを追加",
+  "New `IZipFinalizationHook` interface for custom post-import processing": "カスタムインポート後処理用の新しい`IZipFinalizationHook`インターフェース",
+  "Register hooks via `zipFinalizationHooks` option in `ImportModule.register()`": "`ImportModule.register()`の`zipFinalizationHooks`オプションでフックを登録",
+  "Hooks receive `ZipFinalizationContext` with results, status, and execution input": "フックは結果、ステータス、実行入力を含む`ZipFinalizationContext`を受け取る",
+  "Add tenantCode support to MasterDataCreateDto and update service logic": "MasterDataCreateDtoにtenantCodeサポートを追加し、サービスロジックを更新",
+  "Enhance master settings with tenantCode support in DTOs and service logic": "DTOとサービスロジックにtenantCodeサポートを追加してマスター設定を強化",
+  "Add configurable request body size limit to bootstrap and environment validation": "ブートストラップと環境検証に設定可能なリクエストボディサイズ制限を追加",
+  "Add bulk creation endpoints for master data and settings": "マスターデータと設定のバルク作成エンドポイントを追加",
+  "Bump validator from 13.11.0/13.12.0 to 13.15.20": "validatorを13.11.0/13.12.0から13.15.20に更新",
+  "Bump multer from 1.4.4-lts.1 to 2.0.2 and @nestjs/platform-express from 10.4.4 to 10.4.20": "multerを1.4.4-lts.1から2.0.2に、@nestjs/platform-expressを10.4.4から10.4.20に更新",
+  "Bump axios from 1.7.7 to 1.13.1 in CLI templates": "CLIテンプレートでaxiosを1.7.7から1.13.1に更新",
+  "Add bulk creation endpoints for master data and settings, enabling batch operations for improved efficiency": "マスターデータと設定のバルク作成エンドポイントを追加し、効率向上のためのバッチ操作を実現",
+  "Add survey template API for managing survey templates": "サーベイテンプレート管理用のサーベイテンプレートAPIを追加",
+  "Bump @nestjs/common from 10.3.0 to 10.4.16 in /examples/master": "/examples/masterで@nestjs/commonを10.3.0から10.4.16に更新",
+  "Bump multer from 1.4.4-lts.1 to 2.0.2 and @nestjs/platform-express from 10.4.15 to 10.4.20 in /examples/seq": "/examples/seqでmulterを1.4.4-lts.1から2.0.2に、@nestjs/platform-expressを10.4.15から10.4.20に更新",
+  "Bump @nestjs/cli from 10.4.5 to 11.0.10 and inquirer from 8.2.6 to 8.2.7": "@nestjs/cliを10.4.5から11.0.10に、inquirerを8.2.6から8.2.7に更新",
+  "Add zip mode support for import module, enabling compressed file imports": "インポートモジュールにzipモードサポートを追加し、圧縮ファイルのインポートを実現"
 }

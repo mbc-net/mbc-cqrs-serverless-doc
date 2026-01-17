@@ -41,6 +41,7 @@
     { "tag": "v1.0.24", "title": "Claude Code Skills" },
     { "tag": "v1.0.23", "title": "Inline Template Email" },
     { "tag": "v1.0.22", "title": "Code Analysis Tools" },
+    { "tag": "v1.0.21", "title": "ZIP Finalization Hooks" },
     { "tag": "v1.0.20", "title": "Import Status Fix" },
     { "tag": "v1.0.19", "title": "Error Handling Improvement" },
     { "tag": "v1.0.18", "title": "SendTaskFailure Support" },
@@ -55,6 +56,12 @@
     { "tag": "v1.0.9", "title": "Node.js 24 Compatibility" },
     { "tag": "v1.0.8", "title": "Security Fix jws" },
     { "tag": "v1.0.7", "title": "Security Fix validator" },
+    { "tag": "v1.0.6", "title": "MasterData tenantCode" },
+    { "tag": "v1.0.5", "title": "MasterSettings tenantCode" },
+    { "tag": "v1.0.4", "title": "Request Body Size Limit" },
+    { "tag": "v1.0.3", "title": "Bulk Creation Endpoints" },
+    { "tag": "v1.0.2", "title": "Survey Template API" },
+    { "tag": "v1.0.1", "title": "Import Zip Mode" },
     { "tag": "v1.0.0", "title": "First Stable Release" }
   ]
 }
