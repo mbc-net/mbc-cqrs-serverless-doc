@@ -27,6 +27,34 @@
     "Import from @mbc-cqrs-serverless/core for CommandService, DataService, and common utilities",
     "Handle ConditionalCheckFailedException for optimistic locking conflicts in concurrent updates",
     "Use DetailKey type { pk: string, sk: string } for entity lookups",
-    "Register modules with Module.register() pattern, e.g., SequenceModule.register({ enableController: true })"
+    "Register modules with Module.register() pattern, e.g., SequenceModule.register({ enableController: true })",
+    "Use generateId(pk, sk) for consistent entity ID generation across the framework",
+    "Always use getCommandSource() in publish options for debugging and audit trails",
+    "Use MasterSettingService for tenant-specific configuration and MasterDataService for master data queries",
+    "Implement IExportHandler interface with @ExportHandler decorator for custom CSV/Excel export functionality",
+    "Use SequenceService for auto-incrementing invoice numbers with tenant isolation support",
+    "Configure LocalStack for local development: npm run start:localstack, then npm run offline",
+    "Use @INVOKE_CONTEXT() decorator to inject IInvoke request context into controller methods",
+    "Implement IZipFinalizationHook for post-import processing and notification workflows"
+  ],
+  "previousVersions": [
+    { "tag": "v1.0.24", "title": "Claude Code Skills" },
+    { "tag": "v1.0.23", "title": "Inline Template Email" },
+    { "tag": "v1.0.22", "title": "Code Analysis Tools" },
+    { "tag": "v1.0.20", "title": "Import Status Fix" },
+    { "tag": "v1.0.19", "title": "Error Handling Improvement" },
+    { "tag": "v1.0.18", "title": "SendTaskFailure Support" },
+    { "tag": "v1.0.17", "title": "Search Fix and Security" },
+    { "tag": "v1.0.16", "title": "Import Improvements" },
+    { "tag": "v1.0.15", "title": "Error Messages and MCP" },
+    { "tag": "v1.0.14", "title": "MCP Server Package" },
+    { "tag": "v1.0.13", "title": "ZIP Import Enhancement" },
+    { "tag": "v1.0.12", "title": "Tenant Attributes" },
+    { "tag": "v1.0.11", "title": "Sequence Service Fix" },
+    { "tag": "v1.0.10", "title": "TenantService Fix" },
+    { "tag": "v1.0.9", "title": "Node.js 24 Compatibility" },
+    { "tag": "v1.0.8", "title": "Security Fix jws" },
+    { "tag": "v1.0.7", "title": "Security Fix validator" },
+    { "tag": "v1.0.0", "title": "First Stable Release" }
   ]
 }
