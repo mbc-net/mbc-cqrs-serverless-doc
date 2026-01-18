@@ -40,7 +40,7 @@
   "Use ctx for further operations": "Use ctx for further operations",
   "Extracts JWT claims from the authorizer in the invocation context.": "Extracts JWT claims from the authorizer in the invocation context.",
   "Returns JWT claims including sub, email, custom:tenant, etc.": "Returns JWT claims including sub, email, custom:tenant, etc.",
-  "UserContext Interface": "UserContext Interface",
+  "UserContext Class": "UserContext Class",
   "User's unique identifier (sub claim)": "User's unique identifier (sub claim)",
   "Current tenant code": "Current tenant code",
   "User's role in the current tenant": "User's role in the current tenant",

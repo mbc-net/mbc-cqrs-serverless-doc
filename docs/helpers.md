@@ -184,13 +184,15 @@ const claims = getAuthorizerClaims(invokeContext);
 // {{Returns JWT claims including sub, email, custom:tenant, etc.}}
 ```
 
-## {{UserContext Interface}}
+## {{UserContext Class}}
 
 ```ts
-interface UserContext {
+class UserContext {
   userId: string;      // {{User's unique identifier (sub claim)}}
   tenantCode: string;  // {{Current tenant code}}
   tenantRole: string;  // {{User's role in the current tenant}}
+
+  constructor(partial: Partial<UserContext>);
 }
 ```
 

@@ -236,6 +236,15 @@ async update(
 }
 ```
 
+:::info {{Version Parameter Behavior}}
+{{The `version` field in `publishPartialUpdateAsync()` controls how the existing item is retrieved:}}
+
+- **`version > 0`**: {{Uses the specified version number. The command will fail if the version doesn't match (optimistic locking).}}
+- **`version <= 0`** ({{e.g., `VERSION_LATEST = -1`}}): {{Automatically retrieves the latest version using `getLatestItem()`.}}
+
+{{Use `existing.version` (as shown above) for strict optimistic locking. Use `VERSION_LATEST` (-1) when you want to always update the latest version regardless of what version you have cached.}}
+:::
+
 ## {{Delete Operation (Soft Delete)}}
 
 ### {{Use Case: Remove Product from Catalog}}

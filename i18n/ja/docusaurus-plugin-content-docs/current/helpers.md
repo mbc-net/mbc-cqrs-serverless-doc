@@ -184,13 +184,15 @@ const claims = getAuthorizerClaims(invokeContext);
 // sub、email、custom:tenantなどを含むJWTクレームを返します
 ```
 
-## UserContextインターフェース
+## UserContextクラス
 
 ```ts
-interface UserContext {
+class UserContext {
   userId: string;      // ユーザーの一意識別子（subクレーム）
   tenantCode: string;  // 現在のテナントコード
   tenantRole: string;  // 現在のテナントでのユーザーの役割
+
+  constructor(partial: Partial<UserContext>);
 }
 ```
 

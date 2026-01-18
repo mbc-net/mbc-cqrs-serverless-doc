@@ -40,7 +40,7 @@
   "Use ctx for further operations": "ctxを後続の操作に使用",
   "Extracts JWT claims from the authorizer in the invocation context.": "呼び出しコンテキストのオーソライザーからJWTクレームを抽出します。",
   "Returns JWT claims including sub, email, custom:tenant, etc.": "sub、email、custom:tenantなどを含むJWTクレームを返します",
-  "UserContext Interface": "UserContextインターフェース",
+  "UserContext Class": "UserContextクラス",
   "User's unique identifier (sub claim)": "ユーザーの一意識別子（subクレーム）",
   "Current tenant code": "現在のテナントコード",
   "User's role in the current tenant": "現在のテナントでのユーザーの役割",
