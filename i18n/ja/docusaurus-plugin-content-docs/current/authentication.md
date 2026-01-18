@@ -43,6 +43,35 @@ export enum Role {
 
 :::
 
+### システム管理者バイパス {#system-admin-bypass}
+
+フレームワークには、組み込みのシステム管理者バイパス機構が含まれています。ユーザーが`system_admin`ロール（`ROLE_SYSTEM_ADMIN`定数として定義）を持っている場合、エンドポイントで要求される特定のロールに関係なく、すべてのロールベースの認可チェックを自動的にパスします。
+
+```ts
+// The RolesGuard automatically checks for system_admin role (RolesGuardはsystem_adminロールを自動的にチェック)
+protected async verifyRole(context: ExecutionContext): Promise<boolean> {
+  const requiredRoles = this.reflector.getAllAndOverride<string[]>(...)
+
+  // If no roles required, allow all users (ロールが要求されていない場合、すべてのユーザーを許可)
+  if (!requiredRoles || !requiredRoles.length) {
+    return true
+  }
+
+  const userRole = await this.getUserRole(context)
+
+  // System admin bypasses all role checks (システム管理者はすべてのロールチェックをバイパス)
+  if (userRole === ROLE_SYSTEM_ADMIN) {
+    return true
+  }
+
+  return requiredRoles.includes(userRole)
+}
+```
+
+:::warning システム管理者の使用について
+`system_admin`ロールは、すべてのAPIエンドポイントへの完全なアクセスが必要な信頼できる管理者にのみ、慎重に割り当てる必要があります。このロールはすべてのロールベースの制限をバイパスします。
+:::
+
 任意のルートハンドラーで先程のカスタムロールを使用する事が出来ます。
 
 ```ts

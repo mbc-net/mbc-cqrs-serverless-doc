@@ -6,12 +6,29 @@ description: {{Learn how to write e2e test}}
 
 {{Unlike unit testing, which focuses on individual modules and classes, end-to-end (e2e) testing covers the interaction of classes and modules at a more aggregate level -- closer to the kind of interaction that end-users will have with the production system. As an application grows, it becomes hard to manually test the end-to-end behavior of each API endpoint. Automated end-to-end tests help us ensure that the overall behavior of the system is correct and meets project requirements.}}
 
-{{e2e testing tests the API in a real environment, so there’s no need to mock any services. To summarize, there are five main steps for writing an e2e test:}}
+{{e2e testing tests the API in a real environment so you do not need to mock any services. The main steps for writing an e2e test are:}}
 
 - {{Create necessary data.}}
 - {{Make API calls using the Supertest library to simulate HTTP requests.}}
 - {{Check data is correct or not}}
 - {{Clean data}}
+
+:::warning {{Test Execution Order}}
+{{E2E tests that share database state should run sequentially to avoid race conditions. Use the `--runInBand` flag to disable parallel execution:}}
+
+```bash
+# {{Run E2E tests sequentially}}
+jest --runInBand test/e2e
+
+# {{Or in package.json}}
+"test:e2e": "jest --runInBand --config ./test/jest-e2e.json"
+```
+
+{{Without `--runInBand`, Jest runs tests in parallel across multiple workers, which can cause:}}
+- {{Data conflicts when tests modify the same records}}
+- {{Flaky tests due to timing issues}}
+- {{Cleanup operations affecting other running tests}}
+:::
 
 {{Here is a basic structure for e2e tests:}}
 

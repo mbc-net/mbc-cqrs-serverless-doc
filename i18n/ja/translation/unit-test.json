@@ -28,5 +28,18 @@
   "Using `describe` and `it`": "`describe` と `it` の使い方",
   "Use `describe` to group related tests and `it` for individual test cases:": "関連するテストをグループ化するには `describe` を使用し、個々のテストケースには `it` を使用します：",
   "test implementation": "test implementation (テスト実装)",
-  "Testing Error Cases": "エラーケースのテスト"
+  "Testing Error Cases": "エラーケースのテスト",
+  "Advanced AWS SDK Mock Patterns": "高度なAWS SDKモックパターン",
+  "Mocking Multiple AWS Services": "複数のAWSサービスのモック",
+  "When testing services that interact with multiple AWS services, set up mocks for each client:": "複数のAWSサービスと対話するサービスをテストする場合、各クライアントのモックを設定します：",
+  "Mocking Conditional Responses": "条件付きレスポンスのモック",
+  "Use `callsFake` to return different responses based on input:": "入力に基づいて異なるレスポンスを返すには `callsFake` を使用します：",
+  "Item not found": "Item not found (アイテムが見つかりません)",
+  "Mocking Errors": "エラーのモック",
+  "Test error handling by making mocks reject:": "モックをrejectさせてエラーハンドリングをテストします：",
+  "Using jest.mock() for Module-Level Mocking": "モジュールレベルモックのための jest.mock() の使用",
+  "For services that instantiate AWS clients internally, use `jest.mock()`:": "内部でAWSクライアントをインスタンス化するサービスには `jest.mock()` を使用します：",
+  "Mock at the top of your test file": "Mock at the top of your test file (テストファイルの先頭でモック)",
+  "Best Practice": "ベストプラクティス",
+  "Prefer `aws-sdk-client-mock` over `jest.mock()` when possible, as it provides better type safety and more detailed assertions like `toHaveReceivedCommandWith`.": "可能な場合は `jest.mock()` よりも `aws-sdk-client-mock` を優先してください。より良い型安全性と `toHaveReceivedCommandWith` のような詳細なアサーションを提供します。"
 }

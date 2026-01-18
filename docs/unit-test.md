@@ -199,3 +199,93 @@ it('should throw BadRequestException when item not found', async () => {
   ).rejects.toThrow(BadRequestException)
 })
 ```
+
+## {{Advanced AWS SDK Mock Patterns}} {#advanced-mock-patterns}
+
+### {{Mocking Multiple AWS Services}}
+
+{{When testing services that interact with multiple AWS services, set up mocks for each client:}}
+
+```ts
+import { mockClient } from 'aws-sdk-client-mock'
+import 'aws-sdk-client-mock-jest'
+import { DynamoDBClient, PutItemCommand } from '@aws-sdk/client-dynamodb'
+import { SNSClient, PublishCommand } from '@aws-sdk/client-sns'
+import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs'
+
+describe('MultiServiceTest', () => {
+  const dynamoMock = mockClient(DynamoDBClient)
+  const snsMock = mockClient(SNSClient)
+  const sqsMock = mockClient(SQSClient)
+
+  beforeEach(() => {
+    dynamoMock.reset()
+    snsMock.reset()
+    sqsMock.reset()
+  })
+
+  it('should publish to SNS after saving to DynamoDB', async () => {
+    dynamoMock.on(PutItemCommand).resolves({})
+    snsMock.on(PublishCommand).resolves({ MessageId: 'msg-123' })
+
+    await myService.saveAndNotify(data)
+
+    expect(dynamoMock).toHaveReceivedCommandTimes(PutItemCommand, 1)
+    expect(snsMock).toHaveReceivedCommandTimes(PublishCommand, 1)
+  })
+})
+```
+
+### {{Mocking Conditional Responses}}
+
+{{Use `callsFake` to return different responses based on input:}}
+
+```ts
+dynamoMock.on(GetItemCommand).callsFake((input) => {
+  if (input.Key.pk.S === 'existing-key') {
+    return {
+      Item: marshall({
+        pk: 'existing-key',
+        sk: 'item',
+        name: 'Test Item',
+      }),
+    }
+  }
+  return { Item: undefined } // {{Item not found}}
+})
+```
+
+### {{Mocking Errors}}
+
+{{Test error handling by making mocks reject:}}
+
+```ts
+it('should handle DynamoDB errors gracefully', async () => {
+  dynamoMock.on(PutItemCommand).rejects(
+    new Error('ConditionalCheckFailedException')
+  )
+
+  await expect(myService.saveItem(data)).rejects.toThrow('ConditionalCheckFailedException')
+})
+```
+
+### {{Using jest.mock() for Module-Level Mocking}}
+
+{{For services that instantiate AWS clients internally, use `jest.mock()`:}}
+
+```ts
+// {{Mock at the top of your test file}}
+jest.mock('@aws-sdk/client-dynamodb', () => {
+  const original = jest.requireActual('@aws-sdk/client-dynamodb')
+  return {
+    ...original,
+    DynamoDBClient: jest.fn().mockImplementation(() => ({
+      send: jest.fn(),
+    })),
+  }
+})
+```
+
+:::tip {{Best Practice}}
+{{Prefer `aws-sdk-client-mock` over `jest.mock()` when possible, as it provides better type safety and more detailed assertions like `toHaveReceivedCommandWith`.}}
+:::

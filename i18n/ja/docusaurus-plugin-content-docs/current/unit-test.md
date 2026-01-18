@@ -199,3 +199,93 @@ it('should throw BadRequestException when item not found', async () => {
   ).rejects.toThrow(BadRequestException)
 })
 ```
+
+## 高度なAWS SDKモックパターン {#advanced-mock-patterns}
+
+### 複数のAWSサービスのモック
+
+複数のAWSサービスと対話するサービスをテストする場合、各クライアントのモックを設定します：
+
+```ts
+import { mockClient } from 'aws-sdk-client-mock'
+import 'aws-sdk-client-mock-jest'
+import { DynamoDBClient, PutItemCommand } from '@aws-sdk/client-dynamodb'
+import { SNSClient, PublishCommand } from '@aws-sdk/client-sns'
+import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs'
+
+describe('MultiServiceTest', () => {
+  const dynamoMock = mockClient(DynamoDBClient)
+  const snsMock = mockClient(SNSClient)
+  const sqsMock = mockClient(SQSClient)
+
+  beforeEach(() => {
+    dynamoMock.reset()
+    snsMock.reset()
+    sqsMock.reset()
+  })
+
+  it('should publish to SNS after saving to DynamoDB', async () => {
+    dynamoMock.on(PutItemCommand).resolves({})
+    snsMock.on(PublishCommand).resolves({ MessageId: 'msg-123' })
+
+    await myService.saveAndNotify(data)
+
+    expect(dynamoMock).toHaveReceivedCommandTimes(PutItemCommand, 1)
+    expect(snsMock).toHaveReceivedCommandTimes(PublishCommand, 1)
+  })
+})
+```
+
+### 条件付きレスポンスのモック
+
+入力に基づいて異なるレスポンスを返すには `callsFake` を使用します：
+
+```ts
+dynamoMock.on(GetItemCommand).callsFake((input) => {
+  if (input.Key.pk.S === 'existing-key') {
+    return {
+      Item: marshall({
+        pk: 'existing-key',
+        sk: 'item',
+        name: 'Test Item',
+      }),
+    }
+  }
+  return { Item: undefined } // Item not found (アイテムが見つかりません)
+})
+```
+
+### エラーのモック
+
+モックをrejectさせてエラーハンドリングをテストします：
+
+```ts
+it('should handle DynamoDB errors gracefully', async () => {
+  dynamoMock.on(PutItemCommand).rejects(
+    new Error('ConditionalCheckFailedException')
+  )
+
+  await expect(myService.saveItem(data)).rejects.toThrow('ConditionalCheckFailedException')
+})
+```
+
+### モジュールレベルモックのための jest.mock() の使用
+
+内部でAWSクライアントをインスタンス化するサービスには `jest.mock()` を使用します：
+
+```ts
+// Mock at the top of your test file (テストファイルの先頭でモック)
+jest.mock('@aws-sdk/client-dynamodb', () => {
+  const original = jest.requireActual('@aws-sdk/client-dynamodb')
+  return {
+    ...original,
+    DynamoDBClient: jest.fn().mockImplementation(() => ({
+      send: jest.fn(),
+    })),
+  }
+})
+```
+
+:::tip ベストプラクティス
+可能な場合は `jest.mock()` よりも `aws-sdk-client-mock` を優先してください。より良い型安全性と `toHaveReceivedCommandWith` のような詳細なアサーションを提供します。
+:::

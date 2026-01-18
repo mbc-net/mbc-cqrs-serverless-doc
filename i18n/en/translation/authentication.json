@@ -19,5 +19,12 @@
   "The `getUserContext` function is provided by `@mbc-cqrs-serverless/core`. It automatically extracts `tenantCode` from `custom:tenant` claim and determines `tenantRole` by matching the tenant in the `custom:roles` JSON array.": "The `getUserContext` function is provided by `@mbc-cqrs-serverless/core`. It automatically extracts `tenantCode` from `custom:tenant` claim and determines `tenantRole` by matching the tenant in the `custom:roles` JSON array.",
   "If you need custom logic, you can implement your own helper function:": "If you need custom logic, you can implement your own helper function:",
   "Parse roles from JSON array and find matching tenant role": "Parse roles from JSON array and find matching tenant role",
-  "Finally, we create a CustomRoleGuard class which will compare the roles assigned to the current user to the actual roles required by the current route being processed.": "Finally, we create a CustomRoleGuard class which will compare the roles assigned to the current user to the actual roles required by the current route being processed."
+  "Finally, we create a CustomRoleGuard class which will compare the roles assigned to the current user to the actual roles required by the current route being processed.": "Finally, we create a CustomRoleGuard class which will compare the roles assigned to the current user to the actual roles required by the current route being processed.",
+  "System Admin Bypass": "System Admin Bypass",
+  "The framework includes a built-in system admin bypass mechanism. When a user has the `system_admin` role (defined as `ROLE_SYSTEM_ADMIN` constant), they automatically pass all role-based authorization checks, regardless of the specific roles required by the endpoint.": "The framework includes a built-in system admin bypass mechanism. When a user has the `system_admin` role (defined as `ROLE_SYSTEM_ADMIN` constant), they automatically pass all role-based authorization checks, regardless of the specific roles required by the endpoint.",
+  "The RolesGuard automatically checks for system_admin role": "The RolesGuard automatically checks for system_admin role",
+  "If no roles required, allow all users": "If no roles required, allow all users",
+  "System admin bypasses all role checks": "System admin bypasses all role checks",
+  "System Admin Usage": "System Admin Usage",
+  "The `system_admin` role should be assigned sparingly and only to trusted administrators who need full access to all API endpoints. This role bypasses all role-based restrictions.": "The `system_admin` role should be assigned sparingly and only to trusted administrators who need full access to all API endpoints. This role bypasses all role-based restrictions."
 }

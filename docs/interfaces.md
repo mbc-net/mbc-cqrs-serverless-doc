@@ -121,9 +121,101 @@ export interface DetailKey {
 
 ```ts
 export interface IInvoke {
-  event?: IInvokeEvent      // Request event (headers, requestContext, etc.)
-  context?: IInvokeContext  // Lambda context (requestId, functionName, etc.)
+  event?: IInvokeEvent      // {{Request event (headers, requestContext, etc.)}}
+  context?: IInvokeContext  // {{Lambda context (requestId, functionName, etc.)}}
 }
+```
+
+#### IInvokeEvent
+
+{{HTTP request event structure from API Gateway or Express.}}
+
+```ts
+export interface IInvokeEvent {
+  version?: string
+  routeKey?: string                    // {{e.g., "POST /api/resource"}}
+  rawPath?: string
+  rawQueryString?: string
+  headers?: Record<string, string>
+  requestContext?: {
+    accountId?: string
+    apiId?: string
+    domainName?: string
+    domainPrefix?: string
+    http?: {
+      method?: string
+      path?: string
+      protocol?: string
+      sourceIp?: string                // {{Client IP address}}
+      userAgent?: string
+    }
+    requestId?: string
+    stage?: string
+    time?: string
+    timeEpoch?: number
+    authorizer?: {
+      jwt?: {
+        claims?: JwtClaims             // {{Decoded JWT claims}}
+        scopes?: string[]
+      }
+    }
+  }
+  isBase64Encoded?: boolean
+}
+```
+
+#### IInvokeContext
+
+{{Lambda execution context information.}}
+
+```ts
+export interface IInvokeContext {
+  functionName?: string               // {{Lambda function name}}
+  functionVersion?: string            // {{Lambda function version}}
+  invokedFunctionArn?: string         // {{Lambda ARN}}
+  memoryLimitInMB?: string           // {{Memory limit}}
+  awsRequestId?: string              // {{AWS request ID for tracing}}
+  logGroupName?: string              // {{CloudWatch log group}}
+  logStreamName?: string             // {{CloudWatch log stream}}
+  identity?: {
+    cognitoIdentityId?: string
+    cognitoIdentityPoolId?: string
+  }
+}
+```
+
+#### JwtClaims
+
+{{JWT token claims structure from Cognito.}}
+
+```ts
+export interface JwtClaims {
+  sub: string                        // {{Cognito user ID (UUID)}}
+  iss: string                        // {{Token issuer URL}}
+  username?: string
+  'cognito:groups'?: string[]        // {{Cognito groups the user belongs to}}
+  'cognito:username': string         // {{Cognito username}}
+  aud: string                        // {{Audience (client ID)}}
+  event_id: string
+  token_use: string                  // {{Token type (id or access)}}
+  auth_time: number                  // {{Authentication timestamp}}
+  name: string                       // {{User's display name}}
+  'custom:tenant'?: string           // {{Custom claim for tenant code}}
+  'custom:roles'?: string            // {{Custom claim for roles JSON array}}
+  exp: number                        // {{Token expiration timestamp}}
+  email: string
+  email_verified?: boolean
+  iat: number                        // {{Token issued at timestamp}}
+  jti: string                        // {{JWT ID}}
+}
+```
+
+**{{Custom Claims Example}}**:
+```typescript
+// {{The custom:roles claim contains a JSON array of role assignments}}
+// [{"tenant":"","role":"user"},{"tenant":"9999","role":"admin"}]
+// - {{Empty tenant ("") means the role applies globally}}
+// - {{Specific tenant means the role applies only to that tenant}}
 ```
 
 #### UserContext

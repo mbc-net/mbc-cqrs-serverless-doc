@@ -28,5 +28,18 @@
   "Using `describe` and `it`": "Using `describe` and `it`",
   "Use `describe` to group related tests and `it` for individual test cases:": "Use `describe` to group related tests and `it` for individual test cases:",
   "test implementation": "test implementation",
-  "Testing Error Cases": "Testing Error Cases"
+  "Testing Error Cases": "Testing Error Cases",
+  "Advanced AWS SDK Mock Patterns": "Advanced AWS SDK Mock Patterns",
+  "Mocking Multiple AWS Services": "Mocking Multiple AWS Services",
+  "When testing services that interact with multiple AWS services, set up mocks for each client:": "When testing services that interact with multiple AWS services, set up mocks for each client:",
+  "Mocking Conditional Responses": "Mocking Conditional Responses",
+  "Use `callsFake` to return different responses based on input:": "Use `callsFake` to return different responses based on input:",
+  "Item not found": "Item not found",
+  "Mocking Errors": "Mocking Errors",
+  "Test error handling by making mocks reject:": "Test error handling by making mocks reject:",
+  "Using jest.mock() for Module-Level Mocking": "Using jest.mock() for Module-Level Mocking",
+  "For services that instantiate AWS clients internally, use `jest.mock()`:": "For services that instantiate AWS clients internally, use `jest.mock()`:",
+  "Mock at the top of your test file": "Mock at the top of your test file",
+  "Best Practice": "Best Practice",
+  "Prefer `aws-sdk-client-mock` over `jest.mock()` when possible, as it provides better type safety and more detailed assertions like `toHaveReceivedCommandWith`.": "Prefer `aws-sdk-client-mock` over `jest.mock()` when possible, as it provides better type safety and more detailed assertions like `toHaveReceivedCommandWith`."
 }

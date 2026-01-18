@@ -2,7 +2,7 @@
   "Learn how to write e2e test": "e2e(エンドツーエンド)の方法を学びましょう。",
   "End-to-end test": "e2e(エンドツーエンド)テスト",
   "Unlike unit testing, which focuses on individual modules and classes, end-to-end (e2e) testing covers the interaction of classes and modules at a more aggregate level -- closer to the kind of interaction that end-users will have with the production system. As an application grows, it becomes hard to manually test the end-to-end behavior of each API endpoint. Automated end-to-end tests help us ensure that the overall behavior of the system is correct and meets project requirements.": "個々のモジュールやクラスに焦点を当てた単体テストとは異なり、エンドツーエンド (e2e) テストは、クラスとモジュールの相互作用をより集合的なレベルでカバーします。これは、エンドユーザーが本番環境と行う相互作用に近いものです。システム。アプリケーションが成長するにつれて、各 API エンドポイントのエンドツーエンドの動作を手動でテストすることが困難になります。自動化されたエンドツーエンド テストは、システムの全体的な動作が正しく、プロジェクトの要件を満たしていることを確認するのに役立ちます。",
-  "e2e testing tests the API in a real environment, so there’s no need to mock any services. To summarize, there are five main steps for writing an e2e test:": "",
+  "e2e testing tests the API in a real environment so you do not need to mock any services. The main steps for writing an e2e test are:": "e2eテストは実際の環境でAPIをテストするため、サービスをモックする必要はありません。e2eテストを書く主なステップは以下の通りです：",
   "Create necessary data.": "必要なデータを作成します。",
   "Make API calls using the Supertest library to simulate HTTP requests.": "Supertest ライブラリを使用して API 呼び出しを行い、HTTP リクエストをシミュレートします。",
   "Check data is correct or not": "データが正しいかどうかを確認してください",
@@ -46,5 +46,13 @@
   "Volume management": "ボリューム管理",
   "Health check mechanisms": "ヘルスチェックメカニズム",
   "Workflow Example": "ワークフローの例",
-  "Here's a complete example of a GitHub Actions workflow for E2E testing:": "E2EテストのためのGitHub Actionsワークフローの完全な例を以下に示します："
+  "Here's a complete example of a GitHub Actions workflow for E2E testing:": "E2EテストのためのGitHub Actionsワークフローの完全な例を以下に示します：",
+  "Test Execution Order": "テストの実行順序",
+  "E2E tests that share database state should run sequentially to avoid race conditions. Use the `--runInBand` flag to disable parallel execution:": "データベース状態を共有するE2Eテストは、レース条件を避けるために順次実行する必要があります。並列実行を無効にするには `--runInBand` フラグを使用します：",
+  "Run E2E tests sequentially": "Run E2E tests sequentially (E2Eテストを順次実行)",
+  "Or in package.json": "Or in package.json (package.jsonの場合)",
+  "Without `--runInBand`, Jest runs tests in parallel across multiple workers, which can cause:": "`--runInBand` がない場合、Jestは複数のワーカー間でテストを並列実行し、以下の問題が発生する可能性があります：",
+  "Data conflicts when tests modify the same records": "テストが同じレコードを変更する際のデータ競合",
+  "Flaky tests due to timing issues": "タイミングの問題による不安定なテスト",
+  "Cleanup operations affecting other running tests": "クリーンアップ操作が実行中の他のテストに影響する"
 }

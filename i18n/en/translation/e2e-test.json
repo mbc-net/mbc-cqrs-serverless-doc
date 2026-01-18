@@ -2,7 +2,7 @@
   "Learn how to write e2e test": "Learn how to write e2e test",
   "End-to-end test": "End-to-end test",
   "Unlike unit testing, which focuses on individual modules and classes, end-to-end (e2e) testing covers the interaction of classes and modules at a more aggregate level -- closer to the kind of interaction that end-users will have with the production system. As an application grows, it becomes hard to manually test the end-to-end behavior of each API endpoint. Automated end-to-end tests help us ensure that the overall behavior of the system is correct and meets project requirements.": "Unlike unit testing, which focuses on individual modules and classes, end-to-end (e2e) testing covers the interaction of classes and modules at a more aggregate level -- closer to the kind of interaction that end-users will have with the production system. As an application grows, it becomes hard to manually test the end-to-end behavior of each API endpoint. Automated end-to-end tests help us ensure that the overall behavior of the system is correct and meets project requirements.",
-  "e2e testing tests the API in a real environment, so there’s no need to mock any services. To summarize, there are five main steps for writing an e2e test:": "e2e testing tests the API in a real environment, so there’s no need to mock any services. To summarize, there are five main steps for writing an e2e test:",
+  "e2e testing tests the API in a real environment so you do not need to mock any services. The main steps for writing an e2e test are:": "e2e testing tests the API in a real environment so you do not need to mock any services. The main steps for writing an e2e test are:",
   "Create necessary data.": "Create necessary data.",
   "Make API calls using the Supertest library to simulate HTTP requests.": "Make API calls using the Supertest library to simulate HTTP requests.",
   "Check data is correct or not": "Check data is correct or not",
@@ -46,5 +46,13 @@
   "Volume management": "Volume management",
   "Health check mechanisms": "Health check mechanisms",
   "Workflow Example": "Workflow Example",
-  "Here's a complete example of a GitHub Actions workflow for E2E testing:": "Here's a complete example of a GitHub Actions workflow for E2E testing:"
+  "Here's a complete example of a GitHub Actions workflow for E2E testing:": "Here's a complete example of a GitHub Actions workflow for E2E testing:",
+  "Test Execution Order": "Test Execution Order",
+  "E2E tests that share database state should run sequentially to avoid race conditions. Use the `--runInBand` flag to disable parallel execution:": "E2E tests that share database state should run sequentially to avoid race conditions. Use the `--runInBand` flag to disable parallel execution:",
+  "Run E2E tests sequentially": "Run E2E tests sequentially",
+  "Or in package.json": "Or in package.json",
+  "Without `--runInBand`, Jest runs tests in parallel across multiple workers, which can cause:": "Without `--runInBand`, Jest runs tests in parallel across multiple workers, which can cause:",
+  "Data conflicts when tests modify the same records": "Data conflicts when tests modify the same records",
+  "Flaky tests due to timing issues": "Flaky tests due to timing issues",
+  "Cleanup operations affecting other running tests": "Cleanup operations affecting other running tests"
 }

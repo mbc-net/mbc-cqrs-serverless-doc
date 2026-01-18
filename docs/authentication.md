@@ -43,6 +43,35 @@ export enum Role {
 
 :::
 
+### {{System Admin Bypass}} {#system-admin-bypass}
+
+{{The framework includes a built-in system admin bypass mechanism. When a user has the `system_admin` role (defined as `ROLE_SYSTEM_ADMIN` constant), they automatically pass all role-based authorization checks, regardless of the specific roles required by the endpoint.}}
+
+```ts
+// {{The RolesGuard automatically checks for system_admin role}}
+protected async verifyRole(context: ExecutionContext): Promise<boolean> {
+  const requiredRoles = this.reflector.getAllAndOverride<string[]>(...)
+
+  // {{If no roles required, allow all users}}
+  if (!requiredRoles || !requiredRoles.length) {
+    return true
+  }
+
+  const userRole = await this.getUserRole(context)
+
+  // {{System admin bypasses all role checks}}
+  if (userRole === ROLE_SYSTEM_ADMIN) {
+    return true
+  }
+
+  return requiredRoles.includes(userRole)
+}
+```
+
+:::warning {{System Admin Usage}}
+{{The `system_admin` role should be assigned sparingly and only to trusted administrators who need full access to all API endpoints. This role bypasses all role-based restrictions.}}
+:::
+
 {{Now that we have a custom Roles enum, we can use it to any route handler.}}
 
 ```ts

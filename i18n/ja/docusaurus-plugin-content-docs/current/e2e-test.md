@@ -6,12 +6,29 @@ description: e2e(エンドツーエンド)の方法を学びましょう。
 
 個々のモジュールやクラスに焦点を当てた単体テストとは異なり、エンドツーエンド (e2e) テストは、クラスとモジュールの相互作用をより集合的なレベルでカバーします。これは、エンドユーザーが本番環境と行う相互作用に近いものです。システム。アプリケーションが成長するにつれて、各 API エンドポイントのエンドツーエンドの動作を手動でテストすることが困難になります。自動化されたエンドツーエンド テストは、システムの全体的な動作が正しく、プロジェクトの要件を満たしていることを確認するのに役立ちます。
 
-e2e testing tests the API in a real environment, so there’s no need to mock any services. To summarize, there are five main steps for writing an e2e test:
+e2eテストは実際の環境でAPIをテストするため、サービスをモックする必要はありません。e2eテストを書く主なステップは以下の通りです：
 
 - 必要なデータを作成します。
 - Supertest ライブラリを使用して API 呼び出しを行い、HTTP リクエストをシミュレートします。
 - データが正しいかどうかを確認してください
 - データをクリアする
+
+:::warning テストの実行順序
+データベース状態を共有するE2Eテストは、レース条件を避けるために順次実行する必要があります。並列実行を無効にするには `--runInBand` フラグを使用します：
+
+```bash
+# Run E2E tests sequentially (E2Eテストを順次実行)
+jest --runInBand test/e2e
+
+# Or in package.json (package.jsonの場合)
+"test:e2e": "jest --runInBand --config ./test/jest-e2e.json"
+```
+
+`--runInBand` がない場合、Jestは複数のワーカー間でテストを並列実行し、以下の問題が発生する可能性があります：
+- テストが同じレコードを変更する際のデータ競合
+- タイミングの問題による不安定なテスト
+- クリーンアップ操作が実行中の他のテストに影響する
+:::
 
 e2e テストの基本構造を以下に示します：
 

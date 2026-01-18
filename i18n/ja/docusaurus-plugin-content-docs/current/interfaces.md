@@ -121,9 +121,101 @@ Lambda/Expressのイベントとコンテキストを含む呼び出しコンテ
 
 ```ts
 export interface IInvoke {
-  event?: IInvokeEvent      // Request event (headers, requestContext, etc.)
-  context?: IInvokeContext  // Lambda context (requestId, functionName, etc.)
+  event?: IInvokeEvent      // Request event (headers, requestContext等のリクエストイベント)
+  context?: IInvokeContext  // Lambda context (requestId, functionName等のLambdaコンテキスト)
 }
+```
+
+#### IInvokeEvent
+
+API GatewayまたはExpressからのHTTPリクエストイベント構造。
+
+```ts
+export interface IInvokeEvent {
+  version?: string
+  routeKey?: string                    // e.g., "POST /api/resource" (例: "POST /api/resource")
+  rawPath?: string
+  rawQueryString?: string
+  headers?: Record<string, string>
+  requestContext?: {
+    accountId?: string
+    apiId?: string
+    domainName?: string
+    domainPrefix?: string
+    http?: {
+      method?: string
+      path?: string
+      protocol?: string
+      sourceIp?: string                // Client IP address (クライアントIPアドレス)
+      userAgent?: string
+    }
+    requestId?: string
+    stage?: string
+    time?: string
+    timeEpoch?: number
+    authorizer?: {
+      jwt?: {
+        claims?: JwtClaims             // Decoded JWT claims (デコードされたJWTクレーム)
+        scopes?: string[]
+      }
+    }
+  }
+  isBase64Encoded?: boolean
+}
+```
+
+#### IInvokeContext
+
+Lambda実行コンテキスト情報。
+
+```ts
+export interface IInvokeContext {
+  functionName?: string               // Lambda function name (Lambda関数名)
+  functionVersion?: string            // Lambda function version (Lambda関数バージョン)
+  invokedFunctionArn?: string         // Lambda ARN (Lambda ARN)
+  memoryLimitInMB?: string           // Memory limit (メモリ制限)
+  awsRequestId?: string              // AWS request ID for tracing (トレース用AWSリクエストID)
+  logGroupName?: string              // CloudWatch log group (CloudWatchロググループ)
+  logStreamName?: string             // CloudWatch log stream (CloudWatchログストリーム)
+  identity?: {
+    cognitoIdentityId?: string
+    cognitoIdentityPoolId?: string
+  }
+}
+```
+
+#### JwtClaims
+
+CognitoからのJWTトークンクレーム構造。
+
+```ts
+export interface JwtClaims {
+  sub: string                        // Cognito user ID (UUID) (CognitoユーザーID)
+  iss: string                        // Token issuer URL (トークン発行者URL)
+  username?: string
+  'cognito:groups'?: string[]        // Cognito groups the user belongs to (ユーザーが所属するCognitoグループ)
+  'cognito:username': string         // Cognito username (Cognitoユーザー名)
+  aud: string                        // Audience (client ID) (オーディエンス/クライアントID)
+  event_id: string
+  token_use: string                  // Token type (id or access) (トークンタイプ: id または access)
+  auth_time: number                  // Authentication timestamp (認証タイムスタンプ)
+  name: string                       // User's display name (ユーザー表示名)
+  'custom:tenant'?: string           // Custom claim for tenant code (テナントコード用カスタムクレーム)
+  'custom:roles'?: string            // Custom claim for roles JSON array (ロールJSON配列用カスタムクレーム)
+  exp: number                        // Token expiration timestamp (トークン有効期限タイムスタンプ)
+  email: string
+  email_verified?: boolean
+  iat: number                        // Token issued at timestamp (トークン発行タイムスタンプ)
+  jti: string                        // JWT ID (JWT ID)
+}
+```
+
+**カスタムクレームの例**:
+```typescript
+// The custom:roles claim contains a JSON array of role assignments (custom:rolesクレームはロール割り当てのJSON配列を含む)
+// [{"tenant":"","role":"user"},{"tenant":"9999","role":"admin"}]
+// - Empty tenant ("") means the role applies globally (空のテナント("")はロールがグローバルに適用されることを意味する)
+// - Specific tenant means the role applies only to that tenant (特定のテナントはロールがそのテナントのみに適用されることを意味する)
 ```
 
 #### UserContext

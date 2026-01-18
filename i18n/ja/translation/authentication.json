@@ -19,5 +19,12 @@
   "The `getUserContext` function is provided by `@mbc-cqrs-serverless/core`. It automatically extracts `tenantCode` from `custom:tenant` claim and determines `tenantRole` by matching the tenant in the `custom:roles` JSON array.": "`getUserContext` 関数は `@mbc-cqrs-serverless/core` から提供されています。`custom:tenant` クレームから `tenantCode` を自動的に抽出し、`custom:roles` JSON配列内のテナントとマッチングして `tenantRole` を決定します。",
   "If you need custom logic, you can implement your own helper function:": "カスタムロジックが必要な場合は、独自のヘルパー関数を実装できます：",
   "Parse roles from JSON array and find matching tenant role": "Parse roles from JSON array and find matching tenant role (JSON配列からロールをパースし、マッチするテナントロールを見つける)",
-  "Finally, we create a CustomRoleGuard class which will compare the roles assigned to the current user to the actual roles required by the current route being processed.": "最後に現在のユーザに割り当てられているロールと現在処理中のルートで必要なロールを比較するカスタムロールガードクラスを作成します。"
+  "Finally, we create a CustomRoleGuard class which will compare the roles assigned to the current user to the actual roles required by the current route being processed.": "最後に現在のユーザに割り当てられているロールと現在処理中のルートで必要なロールを比較するカスタムロールガードクラスを作成します。",
+  "System Admin Bypass": "システム管理者バイパス",
+  "The framework includes a built-in system admin bypass mechanism. When a user has the `system_admin` role (defined as `ROLE_SYSTEM_ADMIN` constant), they automatically pass all role-based authorization checks, regardless of the specific roles required by the endpoint.": "フレームワークには、組み込みのシステム管理者バイパス機構が含まれています。ユーザーが`system_admin`ロール（`ROLE_SYSTEM_ADMIN`定数として定義）を持っている場合、エンドポイントで要求される特定のロールに関係なく、すべてのロールベースの認可チェックを自動的にパスします。",
+  "The RolesGuard automatically checks for system_admin role": "The RolesGuard automatically checks for system_admin role (RolesGuardはsystem_adminロールを自動的にチェック)",
+  "If no roles required, allow all users": "If no roles required, allow all users (ロールが要求されていない場合、すべてのユーザーを許可)",
+  "System admin bypasses all role checks": "System admin bypasses all role checks (システム管理者はすべてのロールチェックをバイパス)",
+  "System Admin Usage": "システム管理者の使用について",
+  "The `system_admin` role should be assigned sparingly and only to trusted administrators who need full access to all API endpoints. This role bypasses all role-based restrictions.": "`system_admin`ロールは、すべてのAPIエンドポイントへの完全なアクセスが必要な信頼できる管理者にのみ、慎重に割り当てる必要があります。このロールはすべてのロールベースの制限をバイパスします。"
 }
