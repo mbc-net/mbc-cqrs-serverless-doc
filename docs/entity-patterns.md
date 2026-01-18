@@ -232,7 +232,7 @@ export class ProductCommandDto extends CommandDto {
 {{The base `CommandDto` class includes:}}
 - {{Swagger decorators (`@ApiProperty`, `@ApiPropertyOptional`) for API documentation}}
 - {{Validation decorators from `class-validator` (`@IsString`, `@IsNumber`, `@IsOptional`, etc.)}}
-- {{Properties: `pk`, `sk`, `id`, `code`, `name`, `version`, `tenantCode` (optional), `type`, `isDeleted`, `seq`, `ttl`, `description`, `attributes`}}
+- {{Properties: `pk`, `sk`, `id`, `code`, `name`, `version`, `tenantCode` (optional), `type`, `isDeleted`, `seq`, `ttl`, `attributes`}}
 
 {{Note: `tenantCode` is marked as optional (`@IsOptional()`) in the base class, allowing the framework to extract it from the invoke context if not provided.}}
 :::

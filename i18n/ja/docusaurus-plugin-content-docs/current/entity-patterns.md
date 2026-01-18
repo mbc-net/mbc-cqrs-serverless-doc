@@ -232,7 +232,7 @@ export class ProductCommandDto extends CommandDto {
 基底クラス `CommandDto` に含まれるもの：
 - APIドキュメント用のSwaggerデコレータ（`@ApiProperty`、`@ApiPropertyOptional`）
 - `class-validator` のバリデーションデコレータ（`@IsString`、`@IsNumber`、`@IsOptional` など）
-- プロパティ: `pk`、`sk`、`id`、`code`、`name`、`version`、`tenantCode`（オプション）、`type`、`isDeleted`、`seq`、`ttl`、`description`、`attributes`
+- プロパティ: `pk`、`sk`、`id`、`code`、`name`、`version`、`tenantCode`（オプション）、`type`、`isDeleted`、`seq`、`ttl`、`attributes`
 
 注: `tenantCode` は基底クラスでオプション（`@IsOptional()`）としてマークされており、提供されない場合はフレームワークがinvokeコンテキストから抽出できます。
 :::
