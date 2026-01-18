@@ -144,9 +144,8 @@ Returns:
 | updatedBy | Updater's user ID or username (set at creation) |
 | updatedIp | Updater's IP address (set at creation) |
 | updatedAt | Update timestamp (set at creation). |
-| description | Description |
 | status | Status (for CQRS processing). |
-| dueDate | Used for DynamoDB TTL |
+| ttl | DynamoDB TTL timestamp (Unix epoch seconds) |
 
 ### Serialization Mapping
 | Internal Field | External Field | Description |
@@ -169,7 +168,6 @@ Returns:
 | updatedBy | updatedBy | User ID or name of last updater |
 | updatedIp | updatedIp | IP address of last updater |
 | updatedAt | updatedAt | Last update timestamp |
-| description | description | Entity description |
 | status | status | CQRS processing status |
-| dueDate | dueDate | TTL for DynamoDB expiration |
+| ttl | ttl | DynamoDB TTL timestamp (Unix epoch seconds) |
 | attributes.* | * | Flattened attributes from internal structure |

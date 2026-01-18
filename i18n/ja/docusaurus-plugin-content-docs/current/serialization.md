@@ -144,9 +144,8 @@ function deserializeToInternal<T extends CommandEntity | DataEntity>(
 | updatedBy | 更新者のユーザIDまたはユーザ名（作成時に設定） |
 | updatedIp | 更新者のIPアドレス（作成時に設定） |
 | updatedAt | 更新日時（作成時に設定） |
-| description | 説明 |
 | status | ステータス（CQRS処理用） |
-| dueDate | DynamoDBのTTLに使用 |
+| ttl | DynamoDB TTLタイムスタンプ（Unixエポック秒） |
 
 ### シリアライズマッピング
 | 内部フィールド | 外部フィールド | 説明 |
@@ -169,7 +168,6 @@ function deserializeToInternal<T extends CommandEntity | DataEntity>(
 | updatedBy | updatedBy | 更新者のユーザIDまたはユーザ名 |
 | updatedIp | updatedIp | 更新者のIPアドレス |
 | updatedAt | updatedAt | 更新日時 |
-| description | description | 説明 |
 | status | status | CQRS処理ステータス |
-| dueDate | dueDate | DynamoDBのTTLに使用 |
+| ttl | ttl | DynamoDB TTLタイムスタンプ（Unixエポック秒） |
 | attributes.* | * | 内部構造からフラット化された属性 |

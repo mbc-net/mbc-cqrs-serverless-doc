@@ -48,7 +48,7 @@
   "Updater's IP address (set at creation)": "Updater's IP address (set at creation)",
   "Update timestamp (set at creation).": "Update timestamp (set at creation).",
   "Status (for CQRS processing).": "Status (for CQRS processing).",
-  "Used for DynamoDB TTL": "Used for DynamoDB TTL",
+  "DynamoDB TTL timestamp (Unix epoch seconds)": "DynamoDB TTL timestamp (Unix epoch seconds)",
   "Serialization Mapping": "Serialization Mapping",
   "Internal Field": "Internal Field",
   "External Field": "External Field",
@@ -65,8 +65,6 @@
   "User ID or name of last updater": "User ID or name of last updater",
   "IP address of last updater": "IP address of last updater",
   "Last update timestamp": "Last update timestamp",
-  "Entity description": "Entity description",
   "CQRS processing status": "CQRS processing status",
-  "TTL for DynamoDB expiration": "TTL for DynamoDB expiration",
   "Flattened attributes from internal structure": "Flattened attributes from internal structure"
 }

@@ -48,7 +48,7 @@
   "Updater's IP address (set at creation)": "更新者のIPアドレス（作成時に設定）",
   "Update timestamp (set at creation).": "更新日時（作成時に設定）",
   "Status (for CQRS processing).": "ステータス（CQRS処理用）",
-  "Used for DynamoDB TTL": "DynamoDBのTTLに使用",
+  "DynamoDB TTL timestamp (Unix epoch seconds)": "DynamoDB TTLタイムスタンプ（Unixエポック秒）",
   "Serialization Mapping": "シリアライズマッピング",
   "Internal Field": "内部フィールド",
   "External Field": "外部フィールド",
@@ -65,8 +65,6 @@
   "User ID or name of last updater": "更新者のユーザIDまたはユーザ名",
   "IP address of last updater": "更新者のIPアドレス",
   "Last update timestamp": "更新日時",
-  "Entity description": "説明",
   "CQRS processing status": "CQRS処理ステータス",
-  "TTL for DynamoDB expiration": "DynamoDBのTTLに使用",
   "Flattened attributes from internal structure": "内部構造からフラット化された属性"
 }
