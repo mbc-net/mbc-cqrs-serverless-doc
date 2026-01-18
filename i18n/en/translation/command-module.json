@@ -9,9 +9,9 @@
   "When import this module, you must provide a specific option for use. The option has 4 properties that you can configure:": "When import this module, you must provide a specific option for use. The option has 4 properties that you can configure:",
   "Properties": "Properties",
   "provide table name": "provide table name",
-  "If set to `true`, it will skip errors from previous commands.": "If set to `true`, it will skip errors from previous commands.",
+  "Reserved for future use. Not yet implemented.": "Reserved for future use. Not yet implemented.",
   "register data sync handler": "register data sync handler",
-  "If set to `true`, it will reset default data sync handlers": "If set to `true`, it will reset default data sync handlers",
+  "If set to `true`, disables the default DynamoDB data sync handler.": "If set to `true`, disables the default DynamoDB data sync handler.",
   "For example:": "For example:",
   "Here, the `CommandModule` registers with the `cat` table name and provides the `CatDataSyncRdsHandler` to the data sync handlers.": "Here, the `CommandModule` registers with the `cat` table name and provides the `CatDataSyncRdsHandler` to the data sync handlers."
 }

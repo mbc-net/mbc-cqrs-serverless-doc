@@ -83,6 +83,8 @@
   "Required: Type/category of the task": "Required: Type/category of the task",
   "Optional: Display name (defaults to taskType)": "Optional: Display name (defaults to taskType)",
   "Required: Task input data": "Required: Task input data",
+  "Input Format for Step Functions": "Input Format for Step Functions",
+  "When using `createStepFunctionTask()`, the `input` field must be an **array**. Each item in the array becomes a separate subtask that will be processed by the Step Functions Map state. For single task processing with `createTask()`, the input can be any object.": "When using `createStepFunctionTask()`, the `input` field must be an **array**. Each item in the array becomes a separate subtask that will be processed by the Step Functions Map state. For single task processing with `createTask()`, the input can be any object.",
   "ITaskQueueEventFactory Interface": "ITaskQueueEventFactory Interface",
   "The `ITaskQueueEventFactory` interface defines optional methods for transforming task events. You only need to implement the method(s) relevant to your use case:": "The `ITaskQueueEventFactory` interface defines optional methods for transforming task events. You only need to implement the method(s) relevant to your use case:",
   "Optional: For single task processing": "Optional: For single task processing",

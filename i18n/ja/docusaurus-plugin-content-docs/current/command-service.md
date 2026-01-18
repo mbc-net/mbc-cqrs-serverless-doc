@@ -193,6 +193,10 @@ const item = await this.commandService.publishSync(catCommand, {
 
 このメソッドは、`publishPartialUpdateAsync` メソッドの同期バージョンです。コマンドが処理されるまでコードの実行がブロックされます。
 
+:::warning バージョンマッチング
+このメソッドでは、入力の `version` フィールドが既存アイテムの現在のバージョンと一致する必要があります。アイテムが見つからないかバージョンが一致しない場合、「The input is not a valid, item not found or version not match」というメッセージで `BadRequestException` がスローされます。
+:::
+
 たとえば、猫の名前を更新したいとします。
 
 ```ts

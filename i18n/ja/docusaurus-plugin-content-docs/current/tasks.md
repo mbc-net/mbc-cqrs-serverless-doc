@@ -526,9 +526,13 @@ interface CreateTaskDto {
   tenantCode: string;  // Required: Tenant identifier (必須: テナント識別子)
   taskType: string;    // Required: Type/category of the task (必須: タスクのタイプ/カテゴリ)
   name?: string;       // Optional: Display name (defaults to taskType) (オプション: 表示名、デフォルトはtaskType)
-  input: Record<string, any>;  // Required: Task input data (必須: タスク入力データ)
+  input: Record<string, any> | any[];  // Required: Task input data (必須: タスク入力データ)
 }
 ```
+
+:::info Step Functions用の入力形式
+`createStepFunctionTask()` を使用する場合、`input` フィールドは **配列** である必要があります。配列内の各項目は、Step FunctionsのMapステートで処理される個別のサブタスクになります。`createTask()` による単一タスク処理の場合、入力は任意のオブジェクトで構いません。
+:::
 
 ### ITaskQueueEventFactoryインターフェース
 

@@ -110,8 +110,8 @@ CommandModule.register({
 |--------|------|---------|-------------|
 | `tableName` | `string` | Required | DynamoDB table name (without postfix) |
 | `dataSyncHandlers` | `Type[]` | `[]` | Data sync handler classes |
-| `skipError` | `boolean` | `false` | Skip errors during data sync |
-| `disableDefaultHandler` | `boolean` | `false` | Disable default data sync to data table |
+| `skipError` | `boolean` | `false` | Reserved for future use (not yet implemented) |
+| `disableDefaultHandler` | `boolean` | `false` | Disable default DynamoDB data sync handler |
 
 ### SequencesModule
 

@@ -60,7 +60,7 @@ const external = serializeToExternal(internal);
 
 ### Converting External to Internal Format
 ```typescript
-import { deserializeToInternal, CommandEntity } from '@mbc-cqrs-serverless/core';
+import { deserializeToInternal, DataEntity } from '@mbc-cqrs-serverless/core';
 
 const external = {
   id: "PROJECT#123",
@@ -72,8 +72,13 @@ const external = {
   }
 };
 
-const internal = deserializeToInternal(external, CommandEntity);
+// Use DataEntity for data table entities, CommandEntity for command table entities
+const internal = deserializeToInternal(external, DataEntity);
 ```
+
+:::tip Fallback Behavior
+When deserializing, if the `id` field doesn't contain the `#` separator to split into `pk` and `sk`, the `code` field is used as the `sk` value. Any fields not in the metadata field list are automatically placed in the `attributes` object.
+:::
 
 ## API Reference
 

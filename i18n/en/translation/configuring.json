@@ -5,6 +5,8 @@
   "Project Configuration": "Project Configuration",
   "serverless.yml": "serverless.yml",
   "The main configuration file for your serverless application.": "The main configuration file for your serverless application.",
+  "Table Prefix": "Table Prefix",
+  "The framework generates DynamoDB table prefixes automatically using `NODE_ENV` and `APP_NAME` environment variables. The format is `{NODE_ENV}-{APP_NAME}-{tableName}`. For example, with `NODE_ENV=dev` and `APP_NAME=my-app`, a command table would be named `dev-my-app-command`.": "The framework generates DynamoDB table prefixes automatically using `NODE_ENV` and `APP_NAME` environment variables. The format is `{NODE_ENV}-{APP_NAME}-{tableName}`. For example, with `NODE_ENV=dev` and `APP_NAME=my-app`, a command table would be named `dev-my-app-command`.",
   "NestJS Configuration": "NestJS Configuration",
   "Configure NestJS modules in your application.": "Configure NestJS modules in your application.",
   "TypeScript Configuration": "TypeScript Configuration",

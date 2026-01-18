@@ -13,6 +13,10 @@ MBC CQRS サーバーレスフレームワークでは、特定の要件に合�
 
 サーバーレスアプリケーションのメイン設定ファイルです。
 
+:::info テーブルプレフィックス
+フレームワークは `NODE_ENV` と `APP_NAME` 環境変数を使用してDynamoDBテーブルプレフィックスを自動生成します。形式は `{NODE_ENV}-{APP_NAME}-{tableName}` です。例えば、`NODE_ENV=dev` と `APP_NAME=my-app` の場合、コマンドテーブルは `dev-my-app-command` という名前になります。
+:::
+
 ```yaml
 service: my-app
 
@@ -33,7 +37,7 @@ provider:
 
   environment:
     NODE_ENV: ${self:provider.stage}
-    DYNAMODB_TABLE_PREFIX: ${self:service}-${self:provider.stage}
+    APP_NAME: ${self:service}
     COGNITO_USER_POOL_ID: ${env:COGNITO_USER_POOL_ID}
     COGNITO_CLIENT_ID: ${env:COGNITO_CLIENT_ID}
 
@@ -188,10 +192,10 @@ import { CommandModule } from '@mbc-cqrs-serverless/core';
       // Optional: Data sync handlers for RDS synchronization
       dataSyncHandlers: [OrderRdsSyncHandler],
 
-      // Optional: Skip errors from previous command versions
+      // Optional: Reserved for future use (not yet implemented)
       skipError: false,
 
-      // Optional: Disable default data sync handler
+      // Optional: Disable default DynamoDB data sync handler
       disableDefaultHandler: false,
     }),
   ],

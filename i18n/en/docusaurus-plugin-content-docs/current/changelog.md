@@ -81,6 +81,17 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ---
 
+## [1.0.21](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.21) (2026-01-15) {#v1021}
+
+### Features
+
+- **import:** Add ZIP finalization hooks support to ImportModule
+  - New `IZipFinalizationHook` interface for custom post-import processing
+  - Register hooks via `zipFinalizationHooks` option in `ImportModule.register()`
+  - Hooks receive `ZipFinalizationContext` with results, status, and execution input
+
+---
+
 ## [1.0.20](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.20) (2026-01-11) {#v1020}
 
 ### Bug Fixes
@@ -242,7 +253,68 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ---
 
-## [1.0.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.0) (2025-09-18)
+## [1.0.6](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.6) (2025-11-05) {#v106}
+
+### Features
+
+- **master:** Add tenantCode support to MasterDataCreateDto and update service logic
+
+---
+
+## [1.0.5](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.5) (2025-11-04) {#v105}
+
+### Features
+
+- **master:** Enhance master settings with tenantCode support in DTOs and service logic
+
+---
+
+## [1.0.4](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.4) (2025-10-29) {#v104}
+
+### Features
+
+- **core:** Add configurable request body size limit to bootstrap and environment validation
+- **master:** Add bulk creation endpoints for master data and settings
+
+### Dependencies
+
+- Bump validator from 13.11.0/13.12.0 to 13.15.20
+- Bump multer from 1.4.4-lts.1 to 2.0.2 and @nestjs/platform-express from 10.4.4 to 10.4.20
+- Bump axios from 1.7.7 to 1.13.1 in CLI templates
+
+---
+
+## [1.0.3](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.3) (2025-10-23) {#v103}
+
+### Features
+
+- **master:** Add bulk creation endpoints for master data and settings, enabling batch operations for improved efficiency
+
+---
+
+## [1.0.2](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.2) (2025-10-16) {#v102}
+
+### Features
+
+- **survey:** Add survey template API for managing survey templates
+
+### Dependencies
+
+- Bump @nestjs/common from 10.3.0 to 10.4.16 in /examples/master
+- Bump multer from 1.4.4-lts.1 to 2.0.2 and @nestjs/platform-express from 10.4.15 to 10.4.20 in /examples/seq
+- Bump @nestjs/cli from 10.4.5 to 11.0.10 and inquirer from 8.2.6 to 8.2.7
+
+---
+
+## [1.0.1](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.1) (2025-09-19) {#v101}
+
+### Features
+
+- **import:** Add zip mode support for import module, enabling compressed file imports
+
+---
+
+## [1.0.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.0) (2025-09-18) {#v100}
 
 ### Highlights
 

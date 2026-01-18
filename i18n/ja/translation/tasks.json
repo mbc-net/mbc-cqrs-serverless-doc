@@ -83,6 +83,8 @@
   "Required: Type/category of the task": "Required: Type/category of the task (必須: タスクのタイプ/カテゴリ)",
   "Optional: Display name (defaults to taskType)": "Optional: Display name (defaults to taskType) (オプション: 表示名、デフォルトはtaskType)",
   "Required: Task input data": "Required: Task input data (必須: タスク入力データ)",
+  "Input Format for Step Functions": "Step Functions用の入力形式",
+  "When using `createStepFunctionTask()`, the `input` field must be an **array**. Each item in the array becomes a separate subtask that will be processed by the Step Functions Map state. For single task processing with `createTask()`, the input can be any object.": "`createStepFunctionTask()` を使用する場合、`input` フィールドは **配列** である必要があります。配列内の各項目は、Step FunctionsのMapステートで処理される個別のサブタスクになります。`createTask()` による単一タスク処理の場合、入力は任意のオブジェクトで構いません。",
   "ITaskQueueEventFactory Interface": "ITaskQueueEventFactoryインターフェース",
   "The `ITaskQueueEventFactory` interface defines optional methods for transforming task events. You only need to implement the method(s) relevant to your use case:": "`ITaskQueueEventFactory`インターフェースは、タスクイベントを変換するためのオプションメソッドを定義します。使用するケースに関連するメソッドのみを実装する必要があります：",
   "Optional: For single task processing": "Optional: For single task processing (オプション: 単一タスク処理用)",

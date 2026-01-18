@@ -60,7 +60,7 @@ const external = serializeToExternal(internal);
 
 ### 外部形式から内部形式への変換
 ```typescript
-import { deserializeToInternal, CommandEntity } from '@mbc-cqrs-serverless/core';
+import { deserializeToInternal, DataEntity } from '@mbc-cqrs-serverless/core';
 
 const external = {
   id: "PROJECT#123",
@@ -72,8 +72,13 @@ const external = {
   }
 };
 
-const internal = deserializeToInternal(external, CommandEntity);
+// Use DataEntity for data table entities, CommandEntity for command table entities (データテーブルエンティティにはDataEntity、コマンドテーブルエンティティにはCommandEntityを使用)
+const internal = deserializeToInternal(external, DataEntity);
 ```
+
+:::tip フォールバック動作
+デシリアライズ時、`id` フィールドに `pk` と `sk` に分割するための `#` セパレータが含まれていない場合、`code` フィールドが `sk` 値として使用されます。メタデータフィールドリストにないフィールドは自動的に `attributes` オブジェクトに配置されます。
+:::
 
 ## APIリファレンス
 

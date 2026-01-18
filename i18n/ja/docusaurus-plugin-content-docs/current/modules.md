@@ -110,8 +110,8 @@ CommandModule.register({
 |--------|------|---------|-------------|
 | `tableName` | `string` | 必須 | DynamoDBテーブル名（接尾辞なし） |
 | `dataSyncHandlers` | `Type[]` | `[]` | データ同期ハンドラークラス |
-| `skipError` | `boolean` | `false` | データ同期中のエラーをスキップ |
-| `disableDefaultHandler` | `boolean` | `false` | データテーブルへのデフォルトデータ同期を無効化 |
+| `skipError` | `boolean` | `false` | 将来の使用のために予約済み（未実装） |
+| `disableDefaultHandler` | `boolean` | `false` | デフォルトのDynamoDBデータ同期ハンドラーを無効化 |
 
 ### SequencesModule
 

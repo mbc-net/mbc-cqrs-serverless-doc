@@ -35,6 +35,8 @@
   "For example:": "例えば",
   "*async* `publishPartialUpdateSync( input: CommandPartialInputModel, options: ICommandOptions): Promise<CommandModel>`": "*async* `publishPartialUpdateSync( input: CommandPartialInputModel, options: ICommandOptions): Promise<CommandModel>`",
   "This method is a synchronous version of the `publishPartialUpdateAsync` method. It will block the execution of the code until the command is processed.": "このメソッドは、`publishPartialUpdateAsync` メソッドの同期バージョンです。コマンドが処理されるまでコードの実行がブロックされます。",
+  "Version Matching": "バージョンマッチング",
+  "This method requires the `version` field in the input to match the current version of the existing item. If the item is not found or the version does not match, a `BadRequestException` is thrown with the message \"The input is not a valid, item not found or version not match\".": "このメソッドでは、入力の `version` フィールドが既存アイテムの現在のバージョンと一致する必要があります。アイテムが見つからないかバージョンが一致しない場合、「The input is not a valid, item not found or version not match」というメッセージで `BadRequestException` がスローされます。",
   "*async* `publish(input: CommandInputModel, options: ICommandOptions): Promise<CommandModel | null>` <span class=\"badge badge--warning\">deprecated</span>": "*async* `publish(input: CommandInputModel, options: ICommandOptions): Promise<CommandModel | null>` <span class=\"badge badge--warning\">非推奨</span>",
   "Deprecated, for removal: This API element is subject to removal in a future version. Use [`publishAsync` method](#publishasync) instead.": "非推奨、削除予定: この API 要素は将来のバージョンで削除される可能性があります。代わりに [`publishAsync` メソッド](#publishasync) を使用してください。",
   "The method returns the command data.": "このメソッドはコマンド データを返します。",

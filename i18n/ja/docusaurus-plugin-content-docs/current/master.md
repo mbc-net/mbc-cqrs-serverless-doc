@@ -57,7 +57,11 @@ npm install @mbc-cqrs-serverless/master
 |--------|------|-------------|
 | `enableController` | `boolean` | デフォルトのマスターコントローラーを有効または無効にする |
 | `dataSyncHandlers` | `Type<IDataSyncHandler>[]` | マスターデータを外部システム（例：RDS）に同期するオプションハンドラー |
-| `prismaService` | `Type<any>` | RDSバッククエリ用のオプションPrismaサービス |
+| `prismaService` | `Type<any>` | RDSバッククエリ用のPrismaサービス。`enableController: true` の場合は必須 |
+
+:::warning prismaServiceの要件
+`enableController: true` の場合、`prismaService` パラメータは **必須** です。コントローラーが有効な状態で `prismaService` が提供されていない場合、起動時にエラーがスローされます。
+:::
 
 ```ts
 import { MasterModule } from '@mbc-cqrs-serverless/master'

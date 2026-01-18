@@ -5,6 +5,8 @@
   "Project Configuration": "プロジェクト設定",
   "serverless.yml": "serverless.yml",
   "The main configuration file for your serverless application.": "サーバーレスアプリケーションのメイン設定ファイルです。",
+  "Table Prefix": "テーブルプレフィックス",
+  "The framework generates DynamoDB table prefixes automatically using `NODE_ENV` and `APP_NAME` environment variables. The format is `{NODE_ENV}-{APP_NAME}-{tableName}`. For example, with `NODE_ENV=dev` and `APP_NAME=my-app`, a command table would be named `dev-my-app-command`.": "フレームワークは `NODE_ENV` と `APP_NAME` 環境変数を使用してDynamoDBテーブルプレフィックスを自動生成します。形式は `{NODE_ENV}-{APP_NAME}-{tableName}` です。例えば、`NODE_ENV=dev` と `APP_NAME=my-app` の場合、コマンドテーブルは `dev-my-app-command` という名前になります。",
   "NestJS Configuration": "NestJS設定",
   "Configure NestJS modules in your application.": "アプリケーションでNestJSモジュールを設定します。",
   "TypeScript Configuration": "TypeScript設定",

@@ -57,7 +57,11 @@ The solution for customizing the behavior of the `MasterModule` is to pass it an
 |--------|------|-------------|
 | `enableController` | `boolean` | Enable or disable default master controller |
 | `dataSyncHandlers` | `Type<IDataSyncHandler>[]` | Optional handlers to sync master data to external systems (e.g., RDS) |
-| `prismaService` | `Type<any>` | Optional Prisma service for RDS-backed queries |
+| `prismaService` | `Type<any>` | Prisma service for RDS-backed queries. Required when `enableController: true` |
+
+:::warning prismaService Requirement
+When `enableController: true`, the `prismaService` parameter is **required**. The module will throw an error at startup if `prismaService` is not provided when the controller is enabled.
+:::
 
 ```ts
 import { MasterModule } from '@mbc-cqrs-serverless/master'

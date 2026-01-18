@@ -526,9 +526,13 @@ interface CreateTaskDto {
   tenantCode: string;  // Required: Tenant identifier
   taskType: string;    // Required: Type/category of the task
   name?: string;       // Optional: Display name (defaults to taskType)
-  input: Record<string, any>;  // Required: Task input data
+  input: Record<string, any> | any[];  // Required: Task input data
 }
 ```
+
+:::info Input Format for Step Functions
+When using `createStepFunctionTask()`, the `input` field must be an **array**. Each item in the array becomes a separate subtask that will be processed by the Step Functions Map state. For single task processing with `createTask()`, the input can be any object.
+:::
 
 ### ITaskQueueEventFactory Interface
 

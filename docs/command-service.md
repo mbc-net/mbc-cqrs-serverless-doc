@@ -193,6 +193,10 @@ const item = await this.commandService.publishSync(catCommand, {
 
 {{This method is a synchronous version of the `publishPartialUpdateAsync` method. It will block the execution of the code until the command is processed.}}
 
+:::warning {{Version Matching}}
+{{This method requires the `version` field in the input to match the current version of the existing item. If the item is not found or the version does not match, a `BadRequestException` is thrown with the message "The input is not a valid, item not found or version not match".}}
+:::
+
 {{For example, you want to update cat's name:}}
 
 ```ts
