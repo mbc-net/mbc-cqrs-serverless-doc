@@ -274,7 +274,7 @@ interface DetailKey {
     skAttributeNames?: Record<string, string>;
   };
   startFromSk?: string;
-  limit?: number;
+  limit?: number;       // Default: 10 (デフォルト: 10)
   order?: 'asc' | 'desc';
 }
 ```

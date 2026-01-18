@@ -61,5 +61,12 @@
   "SES region": "SESリージョン",
   "Default sender email address": "デフォルトの送信者メールアドレス",
   "Database connection URL for Prisma ORM": "Prisma ORM用のデータベース接続URL",
-  "SES Configuration": "SES 設定"
+  "SES Configuration": "SES 設定",
+  "Core vs Application Variables": "コア変数とアプリケーション変数",
+  "The environment variables listed below are categorized into two types:": "以下に記載する環境変数は2つのタイプに分類されます：",
+  "Core Variables": "コア変数",
+  "Variables validated by the framework's base `EnvironmentVariables` class. These are essential for the framework to function.": "フレームワークの基底`EnvironmentVariables`クラスで検証される変数です。フレームワークが動作するために必須です。",
+  "Application Variables": "アプリケーション変数",
+  "Variables that your application may need based on which features you use. Add validation for these in your custom `EnvValidation` class.": "使用する機能に応じてアプリケーションが必要とする変数です。カスタムの`EnvValidation`クラスでこれらの検証ルールを追加してください。",
+  "The \"Required\" column indicates the general expectation for typical applications. You should add validation rules for all variables your specific application depends on.": "「必須」列は一般的なアプリケーションでの想定を示しています。特定のアプリケーションが依存するすべての変数に対して検証ルールを追加してください。"
 }

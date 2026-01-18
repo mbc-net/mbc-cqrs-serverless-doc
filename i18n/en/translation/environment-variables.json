@@ -61,5 +61,12 @@
   "SES region": "SES region",
   "Default sender email address": "Default sender email address",
   "Database connection URL for Prisma ORM": "Database connection URL for Prisma ORM",
-  "SES Configuration": "SES Configuration"
+  "SES Configuration": "SES Configuration",
+  "Core vs Application Variables": "Core vs Application Variables",
+  "The environment variables listed below are categorized into two types:": "The environment variables listed below are categorized into two types:",
+  "Core Variables": "Core Variables",
+  "Variables validated by the framework's base `EnvironmentVariables` class. These are essential for the framework to function.": "Variables validated by the framework's base `EnvironmentVariables` class. These are essential for the framework to function.",
+  "Application Variables": "Application Variables",
+  "Variables that your application may need based on which features you use. Add validation for these in your custom `EnvValidation` class.": "Variables that your application may need based on which features you use. Add validation for these in your custom `EnvValidation` class.",
+  "The \"Required\" column indicates the general expectation for typical applications. You should add validation rules for all variables your specific application depends on.": "The \"Required\" column indicates the general expectation for typical applications. You should add validation rules for all variables your specific application depends on."
 }

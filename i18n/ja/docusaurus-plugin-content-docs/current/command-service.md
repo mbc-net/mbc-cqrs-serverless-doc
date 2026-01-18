@@ -19,9 +19,9 @@ description: CommandModuleとCommandServiceを使用してコマンドを発行�
 | プロパティ                  | 説明                                                      |
 | ----------------------------- | -------------------------------------------------------------------- |
 | `tableName: string`           | テーブル名を指定                                               |
-| `skipError?: boolean`         | `true`に設定すると、以前のコマンドからのエラーをスキップします     |
+| `skipError?: boolean`         | 将来の使用のために予約済み。未実装です。                    |
 | `dataSyncHandlers?: Type[]`   | データ同期ハンドラーを登録                                      |
-| `disableDefaultHandler?: boolean` | `true`に設定すると、デフォルトのデータ同期ハンドラーをリセットします   |
+| `disableDefaultHandler?: boolean` | `true`に設定すると、デフォルトのDynamoDBデータ同期ハンドラーを無効にします|
 
 ### 登録例
 
@@ -420,7 +420,7 @@ const duplicatedCommand = await this.commandService.duplicate(key, {
 // - updated timestamps and user info (- タイムスタンプとユーザー情報が更新)
 ```
 
-### *async* `updateTaskToken(key: DetailKey, token: string): Promise<CommandModel>`
+### *async* `updateTaskToken(key: DetailKey, token: string): Promise<CommandModel>` {#updatetasktoken}
 
 コマンドアイテムにAWS Step Functionsタスクトークンを保存します。これは、Step Functionsと統合してコールバックパターンを有効にする際に使用されます。
 
@@ -472,7 +472,7 @@ handlers.forEach((handler) => {
 });
 ```
 
-### `getDataSyncHandler(name: string): IDataSyncHandler`
+### `getDataSyncHandler(name: string): IDataSyncHandler | undefined`
 
 クラス名で特定のデータ同期ハンドラーを取得します。指定された名前のハンドラーが見つからない場合は`undefined`を返します。
 

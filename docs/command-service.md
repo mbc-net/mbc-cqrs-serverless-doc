@@ -19,9 +19,9 @@ description: {{Learn how to use CommandModule and CommandService for publishing 
 | {{Property}}                  | {{Description}}                                                      |
 | ----------------------------- | -------------------------------------------------------------------- |
 | `tableName: string`           | {{Provide table name}}                                               |
-| `skipError?: boolean`         | {{If set to `true`, it will skip errors from previous commands}}     |
+| `skipError?: boolean`         | {{Reserved for future use. Not yet implemented.}}                    |
 | `dataSyncHandlers?: Type[]`   | {{Register data sync handlers}}                                      |
-| `disableDefaultHandler?: boolean` | {{If set to `true`, it will reset default data sync handlers}}   |
+| `disableDefaultHandler?: boolean` | {{If set to `true`, disables the default DynamoDB data sync handler}}|
 
 ### {{Registration Example}}
 
@@ -420,7 +420,7 @@ const duplicatedCommand = await this.commandService.duplicate(key, {
 // {{- updated timestamps and user info}}
 ```
 
-### {{*async* `updateTaskToken(key: DetailKey, token: string): Promise<CommandModel>`}}
+### {{*async* `updateTaskToken(key: DetailKey, token: string): Promise<CommandModel>`}} {#updatetasktoken}
 
 {{Stores an AWS Step Functions task token on a command item. This is used when integrating with Step Functions to enable callback patterns.}}
 
@@ -472,7 +472,7 @@ handlers.forEach((handler) => {
 });
 ```
 
-### {{`getDataSyncHandler(name: string): IDataSyncHandler`}}
+### {{`getDataSyncHandler(name: string): IDataSyncHandler | undefined`}}
 
 {{Retrieves a specific data sync handler by its class name. Returns `undefined` if no handler with the specified name is found.}}
 

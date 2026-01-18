@@ -174,6 +174,10 @@ export interface CommandModel extends CommandInputModel {
 }
 ```
 
+:::tip Step Functions Integration
+The `taskToken` field is used when integrating with AWS Step Functions callback patterns. When a Step Functions state machine invokes your application with a task token, store it using [`CommandService.updateTaskToken()`](./command-service.md#updatetasktoken). Later, use the token with AWS SDK's `SendTaskSuccessCommand` or `SendTaskFailureCommand` to signal task completion.
+:::
+
 #### DataModel
 
 Base interface for data entities (read model).
@@ -283,12 +287,15 @@ export interface IDataSyncHandler<TExecuteResult = any, TRollbackResult = any> {
   readonly type?: string  // Optional type identifier
 
   /**
-   * Upgrade/sync data when a command is executed
+   * Sync data when a command is executed.
+   * Called automatically by the framework during command processing.
    */
   up(cmd: CommandModel): Promise<TExecuteResult>
 
   /**
-   * Rollback/undo data when a command needs to be reverted
+   * Reserved for rollback operations.
+   * Note: This method is NOT automatically called by the framework.
+   * Implement this for manual rollback scenarios in your application.
    */
   down(cmd: CommandModel): Promise<TRollbackResult>
 }
@@ -378,8 +385,8 @@ Configuration options for CommandModule.
 export interface CommandModuleOptions {
   tableName: string                           // DynamoDB table name
   dataSyncHandlers?: Type<IDataSyncHandler>[] // Custom sync handlers
-  skipError?: boolean                         // Skip errors from previous command versions
-  disableDefaultHandler?: boolean             // Disable the default data sync handler
+  skipError?: boolean                         // Reserved for future use (not yet implemented)
+  disableDefaultHandler?: boolean             // Disable the default DynamoDB data sync handler
 }
 ```
 

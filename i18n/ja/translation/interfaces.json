@@ -68,5 +68,7 @@
   "Returns { pk, sk } for DynamoDB operations": "Returns { pk, sk } for DynamoDB operations (DynamoDB操作用の { pk, sk } を返す)",
   "Access the DynamoDB key pair": "Access the DynamoDB key pair (DynamoDBキーペアにアクセス)",
   "Class implementing DataModel for API responses. Includes Swagger decorators.": "APIレスポンス用にDataModelを実装したクラス。Swaggerデコレータを含みます。",
-  "All properties from DataModel": "All properties from DataModel (DataModelのすべてのプロパティ)"
+  "All properties from DataModel": "All properties from DataModel (DataModelのすべてのプロパティ)",
+  "Step Functions Integration": "Step Functions連携",
+  "The `taskToken` field is used when integrating with AWS Step Functions callback patterns. When a Step Functions state machine invokes your application with a task token, store it using [`CommandService.updateTaskToken()`](./command-service.md#updatetasktoken). Later, use the token with AWS SDK's `SendTaskSuccessCommand` or `SendTaskFailureCommand` to signal task completion.": "`taskToken`フィールドは、AWS Step Functionsコールバックパターンと統合する際に使用されます。Step Functionsステートマシンがタスクトークンでアプリケーションを呼び出す場合、[`CommandService.updateTaskToken()`](./command-service.md#updatetasktoken)を使用してトークンを保存します。その後、AWS SDKの`SendTaskSuccessCommand`または`SendTaskFailureCommand`でトークンを使用してタスク完了を通知します。"
 }

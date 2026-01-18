@@ -13,6 +13,15 @@ MBC CQRS serverless framework comes with built-in support for environment variab
 
 MBC CQRS serverless framework has built-in support for loading environment variables from `.env*` files into `process.env.`
 
+:::info Core vs Application Variables
+The environment variables listed below are categorized into two types:
+
+- **Core Variables**: Variables validated by the framework's base `EnvironmentVariables` class. These are essential for the framework to function.
+- **Application Variables**: Variables that your application may need based on which features you use. Add validation for these in your custom `EnvValidation` class.
+
+The "Required" column indicates the general expectation for typical applications. You should add validation rules for all variables your specific application depends on.
+:::
+
 ### Core Configuration
 
 | Variable | Description | Required | Default | Example |

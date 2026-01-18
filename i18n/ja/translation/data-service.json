@@ -78,5 +78,6 @@
   "Use appropriate key design": "適切なキー設計を使用",
   "Design your keys to support your query patterns efficiently": "クエリパターンを効率的にサポートするようにキーを設計",
   "Handle not found cases": "見つからない場合の処理",
-  "Always check if the item exists before using it": "使用する前に常にアイテムが存在するか確認"
+  "Always check if the item exists before using it": "使用する前に常にアイテムが存在するか確認",
+  "Default: 10": "Default: 10 (デフォルト: 10)"
 }

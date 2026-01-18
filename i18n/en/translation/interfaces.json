@@ -68,5 +68,7 @@
   "Returns { pk, sk } for DynamoDB operations": "Returns { pk, sk } for DynamoDB operations",
   "Access the DynamoDB key pair": "Access the DynamoDB key pair",
   "Class implementing DataModel for API responses. Includes Swagger decorators.": "Class implementing DataModel for API responses. Includes Swagger decorators.",
-  "All properties from DataModel": "All properties from DataModel"
+  "All properties from DataModel": "All properties from DataModel",
+  "Step Functions Integration": "Step Functions Integration",
+  "The `taskToken` field is used when integrating with AWS Step Functions callback patterns. When a Step Functions state machine invokes your application with a task token, store it using [`CommandService.updateTaskToken()`](./command-service.md#updatetasktoken). Later, use the token with AWS SDK's `SendTaskSuccessCommand` or `SendTaskFailureCommand` to signal task completion.": "The `taskToken` field is used when integrating with AWS Step Functions callback patterns. When a Step Functions state machine invokes your application with a task token, store it using [`CommandService.updateTaskToken()`](./command-service.md#updatetasktoken). Later, use the token with AWS SDK's `SendTaskSuccessCommand` or `SendTaskFailureCommand` to signal task completion."
 }
