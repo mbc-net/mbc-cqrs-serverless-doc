@@ -195,6 +195,9 @@ export interface JwtClaims {
   username?: string
   'cognito:groups'?: string[]        // Cognito groups the user belongs to (ユーザーが所属するCognitoグループ)
   'cognito:username': string         // Cognito username (Cognitoユーザー名)
+  origin_jti?: string                // Original JWT ID (元のJWT ID)
+  client_id?: string                 // OAuth client ID (OAuthクライアントID)
+  scope?: string                     // OAuth scopes (OAuthスコープ)
   aud: string                        // Audience (client ID) (オーディエンス/クライアントID)
   event_id: string
   token_use: string                  // Token type (id or access) (トークンタイプ: id または access)

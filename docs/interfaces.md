@@ -195,6 +195,9 @@ export interface JwtClaims {
   username?: string
   'cognito:groups'?: string[]        // {{Cognito groups the user belongs to}}
   'cognito:username': string         // {{Cognito username}}
+  origin_jti?: string                // {{Original JWT ID}}
+  client_id?: string                 // {{OAuth client ID}}
+  scope?: string                     // {{OAuth scopes}}
   aud: string                        // {{Audience (client ID)}}
   event_id: string
   token_use: string                  // {{Token type (id or access)}}
