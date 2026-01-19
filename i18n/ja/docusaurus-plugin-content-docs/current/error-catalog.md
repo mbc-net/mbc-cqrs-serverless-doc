@@ -24,14 +24,14 @@ description: MBC CQRS Serverlessの原因、解決策、復旧戦略を含む包
 | コード | エラーメッセージ | 重大度 | クイックフィックス |
 |----------|-------------------|--------------|---------------|
 | MBC-TNT-001 | テナントが見つからない | 高 | listTenants()でテナントの存在を確認 |
-| MBC-TNT-002 | テナントコードが既に存在 | 低 | 作成前に存在確認 |
+| MBC-TNT-002 | テナントが既に存在 | 低 | 作成前に存在確認 |
 
 ### シーケンス＆タスクエラー
 
 | コード | エラーメッセージ | 重大度 | クイックフィックス |
 |----------|-------------------|--------------|---------------|
 | MBC-SEQ-001 | シーケンスが見つからない | 中 | シーケンスは初回使用時に自動初期化 |
-| MBC-TSK-001 | タスクが見つからない | 中 | 操作前にタスクステータスを確認 |
+| MBC-TSK-001 | タスクが見つからない | 中 | NotFoundExceptionでタスクの存在を確認 |
 
 ### バリデーションエラー
 
@@ -190,7 +190,7 @@ try {
 
 ---
 
-### BadRequestException: "Tenant code already existed"
+### BadRequestException: "Tenant already exist"
 
 **場所**: `packages/tenant/src/services/tenant.service.ts`
 
@@ -237,9 +237,9 @@ try {
 
 ## タスクエラー
 
-### BadRequestException: "Task not found"
+### NotFoundException: "Task not found"
 
-**場所**: `packages/task/src/services/task.service.ts`
+**場所**: `packages/task/src/task.controller.ts`
 
 **原因**: 指定されたタスクが存在しないか、完了/削除されています。
 

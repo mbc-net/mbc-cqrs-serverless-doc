@@ -24,14 +24,14 @@ description: {{Comprehensive error catalog with causes, solutions, and recovery 
 | {{Code}} | {{Error Message}} | {{Severity}} | {{Quick Fix}} |
 |----------|-------------------|--------------|---------------|
 | MBC-TNT-001 | {{Tenant not found}} | {{High}} | {{Verify tenant exists with listTenants()}} |
-| MBC-TNT-002 | {{Tenant code already existed}} | {{Low}} | {{Check existence before creating}} |
+| MBC-TNT-002 | {{Tenant already exist}} | {{Low}} | {{Check existence before creating}} |
 
 ### {{Sequence & Task Errors}}
 
 | {{Code}} | {{Error Message}} | {{Severity}} | {{Quick Fix}} |
 |----------|-------------------|--------------|---------------|
 | MBC-SEQ-001 | {{Sequence not found}} | {{Medium}} | {{Sequence auto-initializes on first use}} |
-| MBC-TSK-001 | {{Task not found}} | {{Medium}} | {{Verify task status before operations}} |
+| MBC-TSK-001 | {{Task not found}} | {{Medium}} | {{Verify task exists with NotFoundException}} |
 
 ### {{Validation Errors}}
 
@@ -190,7 +190,7 @@ try {
 
 ---
 
-### BadRequestException: "Tenant code already existed"
+### BadRequestException: "Tenant already exist"
 
 **{{Location}}**: `packages/tenant/src/services/tenant.service.ts`
 
@@ -237,9 +237,9 @@ try {
 
 ## {{Task Errors}}
 
-### BadRequestException: "Task not found"
+### NotFoundException: "Task not found"
 
-**{{Location}}**: `packages/task/src/services/task.service.ts`
+**{{Location}}**: `packages/task/src/task.controller.ts`
 
 **{{Cause}}**: {{The specified task does not exist or has been completed/deleted.}}
 
