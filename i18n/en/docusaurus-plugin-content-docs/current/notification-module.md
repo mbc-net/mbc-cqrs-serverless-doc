@@ -279,6 +279,92 @@ const notification: TemplatedEmailNotification = {
 };
 ```
 
+#### Advanced Template Features {#advanced-template-features}
+
+:::info Version Note
+Nested property access and Unicode key support were added in [version 1.0.25](/docs/changelog#v1025).
+:::
+
+##### Nested Property Access
+
+You can access nested object properties using dot notation:
+
+```ts
+const notification: TemplatedEmailNotification = {
+  toAddrs: ["user@example.com"],
+  template: {
+    subject: "Welcome {{user.profile.firstName}}!",
+    html: `
+      <p>Hello {{user.profile.firstName}} {{user.profile.lastName}},</p>
+      <p>Your verification code is: {{auth.otp}}</p>
+    `,
+  },
+  data: {
+    user: {
+      profile: {
+        firstName: "John",
+        lastName: "Doe",
+      },
+    },
+    auth: {
+      otp: "123456",
+    },
+  },
+};
+```
+
+##### Unicode and Japanese Key Support
+
+Template variables support Unicode characters, including Japanese keys:
+
+```ts
+const notification: TemplatedEmailNotification = {
+  toAddrs: ["user@example.com"],
+  template: {
+    subject: "{{注文.確認番号}} - Order Confirmation",
+    html: `
+      <p>{{顧客.名前}} 様</p>
+      <p>ご注文番号: {{注文.確認番号}}</p>
+      <p>商品: {{注文.詳細.品名}}</p>
+    `,
+  },
+  data: {
+    "顧客": {
+      "名前": "山田 太郎",
+    },
+    "注文": {
+      "確認番号": "ORD-2024-001",
+      "詳細": {
+        "品名": "ワイヤレスイヤホン",
+      },
+    },
+  },
+};
+```
+
+##### Whitespace in Placeholders
+
+Whitespace inside placeholders is automatically trimmed, so `{{ name }}` and `{{name}}` are equivalent:
+
+```ts
+// Both of these work identically
+template: {
+  subject: "Hello {{ name }}!",  // Whitespace is trimmed
+  html: "<p>Hello {{name}}!</p>", // No whitespace
+}
+```
+
+##### Missing Variables
+
+If a variable is not found in the data object, the placeholder is preserved in the output. This helps identify missing data during development:
+
+```ts
+// If 'missingKey' is not in data, output will contain '{{missingKey}}'
+template: {
+  html: "<p>Value: {{missingKey}}</p>",
+}
+```
+
 #### TemplatedEmailNotification Interface
 
 | Property | Type | Required | Description |

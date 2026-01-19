@@ -101,5 +101,19 @@
   "HTML body (supports template variables)": "HTML body (supports template variables)",
   "Plain text body (supports template variables)": "Plain text body (supports template variables)",
   "Local Development": "Local Development",
-  "When running locally without SES access, the method automatically falls back to manual template compilation, allowing you to test email flows during development.": "When running locally without SES access, the method automatically falls back to manual template compilation, allowing you to test email flows during development."
+  "When running locally without SES access, the method automatically falls back to manual template compilation, allowing you to test email flows during development.": "When running locally without SES access, the method automatically falls back to manual template compilation, allowing you to test email flows during development.",
+  "Advanced Template Features": "Advanced Template Features",
+  "Nested property access and Unicode key support were added in [version 1.0.25](/docs/changelog#v1025).": "Nested property access and Unicode key support were added in [version 1.0.25](/docs/changelog#v1025).",
+  "Nested Property Access": "Nested Property Access",
+  "You can access nested object properties using dot notation:": "You can access nested object properties using dot notation:",
+  "Unicode and Japanese Key Support": "Unicode and Japanese Key Support",
+  "Template variables support Unicode characters, including Japanese keys:": "Template variables support Unicode characters, including Japanese keys:",
+  "Whitespace in Placeholders": "Whitespace in Placeholders",
+  "Whitespace inside placeholders is automatically trimmed, so `{{ name }}` and `{{name}}` are equivalent:": "Whitespace inside placeholders is automatically trimmed, so `{{ name }}` and `{{name}}` are equivalent:",
+  "Both of these work identically": "Both of these work identically",
+  "Whitespace is trimmed": "Whitespace is trimmed",
+  "No whitespace": "No whitespace",
+  "Missing Variables": "Missing Variables",
+  "If a variable is not found in the data object, the placeholder is preserved in the output. This helps identify missing data during development:": "If a variable is not found in the data object, the placeholder is preserved in the output. This helps identify missing data during development:",
+  "If 'missingKey' is not in data, output will contain '{{missingKey}}'": "If 'missingKey' is not in data, output will contain '{{missingKey}}'"
 }

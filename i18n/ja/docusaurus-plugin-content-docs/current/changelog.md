@@ -17,6 +17,18 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ## 安定版リリース (1.x)
 
+## [1.0.25](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.25) (2026-01-19) {#v1025}
+
+### 新機能
+
+- **core:** 高度な変数置換によるインラインテンプレートメールの機能強化 ([詳細を見る](/docs/notification-module#advanced-template-features))
+  - ネストプロパティアクセスのサポート（例: `{{user.profile.name}}`）
+  - テンプレート変数でのUnicode/日本語キーのサポート
+  - プレースホルダー内の空白トリミング（例: `{{ name }}`は`{{name}}`と同等）
+  - テンプレートコンパイルのローカル開発フォールバック機能の改善
+
+---
+
 ## [1.0.24](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.24) (2026-01-17) {#v1024}
 
 ### 新機能

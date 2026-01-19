@@ -1,4 +1,9 @@
 {
+  "Enhanced inline template email with advanced variable substitution": "Enhanced inline template email with advanced variable substitution",
+  "Support for nested property access (e.g., `{{user.profile.name}}`)": "Support for nested property access (e.g., `{{user.profile.name}}`)",
+  "Support for Unicode/Japanese keys in template variables": "Support for Unicode/Japanese keys in template variables",
+  "Whitespace trimming inside placeholders (e.g., `{{ name }}` equals `{{name}}`)": "Whitespace trimming inside placeholders (e.g., `{{ name }}` equals `{{name}}`)",
+  "Improved local development fallback for template compilation": "Improved local development fallback for template compilation",
   "Track all notable changes, new features, and bug fixes in MBC CQRS Serverless releases.": "Track all notable changes, new features, and bug fixes in MBC CQRS Serverless releases.",
   "Add inline template email support with `sendInlineTemplateEmail()` method": "Add inline template email support with `sendInlineTemplateEmail()` method",
   "New `sendInlineTemplateEmail(msg: TemplatedEmailNotification)` method in EmailService": "New `sendInlineTemplateEmail(msg: TemplatedEmailNotification)` method in EmailService",

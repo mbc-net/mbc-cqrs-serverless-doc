@@ -101,5 +101,19 @@
   "HTML body (supports template variables)": "HTML本文（テンプレート変数をサポート）",
   "Plain text body (supports template variables)": "プレーンテキスト本文（テンプレート変数をサポート）",
   "Local Development": "ローカル開発",
-  "When running locally without SES access, the method automatically falls back to manual template compilation, allowing you to test email flows during development.": "SESアクセスなしでローカルで実行する場合、メソッドは自動的に手動テンプレートコンパイルにフォールバックし、開発中にメールフローをテストできます。"
+  "When running locally without SES access, the method automatically falls back to manual template compilation, allowing you to test email flows during development.": "SESアクセスなしでローカルで実行する場合、メソッドは自動的に手動テンプレートコンパイルにフォールバックし、開発中にメールフローをテストできます。",
+  "Advanced Template Features": "高度なテンプレート機能",
+  "Nested property access and Unicode key support were added in [version 1.0.25](/docs/changelog#v1025).": "ネストプロパティアクセスとUnicode/日本語キーのサポートは[バージョン1.0.25](/docs/changelog#v1025)で追加されました。",
+  "Nested Property Access": "ネストプロパティアクセス",
+  "You can access nested object properties using dot notation:": "ドット記法を使用してネストされたオブジェクトプロパティにアクセスできます：",
+  "Unicode and Japanese Key Support": "Unicode/日本語キーのサポート",
+  "Template variables support Unicode characters, including Japanese keys:": "テンプレート変数は日本語キーを含むUnicode文字をサポートします：",
+  "Whitespace in Placeholders": "プレースホルダー内の空白",
+  "Whitespace inside placeholders is automatically trimmed, so `{{ name }}` and `{{name}}` are equivalent:": "プレースホルダー内の空白は自動的にトリミングされるため、`{{ name }}`と`{{name}}`は同等です：",
+  "Both of these work identically": "Both of these work identically (これらは同じように動作します)",
+  "Whitespace is trimmed": "Whitespace is trimmed (空白はトリミングされます)",
+  "No whitespace": "No whitespace (空白なし)",
+  "Missing Variables": "存在しない変数",
+  "If a variable is not found in the data object, the placeholder is preserved in the output. This helps identify missing data during development:": "データオブジェクトに変数が見つからない場合、プレースホルダーは出力に保持されます。これは開発中に欠落データを特定するのに役立ちます：",
+  "If 'missingKey' is not in data, output will contain '{{missingKey}}'": "If 'missingKey' is not in data, output will contain '{{missingKey}}' ('missingKey'がデータにない場合、出力には'{{missingKey}}'が含まれます)"
 }

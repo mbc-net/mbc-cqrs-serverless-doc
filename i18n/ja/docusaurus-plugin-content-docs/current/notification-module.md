@@ -279,6 +279,92 @@ const notification: TemplatedEmailNotification = {
 };
 ```
 
+#### 高度なテンプレート機能 {#advanced-template-features}
+
+:::info バージョン情報
+ネストプロパティアクセスとUnicode/日本語キーのサポートは[バージョン1.0.25](/docs/changelog#v1025)で追加されました。
+:::
+
+##### ネストプロパティアクセス
+
+ドット記法を使用してネストされたオブジェクトプロパティにアクセスできます：
+
+```ts
+const notification: TemplatedEmailNotification = {
+  toAddrs: ["user@example.com"],
+  template: {
+    subject: "Welcome {{user.profile.firstName}}!",
+    html: `
+      <p>Hello {{user.profile.firstName}} {{user.profile.lastName}},</p>
+      <p>Your verification code is: {{auth.otp}}</p>
+    `,
+  },
+  data: {
+    user: {
+      profile: {
+        firstName: "John",
+        lastName: "Doe",
+      },
+    },
+    auth: {
+      otp: "123456",
+    },
+  },
+};
+```
+
+##### Unicode/日本語キーのサポート
+
+テンプレート変数は日本語キーを含むUnicode文字をサポートします：
+
+```ts
+const notification: TemplatedEmailNotification = {
+  toAddrs: ["user@example.com"],
+  template: {
+    subject: "{{注文.確認番号}} - Order Confirmation",
+    html: `
+      <p>{{顧客.名前}} 様</p>
+      <p>ご注文番号: {{注文.確認番号}}</p>
+      <p>商品: {{注文.詳細.品名}}</p>
+    `,
+  },
+  data: {
+    "顧客": {
+      "名前": "山田 太郎",
+    },
+    "注文": {
+      "確認番号": "ORD-2024-001",
+      "詳細": {
+        "品名": "ワイヤレスイヤホン",
+      },
+    },
+  },
+};
+```
+
+##### プレースホルダー内の空白
+
+プレースホルダー内の空白は自動的にトリミングされるため、`{{ name }}`と`{{name}}`は同等です：
+
+```ts
+// Both of these work identically (これらは同じように動作します)
+template: {
+  subject: "Hello {{ name }}!",  // Whitespace is trimmed (空白はトリミングされます)
+  html: "<p>Hello {{name}}!</p>", // No whitespace (空白なし)
+}
+```
+
+##### 存在しない変数
+
+データオブジェクトに変数が見つからない場合、プレースホルダーは出力に保持されます。これは開発中に欠落データを特定するのに役立ちます：
+
+```ts
+// If 'missingKey' is not in data, output will contain '{{missingKey}}' ('missingKey'がデータにない場合、出力には'{{missingKey}}'が含まれます)
+template: {
+  html: "<p>Value: {{missingKey}}</p>",
+}
+```
+
 #### TemplatedEmailNotificationインターフェース
 
 | プロパティ | 型 | 必須 | 説明 |

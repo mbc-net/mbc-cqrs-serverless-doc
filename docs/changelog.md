@@ -17,6 +17,18 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ## {{Stable Releases (1.x)}}
 
+## [1.0.25](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.25) (2026-01-19) {#v1025}
+
+### {{Features}}
+
+- **core:** {{Enhanced inline template email with advanced variable substitution}} ([{{See Details}}](/docs/notification-module#advanced-template-features))
+  - {{Support for nested property access (e.g., `{{user.profile.name}}`)}}
+  - {{Support for Unicode/Japanese keys in template variables}}
+  - {{Whitespace trimming inside placeholders (e.g., `{{ name }}` equals `{{name}}`)}}
+  - {{Improved local development fallback for template compilation}}
+
+---
+
 ## [1.0.24](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.24) (2026-01-17) {#v1024}
 
 ### {{Features}}
