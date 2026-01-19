@@ -115,5 +115,14 @@
   "No whitespace": "No whitespace (空白なし)",
   "Missing Variables": "存在しない変数",
   "If a variable is not found in the data object, the placeholder is preserved in the output. This helps identify missing data during development:": "データオブジェクトに変数が見つからない場合、プレースホルダーは出力に保持されます。これは開発中に欠落データを特定するのに役立ちます：",
-  "If 'missingKey' is not in data, output will contain '{{missingKey}}'": "If 'missingKey' is not in data, output will contain '{{missingKey}}' ('missingKey'がデータにない場合、出力には'{{missingKey}}'が含まれます)"
+  "If 'missingKey' is not in data, output will contain '{{missingKey}}'": "If 'missingKey' is not in data, output will contain '{{missingKey}}' ('missingKey'がデータにない場合、出力には'{{missingKey}}'が含まれます)",
+  "Limitations": "制限事項",
+  "The following limitations apply to template variable names (for security reasons):": "セキュリティ上の理由から、テンプレート変数名には以下の制限が適用されます：",
+  "Limitation": "制限",
+  "Value": "値",
+  "Reason": "理由",
+  "Maximum variable name length": "変数名の最大長",
+  "255 characters": "255文字",
+  "Prevents ReDoS (Regular Expression Denial of Service) attacks": "ReDoS（正規表現サービス拒否）攻撃を防止",
+  "Variable names exceeding 255 characters will not be replaced and will remain as literal placeholders in the output.": "255文字を超える変数名は置換されず、出力にそのままプレースホルダーとして残ります。"
 }

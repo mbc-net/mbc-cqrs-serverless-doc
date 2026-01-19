@@ -115,5 +115,14 @@
   "No whitespace": "No whitespace",
   "Missing Variables": "Missing Variables",
   "If a variable is not found in the data object, the placeholder is preserved in the output. This helps identify missing data during development:": "If a variable is not found in the data object, the placeholder is preserved in the output. This helps identify missing data during development:",
-  "If 'missingKey' is not in data, output will contain '{{missingKey}}'": "If 'missingKey' is not in data, output will contain '{{missingKey}}'"
+  "If 'missingKey' is not in data, output will contain '{{missingKey}}'": "If 'missingKey' is not in data, output will contain '{{missingKey}}'",
+  "Limitations": "Limitations",
+  "The following limitations apply to template variable names (for security reasons):": "The following limitations apply to template variable names (for security reasons):",
+  "Limitation": "Limitation",
+  "Value": "Value",
+  "Reason": "Reason",
+  "Maximum variable name length": "Maximum variable name length",
+  "255 characters": "255 characters",
+  "Prevents ReDoS (Regular Expression Denial of Service) attacks": "Prevents ReDoS (Regular Expression Denial of Service) attacks",
+  "Variable names exceeding 255 characters will not be replaced and will remain as literal placeholders in the output.": "Variable names exceeding 255 characters will not be replaced and will remain as literal placeholders in the output."
 }

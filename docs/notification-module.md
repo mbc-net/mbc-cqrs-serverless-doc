@@ -365,6 +365,16 @@ template: {
 }
 ```
 
+##### {{Limitations}}
+
+{{The following limitations apply to template variable names (for security reasons):}}
+
+| {{Limitation}} | {{Value}} | {{Reason}} |
+|----------------|-----------|------------|
+| {{Maximum variable name length}} | {{255 characters}} | {{Prevents ReDoS (Regular Expression Denial of Service) attacks}} |
+
+{{Variable names exceeding 255 characters will not be replaced and will remain as literal placeholders in the output.}}
+
 #### {{TemplatedEmailNotification Interface}}
 
 | {{Property}} | {{Type}} | {{Required}} | {{Description}} |
