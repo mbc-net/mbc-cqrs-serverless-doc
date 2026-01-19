@@ -1,0 +1,62 @@
+{
+  "latest": {
+    "version": "1.0.25",
+    "date": "2026-01-19",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.25",
+    "features": [
+      "Enhanced inline template email with advanced variable substitution"
+    ],
+    "bugFixes": [],
+    "security": []
+  },
+  "recent": [
+    {
+      "version": "1.0.25",
+      "date": "2026-01-19",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.25",
+      "features": [
+        "Enhanced inline template email with advanced variable substitution"
+      ],
+      "bugFixes": [],
+      "security": []
+    },
+    {
+      "version": "1.0.24",
+      "date": "2026-01-17",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.24",
+      "features": [
+        "Add Claude Code Skills for guided development assistance",
+        "Add `mbc install-skills` command for easy skills installation"
+      ],
+      "bugFixes": [
+        "Fix typo in parameter name `skExpession` to `skExpression`"
+      ],
+      "security": []
+    },
+    {
+      "version": "1.0.23",
+      "date": "2026-01-16",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.23",
+      "features": [
+        "Add inline template email support with `sendInlineTemplateEmail()` method"
+      ],
+      "bugFixes": [],
+      "security": []
+    },
+    {
+      "version": "1.0.22",
+      "date": "2026-01-16",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.22",
+      "features": [
+        "Add code analysis tools for AI-assisted development"
+      ],
+      "bugFixes": [
+        "Improve code analysis tools robustness"
+      ],
+      "security": [
+        "Fix security vulnerabilities in dependencies: qs, express, body-parser"
+      ]
+    }
+  ],
+  "generated": "2026-01-19T09:07:21.816Z"
+}
