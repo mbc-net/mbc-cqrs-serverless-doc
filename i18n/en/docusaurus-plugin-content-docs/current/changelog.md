@@ -17,6 +17,14 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ## Stable Releases (1.x)
 
+## [1.0.26](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.26) (TBD) {#v1026}
+
+### Security
+
+- Update `diff` package from 4.0.2 to 4.0.4 for security fix ([PR #297](https://github.com/mbc-net/mbc-cqrs-serverless/pull/297))
+
+---
+
 ## [1.0.25](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.25) (2026-01-19) {#v1025}
 
 ### Features

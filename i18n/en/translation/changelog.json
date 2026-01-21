@@ -1,4 +1,7 @@
 {
+  "TBD": "TBD",
+  "Update `diff` package from 4.0.2 to 4.0.4 for security fix": "Update `diff` package from 4.0.2 to 4.0.4 for security fix",
+  "Dependencies": "Dependencies",
   "Enhanced inline template email with advanced variable substitution": "Enhanced inline template email with advanced variable substitution",
   "Support for nested property access (e.g., `{{user.profile.name}}`)": "Support for nested property access (e.g., `{{user.profile.name}}`)",
   "Support for Unicode/Japanese keys in template variables": "Support for Unicode/Japanese keys in template variables",

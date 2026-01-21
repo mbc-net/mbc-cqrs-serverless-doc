@@ -1,4 +1,7 @@
 {
+  "TBD": "未定",
+  "Update `diff` package from 4.0.2 to 4.0.4 for security fix": "セキュリティ修正のため`diff`パッケージを4.0.2から4.0.4に更新",
+  "Dependencies": "依存関係",
   "Enhanced inline template email with advanced variable substitution": "高度な変数置換によるインラインテンプレートメールの機能強化",
   "Support for nested property access (e.g., `{{user.profile.name}}`)": "ネストプロパティアクセスのサポート（例: `{{user.profile.name}}`）",
   "Support for Unicode/Japanese keys in template variables": "テンプレート変数でのUnicode/日本語キーのサポート",
