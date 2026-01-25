@@ -1,6 +1,11 @@
 {
   "TBD": "TBD",
+  "Add configurable local service ports via environment variables": "Add configurable local service ports via environment variables",
+  "Support for `LOCAL_HTTP_PORT`, `LOCAL_DYNAMODB_PORT`, `LOCAL_RDS_PORT`, and other port variables": "Support for `LOCAL_HTTP_PORT`, `LOCAL_DYNAMODB_PORT`, `LOCAL_RDS_PORT`, and other port variables",
+  "Allows users to resolve port conflicts with other services": "Allows users to resolve port conflicts with other services",
+  "Configuration is automatically applied to Docker Compose, Serverless Offline, and trigger scripts": "Configuration is automatically applied to Docker Compose, Serverless Offline, and trigger scripts",
   "Update `diff` package from 4.0.2 to 4.0.4 for security fix": "Update `diff` package from 4.0.2 to 4.0.4 for security fix",
+  "Update `lodash` package from 4.17.21 to 4.17.23 for prototype pollution fix": "Update `lodash` package from 4.17.21 to 4.17.23 for prototype pollution fix",
   "Dependencies": "Dependencies",
   "Enhanced inline template email with advanced variable substitution": "Enhanced inline template email with advanced variable substitution",
   "Support for nested property access (e.g., `{{user.profile.name}}`)": "Support for nested property access (e.g., `{{user.profile.name}}`)",
