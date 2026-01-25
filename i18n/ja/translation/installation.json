@@ -61,5 +61,7 @@
   "Stop all running services (Docker and Serverless Offline)": "実行中のすべてのサービス（DockerとServerless Offline）を停止",
   "Run `npm run offline:docker` to restart Docker services": "`npm run offline:docker`を実行してDockerサービスを再起動",
   "Run `npm run offline:sls` to restart Serverless Offline": "`npm run offline:sls`を実行してServerless Offlineを再起動",
-  "The port configuration is automatically applied to all related services including Docker Compose, Serverless Offline, and the DynamoDB stream trigger script. You only need to set the environment variables once in your `.env` file.": "ポート設定は、Docker Compose、Serverless Offline、DynamoDBストリームトリガースクリプトを含むすべての関連サービスに自動的に適用されます。`.env`ファイルで環境変数を一度設定するだけで済みます。"
+  "The port configuration is automatically applied to all related services including Docker Compose, Serverless Offline, and the DynamoDB stream trigger script. You only need to set the environment variables once in your `.env` file.": "ポート設定は、Docker Compose、Serverless Offline、DynamoDBストリームトリガースクリプトを含むすべての関連サービスに自動的に適用されます。`.env`ファイルで環境変数を一度設定するだけで済みます。",
+  "Version Note": "バージョンノート",
+  "Local port configuration feature was added in [version 1.0.26](/docs/changelog#v1026).": "ローカルポート設定機能は[バージョン 1.0.26](/docs/changelog#v1026)で追加されました。"
 }
