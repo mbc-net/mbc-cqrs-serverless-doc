@@ -79,6 +79,54 @@ Server ready: http://localhost:3000 🚀
 - {{Simple Email Service: http://localhost:8005}}
 - {{Run `npx prisma studio` to open studio web: http://localhost:5000}}
 
+## {{Configuring Local Service Ports}} {#configuring-local-ports}
+
+{{If you have port conflicts with other services (e.g., another MySQL instance, another application using port 3000), you can configure the local service ports via environment variables in your `.env` file.}}
+
+### {{Available Port Variables}}
+
+| {{Variable}} | {{Default}} | {{Service}} |
+|-------------|-------------|-------------|
+| `LOCAL_HTTP_PORT` | `3000` | {{API Gateway (Serverless Offline)}} |
+| `LOCAL_LAMBDA_PORT` | `3002` | {{Lambda HTTP endpoint}} |
+| `LOCAL_DYNAMODB_PORT` | `8000` | {{DynamoDB Local}} |
+| `LOCAL_RDS_PORT` | `3306` | {{MySQL (RDS)}} |
+| `LOCAL_S3_PORT` | `4566` | {{LocalStack (S3)}} |
+| `LOCAL_SNS_PORT` | `4002` | {{SNS}} |
+| `LOCAL_SQS_PORT` | `9324` | {{SQS (ElasticMQ)}} |
+| `LOCAL_SQS_UI_PORT` | `9325` | {{SQS Admin UI}} |
+| `LOCAL_SFN_PORT` | `8083` | {{Step Functions Local}} |
+| `LOCAL_COGNITO_PORT` | `9229` | {{Cognito Local}} |
+| `LOCAL_APPSYNC_PORT` | `4001` | {{AppSync Simulator}} |
+| `LOCAL_EVENTBRIDGE_PORT` | `4010` | {{EventBridge}} |
+| `LOCAL_SES_PORT` | `8005` | {{Simple Email Service}} |
+| `LOCAL_DDB_ADMIN_PORT` | `8001` | {{DynamoDB Admin UI}} |
+
+### {{Example: Changing Ports}}
+
+{{To change the API Gateway port from 3000 to 3010 and MySQL port from 3306 to 3307, add the following to your `.env` file:}}
+
+```bash
+# {{Change API Gateway port to 3010}}
+LOCAL_HTTP_PORT=3010
+
+# {{Change MySQL port to 3307}}
+LOCAL_RDS_PORT=3307
+
+# {{Change DynamoDB port to 9000}}
+LOCAL_DYNAMODB_PORT=9000
+```
+
+{{After changing the ports, restart all services:}}
+
+1. {{Stop all running services (Docker and Serverless Offline)}}
+2. {{Run `npm run offline:docker` to restart Docker services}}
+3. {{Run `npm run offline:sls` to restart Serverless Offline}}
+
+:::tip
+{{The port configuration is automatically applied to all related services including Docker Compose, Serverless Offline, and the DynamoDB stream trigger script. You only need to set the environment variables once in your `.env` file.}}
+:::
+
 :::note
 
 {{In the local environment, if you have trouble with the `npm run migrate` command or cannot log in with local Cognito, you will need to add more permissions to files and folders using the command below:}}

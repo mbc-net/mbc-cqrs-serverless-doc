@@ -79,6 +79,54 @@ Server ready: http://localhost:3000 🚀
 - Simple Email Service: http://localhost:8005
 - `npx prisma studio` を実行して prisma studio を起動します。 エンドポイント: http://localhost:5000
 
+## ローカルサービスのポート設定 {#configuring-local-ports}
+
+他のサービス（別のMySQLインスタンスやポート3000を使用する他のアプリケーションなど）とポートが競合する場合は、`.env`ファイルの環境変数でローカルサービスのポートを設定できます。
+
+### 利用可能なポート変数
+
+| 変数 | デフォルト | サービス |
+|-------------|-------------|-------------|
+| `LOCAL_HTTP_PORT` | `3000` | API Gateway (Serverless Offline) |
+| `LOCAL_LAMBDA_PORT` | `3002` | Lambda HTTPエンドポイント |
+| `LOCAL_DYNAMODB_PORT` | `8000` | DynamoDB Local |
+| `LOCAL_RDS_PORT` | `3306` | MySQL (RDS) |
+| `LOCAL_S3_PORT` | `4566` | LocalStack (S3) |
+| `LOCAL_SNS_PORT` | `4002` | SNS |
+| `LOCAL_SQS_PORT` | `9324` | SQS (ElasticMQ) |
+| `LOCAL_SQS_UI_PORT` | `9325` | SQS管理画面 |
+| `LOCAL_SFN_PORT` | `8083` | Step Functions Local |
+| `LOCAL_COGNITO_PORT` | `9229` | Cognito Local |
+| `LOCAL_APPSYNC_PORT` | `4001` | AppSyncシミュレーター |
+| `LOCAL_EVENTBRIDGE_PORT` | `4010` | EventBridge |
+| `LOCAL_SES_PORT` | `8005` | Simple Email Service |
+| `LOCAL_DDB_ADMIN_PORT` | `8001` | DynamoDB管理画面 |
+
+### 例: ポートの変更
+
+API Gatewayのポートを3000から3010に、MySQLのポートを3306から3307に変更するには、`.env`ファイルに以下を追加します：
+
+```bash
+# API Gatewayのポートを3010に変更
+LOCAL_HTTP_PORT=3010
+
+# MySQLのポートを3307に変更
+LOCAL_RDS_PORT=3307
+
+# DynamoDBのポートを9000に変更
+LOCAL_DYNAMODB_PORT=9000
+```
+
+ポートを変更した後、すべてのサービスを再起動します：
+
+1. 実行中のすべてのサービス（DockerとServerless Offline）を停止
+2. `npm run offline:docker`を実行してDockerサービスを再起動
+3. `npm run offline:sls`を実行してServerless Offlineを再起動
+
+:::tip
+ポート設定は、Docker Compose、Serverless Offline、DynamoDBストリームトリガースクリプトを含むすべての関連サービスに自動的に適用されます。`.env`ファイルで環境変数を一度設定するだけで済みます。
+:::
+
 :::note
 
 ローカル開発環境で `npm run migrate` コマンドやローカルの Cognito にログイン出来ない場合は次のコマンドを使用してファイルやフォルダーにアクセス権を設定する必要があります。
