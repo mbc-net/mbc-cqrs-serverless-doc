@@ -81,6 +81,10 @@ Server ready: http://localhost:3000 🚀
 
 ## {{Configuring Local Service Ports}} {#configuring-local-ports}
 
+:::info {{Version Note}}
+{{Local port configuration feature was added in [version 1.0.26](/docs/changelog#v1026).}}
+:::
+
 {{If you have port conflicts with other services (e.g., another MySQL instance, another application using port 3000), you can configure the local service ports via environment variables in your `.env` file.}}
 
 ### {{Available Port Variables}}

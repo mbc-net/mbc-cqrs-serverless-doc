@@ -61,5 +61,7 @@
   "Stop all running services (Docker and Serverless Offline)": "Stop all running services (Docker and Serverless Offline)",
   "Run `npm run offline:docker` to restart Docker services": "Run `npm run offline:docker` to restart Docker services",
   "Run `npm run offline:sls` to restart Serverless Offline": "Run `npm run offline:sls` to restart Serverless Offline",
-  "The port configuration is automatically applied to all related services including Docker Compose, Serverless Offline, and the DynamoDB stream trigger script. You only need to set the environment variables once in your `.env` file.": "The port configuration is automatically applied to all related services including Docker Compose, Serverless Offline, and the DynamoDB stream trigger script. You only need to set the environment variables once in your `.env` file."
+  "The port configuration is automatically applied to all related services including Docker Compose, Serverless Offline, and the DynamoDB stream trigger script. You only need to set the environment variables once in your `.env` file.": "The port configuration is automatically applied to all related services including Docker Compose, Serverless Offline, and the DynamoDB stream trigger script. You only need to set the environment variables once in your `.env` file.",
+  "Version Note": "Version Note",
+  "Local port configuration feature was added in [version 1.0.26](/docs/changelog#v1026).": "Local port configuration feature was added in [version 1.0.26](/docs/changelog#v1026)."
 }
