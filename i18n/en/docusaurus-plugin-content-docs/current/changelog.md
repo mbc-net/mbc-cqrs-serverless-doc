@@ -19,9 +19,17 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ## [1.0.26](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.26) (TBD) {#v1026}
 
+### Features
+
+- **cli:** Add configurable local service ports via environment variables ([See Details](/docs/installation#configuring-local-ports)) ([PR #300](https://github.com/mbc-net/mbc-cqrs-serverless/pull/300))
+  - Support for `LOCAL_HTTP_PORT`, `LOCAL_DYNAMODB_PORT`, `LOCAL_RDS_PORT`, and other port variables
+  - Allows users to resolve port conflicts with other services
+  - Configuration is automatically applied to Docker Compose, Serverless Offline, and trigger scripts
+
 ### Security
 
-- Update `diff` package from 4.0.2 to 4.0.4 for security fix ([PR #297](https://github.com/mbc-net/mbc-cqrs-serverless/pull/297))
+- Update `diff` package from 4.0.2 to 4.0.4 for security fix ([PR #297](https://github.com/mbc-net/mbc-cqrs-serverless/pull/297), [PR #299](https://github.com/mbc-net/mbc-cqrs-serverless/pull/299))
+- Update `lodash` package from 4.17.21 to 4.17.23 for prototype pollution fix ([PR #298](https://github.com/mbc-net/mbc-cqrs-serverless/pull/298))
 
 ---
 
