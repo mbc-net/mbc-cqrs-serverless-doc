@@ -1,5 +1,6 @@
 {
   "TBD": "未定",
+  "2026-01-26": "2026-01-26",
   "Add configurable local service ports via environment variables": "環境変数によるローカルサービスポートの設定機能を追加",
   "Support for `LOCAL_HTTP_PORT`, `LOCAL_DYNAMODB_PORT`, `LOCAL_RDS_PORT`, and other port variables": "`LOCAL_HTTP_PORT`、`LOCAL_DYNAMODB_PORT`、`LOCAL_RDS_PORT`などのポート変数をサポート",
   "Allows users to resolve port conflicts with other services": "他のサービスとのポート競合を解決可能に",

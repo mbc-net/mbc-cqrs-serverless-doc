@@ -1,15 +1,31 @@
 {
   "latest": {
-    "version": "1.0.25",
-    "date": "2026-01-19",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.25",
+    "version": "1.0.26",
+    "date": "2026-01-26",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.26",
     "features": [
-      "高度な変数置換によるインラインテンプレートメールの機能強化"
+      "環境変数によるローカルサービスポートの設定機能を追加"
     ],
     "bugFixes": [],
-    "security": []
+    "security": [
+      "セキュリティ修正のため`diff`パッケージを4.0.2から4.0.4に更新 ([PR #297](https://github.com/mbc-net/mbc-cqrs-serverless/pull/297), [PR #299](https://github.com/mbc-net/mbc-cqrs-serverless/pull/299))",
+      "プロトタイプ汚染修正のため`lodash`パッケージを4.17.21から4.17.23に更新 ([PR #298](https://github.com/mbc-net/mbc-cqrs-serverless/pull/298))"
+    ]
   },
   "recent": [
+    {
+      "version": "1.0.26",
+      "date": "2026-01-26",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.26",
+      "features": [
+        "環境変数によるローカルサービスポートの設定機能を追加"
+      ],
+      "bugFixes": [],
+      "security": [
+        "セキュリティ修正のため`diff`パッケージを4.0.2から4.0.4に更新 ([PR #297](https://github.com/mbc-net/mbc-cqrs-serverless/pull/297), [PR #299](https://github.com/mbc-net/mbc-cqrs-serverless/pull/299))",
+        "プロトタイプ汚染修正のため`lodash`パッケージを4.17.21から4.17.23に更新 ([PR #298](https://github.com/mbc-net/mbc-cqrs-serverless/pull/298))"
+      ]
+    },
     {
       "version": "1.0.25",
       "date": "2026-01-19",
@@ -42,21 +58,7 @@
       ],
       "bugFixes": [],
       "security": []
-    },
-    {
-      "version": "1.0.22",
-      "date": "2026-01-16",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.22",
-      "features": [
-        "AI支援開発のためのコード分析ツールを追加"
-      ],
-      "bugFixes": [
-        "コード分析ツールの堅牢性を向上"
-      ],
-      "security": [
-        "依存関係のセキュリティ脆弱性を修正: qs, express, body-parser"
-      ]
     }
   ],
-  "generated": "2026-01-19T09:13:30.293Z"
+  "generated": "2026-01-26T13:14:25.967Z"
 }

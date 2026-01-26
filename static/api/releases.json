@@ -1,15 +1,31 @@
 {
   "latest": {
-    "version": "1.0.25",
-    "date": "2026-01-19",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.25",
+    "version": "1.0.26",
+    "date": "2026-01-26",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.26",
     "features": [
-      "Enhanced inline template email with advanced variable substitution"
+      "Add configurable local service ports via environment variables"
     ],
     "bugFixes": [],
-    "security": []
+    "security": [
+      "Update `diff` package from 4.0.2 to 4.0.4 for security fix",
+      "Update `lodash` package from 4.17.21 to 4.17.23 for prototype pollution fix"
+    ]
   },
   "recent": [
+    {
+      "version": "1.0.26",
+      "date": "2026-01-26",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.26",
+      "features": [
+        "Add configurable local service ports via environment variables"
+      ],
+      "bugFixes": [],
+      "security": [
+        "Update `diff` package from 4.0.2 to 4.0.4 for security fix",
+        "Update `lodash` package from 4.17.21 to 4.17.23 for prototype pollution fix"
+      ]
+    },
     {
       "version": "1.0.25",
       "date": "2026-01-19",
@@ -42,21 +58,7 @@
       ],
       "bugFixes": [],
       "security": []
-    },
-    {
-      "version": "1.0.22",
-      "date": "2026-01-16",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.22",
-      "features": [
-        "Add code analysis tools for AI-assisted development"
-      ],
-      "bugFixes": [
-        "Improve code analysis tools robustness"
-      ],
-      "security": [
-        "Fix security vulnerabilities in dependencies: qs, express, body-parser"
-      ]
     }
   ],
-  "generated": "2026-01-19T09:13:30.292Z"
+  "generated": "2026-01-26T13:14:25.965Z"
 }

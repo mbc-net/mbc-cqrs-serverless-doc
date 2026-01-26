@@ -1,5 +1,6 @@
 {
   "TBD": "TBD",
+  "2026-01-26": "2026-01-26",
   "Add configurable local service ports via environment variables": "Add configurable local service ports via environment variables",
   "Support for `LOCAL_HTTP_PORT`, `LOCAL_DYNAMODB_PORT`, `LOCAL_RDS_PORT`, and other port variables": "Support for `LOCAL_HTTP_PORT`, `LOCAL_DYNAMODB_PORT`, `LOCAL_RDS_PORT`, and other port variables",
   "Allows users to resolve port conflicts with other services": "Allows users to resolve port conflicts with other services",
