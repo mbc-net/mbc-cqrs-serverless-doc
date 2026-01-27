@@ -15,11 +15,33 @@ description: MBC CQRS Serverless使用時によく発生する問題の解決策
 **解決策**:
 
 ```bash
-# Use --legacy-peer-deps flag
+# --legacy-peer-depsフラグを使用
 npm install --legacy-peer-deps
 
-# Or update npm to latest version
+# または、npmを最新バージョンに更新
 npm install -g npm@latest
+```
+
+### npm installがnode-wafエラーで失敗する
+
+**症状**: npm installが `node-waf: command not found` エラーで失敗する（通常はzlibパッケージが原因）。
+
+```
+npm error path node_modules/zlib
+npm error command sh -c node-waf clean || true; node-waf configure build
+npm error sh: node-waf: command not found
+```
+
+**原因**: 一部のレガシーなserverless-offlineプラグインが、廃止されたnode-wafビルドツールを使用するパッケージに依存しています。
+
+**解決策**:
+
+```bash
+# インストール時にビルドスクリプトをスキップ
+npm install --legacy-peer-deps --ignore-scripts
+
+# その後、postinstallスクリプトを手動で実行
+npx prisma generate
 ```
 
 ### CLIコマンドが見つからない
@@ -98,6 +120,58 @@ DATABASE_URL="postgresql://postgres:postgres@localhost:5432/myapp?schema=public"
 ```bash
 npx prisma migrate reset
 npx prisma migrate dev
+```
+
+### {{Master API returns 500 Internal Server Error}}
+
+**症状**: {{Master API endpoints (`/api/master-setting/list`, `/api/master-data/list`) return 500 Internal Server Error.}}
+
+**原因**: {{The Master module requires both DynamoDB tables and an RDS table. If the `masters` table doesn't exist in RDS, the API will fail with a 500 error.}}
+
+**解決策**:
+
+1. {{Verify the `masters` table exists in RDS:}}
+```bash
+# {{For MySQL}}
+docker exec mysql mysql -u root -proot mydb -e "SHOW TABLES LIKE 'masters';"
+
+# {{For PostgreSQL}}
+docker exec postgres psql -U postgres -d mydb -c "\dt masters"
+```
+
+2. {{If the table is missing, add it to your Prisma schema:}}
+```prisma
+model Master {
+  pk         String   @db.VarChar(256)
+  sk         String   @db.VarChar(512)
+  id         String   @id @db.VarChar(256)
+  name       String   @db.VarChar(256)
+  code       String   @db.VarChar(256)
+  version    Int      @default(0)
+  tenantCode String   @map("tenant_code") @db.VarChar(64)
+  type       String   @db.VarChar(256)
+  attributes Json?
+  isDeleted  Boolean  @default(false) @map("is_deleted")
+  createdAt  DateTime @default(now()) @map("created_at")
+  createdBy  String   @default("system") @map("created_by") @db.VarChar(256)
+  updatedAt  DateTime @default(now()) @updatedAt @map("updated_at")
+  updatedBy  String   @default("system") @map("updated_by") @db.VarChar(256)
+
+  @@unique([pk, sk])
+  @@index([tenantCode])
+  @@map("masters")
+}
+```
+
+3. {{Run Prisma migration:}}
+```bash
+npx prisma migrate dev --name add_master_table
+```
+
+4. {{Verify the DynamoDB tables also exist:}}
+```bash
+aws dynamodb list-tables --endpoint-url http://localhost:8000 | grep master
+# {{Should show: master-command, master-data, master-history}}
 ```
 
 ### DynamoDBスループット超過

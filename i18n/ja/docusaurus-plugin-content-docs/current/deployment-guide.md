@@ -156,6 +156,48 @@ infra/
     └── pipeline-infra-stage.ts # パイプラインインフラストラクチャステージ
 ```
 
+## 既知の問題と回避策
+
+### レガシー依存関係による npm install エラー
+
+一部のserverless-offlineプラグインには、`npm install` 時にビルドエラーを引き起こす可能性のあるレガシー依存関係があります：
+
+```
+npm error path node_modules/zlib
+npm error command sh -c node-waf clean || true; node-waf configure build
+npm error sh: node-waf: command not found
+```
+
+回避策：`--ignore-scripts` と `--legacy-peer-deps` フラグを使用します：
+
+```bash
+npm install --legacy-peer-deps --ignore-scripts
+npx prisma generate  # postinstallスクリプトを手動で実行
+```
+
+### CDK 環境設定
+
+デフォルトの `infra/bin/infra.ts` テンプレートでは account/region の値が空になっている場合があり、以下のようなエラーが発生することがあります：
+
+```
+Invalid S3 bucket name (value: cdk-hnb659fds-assets--)
+```
+
+`infra/bin/infra.ts` で環境変数を使用していることを確認してください：
+
+```typescript
+const cdkEnv: cdk.Environment = {
+  account: process.env.CDK_DEFAULT_ACCOUNT,
+  region: process.env.CDK_DEFAULT_REGION || 'ap-northeast-1',
+};
+```
+
+CDKコマンドを実行する際、AWSプロファイルがこれらの値を自動的に提供します：
+
+```bash
+AWS_PROFILE=your-profile cdk synth
+```
+
 ## CDKでのデプロイ
 
 ### デプロイ対象環境の設定

@@ -156,6 +156,48 @@ infra/
     └── pipeline-infra-stage.ts # Pipeline infrastructure stage
 ```
 
+## Known Issues and Workarounds
+
+### npm install Errors with Legacy Dependencies
+
+Some serverless-offline plugins have legacy dependencies that may cause build errors during `npm install`:
+
+```
+npm error path node_modules/zlib
+npm error command sh -c node-waf clean || true; node-waf configure build
+npm error sh: node-waf: command not found
+```
+
+Workaround: Use the `--ignore-scripts` and `--legacy-peer-deps` flags:
+
+```bash
+npm install --legacy-peer-deps --ignore-scripts
+npx prisma generate  # Run postinstall script manually
+```
+
+### CDK Environment Configuration
+
+The default `infra/bin/infra.ts` template may have empty account/region values, causing errors like:
+
+```
+Invalid S3 bucket name (value: cdk-hnb659fds-assets--)
+```
+
+Ensure your `infra/bin/infra.ts` uses environment variables:
+
+```typescript
+const cdkEnv: cdk.Environment = {
+  account: process.env.CDK_DEFAULT_ACCOUNT,
+  region: process.env.CDK_DEFAULT_REGION || 'ap-northeast-1',
+};
+```
+
+When running CDK commands, the AWS profile automatically provides these values:
+
+```bash
+AWS_PROFILE=your-profile cdk synth
+```
+
 ## Deploying with CDK
 
 ### Configure Target Environments
