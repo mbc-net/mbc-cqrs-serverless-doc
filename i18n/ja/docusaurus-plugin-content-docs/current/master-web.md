@@ -14,15 +14,15 @@ npm install @mbc-cqrs-serverless/master-web
 
 ## クイックスタート（推奨セットアップ）
 
-:::tip ここから始めましょう
-**これがNext.js App Routerでmaster-webを統合する推奨方法です。** このパターンに従うことで、`httpClient.get is not a function`のような一般的なエラーを回避できます。
+:::tip ここから始める
+**これは master-web を Next.js App Router と統合する推奨方法です。** このパターンに従うことで、`httpClient.get is not a function` などの一般的な問題を回避できます。
 :::
 
-Next.js App Router（v14+/v15）でこのライブラリを使用する場合、**レイアウトベースのProviderパターン**を使用してください。`layout.tsx`ファイルで`AppProviders`をセットアップし、`page.tsx`ファイルではコンポーネントの動的インポートを使用します。
+このライブラリを Next.js App Router (v14+/v15) で使用する場合は、**Layout ベースの Provider パターン**を使用してください。`layout.tsx` ファイルで `AppProviders` をセットアップし、`page.tsx` ファイルではコンポーネントの動的インポートを使用します。
 
-### ステップ1: layout.tsxの作成
+### ステップ 1: layout.tsx を作成
 
-Providerをセットアップするレイアウトファイルを作成します。これにより、子コンポーネントがマウントされる前にコンテキストが適切に初期化されます。
+Provider をセットアップするレイアウトファイルを作成します。これにより、子コンポーネントがマウントされる前にコンテキストが適切に初期化されます。
 
 ```tsx
 // app/admin/[tenant]/master/layout.tsx
@@ -44,7 +44,7 @@ const AppProviders = dynamic(
   { ssr: false }
 )
 
-// Custom URL provider for your application's routing (アプリケーションのルーティング用カスタムURLプロバイダー)
+// Custom URL provider for your application's routing (アプリケーションのルーティング用カスタム URL プロバイダー)
 class MasterUrlProvider implements IUrlProvider {
   protected readonly baseUrl: string
   public readonly SETTINGS_PAGE_URL: string
@@ -119,9 +119,9 @@ export default function MasterLayout({ children }: { children: React.ReactNode }
 }
 ```
 
-### ステップ2: page.tsxの作成
+### ステップ 2: page.tsx を作成
 
-レイアウトでProviderをセットアップした後、各ページコンポーネントはシンプルになります：
+レイアウトでプロバイダーをセットアップした後、各ページコンポーネントはシンプルになります：
 
 ```tsx
 // app/admin/[tenant]/master/master-setting/page.tsx
@@ -147,7 +147,7 @@ export default function MasterSettingPage() {
 }
 ```
 
-### ステップ3: 環境変数の設定
+### ステップ 3: 環境変数を設定
 
 ```bash
 # .env.local
@@ -157,17 +157,17 @@ NEXT_PUBLIC_MASTER_APPSYNC_APIKEY=da2-xxxxxxxxxxxxxxxxx
 NEXT_PUBLIC_MASTER_APPSYNC_REGION=ap-northeast-1
 ```
 
-### なぜこのパターンなのか？
+### なぜこのパターンを使うのか？
 
 | メリット | 説明 |
 |-------------|-----------------|
-| **コンテキスト分離を回避** | npmパッケージ内のReact Contextは分離される可能性があります。レイアウトでコンテキストを最初に初期化することで解決します。 |
-| **同期的な初期化** | `useMemo`を使用することでhttpClientを同期的に作成し、競合状態を回避します。 |
-| **自動認証トークン** | Axiosインターセプターがすべてのリクエストで最新の認証トークンを注入します。 |
-| **シンプルなページコンポーネント** | ページは動的インポートとコンポーネントレンダリングのみで済みます。 |
+| **コンテキストの分離を回避** | npmパッケージのReact Contextは分離されることがあります。Layoutを使用すると、コンテキストが最初に初期化されることが保証されます。 |
+| **同期的な初期化** | `useMemo`を使用することで、httpClientが同期的に作成され、競合状態を回避できます。 |
+| **認証トークンの自動注入** | Axiosインターセプターがリクエストごとに最新の認証トークンを注入します。 |
+| **シンプルなページコンポーネント** | ページは動的インポートとコンポーネントのレンダリングだけで済みます。 |
 
 :::info 詳細について
-代替パターン、トラブルシューティング、詳細な説明については、[Next.js App Router統合](#nextjs-app-router-integration)を参照してください。
+代替パターン、トラブルシューティング、詳細な説明については[Next.js App Router統合](#nextjs-app-router-integration)を参照してください。
 :::
 
 ## 概要

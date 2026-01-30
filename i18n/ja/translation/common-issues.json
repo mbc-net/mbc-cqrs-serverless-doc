@@ -120,5 +120,15 @@
   "Clear description of the problem": "問題の明確な説明",
   "Steps to reproduce": "再現手順",
   "Error messages and logs": "エラーメッセージとログ",
-  "Environment details (Node version, OS, etc.)": "環境の詳細（Nodeバージョン、OSなど）"
+  "Environment details (Node version, OS, etc.)": "環境の詳細（Nodeバージョン、OSなど）",
+  "Master API returns 500 Internal Server Error": "Master APIが500 Internal Server Errorを返す",
+  "Master API endpoints (`/api/master-setting/list`, `/api/master-data/list`) return 500 Internal Server Error.": "Master APIエンドポイント（`/api/master-setting/list`、`/api/master-data/list`）が500 Internal Server Errorを返す。",
+  "The Master module requires both DynamoDB tables and an RDS table. If the `masters` table doesn't exist in RDS, the API will fail with a 500 error.": "MasterモジュールはDynamoDBテーブルとRDSテーブルの両方を必要とします。RDSに`masters`テーブルが存在しない場合、APIは500エラーで失敗します。",
+  "Verify the `masters` table exists in RDS:": "RDSに`masters`テーブルが存在することを確認：",
+  "For MySQL": "MySQLの場合",
+  "For PostgreSQL": "PostgreSQLの場合",
+  "If the table is missing, add it to your Prisma schema:": "テーブルがない場合は、Prismaスキーマに追加：",
+  "Run Prisma migration:": "Prismaマイグレーションを実行：",
+  "Verify the DynamoDB tables also exist:": "DynamoDBテーブルも存在することを確認：",
+  "Should show: master-command, master-data, master-history": "表示されるはず: master-command, master-data, master-history"
 }

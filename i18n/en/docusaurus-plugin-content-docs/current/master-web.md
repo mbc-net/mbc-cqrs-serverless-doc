@@ -12,17 +12,17 @@ Frontend component library for master data and settings management in MBC CQRS S
 npm install @mbc-cqrs-serverless/master-web
 ```
 
-## {{Quick Start (Recommended Setup)}}
+## Quick Start (Recommended Setup)
 
-:::tip {{Start Here}}
-{{**This is the recommended way to integrate master-web with Next.js App Router.** Following this pattern will help you avoid common issues like `httpClient.get is not a function` errors.}}
+:::tip Start Here
+**This is the recommended way to integrate master-web with Next.js App Router.** Following this pattern will help you avoid common issues like `httpClient.get is not a function` errors.
 :::
 
-{{When using this library with Next.js App Router (v14+/v15), use the **Layout-based Provider Pattern**. Set up `AppProviders` in a `layout.tsx` file, and use dynamic imports for components in `page.tsx` files.}}
+When using this library with Next.js App Router (v14+/v15), use the **Layout-based Provider Pattern**. Set up `AppProviders` in a `layout.tsx` file, and use dynamic imports for components in `page.tsx` files.
 
-### {{Step 1: Create layout.tsx}}
+### Step 1: Create layout.tsx
 
-{{Create a layout file that sets up the providers. This ensures the context is properly initialized before child components mount.}}
+Create a layout file that sets up the providers. This ensures the context is properly initialized before child components mount.
 
 ```tsx
 // app/admin/[tenant]/master/layout.tsx
@@ -44,7 +44,7 @@ const AppProviders = dynamic(
   { ssr: false }
 )
 
-// {{Custom URL provider for your application's routing}}
+// Custom URL provider for your application's routing
 class MasterUrlProvider implements IUrlProvider {
   protected readonly baseUrl: string
   public readonly SETTINGS_PAGE_URL: string
@@ -119,9 +119,9 @@ export default function MasterLayout({ children }: { children: React.ReactNode }
 }
 ```
 
-### {{Step 2: Create page.tsx}}
+### Step 2: Create page.tsx
 
-{{After setting up providers in the layout, each page component is simple:}}
+After setting up providers in the layout, each page component is simple:
 
 ```tsx
 // app/admin/[tenant]/master/master-setting/page.tsx
@@ -147,7 +147,7 @@ export default function MasterSettingPage() {
 }
 ```
 
-### {{Step 3: Configure Environment Variables}}
+### Step 3: Configure Environment Variables
 
 ```bash
 # .env.local
@@ -157,17 +157,17 @@ NEXT_PUBLIC_MASTER_APPSYNC_APIKEY=da2-xxxxxxxxxxxxxxxxx
 NEXT_PUBLIC_MASTER_APPSYNC_REGION=ap-northeast-1
 ```
 
-### {{Why This Pattern?}}
+### Why This Pattern?
 
-| {{Benefit}} | Description |
+| Benefit | Description |
 |-------------|-----------------|
-| {{**Avoids Context Isolation**}} | {{React Context in npm packages can become isolated. Layout ensures context is initialized first.}} |
-| {{**Synchronous Initialization**}} | {{Using `useMemo` creates httpClient synchronously, avoiding race conditions.}} |
-| {{**Automatic Auth Tokens**}} | {{Axios interceptors inject the latest auth token on every request.}} |
-| {{**Simple Page Components**}} | {{Pages only need dynamic imports and component rendering.}} |
+| **Avoids Context Isolation** | React Context in npm packages can become isolated. Layout ensures context is initialized first. |
+| **Synchronous Initialization** | Using `useMemo` creates httpClient synchronously, avoiding race conditions. |
+| **Automatic Auth Tokens** | Axios interceptors inject the latest auth token on every request. |
+| **Simple Page Components** | Pages only need dynamic imports and component rendering. |
 
-:::info {{For More Details}}
-{{See [Next.js App Router Integration](#nextjs-app-router-integration) for alternative patterns, troubleshooting, and detailed explanations.}}
+:::info For More Details
+See [Next.js App Router Integration](#nextjs-app-router-integration) for alternative patterns, troubleshooting, and detailed explanations.
 :::
 
 ## Overview

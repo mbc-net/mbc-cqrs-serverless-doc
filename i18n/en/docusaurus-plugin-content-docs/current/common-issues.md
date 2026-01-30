@@ -122,24 +122,24 @@ npx prisma migrate reset
 npx prisma migrate dev
 ```
 
-### {{Master API returns 500 Internal Server Error}}
+### Master API returns 500 Internal Server Error
 
-**Symptom**: {{Master API endpoints (`/api/master-setting/list`, `/api/master-data/list`) return 500 Internal Server Error.}}
+**Symptom**: Master API endpoints (`/api/master-setting/list`, `/api/master-data/list`) return 500 Internal Server Error.
 
-**Cause**: {{The Master module requires both DynamoDB tables and an RDS table. If the `masters` table doesn't exist in RDS, the API will fail with a 500 error.}}
+**Cause**: The Master module requires both DynamoDB tables and an RDS table. If the `masters` table doesn't exist in RDS, the API will fail with a 500 error.
 
 **Solution**:
 
-1. {{Verify the `masters` table exists in RDS:}}
+1. Verify the `masters` table exists in RDS:
 ```bash
-# {{For MySQL}}
+# For MySQL
 docker exec mysql mysql -u root -proot mydb -e "SHOW TABLES LIKE 'masters';"
 
-# {{For PostgreSQL}}
+# For PostgreSQL
 docker exec postgres psql -U postgres -d mydb -c "\dt masters"
 ```
 
-2. {{If the table is missing, add it to your Prisma schema:}}
+2. If the table is missing, add it to your Prisma schema:
 ```prisma
 model Master {
   pk         String   @db.VarChar(256)
@@ -163,15 +163,15 @@ model Master {
 }
 ```
 
-3. {{Run Prisma migration:}}
+3. Run Prisma migration:
 ```bash
 npx prisma migrate dev --name add_master_table
 ```
 
-4. {{Verify the DynamoDB tables also exist:}}
+4. Verify the DynamoDB tables also exist:
 ```bash
 aws dynamodb list-tables --endpoint-url http://localhost:8000 | grep master
-# {{Should show: master-command, master-data, master-history}}
+# Should show: master-command, master-data, master-history
 ```
 
 ### DynamoDB throughput exceeded

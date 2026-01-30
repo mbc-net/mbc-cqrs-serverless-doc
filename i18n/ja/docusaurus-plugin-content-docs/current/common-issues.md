@@ -122,24 +122,24 @@ npx prisma migrate reset
 npx prisma migrate dev
 ```
 
-### {{Master API returns 500 Internal Server Error}}
+### Master APIが500 Internal Server Errorを返す
 
-**症状**: {{Master API endpoints (`/api/master-setting/list`, `/api/master-data/list`) return 500 Internal Server Error.}}
+**症状**: Master APIエンドポイント（`/api/master-setting/list`、`/api/master-data/list`）が500 Internal Server Errorを返す。
 
-**原因**: {{The Master module requires both DynamoDB tables and an RDS table. If the `masters` table doesn't exist in RDS, the API will fail with a 500 error.}}
+**原因**: MasterモジュールはDynamoDBテーブルとRDSテーブルの両方を必要とします。RDSに`masters`テーブルが存在しない場合、APIは500エラーで失敗します。
 
 **解決策**:
 
-1. {{Verify the `masters` table exists in RDS:}}
+1. RDSに`masters`テーブルが存在することを確認：
 ```bash
-# {{For MySQL}}
+# MySQLの場合
 docker exec mysql mysql -u root -proot mydb -e "SHOW TABLES LIKE 'masters';"
 
-# {{For PostgreSQL}}
+# PostgreSQLの場合
 docker exec postgres psql -U postgres -d mydb -c "\dt masters"
 ```
 
-2. {{If the table is missing, add it to your Prisma schema:}}
+2. テーブルがない場合は、Prismaスキーマに追加：
 ```prisma
 model Master {
   pk         String   @db.VarChar(256)
@@ -163,15 +163,15 @@ model Master {
 }
 ```
 
-3. {{Run Prisma migration:}}
+3. Prismaマイグレーションを実行：
 ```bash
 npx prisma migrate dev --name add_master_table
 ```
 
-4. {{Verify the DynamoDB tables also exist:}}
+4. DynamoDBテーブルも存在することを確認：
 ```bash
 aws dynamodb list-tables --endpoint-url http://localhost:8000 | grep master
-# {{Should show: master-command, master-data, master-history}}
+# 表示されるはず: master-command, master-data, master-history
 ```
 
 ### DynamoDBスループット超過

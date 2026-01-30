@@ -120,5 +120,15 @@
   "Clear description of the problem": "Clear description of the problem",
   "Steps to reproduce": "Steps to reproduce",
   "Error messages and logs": "Error messages and logs",
-  "Environment details (Node version, OS, etc.)": "Environment details (Node version, OS, etc.)"
+  "Environment details (Node version, OS, etc.)": "Environment details (Node version, OS, etc.)",
+  "Master API returns 500 Internal Server Error": "Master API returns 500 Internal Server Error",
+  "Master API endpoints (`/api/master-setting/list`, `/api/master-data/list`) return 500 Internal Server Error.": "Master API endpoints (`/api/master-setting/list`, `/api/master-data/list`) return 500 Internal Server Error.",
+  "The Master module requires both DynamoDB tables and an RDS table. If the `masters` table doesn't exist in RDS, the API will fail with a 500 error.": "The Master module requires both DynamoDB tables and an RDS table. If the `masters` table doesn't exist in RDS, the API will fail with a 500 error.",
+  "Verify the `masters` table exists in RDS:": "Verify the `masters` table exists in RDS:",
+  "For MySQL": "For MySQL",
+  "For PostgreSQL": "For PostgreSQL",
+  "If the table is missing, add it to your Prisma schema:": "If the table is missing, add it to your Prisma schema:",
+  "Run Prisma migration:": "Run Prisma migration:",
+  "Verify the DynamoDB tables also exist:": "Verify the DynamoDB tables also exist:",
+  "Should show: master-command, master-data, master-history": "Should show: master-command, master-data, master-history"
 }

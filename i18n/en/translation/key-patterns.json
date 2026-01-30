@@ -164,5 +164,7 @@
   "Use when creating new entities": "Use when creating new entities",
   "Returned when SK has no version": "Returned when SK has no version",
   "Use for cross-tenant shared data": "Use for cross-tenant shared data",
-  "Default for single-tenant mode": "Default for single-tenant mode"
+  "Default for single-tenant mode": "Default for single-tenant mode",
+  "Note on TENANT_COMMON in Master and Tenant Modules": "Note on TENANT_COMMON in Master and Tenant Modules",
+  "The `@mbc-cqrs-serverless/master` and `@mbc-cqrs-serverless/tenant` packages define their own `SettingTypeEnum.TENANT_COMMON` with uppercase value `'COMMON'`, not lowercase `'common'`. When using `createCommonTenantSetting()` or `createCommonTenant()` methods, they use uppercase internally.": "The `@mbc-cqrs-serverless/master` and `@mbc-cqrs-serverless/tenant` packages define their own `SettingTypeEnum.TENANT_COMMON` with uppercase value `'COMMON'`, not lowercase `'common'`. When using `createCommonTenantSetting()` or `createCommonTenant()` methods, they use uppercase internally."
 }
