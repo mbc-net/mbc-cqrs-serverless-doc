@@ -29,6 +29,10 @@ graph TB
 npm install @mbc-cqrs-serverless/tenant
 ```
 
+:::info テナントコードの形式
+テナントコードは大文字小文字を区別しません。`@mbc-cqrs-serverless/core`の`getUserContext()`関数は、すべてのテナントコードを小文字に正規化します。一貫性のため、テナントを作成する際は小文字のコード（例：`tenant001`、`acme-corp`）を使用してください。
+:::
+
 ## モジュール登録
 
 ```ts

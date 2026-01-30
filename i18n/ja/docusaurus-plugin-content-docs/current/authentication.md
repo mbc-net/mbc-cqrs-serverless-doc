@@ -125,6 +125,10 @@ import { ExecutionContext } from "@nestjs/common";
 
 :::
 
+:::warning テナントコードの正規化
+`getUserContext()` が返す `tenantCode` は、大文字小文字を区別しないマッチングのために小文字に正規化されます。例えば、`TenantA`、`TENANTA`、`tenanta` はすべて `tenanta` として返されます。これにより、`custom:roles` クレーム内の `role.tenant` 値との一貫したマッチングが保証されます。
+:::
+
 カスタムロジックが必要な場合は、独自のヘルパー関数を実装できます：
 
 ```ts
@@ -152,9 +156,11 @@ export const getCustomUserContext = (
   const claims = getAuthorizerClaims(ctx);
 
   const userId = claims.sub;
-  const tenantCode =
+  // Normalize tenant code to lowercase for case-insensitive matching (大文字小文字を区別しないマッチングのため小文字に正規化)
+  const tenantCode = (
     claims["custom:tenant"] ||
-    (ctx?.event?.headers || {})[HEADER_TENANT_CODE];
+    (ctx?.event?.headers || {})[HEADER_TENANT_CODE]
+  )?.toLowerCase();
 
   // Parse roles from JSON array and find matching tenant role (JSON配列からロールをパースし、マッチするテナントロールを見つける)
   const roles = (

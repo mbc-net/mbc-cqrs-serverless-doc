@@ -40,6 +40,10 @@ description: MBC CQRS Serverlessでマルチテナントのデータ分離とテ
 
 ## テナントコンテキスト
 
+:::info テナントコードの正規化
+`getUserContext()` が返すすべてのテナントコードは小文字に正規化されます。つまり、`TenantA`、`TENANTA`、`tenanta` はすべて `tenanta` として扱われます。CognitoのカスタムクレームやHTTPヘッダーでテナントコードを定義する際、大文字小文字は問いません。内部的には一貫したマッチングのため常に小文字になります。
+:::
+
 ### テナントコンテキストの抽出
 
 呼び出しコンテキストからテナント情報を抽出するヘルパーを作成します：
@@ -82,6 +86,24 @@ export const TENANT_COMMON = 'common';
  * Used in single-tenant mode or when tenant context is not available (シングルテナントモードまたはテナントコンテキストが利用できない場合に使用)
  */
 export const DEFAULT_TENANT_CODE = 'single';
+```
+
+:::warning 重要: MasterモジュールとTenantモジュールのCOMMON定数
+`@mbc-cqrs-serverless/master`と`@mbc-cqrs-serverless/tenant`パッケージでは、共通テナントコード用の内部定数として`'COMMON'`（大文字）を定義しています。
+
+これらのモジュールの組み込みメソッド（例：`createCommonTenantSetting`、`createCommonTenant`）を使用する場合、データ保存時に内部的にこの`'COMMON'`値が自動的に使用されます。
+
+```typescript
+// @mbc-cqrs-serverless/masterと@mbc-cqrs-serverless/tenantで
+export enum SettingTypeEnum {
+  TENANT_COMMON = 'COMMON',  // Internal constant for data storage (データ保存用の内部定数)
+}
+```
+
+注意: 保存される値は`'COMMON'`ですが、HTTPヘッダーで`x-tenant-code: COMMON`を送信すると、正規化により`getUserContext()`は`'common'`（小文字）を返します。カスタム実装では、正規化されたテナントコードとの一貫性のため小文字の`'common'`を使用してください。
+:::
+
+```typescript
 
 /**
  * Check if user has access to tenant (ユーザーがテナントへのアクセス権を持っているか確認)

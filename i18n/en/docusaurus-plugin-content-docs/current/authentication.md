@@ -125,6 +125,10 @@ The `getUserContext` function is provided by `@mbc-cqrs-serverless/core`. It aut
 
 :::
 
+:::warning Tenant Code Normalization
+The `tenantCode` returned by `getUserContext()` is normalized to lowercase for case-insensitive matching. For example, `TenantA`, `TENANTA`, and `tenanta` are all returned as `tenanta`. This ensures consistent matching with `role.tenant` values in the `custom:roles` claim.
+:::
+
 If you need custom logic, you can implement your own helper function:
 
 ```ts
@@ -152,9 +156,11 @@ export const getCustomUserContext = (
   const claims = getAuthorizerClaims(ctx);
 
   const userId = claims.sub;
-  const tenantCode =
+  // Normalize tenant code to lowercase for case-insensitive matching
+  const tenantCode = (
     claims["custom:tenant"] ||
-    (ctx?.event?.headers || {})[HEADER_TENANT_CODE];
+    (ctx?.event?.headers || {})[HEADER_TENANT_CODE]
+  )?.toLowerCase();
 
   // Parse roles from JSON array and find matching tenant role
   const roles = (
