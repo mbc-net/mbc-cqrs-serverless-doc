@@ -94,6 +94,10 @@ ID = PK#SK (without version)
 | `TENANT_COMMON` | `common` | 共有/クロステナントデータ用のテナントコード |
 | `DEFAULT_TENANT_CODE` | `single` | シングルテナントモードのデフォルトテナント |
 
+:::warning MasterモジュールとTenantモジュールでのTENANT_COMMONについて
+`@mbc-cqrs-serverless/master`と`@mbc-cqrs-serverless/tenant`パッケージは、独自の`SettingTypeEnum.TENANT_COMMON`を大文字の`'COMMON'`で定義しています（小文字の`'common'`ではありません）。`createCommonTenantSetting()`や`createCommonTenant()`メソッドを使用する場合、内部的に大文字が使用されます。
+:::
+
 ### 組み込みキージェネレーター {#built-in-generators}
 
 フレームワークは以下の組み込みキージェネレーターを提供します：
