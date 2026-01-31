@@ -164,5 +164,7 @@
   "Use when creating new entities": "新しいエンティティ作成時に使用",
   "Returned when SK has no version": "SKにバージョンがない場合に返される",
   "Use for cross-tenant shared data": "クロステナント共有データに使用",
-  "Default for single-tenant mode": "シングルテナントモードのデフォルト"
+  "Default for single-tenant mode": "シングルテナントモードのデフォルト",
+  "Note on TENANT_COMMON in Master and Tenant Modules": "MasterモジュールとTenantモジュールでのTENANT_COMMONについて",
+  "The `@mbc-cqrs-serverless/master` and `@mbc-cqrs-serverless/tenant` packages define their own `SettingTypeEnum.TENANT_COMMON` with uppercase value `'COMMON'`, not lowercase `'common'`. When using `createCommonTenantSetting()` or `createCommonTenant()` methods, they use uppercase internally.": "`@mbc-cqrs-serverless/master`と`@mbc-cqrs-serverless/tenant`パッケージは、独自の`SettingTypeEnum.TENANT_COMMON`を大文字の`'COMMON'`で定義しています（小文字の`'common'`ではありません）。`createCommonTenantSetting()`や`createCommonTenant()`メソッドを使用する場合、内部的に大文字が使用されます。"
 }

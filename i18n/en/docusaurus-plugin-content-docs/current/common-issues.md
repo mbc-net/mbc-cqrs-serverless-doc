@@ -22,6 +22,28 @@ npm install --legacy-peer-deps
 npm install -g npm@latest
 ```
 
+### npm install fails with node-waf error
+
+**Symptom**: npm install fails with `node-waf: command not found` error, typically from the zlib package.
+
+```
+npm error path node_modules/zlib
+npm error command sh -c node-waf clean || true; node-waf configure build
+npm error sh: node-waf: command not found
+```
+
+**Cause**: Some legacy serverless-offline plugins depend on packages that use the deprecated node-waf build tool.
+
+**Solution**:
+
+```bash
+# Skip build scripts during installation
+npm install --legacy-peer-deps --ignore-scripts
+
+# Then run postinstall scripts manually
+npx prisma generate
+```
+
 ### CLI command not found
 
 **Symptom**: `mbc-cqrs` command is not recognized.
@@ -98,6 +120,58 @@ DATABASE_URL="postgresql://postgres:postgres@localhost:5432/myapp?schema=public"
 ```bash
 npx prisma migrate reset
 npx prisma migrate dev
+```
+
+### Master API returns 500 Internal Server Error
+
+**Symptom**: Master API endpoints (`/api/master-setting/list`, `/api/master-data/list`) return 500 Internal Server Error.
+
+**Cause**: The Master module requires both DynamoDB tables and an RDS table. If the `masters` table doesn't exist in RDS, the API will fail with a 500 error.
+
+**Solution**:
+
+1. Verify the `masters` table exists in RDS:
+```bash
+# For MySQL
+docker exec mysql mysql -u root -proot mydb -e "SHOW TABLES LIKE 'masters';"
+
+# For PostgreSQL
+docker exec postgres psql -U postgres -d mydb -c "\dt masters"
+```
+
+2. If the table is missing, add it to your Prisma schema:
+```prisma
+model Master {
+  pk         String   @db.VarChar(256)
+  sk         String   @db.VarChar(512)
+  id         String   @id @db.VarChar(256)
+  name       String   @db.VarChar(256)
+  code       String   @db.VarChar(256)
+  version    Int      @default(0)
+  tenantCode String   @map("tenant_code") @db.VarChar(64)
+  type       String   @db.VarChar(256)
+  attributes Json?
+  isDeleted  Boolean  @default(false) @map("is_deleted")
+  createdAt  DateTime @default(now()) @map("created_at")
+  createdBy  String   @default("system") @map("created_by") @db.VarChar(256)
+  updatedAt  DateTime @default(now()) @updatedAt @map("updated_at")
+  updatedBy  String   @default("system") @map("updated_by") @db.VarChar(256)
+
+  @@unique([pk, sk])
+  @@index([tenantCode])
+  @@map("masters")
+}
+```
+
+3. Run Prisma migration:
+```bash
+npx prisma migrate dev --name add_master_table
+```
+
+4. Verify the DynamoDB tables also exist:
+```bash
+aws dynamodb list-tables --endpoint-url http://localhost:8000 | grep master
+# Should show: master-command, master-data, master-history
 ```
 
 ### DynamoDB throughput exceeded

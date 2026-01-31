@@ -40,6 +40,10 @@ Use this guide when you need to:
 
 ## Tenant Context
 
+:::info Tenant Code Normalization
+All tenant codes returned by `getUserContext()` are normalized to lowercase. This means `TenantA`, `TENANTA`, and `tenanta` are all treated as `tenanta`. When defining tenant codes in Cognito custom claims or HTTP headers, the case doesn't matter - internally they are always lowercase for consistent matching.
+:::
+
 ### Extracting Tenant Context
 
 Create a helper to extract tenant information from invoke context:
@@ -82,6 +86,24 @@ export const TENANT_COMMON = 'common';
  * Used in single-tenant mode or when tenant context is not available
  */
 export const DEFAULT_TENANT_CODE = 'single';
+```
+
+:::warning Important: COMMON Constant in Master and Tenant Modules
+The `@mbc-cqrs-serverless/master` and `@mbc-cqrs-serverless/tenant` packages define an internal constant `'COMMON'` (uppercase) for the common tenant code.
+
+When using these modules' built-in methods (e.g., `createCommonTenantSetting`, `createCommonTenant`), they automatically use this `'COMMON'` value internally for data storage.
+
+```typescript
+// {{In @mbc-cqrs-serverless/master and @mbc-cqrs-serverless/tenant}}
+export enum SettingTypeEnum {
+  TENANT_COMMON = 'COMMON',  // Internal constant for data storage
+}
+```
+
+Note: Even though the stored value is `'COMMON'`, when you send `x-tenant-code: COMMON` in HTTP headers, `getUserContext()` returns `'common'` (lowercase) due to normalization. For custom implementations, use lowercase `'common'` for consistency with the normalized tenant codes.
+:::
+
+```typescript
 
 /**
  * Check if user has access to tenant

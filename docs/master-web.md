@@ -12,6 +12,164 @@ description: {{Learn about the Master Web package for building master data manag
 npm install @mbc-cqrs-serverless/master-web
 ```
 
+## {{Quick Start (Recommended Setup)}}
+
+:::tip {{Start Here}}
+{{**This is the recommended way to integrate master-web with Next.js App Router.** Following this pattern will help you avoid common issues like `httpClient.get is not a function` errors.}}
+:::
+
+{{When using this library with Next.js App Router (v14+/v15), use the **Layout-based Provider Pattern**. Set up `AppProviders` in a `layout.tsx` file, and use dynamic imports for components in `page.tsx` files.}}
+
+### {{Step 1: Create layout.tsx}}
+
+{{Create a layout file that sets up the providers. This ensures the context is properly initialized before child components mount.}}
+
+```tsx
+// app/admin/[tenant]/master/layout.tsx
+'use client'
+
+import { useMemo } from 'react'
+import dynamic from 'next/dynamic'
+import { useParams } from 'next/navigation'
+import axios from 'axios'
+import { fetchAuthSession } from 'aws-amplify/auth'
+import type { IUrlProvider } from '@mbc-cqrs-serverless/master-web/UrlProvider'
+
+// {{Dynamic import of AppProviders (SSR disabled)}}
+const AppProviders = dynamic(
+  () =>
+    import('@mbc-cqrs-serverless/master-web/AppProviders').then(
+      (mod) => mod.AppProviders
+    ),
+  { ssr: false }
+)
+
+// {{Custom URL provider for your application's routing}}
+class MasterUrlProvider implements IUrlProvider {
+  protected readonly baseUrl: string
+  public readonly SETTINGS_PAGE_URL: string
+  public readonly ADD_SETTINGS_PAGE_URL: string
+  public readonly EDIT_SETTINGS_PAGE_URL: string
+  public readonly DATA_PAGE_URL: string
+  public readonly ADD_DATA_PAGE_URL: string
+  public readonly EDIT_DATA_PAGE_URL: string
+  public readonly FAQ_CATEGORY_PAGE_URL: string
+  public readonly TOP_URL: string
+
+  constructor(tenantCode: string) {
+    this.baseUrl = `/admin/${tenantCode}/master`
+    this.SETTINGS_PAGE_URL = `${this.baseUrl}/master-setting`
+    this.ADD_SETTINGS_PAGE_URL = `${this.baseUrl}/master-setting/new`
+    this.EDIT_SETTINGS_PAGE_URL = this.SETTINGS_PAGE_URL
+    this.DATA_PAGE_URL = `${this.baseUrl}/master-data`
+    this.ADD_DATA_PAGE_URL = `${this.baseUrl}/master-data/new`
+    this.EDIT_DATA_PAGE_URL = this.DATA_PAGE_URL
+    this.FAQ_CATEGORY_PAGE_URL = `${this.baseUrl}/faq-category`
+    this.TOP_URL = `/admin/${tenantCode}`
+  }
+
+  public getCopySettingPageUrl(id: string): string {
+    return `${this.baseUrl}/master-setting/${id}/copy/new`
+  }
+  public getDetailedCopySettingPageUrl(id: string): string {
+    return `${this.baseUrl}/master-setting/${id}/copy`
+  }
+}
+
+export default function MasterLayout({ children }: { children: React.ReactNode }) {
+  const params = useParams<{ tenant: string }>()
+  const tenantCode = params?.tenant || 'common'
+
+  const urlProvider = useMemo(() => new MasterUrlProvider(tenantCode), [tenantCode])
+
+  // {{Create httpClient with Axios interceptor for automatic auth token injection}}
+  const httpClient = useMemo(() => {
+    const baseEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT || 'http://localhost:3010'
+    const instance = axios.create({
+      baseURL: `${baseEndpoint}/api`,
+      headers: {
+        'Content-Type': 'application/json',
+        'x-tenant-code': tenantCode,
+      },
+    })
+
+    instance.interceptors.request.use(async (config) => {
+      try {
+        const session = await fetchAuthSession()
+        const token = session.tokens?.idToken?.toString()
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`
+        }
+      } catch {
+        // {{Ignore auth errors}}
+      }
+      return config
+    })
+
+    return instance
+  }, [tenantCode])
+
+  const user = useMemo(() => ({ tenantCode, tenantRole: 'admin' }), [tenantCode])
+
+  return (
+    <AppProviders user={user} urlProvider={urlProvider} httpClient={httpClient}>
+      <div className="p-6">{children}</div>
+    </AppProviders>
+  )
+}
+```
+
+### {{Step 2: Create page.tsx}}
+
+{{After setting up providers in the layout, each page component is simple:}}
+
+```tsx
+// app/admin/[tenant]/master/master-setting/page.tsx
+'use client'
+
+import dynamic from 'next/dynamic'
+import MsLayout from '@mbc-cqrs-serverless/master-web/MsLayout'
+import '@mbc-cqrs-serverless/master-web/styles.css'
+
+const MasterSetting = dynamic(
+  () => import('@mbc-cqrs-serverless/master-web/MasterSetting').then((mod) => mod.default),
+  { ssr: false }
+)
+
+export default function MasterSettingPage() {
+  return (
+    <main>
+      <MsLayout useLoading>
+        <MasterSetting />
+      </MsLayout>
+    </main>
+  )
+}
+```
+
+### {{Step 3: Configure Environment Variables}}
+
+```bash
+# .env.local
+NEXT_PUBLIC_API_ENDPOINT=http://localhost:3010
+NEXT_PUBLIC_MASTER_APPSYNC_URL=https://xxxxxxxx.appsync-api.ap-northeast-1.amazonaws.com/graphql
+NEXT_PUBLIC_MASTER_APPSYNC_APIKEY=da2-xxxxxxxxxxxxxxxxx
+NEXT_PUBLIC_MASTER_APPSYNC_REGION=ap-northeast-1
+```
+
+### {{Why This Pattern?}}
+
+| {{Benefit}} | {{Description}} |
+|-------------|-----------------|
+| {{**Avoids Context Isolation**}} | {{React Context in npm packages can become isolated. Layout ensures context is initialized first.}} |
+| {{**Synchronous Initialization**}} | {{Using `useMemo` creates httpClient synchronously, avoiding race conditions.}} |
+| {{**Automatic Auth Tokens**}} | {{Axios interceptors inject the latest auth token on every request.}} |
+| {{**Simple Page Components**}} | {{Pages only need dynamic imports and component rendering.}} |
+
+:::info {{For More Details}}
+{{See [Next.js App Router Integration](#nextjs-app-router-integration) for alternative patterns, troubleshooting, and detailed explanations.}}
+:::
+
 ## {{Overview}}
 
 {{The Master Web package (`@mbc-cqrs-serverless/master-web`) provides a complete set of React components for managing master data and settings. It integrates seamlessly with the backend Master Service and includes pre-built pages, forms, and data tables.}}
@@ -1015,16 +1173,16 @@ function MyForm() {
 | `pageCount` | `number` | - | {{Total number of pages}} |
 | `rowCount` | `number` | - | {{Total number of rows}} |
 | `pagination` | `PaginationState` | - | {{Current pagination state (pageIndex, pageSize)}} |
-| `onPaginationChange` | `OnChangeFn<PaginationState>` | - | {{Callback when pagination changes}} |
+| `onPaginationChange` | `(pagination: PaginationState) => void` | - | {{Callback when pagination changes}} |
 | `sorting` | `SortingState` | - | {{Current sorting state}} |
-| `onSortingChange` | `OnChangeFn<SortingState>` | - | {{Callback when sorting changes}} |
+| `onSortingChange` | `(sorting: SortingState) => void` | - | {{Callback when sorting changes}} |
 | `onClickRow` | `(row: TData) => void` | - | {{Callback when a row is clicked}} |
 | `rowKey` | `keyof TData \| ((row: TData) => string)` | - | {{Key extractor for row identification}} |
 | `rowSelection` | `RowSelectionState` | - | {{Current row selection state}} |
-| `onRowSelectionChange` | `OnChangeFn<RowSelectionState>` | - | {{Callback when row selection changes}} |
+| `onRowSelectionChange` | `(state: RowSelectionState) => void` | - | {{Callback when row selection changes}} |
 
-:::info {{OnChangeFn Type}}
-{{`OnChangeFn<T>` is a TanStack Table type: `(updater: T | ((prev: T) => T)) => void`. This is compatible with React's `useState` setter functions.}}
+:::info {{State Types}}
+{{`PaginationState`, `SortingState`, and `RowSelectionState` are TanStack Table types. `PaginationState` contains `pageIndex` and `pageSize` properties.}}
 :::
 
 #### {{DataTable Features}}
@@ -1160,12 +1318,441 @@ import "@mbc-cqrs-serverless/master-web/styles.css";
 
 {{The components use Tailwind CSS for styling. Ensure your project has Tailwind CSS configured.}}
 
+## {{Next.js App Router Integration}}
+
+{{When using master-web components with Next.js App Router (v14+/v15), there are important considerations for handling Server-Side Rendering (SSR) and client-side state.}}
+
+### {{SSR Compatibility Issue}}
+
+{{The JsonEditor component uses the `jsoneditor` library internally, which requires browser APIs (`self`, `window`) that are not available during SSR. This causes errors like:}}
+
+```
+ReferenceError: self is not defined
+```
+
+### {{Solution: Dynamic Import with SSR Disabled}}
+
+{{Use Next.js dynamic imports with `ssr: false` to load master-web components only on the client side:}}
+
+```tsx
+'use client'
+
+import dynamic from 'next/dynamic'
+import { useMemo } from 'react'
+
+// {{Create wrapper component that handles dynamic import}}
+function MasterSettingWrapper({ httpClient, urlProvider, user }) {
+  // {{Dynamic import inside component for proper context handling}}
+  const MasterSetting = useMemo(
+    () =>
+      dynamic(() => import('@mbc-cqrs-serverless/master-web/MasterSetting'), {
+        ssr: false,
+        loading: () => <div>Loading...</div>,
+      }),
+    []
+  )
+
+  return (
+    <AppProviders user={user} httpClient={httpClient} urlProvider={urlProvider}>
+      <MasterSetting />
+    </AppProviders>
+  )
+}
+```
+
+:::warning {{Important}}
+{{Define the dynamic import inside a wrapper component (using `useMemo`) rather than at the module level. This ensures the AppProviders context is properly available when the component mounts.}}
+:::
+
+### {{Recommended Pattern: Layout-based Provider Pattern}}
+
+{{**The most recommended implementation pattern** is to use Next.js App Router's `layout.tsx` to set up AppProviders. This pattern reliably avoids the `httpClient.get is not a function` error.}}
+
+#### {{Why Layout Pattern is Recommended}}
+
+1. {{**Solves React Context Isolation Issues**: React Context bundled in npm packages can become isolated from the application's context. By setting up providers in the Layout, the Context is guaranteed to be initialized before child components mount.}}
+
+2. {{**Synchronous httpClient Initialization**: By using `useMemo`, the httpClient is created synchronously without async state management (useState + useEffect).}}
+
+3. {{**Automatic Auth Token Injection**: Using Axios interceptors, the latest auth token is automatically retrieved for each request.}}
+
+#### {{Implementation Example: layout.tsx}}
+
+```tsx
+// app/admin/[tenant]/master/layout.tsx
+'use client'
+
+import { useMemo } from 'react'
+import dynamic from 'next/dynamic'
+import { useParams } from 'next/navigation'
+import axios from 'axios'
+import { fetchAuthSession } from 'aws-amplify/auth'
+import type { IUrlProvider } from '@mbc-cqrs-serverless/master-web/UrlProvider'
+import '@/modules/common/components/ConfigureAmplifyClientSide'
+
+// {{Dynamic import of AppProviders (SSR disabled)}}
+const AppProviders = dynamic(
+  () =>
+    import('@mbc-cqrs-serverless/master-web/AppProviders').then(
+      (mod) => mod.AppProviders
+    ),
+  { ssr: false }
+)
+
+// {{Multi-tenant URL provider}}
+class MasterUrlProvider implements IUrlProvider {
+  protected readonly baseUrl: string
+
+  public readonly SETTINGS_PAGE_URL: string
+  public readonly ADD_SETTINGS_PAGE_URL: string
+  public readonly EDIT_SETTINGS_PAGE_URL: string
+  public readonly DATA_PAGE_URL: string
+  public readonly ADD_DATA_PAGE_URL: string
+  public readonly EDIT_DATA_PAGE_URL: string
+  public readonly FAQ_CATEGORY_PAGE_URL: string
+  public readonly TOP_URL: string
+
+  constructor(tenantCode: string) {
+    this.baseUrl = `/admin/${tenantCode}/master`
+
+    this.SETTINGS_PAGE_URL = `${this.baseUrl}/master-setting`
+    this.ADD_SETTINGS_PAGE_URL = `${this.baseUrl}/master-setting/new`
+    this.EDIT_SETTINGS_PAGE_URL = this.SETTINGS_PAGE_URL
+    this.DATA_PAGE_URL = `${this.baseUrl}/master-data`
+    this.ADD_DATA_PAGE_URL = `${this.baseUrl}/master-data/new`
+    this.EDIT_DATA_PAGE_URL = this.DATA_PAGE_URL
+    this.FAQ_CATEGORY_PAGE_URL = `${this.baseUrl}/faq-category`
+    this.TOP_URL = `/admin/${tenantCode}`
+  }
+
+  public getCopySettingPageUrl(id: string): string {
+    return `${this.baseUrl}/master-setting/${id}/copy/new`
+  }
+
+  public getDetailedCopySettingPageUrl(id: string): string {
+    return `${this.baseUrl}/master-setting/${id}/copy`
+  }
+}
+
+export default function MasterLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const params = useParams<{ tenant: string }>()
+  const tenantCode = params?.tenant || 'common'
+
+  // {{Create URL provider synchronously with useMemo}}
+  const urlProvider = useMemo(() => new MasterUrlProvider(tenantCode), [tenantCode])
+
+  // {{Create httpClient synchronously with useMemo (interceptor auto-injects auth token)}}
+  const httpClient = useMemo(() => {
+    const baseEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT || 'http://localhost:3010'
+    const instance = axios.create({
+      baseURL: `${baseEndpoint}/api`,
+      headers: {
+        'Content-Type': 'application/json',
+        'x-tenant-code': tenantCode,
+      },
+    })
+
+    // {{Interceptor to get auth token}}
+    instance.interceptors.request.use(async (config) => {
+      try {
+        const session = await fetchAuthSession()
+        const token = session.tokens?.idToken?.toString()
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`
+        }
+      } catch {
+        // {{Ignore auth errors}}
+      }
+      return config
+    })
+
+    return instance
+  }, [tenantCode])
+
+  const user = useMemo(
+    () => ({
+      tenantCode,
+      tenantRole: 'admin',
+    }),
+    [tenantCode]
+  )
+
+  return (
+    <AppProviders user={user} urlProvider={urlProvider} httpClient={httpClient}>
+      <div className="p-6">{children}</div>
+    </AppProviders>
+  )
+}
+```
+
+#### {{Page Component Implementation}}
+
+{{After setting up providers in the Layout, each page component becomes simple:}}
+
+```tsx
+// app/admin/[tenant]/master/master-setting/page.tsx
+'use client'
+
+import dynamic from 'next/dynamic'
+import MsLayout from '@mbc-cqrs-serverless/master-web/MsLayout'
+
+const MasterSetting = dynamic(
+  () => import('@mbc-cqrs-serverless/master-web/MasterSetting').then((mod) => mod.default),
+  { ssr: false }
+)
+
+export default function MasterSettingPage() {
+  return (
+    <main>
+      <MsLayout useLoading>
+        <MasterSetting />
+      </MsLayout>
+    </main>
+  )
+}
+```
+
+```tsx
+// app/admin/[tenant]/master/master-setting/new/page.tsx
+'use client'
+
+import dynamic from 'next/dynamic'
+import MsLayout from '@mbc-cqrs-serverless/master-web/MsLayout'
+
+const EditMasterSettings = dynamic(
+  () => import('@mbc-cqrs-serverless/master-web/EditMasterSettings').then((mod) => mod.default),
+  { ssr: false }
+)
+
+export default function NewMasterSettingPage() {
+  return (
+    <main>
+      <MsLayout useLoading>
+        <EditMasterSettings />
+      </MsLayout>
+    </main>
+  )
+}
+```
+
+:::tip {{Key Points}}
+- {{**layout.tsx**: Set up AppProviders, httpClient, and urlProvider}}
+- {{**page.tsx**: Simply render components with dynamic imports}}
+- {{**MsLayout**: Provides loading overlay and toast notifications}}
+:::
+
+### {{AWS Amplify v6 Integration}}
+
+{{The default httpClient in master-web uses AWS Amplify v5 APIs (`Auth.currentSession()`). If your project uses AWS Amplify v6, you must provide a custom httpClient.}}
+
+{{The Layout-based Provider Pattern example above uses Amplify v6's `fetchAuthSession` with Axios interceptors. This is the recommended approach.}}
+
+#### {{Alternative Pattern: Configuration in Page Component}}
+
+{{Alternative implementation if you don't use the Layout pattern:}}
+
+```tsx
+'use client'
+
+import { useState, useEffect, useCallback, useMemo } from 'react'
+import axios, { AxiosInstance } from 'axios'
+import * as Auth from 'aws-amplify/auth'  // {{Amplify v6 import}}
+import { AppProviders } from '@mbc-cqrs-serverless/master-web/AppProviders'
+import { BaseUrlProvider } from '@mbc-cqrs-serverless/master-web/UrlProvider'
+import dynamic from 'next/dynamic'
+
+interface MasterTemplateProps {
+  tenantCode: string
+}
+
+// {{Custom URL provider for multi-tenant routing}}
+class MasterUrlProvider extends BaseUrlProvider {
+  constructor(tenantCode: string) {
+    // {{BaseUrlProvider adds leading slash, so omit it here}}
+    super(`admin/${tenantCode}/master`)
+  }
+}
+
+// {{Wrapper component for proper context handling}}
+function MasterSettingWrapper({
+  httpClient,
+  urlProvider,
+  user,
+}: {
+  httpClient: AxiosInstance
+  urlProvider: MasterUrlProvider
+  user: { tenantCode: string; tenantRole: string }
+}) {
+  const MasterSetting = useMemo(
+    () =>
+      dynamic(() => import('@mbc-cqrs-serverless/master-web/MasterSetting'), {
+        ssr: false,
+        loading: () => <div>Loading component...</div>,
+      }),
+    []
+  )
+
+  return (
+    <AppProviders user={user} httpClient={httpClient} urlProvider={urlProvider}>
+      <MasterSetting />
+    </AppProviders>
+  )
+}
+
+export function MasterTemplate({ tenantCode }: MasterTemplateProps) {
+  const [httpClient, setHttpClient] = useState<AxiosInstance | null>(null)
+  const [isReady, setIsReady] = useState(false)
+
+  // {{Setup httpClient with Amplify v6 authentication}}
+  const setupHttpClient = useCallback(async () => {
+    let authToken = ''
+    try {
+      // {{Amplify v6 API for fetching auth session}}
+      const session = await Auth.fetchAuthSession()
+      authToken = session.tokens?.idToken?.toString() || ''
+    } catch {
+      // {{Handle unauthenticated state}}
+    }
+
+    const client = axios.create({
+      baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT || 'http://localhost:3010',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-tenant-code': tenantCode,
+        ...(authToken && { Authorization: `Bearer ${authToken}` }),
+      },
+    })
+
+    setHttpClient(client)
+    setIsReady(true)
+  }, [tenantCode])
+
+  useEffect(() => {
+    setupHttpClient()
+  }, [setupHttpClient])
+
+  const urlProvider = useMemo(() => new MasterUrlProvider(tenantCode), [tenantCode])
+
+  const user = useMemo(
+    () => ({
+      tenantCode,
+      tenantRole: 'admin',
+    }),
+    [tenantCode]
+  )
+
+  // {{Wait for httpClient to be ready before rendering}}
+  if (!isReady || !httpClient) {
+    return <div>Loading...</div>
+  }
+
+  return (
+    <MasterSettingWrapper
+      httpClient={httpClient}
+      urlProvider={urlProvider}
+      user={user}
+    />
+  )
+}
+```
+
+### {{Multi-Tenant Routing Setup}}
+
+{{For multi-tenant applications, set up dynamic routes with tenant code in the URL:}}
+
+#### {{Directory Structure}}
+
+```
+app/
+└── admin/
+    └── [tenant]/
+        └── master/
+            ├── layout.tsx                      # {{AppProviders setup (recommended)}}
+            ├── page.tsx                        # {{Master top page}}
+            ├── master-setting/
+            │   ├── page.tsx                    # {{Settings list}}
+            │   ├── new/
+            │   │   └── page.tsx                # {{Create new setting}}
+            │   └── [pk]/
+            │       └── [sk]/
+            │           └── page.tsx            # {{Edit setting}}
+            └── master-data/
+                ├── page.tsx                    # {{Data list}}
+                ├── new/
+                │   └── page.tsx                # {{Create new data}}
+                └── [pk]/
+                    └── [sk]/
+                        └── page.tsx            # {{Edit data}}
+```
+
+#### {{Page Component Example}}
+
+```tsx
+// app/admin/[tenant]/master/master-setting/page.tsx
+import { MasterTemplate } from '@/modules/master/templates/MasterTemplate'
+
+export default async function MasterSettingPage({
+  params,
+}: {
+  params: Promise<{ tenant: string }>
+}) {
+  const { tenant } = await params
+
+  return <MasterTemplate tenantCode={tenant} />
+}
+```
+
+### {{Common Issues and Solutions}}
+
+#### {{`httpClient.get is not a function` Error}}
+
+{{This error occurs when the httpClient is not properly initialized before the component tries to use it.}}
+
+{{**Causes**:}}
+- {{React Context in npm packages becomes isolated from the application's context}}
+- {{httpClient is initialized asynchronously and not ready when the component mounts}}
+
+{{**Solutions**:}}
+
+1. {{**Use Layout-based Provider Pattern (Recommended)**: See the recommended pattern above}}
+2. {{**Use a wrapper component pattern**: Ensure httpClient is ready}}
+3. {{**Add explicit `isReady` state check**: Check before rendering AppProviders}}
+4. {{**Define dynamic imports inside the wrapper component**: Not at module level}}
+
+#### {{URL Routing Issues}}
+
+{{If URLs are generated incorrectly (e.g., `//admin/...` instead of `/admin/...`), check the BaseUrlProvider configuration:}}
+
+```tsx
+// {{❌ Wrong - double slash issue}}
+class MasterUrlProvider extends BaseUrlProvider {
+  constructor(tenantCode: string) {
+    super(`/admin/${tenantCode}/master`)  // {{Leading slash causes issue}}
+  }
+}
+
+// {{✅ Correct - no leading slash}}
+class MasterUrlProvider extends BaseUrlProvider {
+  constructor(tenantCode: string) {
+    super(`admin/${tenantCode}/master`)  // {{BaseUrlProvider adds the slash}}
+  }
+}
+```
+
+#### {{Implementing IUrlProvider Directly}}
+
+{{When implementing the `IUrlProvider` interface directly without extending `BaseUrlProvider`, you need to explicitly define all URL properties. See the Layout-based Provider Pattern example above for reference.}}
+
 ## {{Dependencies}}
 
 {{Key dependencies used by this package:}}
 
 - {{React 18.x}}
-- {{Next.js 14.x}}
+- {{Next.js 14.x / 15.x}}
 - {{TanStack React Table 8.x}}
 - {{Apollo Client}}
 - {{Radix UI components}}

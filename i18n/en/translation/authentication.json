@@ -26,5 +26,8 @@
   "If no roles required, allow all users": "If no roles required, allow all users",
   "System admin bypasses all role checks": "System admin bypasses all role checks",
   "System Admin Usage": "System Admin Usage",
-  "The `system_admin` role should be assigned sparingly and only to trusted administrators who need full access to all API endpoints. This role bypasses all role-based restrictions.": "The `system_admin` role should be assigned sparingly and only to trusted administrators who need full access to all API endpoints. This role bypasses all role-based restrictions."
+  "The `system_admin` role should be assigned sparingly and only to trusted administrators who need full access to all API endpoints. This role bypasses all role-based restrictions.": "The `system_admin` role should be assigned sparingly and only to trusted administrators who need full access to all API endpoints. This role bypasses all role-based restrictions.",
+  "Tenant Code Normalization": "Tenant Code Normalization",
+  "The `tenantCode` returned by `getUserContext()` is normalized to lowercase for case-insensitive matching. For example, `TenantA`, `TENANTA`, and `tenanta` are all returned as `tenanta`. This ensures consistent matching with `role.tenant` values in the `custom:roles` claim.": "The `tenantCode` returned by `getUserContext()` is normalized to lowercase for case-insensitive matching. For example, `TenantA`, `TENANTA`, and `tenanta` are all returned as `tenanta`. This ensures consistent matching with `role.tenant` values in the `custom:roles` claim.",
+  "Normalize tenant code to lowercase for case-insensitive matching": "Normalize tenant code to lowercase for case-insensitive matching"
 }

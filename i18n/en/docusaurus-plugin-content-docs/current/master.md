@@ -339,7 +339,7 @@ const masterData = await this.masterDataService.create(
     code: 'MASTER001',
     name: 'Example Master Data',
     settingCode: "service",
-    tenantCode: "COMMON",
+    tenantCode: "common",
     attributes: {
       homepage: "http://mbc.com",
       desc: "description for mbc"

@@ -26,5 +26,8 @@
   "If no roles required, allow all users": "If no roles required, allow all users (ロールが要求されていない場合、すべてのユーザーを許可)",
   "System admin bypasses all role checks": "System admin bypasses all role checks (システム管理者はすべてのロールチェックをバイパス)",
   "System Admin Usage": "システム管理者の使用について",
-  "The `system_admin` role should be assigned sparingly and only to trusted administrators who need full access to all API endpoints. This role bypasses all role-based restrictions.": "`system_admin`ロールは、すべてのAPIエンドポイントへの完全なアクセスが必要な信頼できる管理者にのみ、慎重に割り当てる必要があります。このロールはすべてのロールベースの制限をバイパスします。"
+  "The `system_admin` role should be assigned sparingly and only to trusted administrators who need full access to all API endpoints. This role bypasses all role-based restrictions.": "`system_admin`ロールは、すべてのAPIエンドポイントへの完全なアクセスが必要な信頼できる管理者にのみ、慎重に割り当てる必要があります。このロールはすべてのロールベースの制限をバイパスします。",
+  "Tenant Code Normalization": "テナントコードの正規化",
+  "The `tenantCode` returned by `getUserContext()` is normalized to lowercase for case-insensitive matching. For example, `TenantA`, `TENANTA`, and `tenanta` are all returned as `tenanta`. This ensures consistent matching with `role.tenant` values in the `custom:roles` claim.": "`getUserContext()` が返す `tenantCode` は、大文字小文字を区別しないマッチングのために小文字に正規化されます。例えば、`TenantA`、`TENANTA`、`tenanta` はすべて `tenanta` として返されます。これにより、`custom:roles` クレーム内の `role.tenant` 値との一貫したマッチングが保証されます。",
+  "Normalize tenant code to lowercase for case-insensitive matching": "Normalize tenant code to lowercase for case-insensitive matching (大文字小文字を区別しないマッチングのため小文字に正規化)"
 }

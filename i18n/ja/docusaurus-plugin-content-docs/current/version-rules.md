@@ -35,12 +35,12 @@ describe('Version Handling', () => {
   it('should handle sequential versions correctly', async () => {
     // バージョン0で初期作成
     const createPayload = {
-      pk: 'TEST#VERSION',
+      pk: 'test#version',
       sk: 'item#1',
-      id: 'TEST#VERSION#item#1',
+      id: 'test#version#item#1',
       name: 'Version Test',
       version: 0,
-      type: 'TEST',
+      type: 'test',
     }
 
     const createRes = await request(config.apiBaseUrl)
@@ -73,12 +73,12 @@ describe('Version Handling', () => {
 describe('Version Conflicts', () => {
   it('should handle concurrent updates correctly', async () => {
     const payload = {
-      pk: 'TEST#VERSION',
+      pk: 'test#version',
       sk: 'conflict#1',
-      id: 'TEST#VERSION#conflict#1',
+      id: 'test#version#conflict#1',
       name: 'Conflict Test',
       version: 1,
-      type: 'TEST',
+      type: 'test',
     }
 
     // First update succeeds

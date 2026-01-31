@@ -95,5 +95,12 @@
   "Bad: Missing tenant scope (data leak risk)": "Bad: Missing tenant scope (data leak risk)",
   "Always verify tenant access before operations": "Always verify tenant access before operations",
   "Include tenant in all logs for debugging": "Include tenant in all logs for debugging",
-  "Use separate endpoints for system-wide vs tenant operations": "Use separate endpoints for system-wide vs tenant operations"
+  "Use separate endpoints for system-wide vs tenant operations": "Use separate endpoints for system-wide vs tenant operations",
+  "Tenant Code Normalization": "Tenant Code Normalization",
+  "All tenant codes returned by `getUserContext()` are normalized to lowercase. This means `TenantA`, `TENANTA`, and `tenanta` are all treated as `tenanta`. When defining tenant codes in Cognito custom claims or HTTP headers, the case doesn't matter - internally they are always lowercase for consistent matching.": "All tenant codes returned by `getUserContext()` are normalized to lowercase. This means `TenantA`, `TENANTA`, and `tenanta` are all treated as `tenanta`. When defining tenant codes in Cognito custom claims or HTTP headers, the case doesn't matter - internally they are always lowercase for consistent matching.",
+  "Important: COMMON Constant in Master and Tenant Modules": "Important: COMMON Constant in Master and Tenant Modules",
+  "The `@mbc-cqrs-serverless/master` and `@mbc-cqrs-serverless/tenant` packages define an internal constant `'COMMON'` (uppercase) for the common tenant code.": "The `@mbc-cqrs-serverless/master` and `@mbc-cqrs-serverless/tenant` packages define an internal constant `'COMMON'` (uppercase) for the common tenant code.",
+  "When using these modules' built-in methods (e.g., `createCommonTenantSetting`, `createCommonTenant`), they automatically use this `'COMMON'` value internally for data storage.": "When using these modules' built-in methods (e.g., `createCommonTenantSetting`, `createCommonTenant`), they automatically use this `'COMMON'` value internally for data storage.",
+  "Internal constant for data storage": "Internal constant for data storage",
+  "Note: Even though the stored value is `'COMMON'`, when you send `x-tenant-code: COMMON` in HTTP headers, `getUserContext()` returns `'common'` (lowercase) due to normalization. For custom implementations, use lowercase `'common'` for consistency with the normalized tenant codes.": "Note: Even though the stored value is `'COMMON'`, when you send `x-tenant-code: COMMON` in HTTP headers, `getUserContext()` returns `'common'` (lowercase) due to normalization. For custom implementations, use lowercase `'common'` for consistency with the normalized tenant codes."
 }

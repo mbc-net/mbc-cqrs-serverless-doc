@@ -95,5 +95,13 @@
   "Bad: Missing tenant scope (data leak risk)": "Bad: Missing tenant scope (data leak risk) (悪い例：テナントスコープがない、データ漏洩リスク)",
   "Always verify tenant access before operations": "Always verify tenant access before operations (操作前に必ずテナントアクセスを検証)",
   "Include tenant in all logs for debugging": "Include tenant in all logs for debugging (デバッグ用にすべてのログにテナントを含める)",
-  "Use separate endpoints for system-wide vs tenant operations": "Use separate endpoints for system-wide vs tenant operations (システム全体とテナント操作で別のエンドポイントを使用)"
+  "Use separate endpoints for system-wide vs tenant operations": "Use separate endpoints for system-wide vs tenant operations (システム全体とテナント操作で別のエンドポイントを使用)",
+  "Tenant Code Normalization": "テナントコードの正規化",
+  "All tenant codes returned by `getUserContext()` are normalized to lowercase. This means `TenantA`, `TENANTA`, and `tenanta` are all treated as `tenanta`. When defining tenant codes in Cognito custom claims or HTTP headers, the case doesn't matter - internally they are always lowercase for consistent matching.": "`getUserContext()` が返すすべてのテナントコードは小文字に正規化されます。つまり、`TenantA`、`TENANTA`、`tenanta` はすべて `tenanta` として扱われます。CognitoのカスタムクレームやHTTPヘッダーでテナントコードを定義する際、大文字小文字は問いません。内部的には一貫したマッチングのため常に小文字になります。",
+  "Important: COMMON Constant in Master and Tenant Modules": "重要: MasterモジュールとTenantモジュールのCOMMON定数",
+  "The `@mbc-cqrs-serverless/master` and `@mbc-cqrs-serverless/tenant` packages define an internal constant `'COMMON'` (uppercase) for the common tenant code.": "`@mbc-cqrs-serverless/master`と`@mbc-cqrs-serverless/tenant`パッケージでは、共通テナントコード用の内部定数として`'COMMON'`（大文字）を定義しています。",
+  "When using these modules' built-in methods (e.g., `createCommonTenantSetting`, `createCommonTenant`), they automatically use this `'COMMON'` value internally for data storage.": "これらのモジュールの組み込みメソッド（例：`createCommonTenantSetting`、`createCommonTenant`）を使用する場合、データ保存時に内部的にこの`'COMMON'`値が自動的に使用されます。",
+  "In @mbc-cqrs-serverless/master and @mbc-cqrs-serverless/tenant": "@mbc-cqrs-serverless/masterと@mbc-cqrs-serverless/tenantで",
+  "Internal constant for data storage": "Internal constant for data storage (データ保存用の内部定数)",
+  "Note: Even though the stored value is `'COMMON'`, when you send `x-tenant-code: COMMON` in HTTP headers, `getUserContext()` returns `'common'` (lowercase) due to normalization. For custom implementations, use lowercase `'common'` for consistency with the normalized tenant codes.": "注意: 保存される値は`'COMMON'`ですが、HTTPヘッダーで`x-tenant-code: COMMON`を送信すると、正規化により`getUserContext()`は`'common'`（小文字）を返します。カスタム実装では、正規化されたテナントコードとの一貫性のため小文字の`'common'`を使用してください。"
 }
