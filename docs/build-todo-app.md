@@ -983,7 +983,7 @@ import { PrismaService } from '../prisma/prisma.service'
 jest.mock('@mbc-cqrs-serverless/core', () => ({
   ...jest.requireActual('@mbc-cqrs-serverless/core'),
   getUserContext: jest.fn().mockReturnValue({
-    tenantCode: 'TEST',
+    tenantCode: 'test',
     userId: 'user-123',
   }),
 }))
@@ -1026,13 +1026,13 @@ describe('TodoService', () => {
 
   describe('findOne', () => {
     it('should return a todo when found', async () => {
-      const mockTodo = { pk: 'TODO#TEST', sk: '01HXY', name: 'Test' }
+      const mockTodo = { pk: 'TODO#test', sk: '01HXY', name: 'Test' }
       dataService.getItem.mockResolvedValue(mockTodo as any)
 
-      const result = await service.findOne('TODO#TEST', '01HXY')
+      const result = await service.findOne('TODO#test', '01HXY')
 
       expect(dataService.getItem).toHaveBeenCalledWith({
-        pk: 'TODO#TEST',
+        pk: 'TODO#test',
         sk: '01HXY',
       })
       expect(result.name).toBe('Test')
@@ -1041,7 +1041,7 @@ describe('TodoService', () => {
     it('should throw NotFoundException when not found', async () => {
       dataService.getItem.mockResolvedValue(null)
 
-      await expect(service.findOne('TODO#TEST', 'nonexistent'))
+      await expect(service.findOne('TODO#test', 'nonexistent'))
         .rejects.toThrow(NotFoundException)
     })
   })
@@ -1069,7 +1069,7 @@ import { TodoService } from '../src/todo/todo.service'
 jest.mock('@mbc-cqrs-serverless/core', () => ({
   ...jest.requireActual('@mbc-cqrs-serverless/core'),
   getUserContext: jest.fn().mockReturnValue({
-    tenantCode: 'TEST',
+    tenantCode: 'test',
     userId: 'user-123',
   }),
   INVOKE_CONTEXT: () => () => {}, // {{Decorator stub}}
@@ -1079,7 +1079,7 @@ describe('TodoController (e2e)', () => {
   let app: INestApplication
 
   const mockTodoData = {
-    pk: 'TODO#TEST',
+    pk: 'TODO#test',
     sk: '01HXY',
     name: 'Test Todo',
     version: 1,
