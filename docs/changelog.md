@@ -17,6 +17,51 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ## {{Stable Releases (1.x)}}
 
+## [1.1.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.0) - TBD {#v110}
+
+### {{Breaking Changes}}
+
+- **tenant:** {{Change `TENANT_COMMON` enum value from `'COMMON'` to `'common'` (lowercase)}}
+  - {{This change affects partition key format: `TENANT#COMMON` → `TENANT#common`}}
+  - {{**Migration required:** Existing data with `TENANT#COMMON` partition keys needs to be migrated}}
+  - {{See [Migration Guide](/docs/migration/v1.1.0) for detailed instructions}}
+
+### {{Features}}
+
+- **core:** {{Add tenant code normalization for case-insensitive matching}} ([{{See Details}}](/docs/data-migration-patterns#tenant-code-normalization-migration))
+  - {{Tenant codes are now automatically normalized to lowercase}}
+  - {{`getUserContext()` returns normalized tenant code}}
+  - {{All DynamoDB operations use normalized tenant codes for consistency}}
+- **core:** {{Add `normalizeTenantCode()` utility function for explicit normalization}}
+- **core:** {{Add `isCommonTenant()` utility function for common tenant detection}}
+
+### {{Bug Fixes}}
+
+- **master:** {{Fix `TENANT_COMMON` constant usage in MasterSettingService and MasterDataService}}
+  - {{Previously hardcoded `'COMMON'` strings are now using `SettingTypeEnum.TENANT_COMMON`}}
+  - {{Ensures consistent partition key generation across the framework}}
+
+### {{Tests}}
+
+- **tenant:** {{Add comprehensive tests for TenantService methods}}
+  - {{`getTenant()`: Retrieval tests}}
+  - {{`updateTenant()`: Update and attribute merge tests}}
+  - {{`deleteTenant()`: Soft delete tests}}
+  - {{`addTenantGroup()`: Group management tests}}
+  - {{`customizeSettingGroups()`: Setting customization tests}}
+  - {{`createTenantGroup()`: Tenant group creation tests}}
+- **tenant:** {{Add SettingTypeEnum validation tests}}
+  - {{Verify `TENANT_COMMON = 'common'` (lowercase)}}
+  - {{Ensure enum completeness and consistency}}
+- **core:** {{Add tenant code normalization tests (70+ test cases)}}
+- **core:** {{Add tenant normalization command tests (30+ test cases)}}
+
+### {{Documentation}}
+
+- {{Add migration guide for v1.1.0 tenant code changes}}
+
+---
+
 ## [1.0.26](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.26) (2026-01-26) {#v1026}
 
 ### {{Features}}
