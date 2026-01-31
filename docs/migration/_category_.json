@@ -1,0 +1,8 @@
+{
+  "label": "Migration Guides",
+  "position": 95,
+  "link": {
+    "type": "generated-index",
+    "description": "Migration guides for upgrading between major versions of MBC CQRS Serverless."
+  }
+}

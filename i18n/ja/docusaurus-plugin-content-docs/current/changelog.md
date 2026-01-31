@@ -17,6 +17,51 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ## 安定版リリース (1.x)
 
+## [1.1.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.0) - TBD {#v110}
+
+### 破壊的変更
+
+- **tenant:** `TENANT_COMMON`のenum値を`'COMMON'`から`'common'`（小文字）に変更
+  - この変更はパーティションキーのフォーマットに影響します: `TENANT#COMMON` → `TENANT#common`
+  - **マイグレーション必須:** `TENANT#COMMON`パーティションキーを持つ既存データの移行が必要です
+  - 詳細な手順は[マイグレーションガイド](/docs/migration/v1.1.0)を参照してください
+
+### 新機能
+
+- **core:** 大文字小文字を区別しないマッチングのためのテナントコード正規化を追加 ([詳細を見る](/docs/data-migration-patterns#tenant-code-normalization-migration))
+  - テナントコードは自動的に小文字に正規化されるようになりました
+  - `getUserContext()`は正規化されたテナントコードを返します
+  - すべてのDynamoDB操作は一貫性のため正規化されたテナントコードを使用します
+- **core:** 明示的な正規化のための`normalizeTenantCode()`ユーティリティ関数を追加
+- **core:** 共通テナント検出のための`isCommonTenant()`ユーティリティ関数を追加
+
+### バグ修正
+
+- **master:** MasterSettingServiceとMasterDataServiceでの`TENANT_COMMON`定数の使用を修正
+  - 以前ハードコードされていた`'COMMON'`文字列は`SettingTypeEnum.TENANT_COMMON`を使用するようになりました
+  - フレームワーク全体で一貫したパーティションキー生成を保証
+
+### テスト
+
+- **tenant:** TenantServiceメソッドの包括的なテストを追加
+  - `getTenant()`: 取得テスト
+  - `updateTenant()`: 更新と属性マージテスト
+  - `deleteTenant()`: ソフト削除テスト
+  - `addTenantGroup()`: グループ管理テスト
+  - `customizeSettingGroups()`: 設定カスタマイズテスト
+  - `createTenantGroup()`: テナントグループ作成テスト
+- **tenant:** SettingTypeEnum検証テストを追加
+  - `TENANT_COMMON = 'common'`（小文字）を検証
+  - enumの完全性と一貫性を保証
+- **core:** テナントコード正規化テストを追加（70件以上のテストケース）
+- **core:** テナント正規化コマンドテストを追加（30件以上のテストケース）
+
+### ドキュメント
+
+- v1.1.0テナントコード変更のマイグレーションガイドを追加
+
+---
+
 ## [1.0.26](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.26) (2026-01-26) {#v1026}
 
 ### 新機能

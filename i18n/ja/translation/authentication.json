@@ -29,5 +29,8 @@
   "The `system_admin` role should be assigned sparingly and only to trusted administrators who need full access to all API endpoints. This role bypasses all role-based restrictions.": "`system_admin`ロールは、すべてのAPIエンドポイントへの完全なアクセスが必要な信頼できる管理者にのみ、慎重に割り当てる必要があります。このロールはすべてのロールベースの制限をバイパスします。",
   "Tenant Code Normalization": "テナントコードの正規化",
   "The `tenantCode` returned by `getUserContext()` is normalized to lowercase for case-insensitive matching. For example, `TenantA`, `TENANTA`, and `tenanta` are all returned as `tenanta`. This ensures consistent matching with `role.tenant` values in the `custom:roles` claim.": "`getUserContext()` が返す `tenantCode` は、大文字小文字を区別しないマッチングのために小文字に正規化されます。例えば、`TenantA`、`TENANTA`、`tenanta` はすべて `tenanta` として返されます。これにより、`custom:roles` クレーム内の `role.tenant` 値との一貫したマッチングが保証されます。",
-  "Normalize tenant code to lowercase for case-insensitive matching": "Normalize tenant code to lowercase for case-insensitive matching (大文字小文字を区別しないマッチングのため小文字に正規化)"
+  "Normalize tenant code to lowercase for case-insensitive matching": "Normalize tenant code to lowercase for case-insensitive matching (大文字小文字を区別しないマッチングのため小文字に正規化)",
+  "Tenant Code Normalization - Breaking Change": "テナントコード正規化 - 破壊的変更",
+  "**Impact on partition keys:** Since tenant codes are typically included in partition keys (e.g., `PRODUCT#tenantCode`), this normalization affects data access. If your existing data uses uppercase tenant codes in keys, queries will fail to find that data.": "**パーティションキーへの影響:** テナントコードは通常パーティションキーに含まれるため（例：`PRODUCT#tenantCode`）、この正規化はデータアクセスに影響します。既存のデータがキーに大文字のテナントコードを使用している場合、クエリはそのデータを見つけることができません。",
+  "**See also:** [Tenant Code Normalization Migration](./data-migration-patterns#tenant-code-normalization-migration) for migration strategies.": "**参照:** マイグレーション戦略については[テナントコード正規化マイグレーション](./data-migration-patterns#tenant-code-normalization-migration)を参照してください。"
 }
