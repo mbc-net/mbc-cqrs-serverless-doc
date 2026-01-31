@@ -94,8 +94,8 @@ ID = PK#SK (without version)
 | `TENANT_COMMON` | `common` | 共有/クロステナントデータ用のテナントコード |
 | `DEFAULT_TENANT_CODE` | `single` | シングルテナントモードのデフォルトテナント |
 
-:::warning MasterモジュールとTenantモジュールでのTENANT_COMMONについて
-`@mbc-cqrs-serverless/master`と`@mbc-cqrs-serverless/tenant`パッケージは、独自の`SettingTypeEnum.TENANT_COMMON`を大文字の`'COMMON'`で定義しています（小文字の`'common'`ではありません）。`createCommonTenantSetting()`や`createCommonTenant()`メソッドを使用する場合、内部的に大文字が使用されます。
+:::tip 一貫したテナントコード形式
+`@mbc-cqrs-serverless/master`と`@mbc-cqrs-serverless/tenant`パッケージは`SettingTypeEnum.TENANT_COMMON = 'common'`（小文字）を使用しており、`getUserContext()`のテナントコード正規化と一貫しています。これにより、`createCommonTenantSetting()`や`createCommonTenant()`メソッドで保存されたデータを正しくクエリできます。
 :::
 
 ### 組み込みキージェネレーター {#built-in-generators}
@@ -596,6 +596,25 @@ PK: PRODUCT#tenant001
 PK: PRODUCT  // No tenant isolation
 SK: tenant001#productId  // Tenant in SK is less efficient
 ```
+
+:::danger テナントコード正規化 - 破壊的変更
+`getUserContext()`関数は`tenantCode`を小文字に正規化します。これはパーティションキー生成に影響します：
+
+```ts
+// ユーザーのCognitoには大文字のテナントがある
+custom:tenant = "MY_TENANT"
+
+// getUserContext()は小文字を返す
+tenantCode = "my_tenant"
+
+// 生成されたPKは小文字を使用
+PK: PRODUCT#my_tenant
+```
+
+**既存データへの影響:** 既存のデータが大文字のテナントコードでPKに保存されている場合（例：`PRODUCT#MY_TENANT`）、正規化されたテナントコードを使用したクエリではそのデータを見つけることができません。
+
+**マイグレーションが必要:** マイグレーション戦略については[テナントコード正規化マイグレーション](./data-migration-patterns#tenant-code-normalization-migration)を参照してください。
+:::
 
 ### 6. 共有データには共通テナントを使用する
 

@@ -125,8 +125,12 @@ import { ExecutionContext } from "@nestjs/common";
 
 :::
 
-:::warning テナントコードの正規化
+:::danger テナントコード正規化 - 破壊的変更
 `getUserContext()` が返す `tenantCode` は、大文字小文字を区別しないマッチングのために小文字に正規化されます。例えば、`TenantA`、`TENANTA`、`tenanta` はすべて `tenanta` として返されます。これにより、`custom:roles` クレーム内の `role.tenant` 値との一貫したマッチングが保証されます。
+
+**パーティションキーへの影響:** テナントコードは通常パーティションキーに含まれるため（例：`PRODUCT#tenantCode`）、この正規化はデータアクセスに影響します。既存のデータがキーに大文字のテナントコードを使用している場合、クエリはそのデータを見つけることができません。
+
+**参照:** マイグレーション戦略については[テナントコード正規化マイグレーション](./data-migration-patterns#tenant-code-normalization-migration)を参照してください。
 :::
 
 カスタムロジックが必要な場合は、独自のヘルパー関数を実装できます：
