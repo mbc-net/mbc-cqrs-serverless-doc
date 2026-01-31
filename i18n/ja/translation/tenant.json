@@ -64,5 +64,6 @@
   "The interface includes the following methods:": "インターフェースには以下のメソッドが含まれています：",
   "The `createTenantGroup` method is available on `TenantService` but is not part of the `ITenantService` interface.": "`createTenantGroup`メソッドは`TenantService`で利用可能ですが、`ITenantService`インターフェースには含まれていません。",
   "Tenant Code Format": "テナントコードの形式",
-  "Tenant codes are case-insensitive. The `getUserContext()` function in `@mbc-cqrs-serverless/core` normalizes all tenant codes to lowercase. When creating tenants, use lowercase codes (e.g., `tenant001`, `acme-corp`) for consistency.": "テナントコードは大文字小文字を区別しません。`@mbc-cqrs-serverless/core`の`getUserContext()`関数は、すべてのテナントコードを小文字に正規化します。一貫性のため、テナントを作成する際は小文字のコード（例：`tenant001`、`acme-corp`）を使用してください。"
+  "Tenant codes are case-insensitive. The `getUserContext()` function in `@mbc-cqrs-serverless/core` normalizes all tenant codes to lowercase. When creating tenants, use lowercase codes (e.g., `tenant001`, `acme-corp`) for consistency.": "テナントコードは大文字小文字を区別しません。`@mbc-cqrs-serverless/core`の`getUserContext()`関数は、すべてのテナントコードを小文字に正規化します。一貫性のため、テナントを作成する際は小文字のコード（例：`tenant001`、`acme-corp`）を使用してください。",
+  "**Upgrading from v1.0.x?** See the [v1.1.0 Migration Guide](/docs/migration/v1.1.0) for data migration instructions.": "**v1.0.xからアップグレードする場合** データマイグレーションの手順については[v1.1.0 マイグレーションガイド](/docs/migration/v1.1.0)を参照してください。"
 }

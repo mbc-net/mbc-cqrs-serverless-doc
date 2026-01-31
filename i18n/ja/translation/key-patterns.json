@@ -173,5 +173,5 @@
   "getUserContext() returns lowercase": "getUserContext()は小文字を返す",
   "Generated PK uses lowercase": "生成されたPKは小文字を使用",
   "**Impact on existing data:** If your existing data was saved with uppercase tenant codes in PK (e.g., `PRODUCT#MY_TENANT`), queries using normalized tenant codes will NOT find that data.": "**既存データへの影響:** 既存のデータが大文字のテナントコードでPKに保存されている場合（例：`PRODUCT#MY_TENANT`）、正規化されたテナントコードを使用したクエリではそのデータを見つけることができません。",
-  "**Migration required:** See [Tenant Code Normalization Migration](./data-migration-patterns#tenant-code-normalization-migration) for migration strategies.": "**マイグレーションが必要:** マイグレーション戦略については[テナントコード正規化マイグレーション](./data-migration-patterns#tenant-code-normalization-migration)を参照してください。"
+  "**Migration required:** See [Tenant Code Normalization Migration](/docs/data-migration-patterns#tenant-code-normalization-migration) for migration strategies, or the [v1.1.0 Migration Guide](/docs/migration/v1.1.0) for complete upgrade instructions.": "**マイグレーションが必要:** マイグレーション戦略については[テナントコード正規化マイグレーション](/docs/data-migration-patterns#tenant-code-normalization-migration)を参照するか、完全なアップグレード手順については[v1.1.0 マイグレーションガイド](/docs/migration/v1.1.0)を参照してください。"
 }

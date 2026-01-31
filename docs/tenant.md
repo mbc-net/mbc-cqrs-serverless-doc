@@ -31,6 +31,8 @@ npm install @mbc-cqrs-serverless/tenant
 
 :::info {{Tenant Code Format}}
 {{Tenant codes are case-insensitive. The `getUserContext()` function in `@mbc-cqrs-serverless/core` normalizes all tenant codes to lowercase. When creating tenants, use lowercase codes (e.g., `tenant001`, `acme-corp`) for consistency.}}
+
+{{**Upgrading from v1.0.x?** See the [v1.1.0 Migration Guide](/docs/migration/v1.1.0) for data migration instructions.}}
 :::
 
 ## {{Module Registration}}

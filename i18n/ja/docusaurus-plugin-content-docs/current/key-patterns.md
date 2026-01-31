@@ -613,7 +613,7 @@ PK: PRODUCT#my_tenant
 
 **既存データへの影響:** 既存のデータが大文字のテナントコードでPKに保存されている場合（例：`PRODUCT#MY_TENANT`）、正規化されたテナントコードを使用したクエリではそのデータを見つけることができません。
 
-**マイグレーションが必要:** マイグレーション戦略については[テナントコード正規化マイグレーション](./data-migration-patterns#tenant-code-normalization-migration)を参照してください。
+**マイグレーションが必要:** マイグレーション戦略については[テナントコード正規化マイグレーション](/docs/data-migration-patterns#tenant-code-normalization-migration)を参照するか、完全なアップグレード手順については[v1.1.0 マイグレーションガイド](/docs/migration/v1.1.0)を参照してください。
 :::
 
 ### 6. 共有データには共通テナントを使用する

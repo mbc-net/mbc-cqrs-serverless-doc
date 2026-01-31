@@ -129,6 +129,7 @@
   "Tenant Code Normalization Migration": "テナントコード正規化マイグレーション",
   "Breaking Change": "破壊的変更",
   "The `getUserContext()` function normalizes `tenantCode` to lowercase. This is a breaking change that affects data access if your existing data uses uppercase tenant codes in partition keys.": "`getUserContext()`関数は`tenantCode`を小文字に正規化します。既存のデータがパーティションキーに大文字のテナントコードを使用している場合、これはデータアクセスに影響する破壊的変更です。",
+  "For a complete migration checklist and step-by-step instructions, see the [v1.1.0 Migration Guide](/docs/migration/v1.1.0).": "完全なマイグレーションチェックリストとステップバイステップの手順については、[v1.1.0 マイグレーションガイド](/docs/migration/v1.1.0)を参照してください。",
   "Understanding the Impact": "影響の理解",
   "The framework normalizes tenant codes to lowercase for case-insensitive matching:": "フレームワークは大文字小文字を区別しないマッチングのためにテナントコードを小文字に正規化します：",
   "Before: Cognito stores uppercase": "Before: Cognito stores uppercase (変更前：Cognitoには大文字で保存)",

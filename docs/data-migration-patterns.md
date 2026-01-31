@@ -49,6 +49,8 @@ description: {{Learn data migration strategies for cross-tenant operations, sche
 
 :::danger {{Breaking Change}}
 {{The `getUserContext()` function normalizes `tenantCode` to lowercase. This is a breaking change that affects data access if your existing data uses uppercase tenant codes in partition keys.}}
+
+{{For a complete migration checklist and step-by-step instructions, see the [v1.1.0 Migration Guide](/docs/migration/v1.1.0).}}
 :::
 
 ### {{Understanding the Impact}}
