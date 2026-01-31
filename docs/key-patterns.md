@@ -597,6 +597,25 @@ PK: PRODUCT  // No tenant isolation
 SK: tenant001#productId  // Tenant in SK is less efficient
 ```
 
+:::danger {{Tenant Code Normalization - Breaking Change}}
+{{The `getUserContext()` function normalizes `tenantCode` to lowercase. This affects partition key generation:}}
+
+```ts
+// {{User's Cognito has uppercase tenant}}
+custom:tenant = "MY_TENANT"
+
+// {{getUserContext() returns lowercase}}
+tenantCode = "my_tenant"
+
+// {{Generated PK uses lowercase}}
+PK: PRODUCT#my_tenant
+```
+
+{{**Impact on existing data:** If your existing data was saved with uppercase tenant codes in PK (e.g., `PRODUCT#MY_TENANT`), queries using normalized tenant codes will NOT find that data.}}
+
+{{**Migration required:** See [Tenant Code Normalization Migration](./data-migration-patterns#tenant-code-normalization-migration) for migration strategies.}}
+:::
+
 ### {{6. Use Common Tenant for Shared Data}}
 
 {{Use a common tenant code for data shared across tenants:}}

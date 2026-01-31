@@ -166,5 +166,12 @@
   "Use for cross-tenant shared data": "クロステナント共有データに使用",
   "Default for single-tenant mode": "シングルテナントモードのデフォルト",
   "Note on TENANT_COMMON in Master and Tenant Modules": "MasterモジュールとTenantモジュールでのTENANT_COMMONについて",
-  "The `@mbc-cqrs-serverless/master` and `@mbc-cqrs-serverless/tenant` packages define their own `SettingTypeEnum.TENANT_COMMON` with uppercase value `'COMMON'`, not lowercase `'common'`. When using `createCommonTenantSetting()` or `createCommonTenant()` methods, they use uppercase internally.": "`@mbc-cqrs-serverless/master`と`@mbc-cqrs-serverless/tenant`パッケージは、独自の`SettingTypeEnum.TENANT_COMMON`を大文字の`'COMMON'`で定義しています（小文字の`'common'`ではありません）。`createCommonTenantSetting()`や`createCommonTenant()`メソッドを使用する場合、内部的に大文字が使用されます。"
+  "The `@mbc-cqrs-serverless/master` and `@mbc-cqrs-serverless/tenant` packages define their own `SettingTypeEnum.TENANT_COMMON` with uppercase value `'COMMON'`, not lowercase `'common'`. When using `createCommonTenantSetting()` or `createCommonTenant()` methods, they use uppercase internally.": "`@mbc-cqrs-serverless/master`と`@mbc-cqrs-serverless/tenant`パッケージは、独自の`SettingTypeEnum.TENANT_COMMON`を大文字の`'COMMON'`で定義しています（小文字の`'common'`ではありません）。`createCommonTenantSetting()`や`createCommonTenant()`メソッドを使用する場合、内部的に大文字が使用されます。",
+  "Tenant Code Normalization - Breaking Change": "テナントコード正規化 - 破壊的変更",
+  "The `getUserContext()` function normalizes `tenantCode` to lowercase. This affects partition key generation:": "`getUserContext()`関数は`tenantCode`を小文字に正規化します。これはパーティションキー生成に影響します：",
+  "User's Cognito has uppercase tenant": "ユーザーのCognitoには大文字のテナントがある",
+  "getUserContext() returns lowercase": "getUserContext()は小文字を返す",
+  "Generated PK uses lowercase": "生成されたPKは小文字を使用",
+  "**Impact on existing data:** If your existing data was saved with uppercase tenant codes in PK (e.g., `PRODUCT#MY_TENANT`), queries using normalized tenant codes will NOT find that data.": "**既存データへの影響:** 既存のデータが大文字のテナントコードでPKに保存されている場合（例：`PRODUCT#MY_TENANT`）、正規化されたテナントコードを使用したクエリではそのデータを見つけることができません。",
+  "**Migration required:** See [Tenant Code Normalization Migration](./data-migration-patterns#tenant-code-normalization-migration) for migration strategies.": "**マイグレーションが必要:** マイグレーション戦略については[テナントコード正規化マイグレーション](./data-migration-patterns#tenant-code-normalization-migration)を参照してください。"
 }

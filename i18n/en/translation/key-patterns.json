@@ -166,5 +166,12 @@
   "Use for cross-tenant shared data": "Use for cross-tenant shared data",
   "Default for single-tenant mode": "Default for single-tenant mode",
   "Note on TENANT_COMMON in Master and Tenant Modules": "Note on TENANT_COMMON in Master and Tenant Modules",
-  "The `@mbc-cqrs-serverless/master` and `@mbc-cqrs-serverless/tenant` packages define their own `SettingTypeEnum.TENANT_COMMON` with uppercase value `'COMMON'`, not lowercase `'common'`. When using `createCommonTenantSetting()` or `createCommonTenant()` methods, they use uppercase internally.": "The `@mbc-cqrs-serverless/master` and `@mbc-cqrs-serverless/tenant` packages define their own `SettingTypeEnum.TENANT_COMMON` with uppercase value `'COMMON'`, not lowercase `'common'`. When using `createCommonTenantSetting()` or `createCommonTenant()` methods, they use uppercase internally."
+  "The `@mbc-cqrs-serverless/master` and `@mbc-cqrs-serverless/tenant` packages define their own `SettingTypeEnum.TENANT_COMMON` with uppercase value `'COMMON'`, not lowercase `'common'`. When using `createCommonTenantSetting()` or `createCommonTenant()` methods, they use uppercase internally.": "The `@mbc-cqrs-serverless/master` and `@mbc-cqrs-serverless/tenant` packages define their own `SettingTypeEnum.TENANT_COMMON` with uppercase value `'COMMON'`, not lowercase `'common'`. When using `createCommonTenantSetting()` or `createCommonTenant()` methods, they use uppercase internally.",
+  "Tenant Code Normalization - Breaking Change": "Tenant Code Normalization - Breaking Change",
+  "The `getUserContext()` function normalizes `tenantCode` to lowercase. This affects partition key generation:": "The `getUserContext()` function normalizes `tenantCode` to lowercase. This affects partition key generation:",
+  "User's Cognito has uppercase tenant": "User's Cognito has uppercase tenant",
+  "getUserContext() returns lowercase": "getUserContext() returns lowercase",
+  "Generated PK uses lowercase": "Generated PK uses lowercase",
+  "**Impact on existing data:** If your existing data was saved with uppercase tenant codes in PK (e.g., `PRODUCT#MY_TENANT`), queries using normalized tenant codes will NOT find that data.": "**Impact on existing data:** If your existing data was saved with uppercase tenant codes in PK (e.g., `PRODUCT#MY_TENANT`), queries using normalized tenant codes will NOT find that data.",
+  "**Migration required:** See [Tenant Code Normalization Migration](./data-migration-patterns#tenant-code-normalization-migration) for migration strategies.": "**Migration required:** See [Tenant Code Normalization Migration](./data-migration-patterns#tenant-code-normalization-migration) for migration strategies."
 }
