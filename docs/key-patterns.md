@@ -94,8 +94,8 @@ ID = PK#SK (without version)
 | `TENANT_COMMON` | `common` | {{Tenant code for shared/cross-tenant data}} |
 | `DEFAULT_TENANT_CODE` | `single` | {{Default tenant for single-tenant mode}} |
 
-:::warning {{Note on TENANT_COMMON in Master and Tenant Modules}}
-{{The `@mbc-cqrs-serverless/master` and `@mbc-cqrs-serverless/tenant` packages define their own `SettingTypeEnum.TENANT_COMMON` with uppercase value `'COMMON'`, not lowercase `'common'`. When using `createCommonTenantSetting()` or `createCommonTenant()` methods, they use uppercase internally.}}
+:::tip {{Consistent Tenant Code Format}}
+{{The `@mbc-cqrs-serverless/master` and `@mbc-cqrs-serverless/tenant` packages use `SettingTypeEnum.TENANT_COMMON = 'common'` (lowercase), which is consistent with the tenant code normalization in `getUserContext()`. This ensures that data saved by `createCommonTenantSetting()` or `createCommonTenant()` methods can be correctly queried.}}
 :::
 
 ### {{Built-in Key Generators}} {#built-in-generators}
