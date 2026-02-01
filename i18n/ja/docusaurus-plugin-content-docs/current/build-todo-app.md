@@ -234,7 +234,7 @@ export class TodoService {
     this.logger.debug('Creating todo:', todo)
 
     // Publish command to DynamoDB（DynamoDBにコマンドを発行）
-    const item = await this.commandService.publish(todo, opts)
+    const item = await this.commandService.publishAsync(todo, opts)
 
     return new TodoDataEntity(item as TodoDataEntity)
   }
@@ -704,7 +704,7 @@ async update(
   }
 
   // Publish partial update command（部分更新コマンドを発行）
-  const item = await this.commandService.publishPartialUpdate(partialUpdate, opts)
+  const item = await this.commandService.publishPartialUpdateAsync(partialUpdate, opts)
 
   return new TodoDataEntity(item as TodoDataEntity)
 }
@@ -724,7 +724,7 @@ async remove(
   }
 
   // Soft delete by setting isDeleted flag（isDeletedフラグを設定して論理削除）
-  const item = await this.commandService.publishPartialUpdate(
+  const item = await this.commandService.publishPartialUpdateAsync(
     {
       pk,
       sk,
@@ -841,7 +841,7 @@ export class TodoService {
 
     this.logger.debug('Creating todo with sequence:', todo)
 
-    const item = await this.commandService.publish(todo, opts)
+    const item = await this.commandService.publishAsync(todo, opts)
     return new TodoDataEntity(item as TodoDataEntity)
   }
 }
@@ -995,8 +995,8 @@ describe('TodoService', () => {
 
   beforeEach(async () => {
     const mockCommandService = {
-      publish: jest.fn(),
-      publishPartialUpdate: jest.fn(),
+      publishAsync: jest.fn(),
+      publishPartialUpdateAsync: jest.fn(),
     }
 
     const mockDataService = {
