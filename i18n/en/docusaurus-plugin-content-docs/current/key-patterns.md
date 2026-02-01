@@ -94,8 +94,8 @@ The framework provides these constants in `@mbc-cqrs-serverless/core`:
 | `TENANT_COMMON` | `common` | Tenant code for shared/cross-tenant data |
 | `DEFAULT_TENANT_CODE` | `single` | Default tenant for single-tenant mode |
 
-:::warning Note on TENANT_COMMON in Master and Tenant Modules
-The `@mbc-cqrs-serverless/master` and `@mbc-cqrs-serverless/tenant` packages define their own `SettingTypeEnum.TENANT_COMMON` with uppercase value `'COMMON'`, not lowercase `'common'`. When using `createCommonTenantSetting()` or `createCommonTenant()` methods, they use uppercase internally.
+:::tip Consistent Tenant Code Format
+The `@mbc-cqrs-serverless/master` and `@mbc-cqrs-serverless/tenant` packages use `SettingTypeEnum.TENANT_COMMON = 'common'` (lowercase), which is consistent with the tenant code normalization in `getUserContext()`. This ensures that data saved by `createCommonTenantSetting()` or `createCommonTenant()` methods can be correctly queried.
 :::
 
 ### Built-in Key Generators {#built-in-generators}
@@ -596,6 +596,25 @@ PK: PRODUCT#tenant001
 PK: PRODUCT  // No tenant isolation
 SK: tenant001#productId  // Tenant in SK is less efficient
 ```
+
+:::danger Tenant Code Normalization - Breaking Change
+The `getUserContext()` function normalizes `tenantCode` to lowercase. This affects partition key generation:
+
+```ts
+// User's Cognito has uppercase tenant
+custom:tenant = "MY_TENANT"
+
+// getUserContext() returns lowercase
+tenantCode = "my_tenant"
+
+// Generated PK uses lowercase
+PK: PRODUCT#my_tenant
+```
+
+**Impact on existing data:** If your existing data was saved with uppercase tenant codes in PK (e.g., `PRODUCT#MY_TENANT`), queries using normalized tenant codes will NOT find that data.
+
+**Migration required:** See [Tenant Code Normalization Migration](/docs/data-migration-patterns#tenant-code-normalization-migration) for migration strategies, or the [v1.1.0 Migration Guide](/docs/migration/v1.1.0) for complete upgrade instructions.
+:::
 
 ### 6. Use Common Tenant for Shared Data
 

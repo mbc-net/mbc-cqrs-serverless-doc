@@ -613,7 +613,7 @@ PK: PRODUCT#my_tenant
 
 {{**Impact on existing data:** If your existing data was saved with uppercase tenant codes in PK (e.g., `PRODUCT#MY_TENANT`), queries using normalized tenant codes will NOT find that data.}}
 
-{{**Migration required:** See [Tenant Code Normalization Migration](./data-migration-patterns#tenant-code-normalization-migration) for migration strategies.}}
+{{**Migration required:** See [Tenant Code Normalization Migration](/docs/data-migration-patterns#tenant-code-normalization-migration) for migration strategies, or the [v1.1.0 Migration Guide](/docs/migration/v1.1.0) for complete upgrade instructions.}}
 :::
 
 ### {{6. Use Common Tenant for Shared Data}}

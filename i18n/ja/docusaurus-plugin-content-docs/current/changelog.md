@@ -25,6 +25,12 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
   - この変更はパーティションキーのフォーマットに影響します: `TENANT#COMMON` → `TENANT#common`
   - **マイグレーション必須:** `TENANT#COMMON`パーティションキーを持つ既存データの移行が必要です
   - 詳細な手順は[マイグレーションガイド](/docs/migration/v1.1.0)を参照してください
+- **core:** 非推奨の`CommandService.publish()`メソッドを削除 ([詳細を見る](/docs/migration/v1.1.0#breaking-change-3-deprecated-methods-removed))
+  - 代わりに`CommandService.publishAsync()`を使用してください
+- **core:** 非推奨の`CommandService.publishPartialUpdate()`メソッドを削除
+  - 代わりに`CommandService.publishPartialUpdateAsync()`を使用してください
+- **sequence:** 非推奨の`SequencesService.genNewSequence()`メソッドを削除
+  - 代わりに`SequencesService.generateSequenceItem()`を使用してください
 
 ### 新機能
 

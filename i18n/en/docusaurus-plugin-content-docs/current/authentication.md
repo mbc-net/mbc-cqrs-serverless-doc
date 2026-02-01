@@ -125,8 +125,12 @@ The `getUserContext` function is provided by `@mbc-cqrs-serverless/core`. It aut
 
 :::
 
-:::warning Tenant Code Normalization
+:::danger Tenant Code Normalization - Breaking Change
 The `tenantCode` returned by `getUserContext()` is normalized to lowercase for case-insensitive matching. For example, `TenantA`, `TENANTA`, and `tenanta` are all returned as `tenanta`. This ensures consistent matching with `role.tenant` values in the `custom:roles` claim.
+
+**Impact on partition keys:** Since tenant codes are typically included in partition keys (e.g., `PRODUCT#tenantCode`), this normalization affects data access. If your existing data uses uppercase tenant codes in keys, queries will fail to find that data.
+
+**See also:** [Tenant Code Normalization Migration](./data-migration-patterns#tenant-code-normalization-migration) for migration strategies.
 :::
 
 If you need custom logic, you can implement your own helper function:

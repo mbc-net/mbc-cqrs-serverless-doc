@@ -45,6 +45,376 @@ Use this guide when you need to:
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
+## Tenant Code Normalization Migration {#tenant-code-normalization-migration}
+
+:::danger Breaking Change
+The `getUserContext()` function normalizes `tenantCode` to lowercase. This is a breaking change that affects data access if your existing data uses uppercase tenant codes in partition keys.
+
+For a complete migration checklist and step-by-step instructions, see the [v1.1.0 Migration Guide](/docs/migration/v1.1.0).
+:::
+
+### Understanding the Impact
+
+The framework normalizes tenant codes to lowercase for case-insensitive matching:
+
+```typescript
+// Before: Cognito stores uppercase
+custom:tenant = "MY_TENANT"
+
+// After: getUserContext() returns lowercase
+const userContext = getUserContext(ctx);
+console.log(userContext.tenantCode); // "my_tenant"
+
+// Partition key generation uses lowercase
+const pk = `PRODUCT#${userContext.tenantCode}`; // "PRODUCT#my_tenant"
+```
+
+**The problem:** If your existing DynamoDB data has partition keys with uppercase tenant codes (e.g., `PRODUCT#MY_TENANT`), queries using the normalized lowercase tenant code will not find that data.
+
+### Migration Strategy 1: Update DynamoDB Data {#strategy-1-update-dynamodb}
+
+Migrate existing DynamoDB data to use lowercase tenant codes in partition keys.
+
+```typescript
+// migration/tenant-normalization-migration.service.ts
+import { Injectable, Logger } from '@nestjs/common';
+import {
+  DynamoDbService,
+  CommandService,
+  KEY_SEPARATOR,
+  generateId,
+  getTenantCode,
+  IInvoke,
+} from '@mbc-cqrs-serverless/core';
+
+@Injectable()
+export class TenantNormalizationMigrationService {
+  private readonly logger = new Logger(TenantNormalizationMigrationService.name);
+
+  constructor(
+    private readonly dynamoDbService: DynamoDbService,
+    private readonly commandService: CommandService,
+  ) {}
+
+  /**
+   * Migrate all entities of a type to lowercase tenant codes
+   */
+  async migrateEntityType(
+    tableName: string,
+    entityPrefix: string,
+    invokeContext: IInvoke,
+  ): Promise<{ migrated: number; errors: string[] }> {
+    let migrated = 0;
+    const errors: string[] = [];
+
+    // Scan for items with uppercase tenant codes
+    const items = await this.scanForUppercaseTenants(tableName, entityPrefix);
+
+    for (const item of items) {
+      try {
+        const oldTenantCode = getTenantCode(item.pk);
+        const newTenantCode = oldTenantCode?.toLowerCase();
+
+        if (!newTenantCode || oldTenantCode === newTenantCode) {
+          continue; // Already lowercase or no tenant code
+        }
+
+        // Create new record with lowercase tenant code
+        const newPk = `${entityPrefix}${KEY_SEPARATOR}${newTenantCode}`;
+        const newId = generateId(newPk, item.sk);
+
+        await this.commandService.publishSync({
+          pk: newPk,
+          sk: item.sk,
+          id: newId,
+          tenantCode: newTenantCode,
+          code: item.code,
+          name: item.name,
+          type: item.type,
+          version: 0, // New entity
+          attributes: {
+            ...item.attributes,
+            _migratedFrom: item.id,
+            _migrationReason: 'tenant_code_normalization',
+            _migratedAt: new Date().toISOString(),
+          },
+        }, { invokeContext });
+
+        // Mark old record as migrated (soft delete)
+        await this.commandService.publishPartialUpdateSync({
+          pk: item.pk,
+          sk: item.sk,
+          version: item.version,
+          isDeleted: true,
+          attributes: {
+            ...item.attributes,
+            _migratedTo: newId,
+          },
+        }, { invokeContext });
+
+        migrated++;
+        this.logger.log(`Migrated ${item.id} to ${newId}`);
+      } catch (error) {
+        errors.push(`Failed to migrate ${item.id}: ${error.message}`);
+        this.logger.error(`Migration error for ${item.id}`, error);
+      }
+    }
+
+    return { migrated, errors };
+  }
+
+  private async scanForUppercaseTenants(
+    tableName: string,
+    entityPrefix: string,
+  ): Promise<any[]> {
+    // Implement scanning logic to find items with uppercase tenant codes
+    // Filter for PKs that start with entityPrefix and contain uppercase letters
+    return [];
+  }
+}
+```
+
+### Migration Strategy 2: Update Cognito User Attributes {#strategy-2-update-cognito}
+
+Update Cognito user attributes to use lowercase tenant codes. This approach avoids data migration but requires Cognito admin access.
+
+```typescript
+// migration/cognito-tenant-migration.service.ts
+import { Injectable, Logger } from '@nestjs/common';
+import {
+  CognitoIdentityProviderClient,
+  ListUsersCommand,
+  AdminUpdateUserAttributesCommand,
+} from '@aws-sdk/client-cognito-identity-provider';
+
+@Injectable()
+export class CognitoTenantMigrationService {
+  private readonly logger = new Logger(CognitoTenantMigrationService.name);
+  private readonly cognitoClient: CognitoIdentityProviderClient;
+
+  constructor() {
+    this.cognitoClient = new CognitoIdentityProviderClient({});
+  }
+
+  /**
+   * Migrate all users' custom:tenant to lowercase
+   */
+  async migrateAllUsers(userPoolId: string): Promise<{
+    migrated: number;
+    errors: string[];
+  }> {
+    let migrated = 0;
+    const errors: string[] = [];
+    let paginationToken: string | undefined;
+
+    do {
+      const listResponse = await this.cognitoClient.send(
+        new ListUsersCommand({
+          UserPoolId: userPoolId,
+          PaginationToken: paginationToken,
+        }),
+      );
+
+      for (const user of listResponse.Users ?? []) {
+        try {
+          const tenantAttr = user.Attributes?.find(
+            (a) => a.Name === 'custom:tenant',
+          );
+          const rolesAttr = user.Attributes?.find(
+            (a) => a.Name === 'custom:roles',
+          );
+
+          if (!tenantAttr?.Value) continue;
+
+          const oldTenant = tenantAttr.Value;
+          const newTenant = oldTenant.toLowerCase();
+
+          if (oldTenant === newTenant) continue; // Already lowercase
+
+          // Update tenant attribute
+          const attributes = [
+            { Name: 'custom:tenant', Value: newTenant },
+          ];
+
+          // Update roles if they contain tenant references
+          if (rolesAttr?.Value) {
+            const roles = JSON.parse(rolesAttr.Value);
+            const updatedRoles = roles.map((r: any) => ({
+              ...r,
+              tenant: (r.tenant || '').toLowerCase(),
+            }));
+            attributes.push({
+              Name: 'custom:roles',
+              Value: JSON.stringify(updatedRoles),
+            });
+          }
+
+          await this.cognitoClient.send(
+            new AdminUpdateUserAttributesCommand({
+              UserPoolId: userPoolId,
+              Username: user.Username,
+              UserAttributes: attributes,
+            }),
+          );
+
+          migrated++;
+          this.logger.log(`Migrated user ${user.Username}`);
+        } catch (error) {
+          errors.push(`Failed to migrate ${user.Username}: ${error.message}`);
+        }
+      }
+
+      paginationToken = listResponse.PaginationToken;
+    } while (paginationToken);
+
+    return { migrated, errors };
+  }
+}
+```
+
+### Migration Strategy 3: Dual-Read Approach {#strategy-3-dual-read}
+
+For a gradual migration, implement a dual-read approach that tries both lowercase and uppercase tenant codes.
+
+```typescript
+// services/tenant-compatible-data.service.ts
+import { Injectable } from '@nestjs/common';
+import {
+  DataService,
+  KEY_SEPARATOR,
+  getTenantCode,
+} from '@mbc-cqrs-serverless/core';
+
+@Injectable()
+export class TenantCompatibleDataService {
+  constructor(private readonly dataService: DataService) {}
+
+  /**
+   * Get item with fallback to uppercase tenant code
+   */
+  async getItemWithFallback(
+    entityPrefix: string,
+    tenantCode: string,
+    sk: string,
+  ): Promise<any | null> {
+    // Try lowercase first (new format)
+    const lowercasePk = `${entityPrefix}${KEY_SEPARATOR}${tenantCode.toLowerCase()}`;
+    let item = await this.dataService.getItem({ pk: lowercasePk, sk });
+
+    if (item) {
+      return item;
+    }
+
+    // Fallback to uppercase (legacy format)
+    const uppercasePk = `${entityPrefix}${KEY_SEPARATOR}${tenantCode.toUpperCase()}`;
+    item = await this.dataService.getItem({ pk: uppercasePk, sk });
+
+    if (item) {
+      // Log for tracking migration progress
+      console.warn(
+        `Found legacy uppercase data: ${uppercasePk}#${sk}. Consider migrating.`,
+      );
+    }
+
+    return item;
+  }
+
+  /**
+   * List items with fallback to uppercase tenant code
+   */
+  async listItemsWithFallback(
+    entityPrefix: string,
+    tenantCode: string,
+  ): Promise<any[]> {
+    const lowercasePk = `${entityPrefix}${KEY_SEPARATOR}${tenantCode.toLowerCase()}`;
+    const uppercasePk = `${entityPrefix}${KEY_SEPARATOR}${tenantCode.toUpperCase()}`;
+
+    // Query both partitions
+    const [lowercaseItems, uppercaseItems] = await Promise.all([
+      this.dataService.listItemsByPk(lowercasePk),
+      this.dataService.listItemsByPk(uppercasePk),
+    ]);
+
+    // Merge results, preferring lowercase (newer) data
+    const itemMap = new Map<string, any>();
+
+    for (const item of uppercaseItems.items) {
+      itemMap.set(item.sk, item);
+    }
+    for (const item of lowercaseItems.items) {
+      itemMap.set(item.sk, item); // Overwrites uppercase if exists
+    }
+
+    return Array.from(itemMap.values());
+  }
+}
+```
+
+### Migration Checklist
+
+Follow this checklist when migrating to lowercase tenant codes:
+
+- [ ] **Backup all data** before migration
+- [ ] **Identify affected tables** - scan for uppercase tenant codes in PKs
+- [ ] **Choose migration strategy:**
+  - [ ] Strategy 1: Update DynamoDB data (recommended for clean migration)
+  - [ ] Strategy 2: Update Cognito attributes (if data is already lowercase)
+  - [ ] Strategy 3: Dual-read (for gradual migration with minimal downtime)
+- [ ] **Test migration** in a non-production environment
+- [ ] **Run migration** during low-traffic period
+- [ ] **Verify data access** after migration
+- [ ] **Update RDS data** if using RDS sync (tenantCode column)
+- [ ] **Remove legacy data** after confirming successful migration
+
+### RDS Migration
+
+If you're using RDS sync, you also need to update the `tenantCode` column:
+
+```sql
+-- Update tenantCode to lowercase in RDS
+UPDATE your_table
+SET tenant_code = LOWER(tenant_code)
+WHERE tenant_code != LOWER(tenant_code);
+```
+
+### Verification Script
+
+After migration, verify that all data is accessible:
+
+```typescript
+// scripts/verify-tenant-migration.ts
+async function verifyMigration(
+  dataService: DataService,
+  entityPrefix: string,
+  tenantCode: string,
+): Promise<{ success: boolean; issues: string[] }> {
+  const issues: string[] = [];
+
+  // Check lowercase data exists
+  const pk = `${entityPrefix}#${tenantCode.toLowerCase()}`;
+  const items = await dataService.listItemsByPk(pk);
+
+  if (items.items.length === 0) {
+    issues.push(`No items found for ${pk}`);
+  }
+
+  // Check no uppercase data remains
+  const uppercasePk = `${entityPrefix}#${tenantCode.toUpperCase()}`;
+  const legacyItems = await dataService.listItemsByPk(uppercasePk);
+
+  if (legacyItems.items.length > 0) {
+    issues.push(
+      `Found ${legacyItems.items.length} legacy items in ${uppercasePk}`,
+    );
+  }
+
+  return {
+    success: issues.length === 0,
+    issues,
+  };
+}
+```
+
 ## Cross-Tenant Data Migration
 
 ### Pattern 1: Copy Data Between Tenants

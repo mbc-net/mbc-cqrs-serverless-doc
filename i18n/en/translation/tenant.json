@@ -64,5 +64,6 @@
   "The interface includes the following methods:": "The interface includes the following methods:",
   "The `createTenantGroup` method is available on `TenantService` but is not part of the `ITenantService` interface.": "The `createTenantGroup` method is available on `TenantService` but is not part of the `ITenantService` interface.",
   "Tenant Code Format": "Tenant Code Format",
-  "Tenant codes are case-insensitive. The `getUserContext()` function in `@mbc-cqrs-serverless/core` normalizes all tenant codes to lowercase. When creating tenants, use lowercase codes (e.g., `tenant001`, `acme-corp`) for consistency.": "Tenant codes are case-insensitive. The `getUserContext()` function in `@mbc-cqrs-serverless/core` normalizes all tenant codes to lowercase. When creating tenants, use lowercase codes (e.g., `tenant001`, `acme-corp`) for consistency."
+  "Tenant codes are case-insensitive. The `getUserContext()` function in `@mbc-cqrs-serverless/core` normalizes all tenant codes to lowercase. When creating tenants, use lowercase codes (e.g., `tenant001`, `acme-corp`) for consistency.": "Tenant codes are case-insensitive. The `getUserContext()` function in `@mbc-cqrs-serverless/core` normalizes all tenant codes to lowercase. When creating tenants, use lowercase codes (e.g., `tenant001`, `acme-corp`) for consistency.",
+  "**Upgrading from v1.0.x?** See the [v1.1.0 Migration Guide](/docs/migration/v1.1.0) for data migration instructions.": "**Upgrading from v1.0.x?** See the [v1.1.0 Migration Guide](/docs/migration/v1.1.0) for data migration instructions."
 }

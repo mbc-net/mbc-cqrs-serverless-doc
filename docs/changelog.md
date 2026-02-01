@@ -25,6 +25,12 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
   - {{This change affects partition key format: `TENANT#COMMON` → `TENANT#common`}}
   - {{**Migration required:** Existing data with `TENANT#COMMON` partition keys needs to be migrated}}
   - {{See [Migration Guide](/docs/migration/v1.1.0) for detailed instructions}}
+- **core:** {{Remove deprecated `CommandService.publish()` method}} ([{{See Details}}](/docs/migration/v1.1.0#breaking-change-3-deprecated-methods-removed))
+  - {{Use `CommandService.publishAsync()` instead}}
+- **core:** {{Remove deprecated `CommandService.publishPartialUpdate()` method}}
+  - {{Use `CommandService.publishPartialUpdateAsync()` instead}}
+- **sequence:** {{Remove deprecated `SequencesService.genNewSequence()` method}}
+  - {{Use `SequencesService.generateSequenceItem()` instead}}
 
 ### {{Features}}
 

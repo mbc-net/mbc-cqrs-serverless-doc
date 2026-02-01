@@ -212,7 +212,16 @@ const sidebars: SidebarsConfig = {
       items: ["helpers", "interfaces", "error-catalog", "anti-patterns", "glossary"],
     },
 
-    // 15. Changelog - 変更履歴（トップレベル）
+    // 15. Migration Guides - バージョン別マイグレーションガイド
+    {
+      type: "category",
+      label: "Migration Guides",
+      items: [
+        "migration/v1.1.0",
+      ],
+    },
+
+    // 16. Changelog - 変更履歴（トップレベル）
     "changelog",
   ],
 };
