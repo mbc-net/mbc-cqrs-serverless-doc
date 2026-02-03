@@ -412,6 +412,48 @@ SESアクセスなしでローカルで実行する場合、メソッドは自�
 | `body` | `string` | はい | HTMLとしてのメール本文 |
 | `replyToAddrs` | `string[]` | いいえ | 返信先アドレス |
 | `attachments` | `Attachment[]` | いいえ | 添付ファイル |
+| `emailTags` | `EmailTag[]` | いいえ | メール分類用のタグ（SES Email Tags） |
+
+### メールタグ {#email-tags}
+
+メールタグを使用すると、AWS SES経由で送信されたメールを分類および追跡できます。タグはSES分析、CloudWatch、およびイベント宛先でメールをフィルタリングするのに役立ちます。
+
+:::info バージョン情報
+EmailTagsサポートは[バージョン1.1.0](/docs/changelog#v110)で追加されました。
+:::
+
+#### 基本的な使い方
+
+```ts
+import { EmailService, EmailNotification, EmailTag } from "@mbc-cqrs-serverless/core";
+
+const email: EmailNotification = {
+  toAddrs: ["user@example.com"],
+  subject: "Order Confirmation",
+  body: "<p>Your order has been confirmed.</p>",
+  emailTags: [
+    { name: "category", value: "order-confirmation" },
+    { name: "tenant", value: "tenant-123" },
+    { name: "environment", value: "production" },
+  ],
+};
+
+await this.emailService.sendEmail(email);
+```
+
+#### EmailTagインターフェース
+
+| プロパティ | 型 | 必須 | 説明 |
+|--------------|----------|--------------|-----------------|
+| `name` | `string` | はい | タグ名（例: 'category', 'campaign'） |
+| `value` | `string` | はい | 分類用のタグ値 |
+
+#### ユースケース
+
+- **キャンペーントラッキング**: マーケティングキャンペーンごとにメールにタグ付けしてパフォーマンスを分析
+- **テナント分離**: マルチテナントメール分析用にテナントコードでタグ付け
+- **メールタイプの分類**: トランザクションメールとプロモーションメールを区別
+- **環境タグ付け**: 開発、ステージング、本番環境間でメールを追跡
 
 #### Attachmentインターフェース
 

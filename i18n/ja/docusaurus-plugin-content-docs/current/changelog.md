@@ -17,7 +17,7 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ## 安定版リリース (1.x)
 
-## [1.1.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.0) - TBD {#v110}
+## [1.1.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.0) (2026-02-03) {#v110}
 
 ### 破壊的変更
 
@@ -40,6 +40,25 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
   - すべてのDynamoDB操作は一貫性のため正規化されたテナントコードを使用します
 - **core:** 明示的な正規化のための`normalizeTenantCode()`ユーティリティ関数を追加
 - **core:** 共通テナント検出のための`isCommonTenant()`ユーティリティ関数を追加
+- **core:** AWS SESメールのカテゴリ分けとフィルタリング用EmailTagsサポートを追加 ([詳細を見る](/docs/notification-module#email-tags))
+  - `EmailNotification`インターフェースに新しい`emailTags`オプション
+  - タグはSESに渡されメールのカテゴリ分けとトラッキングに使用
+- **core:** RolesGuardに拡張可能なテナント検証を追加 ([詳細を見る](/docs/authentication#tenant-verification))
+  - `isHeaderOverride()`: ヘッダーベースのテナントオーバーライドを検出
+  - `canOverrideTenant()`: クロステナントアクセスの権限をチェック
+  - `getCommonTenantCodes()`: 設定可能な共通テナントリスト
+  - `getCrossTenantRoles()`: 設定可能なクロステナントロール（デフォルト: 'system_admin'）
+- **cli:** スキル更新用のnpmレジストリバージョンチェックを追加
+  - ローカルのpackage.jsonではなくnpmレジストリから最新バージョンを取得
+  - ネットワークリクエストを削減するための24時間キャッシュ
+  - オフライン時はキャッシュバージョンにフォールバック
+
+### セキュリティ
+
+- **core:** テナントコードヘッダーオーバーライドをシステム管理者のみに制限
+  - 以前は`custom:tenant` Cognito属性のないユーザーがヘッダー経由で任意のテナントを指定可能でした
+  - 現在はグローバル`system_admin`ロールを持つユーザーのみが`x-tenant-code`ヘッダーでテナントコードをオーバーライド可能
+  - 一般ユーザーはCognitoで`custom:tenant`を設定する必要があります
 
 ### バグ修正
 
@@ -61,6 +80,10 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
   - enumの完全性と一貫性を保証
 - **core:** テナントコード正規化テストを追加（70件以上のテストケース）
 - **core:** テナント正規化コマンドテストを追加（30件以上のテストケース）
+- **core:** 包括的な依存関係統合テストを追加（3400以上のテスト）
+  - AWS SDK統合テスト（DynamoDB、S3、SNS、SQS、Step Functions、SES）
+  - NestJS動作テスト（デコレーター、設定、DI、Swagger）
+  - サードパーティライブラリテスト（class-transformer、class-validator、RxJS）
 
 ### ドキュメント
 

@@ -412,6 +412,48 @@ When running locally without SES access, the method automatically falls back to 
 | `body` | `string` | Yes | Email body as HTML |
 | `replyToAddrs` | `string[]` | No | Reply-to addresses |
 | `attachments` | `Attachment[]` | No | File attachments |
+| `emailTags` | `EmailTag[]` | No | Tags for email categorization (SES Email Tags) |
+
+### Email Tags {#email-tags}
+
+Email tags allow you to categorize and track emails sent through AWS SES. Tags are useful for filtering emails in SES analytics, CloudWatch, and event destinations.
+
+:::info Version Note
+EmailTags support was added in [version 1.1.0](/docs/changelog#v110).
+:::
+
+#### Basic Usage
+
+```ts
+import { EmailService, EmailNotification, EmailTag } from "@mbc-cqrs-serverless/core";
+
+const email: EmailNotification = {
+  toAddrs: ["user@example.com"],
+  subject: "Order Confirmation",
+  body: "<p>Your order has been confirmed.</p>",
+  emailTags: [
+    { name: "category", value: "order-confirmation" },
+    { name: "tenant", value: "tenant-123" },
+    { name: "environment", value: "production" },
+  ],
+};
+
+await this.emailService.sendEmail(email);
+```
+
+#### EmailTag Interface
+
+| Property | Type | Required | Description |
+|--------------|----------|--------------|-----------------|
+| `name` | `string` | Yes | Tag name (e.g., 'category', 'campaign') |
+| `value` | `string` | Yes | Tag value for categorization |
+
+#### Use Cases
+
+- **Campaign tracking**: Tag emails by marketing campaign to analyze performance
+- **Tenant isolation**: Tag by tenant code for multi-tenant email analytics
+- **Email type categorization**: Distinguish transactional emails from promotional ones
+- **Environment tagging**: Track emails across development, staging, and production
 
 #### Attachment Interface
 

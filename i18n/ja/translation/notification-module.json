@@ -124,5 +124,17 @@
   "Maximum variable name length": "変数名の最大長",
   "255 characters": "255文字",
   "Prevents ReDoS (Regular Expression Denial of Service) attacks": "ReDoS（正規表現サービス拒否）攻撃を防止",
-  "Variable names exceeding 255 characters will not be replaced and will remain as literal placeholders in the output.": "255文字を超える変数名は置換されず、出力にそのままプレースホルダーとして残ります。"
+  "Variable names exceeding 255 characters will not be replaced and will remain as literal placeholders in the output.": "255文字を超える変数名は置換されず、出力にそのままプレースホルダーとして残ります。",
+  "Tags for email categorization (SES Email Tags)": "メール分類用のタグ（SES Email Tags）",
+  "Email Tags": "メールタグ",
+  "Email tags allow you to categorize and track emails sent through AWS SES. Tags are useful for filtering emails in SES analytics, CloudWatch, and event destinations.": "メールタグを使用すると、AWS SES経由で送信されたメールを分類および追跡できます。タグはSES分析、CloudWatch、およびイベント宛先でメールをフィルタリングするのに役立ちます。",
+  "EmailTags support was added in [version 1.1.0](/docs/changelog#v110).": "EmailTagsサポートは[バージョン1.1.0](/docs/changelog#v110)で追加されました。",
+  "EmailTag Interface": "EmailTagインターフェース",
+  "Tag name (e.g., 'category', 'campaign')": "タグ名（例: 'category', 'campaign'）",
+  "Tag value for categorization": "分類用のタグ値",
+  "Use Cases": "ユースケース",
+  "**Campaign tracking**: Tag emails by marketing campaign to analyze performance": "**キャンペーントラッキング**: マーケティングキャンペーンごとにメールにタグ付けしてパフォーマンスを分析",
+  "**Tenant isolation**: Tag by tenant code for multi-tenant email analytics": "**テナント分離**: マルチテナントメール分析用にテナントコードでタグ付け",
+  "**Email type categorization**: Distinguish transactional emails from promotional ones": "**メールタイプの分類**: トランザクションメールとプロモーションメールを区別",
+  "**Environment tagging**: Track emails across development, staging, and production": "**環境タグ付け**: 開発、ステージング、本番環境間でメールを追跡"
 }

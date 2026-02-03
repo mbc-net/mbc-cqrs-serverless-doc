@@ -4,6 +4,7 @@
   "This guide helps you upgrade from v1.0.x to v1.1.0. Version 1.1.0 includes breaking changes related to tenant code handling that require data migration.": "このガイドはv1.0.xからv1.1.0へのアップグレードを支援します。バージョン1.1.0にはデータ移行が必要なテナントコード処理に関する破壊的変更が含まれています。",
   "Release Date": "リリース日",
   "TBD (To Be Determined)": "未定",
+  "2026-02-03": "2026-02-03",
   "Breaking Changes Summary": "破壊的変更の概要",
   "Change": "変更内容",
   "Impact": "影響",

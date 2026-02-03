@@ -1318,7 +1318,7 @@ import "@mbc-cqrs-serverless/master-web/styles.css";
 
 コンポーネントはスタイリングにTailwind CSSを使用しています。プロジェクトでTailwind CSSが設定されていることを確認してください。
 
-## Next.js App Router との統合
+## Next.js App Router との統合 {#nextjs-app-router-integration}
 
 Next.js App Router（v14+/v15）で master-web コンポーネントを使用する場合、サーバーサイドレンダリング（SSR）とクライアントサイドの状態管理に関する重要な考慮事項があります。
 
