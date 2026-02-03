@@ -1318,7 +1318,7 @@ import "@mbc-cqrs-serverless/master-web/styles.css";
 
 The components use Tailwind CSS for styling. Ensure your project has Tailwind CSS configured.
 
-## Next.js App Router Integration
+## Next.js App Router Integration {#nextjs-app-router-integration}
 
 When using master-web components with Next.js App Router (v14+/v15), there are important considerations for handling Server-Side Rendering (SSR) and client-side state.
 

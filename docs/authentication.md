@@ -212,3 +212,91 @@ export class CustomRoleGuard extends RolesGuard {
   }
 }
 ```
+
+## {{Tenant Verification}} {#tenant-verification}
+
+{{The `RolesGuard` includes extensible methods for tenant verification, allowing you to customize cross-tenant access behavior.}}
+
+:::info {{Version Note}}
+{{Extensible tenant verification methods were added in [version 1.1.0](/docs/changelog#v110).}}
+:::
+
+### {{Built-in Methods}}
+
+{{The following protected methods can be overridden to customize tenant verification:}}
+
+| {{Method}} | {{Description}} | {{Default Behavior}} |
+|------------|-----------------|----------------------|
+| `isHeaderOverride()` | {{Detect if tenant code comes from header}} | {{Returns true if x-tenant-code header differs from Cognito custom:tenant}} |
+| `canOverrideTenant()` | {{Check if user can override tenant}} | {{Returns true for system_admin role}} |
+| `getCommonTenantCodes()` | {{Get list of common tenant codes}} | {{Returns common or value from COMMON_TENANT_CODES env var}} |
+| `getCrossTenantRoles()` | {{Get roles that can access cross-tenant}} | {{Returns system_admin or value from CROSS_TENANT_ROLES env var}} |
+
+### {{Security: Tenant Code Header Override}} {#tenant-code-header-security}
+
+{{By default, only users with the `system_admin` role can override the tenant code via the `x-tenant-code` header. This prevents unauthorized cross-tenant access.}}
+
+```ts
+// {{Default behavior in RolesGuard}}
+protected canOverrideTenant(context: ExecutionContext): boolean {
+  const userContext = getUserContext(context);
+  const crossTenantRoles = this.getCrossTenantRoles();
+  return crossTenantRoles.includes(userContext.tenantRole);
+}
+```
+
+:::warning {{Security Note}}
+{{In versions prior to v1.1.0, users without a `custom:tenant` Cognito attribute could specify any tenant via the `x-tenant-code` header, potentially accessing data from other tenants. This security issue has been fixed in v1.1.0.}}
+:::
+
+### {{Environment Variable Configuration}}
+
+{{You can configure common tenant codes and cross-tenant roles via environment variables:}}
+
+```bash
+# {{Comma-separated list of common tenant codes}}
+COMMON_TENANT_CODES=common,shared,global
+
+# {{Comma-separated list of roles that can access cross-tenant data}}
+CROSS_TENANT_ROLES=system_admin,general_manager
+```
+
+### {{Custom Implementation Example}}
+
+{{To implement custom cross-tenant access logic, extend `RolesGuard` and override the relevant methods:}}
+
+```ts
+import { RolesGuard, getUserContext } from "@mbc-cqrs-serverless/core";
+import { ExecutionContext, Injectable } from "@nestjs/common";
+
+@Injectable()
+export class CustomRolesGuard extends RolesGuard {
+  // {{Allow additional roles to access cross-tenant data}}
+  protected getCrossTenantRoles(): string[] {
+    return ['system_admin', 'regional_manager', 'auditor'];
+  }
+
+  // {{Add custom common tenant codes}}
+  protected getCommonTenantCodes(): string[] {
+    return ['common', 'shared', 'template'];
+  }
+
+  // {{Custom logic for tenant override permission}}
+  protected canOverrideTenant(context: ExecutionContext): boolean {
+    const userContext = getUserContext(context);
+
+    // {{Allow specific users to override tenant}}
+    if (userContext.tenantRole === 'regional_manager') {
+      // {{Regional managers can only access tenants in their region}}
+      return this.isRegionalManagerForTenant(userContext, context);
+    }
+
+    return super.canOverrideTenant(context);
+  }
+
+  private isRegionalManagerForTenant(userContext: UserContext, context: ExecutionContext): boolean {
+    // {{Custom logic to verify regional access}}
+    // ...
+  }
+}
+```

@@ -212,3 +212,91 @@ export class CustomRoleGuard extends RolesGuard {
   }
 }
 ```
+
+## テナント検証 {#tenant-verification}
+
+`RolesGuard`にはテナント検証用の拡張可能なメソッドが含まれており、クロステナントアクセスの動作をカスタマイズできます。
+
+:::info Version Note
+拡張可能なテナント検証メソッドは[バージョン1.1.0](/docs/changelog#v110)で追加されました。
+:::
+
+### 組み込みメソッド
+
+以下のprotectedメソッドをオーバーライドしてテナント検証をカスタマイズできます：
+
+| メソッド | Description | デフォルト動作 |
+|------------|-----------------|----------------------|
+| `isHeaderOverride()` | テナントコードがヘッダーからのものかを検出 | x-tenant-codeヘッダーがCognitoのcustom:tenantと異なる場合trueを返す |
+| `canOverrideTenant()` | ユーザーがテナントをオーバーライドできるかチェック | system_adminロールの場合trueを返す |
+| `getCommonTenantCodes()` | 共通テナントコードのリストを取得 | commonまたはCOMMON_TENANT_CODES環境変数の値を返す |
+| `getCrossTenantRoles()` | クロステナントアクセス可能なロールを取得 | system_adminまたはCROSS_TENANT_ROLES環境変数の値を返す |
+
+### セキュリティ: テナントコードヘッダーオーバーライド {#tenant-code-header-security}
+
+デフォルトでは、`system_admin`ロールを持つユーザーのみが`x-tenant-code`ヘッダーでテナントコードをオーバーライドできます。これにより、不正なクロステナントアクセスを防止します。
+
+```ts
+// Default behavior in RolesGuard (RolesGuardのデフォルト動作)
+protected canOverrideTenant(context: ExecutionContext): boolean {
+  const userContext = getUserContext(context);
+  const crossTenantRoles = this.getCrossTenantRoles();
+  return crossTenantRoles.includes(userContext.tenantRole);
+}
+```
+
+:::warning セキュリティ注意
+v1.1.0より前のバージョンでは、`custom:tenant` Cognito属性を持たないユーザーが`x-tenant-code`ヘッダー経由で任意のテナントを指定でき、他のテナントのデータにアクセスできる可能性がありました。このセキュリティ問題はv1.1.0で修正されました。
+:::
+
+### 環境変数の設定
+
+環境変数で共通テナントコードとクロステナントロールを設定できます：
+
+```bash
+# Comma-separated list of common tenant codes (カンマ区切りの共通テナントコードリスト)
+COMMON_TENANT_CODES=common,shared,global
+
+# Comma-separated list of roles that can access cross-tenant data (クロステナントデータにアクセスできるロールのカンマ区切りリスト)
+CROSS_TENANT_ROLES=system_admin,general_manager
+```
+
+### カスタム実装例
+
+カスタムクロステナントアクセスロジックを実装するには、`RolesGuard`を拡張して関連メソッドをオーバーライドします：
+
+```ts
+import { RolesGuard, getUserContext } from "@mbc-cqrs-serverless/core";
+import { ExecutionContext, Injectable } from "@nestjs/common";
+
+@Injectable()
+export class CustomRolesGuard extends RolesGuard {
+  // Allow additional roles to access cross-tenant data (追加ロールにクロステナントデータへのアクセスを許可)
+  protected getCrossTenantRoles(): string[] {
+    return ['system_admin', 'regional_manager', 'auditor'];
+  }
+
+  // Add custom common tenant codes (カスタム共通テナントコードを追加)
+  protected getCommonTenantCodes(): string[] {
+    return ['common', 'shared', 'template'];
+  }
+
+  // Custom logic for tenant override permission (テナントオーバーライド権限のカスタムロジック)
+  protected canOverrideTenant(context: ExecutionContext): boolean {
+    const userContext = getUserContext(context);
+
+    // Allow specific users to override tenant (特定ユーザーにテナントオーバーライドを許可)
+    if (userContext.tenantRole === 'regional_manager') {
+      // Regional managers can only access tenants in their region (リージョナルマネージャーは自リージョンのテナントのみアクセス可能)
+      return this.isRegionalManagerForTenant(userContext, context);
+    }
+
+    return super.canOverrideTenant(context);
+  }
+
+  private isRegionalManagerForTenant(userContext: UserContext, context: ExecutionContext): boolean {
+    // Custom logic to verify regional access (リージョナルアクセスを検証するカスタムロジック)
+    // ...
+  }
+}
+```

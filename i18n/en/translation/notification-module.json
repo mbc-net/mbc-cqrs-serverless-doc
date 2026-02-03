@@ -124,5 +124,17 @@
   "Maximum variable name length": "Maximum variable name length",
   "255 characters": "255 characters",
   "Prevents ReDoS (Regular Expression Denial of Service) attacks": "Prevents ReDoS (Regular Expression Denial of Service) attacks",
-  "Variable names exceeding 255 characters will not be replaced and will remain as literal placeholders in the output.": "Variable names exceeding 255 characters will not be replaced and will remain as literal placeholders in the output."
+  "Variable names exceeding 255 characters will not be replaced and will remain as literal placeholders in the output.": "Variable names exceeding 255 characters will not be replaced and will remain as literal placeholders in the output.",
+  "Tags for email categorization (SES Email Tags)": "Tags for email categorization (SES Email Tags)",
+  "Email Tags": "Email Tags",
+  "Email tags allow you to categorize and track emails sent through AWS SES. Tags are useful for filtering emails in SES analytics, CloudWatch, and event destinations.": "Email tags allow you to categorize and track emails sent through AWS SES. Tags are useful for filtering emails in SES analytics, CloudWatch, and event destinations.",
+  "EmailTags support was added in [version 1.1.0](/docs/changelog#v110).": "EmailTags support was added in [version 1.1.0](/docs/changelog#v110).",
+  "EmailTag Interface": "EmailTag Interface",
+  "Tag name (e.g., 'category', 'campaign')": "Tag name (e.g., 'category', 'campaign')",
+  "Tag value for categorization": "Tag value for categorization",
+  "Use Cases": "Use Cases",
+  "**Campaign tracking**: Tag emails by marketing campaign to analyze performance": "**Campaign tracking**: Tag emails by marketing campaign to analyze performance",
+  "**Tenant isolation**: Tag by tenant code for multi-tenant email analytics": "**Tenant isolation**: Tag by tenant code for multi-tenant email analytics",
+  "**Email type categorization**: Distinguish transactional emails from promotional ones": "**Email type categorization**: Distinguish transactional emails from promotional ones",
+  "**Environment tagging**: Track emails across development, staging, and production": "**Environment tagging**: Track emails across development, staging, and production"
 }

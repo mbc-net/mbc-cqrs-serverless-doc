@@ -97,6 +97,7 @@ const sidebars: SidebarsConfig = {
         "tenant",
         "master",
         "directory",
+        "import",
         {
           type: "category",
           label: "Notification Module",

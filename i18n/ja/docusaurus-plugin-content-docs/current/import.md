@@ -1,45 +1,31 @@
 ---
-description: APIコールとCSVファイルからのデータ取り込みを扱う、Importモジュールの設定と利用方法を学びます。
+description: MBC CQRS ServerlessでCSVおよびZIPファイルをサポートしたImportModuleによる一括データインポートの使用方法を学びます。
 ---
 
-# インポート
+# Import
 
-Importパッケージは、MBC CQRS Serverlessエコシステム内でデータインポートタスクを管理するための、包括的で拡張可能なフレームワークを提供します。これにより、以下のことが可能になります：:
-
-- 複数のソース（API、CSV）からの一元的なデータ処理。
-
-- 2フェーズのストラテジーパターンによる、完全にカスタマイズ可能なロジック。
-
-- スケーラビリティのための非同期・イベント駆動型の実行。
-
-- CSVファイルに対する2つの処理モード（Direct vs. Step Function）。
-
-- すべてのインポート操作に対する監査と結果の追跡。
+ImportModuleは、MBC CQRS Serverlessフレームワークで一括データインポート機能を提供します。単一レコードのインポート、CSVファイルのインポート、複数のCSVを含むZIPファイルのインポートをサポートしています。
 
 ## アーキテクチャ
 
 ```mermaid
-sequenceDiagram
-    participant Client
-    participant ImportService
-    participant StepFunctions
-    participant S3
-    participant Lambda
-
-    Client->>ImportService: startImport()
-    ImportService->>S3: Validate CSV exists
-    ImportService->>StepFunctions: Start Distributed Map
-
-    loop For each batch
-        StepFunctions->>S3: Read batch of rows
-        StepFunctions->>Lambda: Process batch
-        Lambda->>Lambda: Transform & Validate
-        Lambda->>DynamoDB: Write records
-        Lambda-->>StepFunctions: Batch result
+graph TB
+    subgraph "インポートフロー"
+        A["ImportController"] --> B["ImportService"]
+        B --> C["ImportStrategy"]
+        C --> D["ProcessStrategy"]
+        D --> E["CommandService"]
     end
 
-    StepFunctions->>ImportService: Execution complete
-    ImportService->>Client: Import completed
+    subgraph "処理モード"
+        F["DIRECT"] --> G["即時処理"]
+        H["STEP_FUNCTION"] --> I["SFN経由の非同期処理"]
+    end
+
+    subgraph "ストレージ"
+        J["S3 (CSV/ZIP)"]
+        K["DynamoDB (インポートジョブ)"]
+    end
 ```
 
 ## インストール
@@ -48,235 +34,466 @@ sequenceDiagram
 npm install @mbc-cqrs-serverless/import
 ```
 
-## コアコンセプト
-
-このモジュールは、初期のデータ取り込みと最終的なビジネスロジックを分離する、2フェーズのアーキテクチャで動作します。
-
-1. インポートフェーズ (`IImportStrategy`): これはエントリーポイントです。その役割は、生データ（JSONオブジェクトまたはCSVの行から）を受け取り、それを標準化されたDTOに**変換**し、**検証**することです。
-
-2. プロセスフェーズ (`IProcessStrategy`): これはビジネスロジックの中核です。一時テーブルから検証済みのDTOを受け取り、既存のデータと**比較**し、作成または更新のための最終的なコマンドペイロードに**マッピング**します。
-
-## 使用方法
-
-Policyエンティティ用にモジュールを設定するためのステップバイステップガイドです。
-
-1. インポートストラテジーの実装
-
-このクラスは、入力データの初期変換と検証を処理します。
+## モジュール登録
 
 ```ts
-// src/policy/strategies/policy.import-strategy.ts
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { plainToInstance } from 'class-transformer';
-import { validate } from 'class-validator';
-import { BaseImportStrategy, IImportStrategy } from '@mbc-cqrs-serverless/import';
-import { PolicyCommandDto } from '../dto/policy-command.dto';
+import { ImportModule } from "@mbc-cqrs-serverless/import";
 
-@Injectable()
-export class PolicyImportStrategy 
-  extends BaseImportStrategy<Record<string, any>, PolicyCommandDto> 
-  implements IImportStrategy<Record<string, any>, PolicyCommandDto> 
+@Module({
+  imports: [
+    ImportModule.register({
+      enableController: true, // 組み込みRESTコントローラーを有効化
+      profiles: [
+        {
+          tableName: "products",
+          importStrategy: ProductImportStrategy,
+          processStrategy: ProductProcessStrategy,
+        },
+      ],
+      imports: [ProductModule], // ストラテジーの依存関係をエクスポートするモジュール
+      zipFinalizationHooks: [BackupToS3Hook], // オプション: インポート後のフック
+    }),
+  ],
+})
+export class AppModule {}
+```
+
+## モジュールオプション
+
+| オプション | 型 | 必須 | 説明 |
+|------------|----------|--------------|-----------------|
+| `profiles` | `ImportEntityProfile[]` | はい | 各エンティティタイプのインポート設定の配列 |
+| `enableController` | `boolean` | いいえ | 組み込みのImportControllerエンドポイントを有効化 |
+| `imports` | `ModuleMetadata['imports']` | いいえ | ストラテジークラスが必要とするプロバイダをエクスポートするモジュール |
+| `zipFinalizationHooks` | `Type<IZipFinalizationHook>[]` | いいえ | ZIPインポート完了後に実行されるフック |
+
+## コアコンセプト
+
+### インポートエンティティプロファイル
+
+インポートしたい各エンティティタイプには、プロファイル設定が必要です：
+
+```ts
+interface ImportEntityProfile {
+  tableName: string; // このデータタイプの一意識別子
+  importStrategy: Type<IImportStrategy<any, any>>; // 変換と検証
+  processStrategy: Type<IProcessStrategy<any, any>>; // 比較とマッピング
+}
+```
+
+### 処理モード
+
+| モード | 説明 | ユースケース |
+|----------|-----------------|--------------|
+| `DIRECT` | リクエスト内でCSVを即座に処理 | 小さなファイル（100行未満） |
+| `STEP_FUNCTION` | AWS Step Functions経由で非同期処理 | 大きなファイル、本番インポート |
+
+### インポートステータス
+
+| ステータス | 説明 |
+|------------|-----------------|
+| `CREATED` | インポートジョブが作成され、処理待ち |
+| `QUEUED` | 処理のためにキューに入れられたジョブ |
+| `PROCESSING` | 現在処理中 |
+| `COMPLETED` | 正常に完了 |
+| `FAILED` | 処理失敗 |
+
+## APIリファレンス
+
+### ImportServiceのメソッド
+
+#### `createWithApi(dto: CreateImportDto, options): Promise<ImportEntity>`
+
+APIを使用して単一のインポートレコードを作成します。データは設定されたImportStrategyを使用して変換および検証されます。
+
+```ts
+const importEntity = await this.importService.createWithApi(
+  {
+    tableName: "products",
+    tenantCode: "tenant001",
+    attributes: {
+      code: "PROD001",
+      name: "Product One",
+      price: 100,
+    },
+  },
+  { invokeContext }
+);
+```
+
+#### `handleCsvImport(dto: CreateCsvImportDto, options): Promise<ImportEntity[] | ImportEntity>`
+
+CSVインポートのメインルーター。processingModeに基づいて、直接処理またはStep Functionに委譲します。
+
+```ts
+// DIRECTモード - 作成されたインポートの配列を返す
+const imports = await this.importService.handleCsvImport(
+  {
+    processingMode: "DIRECT",
+    bucket: "my-bucket",
+    key: "imports/products.csv",
+    tableName: "products",
+    tenantCode: "tenant001",
+  },
+  { invokeContext }
+);
+
+// STEP_FUNCTIONモード - マスタージョブエンティティを返す
+const masterJob = await this.importService.handleCsvImport(
+  {
+    processingMode: "STEP_FUNCTION",
+    bucket: "my-bucket",
+    key: "imports/products.csv",
+    tableName: "products",
+    tenantCode: "tenant001",
+  },
+  { invokeContext }
+);
+```
+
+#### `createZipJob(dto: CreateZipImportDto, options): Promise<ImportEntity>`
+
+ZIPファイルインポート用のマスタージョブを作成します。ZIPファイルには複数のCSVファイルが含まれている必要があります。
+
+```ts
+const zipJob = await this.importService.createZipJob(
+  {
+    bucket: "my-bucket",
+    key: "imports/bulk-data.zip",
+    tenantCode: "tenant001",
+    sortedFileKeys: ["products.csv", "categories.csv"], // オプション: 処理順序を指定
+    tableName: "products", // オプション: tableName検出をオーバーライド
+  },
+  { invokeContext }
+);
+```
+
+#### `updateStatus(key: DetailKey, status: string, payload?, attributes?, notifyId?): Promise<void>`
+
+インポートジョブのステータスを更新し、SNS経由で通知を送信します。
+
+```ts
+await this.importService.updateStatus(
+  { pk: "IMPORT#tenant001", sk: "products#01ABC" },
+  "COMPLETED",
+  { result: { recordsProcessed: 100 } }
+);
+```
+
+#### `getImportByKey(key: DetailKey): Promise<ImportEntity>`
+
+キーによってインポートエンティティを取得します。
+
+```ts
+const importJob = await this.importService.getImportByKey({
+  pk: "IMPORT#tenant001",
+  sk: "products#01ABC",
+});
+```
+
+## REST APIエンドポイント
+
+`enableController: true`の場合、以下のエンドポイントが利用可能です：
+
+### `POST /imports`
+
+単一のインポートレコードを作成します。
+
+```json
 {
-  async transform(input: Record<string, any>): Promise<PolicyCommandDto> {
-    const attrSource = input.attributes && typeof input.attributes === 'object' ? input.attributes : input;
-    const mappedObject = {
-      pk: input.pk,
-      sk: input.sk,
-      attributes: {
-        policyType: attrSource.policyType,
-        applyDate: new Date(attrSource.applyDate).toISOString(),
-      },
-    };
-    return plainToInstance(PolicyCommandDto, mappedObject);
+  "tableName": "products",
+  "tenantCode": "tenant001",
+  "attributes": {
+    "code": "PROD001",
+    "name": "Product One"
   }
 }
 ```
 
-2. プロセスストラテジーの実装
+**レスポンス**: `202 Accepted`
 
-このクラスは、データを比較およびマッピングするためのコアビジネスロジックを含みます。
+### `POST /imports/csv`
+
+CSVファイルのインポートを開始します。
+
+```json
+{
+  "processingMode": "STEP_FUNCTION",
+  "bucket": "my-bucket",
+  "key": "imports/products.csv",
+  "tableName": "products",
+  "tenantCode": "tenant001"
+}
+```
+
+**レスポンス**: `200 OK` (DIRECT) / `202 Accepted` (STEP_FUNCTION)
+
+### `POST /imports/zip`
+
+ZIPファイルのインポートを開始します。
+
+```json
+{
+  "bucket": "my-bucket",
+  "key": "imports/bulk-data.zip",
+  "tenantCode": "tenant001"
+}
+```
+
+**レスポンス**: `202 Accepted`
+
+## インポートストラテジーの実装
+
+### IImportStrategyインターフェース
+
+ImportStrategyはデータの変換と検証を処理します：
 
 ```ts
-// src/policy/strategies/policy.process-strategy.ts
-import { Injectable } from '@nestjs/common';
-import { CommandService, DataService } from '@mbc-cqrs-serverless/core';
-import { BaseProcessStrategy, ComparisonResult, ComparisonStatus } from '@mbc-cqrs-serverless/import';
-import { PolicyCommandDto } from '../dto/policy-command.dto';
-import { PolicyDataEntity } from '../entity/policy-data.entity';
+interface IImportStrategy<TInput, TAttributesDto> {
+  transform(input: TInput): Promise<TAttributesDto>;
+  validate(data: TAttributesDto): Promise<void>;
+}
+```
+
+### BaseImportStrategyの使用
+
+共通機能のために基底クラスを拡張します：
+
+```ts
+import { BaseImportStrategy } from "@mbc-cqrs-serverless/import";
+import { Injectable } from "@nestjs/common";
 
 @Injectable()
-export class PolicyProcessStrategy 
-  extends BaseProcessStrategy<PolicyDataEntity, PolicyCommandDto> 
-  implements IProcessStrategy<PolicyDataEntity, PolicyCommandDto> 
-{
+export class ProductImportStrategy extends BaseImportStrategy<
+  CsvProductRow,
+  ProductAttributesDto
+> {
+  async transform(input: CsvProductRow): Promise<ProductAttributesDto> {
+    return {
+      code: input.product_code?.trim(),
+      name: input.product_name?.trim(),
+      price: parseFloat(input.price),
+      category: input.category?.trim(),
+    };
+  }
+
+  // validate()は継承されます - class-validatorを使用
+}
+```
+
+### IProcessStrategyインターフェース
+
+ProcessStrategyは既存データとの比較とコマンドへのマッピングを処理します：
+
+```ts
+interface IProcessStrategy<TEntity, TAttributesDto> {
+  compare(
+    importAttributes: TAttributesDto,
+    tenantCode: string
+  ): Promise<ComparisonResult<TEntity>>;
+
+  map(
+    status: ComparisonStatus,
+    importAttributes: TAttributesDto,
+    tenantCode: string,
+    existingData?: TEntity
+  ): Promise<CommandInputModel | CommandPartialInputModel>;
+
+  getCommandService(): CommandService;
+}
+```
+
+### 比較ステータス
+
+| ステータス | 説明 |
+|------------|-----------------|
+| `NOT_EXIST` | エンティティが存在しない - 新規作成 |
+| `CHANGED` | エンティティは存在するが変更あり - 更新 |
+| `EQUAL` | エンティティが存在し同一 - スキップ |
+
+### ProcessStrategyの例
+
+```ts
+import {
+  BaseProcessStrategy,
+  ComparisonResult,
+  ComparisonStatus,
+} from "@mbc-cqrs-serverless/import";
+import { CommandService, DataService } from "@mbc-cqrs-serverless/core";
+import { Injectable } from "@nestjs/common";
+
+@Injectable()
+export class ProductProcessStrategy extends BaseProcessStrategy<
+  ProductEntity,
+  ProductAttributesDto
+> {
   constructor(
-    private readonly commandService: CommandService,
     private readonly dataService: DataService,
-  ) { super(); }
+    private readonly commandService: CommandService
+  ) {
+    super();
+  }
+
+  async compare(
+    importAttributes: ProductAttributesDto,
+    tenantCode: string
+  ): Promise<ComparisonResult<ProductEntity>> {
+    const pk = `PRODUCT#${tenantCode}`;
+    const sk = `PRODUCT#${importAttributes.code}`;
+
+    const existing = await this.dataService.getItem({ pk, sk });
+
+    if (!existing) {
+      return { status: ComparisonStatus.NOT_EXIST };
+    }
+
+    // 関連フィールドを比較
+    if (
+      existing.name !== importAttributes.name ||
+      existing.attributes?.price !== importAttributes.price
+    ) {
+      return { status: ComparisonStatus.CHANGED, existingData: existing };
+    }
+
+    return { status: ComparisonStatus.EQUAL };
+  }
+
+  async map(
+    status: ComparisonStatus,
+    importAttributes: ProductAttributesDto,
+    tenantCode: string,
+    existingData?: ProductEntity
+  ) {
+    const pk = `PRODUCT#${tenantCode}`;
+    const sk = `PRODUCT#${importAttributes.code}`;
+
+    if (status === ComparisonStatus.NOT_EXIST) {
+      return {
+        pk,
+        sk,
+        code: importAttributes.code,
+        name: importAttributes.name,
+        tenantCode,
+        type: "PRODUCT",
+        attributes: { price: importAttributes.price },
+      };
+    }
+
+    // 既存を更新
+    return {
+      pk,
+      sk,
+      name: importAttributes.name,
+      version: existingData.version,
+      attributes: {
+        ...existingData.attributes,
+        price: importAttributes.price,
+      },
+    };
+  }
 
   getCommandService(): CommandService {
     return this.commandService;
   }
-
-  async compare(dto: PolicyCommandDto, tenantCode: string,): Promise<ComparisonResult<PolicyDataEntity>> {
-    const existing = await this.dataService.getItem({ pk: dto.pk, sk: dto.sk });
-    if (!existing) return { status: ComparisonStatus.NOT_EXIST };
-    // Add custom comparison logic here...
-    return { status: ComparisonStatus.EQUAL, existingData: existing as PolicyDataEntity };
-  }
-
-  async map(status: ComparisonStatus, dto: PolicyCommandDto, tenantCode: string, existingData?: PolicyDataEntity) {
-    if (status === ComparisonStatus.NOT_EXIST) return { ...dto, version: 0 };
-    if (status === ComparisonStatus.CHANGED) return { pk: dto.pk, sk: dto.sk, attributes: dto.attributes, version: existingData.version };
-    throw new Error('Invalid map status');
-  }
 }
 ```
 
-3. ドメインモジュールの作成
+## ZIPファイナライゼーションフック
 
-ストラテジークラスを提供およびエクスポートするためのモジュールを作成します。
-
-```ts
-// policy/policy.module.ts
-
-import { CommandModule } from '@mbc-cqrs-serverless/core'
-import { Module } from '@nestjs/common'
-import { SeqModule } from 'src/seq/seq.module'
-
-import { PolicyDataSyncRdsHandler } from './handler/policy-rds.handler'
-import { PolicyImportStrategy } from './import/policy.import-strategy'
-import { PolicyProcessStrategy } from './import/policy.process-strategy'
-import { PolicyController } from './policy.controller'
-import { PolicyService } from './policy.service'
-
-@Module({
-  imports: [
-    CommandModule.register({
-      tableName: 'policy',
-      dataSyncHandlers: [PolicyDataSyncRdsHandler],
-    }),
-    SeqModule,
-  ],
-  controllers: [PolicyController],
-  providers: [PolicyService, PolicyImportStrategy, PolicyProcessStrategy],
-  exports: [
-    PolicyService,
-    PolicyImportStrategy,
-    PolicyProcessStrategy,
-  ],
-})
-export class PolicyModule {}
-```
-
-4. カスタムイベントファクトリ
+フックはZIPインポート完了後に実行されます。後処理タスクに使用します。
 
 ```ts
-// src/event-factory.ts
-import {
-  EventFactory,
-  IEvent,
-  StepFunctionsEvent,
-} from '@mbc-cqrs-serverless/core'
-import {
-  CsvImportSfnEvent,
-  DEFAULT_IMPORT_ACTION_QUEUE,
-  ImportEvent,
-  ImportQueueEvent,
-} from '@mbc-cqrs-serverless/import'
-import { EventFactoryAddedTask, TaskEvent } from '@mbc-cqrs-serverless/task'
-import { Logger } from '@nestjs/common'
-import { DynamoDBStreamEvent, SQSEvent } from 'aws-lambda'
+import { IZipFinalizationHook, ZipFinalizationContext } from "@mbc-cqrs-serverless/import";
+import { S3Service } from "@mbc-cqrs-serverless/core";
+import { Injectable } from "@nestjs/common";
 
-@EventFactory()
-export class CustomEventFactory extends EventFactoryAddedTask {
-  private readonly logger = new Logger(CustomEventFactory.name)
+@Injectable()
+export class BackupToS3Hook implements IZipFinalizationHook {
+  constructor(private readonly s3Service: S3Service) {}
 
-  async transformDynamodbStream(event: DynamoDBStreamEvent): Promise<IEvent[]> {
-    const curEvents = await super.transformDynamodbStream(event)
-    const taskEvents = event.Records.map((record) => {
-      if (
-        record.eventSourceARN.endsWith('tasks') ||
-        record.eventSourceARN.includes('tasks' + '/stream/')
-      ) {
-        if (record.eventName === 'INSERT') {
-          return new TaskEvent().fromDynamoDBRecord(record)
-        }
-      }
-      return undefined
-    }).filter((event) => !!event)
+  async execute(context: ZipFinalizationContext): Promise<void> {
+    const { executionInput, status, results } = context;
+    const { bucket, key } = executionInput.parameters;
 
-    const importEvents = event.Records.map((record) => {
-      if (
-        record.eventSourceARN.endsWith('import_tmp') ||
-        record.eventSourceARN.includes('import_tmp' + '/stream/')
-      ) {
-        if (record.eventName === 'INSERT') {
-          return new ImportEvent().fromDynamoDBRecord(record)
-        }
-      }
-      return undefined
-    }).filter((event) => !!event)
-
-    return [...curEvents, ...taskEvents, ...importEvents]
-  }
-
-  async transformSqs(event: SQSEvent): Promise<IEvent[]> {
-    const curEvents = await super.transformSqs(event)
-    const importEvents = event.Records.map((record) => {
-      if (record.eventSourceARN.endsWith(DEFAULT_IMPORT_ACTION_QUEUE)) {
-        return new ImportQueueEvent().fromSqsRecord(record)
-      }
-
-      return undefined
-    }).filter((event) => !!event)
-
-    return [...importEvents, ...curEvents]
-  }
-
-  async transformStepFunction(
-    event: StepFunctionsEvent<any>,
-  ): Promise<IEvent[]> {
-    if (event.context.StateMachine.Name.includes('import-csv')) {
-      const csvImportEvent = new CsvImportSfnEvent(event)
-      return [csvImportEvent]
+    if (status === "COMPLETED") {
+      // ファイルをバックアップ場所に移動
+      const backupKey = `backup/${new Date().toISOString()}/${key}`;
+      await this.s3Service.copyObject({
+        sourceBucket: bucket,
+        sourceKey: key,
+        destinationBucket: bucket,
+        destinationKey: backupKey,
+      });
     }
-    return super.transformStepFunction(event)
   }
 }
-
 ```
 
+### ZipFinalizationContext
 
-5. `ImportModule`の設定
+| プロパティ | 型 | 説明 |
+|--------------|----------|-----------------|
+| `event` | `ZipImportSfnEvent` | 元のStep Functionイベント |
+| `masterJobKey` | `DetailKey` | マスターZIPジョブのキー |
+| `results` | `object` | 集計結果（totalRows、processedRows、failedRows） |
+| `status` | `ImportStatusEnum` | ジョブの最終ステータス |
+| `executionInput` | `any` | 元のStep Functions実行入力 |
 
-ルートの`AppModule`または専用のフィーチャーモジュールで、`ImportModule`を登録し、プロファイルを提供します。
+## DTO
 
+### CreateImportDto
 
-```ts
-// src/app.module.ts
-import { Module } from '@nestjs/common';
-import { ImportModule } from '@mbc-cqrs-serverless/import';
-import { PolicyModule } from './policy/policy.module';
-import { PolicyImportStrategy } from './policy/strategies/policy.import-strategy';
-import { PolicyProcessStrategy } from './policy/strategies/policy.process-strategy';
+| プロパティ | 型 | 必須 | 説明 |
+|--------------|----------|--------------|-----------------|
+| `tableName` | `string` | はい | ターゲットエンティティタイプ |
+| `tenantCode` | `string` | はい | テナントコード |
+| `attributes` | `object` | はい | インポートデータの属性 |
+| `sourceId` | `string` | いいえ | ソース識別子 |
+| `name` | `string` | いいえ | インポートの表示名 |
 
-@Module({
-  imports: [
-    PolicyModule, // Import the domain module first
-    ImportModule.register({
-      enableController: true,
-      imports: [PolicyModule], // Make providers from PolicyModule available
-      profiles: [
-        {
-          tableName: 'policy',
-          importStrategy: PolicyImportStrategy,
-          processStrategy: PolicyProcessStrategy,
-        },
-      ],
-    }),
-  ],
-  providers: [CustomEventFactory],
-})
-export class AppModule {}
-```
+### CreateCsvImportDto
+
+| プロパティ | 型 | 必須 | 説明 |
+|--------------|----------|--------------|-----------------|
+| `processingMode` | `'DIRECT' \| 'STEP_FUNCTION'` | はい | CSVの処理方法 |
+| `bucket` | `string` | はい | S3バケット名 |
+| `key` | `string` | はい | S3オブジェクトキー |
+| `tableName` | `string` | はい | ターゲットエンティティタイプ |
+| `tenantCode` | `string` | はい | テナントコード |
+
+### CreateZipImportDto
+
+| プロパティ | 型 | 必須 | 説明 |
+|--------------|----------|--------------|-----------------|
+| `bucket` | `string` | はい | S3バケット名 |
+| `key` | `string` | はい | S3オブジェクトキー |
+| `tenantCode` | `string` | はい | テナントコード |
+| `sortedFileKeys` | `string[]` | いいえ | この順序でファイルを処理 |
+| `tableName` | `string` | いいえ | 自動検出されたtableNameをオーバーライド |
+
+## ベストプラクティス
+
+### CSVファイル形式
+
+- UTF-8エンコーディングを使用
+- 列名を含むヘッダー行を含める
+- 列名は自動的にトリムされます
+- 値は自動的にトリムされます
+
+### 大規模ファイルのインポート
+
+- 100行以上のファイルには`STEP_FUNCTION`モードを使用
+- SNS通知で進行状況を監視
+- 順序どおりにインポートする必要がある関連データにはZIPインポートを使用
+
+### エラー処理
+
+- 無効な行はCSV処理でログに記録されスキップされます
+- `failedRows`カウンターを使用して失敗を追跡
+- APIまたは通知でインポートステータスを確認
+
+## 関連項目
+
+- [インポート/エクスポートパターン](./import-export-patterns) - データのインポートとエクスポートの一般的なパターン
+- [コマンドサービス](./command-service) - ProcessStrategyで使用されるコマンド操作
+- [Step Functions](./architecture/step-functions) - 非同期処理インフラストラクチャ

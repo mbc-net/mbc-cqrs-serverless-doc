@@ -4,6 +4,7 @@
   "This guide helps you upgrade from v1.0.x to v1.1.0. Version 1.1.0 includes breaking changes related to tenant code handling that require data migration.": "This guide helps you upgrade from v1.0.x to v1.1.0. Version 1.1.0 includes breaking changes related to tenant code handling that require data migration.",
   "Release Date": "Release Date",
   "TBD (To Be Determined)": "TBD (To Be Determined)",
+  "2026-02-03": "2026-02-03",
   "Breaking Changes Summary": "Breaking Changes Summary",
   "Change": "Change",
   "Impact": "Impact",

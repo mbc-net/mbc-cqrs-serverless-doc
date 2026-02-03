@@ -17,7 +17,7 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ## Stable Releases (1.x)
 
-## [1.1.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.0) - TBD {#v110}
+## [1.1.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.0) (2026-02-03) {#v110}
 
 ### Breaking Changes
 
@@ -40,6 +40,25 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
   - All DynamoDB operations use normalized tenant codes for consistency
 - **core:** Add `normalizeTenantCode()` utility function for explicit normalization
 - **core:** Add `isCommonTenant()` utility function for common tenant detection
+- **core:** Add EmailTags support for AWS SES email categorization and filtering ([See Details](/docs/notification-module#email-tags))
+  - New `emailTags` option in `EmailNotification` interface
+  - Tags are passed to SES for email categorization and tracking
+- **core:** Add extensible tenant verification in RolesGuard ([See Details](/docs/authentication#tenant-verification))
+  - `isHeaderOverride()`: Detect header-based tenant override
+  - `canOverrideTenant()`: Check permission for cross-tenant access
+  - `getCommonTenantCodes()`: Configurable common tenant list
+  - `getCrossTenantRoles()`: Configurable cross-tenant roles (default: 'system_admin')
+- **cli:** Add npm registry version check for skill updates
+  - Fetch latest version from npm registry instead of local package.json
+  - 24-hour cache to reduce network requests
+  - Offline fallback to cached version
+
+### Security
+
+- **core:** Restrict tenant code header override to system admin only
+  - Previously, users without `custom:tenant` Cognito attribute could specify any tenant via header
+  - Now only users with global `system_admin` role can override tenant code via `x-tenant-code` header
+  - Regular users must have `custom:tenant` set in Cognito
 
 ### Bug Fixes
 
@@ -61,6 +80,10 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
   - Ensure enum completeness and consistency
 - **core:** Add tenant code normalization tests (70+ test cases)
 - **core:** Add tenant normalization command tests (30+ test cases)
+- **core:** Add comprehensive dependency integration tests (3400+ tests)
+  - AWS SDK integration tests (DynamoDB, S3, SNS, SQS, Step Functions, SES)
+  - NestJS behavior tests (decorators, config, DI, Swagger)
+  - Third-party library tests (class-transformer, class-validator, RxJS)
 
 ### Documentation
 
