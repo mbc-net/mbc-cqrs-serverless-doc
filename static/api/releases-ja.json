@@ -1,24 +1,25 @@
 {
   "latest": {
-    "version": "1.1.0",
-    "date": "2026-02-03",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.0",
-    "features": [
-      "大文字小文字を区別しないマッチングのためのテナントコード正規化を追加",
-      "明示的な正規化のための`normalizeTenantCode()`ユーティリティ関数を追加",
-      "共通テナント検出のための`isCommonTenant()`ユーティリティ関数を追加",
-      "AWS SESメールのカテゴリ分けとフィルタリング用EmailTagsサポートを追加",
-      "RolesGuardに拡張可能なテナント検証を追加",
-      "スキル更新用のnpmレジストリバージョンチェックを追加"
-    ],
+    "version": "1.1.1",
+    "date": "2026-02-07",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.1",
+    "features": [],
     "bugFixes": [
-      "MasterSettingServiceとMasterDataServiceでの`TENANT_COMMON`定数の使用を修正"
+      "不足していた`import_tmp.json` DynamoDBテーブルテンプレートを追加"
     ],
-    "security": [
-      "**core:** テナントコードヘッダーオーバーライドをシステム管理者のみに制限"
-    ]
+    "security": []
   },
   "recent": [
+    {
+      "version": "1.1.1",
+      "date": "2026-02-07",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.1",
+      "features": [],
+      "bugFixes": [
+        "不足していた`import_tmp.json` DynamoDBテーブルテンプレートを追加"
+      ],
+      "security": []
+    },
     {
       "version": "1.1.0",
       "date": "2026-02-03",
@@ -60,20 +61,7 @@
       ],
       "bugFixes": [],
       "security": []
-    },
-    {
-      "version": "1.0.24",
-      "date": "2026-01-17",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.24",
-      "features": [
-        "ガイド付き開発支援のためのClaude Code Skillsを追加",
-        "簡単なskillsインストールのための`mbc install-skills`コマンドを追加"
-      ],
-      "bugFixes": [
-        "パラメータ名のタイポを修正：`skExpession`を`skExpression`に"
-      ],
-      "security": []
     }
   ],
-  "generated": "2026-02-03T04:36:49.876Z"
+  "generated": "2026-02-07T05:06:44.940Z"
 }

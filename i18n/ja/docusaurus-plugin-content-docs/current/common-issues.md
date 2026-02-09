@@ -174,6 +174,49 @@ aws dynamodb list-tables --endpoint-url http://localhost:8000 | grep master
 # 表示されるはず: master-command, master-data, master-history
 ```
 
+### import_tmpストリームが見つからずServerless Offlineが失敗する {#missing-import-tmp-table}
+
+**症状**: `LOCAL_DDB_IMPORT_TMP_STREAM`環境変数が設定されていないため、`npm run offline:sls`が失敗する。
+
+**原因**: `prisma/dynamodbs/`に`import_tmp.json`テーブル定義ファイルがありません。これがないと、`npm run migrate`が`import_tmp` DynamoDBテーブルを作成できず、ストリームARNが`.env`に書き込まれません。
+
+:::warning 既知の問題（v1.1.1で修正済み）
+v1.1.1より前のバージョンでは、CLIでスキャフォールドされたプロジェクトに`import_tmp.json`テンプレートが含まれていませんでした。これは[バージョン1.1.1](/docs/changelog#v111)で修正されました。
+:::
+
+**解決策**:
+
+以下の内容で`prisma/dynamodbs/import_tmp.json`を作成してください：
+
+```json
+{
+  "TableName": "import_tmp",
+  "AttributeDefinitions": [
+    { "AttributeName": "pk", "AttributeType": "S" },
+    { "AttributeName": "sk", "AttributeType": "S" }
+  ],
+  "KeySchema": [
+    { "AttributeName": "pk", "KeyType": "HASH" },
+    { "AttributeName": "sk", "KeyType": "RANGE" }
+  ],
+  "BillingMode": "PAY_PER_REQUEST",
+  "StreamSpecification": {
+    "StreamEnabled": true,
+    "StreamViewType": "NEW_IMAGE"
+  },
+  "TableClass": "STANDARD",
+  "DeletionProtectionEnabled": true
+}
+```
+
+その後、マイグレーションを再実行してください：
+
+```bash
+npm run migrate
+```
+
+マイグレーションスクリプトが自動的にテーブルを作成し、`LOCAL_DDB_IMPORT_TMP_STREAM`エントリを`.env`ファイルに追加します。
+
 ### DynamoDBスループット超過
 
 **症状**: ProvisionedThroughputExceededExceptionエラー。

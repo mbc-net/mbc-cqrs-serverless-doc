@@ -21,6 +21,7 @@ graph TB
     subgraph "システムテーブル"
         D["tasks"]
         E["sequences"]
+        F["import_tmp"]
     end
 
     A -->|"DynamoDB Streams"| B
@@ -43,6 +44,7 @@ MBC CQRS Serverlessでは、DynamoDBテーブルは以下のタイプに整理�
 |--------|---------|
 | `tasks` | 長時間実行される非同期タスクの情報を保存 |
 | `sequences` | ID生成用のシーケンスデータを保持 |
+| `import_tmp` | Step Functionsを介したインポート操作用の一時データを保存 |
 
 ## テーブル定義
 
@@ -67,6 +69,20 @@ npm run migrate:ddb
 # Migrate both DynamoDB and RDS
 npm run migrate
 ```
+
+### システムテーブル定義 {#system-table-definitions}
+
+システムテーブル（`tasks`、`sequences`、`import_tmp`）は`prisma/dynamodbs/`フォルダに独自のJSON定義ファイルがあります。マイグレーション時に自動的に作成されます：
+
+| ファイル | テーブル | 用途 |
+|------|---------|---------|
+| `tasks.json` | `tasks` | DynamoDB Streamsによるタスク管理 |
+| `sequences.json` | `sequences` | シーケンスID生成 |
+| `import_tmp.json` | `import_tmp` | [ImportModule](/docs/import)用のDynamoDB Streams付き一時インポートデータ |
+
+:::info バージョン情報
+`import_tmp.json`テンプレートは[バージョン1.1.1](/docs/changelog#v111)で追加されました。それ以前のバージョンでプロジェクトを作成し、ImportModuleを使用している場合は、このファイルを手動で追加する必要があります。詳細は[よくある問題](/docs/common-issues#missing-import-tmp-table)を参照してください。
+:::
 
 ## キー設計パターン
 

@@ -174,6 +174,49 @@ aws dynamodb list-tables --endpoint-url http://localhost:8000 | grep master
 # {{Should show: master-command, master-data, master-history}}
 ```
 
+### {{Serverless Offline fails with missing import_tmp stream}} {#missing-import-tmp-table}
+
+**{{Symptom}}**: {{`npm run offline:sls` fails because the `LOCAL_DDB_IMPORT_TMP_STREAM` environment variable is not set.}}
+
+**{{Cause}}**: {{The `import_tmp.json` table definition file is missing from `prisma/dynamodbs/`. Without it, `npm run migrate` cannot create the `import_tmp` DynamoDB table, so the stream ARN is never written to `.env`.}}
+
+:::warning {{Known Issue (Fixed in v1.1.1)}}
+{{In versions prior to v1.1.1, the `import_tmp.json` template was not included in CLI scaffolded projects. This was fixed in [version 1.1.1](/docs/changelog#v111).}}
+:::
+
+**{{Solution}}**:
+
+{{Create `prisma/dynamodbs/import_tmp.json` with the following content:}}
+
+```json
+{
+  "TableName": "import_tmp",
+  "AttributeDefinitions": [
+    { "AttributeName": "pk", "AttributeType": "S" },
+    { "AttributeName": "sk", "AttributeType": "S" }
+  ],
+  "KeySchema": [
+    { "AttributeName": "pk", "KeyType": "HASH" },
+    { "AttributeName": "sk", "KeyType": "RANGE" }
+  ],
+  "BillingMode": "PAY_PER_REQUEST",
+  "StreamSpecification": {
+    "StreamEnabled": true,
+    "StreamViewType": "NEW_IMAGE"
+  },
+  "TableClass": "STANDARD",
+  "DeletionProtectionEnabled": true
+}
+```
+
+{{Then re-run the migration:}}
+
+```bash
+npm run migrate
+```
+
+{{The migration script will automatically create the table and add the `LOCAL_DDB_IMPORT_TMP_STREAM` entry to your `.env` file.}}
+
 ### {{DynamoDB throughput exceeded}}
 
 **{{Symptom}}**: {{ProvisionedThroughputExceededException error.}}
