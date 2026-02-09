@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-changelog" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.8.1">
+<title data-rh="true">Changelog | MBC CQRS serverless</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://mbc-cqrs-serverless.mbc-net.com/img/logo.png"><meta data-rh="true" name="twitter:image" content="https://mbc-cqrs-serverless.mbc-net.com/img/logo.png"><meta data-rh="true" property="og:url" content="https://mbc-cqrs-serverless.mbc-net.com/docs/changelog"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" property="og:locale:alternate" content="ja"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Changelog | MBC CQRS serverless"><meta data-rh="true" name="description" content="Track all notable changes, new features, and bug fixes in MBC CQRS Serverless releases."><meta data-rh="true" property="og:description" content="Track all notable changes, new features, and bug fixes in MBC CQRS Serverless releases."><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://mbc-cqrs-serverless.mbc-net.com/docs/changelog"><link data-rh="true" rel="alternate" href="https://mbc-cqrs-serverless.mbc-net.com/docs/changelog" hreflang="en"><link data-rh="true" rel="alternate" href="https://mbc-cqrs-serverless.mbc-net.com/ja/docs/changelog" hreflang="ja"><link data-rh="true" rel="alternate" href="https://mbc-cqrs-serverless.mbc-net.com/docs/changelog" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Changelog","item":"https://mbc-cqrs-serverless.mbc-net.com/docs/changelog"}]}</script><link rel="preconnect" href="https://www.google-analytics.com">
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<script async src="https://www.googletagmanager.com/gtag/js?id=GTM-TCJM8CCL"></script>
+<script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","GTM-TCJM8CCL",{anonymize_ip:!0})</script><link rel="stylesheet" href="/assets/css/styles.a6768b9d.css">
+<script src="/assets/js/runtime~main.6c07bf79.js" defer="defer"></script>
+<script src="/assets/js/main.5e5c7509.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t="light";var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",e||t),document.documentElement.setAttribute("data-theme-choice",e||t)}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/"><div class="navbar__logo"><img src="/img/logo.png" alt="MBC CQRS serverless Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/img/logo.png" alt="MBC CQRS serverless Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">MBC CQRS serverless</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/docs/getting-started">Docs</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><div class="navbar__item dropdown dropdown--hoverable dropdown--right"><a href="#" aria-haspopup="true" aria-expanded="false" role="button" class="navbar__link"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" class="iconLanguage_nlXk"><path fill="currentColor" d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"></path></svg>English</a><ul class="dropdown__menu"><li><a href="/docs/changelog" target="_self" rel="noopener noreferrer" class="dropdown__link dropdown__link--active" lang="en">English</a></li><li><a href="/ja/docs/changelog" target="_self" rel="noopener noreferrer" class="dropdown__link" lang="ja">日本語</a></li></ul></div><a href="https://github.com/mbc-net/mbc-cqrs-serverless" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a><a href="https://www.mbc-net.com" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">MBC<svg width="13.5" height="13.5" aria-hidden="true" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="Switch between dark and light mode (currently system mode)"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"><div class="navbar__search searchBarContainer_NW3z" dir="ltr"><input placeholder="Search" aria-label="Search" class="navbar__search-input searchInput_YFbd" value=""><div class="loadingRing_RJI3 searchBarLoadingRing_YnHq"><div></div><div></div><div></div><div></div></div></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/getting-started">Getting Started</a><button aria-label="Expand sidebar category &#x27;Getting Started&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/quickstart-tutorial">Tutorials</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/architecture">Core Concepts</a><button aria-label="Expand sidebar category &#x27;Core Concepts&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/backend-development">Backend Development</a><button aria-label="Expand sidebar category &#x27;Backend Development&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/api-reference">Modules</a><button aria-label="Expand sidebar category &#x27;Modules&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/architecture/cdk-infrastructure">Infrastructure</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/frontend-project-structure">Frontend Development</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/security-best-practices">Security</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/deployment-guide">Deployment &amp; Operations</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/configuring">Configuration</a><button aria-label="Expand sidebar category &#x27;Configuration&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/testing">Testing</a><button aria-label="Expand sidebar category &#x27;Testing&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/common-issues">Troubleshooting</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/recipes">Examples</a><button aria-label="Expand sidebar category &#x27;Examples&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/ai-integration">AI Integration</a><button aria-label="Expand sidebar category &#x27;AI Integration&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/helpers">Reference</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/docs/migration/v1.1.0">Migration Guides</a></div></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" href="/docs/changelog">Changelog</a></li></ul></nav><button type="button" title="Collapse sidebar" aria-label="Collapse sidebar" class="button button--secondary button--outline collapseSidebarButton_PEFL"><svg width="20" height="20" aria-hidden="true" class="collapseSidebarButtonIcon_kv0_"><g fill="#7a7a7a"><path d="M9.992 10.023c0 .2-.062.399-.172.547l-4.996 7.492a.982.982 0 01-.828.454H1c-.55 0-1-.453-1-1 0-.2.059-.403.168-.551l4.629-6.942L.168 3.078A.939.939 0 010 2.528c0-.548.45-.997 1-.997h2.996c.352 0 .649.18.828.45L9.82 9.472c.11.148.172.347.172.55zm0 0"></path><path d="M19.98 10.023c0 .2-.058.399-.168.547l-4.996 7.492a.987.987 0 01-.828.454h-3c-.547 0-.996-.453-.996-1 0-.2.059-.403.168-.551l4.625-6.942-4.625-6.945a.939.939 0 01-.168-.55 1 1 0 01.996-.997h3c.348 0 .649.18.828.45l4.996 7.492c.11.148.168.347.168.55zm0 0"></path></g></svg></button></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Breadcrumbs"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">Changelog</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>Changelog</h1></header>
+<p>All notable changes to MBC CQRS Serverless are documented here. This project follows <a href="https://semver.org/" target="_blank" rel="noopener noreferrer">Semantic Versioning</a> and <a href="https://conventionalcommits.org/" target="_blank" rel="noopener noreferrer">Conventional Commits</a>.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="version-scheme">Version Scheme<a href="#version-scheme" class="hash-link" aria-label="Direct link to Version Scheme" title="Direct link to Version Scheme">​</a></h2>
+<ul>
+<li><code>x.y.z</code> - Production releases</li>
+<li><code>x.y.z-beta.n</code> - Beta releases for testing</li>
+<li><code>x.y.z-alpha.n</code> - Alpha releases for early access</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="stable-releases-1x">Stable Releases (1.x)<a href="#stable-releases-1x" class="hash-link" aria-label="Direct link to Stable Releases (1.x)" title="Direct link to Stable Releases (1.x)">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="v111"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.1" target="_blank" rel="noopener noreferrer">1.1.1</a> (2026-02-07)<a href="#v111" class="hash-link" aria-label="Direct link to v111" title="Direct link to v111">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="bug-fixes">Bug Fixes<a href="#bug-fixes" class="hash-link" aria-label="Direct link to Bug Fixes" title="Direct link to Bug Fixes">​</a></h3>
+<ul>
+<li><strong>cli:</strong> Add missing <code>import_tmp.json</code> DynamoDB table template (<a href="/docs/dynamodb#system-table-definitions">See Details</a>) (<a href="https://github.com/mbc-net/mbc-cqrs-serverless/pull/323" target="_blank" rel="noopener noreferrer">PR #323</a>)<!-- -->
+<ul>
+<li>The <code>import_tmp</code> table definition was missing from CLI templates, causing <code>npm run offline:sls</code> to fail</li>
+<li>The <code>serverless.yml</code> references <code>LOCAL_DDB_IMPORT_TMP_STREAM</code> environment variable, which requires the table to be created during migration</li>
+<li>See <a href="/docs/common-issues#missing-import-tmp-table">Common Issues</a> for workaround if using older versions</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="v110"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.0" target="_blank" rel="noopener noreferrer">1.1.0</a> (2026-02-03)<a href="#v110" class="hash-link" aria-label="Direct link to v110" title="Direct link to v110">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="breaking-changes">Breaking Changes<a href="#breaking-changes" class="hash-link" aria-label="Direct link to Breaking Changes" title="Direct link to Breaking Changes">​</a></h3>
+<ul>
+<li><strong>tenant:</strong> Change <code>TENANT_COMMON</code> enum value from <code>&#x27;COMMON&#x27;</code> to <code>&#x27;common&#x27;</code> (lowercase)<!-- -->
+<ul>
+<li>This change affects partition key format: <code>TENANT#COMMON</code> → <code>TENANT#common</code></li>
+<li><strong>Migration required:</strong> Existing data with <code>TENANT#COMMON</code> partition keys needs to be migrated</li>
+<li>See <a href="/docs/migration/v1.1.0">Migration Guide</a> for detailed instructions</li>
+</ul>
+</li>
+<li><strong>core:</strong> Remove deprecated <code>CommandService.publish()</code> method (<a href="/docs/migration/v1.1.0#breaking-change-3-deprecated-methods-removed">See Details</a>)<!-- -->
+<ul>
+<li>Use <code>CommandService.publishAsync()</code> instead</li>
+</ul>
+</li>
+<li><strong>core:</strong> Remove deprecated <code>CommandService.publishPartialUpdate()</code> method<!-- -->
+<ul>
+<li>Use <code>CommandService.publishPartialUpdateAsync()</code> instead</li>
+</ul>
+</li>
+<li><strong>sequence:</strong> Remove deprecated <code>SequencesService.genNewSequence()</code> method<!-- -->
+<ul>
+<li>Use <code>SequencesService.generateSequenceItem()</code> instead</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features">Features<a href="#features" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li><strong>core:</strong> Add tenant code normalization for case-insensitive matching (<a href="/docs/data-migration-patterns#tenant-code-normalization-migration">See Details</a>)<!-- -->
+<ul>
+<li>Tenant codes are now automatically normalized to lowercase</li>
+<li><code>getUserContext()</code> returns normalized tenant code</li>
+<li>All DynamoDB operations use normalized tenant codes for consistency</li>
+</ul>
+</li>
+<li><strong>core:</strong> Add <code>normalizeTenantCode()</code> utility function for explicit normalization</li>
+<li><strong>core:</strong> Add <code>isCommonTenant()</code> utility function for common tenant detection</li>
+<li><strong>core:</strong> Add EmailTags support for AWS SES email categorization and filtering (<a href="/docs/notification-module#email-tags">See Details</a>)<!-- -->
+<ul>
+<li>New <code>emailTags</code> option in <code>EmailNotification</code> interface</li>
+<li>Tags are passed to SES for email categorization and tracking</li>
+</ul>
+</li>
+<li><strong>core:</strong> Add extensible tenant verification in RolesGuard (<a href="/docs/authentication#tenant-verification">See Details</a>)<!-- -->
+<ul>
+<li><code>isHeaderOverride()</code>: Detect header-based tenant override</li>
+<li><code>canOverrideTenant()</code>: Check permission for cross-tenant access</li>
+<li><code>getCommonTenantCodes()</code>: Configurable common tenant list</li>
+<li><code>getCrossTenantRoles()</code>: Configurable cross-tenant roles (default: &#x27;system_admin&#x27;)</li>
+</ul>
+</li>
+<li><strong>cli:</strong> Add npm registry version check for skill updates<!-- -->
+<ul>
+<li>Fetch latest version from npm registry instead of local package.json</li>
+<li>24-hour cache to reduce network requests</li>
+<li>Offline fallback to cached version</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="security">Security<a href="#security" class="hash-link" aria-label="Direct link to Security" title="Direct link to Security">​</a></h3>
+<ul>
+<li><strong>core:</strong> Restrict tenant code header override to system admin only<!-- -->
+<ul>
+<li>Previously, users without <code>custom:tenant</code> Cognito attribute could specify any tenant via header</li>
+<li>Now only users with global <code>system_admin</code> role can override tenant code via <code>x-tenant-code</code> header</li>
+<li>Regular users must have <code>custom:tenant</code> set in Cognito</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="bug-fixes-1">Bug Fixes<a href="#bug-fixes-1" class="hash-link" aria-label="Direct link to Bug Fixes" title="Direct link to Bug Fixes">​</a></h3>
+<ul>
+<li><strong>master:</strong> Fix <code>TENANT_COMMON</code> constant usage in MasterSettingService and MasterDataService<!-- -->
+<ul>
+<li>Previously hardcoded <code>&#x27;COMMON&#x27;</code> strings are now using <code>SettingTypeEnum.TENANT_COMMON</code></li>
+<li>Ensures consistent partition key generation across the framework</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="tests">Tests<a href="#tests" class="hash-link" aria-label="Direct link to Tests" title="Direct link to Tests">​</a></h3>
+<ul>
+<li><strong>tenant:</strong> Add comprehensive tests for TenantService methods<!-- -->
+<ul>
+<li><code>getTenant()</code>: Retrieval tests</li>
+<li><code>updateTenant()</code>: Update and attribute merge tests</li>
+<li><code>deleteTenant()</code>: Soft delete tests</li>
+<li><code>addTenantGroup()</code>: Group management tests</li>
+<li><code>customizeSettingGroups()</code>: Setting customization tests</li>
+<li><code>createTenantGroup()</code>: Tenant group creation tests</li>
+</ul>
+</li>
+<li><strong>tenant:</strong> Add SettingTypeEnum validation tests<!-- -->
+<ul>
+<li>Verify <code>TENANT_COMMON = &#x27;common&#x27;</code> (lowercase)</li>
+<li>Ensure enum completeness and consistency</li>
+</ul>
+</li>
+<li><strong>core:</strong> Add tenant code normalization tests (70+ test cases)</li>
+<li><strong>core:</strong> Add tenant normalization command tests (30+ test cases)</li>
+<li><strong>core:</strong> Add comprehensive dependency integration tests (3400+ tests)<!-- -->
+<ul>
+<li>AWS SDK integration tests (DynamoDB, S3, SNS, SQS, Step Functions, SES)</li>
+<li>NestJS behavior tests (decorators, config, DI, Swagger)</li>
+<li>Third-party library tests (class-transformer, class-validator, RxJS)</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="documentation">Documentation<a href="#documentation" class="hash-link" aria-label="Direct link to Documentation" title="Direct link to Documentation">​</a></h3>
+<ul>
+<li>Add migration guide for v1.1.0 tenant code changes</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="v1026"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.26" target="_blank" rel="noopener noreferrer">1.0.26</a> (2026-01-26)<a href="#v1026" class="hash-link" aria-label="Direct link to v1026" title="Direct link to v1026">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-1">Features<a href="#features-1" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li><strong>cli:</strong> Add configurable local service ports via environment variables (<a href="/docs/installation#configuring-local-ports">See Details</a>) (<a href="https://github.com/mbc-net/mbc-cqrs-serverless/pull/300" target="_blank" rel="noopener noreferrer">PR #300</a>)<!-- -->
+<ul>
+<li>Support for <code>LOCAL_HTTP_PORT</code>, <code>LOCAL_DYNAMODB_PORT</code>, <code>LOCAL_RDS_PORT</code>, and other port variables</li>
+<li>Allows users to resolve port conflicts with other services</li>
+<li>Configuration is automatically applied to Docker Compose, Serverless Offline, and trigger scripts</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="security-1">Security<a href="#security-1" class="hash-link" aria-label="Direct link to Security" title="Direct link to Security">​</a></h3>
+<ul>
+<li>Update <code>diff</code> package from 4.0.2 to 4.0.4 for security fix (<a href="https://github.com/mbc-net/mbc-cqrs-serverless/pull/297" target="_blank" rel="noopener noreferrer">PR #297</a>, <a href="https://github.com/mbc-net/mbc-cqrs-serverless/pull/299" target="_blank" rel="noopener noreferrer">PR #299</a>)</li>
+<li>Update <code>lodash</code> package from 4.17.21 to 4.17.23 for prototype pollution fix (<a href="https://github.com/mbc-net/mbc-cqrs-serverless/pull/298" target="_blank" rel="noopener noreferrer">PR #298</a>)</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="v1025"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.25" target="_blank" rel="noopener noreferrer">1.0.25</a> (2026-01-19)<a href="#v1025" class="hash-link" aria-label="Direct link to v1025" title="Direct link to v1025">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-2">Features<a href="#features-2" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li><strong>core:</strong> Enhanced inline template email with advanced variable substitution (<a href="/docs/notification-module#advanced-template-features">See Details</a>)<!-- -->
+<ul>
+<li>Support for nested property access (e.g., <code>{{user.profile.name}}</code>)</li>
+<li>Support for Unicode/Japanese keys in template variables</li>
+<li>Whitespace trimming inside placeholders (e.g., <code>{{ name }}</code> equals <code>{{name}}</code>)</li>
+<li>Improved local development fallback for template compilation</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="v1024"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.24" target="_blank" rel="noopener noreferrer">1.0.24</a> (2026-01-17)<a href="#v1024" class="hash-link" aria-label="Direct link to v1024" title="Direct link to v1024">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-3">Features<a href="#features-3" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li><strong>mcp-server:</strong> Add Claude Code Skills for guided development assistance (<a href="/docs/mcp-server#claude-code-skills">See Details</a>)<!-- -->
+<ul>
+<li><code>/mbc-generate</code>: Generate boilerplate code (modules, services, controllers, DTOs, handlers)</li>
+<li><code>/mbc-review</code>: Review code for best practices and anti-patterns (20 patterns)</li>
+<li><code>/mbc-migrate</code>: Guide version migrations and breaking changes</li>
+<li><code>/mbc-debug</code>: Debug and troubleshoot common issues</li>
+<li>Skills are distributed via npm package and can be installed to <code>~/.claude/skills/</code> or <code>.claude/skills/</code></li>
+</ul>
+</li>
+<li><strong>cli:</strong> Add <code>mbc install-skills</code> command for easy skills installation (<a href="/docs/cli#install-skills">See Details</a>)<!-- -->
+<ul>
+<li>Install skills to personal directory (<code>~/.claude/skills/</code>) or project directory (<code>.claude/skills/</code>)</li>
+<li>Options: <code>--project</code>, <code>--force</code>, <code>--list</code></li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="bug-fixes-2">Bug Fixes<a href="#bug-fixes-2" class="hash-link" aria-label="Direct link to Bug Fixes" title="Direct link to Bug Fixes">​</a></h3>
+<ul>
+<li><strong>core:</strong> Fix typo in parameter name <code>skExpession</code> to <code>skExpression</code>
+<ul>
+<li>Affected packages: core, directory, master, task, ui-setting</li>
+<li>This was a breaking change for TypeScript users who referenced the old parameter name</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="v1023"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.23" target="_blank" rel="noopener noreferrer">1.0.23</a> (2026-01-16)<a href="#v1023" class="hash-link" aria-label="Direct link to v1023" title="Direct link to v1023">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-4">Features<a href="#features-4" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li><strong>core:</strong> Add inline template email support with <code>sendInlineTemplateEmail()</code> method (<a href="/docs/notification-module#inline-template-emails">See Details</a>)<!-- -->
+<ul>
+<li>New <code>sendInlineTemplateEmail(msg: TemplatedEmailNotification)</code> method in EmailService</li>
+<li>Support for inline HTML/text templates with dynamic data substitution</li>
+<li>Local development fallback with manual template compilation when SES is unavailable</li>
+<li>New interfaces: <code>InlineTemplateContent</code>, <code>TemplatedEmailNotification</code></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="v1022"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.22" target="_blank" rel="noopener noreferrer">1.0.22</a> (2026-01-16)<a href="#v1022" class="hash-link" aria-label="Direct link to v1022" title="Direct link to v1022">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-5">Features<a href="#features-5" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li><strong>mcp-server:</strong> Add code analysis tools for AI-assisted development (<a href="/docs/mcp-server#code-analysis-tools">See Details</a>)<!-- -->
+<ul>
+<li><code>mbc_check_anti_patterns</code>: Detect common anti-patterns in code with severity levels</li>
+<li><code>mbc_health_check</code>: Project health check (dependencies, structure, configuration)</li>
+<li><code>mbc_explain_code</code>: Analyze and explain code in MBC CQRS context</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="bug-fixes-3">Bug Fixes<a href="#bug-fixes-3" class="hash-link" aria-label="Direct link to Bug Fixes" title="Direct link to Bug Fixes">​</a></h3>
+<ul>
+<li><strong>mcp-server:</strong> Improve code analysis tools robustness<!-- -->
+<ul>
+<li>Renumber anti-patterns sequentially (AP001-AP010)</li>
+<li>Limit regex match range to prevent false positives</li>
+<li>Add error handling for file reading and JSON parsing</li>
+<li>Add 18 unit tests for analyze tools</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="security-2">Security<a href="#security-2" class="hash-link" aria-label="Direct link to Security" title="Direct link to Security">​</a></h3>
+<ul>
+<li>Fix security vulnerabilities in dependencies: qs, express, body-parser</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="dependencies">Dependencies<a href="#dependencies" class="hash-link" aria-label="Direct link to Dependencies" title="Direct link to Dependencies">​</a></h3>
+<ul>
+<li>Bump qs from 6.13.0 to 6.14.1</li>
+<li>Bump @nestjs/platform-express from 10.4.20 to 10.4.22</li>
+<li>Bump express from 4.21.2 to 4.22.1</li>
+<li>Bump body-parser from 1.20.3 to 1.20.4</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="v1021"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.21" target="_blank" rel="noopener noreferrer">1.0.21</a> (2026-01-15)<a href="#v1021" class="hash-link" aria-label="Direct link to v1021" title="Direct link to v1021">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-6">Features<a href="#features-6" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li><strong>import:</strong> Add ZIP finalization hooks support to ImportModule<!-- -->
+<ul>
+<li>New <code>IZipFinalizationHook</code> interface for custom post-import processing</li>
+<li>Register hooks via <code>zipFinalizationHooks</code> option in <code>ImportModule.register()</code></li>
+<li>Hooks receive <code>ZipFinalizationContext</code> with results, status, and execution input</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="v1020"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.20" target="_blank" rel="noopener noreferrer">1.0.20</a> (2026-01-11)<a href="#v1020" class="hash-link" aria-label="Direct link to v1020" title="Direct link to v1020">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="bug-fixes-4">Bug Fixes<a href="#bug-fixes-4" class="hash-link" aria-label="Direct link to Bug Fixes" title="Direct link to Bug Fixes">​</a></h3>
+<ul>
+<li><strong>import:</strong> Fix Step Functions CSV handler always setting COMPLETED status regardless of child job failures<!-- -->
+<ul>
+<li>Fixed <code>CsvImportSfnEventHandler.finalizeParentJob()</code> to correctly set status to FAILED when any child job fails</li>
+<li>Fixed <code>CsvImportSfnEventHandler</code> in <code>csv_loader</code> state to correctly set status when early finalization occurs with failures</li>
+<li>Previously, the ternary operator was incorrectly returning COMPLETED for both cases: <code>failedRows &gt; 0 ? COMPLETED : COMPLETED</code></li>
+<li>Now correctly returns FAILED when failedRows &gt; 0: <code>failedRows &gt; 0 ? FAILED : COMPLETED</code></li>
+<li>This bug caused Step Functions to report SUCCESS even when child import jobs failed</li>
+<li>See <a href="/docs/import-export-patterns#csvimportsfneventhandler">CsvImportSfnEventHandler</a> for details</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="v1019"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.19" target="_blank" rel="noopener noreferrer">1.0.19</a> (2026-01-11)<a href="#v1019" class="hash-link" aria-label="Direct link to v1019" title="Direct link to v1019">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="bug-fixes-5">Bug Fixes<a href="#bug-fixes-5" class="hash-link" aria-label="Direct link to Bug Fixes" title="Direct link to Bug Fixes">​</a></h3>
+<ul>
+<li><strong>import:</strong> Fix master job status not updating to FAILED when child import jobs fail<!-- -->
+<ul>
+<li>Previously, when a child import job failed with errors like <code>ConditionalCheckFailedException</code>, the master job status remained <code>PROCESSING</code> indefinitely</li>
+<li>Fixed <code>incrementParentJobCounters</code> to correctly set master job status to <code>FAILED</code> when any child job fails (was always setting to <code>COMPLETED</code>)</li>
+<li>Fixed <code>ImportQueueEventHandler.handleImport</code> to call <code>incrementParentJobCounters</code> on error, ensuring parent counters are updated</li>
+<li>Removed <code>throw error</code> in error handler to prevent Lambda crashes and allow proper status propagation</li>
+<li>This fix completes the Step Functions error handling started in v1.0.18, ensuring <code>SendTaskFailure</code> is properly triggered</li>
+<li>See <a href="/docs/import-export-patterns#import-error-handling">ImportQueueEventHandler Error Handling</a> for details</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="v1018"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.18" target="_blank" rel="noopener noreferrer">1.0.18</a> (2026-01-10)<a href="#v1018" class="hash-link" aria-label="Direct link to v1018" title="Direct link to v1018">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="bug-fixes-6">Bug Fixes<a href="#bug-fixes-6" class="hash-link" aria-label="Direct link to Bug Fixes" title="Direct link to Bug Fixes">​</a></h3>
+<ul>
+<li><strong>import:</strong> Add <code>SendTaskFailure</code> support to <code>ImportStatusHandler</code> for proper Step Functions error handling<!-- -->
+<ul>
+<li>Previously, when an import job failed, the Step Function would wait indefinitely because only <code>SendTaskSuccess</code> was implemented</li>
+<li>Now the handler properly sends <code>SendTaskFailure</code> when a job fails, allowing Step Functions to handle errors correctly</li>
+<li>Added <code>sendTaskFailure()</code> method to send <code>SendTaskFailureCommand</code></li>
+<li>Handler now processes both <code>COMPLETED</code> and <code>FAILED</code> statuses for CSV import jobs</li>
+<li>See <a href="/docs/import-export-patterns#importstatushandler-api">ImportStatusHandler API</a> for details</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="v1017"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.17" target="_blank" rel="noopener noreferrer">1.0.17</a> (2026-01-08)<a href="#v1017" class="hash-link" aria-label="Direct link to v1017" title="Direct link to v1017">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="bug-fixes-7">Bug Fixes<a href="#bug-fixes-7" class="hash-link" aria-label="Direct link to Bug Fixes" title="Direct link to Bug Fixes">​</a></h3>
+<ul>
+<li><strong>master:</strong> Fix <code>masterTypeCode</code> comparison in <code>MasterDataService.search()</code> - Changed from partial match (<code>contains</code>) to exact match for <code>settingCode</code> search parameter (<a href="/docs/master#search-parameters">See Details</a>)</li>
+<li><strong>cli:</strong> Stabilize AbstractRunner tests by removing setTimeout to fix flaky CI failures</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="security-3">Security<a href="#security-3" class="hash-link" aria-label="Direct link to Security" title="Direct link to Security">​</a></h3>
+<ul>
+<li>Fix security vulnerabilities in dependencies: jws (HMAC signature verification issue), nodemailer (DoS vulnerability)</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="dependencies-1">Dependencies<a href="#dependencies-1" class="hash-link" aria-label="Direct link to Dependencies" title="Direct link to Dependencies">​</a></h3>
+<ul>
+<li>Bump validator from 13.15.20 to 13.15.26</li>
+<li>Bump @modelcontextprotocol/sdk from 1.25.1 to 1.25.2</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="documentation-1">Documentation<a href="#documentation-1" class="hash-link" aria-label="Direct link to Documentation" title="Direct link to Documentation">​</a></h3>
+<ul>
+<li>Update README files for all packages with comprehensive API references and usage examples</li>
+<li>Fix <code>createTenantGroup</code> parameter name in tenant package README</li>
+<li>Update Japanese guide links to official documentation</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="1016-2025-12-31"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.16" target="_blank" rel="noopener noreferrer">1.0.16</a> (2025-12-31)<a href="#1016-2025-12-31" class="hash-link" aria-label="Direct link to 1016-2025-12-31" title="Direct link to 1016-2025-12-31">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="bug-fixes-8">Bug Fixes<a href="#bug-fixes-8" class="hash-link" aria-label="Direct link to Bug Fixes" title="Direct link to Bug Fixes">​</a></h3>
+<ul>
+<li><strong>cli:</strong> Add cleanup for test-generated files and update .gitignore</li>
+<li><strong>master, directory, task, cli:</strong> Improve error messages for better clarity</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-7">Features<a href="#features-7" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li>Include __s3Key in attributes for import creation</li>
+<li>Zip mode provide table name</li>
+<li>Add optional s3Key to CreateImportDto</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="1015-2025-12-31"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.15" target="_blank" rel="noopener noreferrer">1.0.15</a> (2025-12-31)<a href="#1015-2025-12-31" class="hash-link" aria-label="Direct link to 1015-2025-12-31" title="Direct link to 1015-2025-12-31">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="bug-fixes-9">Bug Fixes<a href="#bug-fixes-9" class="hash-link" aria-label="Direct link to Bug Fixes" title="Direct link to Bug Fixes">​</a></h3>
+<ul>
+<li><strong>ui-setting:</strong> Improve error messages for better clarity</li>
+<li><strong>mcp-server:</strong> Use MBC_PROJECT_PATH for ERROR_CATALOG.md lookup</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="1014-2025-12-29"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.14" target="_blank" rel="noopener noreferrer">1.0.14</a> (2025-12-29)<a href="#1014-2025-12-29" class="hash-link" aria-label="Direct link to 1014-2025-12-29" title="Direct link to 1014-2025-12-29">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-8">Features<a href="#features-8" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li><strong>mcp-server:</strong> Add MCP server package for AI tool integration</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="documentation-2">Documentation<a href="#documentation-2" class="hash-link" aria-label="Direct link to Documentation" title="Direct link to Documentation">​</a></h3>
+<ul>
+<li>Add comprehensive error message catalog</li>
+<li>Add JSDoc comments to core interfaces</li>
+<li>Add operational documentation (FAQ, troubleshooting, security)</li>
+<li>Add AI-friendly documentation files</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="1013-2025-12-26"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.13" target="_blank" rel="noopener noreferrer">1.0.13</a> (2025-12-26)<a href="#1013-2025-12-26" class="hash-link" aria-label="Direct link to 1013-2025-12-26" title="Direct link to 1013-2025-12-26">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-9">Features<a href="#features-9" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li>Enhance CreateZipImportDto and ZipImportQueueEventHandler</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="1012-2025-12-23"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.12" target="_blank" rel="noopener noreferrer">1.0.12</a> (2025-12-23)<a href="#1012-2025-12-23" class="hash-link" aria-label="Direct link to 1012-2025-12-23" title="Direct link to 1012-2025-12-23">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="bug-fixes-10">Bug Fixes<a href="#bug-fixes-10" class="hash-link" aria-label="Direct link to Bug Fixes" title="Direct link to Bug Fixes">​</a></h3>
+<ul>
+<li>Merge tenant attributes in TenantService</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="1011-2025-12-22"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.11" target="_blank" rel="noopener noreferrer">1.0.11</a> (2025-12-22)<a href="#1011-2025-12-22" class="hash-link" aria-label="Direct link to 1011-2025-12-22" title="Direct link to 1011-2025-12-22">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="bug-fixes-11">Bug Fixes<a href="#bug-fixes-11" class="hash-link" aria-label="Direct link to Bug Fixes" title="Direct link to Bug Fixes">​</a></h3>
+<ul>
+<li>Handle unknown source IP in SequencesService</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="1010-2025-11-28"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.10" target="_blank" rel="noopener noreferrer">1.0.10</a> (2025-11-28)<a href="#1010-2025-11-28" class="hash-link" aria-label="Direct link to 1010-2025-11-28" title="Direct link to 1010-2025-11-28">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="bug-fixes-12">Bug Fixes<a href="#bug-fixes-12" class="hash-link" aria-label="Direct link to Bug Fixes" title="Direct link to Bug Fixes">​</a></h3>
+<ul>
+<li>Fix createTenantGroup method in TenantService</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="109-2025-11-26"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.9" target="_blank" rel="noopener noreferrer">1.0.9</a> (2025-11-26)<a href="#109-2025-11-26" class="hash-link" aria-label="Direct link to 109-2025-11-26" title="Direct link to 109-2025-11-26">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="bug-fixes-13">Bug Fixes<a href="#bug-fixes-13" class="hash-link" aria-label="Direct link to Bug Fixes" title="Direct link to Bug Fixes">​</a></h3>
+<ul>
+<li>Remove callback parameter from Lambda handler for Node.js 24 compatibility</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="108-2025-11-17"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.8" target="_blank" rel="noopener noreferrer">1.0.8</a> (2025-11-17)<a href="#108-2025-11-17" class="hash-link" aria-label="Direct link to 108-2025-11-17" title="Direct link to 108-2025-11-17">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="security-4">Security<a href="#security-4" class="hash-link" aria-label="Direct link to Security" title="Direct link to Security">​</a></h3>
+<ul>
+<li>Bump jws dependency for security fix</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="107-2025-11-07"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.7" target="_blank" rel="noopener noreferrer">1.0.7</a> (2025-11-07)<a href="#107-2025-11-07" class="hash-link" aria-label="Direct link to 107-2025-11-07" title="Direct link to 107-2025-11-07">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="security-5">Security<a href="#security-5" class="hash-link" aria-label="Direct link to Security" title="Direct link to Security">​</a></h3>
+<ul>
+<li>Bump validator dependency in examples</li>
+<li>Bump js-yaml dependency for security fix</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="v106"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.6" target="_blank" rel="noopener noreferrer">1.0.6</a> (2025-11-05)<a href="#v106" class="hash-link" aria-label="Direct link to v106" title="Direct link to v106">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-10">Features<a href="#features-10" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li><strong>master:</strong> Add tenantCode support to MasterDataCreateDto and update service logic</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="v105"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.5" target="_blank" rel="noopener noreferrer">1.0.5</a> (2025-11-04)<a href="#v105" class="hash-link" aria-label="Direct link to v105" title="Direct link to v105">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-11">Features<a href="#features-11" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li><strong>master:</strong> Enhance master settings with tenantCode support in DTOs and service logic</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="v104"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.4" target="_blank" rel="noopener noreferrer">1.0.4</a> (2025-10-29)<a href="#v104" class="hash-link" aria-label="Direct link to v104" title="Direct link to v104">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-12">Features<a href="#features-12" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li><strong>core:</strong> Add configurable request body size limit to bootstrap and environment validation</li>
+<li><strong>master:</strong> Add bulk creation endpoints for master data and settings</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="dependencies-2">Dependencies<a href="#dependencies-2" class="hash-link" aria-label="Direct link to Dependencies" title="Direct link to Dependencies">​</a></h3>
+<ul>
+<li>Bump validator from 13.11.0/13.12.0 to 13.15.20</li>
+<li>Bump multer from 1.4.4-lts.1 to 2.0.2 and @nestjs/platform-express from 10.4.4 to 10.4.20</li>
+<li>Bump axios from 1.7.7 to 1.13.1 in CLI templates</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="v103"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.3" target="_blank" rel="noopener noreferrer">1.0.3</a> (2025-10-23)<a href="#v103" class="hash-link" aria-label="Direct link to v103" title="Direct link to v103">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-13">Features<a href="#features-13" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li><strong>master:</strong> Add bulk creation endpoints for master data and settings, enabling batch operations for improved efficiency</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="v102"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.2" target="_blank" rel="noopener noreferrer">1.0.2</a> (2025-10-16)<a href="#v102" class="hash-link" aria-label="Direct link to v102" title="Direct link to v102">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-14">Features<a href="#features-14" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li><strong>survey:</strong> Add survey template API for managing survey templates</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="dependencies-3">Dependencies<a href="#dependencies-3" class="hash-link" aria-label="Direct link to Dependencies" title="Direct link to Dependencies">​</a></h3>
+<ul>
+<li>Bump @nestjs/common from 10.3.0 to 10.4.16 in /examples/master</li>
+<li>Bump multer from 1.4.4-lts.1 to 2.0.2 and @nestjs/platform-express from 10.4.15 to 10.4.20 in /examples/seq</li>
+<li>Bump @nestjs/cli from 10.4.5 to 11.0.10 and inquirer from 8.2.6 to 8.2.7</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="v101"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.1" target="_blank" rel="noopener noreferrer">1.0.1</a> (2025-09-19)<a href="#v101" class="hash-link" aria-label="Direct link to v101" title="Direct link to v101">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-15">Features<a href="#features-15" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li><strong>import:</strong> Add zip mode support for import module, enabling compressed file imports</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="v100"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.0" target="_blank" rel="noopener noreferrer">1.0.0</a> (2025-09-18)<a href="#v100" class="hash-link" aria-label="Direct link to v100" title="Direct link to v100">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="highlights">Highlights<a href="#highlights" class="hash-link" aria-label="Direct link to Highlights" title="Direct link to Highlights">​</a></h3>
+<ul>
+<li>First stable production release</li>
+<li>Based on beta version 0.1.74</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="beta-releases-01x">Beta Releases (0.1.x)<a href="#beta-releases-01x" class="hash-link" aria-label="Direct link to Beta Releases (0.1.x)" title="Direct link to Beta Releases (0.1.x)">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="0175-beta0"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/compare/v0.1.74-beta.0...v0.1.75-beta.0" target="_blank" rel="noopener noreferrer">0.1.75-beta.0</a><a href="#0175-beta0" class="hash-link" aria-label="Direct link to 0175-beta0" title="Direct link to 0175-beta0">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="bug-fixes-14">Bug Fixes<a href="#bug-fixes-14" class="hash-link" aria-label="Direct link to Bug Fixes" title="Direct link to Bug Fixes">​</a></h3>
+<ul>
+<li><strong>import:</strong> Add <code>SendTaskFailure</code> support to <code>ImportStatusHandler</code> for proper Step Functions error handling<!-- -->
+<ul>
+<li>Previously, when an import job failed, the Step Function would wait indefinitely because only <code>SendTaskSuccess</code> was implemented</li>
+<li>Now the handler properly sends <code>SendTaskFailure</code> when a job fails, allowing Step Functions to handle errors correctly</li>
+<li>Added <code>sendTaskFailure()</code> method to send <code>SendTaskFailureCommand</code></li>
+<li>Handler now processes both <code>COMPLETED</code> and <code>FAILED</code> statuses for CSV import jobs</li>
+<li>See <a href="/docs/import-export-patterns#importstatushandler-api">ImportStatusHandler API</a> for details</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="0174-beta0-2025-08-25"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/compare/v0.1.73-beta.0...v0.1.74-beta.0" target="_blank" rel="noopener noreferrer">0.1.74-beta.0</a> (2025-08-25)<a href="#0174-beta0-2025-08-25" class="hash-link" aria-label="Direct link to 0174-beta0-2025-08-25" title="Direct link to 0174-beta0-2025-08-25">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-16">Features<a href="#features-16" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li>Import module implementation</li>
+<li>Infrastructure updates for import module</li>
+<li>Local infrastructure updates for import module</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="0173-beta0-2025-07-31"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/compare/v0.1.72-beta.0...v0.1.73-beta.0" target="_blank" rel="noopener noreferrer">0.1.73-beta.0</a> (2025-07-31)<a href="#0173-beta0-2025-07-31" class="hash-link" aria-label="Direct link to 0173-beta0-2025-07-31" title="Direct link to 0173-beta0-2025-07-31">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="bug-fixes-15">Bug Fixes<a href="#bug-fixes-15" class="hash-link" aria-label="Direct link to Bug Fixes" title="Direct link to Bug Fixes">​</a></h3>
+<ul>
+<li><strong>master:</strong> Fixed package installation issue</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="0172-beta0-2025-07-24"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/compare/v0.1.71-beta.0...v0.1.72-beta.0" target="_blank" rel="noopener noreferrer">0.1.72-beta.0</a> (2025-07-24)<a href="#0172-beta0-2025-07-24" class="hash-link" aria-label="Direct link to 0172-beta0-2025-07-24" title="Direct link to 0172-beta0-2025-07-24">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-17">Features<a href="#features-17" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li>Added case-insensitive search for master data and settings</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="0171-beta0-2025-07-18"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/compare/v0.1.70-beta.0...v0.1.71-beta.0" target="_blank" rel="noopener noreferrer">0.1.71-beta.0</a> (2025-07-18)<a href="#0171-beta0-2025-07-18" class="hash-link" aria-label="Direct link to 0171-beta0-2025-07-18" title="Direct link to 0171-beta0-2025-07-18">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="bug-fixes-16">Bug Fixes<a href="#bug-fixes-16" class="hash-link" aria-label="Direct link to Bug Fixes" title="Direct link to Bug Fixes">​</a></h3>
+<ul>
+<li>Fixed core package test failures blocking CI</li>
+<li>Fixed GitHub workflow issues</li>
+<li>Handle Step Function name length limit</li>
+<li>StepFunctionService execution name length validation</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-18">Features<a href="#features-18" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li>CLI package comprehensive test enhancement</li>
+<li>Core package service unit test enhancement</li>
+<li>Implemented comprehensive unit tests for controllers</li>
+<li>Master package service unit test enhancement</li>
+<li>Sequence service test enhancement</li>
+<li>Task service unit test enhancement</li>
+<li>Implemented missing service unit tests</li>
+<li>Implemented unit tests for high-priority packages</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="0170-beta0-2025-07-14"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/compare/v0.1.69-beta.0...v0.1.70-beta.0" target="_blank" rel="noopener noreferrer">0.1.70-beta.0</a> (2025-07-14)<a href="#0170-beta0-2025-07-14" class="hash-link" aria-label="Direct link to 0170-beta0-2025-07-14" title="Direct link to 0170-beta0-2025-07-14">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="bug-fixes-17">Bug Fixes<a href="#bug-fixes-17" class="hash-link" aria-label="Direct link to Bug Fixes" title="Direct link to Bug Fixes">​</a></h3>
+<ul>
+<li><strong>master:</strong> Fixed master-setting unit test</li>
+<li>Updated package version</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-19">Features<a href="#features-19" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li><strong>master:</strong> Added copy to tenant functionality</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="0169-beta0-2025-07-07"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/compare/v0.1.68-beta.0...v0.1.69-beta.0" target="_blank" rel="noopener noreferrer">0.1.69-beta.0</a> (2025-07-07)<a href="#0169-beta0-2025-07-07" class="hash-link" aria-label="Direct link to 0169-beta0-2025-07-07" title="Direct link to 0169-beta0-2025-07-07">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="bug-fixes-18">Bug Fixes<a href="#bug-fixes-18" class="hash-link" aria-label="Direct link to Bug Fixes" title="Direct link to Bug Fixes">​</a></h3>
+<ul>
+<li><strong>master:</strong> Updated unit test</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-20">Features<a href="#features-20" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li><strong>master:</strong> Added Prisma option</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="0168-beta0-2025-07-01"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/compare/v0.1.67-beta.0...v0.1.68-beta.0" target="_blank" rel="noopener noreferrer">0.1.68-beta.0</a> (2025-07-01)<a href="#0168-beta0-2025-07-01" class="hash-link" aria-label="Direct link to 0168-beta0-2025-07-01" title="Direct link to 0168-beta0-2025-07-01">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="bug-fixes-19">Bug Fixes<a href="#bug-fixes-19" class="hash-link" aria-label="Direct link to Bug Fixes" title="Direct link to Bug Fixes">​</a></h3>
+<ul>
+<li>Fixed build lib CI</li>
+<li>Updated import template master data module</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-21">Features<a href="#features-21" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li>Added template master API</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="0167-beta0-2025-06-10"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/compare/v0.1.66-beta.0...v0.1.67-beta.0" target="_blank" rel="noopener noreferrer">0.1.67-beta.0</a> (2025-06-10)<a href="#0167-beta0-2025-06-10" class="hash-link" aria-label="Direct link to 0167-beta0-2025-06-10" title="Direct link to 0167-beta0-2025-06-10">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-22">Features<a href="#features-22" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li>Enhanced EmailService to support attachments</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="0165-beta0-2025-05-19"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/compare/v0.1.64-beta.0...v0.1.65-beta.0" target="_blank" rel="noopener noreferrer">0.1.65-beta.0</a> (2025-05-19)<a href="#0165-beta0-2025-05-19" class="hash-link" aria-label="Direct link to 0165-beta0-2025-05-19" title="Direct link to 0165-beta0-2025-05-19">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="bug-fixes-20">Bug Fixes<a href="#bug-fixes-20" class="hash-link" aria-label="Direct link to Bug Fixes" title="Direct link to Bug Fixes">​</a></h3>
+<ul>
+<li>Fixed empty AppSync URL issue</li>
+<li>Fixed test AppSync URL</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-23">Features<a href="#features-23" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li>Added second AppSync support</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="0158-beta0-2025-04-24"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/compare/v0.1.57-beta.0...v0.1.58-beta.0" target="_blank" rel="noopener noreferrer">0.1.58-beta.0</a> (2025-04-24)<a href="#0158-beta0-2025-04-24" class="hash-link" aria-label="Direct link to 0158-beta0-2025-04-24" title="Direct link to 0158-beta0-2025-04-24">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="bug-fixes-21">Bug Fixes<a href="#bug-fixes-21" class="hash-link" aria-label="Direct link to Bug Fixes" title="Direct link to Bug Fixes">​</a></h3>
+<ul>
+<li>Fixed get format sequence from master data item</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="0155-beta0-2025-02-14"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/compare/v0.1.54-beta.0...v0.1.55-beta.0" target="_blank" rel="noopener noreferrer">0.1.55-beta.0</a> (2025-02-14)<a href="#0155-beta0-2025-02-14" class="hash-link" aria-label="Direct link to 0155-beta0-2025-02-14" title="Direct link to 0155-beta0-2025-02-14">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-24">Features<a href="#features-24" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li>Updated template to use Node 20 runtime</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="0153-beta0-2025-02-12"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/compare/v0.1.52-beta.0...v0.1.53-beta.0" target="_blank" rel="noopener noreferrer">0.1.53-beta.0</a> (2025-02-12)<a href="#0153-beta0-2025-02-12" class="hash-link" aria-label="Direct link to 0153-beta0-2025-02-12" title="Direct link to 0153-beta0-2025-02-12">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-25">Features<a href="#features-25" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li>Added queue and Step Function for task processing</li>
+<li>Task processing by Step Function</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="0151-beta0-2025-01-17"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/compare/v0.1.50-beta.0...v0.1.51-beta.0" target="_blank" rel="noopener noreferrer">0.1.51-beta.0</a> (2025-01-17)<a href="#0151-beta0-2025-01-17" class="hash-link" aria-label="Direct link to 0151-beta0-2025-01-17" title="Direct link to 0151-beta0-2025-01-17">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="bug-fixes-22">Bug Fixes<a href="#bug-fixes-22" class="hash-link" aria-label="Direct link to Bug Fixes" title="Direct link to Bug Fixes">​</a></h3>
+<ul>
+<li>Corrected description text</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-26">Features<a href="#features-26" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li>Added logger</li>
+<li>Added schematic description</li>
+<li>Added schematic for generating controllers</li>
+<li>Added schematic for generating dto, service, entity</li>
+<li>Added schematic for generating module</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="0150-beta0-2025-01-14"><a href="https://github.com/mbc-net/mbc-cqrs-serverless/compare/v0.1.49-beta.0...v0.1.50-beta.0" target="_blank" rel="noopener noreferrer">0.1.50-beta.0</a> (2025-01-14)<a href="#0150-beta0-2025-01-14" class="hash-link" aria-label="Direct link to 0150-beta0-2025-01-14" title="Direct link to 0150-beta0-2025-01-14">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="bug-fixes-23">Bug Fixes<a href="#bug-fixes-23" class="hash-link" aria-label="Direct link to Bug Fixes" title="Direct link to Bug Fixes">​</a></h3>
+<ul>
+<li>Fixed serialize helper entity field processing</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="features-27">Features<a href="#features-27" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h3>
+<ul>
+<li>Added serialize helper functions for internal/external structure conversion</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="related-links">Related Links<a href="#related-links" class="hash-link" aria-label="Direct link to Related Links" title="Direct link to Related Links">​</a></h2>
+<ul>
+<li><a href="https://github.com/mbc-net/mbc-cqrs-serverless/releases" target="_blank" rel="noopener noreferrer">GitHub Releases</a></li>
+<li><a href="https://www.npmjs.com/package/@mbc-cqrs-serverless/core" target="_blank" rel="noopener noreferrer">npm Package</a></li>
+</ul></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs/migration/v1.1.0"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Migration Guide: v1.1.0</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#version-scheme" class="table-of-contents__link toc-highlight">Version Scheme</a></li><li><a href="#stable-releases-1x" class="table-of-contents__link toc-highlight">Stable Releases (1.x)</a></li><li><a href="#v111" class="table-of-contents__link toc-highlight">1.1.1 (2026-02-07)</a><ul><li><a href="#bug-fixes" class="table-of-contents__link toc-highlight">Bug Fixes</a></li></ul></li><li><a href="#v110" class="table-of-contents__link toc-highlight">1.1.0 (2026-02-03)</a><ul><li><a href="#breaking-changes" class="table-of-contents__link toc-highlight">Breaking Changes</a></li><li><a href="#features" class="table-of-contents__link toc-highlight">Features</a></li><li><a href="#security" class="table-of-contents__link toc-highlight">Security</a></li><li><a href="#bug-fixes-1" class="table-of-contents__link toc-highlight">Bug Fixes</a></li><li><a href="#tests" class="table-of-contents__link toc-highlight">Tests</a></li><li><a href="#documentation" class="table-of-contents__link toc-highlight">Documentation</a></li></ul></li><li><a href="#v1026" class="table-of-contents__link toc-highlight">1.0.26 (2026-01-26)</a><ul><li><a href="#features-1" class="table-of-contents__link toc-highlight">Features</a></li><li><a href="#security-1" class="table-of-contents__link toc-highlight">Security</a></li></ul></li><li><a href="#v1025" class="table-of-contents__link toc-highlight">1.0.25 (2026-01-19)</a><ul><li><a href="#features-2" class="table-of-contents__link toc-highlight">Features</a></li></ul></li><li><a href="#v1024" class="table-of-contents__link toc-highlight">1.0.24 (2026-01-17)</a><ul><li><a href="#features-3" class="table-of-contents__link toc-highlight">Features</a></li><li><a href="#bug-fixes-2" class="table-of-contents__link toc-highlight">Bug Fixes</a></li></ul></li><li><a href="#v1023" class="table-of-contents__link toc-highlight">1.0.23 (2026-01-16)</a><ul><li><a href="#features-4" class="table-of-contents__link toc-highlight">Features</a></li></ul></li><li><a href="#v1022" class="table-of-contents__link toc-highlight">1.0.22 (2026-01-16)</a><ul><li><a href="#features-5" class="table-of-contents__link toc-highlight">Features</a></li><li><a href="#bug-fixes-3" class="table-of-contents__link toc-highlight">Bug Fixes</a></li><li><a href="#security-2" class="table-of-contents__link toc-highlight">Security</a></li><li><a href="#dependencies" class="table-of-contents__link toc-highlight">Dependencies</a></li></ul></li><li><a href="#v1021" class="table-of-contents__link toc-highlight">1.0.21 (2026-01-15)</a><ul><li><a href="#features-6" class="table-of-contents__link toc-highlight">Features</a></li></ul></li><li><a href="#v1020" class="table-of-contents__link toc-highlight">1.0.20 (2026-01-11)</a><ul><li><a href="#bug-fixes-4" class="table-of-contents__link toc-highlight">Bug Fixes</a></li></ul></li><li><a href="#v1019" class="table-of-contents__link toc-highlight">1.0.19 (2026-01-11)</a><ul><li><a href="#bug-fixes-5" class="table-of-contents__link toc-highlight">Bug Fixes</a></li></ul></li><li><a href="#v1018" class="table-of-contents__link toc-highlight">1.0.18 (2026-01-10)</a><ul><li><a href="#bug-fixes-6" class="table-of-contents__link toc-highlight">Bug Fixes</a></li></ul></li><li><a href="#v1017" class="table-of-contents__link toc-highlight">1.0.17 (2026-01-08)</a><ul><li><a href="#bug-fixes-7" class="table-of-contents__link toc-highlight">Bug Fixes</a></li><li><a href="#security-3" class="table-of-contents__link toc-highlight">Security</a></li><li><a href="#dependencies-1" class="table-of-contents__link toc-highlight">Dependencies</a></li><li><a href="#documentation-1" class="table-of-contents__link toc-highlight">Documentation</a></li></ul></li><li><a href="#1016-2025-12-31" class="table-of-contents__link toc-highlight">1.0.16 (2025-12-31)</a><ul><li><a href="#bug-fixes-8" class="table-of-contents__link toc-highlight">Bug Fixes</a></li><li><a href="#features-7" class="table-of-contents__link toc-highlight">Features</a></li></ul></li><li><a href="#1015-2025-12-31" class="table-of-contents__link toc-highlight">1.0.15 (2025-12-31)</a><ul><li><a href="#bug-fixes-9" class="table-of-contents__link toc-highlight">Bug Fixes</a></li></ul></li><li><a href="#1014-2025-12-29" class="table-of-contents__link toc-highlight">1.0.14 (2025-12-29)</a><ul><li><a href="#features-8" class="table-of-contents__link toc-highlight">Features</a></li><li><a href="#documentation-2" class="table-of-contents__link toc-highlight">Documentation</a></li></ul></li><li><a href="#1013-2025-12-26" class="table-of-contents__link toc-highlight">1.0.13 (2025-12-26)</a><ul><li><a href="#features-9" class="table-of-contents__link toc-highlight">Features</a></li></ul></li><li><a href="#1012-2025-12-23" class="table-of-contents__link toc-highlight">1.0.12 (2025-12-23)</a><ul><li><a href="#bug-fixes-10" class="table-of-contents__link toc-highlight">Bug Fixes</a></li></ul></li><li><a href="#1011-2025-12-22" class="table-of-contents__link toc-highlight">1.0.11 (2025-12-22)</a><ul><li><a href="#bug-fixes-11" class="table-of-contents__link toc-highlight">Bug Fixes</a></li></ul></li><li><a href="#1010-2025-11-28" class="table-of-contents__link toc-highlight">1.0.10 (2025-11-28)</a><ul><li><a href="#bug-fixes-12" class="table-of-contents__link toc-highlight">Bug Fixes</a></li></ul></li><li><a href="#109-2025-11-26" class="table-of-contents__link toc-highlight">1.0.9 (2025-11-26)</a><ul><li><a href="#bug-fixes-13" class="table-of-contents__link toc-highlight">Bug Fixes</a></li></ul></li><li><a href="#108-2025-11-17" class="table-of-contents__link toc-highlight">1.0.8 (2025-11-17)</a><ul><li><a href="#security-4" class="table-of-contents__link toc-highlight">Security</a></li></ul></li><li><a href="#107-2025-11-07" class="table-of-contents__link toc-highlight">1.0.7 (2025-11-07)</a><ul><li><a href="#security-5" class="table-of-contents__link toc-highlight">Security</a></li></ul></li><li><a href="#v106" class="table-of-contents__link toc-highlight">1.0.6 (2025-11-05)</a><ul><li><a href="#features-10" class="table-of-contents__link toc-highlight">Features</a></li></ul></li><li><a href="#v105" class="table-of-contents__link toc-highlight">1.0.5 (2025-11-04)</a><ul><li><a href="#features-11" class="table-of-contents__link toc-highlight">Features</a></li></ul></li><li><a href="#v104" class="table-of-contents__link toc-highlight">1.0.4 (2025-10-29)</a><ul><li><a href="#features-12" class="table-of-contents__link toc-highlight">Features</a></li><li><a href="#dependencies-2" class="table-of-contents__link toc-highlight">Dependencies</a></li></ul></li><li><a href="#v103" class="table-of-contents__link toc-highlight">1.0.3 (2025-10-23)</a><ul><li><a href="#features-13" class="table-of-contents__link toc-highlight">Features</a></li></ul></li><li><a href="#v102" class="table-of-contents__link toc-highlight">1.0.2 (2025-10-16)</a><ul><li><a href="#features-14" class="table-of-contents__link toc-highlight">Features</a></li><li><a href="#dependencies-3" class="table-of-contents__link toc-highlight">Dependencies</a></li></ul></li><li><a href="#v101" class="table-of-contents__link toc-highlight">1.0.1 (2025-09-19)</a><ul><li><a href="#features-15" class="table-of-contents__link toc-highlight">Features</a></li></ul></li><li><a href="#v100" class="table-of-contents__link toc-highlight">1.0.0 (2025-09-18)</a><ul><li><a href="#highlights" class="table-of-contents__link toc-highlight">Highlights</a></li></ul></li><li><a href="#beta-releases-01x" class="table-of-contents__link toc-highlight">Beta Releases (0.1.x)</a></li><li><a href="#0175-beta0" class="table-of-contents__link toc-highlight">0.1.75-beta.0</a><ul><li><a href="#bug-fixes-14" class="table-of-contents__link toc-highlight">Bug Fixes</a></li></ul></li><li><a href="#0174-beta0-2025-08-25" class="table-of-contents__link toc-highlight">0.1.74-beta.0 (2025-08-25)</a><ul><li><a href="#features-16" class="table-of-contents__link toc-highlight">Features</a></li></ul></li><li><a href="#0173-beta0-2025-07-31" class="table-of-contents__link toc-highlight">0.1.73-beta.0 (2025-07-31)</a><ul><li><a href="#bug-fixes-15" class="table-of-contents__link toc-highlight">Bug Fixes</a></li></ul></li><li><a href="#0172-beta0-2025-07-24" class="table-of-contents__link toc-highlight">0.1.72-beta.0 (2025-07-24)</a><ul><li><a href="#features-17" class="table-of-contents__link toc-highlight">Features</a></li></ul></li><li><a href="#0171-beta0-2025-07-18" class="table-of-contents__link toc-highlight">0.1.71-beta.0 (2025-07-18)</a><ul><li><a href="#bug-fixes-16" class="table-of-contents__link toc-highlight">Bug Fixes</a></li><li><a href="#features-18" class="table-of-contents__link toc-highlight">Features</a></li></ul></li><li><a href="#0170-beta0-2025-07-14" class="table-of-contents__link toc-highlight">0.1.70-beta.0 (2025-07-14)</a><ul><li><a href="#bug-fixes-17" class="table-of-contents__link toc-highlight">Bug Fixes</a></li><li><a href="#features-19" class="table-of-contents__link toc-highlight">Features</a></li></ul></li><li><a href="#0169-beta0-2025-07-07" class="table-of-contents__link toc-highlight">0.1.69-beta.0 (2025-07-07)</a><ul><li><a href="#bug-fixes-18" class="table-of-contents__link toc-highlight">Bug Fixes</a></li><li><a href="#features-20" class="table-of-contents__link toc-highlight">Features</a></li></ul></li><li><a href="#0168-beta0-2025-07-01" class="table-of-contents__link toc-highlight">0.1.68-beta.0 (2025-07-01)</a><ul><li><a href="#bug-fixes-19" class="table-of-contents__link toc-highlight">Bug Fixes</a></li><li><a href="#features-21" class="table-of-contents__link toc-highlight">Features</a></li></ul></li><li><a href="#0167-beta0-2025-06-10" class="table-of-contents__link toc-highlight">0.1.67-beta.0 (2025-06-10)</a><ul><li><a href="#features-22" class="table-of-contents__link toc-highlight">Features</a></li></ul></li><li><a href="#0165-beta0-2025-05-19" class="table-of-contents__link toc-highlight">0.1.65-beta.0 (2025-05-19)</a><ul><li><a href="#bug-fixes-20" class="table-of-contents__link toc-highlight">Bug Fixes</a></li><li><a href="#features-23" class="table-of-contents__link toc-highlight">Features</a></li></ul></li><li><a href="#0158-beta0-2025-04-24" class="table-of-contents__link toc-highlight">0.1.58-beta.0 (2025-04-24)</a><ul><li><a href="#bug-fixes-21" class="table-of-contents__link toc-highlight">Bug Fixes</a></li></ul></li><li><a href="#0155-beta0-2025-02-14" class="table-of-contents__link toc-highlight">0.1.55-beta.0 (2025-02-14)</a><ul><li><a href="#features-24" class="table-of-contents__link toc-highlight">Features</a></li></ul></li><li><a href="#0153-beta0-2025-02-12" class="table-of-contents__link toc-highlight">0.1.53-beta.0 (2025-02-12)</a><ul><li><a href="#features-25" class="table-of-contents__link toc-highlight">Features</a></li></ul></li><li><a href="#0151-beta0-2025-01-17" class="table-of-contents__link toc-highlight">0.1.51-beta.0 (2025-01-17)</a><ul><li><a href="#bug-fixes-22" class="table-of-contents__link toc-highlight">Bug Fixes</a></li><li><a href="#features-26" class="table-of-contents__link toc-highlight">Features</a></li></ul></li><li><a href="#0150-beta0-2025-01-14" class="table-of-contents__link toc-highlight">0.1.50-beta.0 (2025-01-14)</a><ul><li><a href="#bug-fixes-23" class="table-of-contents__link toc-highlight">Bug Fixes</a></li><li><a href="#features-27" class="table-of-contents__link toc-highlight">Features</a></li></ul></li><li><a href="#related-links" class="table-of-contents__link toc-highlight">Related Links</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer"><div class="container container-fluid"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2025 Murakami Business Consulting, Inc.</div></div></div></footer></div>
+</body>
+</html>

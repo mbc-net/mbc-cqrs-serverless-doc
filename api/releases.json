@@ -1,0 +1,65 @@
+{
+  "latest": {
+    "version": "1.1.1",
+    "date": "2026-02-07",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.1",
+    "features": [],
+    "bugFixes": [
+      "Add missing `import_tmp.json` DynamoDB table template"
+    ],
+    "security": []
+  },
+  "recent": [
+    {
+      "version": "1.1.1",
+      "date": "2026-02-07",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.1",
+      "features": [],
+      "bugFixes": [
+        "Add missing `import_tmp.json` DynamoDB table template"
+      ],
+      "security": []
+    },
+    {
+      "version": "1.1.0",
+      "date": "2026-02-03",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.0",
+      "features": [
+        "Add tenant code normalization for case-insensitive matching",
+        "Add `normalizeTenantCode()` utility function for explicit normalization",
+        "Add `isCommonTenant()` utility function for common tenant detection",
+        "Add EmailTags support for AWS SES email categorization and filtering",
+        "Add extensible tenant verification in RolesGuard",
+        "Add npm registry version check for skill updates"
+      ],
+      "bugFixes": [
+        "Fix `TENANT_COMMON` constant usage in MasterSettingService and MasterDataService"
+      ],
+      "security": []
+    },
+    {
+      "version": "1.0.26",
+      "date": "2026-01-26",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.26",
+      "features": [
+        "Add configurable local service ports via environment variables"
+      ],
+      "bugFixes": [],
+      "security": [
+        "Update `diff` package from 4.0.2 to 4.0.4 for security fix",
+        "Update `lodash` package from 4.17.21 to 4.17.23 for prototype pollution fix"
+      ]
+    },
+    {
+      "version": "1.0.25",
+      "date": "2026-01-19",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.25",
+      "features": [
+        "Enhanced inline template email with advanced variable substitution"
+      ],
+      "bugFixes": [],
+      "security": []
+    }
+  ],
+  "generated": "2026-02-09T05:11:37.554Z"
+}

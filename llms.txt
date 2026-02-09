@@ -1,0 +1,15 @@
+# MBC CQRS Serverless Framework
+
+> Production-ready CQRS and Event Sourcing framework for building serverless applications on AWS with NestJS, DynamoDB, and other AWS services.
+
+This file contains links to documentation sections following the llmstxt.org standard.
+
+## Table of Contents
+
+- [{{AI Integration}}](https://mbc-cqrs-serverless.mbc-net.com/docs/ai-integration): {{The MBC CQRS Serverless framework is designed with AI tool integration in mind.}}
+- [{{CQRS Pattern Flow}}](https://mbc-cqrs-serverless.mbc-net.com/docs/architecture/cqrs-flow): {{This document explains how the CQRS (Command Query Responsibility Segregation) pattern is implemented in MBC CQRS Serverless.}}
+- [{{Event Sourcing Pattern}}](https://mbc-cqrs-serverless.mbc-net.com/docs/architecture/event-sourcing): {{This document explains the Event Sourcing implementation in MBC CQRS Serverless.}}
+- [{{System Architecture Overview}}](https://mbc-cqrs-serverless.mbc-net.com/docs/architecture/system-overview): {{This document provides an overview of the MBC CQRS Serverless framework architecture.}}
+- [{{Architecture}}](https://mbc-cqrs-serverless.mbc-net.com/docs/architecture): {{This section provides a comprehensive overview of the MBC CQRS Serverless framework architecture.}}
+- [{{Directory}}](https://mbc-cqrs-serverless.mbc-net.com/docs/directory): {{Directory management functionality with S3 integration for the MBC CQRS Serverless framework.}}
+- [{{Survey Template}}](https://mbc-cqrs-serverless.mbc-net.com/docs/survey-template): {{Survey template management functionality for the MBC CQRS Serverless framework.}}

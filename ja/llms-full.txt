@@ -1,0 +1,1415 @@
+# MBC CQRS Serverless Framework
+
+> Production-ready CQRS and Event Sourcing framework for building serverless applications on AWS with NestJS, DynamoDB, and other AWS services.
+
+This file contains all documentation content in a single document following the llmstxt.org standard.
+
+## {{AI Integration}}
+
+
+{{The MBC CQRS Serverless framework is designed with AI tool integration in mind.}}
+
+## {{Overview}}
+
+{{Modern development workflows increasingly include AI assistance for code generation, debugging, and documentation lookup. This framework supports AI development tools through llms.txt files and MCP server.}}
+
+## {{llms.txt Convention}}
+
+### {{What is llms.txt?}}
+
+{{The llms.txt convention provides a standardized way for websites and projects to expose information for LLMs.}}
+
+### {{File Structure}}
+
+{{The framework provides two versions:}}
+
+- **`llms.txt`** - {{Concise overview and quick reference}}
+- **`llms-full.txt`** - {{Comprehensive documentation and context}}
+
+### {{Using llms.txt}}
+
+{{AI tools can directly fetch these files to build context about the framework:}}
+
+```bash
+# Short version for quick context
+curl https://raw.githubusercontent.com/mbc-net/mbc-cqrs-serverless/main/llms.txt
+
+# Full version for comprehensive context
+curl https://raw.githubusercontent.com/mbc-net/mbc-cqrs-serverless/main/llms-full.txt
+```
+
+## {{MCP Server Integration}}
+
+{{The Model Context Protocol (MCP) server provides a more dynamic way for AI tools to interact with the framework.}}
+
+### {{Context7 Integration}}
+
+{{Context7 is an MCP server that provides real-time, version-specific documentation to AI assistants.}}
+
+{{MBC CQRS Serverless documentation is available through Context7. You can access it at:}}
+
+- {{Context7 URL}}: [https://context7.com/mbc-net/mbc-cqrs-serverless-doc](https://context7.com/mbc-net/mbc-cqrs-serverless-doc)
+
+{{To use Context7, add it to Claude Code:}}
+
+```bash
+claude mcp add context7 -- npx -y @upstash/context7-mcp@latest
+```
+
+### {{Custom MCP Server}}
+
+{{The framework also provides a custom MCP server for deeper integration:}}
+
+| {{Feature}} | {{Description}} |
+|---------|-------------|
+| Resources | {{Access to framework documentation}} |
+| Tools | {{Code generation and validation tools}} |
+| Prompts | {{Guided workflows for common tasks}} |
+
+### {{Setup}}
+
+{{Add to Claude Code or other MCP-compatible tools:}}
+
+```json
+{
+  "mcpServers": {
+    "mbc-cqrs-serverless": {
+      "command": "npx",
+      "args": ["@mbc-cqrs-serverless/mcp-server"]
+    }
+  }
+}
+```
+
+{{Learn more}}: [{{MCP Server Documentation}}](./mcp-server)
+
+## {{Best Practices}}
+
+### {{Documentation First}}
+
+{{Before tackling complex tasks, let AI read the framework documentation:}}
+
+1. {{Use MCP resources to fetch architecture documentation}}
+2. {{Review CQRS patterns and event sourcing concepts}}
+3. {{Examine existing modules as reference patterns}}
+
+### {{Code Generation}}
+
+{{When asking AI to generate modules, be specific:}}
+
+```
+"Generate an Order module with async command handling and validation"
+```
+
+### {{Debugging Assistance}}
+
+{{When encountering errors, AI can use the error catalog to find solutions:}}
+
+```
+"I'm getting error 'version not match'. What should I do?"
+```
+
+## {{Supported Tools}}
+
+{{The following AI tools can integrate with MBC CQRS Serverless:}}
+
+| {{Tool}} | {{Support}} | {{Notes}} |
+|------|---------|-------|
+| Claude Code | {{Full Support}} | {{Native MCP support}} |
+| Cursor | {{Full Support}} | {{MCP support available}} |
+| GitHub Copilot | {{Partial Support}} | {{Via llms.txt}} |
+
+## {{Related Resources}}
+
+- [{{AI Prompts Library}}](./ai-prompts) - {{Optimized prompts for common tasks}}
+- [{{MCP Server}}](./mcp-server) - {{Detailed MCP server documentation}}
+- [{{CLI Tool}}](./cli) - {{CLI commands for code generation}}
+- [{{Error Catalog}}](./error-catalog) - {{Error reference with solutions}}
+- [{{Architecture}}](./architecture) - {{System architecture overview}}
+
+---
+
+## {{CQRS Pattern Flow}}
+
+
+{{This document explains how the CQRS (Command Query Responsibility Segregation) pattern is implemented in MBC CQRS Serverless.}}
+
+## {{CQRS Overview}}
+
+```mermaid
+flowchart TB
+    Client[Client Application]
+
+    subgraph Write
+        CommandAPI[Command API]
+        CommandHandler[Command Handler]
+        CommandService[Command Service]
+        EventStore[(Event Store)]
+        EventPublisher[Event Publisher]
+    end
+
+    subgraph Read
+        QueryAPI[Query API]
+        QueryHandler[Query Handler]
+        DataService[Data Service]
+        ReadStore[(Read Store)]
+    end
+
+    subgraph Events
+        EventHandler[Event Handler]
+        Projector[Projector]
+    end
+
+    Client --> CommandAPI
+    Client --> QueryAPI
+
+    CommandAPI --> CommandHandler
+    CommandHandler --> CommandService
+    CommandService --> EventStore
+    CommandService --> EventPublisher
+
+    QueryAPI --> QueryHandler
+    QueryHandler --> DataService
+    DataService --> ReadStore
+
+    EventPublisher --> EventHandler
+    EventHandler --> Projector
+    Projector --> ReadStore
+```
+
+## {{Command Flow - Write Path}}
+
+{{The flow of write operations.}}
+
+```mermaid
+sequenceDiagram
+    Client->>Gateway: POST request
+    Gateway->>Controller: DTO
+    Controller->>Handler: Command
+    Handler->>Handler: Validate
+    Handler->>Service: publish
+    Service->>DynamoDB: PutItem
+    DynamoDB-->>Service: OK
+    Service->>SNS: Event
+    SNS-->>Service: OK
+    Service-->>Handler: Entity
+    Handler-->>Controller: Result
+    Controller-->>Gateway: 201
+    Gateway-->>Client: Response
+```
+
+### {{Command Flow Steps}}
+
+1. **{{Request Received}}**: {{Client sends POST/PUT/DELETE request}}
+2. **{{DTO Validation}}**: {{Controller validates input using class-validator}}
+3. **{{Command Dispatch}}**: {{Controller creates and dispatches command}}
+4. **{{Business Logic}}**: {{Command handler executes business rules}}
+5. **{{Persistence}}**: {{Command service persists to DynamoDB with optimistic locking}}
+6. **{{Event Publishing}}**: {{Domain events are published to SNS}}
+7. **{{Response}}**: {{Success response returned to client}}
+
+## {{Query Flow - Read Path}}
+
+{{The flow of read operations.}}
+
+```mermaid
+sequenceDiagram
+    Client->>Gateway: GET request
+    Gateway->>Controller: Request
+    Controller->>Handler: Query
+    Handler->>DataService: getItem
+    DataService->>Database: Query
+    Database-->>DataService: Item
+    DataService-->>Handler: Entity
+    Handler-->>Controller: Result
+    Controller-->>Gateway: 200
+    Gateway-->>Client: Response
+```
+
+### {{Query Flow Steps}}
+
+1. **{{Request Received}}**: {{Client sends GET request}}
+2. **{{Query Dispatch}}**: {{Controller creates and dispatches query}}
+3. **{{Data Retrieval}}**: {{Query handler calls data service}}
+4. **{{Database Query}}**: {{Data service queries DynamoDB or RDS}}
+5. **{{Response}}**: {{Data returned to client}}
+
+## {{Key Components}}
+
+### {{Command Handler}}
+
+```typescript
+@CommandHandler(CreateResourceCommand)
+export class CreateResourceHandler
+  implements ICommandHandler<CreateResourceCommand> {
+
+  constructor(private readonly commandService: CommandService) {}
+
+  async execute(command: CreateResourceCommand): Promise<DataEntity> {
+    // 1. Validate business rules
+    // 2. Create entity
+    // 3. Persist and publish event
+    return this.commandService.publishAsync(entity, { invokeContext });
+  }
+}
+```
+
+### {{Query Handler}}
+
+```typescript
+@QueryHandler(GetResourceQuery)
+export class GetResourceHandler
+  implements IQueryHandler<GetResourceQuery> {
+
+  constructor(private readonly dataService: DataService) {}
+
+  async execute(query: GetResourceQuery): Promise<DataEntity> {
+    return this.dataService.getItem({
+      pk: query.pk,
+      sk: query.sk,
+    });
+  }
+}
+```
+
+## {{Benefits of CQRS}}
+
+{{Adopting the CQRS pattern provides these benefits:}}
+
+- **{{Scalability}}**: {{Read and write can be scaled independently}}
+- **{{Optimization}}**: {{Optimize each side for its specific purpose}}
+- **{{Flexibility}}**: {{Use different data models for reads and writes}}
+- **{{Performance}}**: {{Denormalize read models for fast queries}}
+- **{{Auditability}}**: {{Complete event history for audit trails}}
+
+---
+
+## {{Event Sourcing Pattern}}
+
+
+{{This document explains the Event Sourcing implementation in MBC CQRS Serverless.}}
+
+## {{Event Sourcing Overview}}
+
+```mermaid
+flowchart TB
+    subgraph EventStore
+        ES[(DynamoDB)]
+    end
+
+    subgraph EventFlow
+        Command[Command]
+        Aggregate[Aggregate]
+        Event1[Event 1]
+        Event2[Event 2]
+        Event3[Event 3]
+    end
+
+    subgraph Projections
+        P1[Read Model A]
+        P2[Read Model B]
+        P3[Notification Service]
+    end
+
+    Command --> Aggregate
+    Aggregate --> Event1
+    Aggregate --> Event2
+    Aggregate --> Event3
+
+    Event1 --> ES
+    Event2 --> ES
+    Event3 --> ES
+
+    ES --> P1
+    ES --> P2
+    ES --> P3
+```
+
+## {{Event Lifecycle}}
+
+```mermaid
+sequenceDiagram
+    Cmd->>Agg: Execute Command
+    Agg->>Agg: Validate Business Rules
+    Agg->>Agg: Apply State Change
+    Agg->>ES: Store Event
+    ES->>SNS: Publish Event
+    SNS->>SQS: Fan-out
+    SQS->>EH: Trigger Handler
+    EH->>RM: Update Projection
+```
+
+## {{DynamoDB Event Store Schema}}
+
+### {{Key Structure}}
+
+{{The DynamoDB key structure for event storage:}}
+
+- **PK (Partition Key)**: `{TENANT}#{ENTITY_TYPE}` ({{Example}}: `TENANT001#ORDER`)
+- **SK (Sort Key)**: `{ENTITY_TYPE}#{ID}` ({{Example}}: `ORDER#20240101-001`)
+
+### {{Event Record Example}}
+
+```json
+{
+  "pk": "TENANT001#ORDER",
+  "sk": "ORDER#20240101-001",
+  "version": 3,
+  "type": "OrderCreated",
+  "data": {
+    "orderId": "20240101-001",
+    "customerId": "CUST-001",
+    "items": [],
+    "totalAmount": 15000
+  },
+  "createdAt": "2024-01-01T10:00:00Z",
+  "createdBy": "user-123"
+}
+```
+
+## {{Optimistic Locking}}
+
+{{Explains the optimistic locking mechanism for ensuring data consistency during concurrent updates.}}
+
+```mermaid
+sequenceDiagram
+    C1->>DB: Read v1
+    C2->>DB: Read v1
+    C1->>DB: Update v1 to v2
+    DB-->>C1: Success
+    C2->>DB: Update v1 to v2
+    DB-->>C2: ConditionalCheckFailed
+    C2->>DB: Retry Read v2
+    C2->>DB: Update v2 to v3
+    DB-->>C2: Success
+```
+
+### {{Version Control Implementation}}
+
+```typescript
+// Command Service automatically handles versioning
+await this.commandService.publishAsync(entity, {
+  invokeContext: context,
+});
+
+// DynamoDB ConditionExpression ensures optimistic locking
+// ConditionExpression: 'attribute_not_exists(pk) OR version = :currentVersion'
+```
+
+## {{Event Processing Pipeline}}
+
+```mermaid
+flowchart LR
+    subgraph EventSource
+        ES[Event Store]
+    end
+
+    subgraph MessageBroker
+        SNS[SNS Topic]
+        SQS1[SQS Queue 1]
+        SQS2[SQS Queue 2]
+        SQS3[SQS Queue 3]
+    end
+
+    subgraph EventHandlers
+        EH1[Projection Handler]
+        EH2[Notification Handler]
+        EH3[Integration Handler]
+    end
+
+    subgraph Outputs
+        RM[(Read Model)]
+        Email[Email Service]
+        ExtAPI[External API]
+    end
+
+    ES --> SNS
+    SNS --> SQS1
+    SNS --> SQS2
+    SNS --> SQS3
+
+    SQS1 --> EH1
+    SQS2 --> EH2
+    SQS3 --> EH3
+
+    EH1 --> RM
+    EH2 --> Email
+    EH3 --> ExtAPI
+```
+
+## {{Event Handler Implementation}}
+
+```typescript
+import { EventHandler, IEventHandler } from '@mbc-cqrs-serverless/core';
+
+@EventHandler(OrderCreatedEvent)
+export class OrderCreatedHandler implements IEventHandler<OrderCreatedEvent> {
+  constructor(
+    private readonly notificationService: NotificationService,
+    private readonly readModelService: ReadModelService,
+  ) {}
+
+  async execute(event: OrderCreatedEvent): Promise<void> {
+    // Update read model
+    await this.readModelService.updateOrderSummary(event);
+
+    // Send notification
+    await this.notificationService.sendOrderConfirmation(event);
+  }
+}
+```
+
+## {{Benefits of Event Sourcing}}
+
+{{Adopting Event Sourcing provides these benefits:}}
+
+- **{{Complete Audit Trail}}**: {{All state changes are recorded as events}}
+- **{{Time Travel}}**: {{Reconstruct state at any point in time}}
+- **{{Event Replay}}**: {{Replay events to rebuild projections}}
+- **{{Debugging}}**: {{Trace exact sequence of operations}}
+- **{{Analytics}}**: {{Rich event data for business intelligence}}
+- **{{Integration}}**: {{Events can trigger external system updates}}
+
+## {{Best Practices}}
+
+{{Best practices for effective Event Sourcing:}}
+
+1. **{{Immutable Events}}**: {{Never modify stored events}}
+2. **{{Idempotent Handlers}}**: {{Handle duplicate event delivery gracefully}}
+3. **{{Event Versioning}}**: {{Plan for event schema evolution}}
+4. **{{Correlation IDs}}**: {{Track related events across services}}
+5. **{{Dead Letter Queues}}**: {{Handle failed event processing}}
+
+---
+
+## {{System Architecture Overview}}
+
+
+{{This document provides an overview of the MBC CQRS Serverless framework architecture.}}
+
+## {{AWS Infrastructure}}
+
+```mermaid
+flowchart TB
+    subgraph Clients
+        WebApp[Web Application]
+        MobileApp[Mobile Application]
+        External[External Systems]
+    end
+
+    subgraph AWS
+        subgraph API
+            APIGW[API Gateway]
+            AppSync[AppSync]
+            WSGateway[WebSocket API]
+        end
+
+        subgraph Auth
+            Cognito[Amazon Cognito]
+        end
+
+        subgraph Compute
+            Lambda[AWS Lambda]
+        end
+
+        subgraph Storage
+            DynamoDB[(DynamoDB)]
+            RDS[(RDS Aurora)]
+            S3[(S3)]
+        end
+
+        subgraph Messaging
+            SNS[SNS]
+            SQS[SQS]
+        end
+
+        subgraph Orchestration
+            StepFunctions[Step Functions]
+        end
+
+        subgraph Notifications
+            SES[SES]
+        end
+    end
+
+    WebApp --> APIGW
+    WebApp --> AppSync
+    WebApp --> WSGateway
+    MobileApp --> APIGW
+    MobileApp --> AppSync
+    External --> APIGW
+
+    APIGW --> Cognito
+    AppSync --> Cognito
+    WSGateway --> Cognito
+
+    APIGW --> Lambda
+    AppSync --> Lambda
+    WSGateway --> Lambda
+
+    Lambda --> DynamoDB
+    Lambda --> RDS
+    Lambda --> S3
+    Lambda --> SNS
+    Lambda --> SES
+    Lambda --> StepFunctions
+
+    SNS --> SQS
+    SQS --> Lambda
+    StepFunctions --> Lambda
+```
+
+## {{Component Description}}
+
+### {{API Layer}}
+
+{{The entry point for receiving client requests.}}
+
+- **API Gateway**: {{REST API endpoints for CRUD operations}}
+- **AppSync**: {{GraphQL API for flexible queries and subscriptions}}
+- **WebSocket API**: {{Real-time bidirectional communication}}
+
+### {{Authentication}}
+
+- **Amazon Cognito**: {{User authentication, JWT tokens, and user pools}}
+
+### {{Compute}}
+
+- **AWS Lambda**: {{Serverless execution of NestJS applications}}
+
+### {{Data Storage}}
+
+- **DynamoDB**: {{Primary event store for CQRS data persistence}}
+- **RDS Aurora**: {{Optional relational data for complex queries}}
+- **S3**: {{File and document storage}}
+
+### {{Messaging}}
+
+- **SNS**: {{Event fan-out and topic-based publishing}}
+- **SQS**: {{Reliable message queuing and async processing}}
+
+### {{Orchestration}}
+
+- **Step Functions**: {{Long-running workflows and saga patterns}}
+
+### {{Notifications}}
+
+- **SES**: {{Transactional email delivery}}
+
+## {{Data Flow}}
+
+{{How requests flow through the system.}}
+
+1. **{{Client Request}}**: {{Client sends request via API Gateway, AppSync, or WebSocket}}
+2. **{{Authentication}}**: {{Cognito validates JWT tokens}}
+3. **{{Command Execution}}**: {{Lambda processes command and persists to DynamoDB}}
+4. **{{Event Publishing}}**: {{Events are published to SNS}}
+5. **{{Event Processing}}**: {{SQS queues trigger Lambda handlers for async processing}}
+6. **{{Read Model Update}}**: {{Projections update RDS for complex queries}}
+
+## {{Multi-Tenant Architecture}}
+
+```mermaid
+flowchart LR
+    subgraph TenantIsolation
+        Request[Incoming Request]
+        Auth[Authentication]
+        TenantResolver[Tenant Resolver]
+
+        subgraph DataPartition
+            T1[Tenant A Data]
+            T2[Tenant B Data]
+            T3[Tenant C Data]
+        end
+    end
+
+    Request --> Auth
+    Auth --> TenantResolver
+    TenantResolver --> T1
+    TenantResolver --> T2
+    TenantResolver --> T3
+```
+
+{{Tenant isolation is achieved through:}}
+
+- **{{Partition Key Prefix}}**: {{Each tenant's data is prefixed with the tenant code}}
+- **{{Request Context}}**: {{Tenant information is extracted from JWT tokens}}
+- **{{Query Filtering}}**: {{All queries are automatically scoped to the tenant}}
+
+---
+
+## {{Architecture}}
+
+
+{{This section provides a comprehensive overview of the MBC CQRS Serverless framework architecture.}}
+
+## {{Overview}}
+
+{{The framework is built on AWS serverless services and implements the CQRS pattern with Event Sourcing for scalable, event-driven applications.}}
+
+## {{Architecture Sections}}
+
+- [{{System Overview}}](./architecture/system-overview) - {{AWS infrastructure components and their interactions.}}
+- [{{CQRS Pattern Flow}}](./architecture/cqrs-flow) - {{How commands and queries are separated and processed.}}
+- [{{Event Sourcing}}](./architecture/event-sourcing) - {{Event storage, replay, and projection mechanisms.}}
+
+## {{Key Concepts}}
+
+### {{CQRS}}
+
+{{Separating read and write operations for optimized data handling.}}
+
+### {{Event Sourcing}}
+
+{{Storing all changes as a sequence of events.}}
+
+### {{Serverless}}
+
+{{Leveraging AWS Lambda, DynamoDB, and other managed services.}}
+
+---
+
+## {{Directory}}
+
+
+{{Directory management functionality with S3 integration for the MBC CQRS Serverless framework.}}
+
+## {{Installation}}
+
+```bash
+npm install @mbc-cqrs-serverless/directory
+```
+
+## {{Overview}}
+
+{{The Directory package provides comprehensive file and folder management in a multi-tenant CQRS architecture. It integrates with Amazon S3 for file storage and supports granular access permissions.}}
+
+## {{Features}}
+
+- **{{Directory CRUD Operations}}**: {{Create, read, update, and delete folders and files}}
+- **{{S3 Integration}}**: {{Full file management with Amazon S3}}
+- **{{Access Permissions}}**: {{Granular permissions for specific folders and files}}
+- **{{Multi-tenant Support}}**: {{Tenant-isolated directory management}}
+- **{{Event-Driven Architecture}}**: {{Built on CQRS pattern with command/event handling}}
+- **{{RESTful API}}**: {{Complete REST API for directory operations}}
+- **{{Version History}}**: {{Track and restore previous versions of files and folders}}
+
+## {{Basic Setup}}
+
+### {{Module Configuration}}
+
+```typescript
+import { DirectoryStorageModule } from '@mbc-cqrs-serverless/directory';
+import { Module } from '@nestjs/common';
+import { PrismaService } from './prisma.service';
+
+@Module({
+  imports: [
+    DirectoryStorageModule.register({
+      enableController: true,  // {{Enable REST API endpoints}}
+      prismaService: PrismaService,  // {{Required when enableController is true}}
+      dataSyncHandlers: [],  // {{Optional data sync handlers}}
+    }),
+  ],
+})
+export class AppModule {}
+```
+
+## {{API Endpoints}}
+
+| {{Method}} | {{Endpoint}} | {{Description}} |
+|--------|----------|-------------|
+| POST | `/api/directory/` | {{Create a new file or folder}} |
+| GET | `/api/directory/summary` | {{Get tenant file size summary}} |
+| GET | `/api/directory/:id` | {{Get details for a specific file or folder}} |
+| GET | `/api/directory/:id/history` | {{Get version history of a file or folder}} |
+| POST | `/api/directory/:id/history/:version/restore` | {{Restore a specific version}} |
+| PUT | `/api/directory/:id/restore` | {{Restore a temporarily deleted item}} |
+| PATCH | `/api/directory/:id` | {{Update a specific file or folder}} |
+| PATCH | `/api/directory/:id/permission` | {{Update permissions for a file or folder}} |
+| PATCH | `/api/directory/:id/rename` | {{Rename a file or folder}} |
+| PATCH | `/api/directory/:id/copy` | {{Copy a file or folder}} |
+| PATCH | `/api/directory/:id/move` | {{Move a file or folder}} |
+| DELETE | `/api/directory/:id` | {{Soft delete a file or folder}} |
+| DELETE | `/api/directory/:id/bin` | {{Permanently delete a file and remove from S3}} |
+| POST | `/api/directory/file/view` | {{Generate a presigned URL for viewing a file}} |
+| POST | `/api/directory/file` | {{Generate a presigned URL for uploading a file}} |
+
+## {{Creating Folders}}
+
+```typescript
+import { DirectoryService, DirectoryCreateDto, DirectoryDataEntity } from '@mbc-cqrs-serverless/directory';
+import { IInvoke } from '@mbc-cqrs-serverless/core';
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class FolderService {
+  constructor(private readonly directoryService: DirectoryService) {}
+
+  async createFolder(
+    createDto: DirectoryCreateDto,
+    invokeContext: IInvoke,
+  ): Promise<DirectoryDataEntity> {
+    return this.directoryService.create(createDto, { invokeContext });
+  }
+}
+```
+
+## {{Uploading Files}}
+
+```typescript
+async uploadFile(
+  createDto: DirectoryCreateDto,
+  invokeContext: IInvoke,
+): Promise<DirectoryDataEntity> {
+  // {{File upload is handled through the create method with file content}}
+  return this.directoryService.create(createDto, { invokeContext });
+}
+```
+
+## {{Listing Contents}}
+
+```typescript
+async getDirectory(
+  detailDto: DetailDto,
+  invokeContext: IInvoke,
+  queryDto: DirectoryDetailDto,
+): Promise<DirectoryDataEntity> {
+  return this.directoryService.findOne(detailDto, { invokeContext }, queryDto);
+}
+
+async getDirectoryHistory(
+  detailDto: DetailDto,
+  invokeContext: IInvoke,
+  queryDto: DirectoryDetailDto,
+): Promise<DirectoryDataListEntity> {
+  return this.directoryService.findHistory(detailDto, { invokeContext }, queryDto);
+}
+```
+
+## {{File Operations}}
+
+```typescript
+// {{Get file attributes}}
+async getFileAttributes(detailDto: DetailDto): Promise<DirectoryAttributes> {
+  return this.directoryService.getItemAttributes(detailDto);
+}
+
+// {{Get file item}}
+async getFile(detailDto: DetailDto): Promise<DirectoryDataEntity> {
+  return this.directoryService.getItem(detailDto);
+}
+
+// {{Soft delete (marks as deleted)}}
+async removeItem(
+  detailDto: DetailDto,
+  invokeContext: IInvoke,
+  queryDto: DirectoryDetailDto,
+): Promise<DirectoryDataEntity> {
+  return this.directoryService.remove(detailDto, { invokeContext }, queryDto);
+}
+
+// {{Permanently remove file and delete from S3}}
+async removeFile(
+  detailDto: DetailDto,
+  invokeContext: IInvoke,
+  queryDto: DirectoryDetailDto,
+): Promise<DirectoryDataEntity> {
+  return this.directoryService.removeFile(detailDto, { invokeContext }, queryDto);
+}
+```
+
+## {{Updating Items}}
+
+```typescript
+import { DirectoryUpdateDto } from '@mbc-cqrs-serverless/directory';
+
+async updateItem(
+  detailDto: DetailDto,
+  updateDto: DirectoryUpdateDto,
+  invokeContext: IInvoke,
+): Promise<DirectoryDataEntity> {
+  return this.directoryService.update(detailDto, updateDto, { invokeContext });
+}
+```
+
+## {{Renaming Items}}
+
+```typescript
+import { DirectoryRenameDto } from '@mbc-cqrs-serverless/directory';
+
+async renameItem(
+  detailDto: DetailDto,
+  renameDto: DirectoryRenameDto,
+  invokeContext: IInvoke,
+): Promise<DirectoryDataEntity> {
+  return this.directoryService.rename(detailDto, renameDto, { invokeContext });
+}
+```
+
+## {{Managing Permissions}}
+
+### {{Permission Types}}
+
+{{The directory package supports different permission types:}}
+
+```typescript
+enum FilePermission {
+  GENERAL = 'GENERAL',      // {{General access for everyone}}
+  RESTRICTED = 'RESTRICTED', // {{Restricted to specific users}}
+  DOMAIN = 'DOMAIN',        // {{Restricted to specific email domain}}
+  TENANT = 'TENANT',        // {{Restricted to tenant members}}
+}
+
+enum FileRole {
+  READ = 'READ',
+  WRITE = 'WRITE',
+  DELETE = 'DELETE',
+  CHANGE_PERMISSION = 'CHANGE_PERMISSION',
+  TAKE_OWNERSHIP = 'TAKE_OWNERSHIP',
+}
+
+enum EmailType {
+  EMAIL = 'EMAIL',           // {{Individual email address}}
+  EMAIL_GROUP = 'EMAIL_GROUP', // {{Email group or distribution list}}
+}
+```
+
+### {{Directory Attributes}}
+
+{{The DirectoryAttributes interface defines the metadata for files and folders:}}
+
+```typescript
+interface DirectoryAttributes {
+  expirationTime?: string;   // {{Expiration time for the item}}
+  fileSize?: number;         // {{File size in bytes}}
+  fileType?: string;         // {{MIME type of the file}}
+  parentId?: string;         // {{Parent folder ID}}
+  owner: OwnerDto;           // {{Owner information}}
+  s3Key?: string;            // {{S3 object key}}
+  ancestors?: string[];      // {{Array of ancestor folder IDs}}
+  inheritance?: boolean;     // {{Whether to inherit parent permissions}}
+  tags?: string[];           // {{Tags for categorization}}
+  permission?: PermissionDto; // {{Permission settings}}
+}
+
+interface OwnerDto {
+  email: string;   // {{Owner's email address}}
+  ownerId: string; // {{Owner's user ID}}
+}
+
+interface PermissionDto {
+  type: FilePermission;        // {{Permission type}}
+  role: FileRole;              // {{Default role for this permission}}
+  domain?: DomainDto;          // {{Domain restriction (for DOMAIN type)}}
+  users?: UserPermissionDto[]; // {{User-specific permissions (for RESTRICTED type)}}
+}
+
+interface DomainDto {
+  email: string; // {{Email domain (e.g., "example.com")}}
+}
+
+interface UserPermissionDto {
+  email: string;    // {{User's email address}}
+  role: FileRole;   // {{Role assigned to this user}}
+  id: string;       // {{User ID}}
+  type: EmailType;  // {{Email type (EMAIL or EMAIL_GROUP)}}
+}
+```
+
+### {{Updating Permissions}}
+
+```typescript
+import { DirectoryUpdatePermissionDto } from '@mbc-cqrs-serverless/directory';
+
+async updatePermission(
+  detailDto: DetailDto,
+  updateDto: DirectoryUpdatePermissionDto,
+  invokeContext: IInvoke,
+): Promise<DirectoryDataEntity> {
+  return this.directoryService.updatePermission(detailDto, updateDto, { invokeContext });
+}
+```
+
+### {{Checking Permissions}}
+
+```typescript
+async hasPermission(
+  itemId: DetailDto,
+  requiredRole: FileRole[],
+  user?: { email?: string; tenant?: string },
+): Promise<boolean> {
+  return this.directoryService.hasPermission(itemId, requiredRole, user);
+}
+
+async getEffectiveRole(
+  itemId: DetailDto,
+  user?: { email?: string; tenant?: string },
+): Promise<FileRole | null> {
+  return this.directoryService.getEffectiveRole(itemId, user);
+}
+```
+
+## {{Moving and Copying}}
+
+### {{Move Item}}
+
+```typescript
+import { DirectoryMoveDto } from '@mbc-cqrs-serverless/directory';
+
+async moveItem(
+  detailDto: DetailDto,
+  moveDto: DirectoryMoveDto,
+  invokeContext: IInvoke,
+): Promise<DirectoryDataEntity> {
+  return this.directoryService.move(detailDto, moveDto, { invokeContext });
+}
+```
+
+### {{Copy Item}}
+
+```typescript
+import { DirectoryCopyDto } from '@mbc-cqrs-serverless/directory';
+
+async copyItem(
+  detailDto: DetailDto,
+  copyDto: DirectoryCopyDto,
+  invokeContext: IInvoke,
+): Promise<DirectoryDataEntity> {
+  return this.directoryService.copy(detailDto, copyDto, { invokeContext });
+}
+```
+
+## {{Version History}}
+
+### {{Restore Previous Version}}
+
+```typescript
+async restoreVersion(
+  detailDto: DetailDto,
+  version: string,
+  queryDto: DirectoryDetailDto,
+  invokeContext: IInvoke,
+): Promise<DirectoryDataEntity> {
+  return this.directoryService.restoreHistoryItem(detailDto, version, queryDto, { invokeContext });
+}
+```
+
+### {{Restore Temporarily Deleted Item}}
+
+```typescript
+async restoreTemporary(
+  detailDto: DetailDto,
+  queryDto: DirectoryDetailDto,
+  invokeContext: IInvoke,
+): Promise<DirectoryDataEntity> {
+  return this.directoryService.restoreTemporary(detailDto, queryDto, { invokeContext });
+}
+```
+
+## {{Directory DTOs}}
+
+{{The directory package provides several DTOs for different operations:}}
+
+### DirectoryCreateDto
+
+```typescript
+interface DirectoryCreateDto {
+  name: string;              // {{Item name}}
+  type: string;              // {{Item type (e.g., 'folder', 'file')}}
+  attributes?: DirectoryAttributes; // {{Optional attributes}}
+}
+```
+
+### DirectoryUpdateDto
+
+```typescript
+interface DirectoryUpdateDto {
+  email: string;                    // {{Requester's email for permission check}}
+  name?: string;                    // {{New name (optional)}}
+  isDeleted?: boolean;              // {{Deletion flag}}
+  attributes?: DirectoryAttributes; // {{Updated attributes}}
+}
+```
+
+### DirectoryRenameDto
+
+```typescript
+interface DirectoryRenameDto {
+  name: string;  // {{New name}}
+  email: string; // {{Requester's email for permission check}}
+}
+```
+
+### DirectoryMoveDto
+
+```typescript
+interface DirectoryMoveDto {
+  parentId?: string; // {{Target parent folder ID}}
+  email: string;     // {{Requester's email for permission check}}
+}
+```
+
+### DirectoryCopyDto
+
+```typescript
+interface DirectoryCopyDto {
+  path: string;       // {{S3 path for the copied file}}
+  parentId?: string;  // {{Target parent folder ID}}
+  email: string;      // {{Requester's email for permission check}}
+}
+```
+
+### DirectoryDetailDto
+
+```typescript
+interface DirectoryDetailDto {
+  email: string; // {{Requester's email for permission check}}
+}
+```
+
+### DirectoryUpdatePermissionDto
+
+```typescript
+interface DirectoryUpdatePermissionDto {
+  email: string;     // {{Requester's email for permission check}}
+  attributes?: {
+    permission?: PermissionDto; // {{New permission settings}}
+    inheritance?: boolean;      // {{Whether to inherit parent permissions}}
+  };
+}
+```
+
+## {{Directory Structure}}
+
+{{Example directory structure:}}
+
+```
+/
+├── documents/
+│   ├── reports/
+│   │   ├── 2024-Q1-report.pdf
+│   │   └── 2024-Q2-report.pdf
+│   └── contracts/
+│       └── contract-001.pdf
+├── images/
+│   ├── logo.png
+│   └── banner.jpg
+└── templates/
+    └── invoice-template.docx
+```
+
+## {{Multi-tenant Isolation}}
+
+{{Directories are automatically isolated by tenant through the invoke context:}}
+
+```typescript
+@Controller('api/directory')
+export class DirectoryController {
+  constructor(private readonly directoryService: DirectoryService) {}
+
+  @Get(':id')
+  async findOne(
+    @INVOKE_CONTEXT() invokeContext: IInvoke,
+    @DetailKeys() detailDto: DetailDto,
+    @Query() queryDto: DirectoryDetailDto,
+  ): Promise<DirectoryDataEntity> {
+    // {{Tenant isolation is handled through the pk structure}}
+    return this.directoryService.findOne(detailDto, { invokeContext }, queryDto);
+  }
+}
+```
+
+## {{Event Handling}}
+
+{{Handle directory data synchronization using data sync handlers:}}
+
+```typescript
+import { IDataSyncHandler, DataEntity } from '@mbc-cqrs-serverless/core';
+
+export class DirectoryDataSyncHandler implements IDataSyncHandler {
+  async onCreated(data: DataEntity): Promise<void> {
+    console.log('Directory created:', data.name);
+    // {{Sync to RDS, notify users, update indexes, etc.}}
+  }
+
+  async onUpdated(data: DataEntity): Promise<void> {
+    console.log('Directory updated:', data.name);
+  }
+
+  async onDeleted(data: DataEntity): Promise<void> {
+    console.log('Directory deleted:', data.name);
+  }
+}
+```
+
+## {{Best Practices}}
+
+1. **{{Use Folders for Organization}}**: {{Create a logical folder structure for easy navigation}}
+2. **{{Set Permissions Early}}**: {{Configure permissions when creating directories}}
+3. **{{Handle Large Files}}**: {{For large files, use presigned URLs for direct S3 upload}}
+4. **{{Clean Up}}**: {{Implement retention policies for temporary files}}
+5. **{{Audit Trail}}**: {{Use events to maintain an audit trail of all operations}}
+6. **{{Use Soft Delete}}**: {{Prefer soft delete (remove) over permanent delete (removeFile) for data recovery}}
+
+---
+
+## {{Survey Template}}
+
+
+{{Survey template management functionality for the MBC CQRS Serverless framework.}}
+
+## {{Installation}}
+
+```bash
+npm install @mbc-cqrs-serverless/survey-template
+```
+
+## {{Overview}}
+
+{{The Survey Template package provides comprehensive survey template management in a multi-tenant CQRS architecture. It enables the creation, management, and storage of survey templates with flexible JSON-based definitions supporting various question types.}}
+
+## {{Features}}
+
+- **{{Survey Template CRUD Operations}}**: {{Create, read, update, and delete survey templates}}
+- **{{Multi-tenant Support}}**: {{Tenant-isolated survey template management}}
+- **{{Flexible Survey Structure}}**: {{JSON-based survey template definitions}}
+- **{{Various Question Types}}**: {{Support for text, multiple choice, rating, and more}}
+- **{{Search and Filtering}}**: {{Advanced search capabilities with keyword matching}}
+- **{{Event-Driven Architecture}}**: {{Built on CQRS pattern with command/event handling}}
+- **{{RESTful API}}**: {{Complete REST API for survey template operations}}
+
+## {{Basic Setup}}
+
+### {{Module Configuration}}
+
+```typescript
+import { SurveyTemplateModule } from '@mbc-cqrs-serverless/survey-template';
+import { Module } from '@nestjs/common';
+
+@Module({
+  imports: [
+    SurveyTemplateModule.register({
+      enableController: true,  // Enable REST API endpoints
+    }),
+  ],
+})
+export class AppModule {}
+```
+
+## {{API Endpoints}}
+
+| {{Method}} | {{Endpoint}} | {{Description}} |
+|--------|----------|-------------|
+| GET | `/api/survey-template/` | {{Search and list survey templates}} |
+| POST | `/api/survey-template/` | {{Create a new survey template}} |
+| GET | `/api/survey-template/:id` | {{Get a specific survey template}} |
+| PUT | `/api/survey-template/:id` | {{Update a survey template}} |
+| DELETE | `/api/survey-template/:id` | {{Delete a survey template}} |
+
+## {{Creating a Survey Template}}
+
+```typescript
+import { SurveyTemplateService } from '@mbc-cqrs-serverless/survey-template';
+
+@Injectable()
+export class SurveyService {
+  constructor(
+    private readonly surveyTemplateService: SurveyTemplateService,
+  ) {}
+
+  async createTemplate(
+    tenantCode: string,
+    dto: CreateSurveyTemplateDto,
+    invokeContext: IInvoke,
+  ): Promise<SurveyTemplateEntity> {
+    return this.surveyTemplateService.create(tenantCode, dto, { invokeContext });
+  }
+}
+```
+
+## {{Question Types}}
+
+### {{Text Question}}
+
+```json
+{
+  "type": "text",
+  "text": "Please describe your experience",
+  "required": true,
+  "maxLength": 1000,
+  "placeholder": "Enter your response..."
+}
+```
+
+### {{Multiple Choice}}
+
+```json
+{
+  "type": "multiple_choice",
+  "text": "Which products do you use?",
+  "required": true,
+  "allowMultiple": true,
+  "options": [
+    { "value": "product_a", "label": "Product A" },
+    { "value": "product_b", "label": "Product B" },
+    { "value": "product_c", "label": "Product C" }
+  ]
+}
+```
+
+### {{Rating Scale}}
+
+```json
+{
+  "type": "rating",
+  "text": "Rate your experience",
+  "required": true,
+  "min": 1,
+  "max": 10,
+  "labels": {
+    "1": "Poor",
+    "5": "Average",
+    "10": "Excellent"
+  }
+}
+```
+
+### {{Yes/No Question}}
+
+```json
+{
+  "type": "boolean",
+  "text": "Would you recommend us to a friend?",
+  "required": true
+}
+```
+
+### {{Date Question}}
+
+```json
+{
+  "type": "date",
+  "text": "When did you first use our service?",
+  "required": false,
+  "minDate": "2020-01-01",
+  "maxDate": "today"
+}
+```
+
+## {{Survey Template Structure}}
+
+```typescript
+interface SurveyTemplate {
+  id: string;
+  name: string;
+  description?: string;
+  sections: Section[];
+  settings?: TemplateSettings;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface Section {
+  title: string;
+  description?: string;
+  questions: Question[];
+}
+
+interface TemplateSettings {
+  allowAnonymous: boolean;
+  showProgressBar: boolean;
+  randomizeQuestions: boolean;
+}
+```
+
+## {{Searching Templates}}
+
+```typescript
+async searchTemplates(
+  tenantCode: string,
+  searchDto: SearchDto,
+): Promise<SurveyTemplateEntity[]> {
+  return this.surveyTemplateService.searchData(tenantCode, searchDto);
+}
+
+async getTemplate(key: DetailKey): Promise<SurveyTemplateEntity> {
+  return this.surveyTemplateService.findOne(key);
+}
+```
+
+## {{Updating Templates}}
+
+```typescript
+async updateTemplate(
+  key: DetailKey,
+  dto: UpdateSurveyTemplateDto,
+  invokeContext: IInvoke,
+): Promise<SurveyTemplateEntity> {
+  return this.surveyTemplateService.update(key, dto, { invokeContext });
+}
+```
+
+## {{Deleting Templates}}
+
+```typescript
+async deleteTemplate(
+  key: DetailKey,
+  invokeContext: IInvoke,
+): Promise<SurveyTemplateEntity> {
+  return this.surveyTemplateService.remove(key, { invokeContext });
+}
+```
+
+## {{Multi-tenant Usage}}
+
+{{Templates are automatically isolated by tenant through the invoke context:}}
+
+```typescript
+@Controller('api/survey-template')
+export class SurveyTemplateController {
+  constructor(
+    private readonly surveyTemplateService: SurveyTemplateService,
+  ) {}
+
+  @Get()
+  async searchData(
+    @Query() searchDto: SearchDto,
+    @INVOKE_CONTEXT() invokeContext: IInvoke,
+  ): Promise<SurveyTemplateEntity[]> {
+    const { tenantCode } = getUserContext(invokeContext);
+    return this.surveyTemplateService.searchData(tenantCode, searchDto);
+  }
+}
+```
+
+## {{Event Handling}}
+
+{{Handle survey template data synchronization using data sync handlers:}}
+
+```typescript
+import { IDataSyncHandler, DataEntity } from '@mbc-cqrs-serverless/core';
+
+export class SurveyTemplateDataSyncHandler implements IDataSyncHandler {
+  async onCreated(data: DataEntity): Promise<void> {
+    console.log('Survey template created:', data.name);
+    // Sync to RDS, notify users, etc.
+  }
+
+  async onUpdated(data: DataEntity): Promise<void> {
+    console.log('Survey template updated:', data.name);
+  }
+
+  async onDeleted(data: DataEntity): Promise<void> {
+    console.log('Survey template deleted:', data.name);
+  }
+}
+```
+
+## {{Best Practices}}
+
+1. **{{Use Sections}}**: {{Organize questions into logical sections for better user experience}}
+2. **{{Validate Questions}}**: {{Ensure required fields are properly marked}}
+3. **{{Limit Options}}**: {{For multiple choice, keep options to a reasonable number}}
+4. **{{Version Templates}}**: {{Create new versions instead of modifying existing templates in use}}
+5. **{{Test Templates}}**: {{Preview templates before deployment}}
