@@ -98,5 +98,15 @@
   "[Key Patterns](./key-patterns.md): Detailed key design strategies": "[Key Patterns](./key-patterns.md): 詳細なキー設計戦略",
   "[Entity Patterns](./entity-patterns.md): Entity modeling guidelines": "[Entity Patterns](./entity-patterns.md): エンティティモデリングガイドライン",
   "[Sequence](./sequence.md): Sequence ID generation": "[Sequence](./sequence.md): シーケンスID生成",
-  "[CommandService](./command-service.md): Command handling and data sync": "[CommandService](./command-service.md): コマンド処理とデータ同期"
+  "[CommandService](./command-service.md): Command handling and data sync": "[CommandService](./command-service.md): コマンド処理とデータ同期",
+  "import_tmp": "import_tmp",
+  "Stores temporary data for import operations via Step Functions": "Step Functionsを介したインポート操作用の一時データを保存",
+  "System Table Definitions": "システムテーブル定義",
+  "System tables (`tasks`, `sequences`, `import_tmp`) have their own JSON definition files in the `prisma/dynamodbs/` folder. These are automatically created during migration:": "システムテーブル（`tasks`、`sequences`、`import_tmp`）は`prisma/dynamodbs/`フォルダに独自のJSON定義ファイルがあります。マイグレーション時に自動的に作成されます：",
+  "File": "ファイル",
+  "Task management with DynamoDB Streams": "DynamoDB Streamsによるタスク管理",
+  "Sequence ID generation": "シーケンスID生成",
+  "Temporary import data with DynamoDB Streams for [ImportModule](/docs/import)": "[ImportModule](/docs/import)用のDynamoDB Streams付き一時インポートデータ",
+  "Version Note": "バージョン情報",
+  "The `import_tmp.json` template was added in [version 1.1.1](/docs/changelog#v111). If you created your project with an earlier version and use the ImportModule, you need to add this file manually. See [Common Issues](/docs/common-issues#missing-import-tmp-table) for details.": "`import_tmp.json`テンプレートは[バージョン1.1.1](/docs/changelog#v111)で追加されました。それ以前のバージョンでプロジェクトを作成し、ImportModuleを使用している場合は、このファイルを手動で追加する必要があります。詳細は[よくある問題](/docs/common-issues#missing-import-tmp-table)を参照してください。"
 }

@@ -17,6 +17,17 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ## 安定版リリース (1.x)
 
+## [1.1.1](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.1) (2026-02-07) {#v111}
+
+### バグ修正
+
+- **cli:** 不足していた`import_tmp.json` DynamoDBテーブルテンプレートを追加 ([詳細を見る](/docs/dynamodb#system-table-definitions)) ([PR #323](https://github.com/mbc-net/mbc-cqrs-serverless/pull/323))
+  - CLIテンプレートに`import_tmp`テーブル定義が含まれておらず、`npm run offline:sls`が失敗していました
+  - `serverless.yml`が参照する`LOCAL_DDB_IMPORT_TMP_STREAM`環境変数は、マイグレーション時にテーブルが作成される必要があります
+  - 以前のバージョンを使用している場合の回避策は[よくある問題](/docs/common-issues#missing-import-tmp-table)を参照
+
+---
+
 ## [1.1.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.0) (2026-02-03) {#v110}
 
 ### 破壊的変更

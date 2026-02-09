@@ -228,5 +228,9 @@
   "Add comprehensive dependency integration tests (3400+ tests)": "Add comprehensive dependency integration tests (3400+ tests)",
   "AWS SDK integration tests (DynamoDB, S3, SNS, SQS, Step Functions, SES)": "AWS SDK integration tests (DynamoDB, S3, SNS, SQS, Step Functions, SES)",
   "NestJS behavior tests (decorators, config, DI, Swagger)": "NestJS behavior tests (decorators, config, DI, Swagger)",
-  "Third-party library tests (class-transformer, class-validator, RxJS)": "Third-party library tests (class-transformer, class-validator, RxJS)"
+  "Third-party library tests (class-transformer, class-validator, RxJS)": "Third-party library tests (class-transformer, class-validator, RxJS)",
+  "Add missing `import_tmp.json` DynamoDB table template": "Add missing `import_tmp.json` DynamoDB table template",
+  "The `import_tmp` table definition was missing from CLI templates, causing `npm run offline:sls` to fail": "The `import_tmp` table definition was missing from CLI templates, causing `npm run offline:sls` to fail",
+  "The `serverless.yml` references `LOCAL_DDB_IMPORT_TMP_STREAM` environment variable, which requires the table to be created during migration": "The `serverless.yml` references `LOCAL_DDB_IMPORT_TMP_STREAM` environment variable, which requires the table to be created during migration",
+  "See [Common Issues](/docs/common-issues#missing-import-tmp-table) for workaround if using older versions": "See [Common Issues](/docs/common-issues#missing-import-tmp-table) for workaround if using older versions"
 }

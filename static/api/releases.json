@@ -1,22 +1,25 @@
 {
   "latest": {
-    "version": "1.1.0",
-    "date": "2026-02-03",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.0",
-    "features": [
-      "Add tenant code normalization for case-insensitive matching",
-      "Add `normalizeTenantCode()` utility function for explicit normalization",
-      "Add `isCommonTenant()` utility function for common tenant detection",
-      "Add EmailTags support for AWS SES email categorization and filtering",
-      "Add extensible tenant verification in RolesGuard",
-      "Add npm registry version check for skill updates"
-    ],
+    "version": "1.1.1",
+    "date": "2026-02-07",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.1",
+    "features": [],
     "bugFixes": [
-      "Fix `TENANT_COMMON` constant usage in MasterSettingService and MasterDataService"
+      "Add missing `import_tmp.json` DynamoDB table template"
     ],
     "security": []
   },
   "recent": [
+    {
+      "version": "1.1.1",
+      "date": "2026-02-07",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.1",
+      "features": [],
+      "bugFixes": [
+        "Add missing `import_tmp.json` DynamoDB table template"
+      ],
+      "security": []
+    },
     {
       "version": "1.1.0",
       "date": "2026-02-03",
@@ -56,20 +59,7 @@
       ],
       "bugFixes": [],
       "security": []
-    },
-    {
-      "version": "1.0.24",
-      "date": "2026-01-17",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.24",
-      "features": [
-        "Add Claude Code Skills for guided development assistance",
-        "Add `mbc install-skills` command for easy skills installation"
-      ],
-      "bugFixes": [
-        "Fix typo in parameter name `skExpession` to `skExpression`"
-      ],
-      "security": []
     }
   ],
-  "generated": "2026-02-03T04:36:49.874Z"
+  "generated": "2026-02-07T05:06:44.935Z"
 }

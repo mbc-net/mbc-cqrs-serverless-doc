@@ -130,5 +130,13 @@
   "If the table is missing, add it to your Prisma schema:": "If the table is missing, add it to your Prisma schema:",
   "Run Prisma migration:": "Run Prisma migration:",
   "Verify the DynamoDB tables also exist:": "Verify the DynamoDB tables also exist:",
-  "Should show: master-command, master-data, master-history": "Should show: master-command, master-data, master-history"
+  "Should show: master-command, master-data, master-history": "Should show: master-command, master-data, master-history",
+  "Serverless Offline fails with missing import_tmp stream": "Serverless Offline fails with missing import_tmp stream",
+  "`npm run offline:sls` fails because the `LOCAL_DDB_IMPORT_TMP_STREAM` environment variable is not set.": "`npm run offline:sls` fails because the `LOCAL_DDB_IMPORT_TMP_STREAM` environment variable is not set.",
+  "The `import_tmp.json` table definition file is missing from `prisma/dynamodbs/`. Without it, `npm run migrate` cannot create the `import_tmp` DynamoDB table, so the stream ARN is never written to `.env`.": "The `import_tmp.json` table definition file is missing from `prisma/dynamodbs/`. Without it, `npm run migrate` cannot create the `import_tmp` DynamoDB table, so the stream ARN is never written to `.env`.",
+  "Known Issue (Fixed in v1.1.1)": "Known Issue (Fixed in v1.1.1)",
+  "In versions prior to v1.1.1, the `import_tmp.json` template was not included in CLI scaffolded projects. This was fixed in [version 1.1.1](/docs/changelog#v111).": "In versions prior to v1.1.1, the `import_tmp.json` template was not included in CLI scaffolded projects. This was fixed in [version 1.1.1](/docs/changelog#v111).",
+  "Create `prisma/dynamodbs/import_tmp.json` with the following content:": "Create `prisma/dynamodbs/import_tmp.json` with the following content:",
+  "Then re-run the migration:": "Then re-run the migration:",
+  "The migration script will automatically create the table and add the `LOCAL_DDB_IMPORT_TMP_STREAM` entry to your `.env` file.": "The migration script will automatically create the table and add the `LOCAL_DDB_IMPORT_TMP_STREAM` entry to your `.env` file."
 }

@@ -21,6 +21,7 @@ graph TB
     subgraph "{{System Tables}}"
         D["{{tasks}}"]
         E["{{sequences}}"]
+        F["{{import_tmp}}"]
     end
 
     A -->|"{{DynamoDB Streams}}"| B
@@ -43,6 +44,7 @@ graph TB
 |--------|---------|
 | `tasks` | {{Stores information about long-running asynchronous tasks}} |
 | `sequences` | {{Holds sequence data for ID generation}} |
+| `import_tmp` | {{Stores temporary data for import operations via Step Functions}} |
 
 ## {{Table Definition}}
 
@@ -67,6 +69,20 @@ npm run migrate:ddb
 # Migrate both DynamoDB and RDS
 npm run migrate
 ```
+
+### {{System Table Definitions}} {#system-table-definitions}
+
+{{System tables (`tasks`, `sequences`, `import_tmp`) have their own JSON definition files in the `prisma/dynamodbs/` folder. These are automatically created during migration:}}
+
+| {{File}} | {{Table}} | {{Purpose}} |
+|------|---------|---------|
+| `tasks.json` | `tasks` | {{Task management with DynamoDB Streams}} |
+| `sequences.json` | `sequences` | {{Sequence ID generation}} |
+| `import_tmp.json` | `import_tmp` | {{Temporary import data with DynamoDB Streams for [ImportModule](/docs/import)}} |
+
+:::info {{Version Note}}
+{{The `import_tmp.json` template was added in [version 1.1.1](/docs/changelog#v111). If you created your project with an earlier version and use the ImportModule, you need to add this file manually. See [Common Issues](/docs/common-issues#missing-import-tmp-table) for details.}}
+:::
 
 ## {{Key Design Patterns}}
 

@@ -98,5 +98,15 @@
   "[Key Patterns](./key-patterns.md): Detailed key design strategies": "[Key Patterns](./key-patterns.md): Detailed key design strategies",
   "[Entity Patterns](./entity-patterns.md): Entity modeling guidelines": "[Entity Patterns](./entity-patterns.md): Entity modeling guidelines",
   "[Sequence](./sequence.md): Sequence ID generation": "[Sequence](./sequence.md): Sequence ID generation",
-  "[CommandService](./command-service.md): Command handling and data sync": "[CommandService](./command-service.md): Command handling and data sync"
+  "[CommandService](./command-service.md): Command handling and data sync": "[CommandService](./command-service.md): Command handling and data sync",
+  "import_tmp": "import_tmp",
+  "Stores temporary data for import operations via Step Functions": "Stores temporary data for import operations via Step Functions",
+  "System Table Definitions": "System Table Definitions",
+  "System tables (`tasks`, `sequences`, `import_tmp`) have their own JSON definition files in the `prisma/dynamodbs/` folder. These are automatically created during migration:": "System tables (`tasks`, `sequences`, `import_tmp`) have their own JSON definition files in the `prisma/dynamodbs/` folder. These are automatically created during migration:",
+  "File": "File",
+  "Task management with DynamoDB Streams": "Task management with DynamoDB Streams",
+  "Sequence ID generation": "Sequence ID generation",
+  "Temporary import data with DynamoDB Streams for [ImportModule](/docs/import)": "Temporary import data with DynamoDB Streams for [ImportModule](/docs/import)",
+  "Version Note": "Version Note",
+  "The `import_tmp.json` template was added in [version 1.1.1](/docs/changelog#v111). If you created your project with an earlier version and use the ImportModule, you need to add this file manually. See [Common Issues](/docs/common-issues#missing-import-tmp-table) for details.": "The `import_tmp.json` template was added in [version 1.1.1](/docs/changelog#v111). If you created your project with an earlier version and use the ImportModule, you need to add this file manually. See [Common Issues](/docs/common-issues#missing-import-tmp-table) for details."
 }

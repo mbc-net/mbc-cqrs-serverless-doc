@@ -130,5 +130,13 @@
   "If the table is missing, add it to your Prisma schema:": "テーブルがない場合は、Prismaスキーマに追加：",
   "Run Prisma migration:": "Prismaマイグレーションを実行：",
   "Verify the DynamoDB tables also exist:": "DynamoDBテーブルも存在することを確認：",
-  "Should show: master-command, master-data, master-history": "表示されるはず: master-command, master-data, master-history"
+  "Should show: master-command, master-data, master-history": "表示されるはず: master-command, master-data, master-history",
+  "Serverless Offline fails with missing import_tmp stream": "import_tmpストリームが見つからずServerless Offlineが失敗する",
+  "`npm run offline:sls` fails because the `LOCAL_DDB_IMPORT_TMP_STREAM` environment variable is not set.": "`LOCAL_DDB_IMPORT_TMP_STREAM`環境変数が設定されていないため、`npm run offline:sls`が失敗する。",
+  "The `import_tmp.json` table definition file is missing from `prisma/dynamodbs/`. Without it, `npm run migrate` cannot create the `import_tmp` DynamoDB table, so the stream ARN is never written to `.env`.": "`prisma/dynamodbs/`に`import_tmp.json`テーブル定義ファイルがありません。これがないと、`npm run migrate`が`import_tmp` DynamoDBテーブルを作成できず、ストリームARNが`.env`に書き込まれません。",
+  "Known Issue (Fixed in v1.1.1)": "既知の問題（v1.1.1で修正済み）",
+  "In versions prior to v1.1.1, the `import_tmp.json` template was not included in CLI scaffolded projects. This was fixed in [version 1.1.1](/docs/changelog#v111).": "v1.1.1より前のバージョンでは、CLIでスキャフォールドされたプロジェクトに`import_tmp.json`テンプレートが含まれていませんでした。これは[バージョン1.1.1](/docs/changelog#v111)で修正されました。",
+  "Create `prisma/dynamodbs/import_tmp.json` with the following content:": "以下の内容で`prisma/dynamodbs/import_tmp.json`を作成してください：",
+  "Then re-run the migration:": "その後、マイグレーションを再実行してください：",
+  "The migration script will automatically create the table and add the `LOCAL_DDB_IMPORT_TMP_STREAM` entry to your `.env` file.": "マイグレーションスクリプトが自動的にテーブルを作成し、`LOCAL_DDB_IMPORT_TMP_STREAM`エントリを`.env`ファイルに追加します。"
 }
