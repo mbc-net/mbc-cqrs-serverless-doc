@@ -272,7 +272,9 @@ export default function MasterDataPage() {
 
 ### {{EditMasterData}}
 
-{{Form component for creating and editing master data records.}}
+{{Form component for creating and editing master data records. Automatically renders form controls based on the `fields` definition in the corresponding master setting's `attributes.fields`.}}
+
+{{The component always displays `code` and `name` as fixed fields. Any additional fields defined in `attributes.fields` (other than `code` and `name`) are rendered as custom form controls based on their `uiComponent` type.}}
 
 ```tsx
 import { EditMasterData } from "@mbc-cqrs-serverless/master-web";
@@ -281,6 +283,14 @@ export default function EditMasterDataPage({ params }: { params: { id: string } 
   return <EditMasterData id={params.id} />;
 }
 ```
+
+### {{AddJsonData}}
+
+{{JSON editor component for bulk importing master settings and master data via JSON. This component is used internally by `EditMasterSettings` for the JSON import tab.}}
+
+:::warning {{Create-only by Default}}
+{{`AddJsonData` uses hardcoded API URLs (`/master-setting/bulk` for settings, `/master-data/bulk` for data) which call the framework's `createBulk` method. This means re-importing JSON data for existing records will fail with a `BadRequestException`. To support upsert behavior, use an Axios interceptor to rewrite these URLs to custom upsert endpoints. See [Master - Upsert Pattern](./master#upsert-pattern) for details.}}
+:::
 
 ## {{Provider Setup}}
 
