@@ -12,6 +12,8 @@ import type { SidebarsConfig } from "@docusaurus/plugin-content-docs";
  */
 const sidebars: SidebarsConfig = {
   tutorialSidebar: [
+    // === 導入 ===
+
     // 1. Getting Started - 最初に読むべき導入セクション
     {
       type: "category",
@@ -48,6 +50,8 @@ const sidebars: SidebarsConfig = {
       ],
     },
 
+    // === 開発ガイド ===
+
     // 4. Backend Development - バックエンド開発の総合ガイド
     {
       type: "category",
@@ -70,7 +74,7 @@ const sidebars: SidebarsConfig = {
       ],
     },
 
-    // 5. Modules - 提供モジュールのAPIリファレンス
+    // 5. Modules - 提供モジュールのAPIリファレンス（Backend のすぐ後）
     {
       type: "category",
       label: "Modules",
@@ -111,20 +115,7 @@ const sidebars: SidebarsConfig = {
       ],
     },
 
-    // 6. Infrastructure - インフラストラクチャ設定
-    {
-      type: "category",
-      label: "Infrastructure",
-      items: [
-        "architecture/cdk-infrastructure",
-        "architecture/step-functions",
-        "dynamodb",
-        "database-selection-guide",
-        "prisma",
-      ],
-    },
-
-    // 7. Frontend Development - フロントエンド開発ガイド
+    // 6. Frontend Development - フロントエンド開発ガイド（Modules の直後）
     {
       type: "category",
       label: "Frontend Development",
@@ -138,18 +129,26 @@ const sidebars: SidebarsConfig = {
       ],
     },
 
+    // === 共通基盤 ===
+
+    // 7. Infrastructure - インフラストラクチャ設定
+    {
+      type: "category",
+      label: "Infrastructure",
+      items: [
+        "architecture/cdk-infrastructure",
+        "architecture/step-functions",
+        "dynamodb",
+        "database-selection-guide",
+        "prisma",
+      ],
+    },
+
     // 8. Security - セキュリティガイド
     {
       type: "category",
       label: "Security",
       items: ["security-best-practices", "authentication"],
-    },
-
-    // 9. Deployment & Operations - デプロイと運用
-    {
-      type: "category",
-      label: "Deployment & Operations",
-      items: ["deployment-guide", "codepipeline-cicd", "monitoring-logging"],
     },
 
     // 9. Configuration - 設定ガイド
@@ -177,12 +176,16 @@ const sidebars: SidebarsConfig = {
       items: ["unit-test", "e2e-test"],
     },
 
-    // 11. Troubleshooting - トラブルシューティング
+    // === 運用 ===
+
+    // 11. Deployment & Operations - デプロイと運用
     {
       type: "category",
-      label: "Troubleshooting",
-      items: ["common-issues", "debugging-guide"],
+      label: "Deployment & Operations",
+      items: ["deployment-guide", "codepipeline-cicd", "monitoring-logging"],
     },
+
+    // === 実践・サポート ===
 
     // 12. Examples - 実践的なサンプル
     {
@@ -206,14 +209,23 @@ const sidebars: SidebarsConfig = {
       items: ["mcp-server", "ai-prompts"],
     },
 
-    // 14. Reference - リファレンス
+    // 14. Troubleshooting - トラブルシューティング
+    {
+      type: "category",
+      label: "Troubleshooting",
+      items: ["common-issues", "debugging-guide"],
+    },
+
+    // === リファレンス ===
+
+    // 15. Reference - リファレンス
     {
       type: "category",
       label: "Reference",
       items: ["helpers", "interfaces", "error-catalog", "anti-patterns", "glossary"],
     },
 
-    // 15. Migration Guides - バージョン別マイグレーションガイド
+    // 16. Migration Guides - バージョン別マイグレーションガイド
     {
       type: "category",
       label: "Migration Guides",
@@ -222,7 +234,7 @@ const sidebars: SidebarsConfig = {
       ],
     },
 
-    // 16. Changelog - 変更履歴（トップレベル）
+    // 17. Changelog - 変更履歴
     "changelog",
   ],
 };
