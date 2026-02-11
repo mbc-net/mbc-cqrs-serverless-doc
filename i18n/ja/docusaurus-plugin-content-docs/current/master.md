@@ -234,6 +234,11 @@ const masterSetting = await this.masterSettingService.create(
 
 #### `createBulk(createDto: CommonSettingBulkDto, invokeContext: IInvoke): Promise<CommandModel[]>`
 複数の設定を一度に作成します。
+
+:::warning 新規作成のみの操作
+`createBulk`は内部的に各アイテムに対して`create`を呼び出します。設定が既に存在する場合（例: `"Setting already exists: {code}"`）、`BadRequestException`をスローします。このメソッドは既存の設定の更新には使用できません。upsert動作（作成または更新）が必要な場合は、以下の[Upsertパターン](#upsert-pattern)セクションを参照してください。
+:::
+
 ```ts
 const settings = await this.masterSettingService.createBulk(
   {
@@ -405,6 +410,10 @@ const masterData = await this.masterDataService.getDetail({
 #### `createSetting(createDto: MasterDataCreateDto, invokeContext: IInvoke): Promise<MasterDataEntity>`
 新しいマスターデータエンティティを作成します。シーケンスが指定されていない場合は自動生成されます。
 
+:::warning 新規作成のみの操作
+`createSetting`はマスターデータが既に存在する場合（例: `"Master data already exists: {code}"`）、`BadRequestException`をスローします。upsert動作（作成または更新）が必要な場合は、以下の[Upsertパターン](#upsert-pattern)セクションを参照してください。
+:::
+
 ```ts
 const masterData = await this.masterDataService.createSetting(
   {
@@ -423,6 +432,10 @@ const masterData = await this.masterDataService.createSetting(
 
 #### `createBulk(createDto: MasterDataCreateBulkDto, invokeContext: IInvoke): Promise<MasterDataEntity[]>`
 複数のマスターデータエンティティを一括作成します。
+
+:::warning 新規作成のみの操作
+`createBulk`は内部的に各アイテムに対して`createSetting`を呼び出します。既に存在するアイテムがある場合、`BadRequestException`をスローします。upsert動作が必要な場合は、以下の[Upsertパターン](#upsert-pattern)セクションを参照してください。
+:::
 
 ```ts
 const masterDataList = await this.masterDataService.createBulk(
@@ -516,3 +529,258 @@ v1.0.16以前をご使用で、`settingCode` の完全一致が必要な場合�
 
 参照： [変更履歴 v1.0.17](./changelog#v1017)
 :::
+
+## Upsertパターン {#upsert-pattern}
+
+`createBulk`と`createSetting`メソッドは**新規作成のみ**の操作です。同じコードのレコードが既に存在する場合、`BadRequestException`をスローします。これは、master-web JSONエディタ経由で既存レコードのJSONデータを再インポートすると失敗することを意味します。
+
+新規レコードの作成と既存レコードの更新の両方をサポートするには（upsert動作）、既存レコードの有無を確認してからcreateまたはupdateを呼び分けるカスタムupsertサービスを実装してください。
+
+### マスター設定のUpsert
+
+```ts
+import {
+  CommandModel,
+  getUserContext,
+  IInvoke,
+  KEY_SEPARATOR,
+} from '@mbc-cqrs-serverless/core'
+import {
+  CommonSettingDto,
+  MasterSettingService,
+} from '@mbc-cqrs-serverless/master'
+import { Injectable, Logger } from '@nestjs/common'
+import { PrismaService } from 'src/prisma'
+
+const MASTER_PK_PREFIX = 'MASTER'
+const SETTING_SK_PREFIX = 'MASTER_SETTING'
+
+@Injectable()
+export class MasterSettingUpsertService {
+  private readonly logger = new Logger(MasterSettingUpsertService.name)
+
+  constructor(
+    private readonly masterSettingService: MasterSettingService,
+    private readonly prismaService: PrismaService,
+  ) {}
+
+  async upsertBulk(
+    items: CommonSettingDto[],
+    invokeContext: IInvoke,
+  ): Promise<CommandModel[]> {
+    const results: CommandModel[] = []
+    for (const item of items) {
+      const result = await this.upsertOne(item, invokeContext)
+      results.push(result)
+    }
+    return results
+  }
+
+  private async upsertOne(
+    dto: CommonSettingDto,
+    invokeContext: IInvoke,
+  ): Promise<CommandModel> {
+    const userContext = getUserContext(invokeContext)
+    const tenantCode = dto.tenantCode ?? userContext.tenantCode
+
+    // Check if record exists in RDS (RDSにレコードが存在するか確認)
+    const existing = await this.prismaService.master.findFirst({
+      where: {
+        tenantCode,
+        masterType: SETTING_SK_PREFIX,
+        masterCode: dto.code,
+        isDeleted: false,
+      },
+    })
+
+    if (existing) {
+      // Update existing setting (既存の設定を更新)
+      const pk = `${MASTER_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`
+      const sk = `${SETTING_SK_PREFIX}${KEY_SEPARATOR}${dto.code}`
+      return this.masterSettingService.updateSetting(
+        { pk, sk },
+        {
+          code: dto.code,
+          tenantCode,
+          name: dto.name,
+          settingValue: dto.settingValue,
+        },
+        { invokeContext },
+      )
+    } else {
+      // Create new setting (新しい設定を作成)
+      return this.masterSettingService.create(dto, invokeContext)
+    }
+  }
+}
+```
+
+### マスターデータのUpsert
+
+```ts
+import {
+  getUserContext,
+  IInvoke,
+  KEY_SEPARATOR,
+} from '@mbc-cqrs-serverless/core'
+import {
+  MasterDataCreateDto,
+  MasterDataService,
+} from '@mbc-cqrs-serverless/master'
+import { Injectable, Logger } from '@nestjs/common'
+import { PrismaService } from 'src/prisma'
+
+const MASTER_PK_PREFIX = 'MASTER'
+const DATA_SK_PREFIX = 'MASTER_DATA'
+
+@Injectable()
+export class MasterDataUpsertService {
+  private readonly logger = new Logger(MasterDataUpsertService.name)
+
+  constructor(
+    private readonly masterDataService: MasterDataService,
+    private readonly prismaService: PrismaService,
+  ) {}
+
+  async upsertBulk(
+    items: MasterDataCreateDto[],
+    invokeContext: IInvoke,
+  ) {
+    const results = []
+    for (const item of items) {
+      const result = await this.upsertOne(item, invokeContext)
+      results.push(result)
+    }
+    return results
+  }
+
+  private async upsertOne(
+    dto: MasterDataCreateDto,
+    invokeContext: IInvoke,
+  ) {
+    const userContext = getUserContext(invokeContext)
+    const tenantCode = dto.tenantCode ?? userContext.tenantCode
+    const sk = `${DATA_SK_PREFIX}${KEY_SEPARATOR}${dto.settingCode}${KEY_SEPARATOR}${dto.code}`
+
+    // Check if record exists in RDS (RDSにレコードが存在するか確認)
+    const existing = await this.prismaService.master.findFirst({
+      where: {
+        tenantCode,
+        masterType: DATA_SK_PREFIX,
+        sk,
+        isDeleted: false,
+      },
+    })
+
+    if (existing) {
+      // Update existing data (既存のデータを更新)
+      const pk = `${MASTER_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`
+      return this.masterDataService.updateSetting(
+        { pk, sk },
+        { name: dto.name, seq: dto.seq, attributes: dto.attributes },
+        invokeContext,
+      )
+    } else {
+      // Create new data (新しいデータを作成)
+      return this.masterDataService.createSetting(dto, invokeContext)
+    }
+  }
+}
+```
+
+### Upsertコントローラー
+
+`/upsert-bulk`エンドポイントを公開するカスタムコントローラーにupsertサービスを登録します：
+
+```ts
+import { INVOKE_CONTEXT, IInvoke } from '@mbc-cqrs-serverless/core'
+import { Body, Controller, Post } from '@nestjs/common'
+import { MasterSettingUpsertService } from './master-setting-upsert.service'
+
+@Controller('api/master-setting')
+export class MasterSettingUpsertController {
+  constructor(
+    private readonly upsertService: MasterSettingUpsertService,
+  ) {}
+
+  @Post('/upsert-bulk')
+  async upsertBulk(
+    @Body() dto: { items: any[] },
+    @INVOKE_CONTEXT() invokeContext: IInvoke,
+  ) {
+    return this.upsertService.upsertBulk(dto.items, invokeContext)
+  }
+}
+```
+
+### モジュール登録
+
+フレームワークの`MasterModule`と一緒にupsertコントローラーとサービスを登録します：
+
+```ts
+import { MasterModule as CoreMasterModule } from '@mbc-cqrs-serverless/master'
+import { Module } from '@nestjs/common'
+import { PrismaService } from 'src/prisma'
+
+@Module({
+  imports: [
+    CoreMasterModule.register({
+      enableController: true,
+      prismaService: PrismaService,
+      dataSyncHandlers: [MasterDataSyncRdsHandler],
+    }),
+  ],
+  controllers: [
+    MasterSettingUpsertController,
+    MasterDataUpsertController,
+  ],
+  providers: [
+    MasterSettingUpsertService,
+    MasterDataUpsertService,
+  ],
+})
+export class MasterModule {}
+```
+
+### Axiosインターセプターによるフロントエンド統合
+
+master-webの`AddJsonData`コンポーネントは一括作成用のハードコードされたAPI URL（`/master-setting/bulk`と`/master-data/bulk`）を使用しています。これらのリクエストをカスタムupsertエンドポイントにリダイレクトするには、Axiosリクエストインターセプターを追加します：
+
+```tsx
+const httpClient = useMemo(() => {
+  const instance = axios.create({
+    baseURL: `${baseEndpoint}/api`,
+    headers: {
+      'Content-Type': 'application/json',
+      'x-tenant-code': tenantCode,
+    },
+  })
+
+  instance.interceptors.request.use(async (config) => {
+    // Rewrite bulk create APIs to upsert-bulk APIs (一括作成APIをupsert-bulk APIに書き換え)
+    if (config.method?.toUpperCase() === 'POST') {
+      if (config.url === '/master-setting/bulk') {
+        config.url = '/master-setting/upsert-bulk'
+      } else if (config.url === '/master-data/bulk') {
+        config.url = '/master-data/upsert-bulk'
+      }
+    }
+
+    // Inject auth token (認証トークンを注入)
+    try {
+      const session = await fetchAuthSession()
+      const token = session.tokens?.idToken?.toString()
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`
+      }
+    } catch {
+      // Ignore auth errors (認証エラーを無視)
+    }
+    return config
+  })
+
+  return instance
+}, [tenantCode])
+```
+
+このインターセプターにより、master-web JSONエディタは新規作成のみのエンドポイントの代わりにupsertエンドポイントを自動的に呼び出し、初回登録とJSONデータの再インポートの両方が可能になります。

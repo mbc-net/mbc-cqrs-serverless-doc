@@ -1330,6 +1330,10 @@ import "@mbc-cqrs-serverless/master-web/styles.css";
 
 ## {{Next.js App Router Integration}} {#nextjs-app-router-integration}
 
+:::info {{Version Note}}
+{{In [v0.0.42](/docs/web-changelog#v0042), React/Next.js were externalized as peer dependencies, resolving the Context isolation issue that caused `httpClient.get is not a function` errors. If you are using v0.0.41 or earlier, upgrade to v0.0.42 or later for the fix.}}
+:::
+
 {{When using master-web components with Next.js App Router (v14+/v15), there are important considerations for handling Server-Side Rendering (SSR) and client-side state.}}
 
 ### {{SSR Compatibility Issue}}
@@ -1769,3 +1773,9 @@ class MasterUrlProvider extends BaseUrlProvider {
 - {{Tailwind CSS 3.x}}
 - {{react-hook-form}}
 - {{Zod for validation}}
+
+## {{Changelog}}
+
+:::info {{Version History}}
+{{See [Web Packages Changelog](/docs/web-changelog) for all version history and release notes.}}
+:::

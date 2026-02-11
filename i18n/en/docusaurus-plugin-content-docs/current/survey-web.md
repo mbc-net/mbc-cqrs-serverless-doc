@@ -12,6 +12,10 @@ Frontend component library for survey template management and form rendering in 
 npm install @mbc-cqrs-serverless/survey-web
 ```
 
+:::info Version Note
+In [v0.0.42](/docs/web-changelog#v0042), React and React DOM were externalized as peer dependencies, resolving the Context isolation issue. If you are using v0.0.41 or earlier, upgrade to v0.0.42 or later for the fix.
+:::
+
 ## Overview
 
 The Survey Web package (`@mbc-cqrs-serverless/survey-web`) provides React components for creating, editing, and rendering survey templates. It supports multiple question types, drag-and-drop section reordering, and real-time collaboration through AWS AppSync.
@@ -743,3 +747,9 @@ Key dependencies used by this package:
 - Zod for validation
 - date-fns for date handling
 - lucide-react for icons
+
+## Changelog
+
+:::info Version History
+See [Web Packages Changelog](/docs/web-changelog) for all version history and release notes.
+:::

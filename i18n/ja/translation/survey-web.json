@@ -1,4 +1,6 @@
 {
+  "Version Note": "バージョン情報",
+  "In [v0.0.42](/docs/web-changelog#v0042), React and React DOM were externalized as peer dependencies, resolving the Context isolation issue. If you are using v0.0.41 or earlier, upgrade to v0.0.42 or later for the fix.": "[v0.0.42](/docs/web-changelog#v0042)で、ReactとReact DOMがpeer dependenciesとして外部化され、Context分離問題が解消されました。v0.0.41以前をお使いの場合は、v0.0.42以降にアップグレードしてください。",
   "Learn about the Survey Web package for building survey and questionnaire UI components.": "アンケート・調査票UIコンポーネントを構築するためのSurvey Webパッケージについて学びます。",
   "Survey Web": "Survey用フロントパッケージ",
   "Frontend component library for survey template management and form rendering in MBC CQRS Serverless applications.": "MBC CQRS Serverlessアプリケーションでアンケートテンプレートの管理とフォームレンダリングを行うためのフロントエンドコンポーネントライブラリです。",
@@ -222,5 +224,8 @@
   "boolean - True if submit should be disabled": "boolean - True if submit should be disabled (送信を無効にすべき場合はtrue)",
   "React.RefObject<HTMLButtonElement> - Ref for submit button": "React.RefObject<HTMLButtonElement> - Ref for submit button (送信ボタンのRef)",
   "(id: string) => Promise<void> - Delete survey by ID": "(id: string) => Promise<void> - Delete survey by ID (IDでアンケートを削除する関数)",
-  "boolean - True while deletion is in progress": "boolean - True while deletion is in progress (削除中はtrue)"
+  "boolean - True while deletion is in progress": "boolean - True while deletion is in progress (削除中はtrue)",
+  "Changelog": "変更履歴",
+  "Version History": "バージョン履歴",
+  "See [Web Packages Changelog](/docs/web-changelog) for all version history and release notes.": "すべてのバージョン履歴とリリースノートは[Webパッケージ変更履歴](/docs/web-changelog)を参照してください。"
 }

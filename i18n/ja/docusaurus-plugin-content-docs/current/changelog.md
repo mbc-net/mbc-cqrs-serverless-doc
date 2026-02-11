@@ -1,5 +1,6 @@
 ---
 sidebar_position: 100
+sidebar_label: "バックエンド（フレームワーク）"
 description: MBC CQRS Serverlessのリリースにおけるすべての注目すべき変更、新機能、バグ修正を追跡します。
 ---
 

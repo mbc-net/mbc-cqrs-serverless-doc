@@ -1,4 +1,6 @@
 {
+  "Version Note": "Version Note",
+  "In [v0.0.42](/docs/web-changelog#v0042), React/Next.js were externalized as peer dependencies, resolving the Context isolation issue that caused `httpClient.get is not a function` errors. If you are using v0.0.41 or earlier, upgrade to v0.0.42 or later for the fix.": "In [v0.0.42](/docs/web-changelog#v0042), React/Next.js were externalized as peer dependencies, resolving the Context isolation issue that caused `httpClient.get is not a function` errors. If you are using v0.0.41 or earlier, upgrade to v0.0.42 or later for the fix.",
   "Import Options": "Import Options",
   "Components can be imported from the main package or via sub-path imports:": "Components can be imported from the main package or via sub-path imports:",
   "Main package import": "Main package import",
@@ -388,6 +390,9 @@
   "Implementing IUrlProvider Directly": "Implementing IUrlProvider Directly",
   "When implementing the `IUrlProvider` interface directly without extending `BaseUrlProvider`, you need to explicitly define all URL properties. See the Layout-based Provider Pattern example above for reference.": "When implementing the `IUrlProvider` interface directly without extending `BaseUrlProvider`, you need to explicitly define all URL properties. See the Layout-based Provider Pattern example above for reference.",
   "Next.js 14.x / 15.x": "Next.js 14.x / 15.x",
+  "Changelog": "Changelog",
+  "Version History": "Version History",
+  "See [Web Packages Changelog](/docs/web-changelog) for all version history and release notes.": "See [Web Packages Changelog](/docs/web-changelog) for all version history and release notes.",
   "Quick Start (Recommended Setup)": "Quick Start (Recommended Setup)",
   "Start Here": "Start Here",
   "**This is the recommended way to integrate master-web with Next.js App Router.** Following this pattern will help you avoid common issues like `httpClient.get is not a function` errors.": "**This is the recommended way to integrate master-web with Next.js App Router.** Following this pattern will help you avoid common issues like `httpClient.get is not a function` errors.",
@@ -409,5 +414,11 @@
   "**Simple Page Components**": "**Simple Page Components**",
   "Pages only need dynamic imports and component rendering.": "Pages only need dynamic imports and component rendering.",
   "For More Details": "For More Details",
-  "See [Next.js App Router Integration](#nextjs-app-router-integration) for alternative patterns, troubleshooting, and detailed explanations.": "See [Next.js App Router Integration](#nextjs-app-router-integration) for alternative patterns, troubleshooting, and detailed explanations."
+  "See [Next.js App Router Integration](#nextjs-app-router-integration) for alternative patterns, troubleshooting, and detailed explanations.": "See [Next.js App Router Integration](#nextjs-app-router-integration) for alternative patterns, troubleshooting, and detailed explanations.",
+  "Form component for creating and editing master data records. Automatically renders form controls based on the `fields` definition in the corresponding master setting's `attributes.fields`.": "Form component for creating and editing master data records. Automatically renders form controls based on the `fields` definition in the corresponding master setting's `attributes.fields`.",
+  "The component always displays `code` and `name` as fixed fields. Any additional fields defined in `attributes.fields` (other than `code` and `name`) are rendered as custom form controls based on their `uiComponent` type.": "The component always displays `code` and `name` as fixed fields. Any additional fields defined in `attributes.fields` (other than `code` and `name`) are rendered as custom form controls based on their `uiComponent` type.",
+  "AddJsonData": "AddJsonData",
+  "JSON editor component for bulk importing master settings and master data via JSON. This component is used internally by `EditMasterSettings` for the JSON import tab.": "JSON editor component for bulk importing master settings and master data via JSON. This component is used internally by `EditMasterSettings` for the JSON import tab.",
+  "Create-only by Default": "Create-only by Default",
+  "`AddJsonData` uses hardcoded API URLs (`/master-setting/bulk` for settings, `/master-data/bulk` for data) which call the framework's `createBulk` method. This means re-importing JSON data for existing records will fail with a `BadRequestException`. To support upsert behavior, use an Axios interceptor to rewrite these URLs to custom upsert endpoints. See [Master - Upsert Pattern](./master#upsert-pattern) for details.": "`AddJsonData` uses hardcoded API URLs (`/master-setting/bulk` for settings, `/master-data/bulk` for data) which call the framework's `createBulk` method. This means re-importing JSON data for existing records will fail with a `BadRequestException`. To support upsert behavior, use an Axios interceptor to rewrite these URLs to custom upsert endpoints. See [Master - Upsert Pattern](./master#upsert-pattern) for details."
 }

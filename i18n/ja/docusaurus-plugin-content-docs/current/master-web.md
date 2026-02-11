@@ -272,7 +272,9 @@ export default function MasterDataPage() {
 
 ### EditMasterData
 
-マスターデータレコードの作成・編集用フォームコンポーネント。
+マスターデータレコードの作成・編集用フォームコンポーネント。対応するマスター設定の`attributes.fields`の`fields`定義に基づいて、フォームコントロールを自動的にレンダリングします。
+
+コンポーネントは常に`code`と`name`を固定フィールドとして表示します。`attributes.fields`に定義された追加フィールド（`code`と`name`以外）は、`uiComponent`タイプに基づいてカスタムフォームコントロールとしてレンダリングされます。
 
 ```tsx
 import { EditMasterData } from "@mbc-cqrs-serverless/master-web";
@@ -281,6 +283,14 @@ export default function EditMasterDataPage({ params }: { params: { id: string } 
   return <EditMasterData id={params.id} />;
 }
 ```
+
+### AddJsonData
+
+JSON経由でマスター設定とマスターデータを一括インポートするためのJSONエディタコンポーネント。このコンポーネントは`EditMasterSettings`のJSONインポートタブで内部的に使用されます。
+
+:::warning デフォルトでは新規作成のみ
+`AddJsonData`はハードコードされたAPI URL（設定用の`/master-setting/bulk`、データ用の`/master-data/bulk`）を使用し、フレームワークの`createBulk`メソッドを呼び出します。そのため、既存レコードのJSONデータを再インポートすると`BadRequestException`で失敗します。upsert動作をサポートするには、AxiosインターセプターでこれらのURLをカスタムupsertエンドポイントに書き換えてください。詳細は[Master - Upsertパターン](./master#upsert-pattern)を参照してください。
+:::
 
 ## プロバイダーのセットアップ
 
@@ -1320,6 +1330,10 @@ import "@mbc-cqrs-serverless/master-web/styles.css";
 
 ## Next.js App Router との統合 {#nextjs-app-router-integration}
 
+:::info バージョン情報
+[v0.0.42](/docs/web-changelog#v0042)で、React/Next.jsがpeer dependenciesとして外部化され、`httpClient.get is not a function`エラーの原因となっていたContext分離問題が解消されました。v0.0.41以前をお使いの場合は、v0.0.42以降にアップグレードしてください。
+:::
+
 Next.js App Router（v14+/v15）で master-web コンポーネントを使用する場合、サーバーサイドレンダリング（SSR）とクライアントサイドの状態管理に関する重要な考慮事項があります。
 
 ### SSR 互換性の問題
@@ -1759,3 +1773,9 @@ class MasterUrlProvider extends BaseUrlProvider {
 - Tailwind CSS 3.x
 - react-hook-form
 - バリデーション用Zod
+
+## 変更履歴
+
+:::info バージョン履歴
+すべてのバージョン履歴とリリースノートは[Webパッケージ変更履歴](/docs/web-changelog)を参照してください。
+:::

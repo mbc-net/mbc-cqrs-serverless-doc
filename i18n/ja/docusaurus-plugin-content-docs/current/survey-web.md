@@ -12,6 +12,10 @@ MBC CQRS Serverlessアプリケーションでアンケートテンプレート�
 npm install @mbc-cqrs-serverless/survey-web
 ```
 
+:::info バージョン情報
+[v0.0.42](/docs/web-changelog#v0042)で、ReactとReact DOMがpeer dependenciesとして外部化され、Context分離問題が解消されました。v0.0.41以前をお使いの場合は、v0.0.42以降にアップグレードしてください。
+:::
+
 ## 概要
 
 Survey Webパッケージ（`@mbc-cqrs-serverless/survey-web`）は、アンケートテンプレートの作成、編集、レンダリング用のReactコンポーネントを提供します。複数の質問タイプ、ドラッグ&ドロップによるセクション並び替え、AWS AppSyncを通じたリアルタイムコラボレーションをサポートしています。
@@ -743,3 +747,9 @@ import "@mbc-cqrs-serverless/survey-web/styles.css";
 - バリデーション用Zod
 - 日付処理用date-fns
 - アイコン用lucide-react
+
+## 変更履歴
+
+:::info バージョン履歴
+すべてのバージョン履歴とリリースノートは[Webパッケージ変更履歴](/docs/web-changelog)を参照してください。
+:::

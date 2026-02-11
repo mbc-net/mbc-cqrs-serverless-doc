@@ -1,4 +1,6 @@
 {
+  "Version Note": "バージョン情報",
+  "In [v0.0.42](/docs/web-changelog#v0042), React/Next.js were externalized as peer dependencies, resolving the Context isolation issue that caused `httpClient.get is not a function` errors. If you are using v0.0.41 or earlier, upgrade to v0.0.42 or later for the fix.": "[v0.0.42](/docs/web-changelog#v0042)で、React/Next.jsがpeer dependenciesとして外部化され、`httpClient.get is not a function`エラーの原因となっていたContext分離問題が解消されました。v0.0.41以前をお使いの場合は、v0.0.42以降にアップグレードしてください。",
   "Quick Start (Recommended Setup)": "クイックスタート（推奨セットアップ）",
   "Start Here": "ここから始めましょう",
   "**This is the recommended way to integrate master-web with Next.js App Router.** Following this pattern will help you avoid common issues like `httpClient.get is not a function` errors.": "**これがNext.js App Routerでmaster-webを統合する推奨方法です。** このパターンに従うことで、`httpClient.get is not a function`のような一般的なエラーを回避できます。",
@@ -413,6 +415,9 @@
   "Implementing IUrlProvider Directly": "IUrlProvider を直接実装する",
   "When implementing the `IUrlProvider` interface directly without extending `BaseUrlProvider`, you need to explicitly define all URL properties. See the Layout-based Provider Pattern example above for reference.": "`BaseUrlProvider` を継承せずに `IUrlProvider` インターフェースを直接実装する場合は、すべての URL プロパティを明示的に定義する必要があります。参考として上記の Layout ベースの Provider パターンの例を参照してください。",
   "Next.js 14.x / 15.x": "Next.js 14.x / 15.x",
+  "Changelog": "変更履歴",
+  "Version History": "バージョン履歴",
+  "See [Web Packages Changelog](/docs/web-changelog) for all version history and release notes.": "すべてのバージョン履歴とリリースノートは[Webパッケージ変更履歴](/docs/web-changelog)を参照してください。",
   "Quick Start (Recommended Setup)": "クイックスタート（推奨セットアップ）",
   "Start Here": "ここから始める",
   "**This is the recommended way to integrate master-web with Next.js App Router.** Following this pattern will help you avoid common issues like `httpClient.get is not a function` errors.": "**これは master-web を Next.js App Router と統合する推奨方法です。** このパターンに従うことで、`httpClient.get is not a function` などの一般的な問題を回避できます。",
@@ -434,5 +439,11 @@
   "**Simple Page Components**": "**シンプルなページコンポーネント**",
   "Pages only need dynamic imports and component rendering.": "ページは動的インポートとコンポーネントのレンダリングだけで済みます。",
   "For More Details": "詳細について",
-  "See [Next.js App Router Integration](#nextjs-app-router-integration) for alternative patterns, troubleshooting, and detailed explanations.": "代替パターン、トラブルシューティング、詳細な説明については[Next.js App Router統合](#nextjs-app-router-integration)を参照してください。"
+  "See [Next.js App Router Integration](#nextjs-app-router-integration) for alternative patterns, troubleshooting, and detailed explanations.": "代替パターン、トラブルシューティング、詳細な説明については[Next.js App Router統合](#nextjs-app-router-integration)を参照してください。",
+  "Form component for creating and editing master data records. Automatically renders form controls based on the `fields` definition in the corresponding master setting's `attributes.fields`.": "マスターデータレコードの作成・編集用フォームコンポーネント。対応するマスター設定の`attributes.fields`の`fields`定義に基づいて、フォームコントロールを自動的にレンダリングします。",
+  "The component always displays `code` and `name` as fixed fields. Any additional fields defined in `attributes.fields` (other than `code` and `name`) are rendered as custom form controls based on their `uiComponent` type.": "コンポーネントは常に`code`と`name`を固定フィールドとして表示します。`attributes.fields`に定義された追加フィールド（`code`と`name`以外）は、`uiComponent`タイプに基づいてカスタムフォームコントロールとしてレンダリングされます。",
+  "AddJsonData": "AddJsonData",
+  "JSON editor component for bulk importing master settings and master data via JSON. This component is used internally by `EditMasterSettings` for the JSON import tab.": "JSON経由でマスター設定とマスターデータを一括インポートするためのJSONエディタコンポーネント。このコンポーネントは`EditMasterSettings`のJSONインポートタブで内部的に使用されます。",
+  "Create-only by Default": "デフォルトでは新規作成のみ",
+  "`AddJsonData` uses hardcoded API URLs (`/master-setting/bulk` for settings, `/master-data/bulk` for data) which call the framework's `createBulk` method. This means re-importing JSON data for existing records will fail with a `BadRequestException`. To support upsert behavior, use an Axios interceptor to rewrite these URLs to custom upsert endpoints. See [Master - Upsert Pattern](./master#upsert-pattern) for details.": "`AddJsonData`はハードコードされたAPI URL（設定用の`/master-setting/bulk`、データ用の`/master-data/bulk`）を使用し、フレームワークの`createBulk`メソッドを呼び出します。そのため、既存レコードのJSONデータを再インポートすると`BadRequestException`で失敗します。upsert動作をサポートするには、AxiosインターセプターでこれらのURLをカスタムupsertエンドポイントに書き換えてください。詳細は[Master - Upsertパターン](./master#upsert-pattern)を参照してください。"
 }

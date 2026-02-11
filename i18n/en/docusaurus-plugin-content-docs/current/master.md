@@ -234,6 +234,11 @@ const masterSetting = await this.masterSettingService.create(
 
 #### `createBulk(createDto: CommonSettingBulkDto, invokeContext: IInvoke): Promise<CommandModel[]>`
 Creates multiple settings at once.
+
+:::warning Create-only Operation
+`createBulk` internally calls `create` for each item, which throws a `BadRequestException` if the setting already exists (e.g., `"Setting already exists: {code}"`). This method cannot be used to update existing settings. If you need upsert behavior (create or update), see the [Upsert Pattern](#upsert-pattern) section below.
+:::
+
 ```ts
 const settings = await this.masterSettingService.createBulk(
   {
@@ -405,6 +410,10 @@ const masterData = await this.masterDataService.getDetail({
 #### `createSetting(createDto: MasterDataCreateDto, invokeContext: IInvoke): Promise<MasterDataEntity>`
 Creates a new master data entity with automatic sequence generation if not provided.
 
+:::warning Create-only Operation
+`createSetting` throws a `BadRequestException` if the master data already exists (e.g., `"Master data already exists: {code}"`). If you need upsert behavior (create or update), see the [Upsert Pattern](#upsert-pattern) section below.
+:::
+
 ```ts
 const masterData = await this.masterDataService.createSetting(
   {
@@ -423,6 +432,10 @@ const masterData = await this.masterDataService.createSetting(
 
 #### `createBulk(createDto: MasterDataCreateBulkDto, invokeContext: IInvoke): Promise<MasterDataEntity[]>`
 Creates multiple master data entities in bulk.
+
+:::warning Create-only Operation
+`createBulk` internally calls `createSetting` for each item. It throws a `BadRequestException` if any item already exists. If you need upsert behavior, see the [Upsert Pattern](#upsert-pattern) section below.
+:::
 
 ```ts
 const masterDataList = await this.masterDataService.createBulk(
@@ -516,3 +529,258 @@ If you are using v1.0.16 or earlier and need exact matching for `settingCode`, u
 
 See also: [Changelog v1.0.17](./changelog#v1017)
 :::
+
+## Upsert Pattern {#upsert-pattern}
+
+The `createBulk` and `createSetting` methods are **create-only** operations. They throw a `BadRequestException` when a record with the same code already exists. This means re-importing JSON data via the master-web JSON editor will fail for existing records.
+
+To support both creating new records and updating existing ones (upsert behavior), implement a custom upsert service that checks for existing records before deciding whether to call create or update.
+
+### Master Setting Upsert
+
+```ts
+import {
+  CommandModel,
+  getUserContext,
+  IInvoke,
+  KEY_SEPARATOR,
+} from '@mbc-cqrs-serverless/core'
+import {
+  CommonSettingDto,
+  MasterSettingService,
+} from '@mbc-cqrs-serverless/master'
+import { Injectable, Logger } from '@nestjs/common'
+import { PrismaService } from 'src/prisma'
+
+const MASTER_PK_PREFIX = 'MASTER'
+const SETTING_SK_PREFIX = 'MASTER_SETTING'
+
+@Injectable()
+export class MasterSettingUpsertService {
+  private readonly logger = new Logger(MasterSettingUpsertService.name)
+
+  constructor(
+    private readonly masterSettingService: MasterSettingService,
+    private readonly prismaService: PrismaService,
+  ) {}
+
+  async upsertBulk(
+    items: CommonSettingDto[],
+    invokeContext: IInvoke,
+  ): Promise<CommandModel[]> {
+    const results: CommandModel[] = []
+    for (const item of items) {
+      const result = await this.upsertOne(item, invokeContext)
+      results.push(result)
+    }
+    return results
+  }
+
+  private async upsertOne(
+    dto: CommonSettingDto,
+    invokeContext: IInvoke,
+  ): Promise<CommandModel> {
+    const userContext = getUserContext(invokeContext)
+    const tenantCode = dto.tenantCode ?? userContext.tenantCode
+
+    // Check if record exists in RDS
+    const existing = await this.prismaService.master.findFirst({
+      where: {
+        tenantCode,
+        masterType: SETTING_SK_PREFIX,
+        masterCode: dto.code,
+        isDeleted: false,
+      },
+    })
+
+    if (existing) {
+      // Update existing setting
+      const pk = `${MASTER_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`
+      const sk = `${SETTING_SK_PREFIX}${KEY_SEPARATOR}${dto.code}`
+      return this.masterSettingService.updateSetting(
+        { pk, sk },
+        {
+          code: dto.code,
+          tenantCode,
+          name: dto.name,
+          settingValue: dto.settingValue,
+        },
+        { invokeContext },
+      )
+    } else {
+      // Create new setting
+      return this.masterSettingService.create(dto, invokeContext)
+    }
+  }
+}
+```
+
+### Master Data Upsert
+
+```ts
+import {
+  getUserContext,
+  IInvoke,
+  KEY_SEPARATOR,
+} from '@mbc-cqrs-serverless/core'
+import {
+  MasterDataCreateDto,
+  MasterDataService,
+} from '@mbc-cqrs-serverless/master'
+import { Injectable, Logger } from '@nestjs/common'
+import { PrismaService } from 'src/prisma'
+
+const MASTER_PK_PREFIX = 'MASTER'
+const DATA_SK_PREFIX = 'MASTER_DATA'
+
+@Injectable()
+export class MasterDataUpsertService {
+  private readonly logger = new Logger(MasterDataUpsertService.name)
+
+  constructor(
+    private readonly masterDataService: MasterDataService,
+    private readonly prismaService: PrismaService,
+  ) {}
+
+  async upsertBulk(
+    items: MasterDataCreateDto[],
+    invokeContext: IInvoke,
+  ) {
+    const results = []
+    for (const item of items) {
+      const result = await this.upsertOne(item, invokeContext)
+      results.push(result)
+    }
+    return results
+  }
+
+  private async upsertOne(
+    dto: MasterDataCreateDto,
+    invokeContext: IInvoke,
+  ) {
+    const userContext = getUserContext(invokeContext)
+    const tenantCode = dto.tenantCode ?? userContext.tenantCode
+    const sk = `${DATA_SK_PREFIX}${KEY_SEPARATOR}${dto.settingCode}${KEY_SEPARATOR}${dto.code}`
+
+    // Check if record exists in RDS
+    const existing = await this.prismaService.master.findFirst({
+      where: {
+        tenantCode,
+        masterType: DATA_SK_PREFIX,
+        sk,
+        isDeleted: false,
+      },
+    })
+
+    if (existing) {
+      // Update existing data
+      const pk = `${MASTER_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`
+      return this.masterDataService.updateSetting(
+        { pk, sk },
+        { name: dto.name, seq: dto.seq, attributes: dto.attributes },
+        invokeContext,
+      )
+    } else {
+      // Create new data
+      return this.masterDataService.createSetting(dto, invokeContext)
+    }
+  }
+}
+```
+
+### Upsert Controller
+
+Register the upsert services with custom controllers that expose `/upsert-bulk` endpoints:
+
+```ts
+import { INVOKE_CONTEXT, IInvoke } from '@mbc-cqrs-serverless/core'
+import { Body, Controller, Post } from '@nestjs/common'
+import { MasterSettingUpsertService } from './master-setting-upsert.service'
+
+@Controller('api/master-setting')
+export class MasterSettingUpsertController {
+  constructor(
+    private readonly upsertService: MasterSettingUpsertService,
+  ) {}
+
+  @Post('/upsert-bulk')
+  async upsertBulk(
+    @Body() dto: { items: any[] },
+    @INVOKE_CONTEXT() invokeContext: IInvoke,
+  ) {
+    return this.upsertService.upsertBulk(dto.items, invokeContext)
+  }
+}
+```
+
+### Module Registration
+
+Register the upsert controllers and services alongside the framework's `MasterModule`:
+
+```ts
+import { MasterModule as CoreMasterModule } from '@mbc-cqrs-serverless/master'
+import { Module } from '@nestjs/common'
+import { PrismaService } from 'src/prisma'
+
+@Module({
+  imports: [
+    CoreMasterModule.register({
+      enableController: true,
+      prismaService: PrismaService,
+      dataSyncHandlers: [MasterDataSyncRdsHandler],
+    }),
+  ],
+  controllers: [
+    MasterSettingUpsertController,
+    MasterDataUpsertController,
+  ],
+  providers: [
+    MasterSettingUpsertService,
+    MasterDataUpsertService,
+  ],
+})
+export class MasterModule {}
+```
+
+### Frontend Integration with Axios Interceptor
+
+The master-web `AddJsonData` component uses hardcoded API URLs (`/master-setting/bulk` and `/master-data/bulk`) for bulk creation. To redirect these requests to the custom upsert endpoints, add an Axios request interceptor:
+
+```tsx
+const httpClient = useMemo(() => {
+  const instance = axios.create({
+    baseURL: `${baseEndpoint}/api`,
+    headers: {
+      'Content-Type': 'application/json',
+      'x-tenant-code': tenantCode,
+    },
+  })
+
+  instance.interceptors.request.use(async (config) => {
+    // Rewrite bulk create APIs to upsert-bulk APIs
+    if (config.method?.toUpperCase() === 'POST') {
+      if (config.url === '/master-setting/bulk') {
+        config.url = '/master-setting/upsert-bulk'
+      } else if (config.url === '/master-data/bulk') {
+        config.url = '/master-data/upsert-bulk'
+      }
+    }
+
+    // Inject auth token
+    try {
+      const session = await fetchAuthSession()
+      const token = session.tokens?.idToken?.toString()
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`
+      }
+    } catch {
+      // Ignore auth errors
+    }
+    return config
+  })
+
+  return instance
+}, [tenantCode])
+```
+
+With this interceptor, the master-web JSON editor will automatically call the upsert endpoints instead of the create-only endpoints, allowing both initial registration and re-import of JSON data.

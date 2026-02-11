@@ -70,5 +70,13 @@
   "sidebar.tutorialSidebar.category.Reference": {
     "message": "リファレンス",
     "description": "The label for category Reference in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Migration Guides": {
+    "message": "マイグレーションガイド",
+    "description": "The label for category Migration Guides in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Changelog": {
+    "message": "変更履歴",
+    "description": "The label for category Changelog in sidebar tutorialSidebar"
   }
 }

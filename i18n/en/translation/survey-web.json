@@ -1,4 +1,6 @@
 {
+  "Version Note": "Version Note",
+  "In [v0.0.42](/docs/web-changelog#v0042), React and React DOM were externalized as peer dependencies, resolving the Context isolation issue. If you are using v0.0.41 or earlier, upgrade to v0.0.42 or later for the fix.": "In [v0.0.42](/docs/web-changelog#v0042), React and React DOM were externalized as peer dependencies, resolving the Context isolation issue. If you are using v0.0.41 or earlier, upgrade to v0.0.42 or later for the fix.",
   "Learn about the Survey Web package for building survey and questionnaire UI components.": "Learn about the Survey Web package for building survey and questionnaire UI components.",
   "Survey Web": "Survey Web",
   "Frontend component library for survey template management and form rendering in MBC CQRS Serverless applications.": "Frontend component library for survey template management and form rendering in MBC CQRS Serverless applications.",
@@ -222,5 +224,8 @@
   "boolean - True if submit should be disabled": "boolean - True if submit should be disabled",
   "React.RefObject<HTMLButtonElement> - Ref for submit button": "React.RefObject<HTMLButtonElement> - Ref for submit button",
   "(id: string) => Promise<void> - Delete survey by ID": "(id: string) => Promise<void> - Delete survey by ID",
-  "boolean - True while deletion is in progress": "boolean - True while deletion is in progress"
+  "boolean - True while deletion is in progress": "boolean - True while deletion is in progress",
+  "Changelog": "Changelog",
+  "Version History": "Version History",
+  "See [Web Packages Changelog](/docs/web-changelog) for all version history and release notes.": "See [Web Packages Changelog](/docs/web-changelog) for all version history and release notes."
 }
