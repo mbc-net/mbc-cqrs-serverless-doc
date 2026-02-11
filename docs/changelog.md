@@ -1,6 +1,6 @@
 ---
 sidebar_position: 100
-sidebar_label: "{{Backend (Framework)}}"
+sidebar_label: "Backend (Framework)"
 description: {{Track all notable changes, new features, and bug fixes in MBC CQRS Serverless releases.}}
 ---
 

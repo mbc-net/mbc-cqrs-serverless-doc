@@ -235,7 +235,11 @@ const sidebars: SidebarsConfig = {
     },
 
     // 17. Changelog - 変更履歴
-    "changelog",
+    {
+      type: "category",
+      label: "Changelog",
+      items: ["changelog", "web-changelog"],
+    },
   ],
 };
 

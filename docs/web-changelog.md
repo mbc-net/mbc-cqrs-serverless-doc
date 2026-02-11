@@ -1,6 +1,6 @@
 ---
 sidebar_position: 101
-sidebar_label: "{{Frontend (Web)}}"
+sidebar_label: "Frontend (Web)"
 description: {{Track all notable changes, new features, and bug fixes in MBC CQRS Serverless Web packages.}}
 ---
 
