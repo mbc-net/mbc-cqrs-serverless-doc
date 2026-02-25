@@ -1,0 +1,77 @@
+{
+  "latest": {
+    "version": "0.0.43",
+    "date": "2026-02-26",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless-web/compare/v0.0.42...v0.0.43",
+    "features": [
+      "Add comprehensive unit tests for utilities, validation, hooks, and components",
+      "Replace legacy deploy workflow with tag-based CI/CD pipeline",
+      "Add README.md with Quick Start guide, component reference, and usage examples"
+    ],
+    "bugFixes": [
+      "Fix JSON Bulk Import 404 error by correcting `MASTER.BULK` API path",
+      "Fix runtime crash when `attributes.fields` is undefined",
+      "Fix `useEffect` infinite loop in SettingsForm, CopyData, and DetailCopy",
+      "Add try-catch for `JSON.parse` in all AddJsonData components",
+      "Improve bulk import response handling when no items have changes",
+      "Fix `BaseUrlProvider` generating incorrect URLs with empty segment"
+    ],
+    "security": []
+  },
+  "recent": [
+    {
+      "version": "0.0.43",
+      "date": "2026-02-26",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless-web/compare/v0.0.42...v0.0.43",
+      "features": [
+        "Add comprehensive unit tests for utilities, validation, hooks, and components",
+        "Replace legacy deploy workflow with tag-based CI/CD pipeline",
+        "Add README.md with Quick Start guide, component reference, and usage examples"
+      ],
+      "bugFixes": [
+        "Fix JSON Bulk Import 404 error by correcting `MASTER.BULK` API path",
+        "Fix runtime crash when `attributes.fields` is undefined",
+        "Fix `useEffect` infinite loop in SettingsForm, CopyData, and DetailCopy",
+        "Add try-catch for `JSON.parse` in all AddJsonData components",
+        "Improve bulk import response handling when no items have changes",
+        "Fix `BaseUrlProvider` generating incorrect URLs with empty segment"
+      ],
+      "security": []
+    },
+    {
+      "version": "0.0.42",
+      "date": "2026-02-11",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless-web/compare/v0.0.41...v0.0.42",
+      "features": [
+        "Migrate test framework from Vitest to Jest (87 tests)"
+      ],
+      "bugFixes": [
+        "Externalize React/Next.js peer dependencies to resolve Context isolation issue",
+        "Fix `useSubscribeBulkCommandStatus` infinite re-render loop",
+        "Fix DragResizeModal and AddJsonData layout issues"
+      ],
+      "security": []
+    },
+    {
+      "version": "0.0.41",
+      "date": "2026-02-10",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless-web/compare/v0.0.40...v0.0.41",
+      "features": [
+        "Update RichTextEditor and field-editor with enhanced toolbar options and color palette"
+      ],
+      "bugFixes": [],
+      "security": []
+    },
+    {
+      "version": "0.0.40",
+      "date": "2026-01-27",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless-web/compare/v0.0.39...v0.0.40",
+      "features": [
+        "Enhance ReactQuill integration with custom block registration"
+      ],
+      "bugFixes": [],
+      "security": []
+    }
+  ],
+  "generated": "2026-02-25T15:55:01.635Z"
+}

@@ -1,0 +1,77 @@
+{
+  "latest": {
+    "version": "0.0.43",
+    "date": "2026-02-26",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless-web/compare/v0.0.42...v0.0.43",
+    "features": [
+      "ユーティリティ、バリデーション、フック、コンポーネントの包括的なユニットテストを追加",
+      "レガシーデプロイワークフローをタグベースのCI/CDパイプラインに置き換え",
+      "クイックスタートガイド、コンポーネントリファレンス、使用例を含むREADME.mdを追加"
+    ],
+    "bugFixes": [
+      "JSON一括インポートの404エラーを`MASTER.BULK` APIパスの修正により解消",
+      "`attributes.fields`がundefinedの場合のランタイムクラッシュを修正",
+      "SettingsForm、CopyData、DetailCopyの`useEffect`無限ループを修正",
+      "すべてのAddJsonDataコンポーネントで`JSON.parse`にtry-catchを追加",
+      "変更のないアイテムがある場合の一括インポートレスポンス処理を改善",
+      "`BaseUrlProvider`が空のセグメントで不正なURLを生成する問題を修正"
+    ],
+    "security": []
+  },
+  "recent": [
+    {
+      "version": "0.0.43",
+      "date": "2026-02-26",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless-web/compare/v0.0.42...v0.0.43",
+      "features": [
+        "ユーティリティ、バリデーション、フック、コンポーネントの包括的なユニットテストを追加",
+        "レガシーデプロイワークフローをタグベースのCI/CDパイプラインに置き換え",
+        "クイックスタートガイド、コンポーネントリファレンス、使用例を含むREADME.mdを追加"
+      ],
+      "bugFixes": [
+        "JSON一括インポートの404エラーを`MASTER.BULK` APIパスの修正により解消",
+        "`attributes.fields`がundefinedの場合のランタイムクラッシュを修正",
+        "SettingsForm、CopyData、DetailCopyの`useEffect`無限ループを修正",
+        "すべてのAddJsonDataコンポーネントで`JSON.parse`にtry-catchを追加",
+        "変更のないアイテムがある場合の一括インポートレスポンス処理を改善",
+        "`BaseUrlProvider`が空のセグメントで不正なURLを生成する問題を修正"
+      ],
+      "security": []
+    },
+    {
+      "version": "0.0.42",
+      "date": "2026-02-11",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless-web/compare/v0.0.41...v0.0.42",
+      "features": [
+        "テストフレームワークをVitestからJestに移行（87テスト）"
+      ],
+      "bugFixes": [
+        "React/Next.jsをpeer dependencyに外部化してContext分離問題を解消",
+        "`useSubscribeBulkCommandStatus`の無限再レンダリングループを修正",
+        "DragResizeModalとAddJsonDataのレイアウト問題を修正"
+      ],
+      "security": []
+    },
+    {
+      "version": "0.0.41",
+      "date": "2026-02-10",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless-web/compare/v0.0.40...v0.0.41",
+      "features": [
+        "**master-web:** RichTextEditorとfield-editorのツールバーオプションとカラーパレットを強化"
+      ],
+      "bugFixes": [],
+      "security": []
+    },
+    {
+      "version": "0.0.40",
+      "date": "2026-01-27",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless-web/compare/v0.0.39...v0.0.40",
+      "features": [
+        "**master-web:** カスタムブロック登録によるReactQuill統合の強化"
+      ],
+      "bugFixes": [],
+      "security": []
+    }
+  ],
+  "generated": "2026-02-25T15:55:01.635Z"
+}
