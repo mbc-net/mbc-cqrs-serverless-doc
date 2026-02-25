@@ -530,257 +530,169 @@ If you are using v1.0.16 or earlier and need exact matching for `settingCode`, u
 See also: [Changelog v1.0.17](./changelog#v1017)
 :::
 
-## Upsert Pattern {#upsert-pattern}
+## Built-in Upsert API {#upsert-pattern}
 
-The `createBulk` and `createSetting` methods are **create-only** operations. They throw a `BadRequestException` when a record with the same code already exists. This means re-importing JSON data via the master-web JSON editor will fail for existing records.
+The framework provides built-in upsert methods that automatically handle both creating new records and updating existing ones. These methods check DynamoDB for existing data and decide whether to create or update, skipping unchanged records for efficiency.
 
-To support both creating new records and updating existing ones (upsert behavior), implement a custom upsert service that checks for existing records before deciding whether to call create or update.
+:::info Version Note
+Built-in upsert methods (`upsert`, `upsertBulk`, `upsertSetting`, `upsertTenantSetting`) were added in [version 1.1.2](/docs/changelog#v112). In earlier versions, you need to implement custom upsert logic (see [Legacy Upsert Pattern](#legacy-upsert-pattern) below).
+:::
 
-### Master Setting Upsert
+### MasterSettingService Upsert Methods
 
-```ts
-import {
-  CommandModel,
-  getUserContext,
-  IInvoke,
-  KEY_SEPARATOR,
-} from '@mbc-cqrs-serverless/core'
-import {
-  CommonSettingDto,
-  MasterSettingService,
-} from '@mbc-cqrs-serverless/master'
-import { Injectable, Logger } from '@nestjs/common'
-import { PrismaService } from 'src/prisma'
-
-const MASTER_PK_PREFIX = 'MASTER'
-const SETTING_SK_PREFIX = 'MASTER_SETTING'
-
-@Injectable()
-export class MasterSettingUpsertService {
-  private readonly logger = new Logger(MasterSettingUpsertService.name)
-
-  constructor(
-    private readonly masterSettingService: MasterSettingService,
-    private readonly prismaService: PrismaService,
-  ) {}
-
-  async upsertBulk(
-    items: CommonSettingDto[],
-    invokeContext: IInvoke,
-  ): Promise<CommandModel[]> {
-    const results: CommandModel[] = []
-    for (const item of items) {
-      const result = await this.upsertOne(item, invokeContext)
-      results.push(result)
-    }
-    return results
-  }
-
-  private async upsertOne(
-    dto: CommonSettingDto,
-    invokeContext: IInvoke,
-  ): Promise<CommandModel> {
-    const userContext = getUserContext(invokeContext)
-    const tenantCode = dto.tenantCode ?? userContext.tenantCode
-
-    // Check if record exists in RDS
-    const existing = await this.prismaService.master.findFirst({
-      where: {
-        tenantCode,
-        masterType: SETTING_SK_PREFIX,
-        masterCode: dto.code,
-        isDeleted: false,
-      },
-    })
-
-    if (existing) {
-      // Update existing setting
-      const pk = `${MASTER_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`
-      const sk = `${SETTING_SK_PREFIX}${KEY_SEPARATOR}${dto.code}`
-      return this.masterSettingService.updateSetting(
-        { pk, sk },
-        {
-          code: dto.code,
-          tenantCode,
-          name: dto.name,
-          settingValue: dto.settingValue,
-        },
-        { invokeContext },
-      )
-    } else {
-      // Create new setting
-      return this.masterSettingService.create(dto, invokeContext)
-    }
-  }
-}
-```
-
-### Master Data Upsert
+#### `upsertTenantSetting(dto: TenantSettingDto, options: { invokeContext: IInvoke }): Promise<CommandModel>`
+Creates or updates a tenant setting. If the setting exists and has changes, it updates. If the setting exists but is unchanged, it returns the existing data without creating a new command. If the setting is deleted, it recreates it.
 
 ```ts
-import {
-  getUserContext,
-  IInvoke,
-  KEY_SEPARATOR,
-} from '@mbc-cqrs-serverless/core'
-import {
-  MasterDataCreateDto,
-  MasterDataService,
-} from '@mbc-cqrs-serverless/master'
-import { Injectable, Logger } from '@nestjs/common'
-import { PrismaService } from 'src/prisma'
-
-const MASTER_PK_PREFIX = 'MASTER'
-const DATA_SK_PREFIX = 'MASTER_DATA'
-
-@Injectable()
-export class MasterDataUpsertService {
-  private readonly logger = new Logger(MasterDataUpsertService.name)
-
-  constructor(
-    private readonly masterDataService: MasterDataService,
-    private readonly prismaService: PrismaService,
-  ) {}
-
-  async upsertBulk(
-    items: MasterDataCreateDto[],
-    invokeContext: IInvoke,
-  ) {
-    const results = []
-    for (const item of items) {
-      const result = await this.upsertOne(item, invokeContext)
-      results.push(result)
-    }
-    return results
-  }
-
-  private async upsertOne(
-    dto: MasterDataCreateDto,
-    invokeContext: IInvoke,
-  ) {
-    const userContext = getUserContext(invokeContext)
-    const tenantCode = dto.tenantCode ?? userContext.tenantCode
-    const sk = `${DATA_SK_PREFIX}${KEY_SEPARATOR}${dto.settingCode}${KEY_SEPARATOR}${dto.code}`
-
-    // Check if record exists in RDS
-    const existing = await this.prismaService.master.findFirst({
-      where: {
-        tenantCode,
-        masterType: DATA_SK_PREFIX,
-        sk,
-        isDeleted: false,
-      },
-    })
-
-    if (existing) {
-      // Update existing data
-      const pk = `${MASTER_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`
-      return this.masterDataService.updateSetting(
-        { pk, sk },
-        { name: dto.name, seq: dto.seq, attributes: dto.attributes },
-        invokeContext,
-      )
-    } else {
-      // Create new data
-      return this.masterDataService.createSetting(dto, invokeContext)
-    }
-  }
-}
+const result = await this.masterSettingService.upsertTenantSetting(
+  {
+    tenantCode: "mbc",
+    code: "service",
+    name: "Service Setting",
+    settingValue: { region: "US", plan: "Premium" },
+  },
+  { invokeContext }
+);
 ```
 
-### Upsert Controller
-
-Register the upsert services with custom controllers that expose `/upsert-bulk` endpoints:
+#### `upsertSetting(createDto: CommonSettingDto, invokeContext: IInvoke): Promise<CommandModel>`
+Wrapper for `upsertTenantSetting` with automatic tenant code extraction from context.
 
 ```ts
-import { INVOKE_CONTEXT, IInvoke } from '@mbc-cqrs-serverless/core'
-import { Body, Controller, Post } from '@nestjs/common'
-import { MasterSettingUpsertService } from './master-setting-upsert.service'
-
-@Controller('api/master-setting')
-export class MasterSettingUpsertController {
-  constructor(
-    private readonly upsertService: MasterSettingUpsertService,
-  ) {}
-
-  @Post('/upsert-bulk')
-  async upsertBulk(
-    @Body() dto: { items: any[] },
-    @INVOKE_CONTEXT() invokeContext: IInvoke,
-  ) {
-    return this.upsertService.upsertBulk(dto.items, invokeContext)
-  }
-}
+const result = await this.masterSettingService.upsertSetting(
+  {
+    code: "service",
+    name: "Service Setting",
+    settingValue: { region: "US", plan: "Premium" },
+  },
+  invokeContext
+);
 ```
 
-### Module Registration
-
-Register the upsert controllers and services alongside the framework's `MasterModule`:
+#### `upsertBulk(createDto: CommonSettingBulkDto, invokeContext: IInvoke): Promise<CommandModel[]>`
+Upserts multiple settings sequentially. Items are processed one by one to avoid race conditions.
 
 ```ts
-import { MasterModule as CoreMasterModule } from '@mbc-cqrs-serverless/master'
-import { Module } from '@nestjs/common'
-import { PrismaService } from 'src/prisma'
-
-@Module({
-  imports: [
-    CoreMasterModule.register({
-      enableController: true,
-      prismaService: PrismaService,
-      dataSyncHandlers: [MasterDataSyncRdsHandler],
-    }),
-  ],
-  controllers: [
-    MasterSettingUpsertController,
-    MasterDataUpsertController,
-  ],
-  providers: [
-    MasterSettingUpsertService,
-    MasterDataUpsertService,
-  ],
-})
-export class MasterModule {}
+const results = await this.masterSettingService.upsertBulk(
+  {
+    items: [
+      { code: "setting1", name: "Setting 1", settingValue: { key: "value1" } },
+      { code: "setting2", name: "Setting 2", settingValue: { key: "value2" } },
+    ]
+  },
+  invokeContext
+);
 ```
 
-### Frontend Integration with Axios Interceptor
+### MasterDataService Upsert Methods
 
-The master-web `AddJsonData` component uses hardcoded API URLs (`/master-setting/bulk` and `/master-data/bulk`) for bulk creation. To redirect these requests to the custom upsert endpoints, add an Axios request interceptor:
+#### `upsert(createDto: CreateMasterDataDto, opts: { invokeContext: IInvoke }): Promise<MasterDataEntity>`
+Creates or updates a master data entity. Behaves the same as `create` but does not throw when the record already exists.
 
-```tsx
-const httpClient = useMemo(() => {
-  const instance = axios.create({
-    baseURL: `${baseEndpoint}/api`,
-    headers: {
-      'Content-Type': 'application/json',
-      'x-tenant-code': tenantCode,
+```ts
+const result = await this.masterDataService.upsert(
+  {
+    code: 'MASTER001',
+    name: 'Example Master Data',
+    settingCode: "service",
+    tenantCode: "mbc",
+    attributes: { homepage: "http://mbc.com" },
+  },
+  { invokeContext }
+);
+```
+
+#### `upsertSetting(createDto: MasterDataCreateDto, invokeContext: IInvoke): Promise<MasterDataEntity>`
+Wrapper for `upsert` with automatic sequence generation and tenant code extraction.
+
+```ts
+const result = await this.masterDataService.upsertSetting(
+  {
+    code: 'MASTER001',
+    name: 'Example Master Data',
+    settingCode: "service",
+    attributes: { homepage: "http://mbc.com" },
+  },
+  invokeContext
+);
+```
+
+#### `upsertBulk(createDto: MasterDataCreateBulkDto, invokeContext: IInvoke): Promise<MasterDataEntity[]>`
+Upserts multiple master data entities sequentially. Items are processed one by one to avoid seq race conditions.
+
+```ts
+const results = await this.masterDataService.upsertBulk(
+  {
+    items: [
+      { code: 'DATA001', name: 'First Data', settingCode: "service", attributes: {} },
+      { code: 'DATA002', name: 'Second Data', settingCode: "service", attributes: {} },
+    ]
+  },
+  invokeContext
+);
+```
+
+### Unified Bulk Upsert API (MasterBulkController) {#unified-bulk-upsert}
+
+When the controller is enabled (`enableController: true`), the framework provides a unified `/api/master-bulk/` endpoint that can handle both settings and data in a single request. Items are routed based on the presence of `settingCode`:
+
+- **With `settingCode`**: Routed to `MasterDataService.upsertBulk`
+- **Without `settingCode`**: Routed to `MasterSettingService.upsertBulk`
+
+```ts
+// POST /api/master-bulk/
+const requestBody = {
+  items: [
+    // This item has settingCode → treated as master data
+    {
+      name: "Data Item",
+      code: "DATA001",
+      settingCode: "UserList",
+      seq: 1,
+      attributes: { field: "value" },
     },
-  })
-
-  instance.interceptors.request.use(async (config) => {
-    // Rewrite bulk create APIs to upsert-bulk APIs
-    if (config.method?.toUpperCase() === 'POST') {
-      if (config.url === '/master-setting/bulk') {
-        config.url = '/master-setting/upsert-bulk'
-      } else if (config.url === '/master-data/bulk') {
-        config.url = '/master-data/upsert-bulk'
-      }
-    }
-
-    // Inject auth token
-    try {
-      const session = await fetchAuthSession()
-      const token = session.tokens?.idToken?.toString()
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`
-      }
-    } catch {
-      // Ignore auth errors
-    }
-    return config
-  })
-
-  return instance
-}, [tenantCode])
+    // This item has no settingCode → treated as master setting
+    {
+      name: "Setting Item",
+      code: "SettingA",
+      attributes: { description: "A setting" },
+    },
+  ]
+};
 ```
 
-With this interceptor, the master-web JSON editor will automatically call the upsert endpoints instead of the create-only endpoints, allowing both initial registration and re-import of JSON data.
+The response preserves the original input order. Tenant code validation is enforced: if `tenantCode` is specified in an item, it must match the authenticated user's tenant.
+
+#### Request Body
+
+| Field | Type | Required | Description |
+|-----------|----------|--------------|-----------------|
+| `items` | `MasterBulkItemDto[]` | Yes | Array of items to upsert (max 100) |
+
+#### MasterBulkItemDto
+
+| Field | Type | Required | Description |
+|-----------|----------|--------------|-----------------|
+| `name` | `string` | Yes | Name of the setting or data |
+| `code` | `string` | Yes | Code of the setting or data |
+| `tenantCode` | `string` | No | Tenant code (must match authenticated user's tenant if specified) |
+| `settingCode` | `string` | No | If present, item is treated as master data; otherwise as master setting |
+| `seq` | `number` | No | Sort order (used for master data) |
+| `attributes` | `object` | Yes | Attributes object. For settings, this is used as settingValue |
+
+### Upsert Behavior Details {#upsert-behavior}
+
+The upsert methods follow these rules:
+
+1. **New record**: If no existing record is found, creates a new one (version starts at 0)
+2. **Existing record with changes**: If the record exists and the input differs, updates it using the existing version number
+3. **Existing record unchanged**: If the record exists and the input is identical, skips the update and returns the existing data
+4. **Deleted record**: If the record exists but is marked as deleted (`isDeleted: true`), recreates it using the existing version number
+
+### Legacy Upsert Pattern {#legacy-upsert-pattern}
+
+:::warning Deprecated Pattern
+The custom upsert pattern below was required in versions prior to 1.1.2. For new projects, use the [built-in upsert methods](#upsert-pattern) instead.
+:::
+
+For versions prior to 1.1.2, implement a custom upsert service that checks for existing records before deciding whether to call create or update. See the [v1.1.1 documentation](https://github.com/mbc-net/mbc-cqrs-serverless/tree/v1.1.1) for the full legacy pattern.

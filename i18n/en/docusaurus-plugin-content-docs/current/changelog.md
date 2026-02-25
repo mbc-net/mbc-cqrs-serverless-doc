@@ -18,6 +18,38 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ## Stable Releases (1.x)
 
+## [1.1.2](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.2) (2026-02-25) {#v112}
+
+### Features
+
+- **master:** Add built-in upsert methods for master settings and data ([See Details](/docs/master#upsert-pattern))
+  - `upsertTenantSetting()`, `upsertSetting()`, `upsertBulk()` for MasterSettingService
+  - `upsert()`, `upsertSetting()`, `upsertBulk()` for MasterDataService
+  - Automatically creates new records, updates changed records, and skips unchanged records
+  - Supports recreating soft-deleted records
+- **master:** Add unified bulk upsert API (`/api/master-bulk/`) ([See Details](/docs/master#unified-bulk-upsert))
+  - Single endpoint that handles both settings and data items
+  - Items routed by presence of `settingCode` field
+  - Preserves original input order in response
+  - Tenant code validation enforced
+- **master:** Add `@ArrayMaxSize(100)` validation to all bulk DTOs
+- **master:** Add tenant code validation to individual bulk endpoints (`/api/master-setting/bulk`, `/api/master-data/bulk`)
+
+### Bug Fixes
+
+- **core:** Fix `checkVersion` error message using hardcoded value instead of actual `commandVersion` ([PR #331](https://github.com/mbc-net/mbc-cqrs-serverless/pull/331))
+- **master:** Fix `seq === 0` being treated as falsy in `createSetting` by changing to null check (`seq == null`)
+- **master:** Fix DTO mutation in `createSetting` by cloning attributes before modifying seq
+
+### Tests
+
+- Add comprehensive unit tests for MasterBulkController (8 test cases)
+- Add unit tests for MasterDataService upsert and upsertBulk methods
+- Add unit tests for MasterSettingService upsertTenantSetting and upsertBulk methods
+- Add integration tests for master data and setting upsert scenarios
+
+---
+
 ## [1.1.1](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.1) (2026-02-07) {#v111}
 
 ### Bug Fixes

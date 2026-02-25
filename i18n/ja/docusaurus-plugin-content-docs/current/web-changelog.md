@@ -1,6 +1,6 @@
 ---
 sidebar_position: 101
-sidebar_label: "フロントエンド（Web）"
+sidebar_label: "Frontend (Web)"
 description: MBC CQRS Serverless Webパッケージのすべての注目すべき変更、新機能、バグ修正を追跡します。
 ---
 

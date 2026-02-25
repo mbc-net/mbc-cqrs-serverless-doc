@@ -1,15 +1,39 @@
 {
   "latest": {
-    "version": "1.1.1",
-    "date": "2026-02-07",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.1",
-    "features": [],
+    "version": "1.1.2",
+    "date": "2026-02-25",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.2",
+    "features": [
+      "Add built-in upsert methods for master settings and data",
+      "Add unified bulk upsert API (`/api/master-bulk/`)",
+      "Add `@ArrayMaxSize(100)` validation to all bulk DTOs",
+      "Add tenant code validation to individual bulk endpoints (`/api/master-setting/bulk`, `/api/master-data/bulk`)"
+    ],
     "bugFixes": [
-      "Add missing `import_tmp.json` DynamoDB table template"
+      "Fix `checkVersion` error message using hardcoded value instead of actual `commandVersion`",
+      "Fix `seq === 0` being treated as falsy in `createSetting` by changing to null check (`seq == null`)",
+      "Fix DTO mutation in `createSetting` by cloning attributes before modifying seq"
     ],
     "security": []
   },
   "recent": [
+    {
+      "version": "1.1.2",
+      "date": "2026-02-25",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.2",
+      "features": [
+        "Add built-in upsert methods for master settings and data",
+        "Add unified bulk upsert API (`/api/master-bulk/`)",
+        "Add `@ArrayMaxSize(100)` validation to all bulk DTOs",
+        "Add tenant code validation to individual bulk endpoints (`/api/master-setting/bulk`, `/api/master-data/bulk`)"
+      ],
+      "bugFixes": [
+        "Fix `checkVersion` error message using hardcoded value instead of actual `commandVersion`",
+        "Fix `seq === 0` being treated as falsy in `createSetting` by changing to null check (`seq == null`)",
+        "Fix DTO mutation in `createSetting` by cloning attributes before modifying seq"
+      ],
+      "security": []
+    },
     {
       "version": "1.1.1",
       "date": "2026-02-07",
@@ -49,17 +73,7 @@
         "Update `diff` package from 4.0.2 to 4.0.4 for security fix",
         "Update `lodash` package from 4.17.21 to 4.17.23 for prototype pollution fix"
       ]
-    },
-    {
-      "version": "1.0.25",
-      "date": "2026-01-19",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.25",
-      "features": [
-        "Enhanced inline template email with advanced variable substitution"
-      ],
-      "bugFixes": [],
-      "security": []
     }
   ],
-  "generated": "2026-02-11T05:40:00.814Z"
+  "generated": "2026-02-25T02:44:41.165Z"
 }

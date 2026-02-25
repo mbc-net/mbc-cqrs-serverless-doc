@@ -251,6 +251,7 @@ When controllers are enabled, the following endpoints are available:
 | GET | `/api/master-setting` | List all settings |
 | GET | `/api/master-setting/:pk/:sk` | Get a specific setting |
 | POST | `/api/master-setting` | Create a new setting |
+| POST | `/api/master-setting/bulk` | Create or upsert multiple settings |
 | PUT | `/api/master-setting/:pk/:sk` | Update a setting |
 | DELETE | `/api/master-setting/:pk/:sk` | Delete a setting |
 | POST | `/api/master-setting/check-exist/:code` | Check if a setting code exists |
@@ -262,9 +263,22 @@ When controllers are enabled, the following endpoints are available:
 | GET | `/api/master-data` | List all data settings |
 | GET | `/api/master-data/:pk/:sk` | Get a specific data setting |
 | POST | `/api/master-data` | Create a new data setting |
+| POST | `/api/master-data/bulk` | Create or upsert multiple data settings |
 | PUT | `/api/master-data/:pk/:sk` | Update a data setting |
 | DELETE | `/api/master-data/:pk/:sk` | Delete a data setting |
 | POST | `/api/master-data/check-exist/:settingCode/:code` | Check if a data setting code exists |
+
+### Unified Bulk Upsert Endpoint
+
+:::info Version Note
+The unified bulk upsert endpoint was added in [version 1.1.2](/docs/changelog#v112).
+:::
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/master-bulk/` | Upsert settings and data in a single request |
+
+This endpoint accepts a mixed array of settings and data items. Items with `settingCode` are routed to the data service; items without are routed to the setting service. See [Unified Bulk Upsert API](/docs/master#unified-bulk-upsert) for details.
 
 ## Multi-Tenant Support
 
