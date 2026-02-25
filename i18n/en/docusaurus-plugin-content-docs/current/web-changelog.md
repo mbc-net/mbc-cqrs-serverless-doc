@@ -12,6 +12,45 @@ For backend framework changes, see [Changelog](/docs/changelog).
 
 ---
 
+## [0.0.43](https://github.com/mbc-net/mbc-cqrs-serverless-web/compare/v0.0.42...v0.0.43) (2026-02-26) {#v0043}
+
+### master-web
+
+#### Bug Fixes
+
+- Fix JSON Bulk Import 404 error by correcting `MASTER.BULK` API path ([PR #29](https://github.com/mbc-net/mbc-cqrs-serverless-web/pull/29))
+  - `API_URLS.MASTER.BULK` was pointing to `/master-bulk/bulk` but the backend `MasterBulkController` uses `@Post('/')`, so corrected to `/master-bulk`
+- Fix runtime crash when `attributes.fields` is undefined ([PR #27](https://github.com/mbc-net/mbc-cqrs-serverless-web/pull/27))
+  - Added optional chaining (`?.`) to all `attributes.fields` accesses across EditMasterData, MasterData, NewCopy, and schema modules
+- Fix `useEffect` infinite loop in SettingsForm, CopyData, and DetailCopy ([PR #27](https://github.com/mbc-net/mbc-cqrs-serverless-web/pull/27))
+  - Removed unstable dependencies from `useEffect` dependency arrays to prevent infinite re-renders
+  - Used `useRef` for `savedResults` to prevent stale closure race conditions
+- Add try-catch for `JSON.parse` in all AddJsonData components ([PR #27](https://github.com/mbc-net/mbc-cqrs-serverless-web/pull/27))
+  - Previously, invalid JSON input caused an unhandled crash; now shows a user-friendly error toast
+- Improve bulk import response handling when no items have changes ([PR #27](https://github.com/mbc-net/mbc-cqrs-serverless-web/pull/27))
+  - When all submitted items are unchanged (no `requestId`), the dialog now closes with a "no changes" message instead of showing an error
+  - Added error toast on API failure
+- Fix `BaseUrlProvider` generating incorrect URLs with empty segment ([PR #27](https://github.com/mbc-net/mbc-cqrs-serverless-web/pull/27))
+  - Empty segment produced a leading `/` causing double-slash URLs
+
+#### Tests
+
+- Add comprehensive unit tests for utilities, validation, hooks, and components ([PR #25](https://github.com/mbc-net/mbc-cqrs-serverless-web/pull/25), [PR #27](https://github.com/mbc-net/mbc-cqrs-serverless-web/pull/27))
+  - Added 30+ test files covering validation functions, date utilities, form helpers, pagination, exceptions, URL provider, schemas, and component rendering
+  - Added shared test utilities (`test-utils.ts`) and Jest setup for jsdom environment
+
+#### CI/CD
+
+- Replace legacy deploy workflow with tag-based CI/CD pipeline ([PR #31](https://github.com/mbc-net/mbc-cqrs-serverless-web/pull/31))
+  - Aligned with mbc-cqrs-serverless framework CI/CD: supports alpha, beta, and production releases
+  - Added multi-node version testing (18.x, 20.x, 22.x, 24.x), security scanning (Trivy), and lockfile integrity checks
+
+#### Documentation
+
+- Add README.md with Quick Start guide, component reference, and usage examples
+
+---
+
 ## [0.0.42](https://github.com/mbc-net/mbc-cqrs-serverless-web/compare/v0.0.41...v0.0.42) (2026-02-11) {#v0042}
 
 ### master-web

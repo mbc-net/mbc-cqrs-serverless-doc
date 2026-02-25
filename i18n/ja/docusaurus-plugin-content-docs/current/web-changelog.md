@@ -12,6 +12,45 @@ Webパッケージ（`@mbc-cqrs-serverless/master-web`、`@mbc-cqrs-serverless/s
 
 ---
 
+## [0.0.43](https://github.com/mbc-net/mbc-cqrs-serverless-web/compare/v0.0.42...v0.0.43) (2026-02-26) {#v0043}
+
+### master-web
+
+#### バグ修正
+
+- JSON一括インポートの404エラーを`MASTER.BULK` APIパスの修正により解消 ([PR #29](https://github.com/mbc-net/mbc-cqrs-serverless-web/pull/29))
+  - `API_URLS.MASTER.BULK`が`/master-bulk/bulk`を指していましたが、バックエンドの`MasterBulkController`は`@Post('/')`を使用しているため、`/master-bulk`に修正しました
+- `attributes.fields`がundefinedの場合のランタイムクラッシュを修正 ([PR #27](https://github.com/mbc-net/mbc-cqrs-serverless-web/pull/27))
+  - EditMasterData、MasterData、NewCopy、schemaモジュール全体のすべての`attributes.fields`アクセスにオプショナルチェーン（`?.`）を追加
+- SettingsForm、CopyData、DetailCopyの`useEffect`無限ループを修正 ([PR #27](https://github.com/mbc-net/mbc-cqrs-serverless-web/pull/27))
+  - 無限再レンダリングを防止するために`useEffect`依存配列から不安定な依存関係を削除
+  - staleクロージャの競合状態を防止するために`savedResults`に`useRef`を使用
+- すべてのAddJsonDataコンポーネントで`JSON.parse`にtry-catchを追加 ([PR #27](https://github.com/mbc-net/mbc-cqrs-serverless-web/pull/27))
+  - 以前は無効なJSON入力がハンドルされないクラッシュを引き起こしていましたが、ユーザーフレンドリーなエラートーストを表示するようになりました
+- 変更のないアイテムがある場合の一括インポートレスポンス処理を改善 ([PR #27](https://github.com/mbc-net/mbc-cqrs-serverless-web/pull/27))
+  - 送信されたすべてのアイテムが変更なし（`requestId`なし）の場合、エラーを表示する代わりに「変更なし」メッセージでダイアログを閉じるようになりました
+  - API失敗時にエラートーストを追加
+- `BaseUrlProvider`が空のセグメントで不正なURLを生成する問題を修正 ([PR #27](https://github.com/mbc-net/mbc-cqrs-serverless-web/pull/27))
+  - 空のセグメントが先頭の`/`を生成し、ダブルスラッシュURLの原因となっていました
+
+#### テスト
+
+- ユーティリティ、バリデーション、フック、コンポーネントの包括的なユニットテストを追加 ([PR #25](https://github.com/mbc-net/mbc-cqrs-serverless-web/pull/25), [PR #27](https://github.com/mbc-net/mbc-cqrs-serverless-web/pull/27))
+  - バリデーション関数、日付ユーティリティ、フォームヘルパー、ページネーション、例外、URLプロバイダー、スキーマ、コンポーネントレンダリングをカバーする30以上のテストファイルを追加
+  - 共有テストユーティリティ（`test-utils.ts`）とjsdom環境用のJestセットアップを追加
+
+#### CI/CD
+
+- レガシーデプロイワークフローをタグベースのCI/CDパイプラインに置き換え ([PR #31](https://github.com/mbc-net/mbc-cqrs-serverless-web/pull/31))
+  - mbc-cqrs-serverlessフレームワークのCI/CDと統一：アルファ、ベータ、本番リリースをサポート
+  - マルチノードバージョンテスト（18.x、20.x、22.x、24.x）、セキュリティスキャン（Trivy）、lockfileの整合性チェックを追加
+
+#### ドキュメント
+
+- クイックスタートガイド、コンポーネントリファレンス、使用例を含むREADME.mdを追加
+
+---
+
 ## [0.0.42](https://github.com/mbc-net/mbc-cqrs-serverless-web/compare/v0.0.41...v0.0.42) (2026-02-11) {#v0042}
 
 ### master-web
