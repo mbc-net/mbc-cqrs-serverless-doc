@@ -1,22 +1,25 @@
 {
   "latest": {
-    "version": "1.1.2",
-    "date": "2026-02-25",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.2",
-    "features": [
-      "マスター設定とデータのビルトインupsertメソッドを追加",
-      "統合バルクupsert API（`/api/master-bulk/`）を追加",
-      "すべてのバルクDTOに`@ArrayMaxSize(100)`バリデーションを追加",
-      "個別のバルクエンドポイント（`/api/master-setting/bulk`、`/api/master-data/bulk`）にテナントコードバリデーションを追加"
-    ],
+    "version": "1.1.3",
+    "date": "2026-03-24",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.3",
+    "features": [],
     "bugFixes": [
-      "`checkVersion`のエラーメッセージが実際の`commandVersion`ではなくハードコードされた値を使用していた問題を修正",
-      "`createSetting`で`seq === 0`がfalsyとして扱われる問題をnullチェック（`seq == null`）に変更して修正",
-      "`createSetting`でseq変更前にattributesをクローンしてDTOミューテーションを修正"
+      "CSVインポートのDistributed Mapステート結果が256KB制限を超える問題を修正"
     ],
     "security": []
   },
   "recent": [
+    {
+      "version": "1.1.3",
+      "date": "2026-03-24",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.3",
+      "features": [],
+      "bugFixes": [
+        "CSVインポートのDistributed Mapステート結果が256KB制限を超える問題を修正"
+      ],
+      "security": []
+    },
     {
       "version": "1.1.2",
       "date": "2026-02-25",
@@ -62,20 +65,7 @@
       "security": [
         "**core:** テナントコードヘッダーオーバーライドをシステム管理者のみに制限"
       ]
-    },
-    {
-      "version": "1.0.26",
-      "date": "2026-01-26",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.26",
-      "features": [
-        "環境変数によるローカルサービスポートの設定機能を追加"
-      ],
-      "bugFixes": [],
-      "security": [
-        "セキュリティ修正のため`diff`パッケージを4.0.2から4.0.4に更新 ([PR #297](https://github.com/mbc-net/mbc-cqrs-serverless/pull/297), [PR #299](https://github.com/mbc-net/mbc-cqrs-serverless/pull/299))",
-        "プロトタイプ汚染修正のため`lodash`パッケージを4.17.21から4.17.23に更新 ([PR #298](https://github.com/mbc-net/mbc-cqrs-serverless/pull/298))"
-      ]
     }
   ],
-  "generated": "2026-02-25T15:55:01.634Z"
+  "generated": "2026-03-24T13:45:17.301Z"
 }

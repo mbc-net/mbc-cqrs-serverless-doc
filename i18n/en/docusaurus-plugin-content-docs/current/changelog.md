@@ -18,6 +18,32 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ## Stable Releases (1.x)
 
+## [1.1.3](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.3) (2026-03-24) {#v113}
+
+### Bug Fixes
+
+- **import:** Fix CSV import Distributed Map state result exceeding 256KB limit ([See Details](/docs/import-export-patterns#csv-total-row-counting)) ([PR #348](https://github.com/mbc-net/mbc-cqrs-serverless/pull/348))
+  - Set `resultPath: DISCARD` on Distributed Map to prevent child execution results from being aggregated into state data
+  - Remove `MapResult` dependency from `CsvImportSfnEventHandler`, use `countCsvRows()` from S3 instead
+  - Add error handling for cases where the S3 stream is not readable
+
+### CI/CD
+
+- Switch to npm OIDC trusted publishing, removing dependency on `NPM_TOKEN` secret ([PR #357](https://github.com/mbc-net/mbc-cqrs-serverless/pull/357))
+  - Upgrade lerna from v8 to v9 for built-in OIDC support
+  - Add `id-token: write` permission to publish job
+  - Add lockfile sync step for Node 22+ compatibility
+
+### Tests
+
+- Add comprehensive tests for `CsvImportSfnEventHandler` finalize_parent_job logic
+  - Test FAILED status when failedRows > 0
+  - Test COMPLETED status when all rows succeed
+  - Test no status update when processing is incomplete
+  - Test error handling when S3 stream is not readable
+
+---
+
 ## [1.1.2](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.2) (2026-02-25) {#v112}
 
 ### Features

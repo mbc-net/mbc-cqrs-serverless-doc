@@ -1506,6 +1506,15 @@ export class CustomEventFactory extends EventFactoryAddedTask {
 | `handleStepState(event)` | {{Routes events to appropriate handlers based on state name (`csv_loader` or `finalize_parent_job`)}} |
 | `loadCsv(input)` | {{Processes the csv_loader state, creates child jobs for CSV rows}} |
 | `finalizeParentJob(event)` | {{Finalizes the parent job after all children complete, sets final status}} |
+| `countCsvRows(input)` | {{Counts total data rows in a CSV file from S3 (excluding header)}} |
+
+#### {{Total Row Counting (v1.1.3+)}} {#csv-total-row-counting}
+
+{{The `finalizeParentJob` method counts the total number of rows by reading the CSV file from S3 using `countCsvRows()`. This replaces the previous approach that relied on `MapResult.length` from the Distributed Map output.}}
+
+:::info {{Version Note}}
+{{In v1.1.3, the total row counting was changed from `MapResult.length` to `countCsvRows()` to avoid the AWS Step Functions 256KB state data limit. The Distributed Map `resultPath` is now set to `DISCARD`, preventing child execution results from being aggregated. See [version 1.1.3](/docs/changelog#v113).}}
+:::
 
 #### {{Status Determination (v1.0.20+)}}
 
@@ -1528,7 +1537,7 @@ const status = failedRows > 0
   : ImportJobStatus.COMPLETED
 ```
 
-{{This caused Step Functions to report SUCCESS even when child import jobs failed. See [version 1.0.20](./changelog#v1020) for details.}}
+{{This caused Step Functions to report SUCCESS even when child import jobs failed. See [version 1.0.20](/docs/changelog#v1020) for details.}}
 :::
 
 ### {{ZipImportSfnEventHandler}} {#zipimportsfneventhandler}
