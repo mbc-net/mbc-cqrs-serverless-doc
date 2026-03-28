@@ -100,5 +100,14 @@
   "Gets or sets the DynamoDB table name for this CommandService instance. The table name is configured when registering the `CommandModule`, but can be changed at runtime if needed.": "このCommandServiceインスタンスのDynamoDBテーブル名を取得または設定します。テーブル名は`CommandModule`を登録する際に設定されますが、必要に応じて実行時に変更することもできます。",
   "Get the current table name": "Get the current table name (現在のテーブル名を取得)",
   "Set a different table name": "Set a different table name (別のテーブル名を設定)",
-  "Changing the table name at runtime is an advanced use case. In most applications, you should configure the table name through `CommandModule.register()` and not change it afterwards.": "実行時にテーブル名を変更することは高度なユースケースです。ほとんどのアプリケーションでは、`CommandModule.register()`でテーブル名を設定し、その後は変更しないでください。"
+  "Changing the table name at runtime is an advanced use case. In most applications, you should configure the table name through `CommandModule.register()` and not change it afterwards.": "実行時にテーブル名を変更することは高度なユースケースです。ほとんどのアプリケーションでは、`CommandModule.register()`でテーブル名を設定し、その後は変更しないでください。",
+  "Version Note (v1.1.4+)": "バージョンノート (v1.1.4+)",
+  "Since [v1.1.4](/docs/changelog#v114), `publishSync` writes a full audit trail matching the async pipeline:": "[v1.1.4](/docs/changelog#v114)以降、`publishSync`は非同期パイプラインと同等の完全な監査証跡を書き込みます：",
+  "An immutable event is written to the Command table with `syncMode: 'SYNC'` marker": "`syncMode: 'SYNC'`マーカー付きの不変イベントがCommandテーブルに書き込まれます",
+  "The History table is populated, providing complete event sourcing parity": "Historyテーブルにデータが書き込まれ、完全なイベントソーシングの一致が実現されます",
+  "Command lifecycle: `publish_sync:STARTED` → `finish:FINISHED` (or `publish_sync:FAILED` on error)": "コマンドライフサイクル: `publish_sync:STARTED` → `finish:FINISHED`（エラー時は`publish_sync:FAILED`）",
+  "Returns `null` when the command is not dirty (no-op), matching `publishAsync` behavior": "コマンドに変更がない場合は`null`を返します（`publishAsync`の動作と同一）",
+  "DynamoDB Stream filter excludes `syncMode=SYNC` records to prevent Step Functions double-execution": "DynamoDB Streamフィルターが`syncMode=SYNC`レコードを除外し、Step Functionsの二重実行を防止",
+  "Prior to v1.1.4, `publishSync` bypassed the Command table to avoid triggering Step Functions, resulting in a missing audit trail and no History table entries.": "v1.1.4以前は、`publishSync`はStep Functionsのトリガーを避けるためCommandテーブルをバイパスしており、監査証跡の欠落とHistoryテーブルへの書き込みがない状態でした。",
+  "Returns `null` if no changes are detected (dirty check optimization).": "変更が検出されない場合は`null`を返します（ダーティチェック最適化）。"
 }

@@ -150,9 +150,22 @@ const item = await this.commandService.publishPartialUpdateAsync(catCommand, {
 });
 ```
 
-### {{*async* `publishSync( input: CommandInputModel, options: ICommandOptions): Promise<CommandModel>`}}
+### {{*async* `publishSync( input: CommandInputModel, options: ICommandOptions): Promise<CommandModel>`}} {#publishsync-audit-trail}
 
 {{This method serves as a synchronous counterpart to the `publishAsync` method, meaning that it will halt the execution of the code until the command has been fully processed. This ensures that you receive the result of the command before proceeding with any further operations in your code.}}
+
+:::info {{Version Note (v1.1.4+)}}
+{{Since [v1.1.4](/docs/changelog#v114), `publishSync` writes a full audit trail matching the async pipeline:}}
+- {{An immutable event is written to the Command table with `syncMode: 'SYNC'` marker}}
+- {{The History table is populated, providing complete event sourcing parity}}
+- {{Command lifecycle: `publish_sync:STARTED` → `finish:FINISHED` (or `publish_sync:FAILED` on error)}}
+- {{Returns `null` when the command is not dirty (no-op), matching `publishAsync` behavior}}
+- {{DynamoDB Stream filter excludes `syncMode=SYNC` records to prevent Step Functions double-execution}}
+
+{{Prior to v1.1.4, `publishSync` bypassed the Command table to avoid triggering Step Functions, resulting in a missing audit trail and no History table entries.}}
+:::
+
+{{Returns `null` if no changes are detected (dirty check optimization).}}
 
 {{For example:}}
 

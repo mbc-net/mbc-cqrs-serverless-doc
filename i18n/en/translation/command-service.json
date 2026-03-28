@@ -100,5 +100,14 @@
   "Gets or sets the DynamoDB table name for this CommandService instance. The table name is configured when registering the `CommandModule`, but can be changed at runtime if needed.": "Gets or sets the DynamoDB table name for this CommandService instance. The table name is configured when registering the `CommandModule`, but can be changed at runtime if needed.",
   "Get the current table name": "Get the current table name",
   "Set a different table name": "Set a different table name",
-  "Changing the table name at runtime is an advanced use case. In most applications, you should configure the table name through `CommandModule.register()` and not change it afterwards.": "Changing the table name at runtime is an advanced use case. In most applications, you should configure the table name through `CommandModule.register()` and not change it afterwards."
+  "Changing the table name at runtime is an advanced use case. In most applications, you should configure the table name through `CommandModule.register()` and not change it afterwards.": "Changing the table name at runtime is an advanced use case. In most applications, you should configure the table name through `CommandModule.register()` and not change it afterwards.",
+  "Version Note (v1.1.4+)": "Version Note (v1.1.4+)",
+  "Since [v1.1.4](/docs/changelog#v114), `publishSync` writes a full audit trail matching the async pipeline:": "Since [v1.1.4](/docs/changelog#v114), `publishSync` writes a full audit trail matching the async pipeline:",
+  "An immutable event is written to the Command table with `syncMode: 'SYNC'` marker": "An immutable event is written to the Command table with `syncMode: 'SYNC'` marker",
+  "The History table is populated, providing complete event sourcing parity": "The History table is populated, providing complete event sourcing parity",
+  "Command lifecycle: `publish_sync:STARTED` → `finish:FINISHED` (or `publish_sync:FAILED` on error)": "Command lifecycle: `publish_sync:STARTED` → `finish:FINISHED` (or `publish_sync:FAILED` on error)",
+  "Returns `null` when the command is not dirty (no-op), matching `publishAsync` behavior": "Returns `null` when the command is not dirty (no-op), matching `publishAsync` behavior",
+  "DynamoDB Stream filter excludes `syncMode=SYNC` records to prevent Step Functions double-execution": "DynamoDB Stream filter excludes `syncMode=SYNC` records to prevent Step Functions double-execution",
+  "Prior to v1.1.4, `publishSync` bypassed the Command table to avoid triggering Step Functions, resulting in a missing audit trail and no History table entries.": "Prior to v1.1.4, `publishSync` bypassed the Command table to avoid triggering Step Functions, resulting in a missing audit trail and no History table entries.",
+  "Returns `null` if no changes are detected (dirty check optimization).": "Returns `null` if no changes are detected (dirty check optimization)."
 }

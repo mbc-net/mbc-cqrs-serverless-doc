@@ -1508,9 +1508,62 @@ The `CsvImportSfnEventHandler` handles Step Functions CSV import workflow states
 | `finalizeParentJob(event)` | Finalizes the parent job after all children complete, sets final status |
 | `countCsvRows(input)` | Counts total data rows in a CSV file from S3 (excluding header) |
 
+#### V2 Batch Processing Architecture (v1.1.5+) {#v2-batch-processing}
+
+:::info Version Note
+The v2 batch processing architecture was introduced in [version 1.1.5](/docs/changelog#v115) to dramatically improve throughput for large-scale imports (e.g. 300,000+ rows).
+:::
+
+In v1.1.5, the CSV import pipeline was redesigned to eliminate Hot Partition bottlenecks:
+
+| Aspect | v1 (≤ 1.1.4) | v2 (1.1.5+) |
+|------------|------------------|-----------------|
+| Batch size | `MaxInputBytesPerBatch: 10` | `MaxItemsPerBatch: 100` |
+| Row processing | Write to `import_tmp` → SQS → Step Functions per row | Direct `CommandService` publish inside Lambda batch |
+| Job finalization | Atomic counter update per row via `CommandFinishedHandler` | Single `UpdateItem` in `finalize_parent_job` state |
+| Progress tracking | Real-time per-row | Aggregated at completion |
+
+##### V2 Breaking Changes {#v2-batch-processing-breaking-changes}
+
+:::danger Breaking Change (v1.1.5)
+The following changes require infrastructure updates when upgrading to v1.1.5:
+
+1. **No real-time progress tracking**: `processedRows`, `succeededRows`, `failedRows` counters are updated only once when the Step Functions execution completes. The job stays in `PROCESSING` until it transitions directly to `COMPLETED` or `FAILED`.
+2. **`import_tmp` table bypassed**: Individual CSV rows are no longer written to the `import_tmp` DynamoDB table.
+3. **State machine update required**: The `import-csv` state machine must include a `finalize_parent_job` state and `resultPath: '$.processingResults'`. Update CDK (`infra-stack.ts`) and `serverless.yml` together with this package.
+:::
+
+##### Configuring Publish Mode {#import-publish-mode}
+
+v1.1.5 introduces `ImportPublishMode` to control how commands are published per entity:
+
+```typescript
+// Register import module with per-entity publish mode
+ImportModule.register({
+  profiles: [
+    {
+      tableName: 'building',
+      importStrategy: BuildingImportStrategy,
+      processStrategy: BuildingProcessStrategy,
+      publishMode: ImportPublishMode.ASYNC, // Default: non-blocking (recommended for large imports)
+    },
+    {
+      tableName: 'room',
+      importStrategy: RoomImportStrategy,
+      processStrategy: RoomProcessStrategy,
+      publishMode: ImportPublishMode.SYNC,  // Blocking: use only for small batches
+    },
+  ],
+}),
+```
+
+:::warning
+`ImportPublishMode.SYNC` executes `publishSync` sequentially per row inside the Lambda batch. With `MaxItemsPerBatch: 100`, this can exceed the Lambda 15-minute timeout for slow operations. Prefer `ASYNC` for large imports.
+:::
+
 #### Total Row Counting (v1.1.3+) {#csv-total-row-counting}
 
-The `finalizeParentJob` method counts the total number of rows by reading the CSV file from S3 using `countCsvRows()`. This replaces the previous approach that relied on `MapResult.length` from the Distributed Map output.
+In v1.1.3 and v1.1.4, `finalizeParentJob` counted total rows by reading the CSV from S3 using `countCsvRows()`. In v1.1.5+, total row counts are derived from batch summaries aggregated natively by Step Functions — no S3 re-read is needed.
 
 :::info Version Note
 In v1.1.3, the total row counting was changed from `MapResult.length` to `countCsvRows()` to avoid the AWS Step Functions 256KB state data limit. The Distributed Map `resultPath` is now set to `DISCARD`, preventing child execution results from being aggregated. See [version 1.1.3](/docs/changelog#v113).

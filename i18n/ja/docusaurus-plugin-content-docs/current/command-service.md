@@ -150,9 +150,22 @@ const item = await this.commandService.publishPartialUpdateAsync(catCommand, {
 });
 ```
 
-### *async* `publishSync( input: CommandInputModel, options: ICommandOptions): Promise<CommandModel>`
+### *async* `publishSync( input: CommandInputModel, options: ICommandOptions): Promise<CommandModel>` {#publishsync-audit-trail}
 
 このメソッドは、`publishAsync` メソッドに相当する同期メソッドとして機能します。つまり、コマンドが完全に処理されるまでコードの実行を停止します。これにより、コード内で以降の操作を続行する前にコマンドの結果を確実に受け取ることができます。
+
+:::info バージョンノート (v1.1.4+)
+[v1.1.4](/docs/changelog#v114)以降、`publishSync`は非同期パイプラインと同等の完全な監査証跡を書き込みます：
+- `syncMode: 'SYNC'`マーカー付きの不変イベントがCommandテーブルに書き込まれます
+- Historyテーブルにデータが書き込まれ、完全なイベントソーシングの一致が実現されます
+- コマンドライフサイクル: `publish_sync:STARTED` → `finish:FINISHED`（エラー時は`publish_sync:FAILED`）
+- コマンドに変更がない場合は`null`を返します（`publishAsync`の動作と同一）
+- DynamoDB Streamフィルターが`syncMode=SYNC`レコードを除外し、Step Functionsの二重実行を防止
+
+v1.1.4以前は、`publishSync`はStep Functionsのトリガーを避けるためCommandテーブルをバイパスしており、監査証跡の欠落とHistoryテーブルへの書き込みがない状態でした。
+:::
+
+変更が検出されない場合は`null`を返します（ダーティチェック最適化）。
 
 例えば
 

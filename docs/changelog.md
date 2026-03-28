@@ -18,6 +18,51 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ## {{Stable Releases (1.x)}}
 
+## [1.1.5](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.5) (2026-03-28) {#v115}
+
+### {{Features}}
+
+- **import:** {{Implement v2 batch processing architecture for high-throughput CSV imports}} ([{{See Details}}](/docs/import-export-patterns#v2-batch-processing)) ([PR #366](https://github.com/mbc-net/mbc-cqrs-serverless/pull/366))
+  - {{Replace per-row `import_tmp` writes with direct in-Lambda command publishing, eliminating Hot Partition bottlenecks}}
+  - {{Distributed Map now configured with `MaxItemsPerBatch: 100` and `MaxConcurrency: 50` for significantly higher throughput}}
+  - {{New `finalize_parent_job` state aggregates batch summaries and writes final job status in a single DynamoDB `UpdateItem` call}}
+  - {{Remove per-row atomic counter updates from `CommandFinishedHandler`, eliminating DynamoDB throttling at scale}}
+  - {{Add `ImportPublishMode` enum (`SYNC` / `ASYNC`) to `ImportEntityProfile` for per-entity publish mode configuration}}
+  - {{Add empty `processingResults` guard: job is marked `FAILED` if no batch results are received}}
+
+### {{Breaking Changes}}
+
+- **import:** {{CSV import no longer provides real-time row-level progress tracking}} ([{{See Details}}](/docs/import-export-patterns#v2-batch-processing-breaking-changes))
+  - {{`processedRows`, `succeededRows`, `failedRows` counters are now aggregated once when Step Functions execution completes}}
+  - {{Individual CSV rows are no longer written to the `import_tmp` DynamoDB table}}
+  - {{The `import-csv` state machine requires a new `finalize_parent_job` state and `resultPath: '$.processingResults'` — CDK and `serverless.yml` must be updated together with this package}}
+
+### {{Tests}}
+
+- {{Add SYNC/ASYNC routing tests for `ImportQueueEventHandler` (6 test cases covering EQUAL/NOT_EXIST/CHANGED × SYNC/ASYNC + fallback)}}
+- {{Add empty `processingResults` guard test for `CsvImportSfnEventHandler`}}
+- {{Add batch aggregation tests (1,000 + 500 rows, COMPLETED and FAILED scenarios)}}
+
+---
+
+## [1.1.4](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.4) (2026-03-27) {#v114}
+
+### {{Features}}
+
+- **core:** {{Restore audit trail and history parity for `publishSync`}} ([{{See Details}}](/docs/command-service#publishsync-audit-trail)) ([PR #363](https://github.com/mbc-net/mbc-cqrs-serverless/pull/363))
+  - {{`publishSync` now writes an immutable event to the Command table with `status: 'publish_sync:STARTED'` and `syncMode: 'SYNC'`}}
+  - {{History table is now populated by `publishSync`, matching the async Step Functions pipeline}}
+  - {{Command lifecycle follows `publish_sync:STARTED` → `finish:FINISHED` (or `publish_sync:FAILED` on error)}}
+  - {{Ported `isNotCommandDirty` early-return optimization from `publishAsync` — returns `null` when no changes detected}}
+  - {{DynamoDB Stream filter updated to exclude `syncMode=SYNC` records, preventing Step Functions double-execution}}
+  - {{`DefaultEventFactory` also filters `syncMode=SYNC` records for local development environments}}
+
+### {{Tests}}
+
+- {{Add comprehensive tests for `publishSync` audit trail and history parity}}
+
+---
+
 ## [1.1.3](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.3) (2026-03-24) {#v113}
 
 ### {{Bug Fixes}}

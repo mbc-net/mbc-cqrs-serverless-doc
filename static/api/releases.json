@@ -1,15 +1,35 @@
 {
   "latest": {
-    "version": "1.1.3",
-    "date": "2026-03-24",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.3",
-    "features": [],
-    "bugFixes": [
-      "Fix CSV import Distributed Map state result exceeding 256KB limit"
+    "version": "1.1.5",
+    "date": "2026-03-28",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.5",
+    "features": [
+      "Implement v2 batch processing architecture for high-throughput CSV imports"
     ],
+    "bugFixes": [],
     "security": []
   },
   "recent": [
+    {
+      "version": "1.1.5",
+      "date": "2026-03-28",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.5",
+      "features": [
+        "Implement v2 batch processing architecture for high-throughput CSV imports"
+      ],
+      "bugFixes": [],
+      "security": []
+    },
+    {
+      "version": "1.1.4",
+      "date": "2026-03-27",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.4",
+      "features": [
+        "Restore audit trail and history parity for `publishSync`"
+      ],
+      "bugFixes": [],
+      "security": []
+    },
     {
       "version": "1.1.3",
       "date": "2026-03-24",
@@ -36,34 +56,7 @@
         "Fix DTO mutation in `createSetting` by cloning attributes before modifying seq"
       ],
       "security": []
-    },
-    {
-      "version": "1.1.1",
-      "date": "2026-02-07",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.1",
-      "features": [],
-      "bugFixes": [
-        "Add missing `import_tmp.json` DynamoDB table template"
-      ],
-      "security": []
-    },
-    {
-      "version": "1.1.0",
-      "date": "2026-02-03",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.0",
-      "features": [
-        "Add tenant code normalization for case-insensitive matching",
-        "Add `normalizeTenantCode()` utility function for explicit normalization",
-        "Add `isCommonTenant()` utility function for common tenant detection",
-        "Add EmailTags support for AWS SES email categorization and filtering",
-        "Add extensible tenant verification in RolesGuard",
-        "Add npm registry version check for skill updates"
-      ],
-      "bugFixes": [
-        "Fix `TENANT_COMMON` constant usage in MasterSettingService and MasterDataService"
-      ],
-      "security": []
     }
   ],
-  "generated": "2026-03-24T13:45:17.299Z"
+  "generated": "2026-03-28T13:07:30.609Z"
 }

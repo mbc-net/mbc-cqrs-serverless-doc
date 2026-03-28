@@ -1,15 +1,35 @@
 {
   "latest": {
-    "version": "1.1.3",
-    "date": "2026-03-24",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.3",
-    "features": [],
-    "bugFixes": [
-      "CSVインポートのDistributed Mapステート結果が256KB制限を超える問題を修正"
+    "version": "1.1.5",
+    "date": "2026-03-28",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.5",
+    "features": [
+      "大規模CSVインポート向けv2バッチ処理アーキテクチャを実装"
     ],
+    "bugFixes": [],
     "security": []
   },
   "recent": [
+    {
+      "version": "1.1.5",
+      "date": "2026-03-28",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.5",
+      "features": [
+        "大規模CSVインポート向けv2バッチ処理アーキテクチャを実装"
+      ],
+      "bugFixes": [],
+      "security": []
+    },
+    {
+      "version": "1.1.4",
+      "date": "2026-03-27",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.4",
+      "features": [
+        "`publishSync`の監査証跡とHistoryテーブルの一致を復元"
+      ],
+      "bugFixes": [],
+      "security": []
+    },
     {
       "version": "1.1.3",
       "date": "2026-03-24",
@@ -36,36 +56,7 @@
         "`createSetting`でseq変更前にattributesをクローンしてDTOミューテーションを修正"
       ],
       "security": []
-    },
-    {
-      "version": "1.1.1",
-      "date": "2026-02-07",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.1",
-      "features": [],
-      "bugFixes": [
-        "不足していた`import_tmp.json` DynamoDBテーブルテンプレートを追加"
-      ],
-      "security": []
-    },
-    {
-      "version": "1.1.0",
-      "date": "2026-02-03",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.0",
-      "features": [
-        "大文字小文字を区別しないマッチングのためのテナントコード正規化を追加",
-        "明示的な正規化のための`normalizeTenantCode()`ユーティリティ関数を追加",
-        "共通テナント検出のための`isCommonTenant()`ユーティリティ関数を追加",
-        "AWS SESメールのカテゴリ分けとフィルタリング用EmailTagsサポートを追加",
-        "RolesGuardに拡張可能なテナント検証を追加",
-        "スキル更新用のnpmレジストリバージョンチェックを追加"
-      ],
-      "bugFixes": [
-        "MasterSettingServiceとMasterDataServiceでの`TENANT_COMMON`定数の使用を修正"
-      ],
-      "security": [
-        "**core:** テナントコードヘッダーオーバーライドをシステム管理者のみに制限"
-      ]
     }
   ],
-  "generated": "2026-03-24T13:45:17.301Z"
+  "generated": "2026-03-28T13:07:30.611Z"
 }
