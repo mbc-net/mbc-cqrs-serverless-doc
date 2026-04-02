@@ -562,23 +562,69 @@ this.commandService.tableName = 'another-table';
 {{Read-Your-Writes consistency was added in [v1.2.0](/docs/changelog#v120).}}
 :::
 
-{{After `publishAsync`, there is a short window before the DynamoDB Stream pipeline syncs the data to the read model. During this window, a subsequent read by the same user would return stale data. The RYW feature bridges this gap by temporarily caching the pending command in a session table and merging it into read results.}}
+### {{The Problem: Stale Reads After publishAsync}}
 
-### {{How it works}}
+{{`publishAsync` returns immediately after writing to the Command table, then the DynamoDB Stream pipeline asynchronously syncs the data to the read model (Data table). This creates a short window where a subsequent read by the same user returns stale data — for example, a "Create Order" button submits successfully, the user is redirected to the order list, but the new order does not appear yet.}}
 
-1. {{After a successful `publishAsync`, `CommandService` writes a session entry to the session table keyed by `userId` and `tenantCode`.}}
-2. {{When reading via `Repository` (instead of `DataService`), the pending session entry is merged into the response if the DynamoDB Stream sync has not completed yet.}}
-3. {{Session entries expire automatically after `RYW_SESSION_TTL_MINUTES` minutes.}}
+```
+User Action                 DynamoDB Stream          User Sees
+──────────────────────────────────────────────────────────────────
+POST /orders ──────────► publishAsync() ─────► Command table ✓
+                                                      │
+GET  /orders ──────────► DataService.list() ─► Data table   ✗  ← stale!
+                                                      │
+                         [Stream sync ~1-3s]          │
+                                          ↓           ▼
+GET  /orders ──────────► DataService.list() ─► Data table   ✓  ← fresh
+```
 
-### {{Enabling RYW}}
+### {{The Solution: Session-Based Merge}}
 
-{{Set the `RYW_SESSION_TTL_MINUTES` environment variable to a positive integer (e.g. `5`). If unset, the feature is completely disabled and has zero impact on existing code.}}
+{{RYW bridges this gap by temporarily caching the version number of the pending command in a short-lived session table. When reading through `Repository`, the session entry is detected and the pending command is fetched from the Command table and merged into the response — making the write immediately visible to the user who made it.}}
+
+```
+User Action                 With RYW                 User Sees
+──────────────────────────────────────────────────────────────────
+POST /orders ──────────► publishAsync()
+                         ├─► Command table ✓
+                         └─► Session table (TTL=5m)
+
+GET  /orders ──────────► Repository.listItemsByPk()
+                         ├─► Session table ─► found! version=3
+                         ├─► Command table  ─► fetch pending cmd
+                         └─► merge into result     ✓  ← fresh!
+```
+
+### {{How it Works (Internals)}}
+
+1. {{**Write path** — after a successful `publishAsync`, `CommandService` writes a session entry to `{NODE_ENV}-{APP_NAME}-session` table:}}
+   - {{PK: `{userId}#{tenantCode}`}}
+   - {{SK: `{moduleTableName}#{itemId}`}}
+   - {{`version`: the version number of the published command}}
+   - {{`ttl`: current time + `RYW_SESSION_TTL_MINUTES` seconds (DynamoDB TTL auto-deletes the entry)}}
+
+2. {{**Read path** — `Repository` checks the session table before returning data:}}
+   - {{For `getItem`: if a session entry exists, fetches the exact versioned command and merges it with any existing data item}}
+   - {{For `listItemsByPk`: fetches all session entries for the user/tenant/module, then applies updates, deletes, and create-new prepends to the base list result}}
+   - {{For `listItems` (external sources like RDS): same merge logic, with `transformCommand` to convert the command shape to the external query shape}}
+
+3. {{**Session expiry** — entries expire automatically via DynamoDB TTL. Once the Stream sync completes (typically 1–3 seconds), the session entry is redundant and will be cleaned up within the TTL window.}}
+
+### {{Enabling RYW}} {#enabling-ryw}
+
+#### {{Step 1: Set the environment variable}}
+
+{{Set `RYW_SESSION_TTL_MINUTES` to a positive integer. A value of `5` (minutes) is a safe default — it covers any Stream sync delay while keeping the session table small.}}
 
 ```bash
 RYW_SESSION_TTL_MINUTES=5
 ```
 
-{{Also create the session DynamoDB table. Add `dynamodbs/session.json` to your project:}}
+{{If unset (or set to 0 or a non-number), the feature is completely disabled: session writes are skipped and `Repository` behaves identically to `DataService`.}}
+
+#### {{Step 2: Create the session DynamoDB table}}
+
+{{Add `dynamodbs/session.json` to your project (same location as your other table definitions):}}
 
 ```json
 {
@@ -599,31 +645,13 @@ RYW_SESSION_TTL_MINUTES=5
 }
 ```
 
-### {{Using Repository}}
+{{The table name is automatically computed as `{NODE_ENV}-{APP_NAME}-session` (e.g. `dev-myapp-session`).}}
 
-{{Replace `DataService` with `Repository` in services that need RYW consistency. `Repository` is exported from `@mbc-cqrs-serverless/core` and `CommandModule`.}}
+### {{Using Repository}} {#repository-api}
 
-```ts
-import { DetailKey, IInvoke, Repository } from '@mbc-cqrs-serverless/core'
-import { Injectable } from '@nestjs/common'
+{{`Repository` is a drop-in replacement for `DataService` for read operations that need RYW consistency. It is exported from `@mbc-cqrs-serverless/core` (via `CommandModule`). Register it in your module and inject it in your service.}}
 
-@Injectable()
-export class OrderService {
-  constructor(private readonly repository: Repository) {}
-
-  async getOrder(key: DetailKey, invokeContext: IInvoke) {
-    // {{Returns pending command data if a session exists for this user}}
-    return this.repository.getItem(key, { invokeContext })
-  }
-
-  async listOrders(pk: string, invokeContext: IInvoke) {
-    // {{Merges pending session entries into the list result}}
-    return this.repository.listItemsByPk(pk, {}, { invokeContext })
-  }
-}
-```
-
-{{Register `Repository` in your module:}}
+#### {{Module registration}}
 
 ```ts
 import { CommandModule } from '@mbc-cqrs-serverless/core'
@@ -636,10 +664,125 @@ import { CommandModule } from '@mbc-cqrs-serverless/core'
     }),
   ],
   providers: [OrderService],
+  exports: [OrderService],
 })
 export class OrderModule {}
 ```
 
-:::note
-{{`Repository` falls back to standard `DataService` behavior when `RYW_SESSION_TTL_MINUTES` is not set or when no session entry exists for the current user. It is safe to use in all environments.}}
+{{`Repository` is automatically provided and exported by `CommandModule.register()` — no extra configuration is needed.}}
+
+#### {{`getItem` — single item with RYW merge}}
+
+```ts
+import { DetailKey, ICommandOptions, Repository } from '@mbc-cqrs-serverless/core'
+import { Injectable } from '@nestjs/common'
+
+@Injectable()
+export class OrderService {
+  constructor(private readonly repository: Repository) {}
+
+  async getOrder(key: DetailKey, options: ICommandOptions) {
+    // {{If the user just published an async command for this item,}}
+    // {{the pending version is merged in — the user always sees their own write.}}
+    return this.repository.getItem(key, options)
+  }
+}
+```
+
+#### {{`listItemsByPk` — DynamoDB list with RYW merge}}
+
+{{Pass `latestFlg: true` as the third argument to enable merging. Without it the method behaves identically to `DataService.listItemsByPk`.}}
+
+```ts
+async listOrders(pk: string, options: ICommandOptions) {
+  return this.repository.listItemsByPk(
+    pk,
+    { limit: 20, order: 'desc' },  // {{standard DynamoDB query options}}
+    { latestFlg: true },            // {{enable RYW merge}}
+    options,
+  )
+}
+```
+
+{{Merge behaviour per operation:}}
+
+| {{Operation}} | {{Result}} |
+|---|---|
+| {{create-new}} | {{Prepended to the top of the list (sorted by `updatedAt` desc among multiple pending creates)}} |
+| {{update}} | {{Replaced in-place — original sort position preserved}} |
+| {{delete}} | {{Removed from the result}} |
+
+:::note {{Sort order after create-new}}
+{{Newly created items are prepended to the top of the list, not integrated into the caller's sort order (e.g. by `name` or `code`). They appear at the top until the DynamoDB Stream sync completes and the next read returns fully sorted data. This is intentional — RYW guarantees *visibility*, not sort position.}}
 :::
+
+#### {{`listItems` — external source (RDS / Elasticsearch) with RYW merge}}
+
+{{For services that query an external source (e.g. RDS via TypeORM or Prisma), use `listItems` with a `transformCommand` function to convert the pending command into the same shape as your query result.}}
+
+```ts
+import { IMergeOptions, ICommandOptions, Repository } from '@mbc-cqrs-serverless/core'
+import { Injectable } from '@nestjs/common'
+import { OrderDto } from './dto/order.dto'
+
+@Injectable()
+export class OrderService {
+  constructor(
+    private readonly repository: Repository,
+    private readonly orderRepository: TypeOrmOrderRepository,
+  ) {}
+
+  async searchOrders(
+    filter: OrderFilterDto,
+    options: ICommandOptions,
+  ): Promise<{ total: number; items: OrderDto[] }> {
+    const mergeOptions: IMergeOptions<OrderDto> = {
+      latestFlg: true,
+
+      // {{Convert a pending CommandModel into an OrderDto}}
+      transformCommand: (cmd, existing) => ({
+        id: cmd.id,
+        code: cmd.code,
+        name: cmd.name,
+        status: cmd.attributes?.status ?? existing?.status,
+        // {{carry over join fields that don't exist in the command}}
+        customerName: existing?.customerName ?? '',
+        createdAt: cmd.createdAt,
+        updatedAt: cmd.updatedAt,
+      }),
+
+      // {{Only prepend create-new items that match the current search filter}}
+      matchesFilter: (item) =>
+        !filter.status || item.status === filter.status,
+    }
+
+    return this.repository.listItems(
+      // {{The base query — runs as normal}}
+      () => this.orderRepository.search(filter),
+      mergeOptions,
+      options,
+    )
+  }
+}
+```
+
+:::note {{Pagination with listItems}}
+{{`total` is adjusted after merge (incremented for create-new, decremented for delete). However, prepended items sit outside the RDS `LIMIT`/`OFFSET` window, so on page 2+ there may be a one-item overlap or gap until the Stream sync completes. For most UX patterns (redirect-after-write, optimistic UI) this is unnoticeable.}}
+:::
+
+### {{Behaviour Summary}}
+
+| {{Scenario}} | {{`RYW_SESSION_TTL_MINUTES` unset}} | {{`RYW_SESSION_TTL_MINUTES=5`}} |
+|---|---|---|
+| {{`getItem` — item just created}} | {{Returns stale (empty)}} | {{Returns pending command data}} |
+| {{`getItem` — after Stream sync}} | {{Returns fresh data}} | {{Returns fresh data (session expired or not found)}} |
+| {{`listItemsByPk` with `latestFlg`}} | {{Returns stale list}} | {{Returns list with pending item prepended}} |
+| {{Performance overhead}} | {{None}} | {{1–2 extra DynamoDB reads per pending item}} |
+| {{Impact on existing code}} | {{None}} | {{None — `DataService` is unchanged}} |
+
+### {{Limitations and Trade-offs}}
+
+- {{**Visibility guarantee, not ordering**: Pending create-new items appear at the top of lists, not in the caller's sort order.}}
+- {{**Single-user scope**: RYW only applies to the user who published the command. Other users still see the eventual-consistent read until the Stream sync completes.}}
+- {{**`listItems` pagination overlap**: On paginated external queries (RDS), a create-new item may appear on both page 1 (prepended) and page 2 (after sync). This resolves on the next full reload.}}
+- {{**Session table cost**: Each `publishAsync` call writes one DynamoDB item per updated entity. With `RYW_SESSION_TTL_MINUTES=5` the items are small and short-lived. Cost is negligible for typical workloads.}}

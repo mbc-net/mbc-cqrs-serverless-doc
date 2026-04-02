@@ -562,23 +562,69 @@ this.commandService.tableName = 'another-table';
 Read-Your-Writes一貫性は[v1.2.0](/docs/changelog#v120)で追加されました。
 :::
 
-`publishAsync`後、DynamoDB Streamパイプラインがデータを読み取りモデルに同期するまでの短い時間があります。この間、同一ユーザーによる後続の読み取りは古いデータを返してしまいます。RYW機能は保留中のコマンドをセッションテーブルに一時キャッシュし、読み取り結果にマージすることでこのギャップを解消します。
+### 問題: publishAsync後の古いデータ読み取り
 
-### 動作の仕組み
+`publishAsync`はCommandテーブルへの書き込み後すぐに返り、その後DynamoDB StreamパイプラインがデータをReadモデル（Dataテーブル）に非同期で同期します。この間、同一ユーザーによる後続の読み取りは古いデータを返してしまいます。例えば「注文作成」ボタンが正常に送信されてユーザーが注文一覧にリダイレクトされても、新しい注文がまだ表示されない状態です。
 
-1. `publishAsync`成功後、`CommandService`が`userId`と`tenantCode`をキーにセッションエントリをセッションテーブルに書き込みます。
-2. `Repository`経由で読み取る際（`DataService`の代わりに）、DynamoDB Streamの同期がまだ完了していない場合はペンディングセッションエントリがレスポンスにマージされます。
-3. セッションエントリは`RYW_SESSION_TTL_MINUTES`分後に自動的に期限切れになります。
+```
+User Action                 DynamoDB Stream          User Sees
+──────────────────────────────────────────────────────────────────
+POST /orders ──────────► publishAsync() ─────► Command table ✓
+                                                      │
+GET  /orders ──────────► DataService.list() ─► Data table   ✗  ← stale!
+                                                      │
+                         [Stream sync ~1-3s]          │
+                                          ↓           ▼
+GET  /orders ──────────► DataService.list() ─► Data table   ✓  ← fresh
+```
 
-### RYWの有効化
+### 解決策: セッションベースのマージ
 
-`RYW_SESSION_TTL_MINUTES`環境変数を正の整数に設定してください（例: `5`）。未設定の場合は完全に無効になり、既存コードへの影響はありません。
+RYWはこのギャップを、保留中のコマンドのバージョン番号を短命なセッションテーブルに一時キャッシュすることで解消します。`Repository`経由で読み取る際、セッションエントリが検出され、保留中のコマンドがCommandテーブルから取得されてレスポンスにマージされます — これにより書き込みを行ったユーザーには即座に反映されます。
+
+```
+User Action                 With RYW                 User Sees
+──────────────────────────────────────────────────────────────────
+POST /orders ──────────► publishAsync()
+                         ├─► Command table ✓
+                         └─► Session table (TTL=5m)
+
+GET  /orders ──────────► Repository.listItemsByPk()
+                         ├─► Session table ─► found! version=3
+                         ├─► Command table  ─► fetch pending cmd
+                         └─► merge into result     ✓  ← fresh!
+```
+
+### 動作の仕組み（内部処理）
+
+1. **書き込みパス** — `publishAsync`成功後、`CommandService`が`{NODE_ENV}-{APP_NAME}-session`テーブルにセッションエントリを書き込みます：
+   - PK: `{userId}#{tenantCode}`
+   - SK: `{moduleTableName}#{itemId}`
+   - `version`: 発行されたコマンドのバージョン番号
+   - `ttl`: 現在時刻 + `RYW_SESSION_TTL_MINUTES`秒（DynamoDB TTLがエントリを自動削除）
+
+2. **読み取りパス** — `Repository`はデータを返す前にセッションテーブルを確認します：
+   - `getItem`の場合: セッションエントリが存在すれば、バージョン付きコマンドを取得して既存のデータアイテムとマージ
+   - `listItemsByPk`の場合: ユーザー/テナント/モジュールのセッションエントリを全取得し、更新・削除・新規作成を基底リスト結果に適用
+   - `listItems`（RDS等の外部ソース）の場合: 同様のマージロジックで、`transformCommand`でコマンドを外部クエリの形に変換
+
+3. **セッション期限切れ** — DynamoDB TTLにより自動的に期限切れになります。Streamの同期が完了すると（通常1〜3秒）、セッションエントリは不要となりTTL期間内にクリーンアップされます。
+
+### RYWの有効化 {#enabling-ryw}
+
+#### ステップ1: 環境変数を設定する
+
+`RYW_SESSION_TTL_MINUTES`を正の整数に設定します。`5`（分）が安全なデフォルト値です — Streamの同期遅延をカバーしつつセッションテーブルを小さく保てます。
 
 ```bash
 RYW_SESSION_TTL_MINUTES=5
 ```
 
-セッションDynamoDBテーブルも作成してください。プロジェクトに`dynamodbs/session.json`を追加します：
+未設定（または0や非数値に設定）の場合、機能は完全に無効になります：セッション書き込みはスキップされ、`Repository`は`DataService`と同じ動作をします。
+
+#### ステップ2: セッションDynamoDBテーブルを作成する
+
+`dynamodbs/session.json`をプロジェクトに追加します（他のテーブル定義と同じ場所）：
 
 ```json
 {
@@ -599,31 +645,13 @@ RYW_SESSION_TTL_MINUTES=5
 }
 ```
 
-### Repositoryの使い方
+テーブル名は`{NODE_ENV}-{APP_NAME}-session`として自動計算されます（例: `dev-myapp-session`）。
 
-RYW一貫性が必要なサービスでは`DataService`を`Repository`に置き換えてください。`Repository`は`@mbc-cqrs-serverless/core`と`CommandModule`からエクスポートされています。
+### Repositoryの使い方 {#repository-api}
 
-```ts
-import { DetailKey, IInvoke, Repository } from '@mbc-cqrs-serverless/core'
-import { Injectable } from '@nestjs/common'
+`Repository`はRYW一貫性が必要な読み取り操作において`DataService`の代替として使用できます。`@mbc-cqrs-serverless/core`（`CommandModule`経由）からエクスポートされています。モジュールに登録してサービスにインジェクトしてください。
 
-@Injectable()
-export class OrderService {
-  constructor(private readonly repository: Repository) {}
-
-  async getOrder(key: DetailKey, invokeContext: IInvoke) {
-    // このユーザーのセッションが存在する場合はペンディングコマンドデータを返す
-    return this.repository.getItem(key, { invokeContext })
-  }
-
-  async listOrders(pk: string, invokeContext: IInvoke) {
-    // ペンディングセッションエントリをリスト結果にマージ
-    return this.repository.listItemsByPk(pk, {}, { invokeContext })
-  }
-}
-```
-
-モジュールに`Repository`を登録してください：
+#### モジュールへの登録
 
 ```ts
 import { CommandModule } from '@mbc-cqrs-serverless/core'
@@ -636,10 +664,125 @@ import { CommandModule } from '@mbc-cqrs-serverless/core'
     }),
   ],
   providers: [OrderService],
+  exports: [OrderService],
 })
 export class OrderModule {}
 ```
 
-:::note
-`RYW_SESSION_TTL_MINUTES`未設定または現在ユーザーのセッションエントリが存在しない場合、`Repository`は標準の`DataService`の動作にフォールバックします。すべての環境で安全に使用できます。
+`Repository`は`CommandModule.register()`によって自動的にプロバイドおよびエクスポートされます — 追加の設定は不要です。
+
+#### `getItem` — RYWマージ付き単一アイテム取得
+
+```ts
+import { DetailKey, ICommandOptions, Repository } from '@mbc-cqrs-serverless/core'
+import { Injectable } from '@nestjs/common'
+
+@Injectable()
+export class OrderService {
+  constructor(private readonly repository: Repository) {}
+
+  async getOrder(key: DetailKey, options: ICommandOptions) {
+    // このアイテムに対してユーザーが直前にasyncコマンドを発行した場合、
+    // 保留バージョンがマージされます — ユーザーは常に自分の書き込みを見ることができます。
+    return this.repository.getItem(key, options)
+  }
+}
+```
+
+#### `listItemsByPk` — RYWマージ付きDynamoDBリスト取得
+
+マージを有効にするには第3引数に`latestFlg: true`を渡します。省略時は`DataService.listItemsByPk`と同じ動作です。
+
+```ts
+async listOrders(pk: string, options: ICommandOptions) {
+  return this.repository.listItemsByPk(
+    pk,
+    { limit: 20, order: 'desc' },  // 標準DynamoDBクエリオプション
+    { latestFlg: true },            // RYWマージを有効化
+    options,
+  )
+}
+```
+
+操作ごとのマージ動作：
+
+| 操作 | 結果 |
+|---|---|
+| 新規作成 | リストの先頭に追加（複数の保留作成がある場合は`updatedAt`降順でソート） |
+| 更新 | 元の位置で置き換え — 元のソート順を保持 |
+| 削除 | 結果から除外 |
+
+:::note 新規作成後のソート順
+新規作成されたアイテムはリストの先頭に追加されます。呼び出し元のソート順（`name`や`code`順など）には統合されません。DynamoDB Streamの同期が完了して次の読み取りで完全にソートされたデータが返るまで先頭に表示されます。これは意図的な動作です — RYWが保証するのは*可視性*であり、ソート位置ではありません。
 :::
+
+#### `listItems` — RYWマージ付き外部ソース（RDS / Elasticsearch）クエリ
+
+外部ソース（TypeORMやPrismaを使用したRDSなど）をクエリするサービスでは、`listItems`と`transformCommand`関数を使用して保留中のコマンドをクエリ結果と同じ形に変換します。
+
+```ts
+import { IMergeOptions, ICommandOptions, Repository } from '@mbc-cqrs-serverless/core'
+import { Injectable } from '@nestjs/common'
+import { OrderDto } from './dto/order.dto'
+
+@Injectable()
+export class OrderService {
+  constructor(
+    private readonly repository: Repository,
+    private readonly orderRepository: TypeOrmOrderRepository,
+  ) {}
+
+  async searchOrders(
+    filter: OrderFilterDto,
+    options: ICommandOptions,
+  ): Promise<{ total: number; items: OrderDto[] }> {
+    const mergeOptions: IMergeOptions<OrderDto> = {
+      latestFlg: true,
+
+      // 保留中のCommandModelをOrderDtoに変換
+      transformCommand: (cmd, existing) => ({
+        id: cmd.id,
+        code: cmd.code,
+        name: cmd.name,
+        status: cmd.attributes?.status ?? existing?.status,
+        // コマンドに存在しないJOINフィールドを引き継ぐ
+        customerName: existing?.customerName ?? '',
+        createdAt: cmd.createdAt,
+        updatedAt: cmd.updatedAt,
+      }),
+
+      // 現在の検索フィルターにマッチする新規作成アイテムのみを先頭に追加
+      matchesFilter: (item) =>
+        !filter.status || item.status === filter.status,
+    }
+
+    return this.repository.listItems(
+      // 基底クエリ — 通常通り実行
+      () => this.orderRepository.search(filter),
+      mergeOptions,
+      options,
+    )
+  }
+}
+```
+
+:::note listItemsのページネーション
+マージ後に`total`が調整されます（新規作成でインクリメント、削除でデクリメント）。ただし先頭に追加されたアイテムはRDSの`LIMIT`/`OFFSET`ウィンドウの外にあるため、Streamの同期が完了するまでページ2以降で1アイテムの重複またはギャップが生じる場合があります。ほとんどのUXパターン（書き込み後リダイレクト、楽観的UI）では気になりません。
+:::
+
+### 動作サマリー
+
+| シナリオ | `RYW_SESSION_TTL_MINUTES`未設定 | `RYW_SESSION_TTL_MINUTES=5` |
+|---|---|---|
+| `getItem` — 直前に作成したアイテム | 古いデータを返す（空） | 保留中のコマンドデータを返す |
+| `getItem` — Streamの同期後 | 最新データを返す | 最新データを返す（セッション期限切れまたは未存在） |
+| `listItemsByPk`（`latestFlg`あり） | 古いリストを返す | 保留アイテムを先頭に追加したリストを返す |
+| パフォーマンスオーバーヘッド | なし | 保留アイテムごとに1〜2回の追加DynamoDB読み取り |
+| 既存コードへの影響 | なし | なし — `DataService`は変更なし |
+
+### 制限とトレードオフ
+
+- **可視性の保証であり、順序ではない**: 保留中の新規作成アイテムはリストの先頭に表示されますが、呼び出し元のソート順には統合されません。
+- **単一ユーザースコープ**: RYWはコマンドを発行したユーザーにのみ適用されます。他のユーザーはStreamの同期が完了するまで結果整合性の読み取りが返ります。
+- **`listItems`のページネーション重複**: ページネーションされた外部クエリ（RDS）では、新規作成アイテムがページ1（先頭追加）とページ2（同期後）の両方に表示される場合があります。次の完全なリロードで解消されます。
+- **セッションテーブルのコスト**: `publishAsync`の呼び出しごとに更新エンティティ1件につきDynamoDBアイテムを1件書き込みます。`RYW_SESSION_TTL_MINUTES=5`の場合、アイテムは小さく短命です。一般的なワークロードではコストは無視できます。
