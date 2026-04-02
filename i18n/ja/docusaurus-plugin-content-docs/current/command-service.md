@@ -602,11 +602,12 @@ GET  /orders ──────────► Repository.listItemsByPk()
    - SK: `{moduleTableName}#{itemId}`
    - `version`: 発行されたコマンドのバージョン番号
    - `ttl`: 現在時刻 + `RYW_SESSION_TTL_MINUTES`秒（DynamoDB TTLがエントリを自動削除）
+   - **注意**: `RYW_SESSION_TTL_MINUTES`未設定の場合、この書き込みは完全にスキップされます。`Repository`の読み取りは正しく動作します — セッションエントリが見つからず`DataService`にフォールバックするだけです。
 
 2. **読み取りパス** — `Repository`はデータを返す前にセッションテーブルを確認します：
    - `getItem`の場合: セッションエントリが存在すれば、バージョン付きコマンドを取得して既存のデータアイテムとマージ
    - `listItemsByPk`の場合: ユーザー/テナント/モジュールのセッションエントリを全取得し、更新・削除・新規作成を基底リスト結果に適用
-   - `listItems`（RDS等の外部ソース）の場合: 同様のマージロジックで、`transformCommand`でコマンドを外部クエリの形に変換
+   - `listItems`（RDS等の外部ソース）の場合: 同様のマージロジックで、`transformCommand`でコマンドを外部クエリの形に変換。`listItemsByPk`（`pk`引数から`tenantCode`を取得）とは異なり、`listItems`は`getUserContext(options.invokeContext)`から`tenantCode`を取得するため、RYWを有効にするには有効な`invokeContext`を持つ`options`が必要
 
 3. **セッション期限切れ** — DynamoDB TTLにより自動的に期限切れになります。Streamの同期が完了すると（通常1〜3秒）、セッションエントリは不要となりTTL期間内にクリーンアップされます。
 
@@ -691,7 +692,7 @@ export class OrderService {
 
 #### `listItemsByPk` — RYWマージ付きDynamoDBリスト取得
 
-マージを有効にするには第3引数に`latestFlg: true`を渡します。省略時は`DataService.listItemsByPk`と同じ動作です。
+マージを有効にするには第3引数に`{ latestFlg: true }`を渡します。`mergeOptions`を省略するか`latestFlg`が`false`/`undefined`の場合、`DataService.listItemsByPk`と同じ動作です。
 
 ```ts
 async listOrders(pk: string, options: ICommandOptions) {

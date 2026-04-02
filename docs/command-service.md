@@ -602,11 +602,12 @@ GET  /orders ──────────► Repository.listItemsByPk()
    - {{SK: `{moduleTableName}#{itemId}`}}
    - {{`version`: the version number of the published command}}
    - {{`ttl`: current time + `RYW_SESSION_TTL_MINUTES` seconds (DynamoDB TTL auto-deletes the entry)}}
+   - {{**Note**: if `RYW_SESSION_TTL_MINUTES` is unset, this write is skipped entirely. `Repository` reads still work correctly — they simply find no session entries and fall back to `DataService`.}}
 
 2. {{**Read path** — `Repository` checks the session table before returning data:}}
    - {{For `getItem`: if a session entry exists, fetches the exact versioned command and merges it with any existing data item}}
    - {{For `listItemsByPk`: fetches all session entries for the user/tenant/module, then applies updates, deletes, and create-new prepends to the base list result}}
-   - {{For `listItems` (external sources like RDS): same merge logic, with `transformCommand` to convert the command shape to the external query shape}}
+   - {{For `listItems` (external sources like RDS): same merge logic, with `transformCommand` to convert the command shape to the external query shape. Unlike `listItemsByPk` (which derives `tenantCode` from the `pk` argument), `listItems` derives `tenantCode` from `getUserContext(options.invokeContext)` — so `options` with a valid `invokeContext` is required for RYW to activate}}
 
 3. {{**Session expiry** — entries expire automatically via DynamoDB TTL. Once the Stream sync completes (typically 1–3 seconds), the session entry is redundant and will be cleaned up within the TTL window.}}
 
@@ -691,7 +692,7 @@ export class OrderService {
 
 #### {{`listItemsByPk` — DynamoDB list with RYW merge}}
 
-{{Pass `latestFlg: true` as the third argument to enable merging. Without it the method behaves identically to `DataService.listItemsByPk`.}}
+{{Pass `{ latestFlg: true }` as the third argument to enable merging. If `mergeOptions` is omitted or `latestFlg` is `false`/`undefined`, the method behaves identically to `DataService.listItemsByPk`.}}
 
 ```ts
 async listOrders(pk: string, options: ICommandOptions) {
