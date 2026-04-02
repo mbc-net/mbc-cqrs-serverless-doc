@@ -106,6 +106,63 @@ sequenceDiagram
 4. **データベースクエリ**: データサービスがDynamoDBまたはRDSにクエリ
 5. **レスポンス**: データをクライアントに返却
 
+## Read-Your-Writes整合性 {#read-your-writes}
+
+### 結果整合性の課題
+
+`publishAsync` はコマンドテーブルに書き込んだ直後に返却されます。SNS経由でトリガーされるプロジェクターがリードストアを更新する前に、後続の読み取りが古いデータを返す短い時間窓が存在します：
+
+```
+publishAsync()
+     │
+     ▼
+CommandTable ──► SNS ──► Lambda ──► ReadStore
+     │                                  ▲
+     │              ~async window~       │
+     └──── publishAsync returns ────     │
+                                         │
+Client reads here ───────────────────────┘  ← may return OLD data
+```
+
+これは結果整合性システムとして期待される動作ですが、ユーザーがレコードを作成・更新してすぐに一覧画面に遷移した際に、更新前の状態が表示されるという混乱を招くことがあります。
+
+### Read-Your-Writes (RYW) ソリューション {#ryw-solution}
+
+MBC CQRS Serverless v1.2.0 では、書き込みを行ったユーザーに対してこの非同期ウィンドウを埋めるセッションベースの **Read-Your-Writes** レイヤーが導入されました：
+
+```
+publishAsync()
+     │
+     ├──► CommandTable ──► SNS ──► Lambda ──► ReadStore
+     │
+     └──► SessionTable  ← TTL付きの小さなエントリ
+               │
+               ▼
+         Repository.getItem / listItemsByPk / listItems
+               │
+               ├── ReadStoreから取得（DataService）
+               └── SessionTableから保留中のコマンドを取得
+                         │
+                         └── マージ → 整合性のある結果を返す
+```
+
+`RYW_SESSION_TTL_MINUTES` が設定されている場合、`publishAsync` / `publishPartialUpdateAsync` の呼び出しごとに `SessionService` が専用のセッションテーブルに短命なエントリを書き込みます。`Repository` クラス（`DataService` をラップ）は自動的にそれらのエントリを読み取り、保留中のコマンドをクエリ結果にマージします。プロジェクターが実行される前でも、呼び出し元は自分の書き込みを即座に確認できます。
+
+### RYWの概念まとめ
+
+| 概念 | 説明 |
+|-------------|-----------------|
+| セッションエントリ | `publishAsync` 成功後に `SessionService.put()` が書き込む。`RYW_SESSION_TTL_MINUTES` 分後に失効する |
+| Repository | RYWマージを透過的に適用する `DataService` の代替クラス |
+| マージ戦略 | 保留中の `create` コマンドは先頭に追加、`delete` コマンドはフィルタリング、`update` / `partial-update` はリードストアのアイテムに上書き適用される |
+| フォールバック | `RYW_SESSION_TTL_MINUTES` が未設定または0以下の値の場合、`SessionService.put()` はno-opとなり、`Repository` は `DataService` と同じ動作をする |
+
+:::info バージョン情報 (v1.2.0)
+Read-Your-Writesサポート（`SessionService`、`Repository`）は [v1.2.0](/docs/changelog#v120) で追加されました。有効にするには `RYW_SESSION_TTL_MINUTES` の設定とセッション用DynamoDBテーブルのプロビジョニングが必要です。
+
+セットアップ手順と完全なAPIリファレンスについては、[Read-Your-Writes実装ガイド](/docs/command-service#read-your-writes)を参照してください。
+:::
+
 ## 主要コンポーネント
 
 ### コマンドハンドラー
