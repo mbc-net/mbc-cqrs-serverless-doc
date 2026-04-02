@@ -150,9 +150,19 @@ const item = await this.commandService.publishPartialUpdateAsync(catCommand, {
 });
 ```
 
-### *async* `publishSync( input: CommandInputModel, options: ICommandOptions): Promise<CommandModel>` {#publishsync-audit-trail}
+### *async* `publishSync( input: CommandInputModel, options: ICommandOptions): Promise<CommandModel | null>` {#publishsync-audit-trail}
 
 このメソッドは、`publishAsync` メソッドに相当する同期メソッドとして機能します。つまり、コマンドが完全に処理されるまでコードの実行を停止します。これにより、コード内で以降の操作を続行する前にコマンドの結果を確実に受け取ることができます。
+
+:::danger 破壊的変更 (v1.2.0)
+[v1.2.0](/docs/changelog#v120)以降、`publishSync()`と`publishPartialUpdateSync()`はコマンドに変更がない場合（no-op）に`null`を返します。プロパティにアクセスする前に必ずnullチェックを行ってください：
+
+```ts
+const result = await this.commandService.publishSync(command, { invokeContext });
+if (!result) return; // no-op: コマンドに変更なし、何も書き込まれていません
+console.log(result.pk); // nullチェック後は安全
+```
+:::
 
 :::info バージョンノート (v1.1.4+)
 [v1.1.4](/docs/changelog#v114)以降、`publishSync`は非同期パイプラインと同等の完全な監査証跡を書き込みます：
@@ -202,9 +212,13 @@ const item = await this.commandService.publishSync(catCommand, {
 });
 ```
 
-### *async* `publishPartialUpdateSync( input: CommandPartialInputModel, options: ICommandOptions): Promise<CommandModel>`
+### *async* `publishPartialUpdateSync( input: CommandPartialInputModel, options: ICommandOptions): Promise<CommandModel | null>`
 
 このメソッドは、`publishPartialUpdateAsync` メソッドの同期バージョンです。コマンドが処理されるまでコードの実行がブロックされます。
+
+:::danger 破壊的変更 (v1.2.0)
+[v1.2.0](/docs/changelog#v120)以降、このメソッドはコマンドに変更がない場合（no-op）に`null`を返します。結果を必ずnullチェックしてください。詳細は[publishSync null return](/docs/command-service#publishsync-null-return)を参照。
+:::
 
 :::warning バージョンマッチング
 このメソッドでは、入力の `version` フィールドが既存アイテムの現在のバージョンと一致する必要があります。アイテムが見つからないかバージョンが一致しない場合、「The input is not a valid, item not found or version not match」というメッセージで `BadRequestException` がスローされます。
@@ -236,11 +250,11 @@ const item = await this.commandService.publishPartialUpdateSync(catCommand, {
 });
 ```
 
-### *async* `publish(input: CommandInputModel, options: ICommandOptions): Promise<CommandModel | null>` <span class="badge badge--warning">非推奨</span>
+### *async* `publish(input: CommandInputModel, options: ICommandOptions): Promise<CommandModel | null>` <span class="badge badge--danger">削除済み</span>
 
-:::info
+:::danger v1.1.0で削除
 
-非推奨、削除予定: この API 要素は将来のバージョンで削除される可能性があります。代わりに [`publishAsync` メソッド](#publishasync) を使用してください。
+このメソッドは[v1.1.0](/docs/changelog#v110)で削除されました。代わりに[`publishAsync`メソッド](#publishasync)を使用してください。
 
 :::
 
@@ -281,11 +295,11 @@ const item = await this.commandService.publish(catCommand, {
 
 このメソッドはコマンド データを返します。
 
-### *async* `publishPartialUpdate( input: CommandPartialInputModel, options: ICommandOptions): Promise<CommandModel | null>` <span class="badge badge--warning">非推奨</span>
+### *async* `publishPartialUpdate( input: CommandPartialInputModel, options: ICommandOptions): Promise<CommandModel | null>` <span class="badge badge--danger">削除済み</span>
 
-:::info
+:::danger v1.1.0で削除
 
-非推奨、削除予定: この API 要素は将来のバージョンで削除される可能性があります。代わりに [`publishPartialUpdateAsync` メソッド](#publishpartialupdateasync) を使用してください。
+このメソッドは[v1.1.0](/docs/changelog#v110)で削除されました。代わりに[`publishPartialUpdateAsync`メソッド](#publishpartialupdateasync)を使用してください。
 
 :::
 
@@ -538,4 +552,94 @@ this.commandService.tableName = 'another-table';
 
 :::note
 実行時にテーブル名を変更することは高度なユースケースです。ほとんどのアプリケーションでは、`CommandModule.register()`でテーブル名を設定し、その後は変更しないでください。
+:::
+
+---
+
+## Read-Your-Writes（RYW）一貫性 {#read-your-writes}
+
+:::info バージョンノート
+Read-Your-Writes一貫性は[v1.2.0](/docs/changelog#v120)で追加されました。
+:::
+
+`publishAsync`後、DynamoDB Streamパイプラインがデータを読み取りモデルに同期するまでの短い時間があります。この間、同一ユーザーによる後続の読み取りは古いデータを返してしまいます。RYW機能は保留中のコマンドをセッションテーブルに一時キャッシュし、読み取り結果にマージすることでこのギャップを解消します。
+
+### 動作の仕組み
+
+1. `publishAsync`成功後、`CommandService`が`userId`と`tenantCode`をキーにセッションエントリをセッションテーブルに書き込みます。
+2. `Repository`経由で読み取る際（`DataService`の代わりに）、DynamoDB Streamの同期がまだ完了していない場合はペンディングセッションエントリがレスポンスにマージされます。
+3. セッションエントリは`RYW_SESSION_TTL_MINUTES`分後に自動的に期限切れになります。
+
+### RYWの有効化
+
+`RYW_SESSION_TTL_MINUTES`環境変数を正の整数に設定してください（例: `5`）。未設定の場合は完全に無効になり、既存コードへの影響はありません。
+
+```bash
+RYW_SESSION_TTL_MINUTES=5
+```
+
+セッションDynamoDBテーブルも作成してください。プロジェクトに`dynamodbs/session.json`を追加します：
+
+```json
+{
+  "TableName": "${NODE_ENV}-${APP_NAME}-session",
+  "BillingMode": "PAY_PER_REQUEST",
+  "KeySchema": [
+    { "AttributeName": "pk", "KeyType": "HASH" },
+    { "AttributeName": "sk", "KeyType": "RANGE" }
+  ],
+  "AttributeDefinitions": [
+    { "AttributeName": "pk", "AttributeType": "S" },
+    { "AttributeName": "sk", "AttributeType": "S" }
+  ],
+  "TimeToLiveSpecification": {
+    "AttributeName": "ttl",
+    "Enabled": true
+  }
+}
+```
+
+### Repositoryの使い方
+
+RYW一貫性が必要なサービスでは`DataService`を`Repository`に置き換えてください。`Repository`は`@mbc-cqrs-serverless/core`と`CommandModule`からエクスポートされています。
+
+```ts
+import { DetailKey, IInvoke, Repository } from '@mbc-cqrs-serverless/core'
+import { Injectable } from '@nestjs/common'
+
+@Injectable()
+export class OrderService {
+  constructor(private readonly repository: Repository) {}
+
+  async getOrder(key: DetailKey, invokeContext: IInvoke) {
+    // このユーザーのセッションが存在する場合はペンディングコマンドデータを返す
+    return this.repository.getItem(key, { invokeContext })
+  }
+
+  async listOrders(pk: string, invokeContext: IInvoke) {
+    // ペンディングセッションエントリをリスト結果にマージ
+    return this.repository.listItemsByPk(pk, {}, { invokeContext })
+  }
+}
+```
+
+モジュールに`Repository`を登録してください：
+
+```ts
+import { CommandModule } from '@mbc-cqrs-serverless/core'
+
+@Module({
+  imports: [
+    CommandModule.register({
+      tableName: 'order',
+      dataSyncHandlers: [OrderDataSyncHandler],
+    }),
+  ],
+  providers: [OrderService],
+})
+export class OrderModule {}
+```
+
+:::note
+`RYW_SESSION_TTL_MINUTES`未設定または現在ユーザーのセッションエントリが存在しない場合、`Repository`は標準の`DataService`の動作にフォールバックします。すべての環境で安全に使用できます。
 :::

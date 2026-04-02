@@ -318,11 +318,11 @@ Deprecated, for removal: This API element is subject to removal in a future vers
 
 :::
 
-### *async* `genNewSequence( dto: GenerateSequenceDto, options: {invokeContext: IInvoke}): Promise<DataEntity>` <span class="badge badge--warning">deprecated</span>
+### *async* `genNewSequence( dto: GenerateSequenceDto, options: {invokeContext: IInvoke}): Promise<DataEntity>` <span class="badge badge--danger">removed</span> {#gen-new-sequence-removed}
 
-:::info
+:::danger Removed in v1.2.0
 
-Deprecated, for removal: This API element is subject to removal in a future version. Use [`generateSequenceItem` method](#async-generatesequenceitem-dto-generateformattedsequencedto-options-invokecontextiinvoke--promisesequenceentity) instead.
+This method was removed in [v1.2.0](/docs/changelog#v120). Use [`generateSequenceItem`](#async-generatesequenceitem-dto-generateformattedsequencedto-options-invokecontextiinvoke--promisesequenceentity) or [`generateSequenceItemWithProvideSetting`](#async-generatesequenceitemwithprovidesetting-dto-generateformattedsequencewithprovidedsettingdto-options-invokecontextiinvoke--promisesequenceentity) instead.
 
 :::
 

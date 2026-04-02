@@ -1,15 +1,31 @@
 {
   "latest": {
-    "version": "1.1.5",
-    "date": "2026-03-28",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.5",
+    "version": "1.2.0",
+    "date": "2026-04-02",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.0",
     "features": [
-      "Implement v2 batch processing architecture for high-throughput CSV imports"
+      "Add Read-Your-Writes (RYW) consistency via `SessionService` and `Repository`",
+      "Add AP013 and AP014 anti-pattern detectors for v1.2.0 breaking changes"
     ],
-    "bugFixes": [],
+    "bugFixes": [
+      "Fix import status handling for ZIP orchestrator"
+    ],
     "security": []
   },
   "recent": [
+    {
+      "version": "1.2.0",
+      "date": "2026-04-02",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.0",
+      "features": [
+        "Add Read-Your-Writes (RYW) consistency via `SessionService` and `Repository`",
+        "Add AP013 and AP014 anti-pattern detectors for v1.2.0 breaking changes"
+      ],
+      "bugFixes": [
+        "Fix import status handling for ZIP orchestrator"
+      ],
+      "security": []
+    },
     {
       "version": "1.1.5",
       "date": "2026-03-28",
@@ -39,24 +55,7 @@
         "Fix CSV import Distributed Map state result exceeding 256KB limit"
       ],
       "security": []
-    },
-    {
-      "version": "1.1.2",
-      "date": "2026-02-25",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.2",
-      "features": [
-        "Add built-in upsert methods for master settings and data",
-        "Add unified bulk upsert API (`/api/master-bulk/`)",
-        "Add `@ArrayMaxSize(100)` validation to all bulk DTOs",
-        "Add tenant code validation to individual bulk endpoints (`/api/master-setting/bulk`, `/api/master-data/bulk`)"
-      ],
-      "bugFixes": [
-        "Fix `checkVersion` error message using hardcoded value instead of actual `commandVersion`",
-        "Fix `seq === 0` being treated as falsy in `createSetting` by changing to null check (`seq == null`)",
-        "Fix DTO mutation in `createSetting` by cloning attributes before modifying seq"
-      ],
-      "security": []
     }
   ],
-  "generated": "2026-03-28T13:07:30.609Z"
+  "generated": "2026-04-02T10:08:25.983Z"
 }

@@ -150,9 +150,19 @@ const item = await this.commandService.publishPartialUpdateAsync(catCommand, {
 });
 ```
 
-### {{*async* `publishSync( input: CommandInputModel, options: ICommandOptions): Promise<CommandModel>`}} {#publishsync-audit-trail}
+### {{*async* `publishSync( input: CommandInputModel, options: ICommandOptions): Promise\<CommandModel | null\>`}} {#publishsync-audit-trail}
 
 {{This method serves as a synchronous counterpart to the `publishAsync` method, meaning that it will halt the execution of the code until the command has been fully processed. This ensures that you receive the result of the command before proceeding with any further operations in your code.}}
+
+:::danger {{Breaking Change (v1.2.0)}}
+{{Since [v1.2.0](/docs/changelog#v120), `publishSync()` and `publishPartialUpdateSync()` return `null` when the command is not dirty (no-op). Always null-check the result before accessing properties:}}
+
+```ts
+const result = await this.commandService.publishSync(command, { invokeContext });
+if (!result) return; // {{no-op: command was not dirty, nothing was written}}
+console.log(result.pk); // {{safe after null check}}
+```
+:::
 
 :::info {{Version Note (v1.1.4+)}}
 {{Since [v1.1.4](/docs/changelog#v114), `publishSync` writes a full audit trail matching the async pipeline:}}
@@ -202,9 +212,13 @@ const item = await this.commandService.publishSync(catCommand, {
 });
 ```
 
-### {{*async* `publishPartialUpdateSync( input: CommandPartialInputModel, options: ICommandOptions): Promise<CommandModel>`}}
+### {{*async* `publishPartialUpdateSync( input: CommandPartialInputModel, options: ICommandOptions): Promise\<CommandModel | null\>`}}
 
 {{This method is a synchronous version of the `publishPartialUpdateAsync` method. It will block the execution of the code until the command is processed.}}
+
+:::danger {{Breaking Change (v1.2.0)}}
+{{Since [v1.2.0](/docs/changelog#v120), this method returns `null` when the command is not dirty (no-op). Always null-check the result. See [publishSync null return](/docs/command-service#publishsync-null-return) for details.}}
+:::
 
 :::warning {{Version Matching}}
 {{This method requires the `version` field in the input to match the current version of the existing item. If the item is not found or the version does not match, a `BadRequestException` is thrown with the message "The input is not a valid, item not found or version not match".}}
@@ -236,11 +250,11 @@ const item = await this.commandService.publishPartialUpdateSync(catCommand, {
 });
 ```
 
-### {{*async* `publish(input: CommandInputModel, options: ICommandOptions): Promise<CommandModel | null>` <span class="badge badge--warning">deprecated</span>}}
+### {{*async* `publish(input: CommandInputModel, options: ICommandOptions): Promise<CommandModel | null>` <span class="badge badge--danger">removed</span>}}
 
-:::info
+:::danger {{Removed in v1.1.0}}
 
-{{Deprecated, for removal: This API element is subject to removal in a future version. Use [`publishAsync` method](#publishasync) instead.}}
+{{This method was removed in [v1.1.0](/docs/changelog#v110). Use [`publishAsync` method](#publishasync) instead.}}
 
 :::
 
@@ -281,11 +295,11 @@ const item = await this.commandService.publish(catCommand, {
 
 {{The method returns the command data.}}
 
-### {{*async* `publishPartialUpdate( input: CommandPartialInputModel, options: ICommandOptions): Promise<CommandModel | null>` <span class="badge badge--warning">deprecated</span>}}
+### {{*async* `publishPartialUpdate( input: CommandPartialInputModel, options: ICommandOptions): Promise<CommandModel | null>` <span class="badge badge--danger">removed</span>}}
 
-:::info
+:::danger {{Removed in v1.1.0}}
 
-{{Deprecated, for removal: This API element is subject to removal in a future version. Use [`publishPartialUpdateAsync` method](#publishpartialupdateasync) instead.}}
+{{This method was removed in [v1.1.0](/docs/changelog#v110). Use [`publishPartialUpdateAsync` method](#publishpartialupdateasync) instead.}}
 
 :::
 
@@ -538,4 +552,94 @@ this.commandService.tableName = 'another-table';
 
 :::note
 {{Changing the table name at runtime is an advanced use case. In most applications, you should configure the table name through `CommandModule.register()` and not change it afterwards.}}
+:::
+
+---
+
+## {{Read-Your-Writes (RYW) Consistency}} {#read-your-writes}
+
+:::info {{Version Note}}
+{{Read-Your-Writes consistency was added in [v1.2.0](/docs/changelog#v120).}}
+:::
+
+{{After `publishAsync`, there is a short window before the DynamoDB Stream pipeline syncs the data to the read model. During this window, a subsequent read by the same user would return stale data. The RYW feature bridges this gap by temporarily caching the pending command in a session table and merging it into read results.}}
+
+### {{How it works}}
+
+1. {{After a successful `publishAsync`, `CommandService` writes a session entry to the session table keyed by `userId` and `tenantCode`.}}
+2. {{When reading via `Repository` (instead of `DataService`), the pending session entry is merged into the response if the DynamoDB Stream sync has not completed yet.}}
+3. {{Session entries expire automatically after `RYW_SESSION_TTL_MINUTES` minutes.}}
+
+### {{Enabling RYW}}
+
+{{Set the `RYW_SESSION_TTL_MINUTES` environment variable to a positive integer (e.g. `5`). If unset, the feature is completely disabled and has zero impact on existing code.}}
+
+```bash
+RYW_SESSION_TTL_MINUTES=5
+```
+
+{{Also create the session DynamoDB table. Add `dynamodbs/session.json` to your project:}}
+
+```json
+{
+  "TableName": "${NODE_ENV}-${APP_NAME}-session",
+  "BillingMode": "PAY_PER_REQUEST",
+  "KeySchema": [
+    { "AttributeName": "pk", "KeyType": "HASH" },
+    { "AttributeName": "sk", "KeyType": "RANGE" }
+  ],
+  "AttributeDefinitions": [
+    { "AttributeName": "pk", "AttributeType": "S" },
+    { "AttributeName": "sk", "AttributeType": "S" }
+  ],
+  "TimeToLiveSpecification": {
+    "AttributeName": "ttl",
+    "Enabled": true
+  }
+}
+```
+
+### {{Using Repository}}
+
+{{Replace `DataService` with `Repository` in services that need RYW consistency. `Repository` is exported from `@mbc-cqrs-serverless/core` and `CommandModule`.}}
+
+```ts
+import { DetailKey, IInvoke, Repository } from '@mbc-cqrs-serverless/core'
+import { Injectable } from '@nestjs/common'
+
+@Injectable()
+export class OrderService {
+  constructor(private readonly repository: Repository) {}
+
+  async getOrder(key: DetailKey, invokeContext: IInvoke) {
+    // {{Returns pending command data if a session exists for this user}}
+    return this.repository.getItem(key, { invokeContext })
+  }
+
+  async listOrders(pk: string, invokeContext: IInvoke) {
+    // {{Merges pending session entries into the list result}}
+    return this.repository.listItemsByPk(pk, {}, { invokeContext })
+  }
+}
+```
+
+{{Register `Repository` in your module:}}
+
+```ts
+import { CommandModule } from '@mbc-cqrs-serverless/core'
+
+@Module({
+  imports: [
+    CommandModule.register({
+      tableName: 'order',
+      dataSyncHandlers: [OrderDataSyncHandler],
+    }),
+  ],
+  providers: [OrderService],
+})
+export class OrderModule {}
+```
+
+:::note
+{{`Repository` falls back to standard `DataService` behavior when `RYW_SESSION_TTL_MINUTES` is not set or when no session entry exists for the current user. It is safe to use in all environments.}}
 :::

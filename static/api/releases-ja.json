@@ -1,15 +1,31 @@
 {
   "latest": {
-    "version": "1.1.5",
-    "date": "2026-03-28",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.5",
+    "version": "1.2.0",
+    "date": "2026-04-02",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.0",
     "features": [
-      "大規模CSVインポート向けv2バッチ処理アーキテクチャを実装"
+      "`SessionService`と`Repository`によるRead-Your-Writes（RYW）一貫性を追加",
+      "v1.2.0破壊的変更向けのAP013・AP014アンチパターン検出を追加"
     ],
-    "bugFixes": [],
+    "bugFixes": [
+      "ZIPオーケストレーターのインポートステータス処理を修正"
+    ],
     "security": []
   },
   "recent": [
+    {
+      "version": "1.2.0",
+      "date": "2026-04-02",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.0",
+      "features": [
+        "`SessionService`と`Repository`によるRead-Your-Writes（RYW）一貫性を追加",
+        "v1.2.0破壊的変更向けのAP013・AP014アンチパターン検出を追加"
+      ],
+      "bugFixes": [
+        "ZIPオーケストレーターのインポートステータス処理を修正"
+      ],
+      "security": []
+    },
     {
       "version": "1.1.5",
       "date": "2026-03-28",
@@ -39,24 +55,7 @@
         "CSVインポートのDistributed Mapステート結果が256KB制限を超える問題を修正"
       ],
       "security": []
-    },
-    {
-      "version": "1.1.2",
-      "date": "2026-02-25",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.2",
-      "features": [
-        "マスター設定とデータのビルトインupsertメソッドを追加",
-        "統合バルクupsert API（`/api/master-bulk/`）を追加",
-        "すべてのバルクDTOに`@ArrayMaxSize(100)`バリデーションを追加",
-        "個別のバルクエンドポイント（`/api/master-setting/bulk`、`/api/master-data/bulk`）にテナントコードバリデーションを追加"
-      ],
-      "bugFixes": [
-        "`checkVersion`のエラーメッセージが実際の`commandVersion`ではなくハードコードされた値を使用していた問題を修正",
-        "`createSetting`で`seq === 0`がfalsyとして扱われる問題をnullチェック（`seq == null`）に変更して修正",
-        "`createSetting`でseq変更前にattributesをクローンしてDTOミューテーションを修正"
-      ],
-      "security": []
     }
   ],
-  "generated": "2026-03-28T13:07:30.611Z"
+  "generated": "2026-04-02T10:08:25.984Z"
 }

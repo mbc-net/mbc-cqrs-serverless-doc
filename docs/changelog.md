@@ -18,6 +18,38 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ## {{Stable Releases (1.x)}}
 
+## [1.2.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.0) (2026-04-02) {#v120}
+
+### {{Breaking Changes}}
+
+- **core:** {{`publishSync()` and `publishPartialUpdateSync()` now return `null` when the command is not dirty (no-op)}} ([{{See Details}}](/docs/command-service#publishsync-null-return)) ([PR #375](https://github.com/mbc-net/mbc-cqrs-serverless/pull/375))
+  - {{Return type changes from `Promise<CommandModel>` to `Promise<CommandModel | null>`}}
+  - {{Matches the existing behavior of `publishAsync()` and `publishPartialUpdateAsync()`}}
+  - {{Migration: add a null check before accessing any property on the result}}
+- **sequence:** {{`SequenceService.genNewSequence()` has been removed}} ([{{See Details}}](/docs/sequence#gen-new-sequence-removed)) ([PR #375](https://github.com/mbc-net/mbc-cqrs-serverless/pull/375))
+  - {{Use `generateSequenceItem()` or `generateSequenceItemWithProvideSetting()` instead}}
+
+### {{Features}}
+
+- **core:** {{Add Read-Your-Writes (RYW) consistency via `SessionService` and `Repository`}} ([{{See Details}}](/docs/command-service#read-your-writes)) ([PR #375](https://github.com/mbc-net/mbc-cqrs-serverless/pull/375))
+  - {{After `publishAsync`, subsequent reads by the same user now return pending command data before the DynamoDB Stream sync completes}}
+  - {{Opt-in: set `RYW_SESSION_TTL_MINUTES` environment variable to enable (e.g. `5`)}}
+  - {{New `Repository` class exported from `CommandModule` / `@mbc-cqrs-serverless/core` — wraps `DataService` with RYW merge for `getItem`, `listItemsByPk`, `listItems`}}
+  - {{Session table `{NODE_ENV}-{APP_NAME}-session` must be created (see `dynamodbs/session.json`)}}
+  - {{No effect when `RYW_SESSION_TTL_MINUTES` is unset — zero impact on existing projects}}
+- **mcp-server:** {{Add AP013 and AP014 anti-pattern detectors for v1.2.0 breaking changes}} ([PR #377](https://github.com/mbc-net/mbc-cqrs-serverless/pull/377))
+  - {{AP013: detects `publishSync`/`publishPartialUpdateSync` result used without null check}}
+  - {{AP014: detects deprecated `genNewSequence()` usage}}
+  - {{`migration_guide` prompt updated with v1.2.0 sections}}
+
+### {{Bug Fixes}}
+
+- **import:** {{Fix import status handling for ZIP orchestrator}} ([PR #370](https://github.com/mbc-net/mbc-cqrs-serverless/pull/370))
+  - {{`ImportStatusHandler` now sends task success with `importJobStatus` when the job fails}}
+  - {{`ZipImportSfnEventHandler` aggregates CSV task failure counts and adjusts final job status}}
+
+---
+
 ## [1.1.5](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.5) (2026-03-28) {#v115}
 
 ### {{Features}}

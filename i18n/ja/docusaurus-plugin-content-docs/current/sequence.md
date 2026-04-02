@@ -318,11 +318,11 @@ const result = await this.sequencesService.generateSequenceItemWithProvideSettin
 
 :::
 
-### *async* `genNewSequence( dto: GenerateSequenceDto, options: {invokeContext: IInvoke}): Promise<DataEntity>` <span class="badge badge--warning">非推奨</span>
+### *async* `genNewSequence( dto: GenerateSequenceDto, options: {invokeContext: IInvoke}): Promise<DataEntity>` <span class="badge badge--danger">削除済み</span> {#gen-new-sequence-removed}
 
-:::info
+:::danger v1.2.0で削除
 
-非推奨、削除予定: この API 要素は将来のバージョンで削除される可能性があります。代わりに [`generateSequenceItem` メソッド](#async-generatesequenceitem-dto-generateformattedsequencedto-options-invokecontextiinvoke--promisesequenceentity) を使用してください
+このメソッドは[v1.2.0](/docs/changelog#v120)で削除されました。代わりに[`generateSequenceItem`](#async-generatesequenceitem-dto-generateformattedsequencedto-options-invokecontextiinvoke--promisesequenceentity)または[`generateSequenceItemWithProvideSetting`](#async-generatesequenceitemwithprovidesetting-dto-generateformattedsequencewithprovidedsettingdto-options-invokecontextiinvoke--promisesequenceentity)を使用してください。
 
 :::
 
