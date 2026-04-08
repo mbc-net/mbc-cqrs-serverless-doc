@@ -486,7 +486,13 @@ export class BackupToS3Hook implements IZipFinalizationHook {
 - SNS通知で進行状況を監視
 - 順序どおりにインポートする必要がある関連データにはZIPインポートを使用
 
-### エラー処理
+### エラー処理 {#csv-batch-error-handling}
+
+:::warning 既知の問題（v1.2.2で修正済み）
+v1.2.2以前は、SQSバッチの先頭行に永続的なバリデーションエラーがあると`CsvBatchProcessor`が即座にクラッシュしていました。SQSはバッチ全体をリトライし、先頭行で繰り返し失敗することで、残りの有効な行がDLQ閾値に達するまでブロックされていました（Head-of-Line Blocking / Poison Pill問題）。
+
+この問題は[v1.2.2](/docs/changelog#v122)でSmart Retryパターンにより修正されました。各行をtry/catchブロックで独立して処理し、バッチ終了後に集約エラーをスローして失敗行のみSQSリトライをトリガーします。
+:::
 
 - 無効な行はCSV処理でログに記録されスキップされます
 - `failedRows`カウンターを使用して失敗を追跡

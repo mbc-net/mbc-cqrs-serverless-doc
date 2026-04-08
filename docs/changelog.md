@@ -18,6 +18,37 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ## {{Stable Releases (1.x)}}
 
+## [1.2.2](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.2) (2026-04-08) {#v122}
+
+### {{Bug Fixes}}
+
+- **import:** {{Fix Head-of-Line Blocking (Poison Pill) in `CsvBatchProcessor` by implementing Smart Retry pattern}} ([{{See Details}}](/docs/import#csv-batch-error-handling)) ([PR #394](https://github.com/mbc-net/mbc-cqrs-serverless/pull/394))
+  - {{Previously, a persistent validation error on the first row caused the entire batch to crash immediately}}
+  - {{Now, each row is processed independently; errors are collected and a single aggregated error is thrown after the full batch is processed}}
+  - {{Valid rows are saved successfully; failed rows trigger SQS retry; already-succeeded rows are skipped on retry via EQUAL comparison (idempotency maintained)}}
+- **import:** {{Fix `ImportQueueEventHandler` passing raw SQS payload instead of parsed `importEvent` to `SingleImportProcessor`}} ([PR #394](https://github.com/mbc-net/mbc-cqrs-serverless/pull/394))
+  - {{`singleImportProcessor.process()` now receives `event.importEvent` (parsed, rich object) instead of `event.payload` (raw SQS payload)}}
+
+---
+
+## [1.2.1](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.1) (2026-04-06) {#v121}
+
+### {{Features}}
+
+- **core:** {{Add `SqsService` and `SqsClientFactory` for SQS message operations}} ([{{See Details}}](/docs/queue#sqs-service)) ([PR #383](https://github.com/mbc-net/mbc-cqrs-serverless/pull/383))
+  - {{`sendMessage()` — send a single message to an SQS queue}}
+  - {{`sendMessageBatch()` — send up to 10 messages in a single API call}}
+  - {{`receiveMessages()` — receive messages with configurable `MaxNumberOfMessages` (default: 10) and `WaitTimeSeconds` (default: 0)}}
+  - {{`deleteMessage()` — acknowledge and delete a single processed message}}
+  - {{`deleteMessageBatch()` — delete up to 10 messages in a single API call}}
+  - {{`SqsService` is registered in `QueueModule` (global) and injectable across the application}}
+  - {{Supports `MessageSystemAttributeNames` for receiving system attributes (deprecated `AttributeNames` not exposed)}}
+- **core:** {{Refactor `SnsClientFactory` to use a singleton `SNSClient` instance}} ([PR #383](https://github.com/mbc-net/mbc-cqrs-serverless/pull/383))
+  - {{Previously cached a separate client per topic ARN; now a single instance is shared across all publish calls}}
+  - {{`getClient()` signature changed from `getClient(topicArn: string)` to `getClient()`}}
+
+---
+
 ## [1.2.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.0) (2026-04-02) {#v120}
 
 ### {{Breaking Changes}}

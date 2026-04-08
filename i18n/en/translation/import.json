@@ -128,5 +128,8 @@
   "Command Service": "Command Service",
   "Command operations used by ProcessStrategy": "Command operations used by ProcessStrategy",
   "Step Functions": "Step Functions",
-  "Async processing infrastructure": "Async processing infrastructure"
+  "Async processing infrastructure": "Async processing infrastructure",
+  "Known Issue (Fixed in v1.2.2)": "Known Issue (Fixed in v1.2.2)",
+  "Prior to v1.2.2, a persistent validation error on the first row of an SQS batch caused `CsvBatchProcessor` to crash immediately. SQS retried the entire batch, repeatedly failing on row 1, blocking all remaining valid rows until the DLQ threshold was reached (Head-of-Line Blocking / Poison Pill problem).": "Prior to v1.2.2, a persistent validation error on the first row of an SQS batch caused `CsvBatchProcessor` to crash immediately. SQS retried the entire batch, repeatedly failing on row 1, blocking all remaining valid rows until the DLQ threshold was reached (Head-of-Line Blocking / Poison Pill problem).",
+  "This has been fixed in [v1.2.2](/docs/changelog#v122) via the Smart Retry pattern: each row is processed independently in a try/catch block, and a single aggregated error is thrown at the end of the batch to trigger SQS retry only for the failed rows.": "This has been fixed in [v1.2.2](/docs/changelog#v122) via the Smart Retry pattern: each row is processed independently in a try/catch block, and a single aggregated error is thrown at the end of the batch to trigger SQS retry only for the failed rows."
 }

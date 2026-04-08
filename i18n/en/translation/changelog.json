@@ -307,5 +307,22 @@
   "`migration_guide` prompt updated with v1.2.0 sections": "`migration_guide` prompt updated with v1.2.0 sections",
   "Fix import status handling for ZIP orchestrator": "Fix import status handling for ZIP orchestrator",
   "`ImportStatusHandler` now sends task success with `importJobStatus` when the job fails": "`ImportStatusHandler` now sends task success with `importJobStatus` when the job fails",
-  "`ZipImportSfnEventHandler` aggregates CSV task failure counts and adjusts final job status": "`ZipImportSfnEventHandler` aggregates CSV task failure counts and adjusts final job status"
+  "`ZipImportSfnEventHandler` aggregates CSV task failure counts and adjusts final job status": "`ZipImportSfnEventHandler` aggregates CSV task failure counts and adjusts final job status",
+  "Add `SqsService` and `SqsClientFactory` for SQS message operations": "Add `SqsService` and `SqsClientFactory` for SQS message operations",
+  "`sendMessage()` — send a single message to an SQS queue": "`sendMessage()` — send a single message to an SQS queue",
+  "`sendMessageBatch()` — send up to 10 messages in a single API call": "`sendMessageBatch()` — send up to 10 messages in a single API call",
+  "`receiveMessages()` — receive messages with configurable `MaxNumberOfMessages` (default: 10) and `WaitTimeSeconds` (default: 0)": "`receiveMessages()` — receive messages with configurable `MaxNumberOfMessages` (default: 10) and `WaitTimeSeconds` (default: 0)",
+  "`deleteMessage()` — acknowledge and delete a single processed message": "`deleteMessage()` — acknowledge and delete a single processed message",
+  "`deleteMessageBatch()` — delete up to 10 messages in a single API call": "`deleteMessageBatch()` — delete up to 10 messages in a single API call",
+  "`SqsService` is registered in `QueueModule` (global) and injectable across the application": "`SqsService` is registered in `QueueModule` (global) and injectable across the application",
+  "Supports `MessageSystemAttributeNames` for receiving system attributes (deprecated `AttributeNames` not exposed)": "Supports `MessageSystemAttributeNames` for receiving system attributes (deprecated `AttributeNames` not exposed)",
+  "Refactor `SnsClientFactory` to use a singleton `SNSClient` instance": "Refactor `SnsClientFactory` to use a singleton `SNSClient` instance",
+  "Previously cached a separate client per topic ARN; now a single instance is shared across all publish calls": "Previously cached a separate client per topic ARN; now a single instance is shared across all publish calls",
+  "`getClient()` signature changed from `getClient(topicArn: string)` to `getClient()`": "`getClient()` signature changed from `getClient(topicArn: string)` to `getClient()`",
+  "Fix Head-of-Line Blocking (Poison Pill) in `CsvBatchProcessor` by implementing Smart Retry pattern": "Fix Head-of-Line Blocking (Poison Pill) in `CsvBatchProcessor` by implementing Smart Retry pattern",
+  "Previously, a persistent validation error on the first row caused the entire batch to crash immediately": "Previously, a persistent validation error on the first row caused the entire batch to crash immediately",
+  "Now, each row is processed independently; errors are collected and a single aggregated error is thrown after the full batch is processed": "Now, each row is processed independently; errors are collected and a single aggregated error is thrown after the full batch is processed",
+  "Valid rows are saved successfully; failed rows trigger SQS retry; already-succeeded rows are skipped on retry via EQUAL comparison (idempotency maintained)": "Valid rows are saved successfully; failed rows trigger SQS retry; already-succeeded rows are skipped on retry via EQUAL comparison (idempotency maintained)",
+  "Fix `ImportQueueEventHandler` passing raw SQS payload instead of parsed `importEvent` to `SingleImportProcessor`": "Fix `ImportQueueEventHandler` passing raw SQS payload instead of parsed `importEvent` to `SingleImportProcessor`",
+  "`singleImportProcessor.process()` now receives `event.importEvent` (parsed, rich object) instead of `event.payload` (raw SQS payload)": "`singleImportProcessor.process()` now receives `event.importEvent` (parsed, rich object) instead of `event.payload` (raw SQS payload)"
 }

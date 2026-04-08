@@ -486,7 +486,13 @@ export class BackupToS3Hook implements IZipFinalizationHook {
 - {{Monitor progress via SNS notifications}}
 - {{Use ZIP imports for related data that must be imported in order}}
 
-### {{Error Handling}}
+### {{Error Handling}} {#csv-batch-error-handling}
+
+:::warning {{Known Issue (Fixed in v1.2.2)}}
+{{Prior to v1.2.2, a persistent validation error on the first row of an SQS batch caused `CsvBatchProcessor` to crash immediately. SQS retried the entire batch, repeatedly failing on row 1, blocking all remaining valid rows until the DLQ threshold was reached (Head-of-Line Blocking / Poison Pill problem).}}
+
+{{This has been fixed in [v1.2.2](/docs/changelog#v122) via the Smart Retry pattern: each row is processed independently in a try/catch block, and a single aggregated error is thrown at the end of the batch to trigger SQS retry only for the failed rows.}}
+:::
 
 - {{Invalid rows are logged and skipped in CSV processing}}
 - {{Use the `failedRows` counter to track failures}}
