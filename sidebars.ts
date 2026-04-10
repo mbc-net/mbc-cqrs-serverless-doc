@@ -111,6 +111,7 @@ const sidebars: SidebarsConfig = {
           },
           items: ["email-service"],
         },
+        "queue",
         "ui-setting",
       ],
     },
