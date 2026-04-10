@@ -324,5 +324,18 @@
   "Now, each row is processed independently; errors are collected and a single aggregated error is thrown after the full batch is processed": "各行を独立して処理し、エラーを蓄積してバッチ終了後に集約エラーをスローするよう修正",
   "Valid rows are saved successfully; failed rows trigger SQS retry; already-succeeded rows are skipped on retry via EQUAL comparison (idempotency maintained)": "有効な行は正常に保存、失敗行はSQSリトライをトリガー、成功済み行はEQUAL比較でスキップ（冪等性維持）",
   "Fix `ImportQueueEventHandler` passing raw SQS payload instead of parsed `importEvent` to `SingleImportProcessor`": "`ImportQueueEventHandler`が`SingleImportProcessor`に生のSQSペイロードを渡していた問題を修正",
-  "`singleImportProcessor.process()` now receives `event.importEvent` (parsed, rich object) instead of `event.payload` (raw SQS payload)": "`singleImportProcessor.process()`に`event.payload`（生のSQSペイロード）ではなく`event.importEvent`（パース済みオブジェクト）を渡すよう修正"
+  "`singleImportProcessor.process()` now receives `event.importEvent` (parsed, rich object) instead of `event.payload` (raw SQS payload)": "`singleImportProcessor.process()`に`event.payload`（生のSQSペイロード）ではなく`event.importEvent`（パース済みオブジェクト）を渡すよう修正",
+  "Refactor ZIP import processing — move ZIP job handling directly into `ImportService`, removing the separate `ZipImportQueueEventHandler`": "ZIPインポート処理をリファクタリング — ZIPジョブ処理を`ImportService`に直接統合し、独立した`ZipImportQueueEventHandler`を削除",
+  "`ZipImportQueueEventHandler` has been removed; ZIP import jobs are now processed directly within `ImportService`": "`ZipImportQueueEventHandler`を削除。ZIPインポートジョブは`ImportService`内で直接処理されるように変更",
+  "`ImportEventHandler` now skips SQS publishing for `ZIP_MASTER_JOB` events": "`ImportEventHandler`が`ZIP_MASTER_JOB`イベントに対してSQSパブリッシュをスキップするように変更",
+  "Enhanced ZIP import validation in `CreateZipImportDto`": "`CreateZipImportDto`のZIPインポートバリデーションを強化",
+  "Improved error handling and logging for ZIP processing": "ZIP処理のエラーハンドリングとロギングを改善",
+  "Add AP016–AP020 anti-pattern detectors to `mbc_check_anti_patterns` tool (total: 20 patterns)": "`mbc_check_anti_patterns`ツールにAP016〜AP020のアンチパターン検出器を追加（合計20パターン）",
+  "AP016: Missing Error Logging Before Rethrow (High)": "AP016: リスロー前のエラーロギング欠落（High）",
+  "AP017: Incorrect Attribute Merging on Partial Update (High)": "AP017: 部分更新時の属性マージ誤り（High）",
+  "AP018: Missing Swagger Documentation / `@ApiTags` (Low)": "AP018: Swaggerドキュメント / `@ApiTags` 欠落（Low）",
+  "AP019: Missing Pagination in List Queries (High)": "AP019: リストクエリのページネーション欠落（High）",
+  "AP020: Missing `getCommandSource` for Tracing (Low)": "AP020: トレーシング用`getCommandSource`欠落（Low）",
+  "Update `mbc-migrate` and `mbc-debug` skills with v1.1.x and v1.2.x breaking change guidance": "`mbc-migrate`と`mbc-debug`スキルをv1.1.x・v1.2.x破壊的変更ガイドで更新",
+  "Update `@modelcontextprotocol/sdk` from 1.26.0 to 1.29.0": "`@modelcontextprotocol/sdk`を1.26.0から1.29.0に更新"
 }

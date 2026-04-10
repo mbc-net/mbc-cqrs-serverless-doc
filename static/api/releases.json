@@ -1,18 +1,51 @@
 {
   "latest": {
-    "version": "1.2.0",
-    "date": "2026-04-02",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.0",
+    "version": "1.2.5",
+    "date": "2026-04-10",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.5",
     "features": [
-      "Add Read-Your-Writes (RYW) consistency via `SessionService` and `Repository`",
-      "Add AP013 and AP014 anti-pattern detectors for v1.2.0 breaking changes"
+      "Refactor ZIP import processing — move ZIP job handling directly into `ImportService`, removing the separate `ZipImportQueueEventHandler`",
+      "Add AP016–AP020 anti-pattern detectors to `mbc_check_anti_patterns` tool (total: 20 patterns)",
+      "Update `mbc-migrate` and `mbc-debug` skills with v1.1.x and v1.2.x breaking change guidance"
     ],
-    "bugFixes": [
-      "Fix import status handling for ZIP orchestrator"
-    ],
+    "bugFixes": [],
     "security": []
   },
   "recent": [
+    {
+      "version": "1.2.5",
+      "date": "2026-04-10",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.5",
+      "features": [
+        "Refactor ZIP import processing — move ZIP job handling directly into `ImportService`, removing the separate `ZipImportQueueEventHandler`",
+        "Add AP016–AP020 anti-pattern detectors to `mbc_check_anti_patterns` tool (total: 20 patterns)",
+        "Update `mbc-migrate` and `mbc-debug` skills with v1.1.x and v1.2.x breaking change guidance"
+      ],
+      "bugFixes": [],
+      "security": []
+    },
+    {
+      "version": "1.2.2",
+      "date": "2026-04-08",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.2",
+      "features": [],
+      "bugFixes": [
+        "Fix Head-of-Line Blocking (Poison Pill) in `CsvBatchProcessor` by implementing Smart Retry pattern",
+        "Fix `ImportQueueEventHandler` passing raw SQS payload instead of parsed `importEvent` to `SingleImportProcessor`"
+      ],
+      "security": []
+    },
+    {
+      "version": "1.2.1",
+      "date": "2026-04-06",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.1",
+      "features": [
+        "Add `SqsService` and `SqsClientFactory` for SQS message operations",
+        "Refactor `SnsClientFactory` to use a singleton `SNSClient` instance"
+      ],
+      "bugFixes": [],
+      "security": []
+    },
     {
       "version": "1.2.0",
       "date": "2026-04-02",
@@ -25,37 +58,7 @@
         "Fix import status handling for ZIP orchestrator"
       ],
       "security": []
-    },
-    {
-      "version": "1.1.5",
-      "date": "2026-03-28",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.5",
-      "features": [
-        "Implement v2 batch processing architecture for high-throughput CSV imports"
-      ],
-      "bugFixes": [],
-      "security": []
-    },
-    {
-      "version": "1.1.4",
-      "date": "2026-03-27",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.4",
-      "features": [
-        "Restore audit trail and history parity for `publishSync`"
-      ],
-      "bugFixes": [],
-      "security": []
-    },
-    {
-      "version": "1.1.3",
-      "date": "2026-03-24",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.3",
-      "features": [],
-      "bugFixes": [
-        "Fix CSV import Distributed Map state result exceeding 256KB limit"
-      ],
-      "security": []
     }
   ],
-  "generated": "2026-04-02T10:08:25.983Z"
+  "generated": "2026-04-10T09:07:10.408Z"
 }

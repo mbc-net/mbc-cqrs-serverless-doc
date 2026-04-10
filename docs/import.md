@@ -6,7 +6,7 @@ description: {{Learn how to use ImportModule for bulk data import with CSV and Z
 
 {{The ImportModule provides bulk data import capabilities in the MBC CQRS Serverless framework. It supports single record imports, CSV file imports, and ZIP file imports with multiple CSVs.}}
 
-## {{Architecture}}
+## {{Architecture}} {#zip-import-architecture}
 
 ```mermaid
 graph TB
@@ -27,6 +27,10 @@ graph TB
         K["{{DynamoDB (Import Jobs)}}"]
     end
 ```
+
+:::info {{Version Note (v1.2.5)}}
+{{Since [v1.2.5](/docs/changelog#v125), ZIP import jobs are processed directly within `ImportService`. The separate `ZipImportQueueEventHandler` has been removed. `ImportEventHandler` now skips SQS publishing for `ZIP_MASTER_JOB` events, simplifying the import processing pipeline.}}
+:::
 
 ## {{Installation}}
 

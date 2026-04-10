@@ -6,7 +6,7 @@ description: MBC CQRS ServerlessでCSVおよびZIPファイルをサポートし
 
 ImportModuleは、MBC CQRS Serverlessフレームワークで一括データインポート機能を提供します。単一レコードのインポート、CSVファイルのインポート、複数のCSVを含むZIPファイルのインポートをサポートしています。
 
-## アーキテクチャ
+## アーキテクチャ {#zip-import-architecture}
 
 ```mermaid
 graph TB
@@ -27,6 +27,10 @@ graph TB
         K["DynamoDB (インポートジョブ)"]
     end
 ```
+
+:::info バージョンノート（v1.2.5）
+[v1.2.5](/docs/changelog#v125)以降、ZIPインポートジョブは`ImportService`内で直接処理されます。独立した`ZipImportQueueEventHandler`は削除されました。`ImportEventHandler`は`ZIP_MASTER_JOB`イベントに対してSQSパブリッシュをスキップするようになり、インポート処理パイプラインが簡略化されました。
+:::
 
 ## インストール
 

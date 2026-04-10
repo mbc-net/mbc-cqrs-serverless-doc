@@ -18,6 +18,29 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ## Stable Releases (1.x)
 
+## [1.2.5](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.5) (2026-04-10) {#v125}
+
+### Features
+
+- **import:** Refactor ZIP import processing — move ZIP job handling directly into `ImportService`, removing the separate `ZipImportQueueEventHandler` ([See Details](/docs/import#zip-import-architecture)) ([PR #404](https://github.com/mbc-net/mbc-cqrs-serverless/pull/404))
+  - `ZipImportQueueEventHandler` has been removed; ZIP import jobs are now processed directly within `ImportService`
+  - `ImportEventHandler` now skips SQS publishing for `ZIP_MASTER_JOB` events
+  - Enhanced ZIP import validation in `CreateZipImportDto`
+  - Improved error handling and logging for ZIP processing
+- **mcp-server:** Add AP016–AP020 anti-pattern detectors to `mbc_check_anti_patterns` tool (total: 20 patterns) ([PR #403](https://github.com/mbc-net/mbc-cqrs-serverless/pull/403))
+  - AP016: Missing Error Logging Before Rethrow (High)
+  - AP017: Incorrect Attribute Merging on Partial Update (High)
+  - AP018: Missing Swagger Documentation / `@ApiTags` (Low)
+  - AP019: Missing Pagination in List Queries (High)
+  - AP020: Missing `getCommandSource` for Tracing (Low)
+- **mcp-server:** Update `mbc-migrate` and `mbc-debug` skills with v1.1.x and v1.2.x breaking change guidance ([PR #403](https://github.com/mbc-net/mbc-cqrs-serverless/pull/403))
+
+### Dependencies
+
+- **mcp-server:** Update `@modelcontextprotocol/sdk` from 1.26.0 to 1.29.0 ([PR #403](https://github.com/mbc-net/mbc-cqrs-serverless/pull/403))
+
+---
+
 ## [1.2.2](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.2) (2026-04-08) {#v122}
 
 ### Bug Fixes

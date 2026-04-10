@@ -324,5 +324,18 @@
   "Now, each row is processed independently; errors are collected and a single aggregated error is thrown after the full batch is processed": "Now, each row is processed independently; errors are collected and a single aggregated error is thrown after the full batch is processed",
   "Valid rows are saved successfully; failed rows trigger SQS retry; already-succeeded rows are skipped on retry via EQUAL comparison (idempotency maintained)": "Valid rows are saved successfully; failed rows trigger SQS retry; already-succeeded rows are skipped on retry via EQUAL comparison (idempotency maintained)",
   "Fix `ImportQueueEventHandler` passing raw SQS payload instead of parsed `importEvent` to `SingleImportProcessor`": "Fix `ImportQueueEventHandler` passing raw SQS payload instead of parsed `importEvent` to `SingleImportProcessor`",
-  "`singleImportProcessor.process()` now receives `event.importEvent` (parsed, rich object) instead of `event.payload` (raw SQS payload)": "`singleImportProcessor.process()` now receives `event.importEvent` (parsed, rich object) instead of `event.payload` (raw SQS payload)"
+  "`singleImportProcessor.process()` now receives `event.importEvent` (parsed, rich object) instead of `event.payload` (raw SQS payload)": "`singleImportProcessor.process()` now receives `event.importEvent` (parsed, rich object) instead of `event.payload` (raw SQS payload)",
+  "Refactor ZIP import processing — move ZIP job handling directly into `ImportService`, removing the separate `ZipImportQueueEventHandler`": "Refactor ZIP import processing — move ZIP job handling directly into `ImportService`, removing the separate `ZipImportQueueEventHandler`",
+  "`ZipImportQueueEventHandler` has been removed; ZIP import jobs are now processed directly within `ImportService`": "`ZipImportQueueEventHandler` has been removed; ZIP import jobs are now processed directly within `ImportService`",
+  "`ImportEventHandler` now skips SQS publishing for `ZIP_MASTER_JOB` events": "`ImportEventHandler` now skips SQS publishing for `ZIP_MASTER_JOB` events",
+  "Enhanced ZIP import validation in `CreateZipImportDto`": "Enhanced ZIP import validation in `CreateZipImportDto`",
+  "Improved error handling and logging for ZIP processing": "Improved error handling and logging for ZIP processing",
+  "Add AP016–AP020 anti-pattern detectors to `mbc_check_anti_patterns` tool (total: 20 patterns)": "Add AP016–AP020 anti-pattern detectors to `mbc_check_anti_patterns` tool (total: 20 patterns)",
+  "AP016: Missing Error Logging Before Rethrow (High)": "AP016: Missing Error Logging Before Rethrow (High)",
+  "AP017: Incorrect Attribute Merging on Partial Update (High)": "AP017: Incorrect Attribute Merging on Partial Update (High)",
+  "AP018: Missing Swagger Documentation / `@ApiTags` (Low)": "AP018: Missing Swagger Documentation / `@ApiTags` (Low)",
+  "AP019: Missing Pagination in List Queries (High)": "AP019: Missing Pagination in List Queries (High)",
+  "AP020: Missing `getCommandSource` for Tracing (Low)": "AP020: Missing `getCommandSource` for Tracing (Low)",
+  "Update `mbc-migrate` and `mbc-debug` skills with v1.1.x and v1.2.x breaking change guidance": "Update `mbc-migrate` and `mbc-debug` skills with v1.1.x and v1.2.x breaking change guidance",
+  "Update `@modelcontextprotocol/sdk` from 1.26.0 to 1.29.0": "Update `@modelcontextprotocol/sdk` from 1.26.0 to 1.29.0"
 }
