@@ -344,7 +344,7 @@ const notification: TemplatedEmailNotification = {
 
 ##### {{Whitespace in Placeholders}}
 
-{{Whitespace inside placeholders is automatically trimmed, so `{{ name }}` and `{{name}}` are equivalent:}}
+{{Whitespace inside placeholders is automatically trimmed, so a placeholder with surrounding spaces is equivalent to one without (see the example below):}}
 
 ```ts
 // {{Both of these work identically}}

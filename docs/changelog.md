@@ -338,9 +338,9 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 ### {{Features}}
 
 - **core:** {{Enhanced inline template email with advanced variable substitution}} ([{{See Details}}](/docs/notification-module#advanced-template-features))
-  - {{Support for nested property access (e.g., `{{user.profile.name}}`)}}
+  - {{Support for nested property access in template variables (e.g., user.profile.name in double-brace placeholders)}}
   - {{Support for Unicode/Japanese keys in template variables}}
-  - {{Whitespace trimming inside placeholders (e.g., `{{ name }}` equals `{{name}}`)}}
+  - {{Whitespace trimming inside placeholders so spaces around the variable name are ignored}}
   - {{Improved local development fallback for template compilation}}
 
 ---
