@@ -82,7 +82,7 @@ export default function MasterLayout({ children }: { children: React.ReactNode }
 
   const urlProvider = useMemo(() => new MasterUrlProvider(tenantCode), [tenantCode])
 
-  // {{Create httpClient with Axios interceptor for automatic auth token injection}}
+  // Create httpClient with Axios interceptor for automatic auth token injection
   const httpClient = useMemo(() => {
     const baseEndpoint = process.env.NEXT_PUBLIC_API_ENDPOINT || 'http://localhost:3010'
     const instance = axios.create({

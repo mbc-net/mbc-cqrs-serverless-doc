@@ -611,6 +611,44 @@ GET  /orders ──────────► Repository.listItemsByPk()
 
 3. {{**Session expiry** — entries expire automatically via DynamoDB TTL. Once the Stream sync completes (typically 1–3 seconds), the session entry is redundant and will be cleaned up within the TTL window.}}
 
+### {{Proactive Session Cleanup (v1.2.6+)}} {#ryw-session-cleanup}
+
+:::info {{Version Note}}
+{{Proactive RYW session cleanup and the `getVersion` short-circuit were added in [v1.2.6](/docs/changelog#v126).}}
+:::
+
+{{Prior to v1.2.6, RYW sessions persisted until their TTL expired, even after the data table had absorbed the corresponding write. This created a "stale override" window: if another user or external system updated the same item to a newer version, the session would still cause the originating user to see their own older command merged on top of the data table — effectively reverting visible state until the TTL elapsed.}}
+
+{{Since v1.2.6, `Repository` actively purges sessions in the background once the data table version meets or exceeds the session version. This guarantees that:}}
+
+- {{The originating user immediately sees the latest data once the Stream sync completes — no more stale-override window}}
+- {{Subsequent reads skip the unnecessary command-table lookup, reducing latency}}
+- {{The session table stays small even when the configured TTL is generous}}
+
+{{Cleanup is **fire-and-forget** — failures are logged as warnings (`Failed to delete RYW session (non-fatal): ...`) and never block the read path. All behavior is automatic when `RYW_SESSION_TTL_MINUTES` is enabled; no application code changes are required.}}
+
+#### {{Optional: `getVersion` short-circuit for RDS read models}}
+
+{{`Repository.listItems()` (the RDS path) now accepts an optional `mergeOptions.getVersion` callback. If your RDS rows already carry a `version` column, supplying this callback lets the merge loop skip the extra DynamoDB GetItem when the existing RDS row already proves caught-up:}}
+
+```ts
+await repository.listItems(
+  () => rdsQuery(),
+  {
+    latestFlg: true,
+    transformCommand: (cmd) => ({
+      id: cmd.id,
+      version: cmd.version,
+      // ...{{map other CommandModel fields to your RDS row shape}}
+    }),
+    getVersion: (item) => item.version, // {{new in v1.2.6}}
+  },
+  options,
+)
+```
+
+{{**Note:** `getVersion` only short-circuits the **update path** (when the session's `itemId` matches an existing RDS row). Create-new items (session present but not yet reflected in RDS) still fetch the command as before — there is no existing row to derive a version from.}}
+
 ### {{Enabling RYW}} {#enabling-ryw}
 
 #### {{Step 1: Set the environment variable}}

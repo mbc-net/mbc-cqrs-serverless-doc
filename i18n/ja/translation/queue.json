@@ -4,6 +4,7 @@
   "The `QueueModule` provides messaging services for SNS (pub/sub) and SQS (queue) operations. It is registered as a global module, so `SnsService` and `SqsService` are available for injection throughout the application without explicitly importing `QueueModule`.": "`QueueModule`はSNS（パブ/サブ）とSQS（キュー）操作のメッセージングサービスを提供します。グローバルモジュールとして登録されているため、`QueueModule`を明示的にインポートしなくても、`SnsService`と`SqsService`をアプリケーション全体でインジェクションできます。",
   "SnsService": "SnsService",
   "`SnsService` provides SNS publish operations.": "`SnsService`はSNSのパブリッシュ操作を提供します。",
+  "Publishes a message to an SNS topic.": "SNSトピックへメッセージをパブリッシュします。",
   "Inject SnsService": "SnsServiceをインジェクト",
   "Publish to default topic (SNS_TOPIC_ARN env var)": "デフォルトトピックへ送信（SNS_TOPIC_ARN環境変数）",
   "Publish to a specific topic": "特定のトピックへ送信",
@@ -20,6 +21,7 @@
   "Sends a single message to an SQS queue.": "SQSキューへ単一メッセージを送信します。",
   "With optional fields": "オプションフィールドを指定する場合",
   "FIFO queues only": "FIFOキューのみ",
+  "Custom message attributes": "",
   "Sends up to 10 messages in a single API call. Caller is responsible for ensuring `entries.length <= 10`.": "1回のAPIコールで最大10件のメッセージを送信します。`entries.length <= 10`であることは呼び出し側の責任です。",
   "Receives messages from an SQS queue. Defaults to `MaxNumberOfMessages: 10` and `WaitTimeSeconds: 0`.": "SQSキューからメッセージを受信します。デフォルトは`MaxNumberOfMessages: 10`、`WaitTimeSeconds: 0`です。",
   "Default: MaxNumberOfMessages=10, WaitTimeSeconds=0": "デフォルト: MaxNumberOfMessages=10, WaitTimeSeconds=0",
@@ -27,6 +29,5 @@
   "Long polling": "ロングポーリング",
   "Deletes a single message from the queue after processing.": "処理後にキューから単一メッセージを削除します。",
   "Process message...": "メッセージを処理...",
-  "Deletes up to 10 messages in a single API call.": "1回のAPIコールで最大10件のメッセージを削除します。",
-  "Publishes a message to an SNS topic.": "SNSトピックへメッセージをパブリッシュします。"
+  "Deletes up to 10 messages in a single API call.": "1回のAPIコールで最大10件のメッセージを削除します。"
 }

@@ -611,6 +611,44 @@ GET  /orders ──────────► Repository.listItemsByPk()
 
 3. **セッション期限切れ** — DynamoDB TTLにより自動的に期限切れになります。Streamの同期が完了すると（通常1〜3秒）、セッションエントリは不要となりTTL期間内にクリーンアップされます。
 
+### プロアクティブなセッションクリーンアップ（v1.2.6以降） {#ryw-session-cleanup}
+
+:::info バージョンノート
+プロアクティブなRYWセッションクリーンアップと `getVersion` ショートサーキットは [v1.2.6](/docs/changelog#v126) で追加されました。
+:::
+
+v1.2.6以前は、対応する書き込みがデータテーブルに反映された後もRYWセッションがTTL切れまで残存していました。これは「stale override」のウィンドウを生み、他のユーザーや外部システムが同じアイテムをさらに新しいバージョンに更新しても、セッションのために書き込んだ本人が自分の古いコマンドをデータテーブル上にマージして見続けてしまう状態 — 実質的にTTL経過まで可視状態が巻き戻る — を引き起こしていました。
+
+v1.2.6以降、`Repository` はデータテーブルのバージョンがセッションバージョンに達するか上回った時点で、バックグラウンドでセッションを能動的にパージします。これにより以下が保証されます：
+
+- Stream同期が完了すれば、書き込んだユーザーは即座に最新データを参照できる — stale-overrideウィンドウは消滅
+- 後続の読み取りは不要なCommandテーブル参照をスキップし、レイテンシが低減
+- 設定TTLが長めでもセッションテーブルが肥大化しない
+
+クリーンアップは **fire-and-forget** で実行され、失敗時は警告ログ（`Failed to delete RYW session (non-fatal): ...`）が出力されるのみで、読み取りパスをブロックすることはありません。すべての挙動は `RYW_SESSION_TTL_MINUTES` が有効な場合に自動で動作し、アプリケーションコードの変更は不要です。
+
+#### オプション: RDSリードモデル向けの `getVersion` ショートサーキット
+
+`Repository.listItems()`（RDSパス）は、オプションの `mergeOptions.getVersion` コールバックを受け付けるようになりました。RDS行にすでに `version` カラムが含まれている場合、このコールバックを渡すと、既存RDS行が追いついていることを証明できるケースでマージループでの追加DynamoDB GetItemをスキップできます：
+
+```ts
+await repository.listItems(
+  () => rdsQuery(),
+  {
+    latestFlg: true,
+    transformCommand: (cmd) => ({
+      id: cmd.id,
+      version: cmd.version,
+      // ...他のCommandModelフィールドをRDS行の形にマッピング
+    }),
+    getVersion: (item) => item.version, // v1.2.6で追加
+  },
+  options,
+)
+```
+
+**注意:** `getVersion` がショートサーキットするのは **update パス**（セッションの `itemId` が既存のRDS行とマッチする場合）のみです。create-new アイテム（セッションがあるがまだRDSに未反映）は従来通りコマンドを取得します — バージョンを取得できる既存行が存在しないためです。
+
 ### RYWの有効化 {#enabling-ryw}
 
 #### ステップ1: 環境変数を設定する

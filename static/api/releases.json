@@ -1,17 +1,33 @@
 {
   "latest": {
-    "version": "1.2.5",
-    "date": "2026-04-10",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.5",
+    "version": "1.2.6",
+    "date": "2026-05-06",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.6",
     "features": [
-      "Refactor ZIP import processing — move ZIP job handling directly into `ImportService`, removing the separate `ZipImportQueueEventHandler`",
-      "Add AP016–AP020 anti-pattern detectors to `mbc_check_anti_patterns` tool (total: 20 patterns)",
-      "Update `mbc-migrate` and `mbc-debug` skills with v1.1.x and v1.2.x breaking change guidance"
+      "Repository Read-Your-Writes (RYW) improvements — proactively purge stale RYW sessions when the data table catches up to or surpasses the session version, eliminating \"stale override\" reads",
+      "Add AP021 anti-pattern detector — `Event Emit Directly After publishAsync in CommandService` (Severity: High)",
+      "Add cross-reference table mapping detector AP codes (`analyze.ts`) to skill-doc AP codes (`skills/mbc-review/SKILL.md`) — the two systems use independent numbering and only AP016–AP019 and AP021 share codes"
     ],
-    "bugFixes": [],
+    "bugFixes": [
+      "`server.ts` was hardcoding the package version, which silently drifted on every `lerna version` bump. Now read at runtime from `package.json`"
+    ],
     "security": []
   },
   "recent": [
+    {
+      "version": "1.2.6",
+      "date": "2026-05-06",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.6",
+      "features": [
+        "Repository Read-Your-Writes (RYW) improvements — proactively purge stale RYW sessions when the data table catches up to or surpasses the session version, eliminating \"stale override\" reads",
+        "Add AP021 anti-pattern detector — `Event Emit Directly After publishAsync in CommandService` (Severity: High)",
+        "Add cross-reference table mapping detector AP codes (`analyze.ts`) to skill-doc AP codes (`skills/mbc-review/SKILL.md`) — the two systems use independent numbering and only AP016–AP019 and AP021 share codes"
+      ],
+      "bugFixes": [
+        "`server.ts` was hardcoding the package version, which silently drifted on every `lerna version` bump. Now read at runtime from `package.json`"
+      ],
+      "security": []
+    },
     {
       "version": "1.2.5",
       "date": "2026-04-10",
@@ -45,20 +61,7 @@
       ],
       "bugFixes": [],
       "security": []
-    },
-    {
-      "version": "1.2.0",
-      "date": "2026-04-02",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.0",
-      "features": [
-        "Add Read-Your-Writes (RYW) consistency via `SessionService` and `Repository`",
-        "Add AP013 and AP014 anti-pattern detectors for v1.2.0 breaking changes"
-      ],
-      "bugFixes": [
-        "Fix import status handling for ZIP orchestrator"
-      ],
-      "security": []
     }
   ],
-  "generated": "2026-04-10T09:07:10.408Z"
+  "generated": "2026-05-06T06:00:31.004Z"
 }

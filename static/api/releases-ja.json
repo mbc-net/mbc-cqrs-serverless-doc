@@ -1,17 +1,33 @@
 {
   "latest": {
-    "version": "1.2.5",
-    "date": "2026-04-10",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.5",
+    "version": "1.2.6",
+    "date": "2026-05-06",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.6",
     "features": [
-      "ZIPインポート処理をリファクタリング — ZIPジョブ処理を`ImportService`に直接統合し、独立した`ZipImportQueueEventHandler`を削除",
-      "`mbc_check_anti_patterns`ツールにAP016〜AP020のアンチパターン検出器を追加（合計20パターン）",
-      "`mbc-migrate`と`mbc-debug`スキルをv1.1.x・v1.2.x破壊的変更ガイドで更新"
+      "Repository の Read-Your-Writes（RYW）改善 — データテーブルがセッションバージョンに追いついた／追い越した時点で陳腐化したRYWセッションを即時パージし、「stale override」読み取りを解消",
+      "AP021 アンチパターン検出器を追加 — `CommandService 内で publishAsync 直後にイベントをemit`（Severity: High）",
+      "検出器AP番号（`analyze.ts`）とskill-doc AP番号（`skills/mbc-review/SKILL.md`）のクロスリファレンス表を追加 — 両者は独立した番号体系で、コードが一致するのは AP016〜AP019 と AP021 のみ"
     ],
-    "bugFixes": [],
+    "bugFixes": [
+      "`server.ts` がパッケージバージョンをハードコードしており、`lerna version` のたびにサイレントにずれていた問題を修正。実行時に `package.json` から読み込むように変更"
+    ],
     "security": []
   },
   "recent": [
+    {
+      "version": "1.2.6",
+      "date": "2026-05-06",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.6",
+      "features": [
+        "Repository の Read-Your-Writes（RYW）改善 — データテーブルがセッションバージョンに追いついた／追い越した時点で陳腐化したRYWセッションを即時パージし、「stale override」読み取りを解消",
+        "AP021 アンチパターン検出器を追加 — `CommandService 内で publishAsync 直後にイベントをemit`（Severity: High）",
+        "検出器AP番号（`analyze.ts`）とskill-doc AP番号（`skills/mbc-review/SKILL.md`）のクロスリファレンス表を追加 — 両者は独立した番号体系で、コードが一致するのは AP016〜AP019 と AP021 のみ"
+      ],
+      "bugFixes": [
+        "`server.ts` がパッケージバージョンをハードコードしており、`lerna version` のたびにサイレントにずれていた問題を修正。実行時に `package.json` から読み込むように変更"
+      ],
+      "security": []
+    },
     {
       "version": "1.2.5",
       "date": "2026-04-10",
@@ -45,20 +61,7 @@
       ],
       "bugFixes": [],
       "security": []
-    },
-    {
-      "version": "1.2.0",
-      "date": "2026-04-02",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.0",
-      "features": [
-        "`SessionService`と`Repository`によるRead-Your-Writes（RYW）一貫性を追加",
-        "v1.2.0破壊的変更向けのAP013・AP014アンチパターン検出を追加"
-      ],
-      "bugFixes": [
-        "ZIPオーケストレーターのインポートステータス処理を修正"
-      ],
-      "security": []
     }
   ],
-  "generated": "2026-04-10T09:07:10.410Z"
+  "generated": "2026-05-06T06:00:31.006Z"
 }

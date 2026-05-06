@@ -146,20 +146,35 @@ npx @mbc-cqrs-serverless/mcp-server
 
 ### {{Anti-Pattern Detection}}
 
-{{The `mbc_check_anti_patterns` tool detects common code issues:}}
+:::info {{Version Note}}
+{{AP011–AP015 were added in [v1.2.x](/docs/changelog#v120) (publishSync null check, deprecated APIs, TaskModule duplication). AP016–AP020 were added in [v1.2.5](/docs/changelog#v125). AP021 (event emit after publishAsync) was added in [v1.2.6](/docs/changelog#v126).}}
+:::
 
-| {{Code}} | {{Name}} | {{Severity}} | {{Description}} |
-|------|------|----------|-------------|
-| AP001 | {{Direct DynamoDB Write}} | {{Critical}} | {{Use CommandService instead of direct DynamoDB writes}} |
-| AP002 | {{Ignored Version Mismatch}} | {{High}} | {{Handle VersionMismatchError properly with retry}} |
-| AP003 | {{N+1 Query Pattern}} | {{High}} | {{Use batch operations instead of loop queries}} |
-| AP004 | {{Full Table Scan}} | {{High}} | {{Use Query with key conditions instead of Scan}} |
-| AP005 | {{Hardcoded Tenant}} | {{Critical}} | {{Use getUserContext() for tenant code}} |
-| AP006 | {{Missing Tenant Validation}} | {{Critical}} | {{Never trust client-provided tenant codes}} |
-| AP007 | {{Throwing in Sync Handler}} | {{High}} | {{Handle errors gracefully in DataSyncHandler}} |
-| AP008 | {{Hardcoded Secret}} | {{Critical}} | {{Use environment variables or Secrets Manager}} |
-| AP009 | {{Manual JWT Parsing}} | {{Critical}} | {{Use built-in Cognito authorizer}} |
-| AP010 | {{Heavy Module Import}} | {{Medium}} | {{Import only needed functions to reduce cold start}} |
+{{The `mbc_check_anti_patterns` tool detects common code issues. The detector emits **detector AP codes** (this table), which use a separate numbering system from the **skill-doc AP codes** in `/mbc-review` skill. The detector output annotates each hit with the corresponding skill-doc code, e.g. `AP005: Hardcoded Tenant (skill-doc: AP002)`. Only AP016–AP019 and AP021 share the same code in both systems.}}
+
+| {{Detector Code}} | {{Name}} | {{Severity}} | {{Skill-doc Code}} |
+|------|------|----------|--------------------|
+| AP001 | {{Direct DynamoDB Write}} | {{Critical}} | AP012 |
+| AP002 | {{Ignored Version Mismatch}} | {{High}} | AP005 |
+| AP003 | {{N+1 Query Pattern}} | {{High}} | — |
+| AP004 | {{Full Table Scan}} | {{High}} | — |
+| AP005 | {{Hardcoded Tenant}} | {{Critical}} | AP002 |
+| AP006 | {{Missing Tenant Validation}} | {{Critical}} | AP002 |
+| AP007 | {{Throwing in Sync Handler}} | {{High}} | — |
+| AP008 | {{Hardcoded Secret}} | {{Critical}} | — |
+| AP009 | {{Manual JWT Parsing}} | {{Critical}} | — |
+| AP010 | {{Heavy Module Import}} | {{Medium}} | — |
+| AP011 | {{Deprecated Method Usage (`publish()`)}} | {{High}} | AP010 |
+| AP012 | {{Uppercase COMMON Tenant Key (pre-v1.1.0)}} | {{Critical}} | — |
+| AP013 | {{`publishSync` Null Return Unchecked (v1.2.0+)}} | {{High}} | AP001 |
+| AP014 | {{Deprecated `genNewSequence` (v1.2.0)}} | {{High}} | AP010 |
+| AP015 | {{Duplicate `TaskModule.register()` (v1.2.4)}} | {{High}} | — |
+| AP016 | {{Missing Error Logging Before Rethrow}} | {{High}} | AP016 |
+| AP017 | {{Incorrect Attribute Merging on Partial Update}} | {{High}} | AP017 |
+| AP018 | {{Missing Swagger Documentation}} | {{Low}} | AP018 |
+| AP019 | {{Missing Pagination in List Queries}} | {{High}} | AP019 |
+| AP020 | {{Missing `getCommandSource` for Tracing}} | {{Low}} | AP011 |
+| AP021 | {{Event Emit Directly After publishAsync in CommandService}} | {{High}} | AP021 |
 
 ### {{Health Check}}
 
@@ -196,7 +211,7 @@ npx @mbc-cqrs-serverless/mcp-server
 | {{Skill}} | {{Description}} |
 |-------|-------------|
 | `/mbc-generate` | {{Generate boilerplate code (modules, services, controllers, DTOs, handlers)}} |
-| `/mbc-review` | {{Review code for best practices and anti-patterns (20 patterns)}} |
+| `/mbc-review` | {{Review code for best practices and anti-patterns (21 patterns)}} |
 | `/mbc-migrate` | {{Guide version migrations and breaking changes}} |
 | `/mbc-debug` | {{Debug and troubleshoot common issues}} |
 
@@ -255,7 +270,9 @@ Create an Order module with RDS synchronization
 
 {{Reviews code for MBC CQRS Serverless best practices and identifies anti-patterns.}}
 
-**{{Anti-Patterns Detected (20 patterns):}}**
+**{{Anti-Patterns Detected (21 patterns):}}**
+
+{{These are the **skill-doc AP codes** used in `/mbc-review` reviews and human-facing documentation. They use a separate numbering system from the **detector AP codes** emitted by the `mbc_check_anti_patterns` tool. See the [Anti-Pattern Detection table](#code-analysis-tools) above for the detector→skill-doc mapping. AP021 was added in [v1.2.6](/docs/changelog#v126).}}
 
 | {{Code}} | {{Description}} | {{Severity}} |
 |------|-------------|----------|
@@ -279,6 +296,7 @@ Create an Order module with RDS synchronization
 | AP018 | {{Missing Swagger documentation}} | {{Info}} |
 | AP019 | {{Not handling pagination correctly}} | {{Warning}} |
 | AP020 | {{Circular module dependencies}} | {{Error}} |
+| AP021 | {{Emitting events directly in CommandService after publishAsync}} | {{Error}} |
 
 **{{Example Usage:}}**
 ```
