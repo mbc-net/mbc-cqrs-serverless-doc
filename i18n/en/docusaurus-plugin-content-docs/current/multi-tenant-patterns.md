@@ -94,7 +94,7 @@ The `@mbc-cqrs-serverless/master` and `@mbc-cqrs-serverless/tenant` packages def
 When using these modules' built-in methods (e.g., `createCommonTenantSetting`, `createCommonTenant`), they automatically use this `'COMMON'` value internally for data storage.
 
 ```typescript
-// {{In @mbc-cqrs-serverless/master and @mbc-cqrs-serverless/tenant}}
+// In @mbc-cqrs-serverless/master and @mbc-cqrs-serverless/tenant
 export enum SettingTypeEnum {
   TENANT_COMMON = 'COMMON',  // Internal constant for data storage
 }

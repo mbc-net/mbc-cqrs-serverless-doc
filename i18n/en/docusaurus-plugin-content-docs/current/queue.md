@@ -65,7 +65,7 @@ await this.sqsService.sendMessage(queueUrl, body, {
   DelaySeconds: 5,
   MessageGroupId: 'group-1',         // FIFO queues only
   MessageDeduplicationId: 'dedup-1', // FIFO queues only
-  MessageAttributes: { key: { DataType: 'String', StringValue: 'value' } }, // {{Custom message attributes}}
+  MessageAttributes: { key: { DataType: 'String', StringValue: 'value' } }, // Custom message attributes
 })
 ```
 

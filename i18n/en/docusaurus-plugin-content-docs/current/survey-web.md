@@ -93,7 +93,7 @@ export default function SurveyResponsePage({ schema }: Props) {
       onSubmit={handleSubmit}
       disabled={false}
     >
-      {/* {{Optional: Custom content rendered inside the current section}} */}
+      {/* Optional: Custom content rendered inside the current section */}
     </SurveyForm>
   );
 }
@@ -353,8 +353,8 @@ function TemplateEditor({ id }: { id?: string }) {
     isSubmitting,
     error,
     setCurrentSchema,     // Function to update current schema
-    handleCreateSurvey,   // {{(schema: SurveySchemaType) => Promise<void> - Create new survey}}
-    handleUpdateSurvey,   // {{(schema: SurveySchemaType) => Promise<void> - Update existing survey}}
+    handleCreateSurvey,   // (schema: SurveySchemaType) => Promise<void> - Create new survey
+    handleUpdateSurvey,   // (schema: SurveySchemaType) => Promise<void> - Update existing survey
     retryFetchSurvey,     // () => Promise<void> - Retry fetching survey data
     isSchemaChanged,      // boolean - True if schema differs from original
     isButtonDisabled,     // boolean - True if submit should be disabled

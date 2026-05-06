@@ -241,9 +241,9 @@ export class MyService {
     const notification: TemplatedEmailNotification = {
       toAddrs: [user.email],
       template: {
-        subject: "Welcome, {{name}}!",
-        html: "<h1>Hello {{name}}</h1><p>Welcome to our service!</p>",
-        text: "Hello {{name}}, Welcome to our service!", // Optional plain text version
+        subject: "Welcome, name!",
+        html: "<h1>Hello name</h1><p>Welcome to our service!</p>",
+        text: "Hello name, Welcome to our service!", // Optional plain text version
       },
       data: {
         name: user.name,
@@ -257,17 +257,17 @@ export class MyService {
 
 #### Template Syntax
 
-Templates use `{{variableName}}` placeholders that are replaced with values from the `data` object:
+Templates use `{{variableName` placeholders that are replaced with values from the `data` object:}}
 
 ```ts
 const notification: TemplatedEmailNotification = {
   toAddrs: ["user@example.com"],
   template: {
-    subject: "Order {{orderId}} Confirmation",
+    subject: "Order orderId Confirmation",
     html: `
-      <h1>Thank you, {{customerName}}!</h1>
-      <p>Your order #{{orderId}} has been confirmed.</p>
-      <p>Total: {{currency}}{{totalAmount}}</p>
+      <h1>Thank you, customerName!</h1>
+      <p>Your order #orderId has been confirmed.</p>
+      <p>Total: currencytotalAmount</p>
     `,
   },
   data: {
@@ -293,10 +293,10 @@ You can access nested object properties using dot notation:
 const notification: TemplatedEmailNotification = {
   toAddrs: ["user@example.com"],
   template: {
-    subject: "Welcome {{user.profile.firstName}}!",
+    subject: "Welcome user.profile.firstName!",
     html: `
-      <p>Hello {{user.profile.firstName}} {{user.profile.lastName}},</p>
-      <p>Your verification code is: {{auth.otp}}</p>
+      <p>Hello user.profile.firstName user.profile.lastName,</p>
+      <p>Your verification code is: auth.otp</p>
     `,
   },
   data: {
@@ -321,11 +321,11 @@ Template variables support Unicode characters, including Japanese keys:
 const notification: TemplatedEmailNotification = {
   toAddrs: ["user@example.com"],
   template: {
-    subject: "{{注文.確認番号}} - Order Confirmation",
+    subject: "注文.確認番号 - Order Confirmation",
     html: `
-      <p>{{顧客.名前}} 様</p>
-      <p>ご注文番号: {{注文.確認番号}}</p>
-      <p>商品: {{注文.詳細.品名}}</p>
+      <p>顧客.名前 様</p>
+      <p>ご注文番号: 注文.確認番号</p>
+      <p>商品: 注文.詳細.品名</p>
     `,
   },
   data: {
@@ -344,13 +344,13 @@ const notification: TemplatedEmailNotification = {
 
 ##### Whitespace in Placeholders
 
-Whitespace inside placeholders is automatically trimmed, so `{{ name }}` and `{{name}}` are equivalent:
+Whitespace inside placeholders is automatically trimmed, so a placeholder with surrounding spaces is equivalent to one without (see the example below):
 
 ```ts
 // Both of these work identically
 template: {
   subject: "Hello {{ name }}!",  // Whitespace is trimmed
-  html: "<p>Hello {{name}}!</p>", // No whitespace
+  html: "<p>Hello name!</p>", // No whitespace
 }
 ```
 
@@ -359,9 +359,9 @@ template: {
 If a variable is not found in the data object, the placeholder is preserved in the output. This helps identify missing data during development:
 
 ```ts
-// If 'missingKey' is not in data, output will contain '{{missingKey}}'
+// If 'missingKey' is not in data, output will contain '{{missingKey'}}
 template: {
-  html: "<p>Value: {{missingKey}}</p>",
+  html: "<p>Value: missingKey</p>",
 }
 ```
 
