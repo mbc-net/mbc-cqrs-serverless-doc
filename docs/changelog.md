@@ -18,6 +18,31 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ## {{Stable Releases (1.x)}}
 
+## [1.2.6](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.6) (2026-05-06) {#v126}
+
+### {{Features}}
+
+- **core:** {{Repository Read-Your-Writes (RYW) improvements — proactively purge stale RYW sessions when the data table catches up to or surpasses the session version, eliminating "stale override" reads}} ([{{See Details}}](/docs/command-service#ryw-session-cleanup)) ([PR #410](https://github.com/mbc-net/mbc-cqrs-serverless/pull/410))
+  - {{`getItem`: when `existing.version >= session.version`, the session is purged in the background and persisted data is returned directly (skipping the unnecessary command-table read)}}
+  - {{`listItemsByPk`: synchronized sessions are cleaned up in-place during the merge loop}}
+  - {{`listItems` (RDS path): per-session checks are now parallelized via `Promise.all`, eliminating sequential N+1 latency}}
+  - {{New optional `mergeOptions.getVersion` lets callers skip the extra DynamoDB GetItem when the existing RDS row already proves caught-up}}
+  - {{`SessionService.delete()` and `DynamoDbService.deleteItem()` added; both safe for fire-and-forget use}}
+  - {{Backward-compatible: `getVersion` is optional; projects with `RYW_SESSION_TTL_MINUTES` unset are unaffected}}
+- **mcp-server:** {{Add AP021 anti-pattern detector — `Event Emit Directly After publishAsync in CommandService` (Severity: High)}} ([{{See Details}}](/docs/mcp-server#code-analysis-tools)) ([PR #408](https://github.com/mbc-net/mbc-cqrs-serverless/pull/408))
+  - {{Detects `eventEmitter.emit()` calls within 200 chars after `commandService.publishAsync/publishSync`}}
+  - {{Recommendation: emit events from `IDataSyncHandler.up()`/`down()` instead, since the data table is populated asynchronously via DynamoDB Streams after `publishAsync`}}
+- **mcp-server:** {{Add cross-reference table mapping detector AP codes (`analyze.ts`) to skill-doc AP codes (`skills/mbc-review/SKILL.md`) — the two systems use independent numbering and only AP016–AP019 and AP021 share codes}} ([PR #411](https://github.com/mbc-net/mbc-cqrs-serverless/pull/411))
+  - {{Detector output now annotates each hit with its corresponding skill-doc AP code, e.g. `AP005: Hardcoded Tenant (skill-doc: AP002)`}}
+  - {{`mbc-migrate` skill: added v1.2.5 and v1.2.6 sections with migration matrix entries}}
+  - {{`mbc-debug` skill: added troubleshooting entry for the (intentional) early RYW session purge in v1.2.6}}
+
+### {{Bug Fixes}}
+
+- **mcp-server:** {{`server.ts` was hardcoding the package version, which silently drifted on every `lerna version` bump. Now read at runtime from `package.json`}} ([PR #411](https://github.com/mbc-net/mbc-cqrs-serverless/pull/411))
+
+---
+
 ## [1.2.5](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.5) (2026-04-10) {#v125}
 
 ### {{Features}}
