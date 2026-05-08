@@ -147,7 +147,7 @@ npx @mbc-cqrs-serverless/mcp-server
 ### {{Anti-Pattern Detection}}
 
 :::info {{Version Note}}
-{{AP011–AP015 were added in [v1.2.x](/docs/changelog#v120) (publishSync null check, deprecated APIs, TaskModule duplication). AP016–AP020 were added in [v1.2.5](/docs/changelog#v125). AP021 (event emit after publishAsync) was added in [v1.2.6](/docs/changelog#v126).}}
+{{AP011–AP015 were added in [v1.2.x](/docs/changelog#v120) (publishSync null check, deprecated APIs, TaskModule duplication). AP016–AP020 were added in [v1.2.5](/docs/changelog#v125). AP021 (event emit after publishAsync) was added in [v1.2.6](/docs/changelog#v126). AP022–AP025 (eval, shell injection, HTTP timeout, sensitive logging) were added in v1.2.7.}}
 :::
 
 {{The `mbc_check_anti_patterns` tool detects common code issues. The detector emits **detector AP codes** (this table), which use a separate numbering system from the **skill-doc AP codes** in `/mbc-review` skill. The detector output annotates each hit with the corresponding skill-doc code, e.g. `AP005: Hardcoded Tenant (skill-doc: AP002)`. Only AP016–AP019 and AP021 share the same code in both systems.}}
@@ -175,6 +175,10 @@ npx @mbc-cqrs-serverless/mcp-server
 | AP019 | {{Missing Pagination in List Queries}} | {{High}} | AP019 |
 | AP020 | {{Missing `getCommandSource` for Tracing}} | {{Low}} | AP011 |
 | AP021 | {{Event Emit Directly After publishAsync in CommandService}} | {{High}} | AP021 |
+| AP022 | {{Use of `eval()` or `Function()` Constructor}} | {{Critical}} | — |
+| AP023 | {{Shell Command Built from String Concatenation}} | {{Critical}} | — |
+| AP024 | {{HTTP Request Without Timeout}} | {{Medium}} | — |
+| AP025 | {{Logging `process.env` or full request object}} | {{High}} | — |
 
 ### {{Health Check}}
 
