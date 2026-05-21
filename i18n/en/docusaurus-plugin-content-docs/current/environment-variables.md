@@ -85,10 +85,22 @@ The "Required" column indicates the general expectation for typical applications
 
 ### AppSync Configuration
 
+#### AppSync GraphQL Subscription (existing)
+
 | Variable | Description | Required | Example |
 |-------------|-----------------|--------------|-------------|
 | `APPSYNC_ENDPOINT` | AppSync GraphQL endpoint URL | No | `http://localhost:4001/graphql` |
 | `APPSYNC_API_KEY` | AppSync API key for local development | No | `da2-fakeApiId123456` |
+
+#### AppSync Events API (opt-in) {#appsync-events-env}
+
+Set `NOTIFICATION_TRANSPORTS=appsync-event` (or `appsync-graphql,appsync-event` for dual-publish) to activate the AppSync Events API transport. See [AppSyncEventsService](/docs/notification-module#appsync-events-service) for details.
+
+| Variable | Description | Required | Default | Example |
+|-------------|-----------------|--------------|-------------|-------------|
+| `NOTIFICATION_TRANSPORTS` | Comma-separated list of active transports. Built-ins: `appsync-graphql`, `appsync-event` | No | `appsync-graphql` | `appsync-event` |
+| `APPSYNC_EVENTS_ENDPOINT` | AppSync Events API HTTP endpoint URL | When `appsync-event` is active | - | `https://xxxx.appsync-api.ap-northeast-1.amazonaws.com/event` |
+| `APPSYNC_EVENTS_NAMESPACE` | Channel namespace name — must match a pre-created namespace in your AppSync Event API | No | `default` | `notifications` |
 
 ### SES Email Configuration
 
@@ -150,6 +162,10 @@ COGNITO_REGION=ap-northeast-1
 # AppSync Configuration
 APPSYNC_ENDPOINT=http://localhost:4001/graphql
 APPSYNC_API_KEY=da2-fakeApiId123456
+# AppSync Events API (optional — set NOTIFICATION_TRANSPORTS=appsync-event to activate)
+# NOTIFICATION_TRANSPORTS=appsync-event
+# APPSYNC_EVENTS_ENDPOINT=https://xxxx.appsync-api.ap-northeast-1.amazonaws.com/event
+# APPSYNC_EVENTS_NAMESPACE=default
 
 # SES Configuration
 SES_ENDPOINT=http://localhost:8005

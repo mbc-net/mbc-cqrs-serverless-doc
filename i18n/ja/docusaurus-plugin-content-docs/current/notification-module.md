@@ -15,9 +15,12 @@ NotificationModuleは、MBC CQRS Serverlessフレームワークで2種類の通
 graph TB
     subgraph "リアルタイム通知"
         A["DynamoDBストリーム"] --> B["NotificationEventHandler"]
-        B --> C["AppSyncService"]
+        B --> C["{{AppSyncService\n(GraphQL Subscription)}}"]
+        B --> C2["{{AppSyncEventsService\n(Events API, opt-in)}}"]
         C --> D["AppSync GraphQL"]
+        C2 --> D2["{{AppSync Events API}}"]
         D --> E["WebSocketクライアント"]
+        D2 --> E
     end
 
     subgraph "メール通知"
@@ -107,7 +110,7 @@ export class MyService {
 
 AppSyncServiceは2つの認証方法をサポートしています：
 
-1. **APIキー**: `APPSYNC_API_KEY`環境変数を設定
+1. **API キー**: `APPSYNC_API_KEY`環境変数を設定
 2. **IAM署名V4**: APIキーが設定されていない場合に自動的に使用
 
 ### 自動通知
@@ -160,6 +163,90 @@ export class NotificationEventHandler implements IEventHandler<NotificationEvent
 ```
 
 通常、このハンドラーと直接やり取りする必要はありません - SQSキューに通知が発行されると自動的に動作します。
+
+## AppSync Events API（オプトイン） {#appsync-events-service}
+
+:::info バージョン情報
+`AppSyncEventsService` とデュアルパブリッシュサポートは [バージョン 1.3.0](/docs/changelog#v130) で追加されました。
+:::
+
+### 概要
+
+`AppSyncEventsService` は **AWS AppSync Events API**（スキーマ不要の HTTP pub/sub サービス）をベースにした、代替（または補完）のリアルタイムトランスポートを提供します。GraphQL サブスクリプションとは異なり、GraphQL スキーマが不要で、クライアントはワイルドカードチャンネルパスでサブスクライブします。
+
+`NOTIFICATION_TRANSPORTS=appsync-event` を設定してオプトインします。`NOTIFICATION_TRANSPORTS=appsync-graphql,appsync-event` と両方のエンドポイントを設定すると、フレームワークは両方のトランスポートに**デュアルパブリッシュ**し、ダウンタイムなしのマイグレーションを可能にします。
+
+### チャンネル構造
+
+すべての通知は最も具体的な単一チャンネルにパブリッシュされます。クライアントは AppSync Events のワイルドカード（`/*`）を使って必要な粒度でサブスクライブします：
+
+```
+/{namespace}/{tenantCode}/{action}/{sanitizedId}
+  seg 1        seg 2       seg 3    seg 4
+```
+
+| クライアントの目的 | サブスクライブ先 |
+|-----------------|-----------------|
+| テナントの全イベント | `/{namespace}/{tenantCode}/*` |
+| アクションでフィルタリング | `/{namespace}/{tenantCode}/{action}/*` |
+| 特定コマンドを追跡 | `/{namespace}/{tenantCode}/{action}/{sanitizedId}` |
+
+### 設定
+
+```bash
+# Events API トランスポートを有効にします（Events API のみ）
+NOTIFICATION_TRANSPORTS=appsync-event
+APPSYNC_EVENTS_ENDPOINT=https://xxxx.appsync-api.ap-northeast-1.amazonaws.com/event
+# オプション：AppSync Event API に事前作成されたネームスペースと一致する必要があります
+APPSYNC_EVENTS_NAMESPACE=default
+```
+
+{{See [AppSync Events Environment Variables](/docs/environment-variables#appsync-events-env) for the full reference.}}
+
+### GraphQL サブスクリプションからの移行
+
+デュアルパブリッシュモードを使用して、ダウンタイムなしでクライアントを段階的に移行します：
+
+**フェーズ 1 — デュアルパブリッシュ（両方のトランスポートが有効）：**
+```bash
+NOTIFICATION_TRANSPORTS=appsync-graphql,appsync-event
+APPSYNC_EVENTS_ENDPOINT=https://xxxx.appsync-api.ap-northeast-1.amazonaws.com/event
+APPSYNC_EVENTS_NAMESPACE=default
+APPSYNC_ENDPOINT=https://xxxx.appsync-api.ap-northeast-1.amazonaws.com/graphql  # 設定済みのまま
+```
+
+**フェーズ 2 — Events API のみ（全クライアントの移行完了後）：**
+```bash
+NOTIFICATION_TRANSPORTS=appsync-event
+APPSYNC_EVENTS_ENDPOINT=https://xxxx.appsync-api.ap-northeast-1.amazonaws.com/event
+APPSYNC_EVENTS_NAMESPACE=default
+# APPSYNC_ENDPOINT を削除
+```
+
+### CDK インフラストラクチャ
+
+`EventApi` と `ChannelNamespace` を自動的にプロビジョニングするには、`Config` に `appsyncEvents` を追加します：
+
+```typescript
+// infra/config/config.ts
+export const config: Config = {
+  // ...
+  appsyncEvents: {
+    enabled: true,
+    namespace: 'default',       // オプション、デフォルトは 'default'
+    apiKeyExpireDays: 365,      // オプション、デフォルトは 365
+  },
+}
+```
+
+CDK スタックは `AppSyncEventsHttpEndpoint` と `AppSyncEventsNamespace` を出力し、Lambda と ECS に `NOTIFICATION_TRANSPORTS`、`APPSYNC_EVENTS_ENDPOINT`、`APPSYNC_EVENTS_NAMESPACE` を自動で注入します。
+
+### 認証
+
+`AppSyncEventsService` はパブリッシュに2種類の認証方式をサポートします：
+
+1. **IAM SigV4（Lambda/ECS 推奨）**: パブリッシュ時に自動で使用されます。CDK スタックの `grantPublish()` により Lambda と ECS タスクロールに `appsync:EventPublish` 権限が付与されます。
+2. **API キー**: ブラウザクライアントのサブスクライブに使用します。クライアント側（Amplify の `apiKey` 設定など）で設定します。サーバー側では不要です。
 
 ## メール通知
 

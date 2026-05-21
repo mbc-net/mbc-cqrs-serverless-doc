@@ -85,10 +85,22 @@ MBC CQRS サーバーレスフレームワークには、環境変数を `.env*`
 
 ### AppSync 設定
 
+#### AppSync GraphQL サブスクリプション（既存）
+
 | 変数 | 説明 | 必須 | 例 |
 |-------------|-----------------|--------------|-------------|
 | `APPSYNC_ENDPOINT` | AppSync GraphQL エンドポイントURL | いいえ | `http://localhost:4001/graphql` |
 | `APPSYNC_API_KEY` | ローカル開発用のAppSync APIキー | いいえ | `da2-fakeApiId123456` |
+
+#### AppSync Events API（オプトイン） {#appsync-events-env}
+
+`NOTIFICATION_TRANSPORTS=appsync-event`（またはデュアルパブリッシュの場合は `appsync-graphql,appsync-event`）を設定すると AppSync Events API トランスポートが有効になります。詳細は [AppSyncEventsService](/docs/notification-module#appsync-events-service) を参照してください。
+
+| 変数 | 説明 | 必須 | デフォルト | 例 |
+|-------------|-----------------|--------------|-------------|-------------|
+| `NOTIFICATION_TRANSPORTS` | アクティブなトランスポートのカンマ区切りリスト。組み込み値: `appsync-graphql`, `appsync-event` | いいえ | `appsync-graphql` | `appsync-event` |
+| `APPSYNC_EVENTS_ENDPOINT` | AppSync Events API の HTTP エンドポイント URL | `appsync-event` が有効な場合 | - | `https://xxxx.appsync-api.ap-northeast-1.amazonaws.com/event` |
+| `APPSYNC_EVENTS_NAMESPACE` | チャンネルのネームスペース名 — AppSync Event API に事前作成されたネームスペース名と一致する必要があります | いいえ | `default` | `notifications` |
 
 ### SES メール設定
 
@@ -150,6 +162,10 @@ COGNITO_REGION=ap-northeast-1
 # AppSync 設定
 APPSYNC_ENDPOINT=http://localhost:4001/graphql
 APPSYNC_API_KEY=da2-fakeApiId123456
+# AppSync Events API（オプション — 有効にするには NOTIFICATION_TRANSPORTS=appsync-event を設定）
+# NOTIFICATION_TRANSPORTS=appsync-event
+# APPSYNC_EVENTS_ENDPOINT=https://xxxx.appsync-api.ap-northeast-1.amazonaws.com/event
+# APPSYNC_EVENTS_NAMESPACE=default
 
 # SES 設定
 SES_ENDPOINT=http://localhost:8005

@@ -68,5 +68,16 @@
   "Variables validated by the framework's base `EnvironmentVariables` class. These are essential for the framework to function.": "フレームワークの基底`EnvironmentVariables`クラスで検証される変数です。フレームワークが動作するために必須です。",
   "Application Variables": "アプリケーション変数",
   "Variables that your application may need based on which features you use. Add validation for these in your custom `EnvValidation` class.": "使用する機能に応じてアプリケーションが必要とする変数です。カスタムの`EnvValidation`クラスでこれらの検証ルールを追加してください。",
-  "The \"Required\" column indicates the general expectation for typical applications. You should add validation rules for all variables your specific application depends on.": "「必須」列は一般的なアプリケーションでの想定を示しています。特定のアプリケーションが依存するすべての変数に対して検証ルールを追加してください。"
+  "The \"Required\" column indicates the general expectation for typical applications. You should add validation rules for all variables your specific application depends on.": "「必須」列は一般的なアプリケーションでの想定を示しています。特定のアプリケーションが依存するすべての変数に対して検証ルールを追加してください。",
+  "AppSync GraphQL Subscription (existing)": "AppSync GraphQL サブスクリプション（既存）",
+  "AppSync Events API (opt-in)": "AppSync Events API（オプトイン）",
+  "Set `true` to activate Events API publish": "Events API パブリッシュを有効にするには `true` を設定します",
+  "AppSync Events API HTTP endpoint URL": "AppSync Events API の HTTP エンドポイント URL",
+  "Client API key for subscribe auth (omit to use IAM SigV4 for publish)": "クライアントのサブスクライブ認証用 API キー（省略すると IAM SigV4 でパブリッシュします）",
+  "AWS region for IAM SigV4 signing": "IAM SigV4 署名に使用する AWS リージョン",
+  "Channel namespace name — must match a pre-created namespace in your AppSync Event API": "チャンネルのネームスペース名 — AppSync Event API に事前作成されたネームスペース名と一致する必要があります",
+  "Set `NOTIFICATION_TRANSPORTS=appsync-event` (or `appsync-graphql,appsync-event` for dual-publish) to activate the AppSync Events API transport. See [AppSyncEventsService](/docs/notification-module#appsync-events-service) for details.": "`NOTIFICATION_TRANSPORTS=appsync-event`（またはデュアルパブリッシュの場合は `appsync-graphql,appsync-event`）を設定すると AppSync Events API トランスポートが有効になります。詳細は [AppSyncEventsService](/docs/notification-module#appsync-events-service) を参照してください。",
+  "Comma-separated list of active transports. Built-ins: `appsync-graphql`, `appsync-event`": "アクティブなトランスポートのカンマ区切りリスト。組み込み値: `appsync-graphql`, `appsync-event`",
+  "When `appsync-event` is active": "`appsync-event` が有効な場合",
+  "AppSync Events API (optional — set NOTIFICATION_TRANSPORTS=appsync-event to activate)": "AppSync Events API（オプション — 有効にするには NOTIFICATION_TRANSPORTS=appsync-event を設定）"
 }

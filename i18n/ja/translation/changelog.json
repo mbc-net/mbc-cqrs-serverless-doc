@@ -341,5 +341,18 @@
   "Added schematic for generating module": "モジュール生成用スキーマティックを追加",
   "Fixed serialize helper entity field processing": "シリアライズヘルパーのエンティティフィールド処理を修正",
   "Added serialize helper functions for internal/external structure conversion": "内部/外部構造変換用のシリアライズヘルパー関数を追加",
-  "Related Links": "関連リンク"
+  "Related Links": "関連リンク",
+  "Add `AppSyncEventsService` — opt-in HTTP pub/sub transport for real-time notifications via AWS AppSync Events API": "`AppSyncEventsService` を追加 — AWS AppSync Events API によるリアルタイム通知のオプトイン HTTP pub/sub トランスポート",
+  "Transport selection via `NOTIFICATION_TRANSPORTS` env var (comma-separated); default `appsync-graphql` — existing GraphQL Subscription behavior is unchanged": "`NOTIFICATION_TRANSPORTS` 環境変数（カンマ区切り）でトランスポートを選択。デフォルトは `appsync-graphql` — 既存の GraphQL サブスクリプションの動作は変わりません",
+  "Channel structure: `/{namespace}/{tenantCode}/{action}/{sanitizedId}` — clients subscribe at any granularity using AppSync wildcard (`/*`)": "チャンネル構造: `/{namespace}/{tenantCode}/{action}/{sanitizedId}` — クライアントは AppSync ワイルドカード（`/*`）で任意の粒度でサブスクライブ可能",
+  "Authentication: IAM SigV4 for Lambda/ECS publish; API key for client subscriptions": "認証: Lambda/ECS パブリッシュには IAM SigV4、クライアントサブスクライブには API キー",
+  "Dual-publish mode: `NOTIFICATION_TRANSPORTS=appsync-graphql,appsync-event` to publish to both transports simultaneously during migration": "デュアルパブリッシュモード: 移行中は `NOTIFICATION_TRANSPORTS=appsync-graphql,appsync-event` で両方のトランスポートに同時パブリッシュ",
+  "New environment variables: `NOTIFICATION_TRANSPORTS`, `APPSYNC_EVENTS_ENDPOINT`, `APPSYNC_EVENTS_NAMESPACE`": "新規環境変数: `NOTIFICATION_TRANSPORTS`, `APPSYNC_EVENTS_ENDPOINT`, `APPSYNC_EVENTS_NAMESPACE`",
+  "`@NotificationTransport` decorator: pluggable transport registration — custom transports can be added without modifying framework code": "`@NotificationTransport` デコレータ: プラグイン式トランスポート登録 — フレームワークコードを変更せずにカスタムトランスポートを追加可能",
+  "CDK infra template: add `appsyncEvents` and `notificationTransports` to `Config` type — provisions `EventApi` + `ChannelNamespace`, injects `NOTIFICATION_TRANSPORTS`, `APPSYNC_EVENTS_ENDPOINT`, and `APPSYNC_EVENTS_NAMESPACE` into Lambda and ECS, and grants `appsync:EventPublish` IAM permission via `grantPublish()` automatically": "CDK インフラテンプレート: `Config` 型に `appsyncEvents` と `notificationTransports` を追加 — `EventApi` + `ChannelNamespace` をプロビジョニングし、Lambda/ECS に `NOTIFICATION_TRANSPORTS`、`APPSYNC_EVENTS_ENDPOINT`、`APPSYNC_EVENTS_NAMESPACE` を注入、`grantPublish()` で `appsync:EventPublish` IAM 権限を自動付与",
+  "Update skills and analyzer for v1.3.0": "v1.3.0 向けスキルとアナライザーを更新",
+  "AP026 anti-pattern detector added: `@Injectable` instead of `@NotificationTransport` on `INotificationTransport` implementors": "AP026 アンチパターン検出器を追加: `INotificationTransport` 実装クラスで `@NotificationTransport` の代わりに `@Injectable` を使用するケース",
+  "`mbc-migrate` skill: v1.3.0 migration guide and version compatibility table updated": "`mbc-migrate` スキル: v1.3.0 移行ガイドおよびバージョン互換性テーブルを更新",
+  "`mbc-generate` skill: custom notification transport code generation template added": "`mbc-generate` スキル: カスタム通知トランスポートのコード生成テンプレートを追加",
+  "`mbc-review` skill: AP026 added to checklist": "`mbc-review` スキル: チェックリストに AP026 を追加"
 }

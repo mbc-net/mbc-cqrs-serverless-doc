@@ -68,5 +68,16 @@
   "Variables validated by the framework's base `EnvironmentVariables` class. These are essential for the framework to function.": "Variables validated by the framework's base `EnvironmentVariables` class. These are essential for the framework to function.",
   "Application Variables": "Application Variables",
   "Variables that your application may need based on which features you use. Add validation for these in your custom `EnvValidation` class.": "Variables that your application may need based on which features you use. Add validation for these in your custom `EnvValidation` class.",
-  "The \"Required\" column indicates the general expectation for typical applications. You should add validation rules for all variables your specific application depends on.": "The \"Required\" column indicates the general expectation for typical applications. You should add validation rules for all variables your specific application depends on."
+  "The \"Required\" column indicates the general expectation for typical applications. You should add validation rules for all variables your specific application depends on.": "The \"Required\" column indicates the general expectation for typical applications. You should add validation rules for all variables your specific application depends on.",
+  "AppSync GraphQL Subscription (existing)": "AppSync GraphQL Subscription (existing)",
+  "AppSync Events API (opt-in)": "AppSync Events API (opt-in)",
+  "Set `true` to activate Events API publish": "Set `true` to activate Events API publish",
+  "AppSync Events API HTTP endpoint URL": "AppSync Events API HTTP endpoint URL",
+  "Client API key for subscribe auth (omit to use IAM SigV4 for publish)": "Client API key for subscribe auth (omit to use IAM SigV4 for publish)",
+  "AWS region for IAM SigV4 signing": "AWS region for IAM SigV4 signing",
+  "Channel namespace name — must match a pre-created namespace in your AppSync Event API": "Channel namespace name — must match a pre-created namespace in your AppSync Event API",
+  "Set `NOTIFICATION_TRANSPORTS=appsync-event` (or `appsync-graphql,appsync-event` for dual-publish) to activate the AppSync Events API transport. See [AppSyncEventsService](/docs/notification-module#appsync-events-service) for details.": "Set `NOTIFICATION_TRANSPORTS=appsync-event` (or `appsync-graphql,appsync-event` for dual-publish) to activate the AppSync Events API transport. See [AppSyncEventsService](/docs/notification-module#appsync-events-service) for details.",
+  "Comma-separated list of active transports. Built-ins: `appsync-graphql`, `appsync-event`": "Comma-separated list of active transports. Built-ins: `appsync-graphql`, `appsync-event`",
+  "When `appsync-event` is active": "When `appsync-event` is active",
+  "AppSync Events API (optional — set NOTIFICATION_TRANSPORTS=appsync-event to activate)": "AppSync Events API (optional — set NOTIFICATION_TRANSPORTS=appsync-event to activate)"
 }

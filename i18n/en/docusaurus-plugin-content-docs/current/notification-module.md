@@ -15,9 +15,12 @@ The NotificationModule provides two types of notification capabilities in the MB
 graph TB
     subgraph "Real-time Notifications"
         A["DynamoDB Stream"] --> B["NotificationEventHandler"]
-        B --> C["AppSyncService"]
+        B --> C["{{AppSyncService\n(GraphQL Subscription)}}"]
+        B --> C2["{{AppSyncEventsService\n(Events API, opt-in)}}"]
         C --> D["AppSync GraphQL"]
+        C2 --> D2["{{AppSync Events API}}"]
         D --> E["WebSocket Clients"]
+        D2 --> E
     end
 
     subgraph "Email Notifications"
@@ -160,6 +163,90 @@ export class NotificationEventHandler implements IEventHandler<NotificationEvent
 ```
 
 You typically don't need to interact with this handler directly - it works automatically when notifications are published to the SQS queue.
+
+## AppSync Events API (opt-in) {#appsync-events-service}
+
+:::info Version Note
+`AppSyncEventsService` and dual-publish support were added in [version 1.3.0](/docs/changelog#v130).
+:::
+
+### Overview
+
+The `AppSyncEventsService` provides an alternative (or complementary) real-time transport based on the **AWS AppSync Events API** — a schema-free HTTP pub/sub service. Unlike the GraphQL Subscription transport, it requires no GraphQL schema and clients subscribe using wildcard channel paths.
+
+Opt in by setting `NOTIFICATION_TRANSPORTS=appsync-event`. When `NOTIFICATION_TRANSPORTS=appsync-graphql,appsync-event` and both endpoints are set, the framework **dual-publishes** to both transports simultaneously, enabling a zero-downtime migration.
+
+### Channel Structure
+
+Every notification is published to a single most-specific channel. Clients subscribe at whatever level of granularity they need using the AppSync Events wildcard (`/*`):
+
+```
+/{namespace}/{tenantCode}/{action}/{sanitizedId}
+  seg 1        seg 2       seg 3    seg 4
+```
+
+| Client goal | Subscribe to |
+|-----------------|-----------------|
+| All events for a tenant | `/{namespace}/{tenantCode}/*` |
+| Filtered by action | `/{namespace}/{tenantCode}/{action}/*` |
+| Track one specific command | `/{namespace}/{tenantCode}/{action}/{sanitizedId}` |
+
+### Configuration
+
+```bash
+# Enable the Events API transport (Events API only)
+NOTIFICATION_TRANSPORTS=appsync-event
+APPSYNC_EVENTS_ENDPOINT=https://xxxx.appsync-api.ap-northeast-1.amazonaws.com/event
+# Optional: must match a pre-created namespace in your AppSync Event API
+APPSYNC_EVENTS_NAMESPACE=default
+```
+
+{{See [AppSync Events Environment Variables](/docs/environment-variables#appsync-events-env) for the full reference.}}
+
+### Migration from GraphQL Subscription
+
+Use the dual-publish mode to migrate clients gradually without downtime:
+
+**Phase 1 — Dual-publish (both transports active):**
+```bash
+NOTIFICATION_TRANSPORTS=appsync-graphql,appsync-event
+APPSYNC_EVENTS_ENDPOINT=https://xxxx.appsync-api.ap-northeast-1.amazonaws.com/event
+APPSYNC_EVENTS_NAMESPACE=default
+APPSYNC_ENDPOINT=https://xxxx.appsync-api.ap-northeast-1.amazonaws.com/graphql  # still set
+```
+
+**Phase 2 — Events API only (after all clients have migrated):**
+```bash
+NOTIFICATION_TRANSPORTS=appsync-event
+APPSYNC_EVENTS_ENDPOINT=https://xxxx.appsync-api.ap-northeast-1.amazonaws.com/event
+APPSYNC_EVENTS_NAMESPACE=default
+# APPSYNC_ENDPOINT removed
+```
+
+### CDK Infrastructure
+
+Add `appsyncEvents` to your `Config` to provision the `EventApi` and `ChannelNamespace` automatically:
+
+```typescript
+// infra/config/config.ts
+export const config: Config = {
+  // ...
+  appsyncEvents: {
+    enabled: true,
+    namespace: 'default',       // optional, defaults to 'default'
+    apiKeyExpireDays: 365,      // optional, defaults to 365
+  },
+}
+```
+
+The CDK stack will output `AppSyncEventsHttpEndpoint` and `AppSyncEventsNamespace`, and will automatically inject `NOTIFICATION_TRANSPORTS`, `APPSYNC_EVENTS_ENDPOINT`, and `APPSYNC_EVENTS_NAMESPACE` into Lambda and ECS.
+
+### Authentication
+
+The `AppSyncEventsService` supports two authentication methods for publishing:
+
+1. **IAM SigV4 (recommended for Lambda/ECS)**: Used automatically for publishing. Lambda and ECS task roles are granted `appsync:EventPublish` by the CDK stack via `grantPublish()`.
+2. **API Key**: Used by browser clients for subscribing. Set in the client (e.g., Amplify `apiKey` config). Not required on the server side.
 
 ## Email Notifications
 

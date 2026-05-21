@@ -18,6 +18,26 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ## {{Stable Releases (1.x)}}
 
+## [1.3.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.0) (2026-05-21) {#v130}
+
+### {{Features}}
+
+- **core:** {{Add `AppSyncEventsService` — opt-in HTTP pub/sub transport for real-time notifications via AWS AppSync Events API}} ([{{See Details}}](/docs/notification-module#appsync-events-service)) ([PR #433](https://github.com/mbc-net/mbc-cqrs-serverless/pull/433))
+  - {{Transport selection via `NOTIFICATION_TRANSPORTS` env var (comma-separated); default `appsync-graphql` — existing GraphQL Subscription behavior is unchanged}}
+  - {{Channel structure: `/{namespace}/{tenantCode}/{action}/{sanitizedId}` — clients subscribe at any granularity using AppSync wildcard (`/*`)}}
+  - {{Authentication: IAM SigV4 for Lambda/ECS publish; API key for client subscriptions}}
+  - {{Dual-publish mode: `NOTIFICATION_TRANSPORTS=appsync-graphql,appsync-event` to publish to both transports simultaneously during migration}}
+  - {{New environment variables: `NOTIFICATION_TRANSPORTS`, `APPSYNC_EVENTS_ENDPOINT`, `APPSYNC_EVENTS_NAMESPACE`}} ([{{See Details}}](/docs/environment-variables#appsync-events-env))
+  - {{`@NotificationTransport` decorator: pluggable transport registration — custom transports can be added without modifying framework code}}
+- **cli:** {{CDK infra template: add `appsyncEvents` and `notificationTransports` to `Config` type — provisions `EventApi` + `ChannelNamespace`, injects `NOTIFICATION_TRANSPORTS`, `APPSYNC_EVENTS_ENDPOINT`, and `APPSYNC_EVENTS_NAMESPACE` into Lambda and ECS, and grants `appsync:EventPublish` IAM permission via `grantPublish()` automatically}}
+- **mcp-server:** {{Update skills and analyzer for v1.3.0}} ([PR #436](https://github.com/mbc-net/mbc-cqrs-serverless/pull/436))
+  - {{AP026 anti-pattern detector added: `@Injectable` instead of `@NotificationTransport` on `INotificationTransport` implementors}}
+  - {{`mbc-migrate` skill: v1.3.0 migration guide and version compatibility table updated}}
+  - {{`mbc-generate` skill: custom notification transport code generation template added}}
+  - {{`mbc-review` skill: AP026 added to checklist}}
+
+---
+
 ## [1.2.6](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.6) (2026-05-06) {#v126}
 
 ### {{Features}}
