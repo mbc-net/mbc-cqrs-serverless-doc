@@ -1,5 +1,5 @@
 ---
-description: Getting started
+description: Introduction to MBC CQRS Serverless framework - a production-ready CQRS and Event Sourcing framework for AWS serverless applications.
 ---
 
 # Introduction

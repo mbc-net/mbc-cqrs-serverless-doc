@@ -1,5 +1,5 @@
 ---
-description: {{Building your application}}
+description: {{Build scalable serverless applications with MBC CQRS Serverless framework using NestJS, DynamoDB, and AWS services.}}
 ---
 
 # {{Building your application}}

@@ -1,4 +1,5 @@
 {
+  "Send emails using AWS SES with the EmailService module, including attachments and inline templates with dynamic data.": "Send emails using AWS SES with the EmailService module, including attachments and inline templates with dynamic data.",
   "EmailService": "EmailService",
   "Description": "Description",
   "This service is designed to send emails using [AWS SES (Simple Email Service)](https://aws.amazon.com/ses/).": "This service is designed to send emails using [AWS SES (Simple Email Service)](https://aws.amazon.com/ses/).",

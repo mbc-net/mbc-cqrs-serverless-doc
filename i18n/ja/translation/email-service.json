@@ -1,4 +1,5 @@
 {
+  "Send emails using AWS SES with the EmailService module, including attachments and inline templates with dynamic data.": "添付ファイルや動的データのインラインテンプレートを含む、EmailServiceモジュールを使ったAWS SESによるメール送信。",
   "EmailService": "EmailService",
   "Description": "説明",
   "This service is designed to send emails using [AWS SES (Simple Email Service)](https://aws.amazon.com/ses/).": "このサービスは、[AWS SES (Simple Email Service)](https://aws.amazon.com/ses/)を使用してメールを送信するように設計されています。",

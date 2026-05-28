@@ -1,5 +1,5 @@
 {
-  "Sequence setup and usage.": "シーケンスのセットアップと使用方法",
+  "Generate auto-incrementing sequence numbers for business IDs with customizable formats and rotation cycles using the SequencesModule.": "SequencesModuleを使用して、カスタマイズ可能なフォーマットとローテーションサイクルでビジネスID用の自動インクリメントシーケンス番号を生成します。",
   "Sequence": "採番モジュール",
   "Purpose": "このサービスの目的は、システム内で動的なシーケンスを管理することです。",
   "`SequenceModule`  is a service for managing dynamic sequences in the system using DynamoDB as the primary database.": "`SequenceModule` は、DynamoDB を主要なデータベースとして使用してシステム内で動的なシーケンスを管理するためのサービスです。",

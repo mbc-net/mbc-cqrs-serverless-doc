@@ -1,5 +1,5 @@
 ---
-description: Sequence setup and usage.
+description: Generate auto-incrementing sequence numbers for business IDs with customizable formats and rotation cycles using the SequencesModule.
 ---
 
 # Sequence

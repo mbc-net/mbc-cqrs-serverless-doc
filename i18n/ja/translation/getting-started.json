@@ -1,5 +1,5 @@
 {
-  "Getting started": "はじめに",
+  "Introduction to MBC CQRS Serverless framework - a production-ready CQRS and Event Sourcing framework for AWS serverless applications.": "MBC CQRS Serverlessフレームワークの紹介 - AWSサーバーレスアプリケーション向けの本番対応CQRSおよびイベントソーシングフレームワーク。",
   "Introduction": "はじめに",
   "Welcome to the MBC CQRS serverless framework documentation!": "MBC CQRS サーバレスフレームワークのドキュメントにようこそ",
   "What is MBC CQRS serverless framework?": "MBC CQRS サーバレスフレームワークとは？",

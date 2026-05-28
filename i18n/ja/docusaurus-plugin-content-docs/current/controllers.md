@@ -1,5 +1,5 @@
 ---
-description: ルーティングの基礎を学びます。
+description: ルーティング、認証、テナントコンテキスト用のMBC CQRS Serverlessデコレーターを使ったNestJSコントローラーの作成方法を学びます。
 ---
 
 # コントローラ

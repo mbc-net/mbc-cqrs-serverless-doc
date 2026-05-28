@@ -1,5 +1,5 @@
 ---
-description: アプリケーションを構築する
+description: NestJS、DynamoDB、AWSサービスを使用して、MBC CQRS Serverlessフレームワークでスケーラブルなサーバーレスアプリケーションを構築します。
 ---
 
 # アプリケーションを構築する

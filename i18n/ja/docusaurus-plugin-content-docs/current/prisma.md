@@ -1,5 +1,5 @@
 ---
-description: Prisma関連のレシピ。
+description: RDSデータベースアクセスとDynamoDBからのデータ同期のために、Prisma ORMをMBC CQRS Serverlessと統合します。
 ---
 
 # Prisma

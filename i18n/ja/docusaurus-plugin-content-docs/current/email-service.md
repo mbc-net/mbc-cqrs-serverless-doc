@@ -1,5 +1,5 @@
 ---
-description: EmailService
+description: 添付ファイルや動的データのインラインテンプレートを含む、EmailServiceモジュールを使ったAWS SESによるメール送信。
 ---
 
 # EmailService

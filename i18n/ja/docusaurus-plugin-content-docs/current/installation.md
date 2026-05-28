@@ -1,5 +1,5 @@
 ---
-description: インストール
+description: システム要件、CLIスキャフォールディング、ローカル開発環境を含むMBC CQRS Serverlessフレームワークのインストールとセットアップ。
 ---
 
 # インストール

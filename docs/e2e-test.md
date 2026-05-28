@@ -1,5 +1,5 @@
 ---
-description: {{Learn how to write e2e test}}
+description: {{Learn how to write and run end-to-end tests for MBC CQRS Serverless applications using Jest and LocalStack.}}
 ---
 
 # {{End-to-end test}}

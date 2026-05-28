@@ -1,5 +1,5 @@
 ---
-description: Prisma related recipes.
+description: Integrate Prisma ORM with MBC CQRS Serverless for RDS database access and data synchronization from DynamoDB.
 ---
 
 # Prisma

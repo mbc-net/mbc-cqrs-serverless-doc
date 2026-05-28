@@ -1,5 +1,5 @@
 ---
-description: {{EmailService}}
+description: {{Send emails using AWS SES with the EmailService module, including attachments and inline templates with dynamic data.}}
 ---
 
 # {{EmailService}}

@@ -1,4 +1,5 @@
 {
+  "MBC CQRS Serverless CLI tool for scaffolding projects, generating modules, and managing your serverless application.": "プロジェクトのスキャフォールディング、モジュール生成、サーバーレスアプリケーション管理のためのMBC CQRS Serverless CLIツール。",
   "CLI": "CLI",
   "The mbc-cqrs-serverless CLI helps you quickly scaffold new projects and generate boilerplate code for modules, services, and entities. It follows the framework's conventions to ensure consistency.": "mbc-cqrs-serverless CLI は、新しいプロジェクトのスキャフォールディングや、モジュール、サービス、エンティティのボイラープレートコードの生成を素早く行うためのツールです。フレームワークの規約に従い、一貫性を確保します。",
   "When to Use the CLI": "CLIを使用するタイミング",

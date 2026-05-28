@@ -1,5 +1,5 @@
 ---
-description: はじめに
+description: MBC CQRS Serverlessフレームワークの紹介 - AWSサーバーレスアプリケーション向けの本番対応CQRSおよびイベントソーシングフレームワーク。
 ---
 
 # はじめに
