@@ -354,5 +354,10 @@
   "Added schematic for generating module": "Added schematic for generating module",
   "Fixed serialize helper entity field processing": "Fixed serialize helper entity field processing",
   "Added serialize helper functions for internal/external structure conversion": "Added serialize helper functions for internal/external structure conversion",
+  "Related Documentation": "Related Documentation",
+  "Migration Guide v1.1.0": "Migration Guide v1.1.0",
+  "Breaking changes migration guide": "Breaking changes migration guide",
+  "Version Conflict Guide": "Version Conflict Guide",
+  "Handling version conflicts in upgrades": "Handling version conflicts in upgrades",
   "Related Links": "Related Links"
 }

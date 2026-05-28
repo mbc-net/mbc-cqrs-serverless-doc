@@ -354,5 +354,10 @@
   "Added schematic for generating module": "モジュール生成用スキーマティックを追加",
   "Fixed serialize helper entity field processing": "シリアライズヘルパーのエンティティフィールド処理を修正",
   "Added serialize helper functions for internal/external structure conversion": "内部/外部構造変換用のシリアライズヘルパー関数を追加",
+  "Related Documentation": "関連ドキュメント",
+  "Migration Guide v1.1.0": "マイグレーションガイド v1.1.0",
+  "Breaking changes migration guide": "破壊的変更のマイグレーションガイド",
+  "Version Conflict Guide": "バージョン競合ガイド",
+  "Handling version conflicts in upgrades": "アップグレード時のバージョン競合処理",
   "Related Links": "関連リンク"
 }

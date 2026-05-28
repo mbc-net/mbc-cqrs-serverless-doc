@@ -846,6 +846,12 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ---
 
+
+## Related Documentation
+
+- [Migration Guide v1.1.0](/docs/migration/v1.1.0) - Breaking changes migration guide
+- [Version Conflict Guide](/docs/version-conflict-guide) - Handling version conflicts in upgrades
+
 ## Related Links
 
 - [GitHub Releases](https://github.com/mbc-net/mbc-cqrs-serverless/releases)
