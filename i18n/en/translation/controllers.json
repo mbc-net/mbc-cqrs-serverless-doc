@@ -21,5 +21,14 @@
   "Current working tenant code": "Current working tenant code",
   "Method decorator factory that applies standardized error response documentation. Use with Swagger response decorators to document error responses.": "Method decorator factory that applies standardized error response documentation. Use with Swagger response decorators to document error responses.",
   "This decorator automatically includes the standard HttpExceptionResponse schema with status and message fields.": "This decorator automatically includes the standard HttpExceptionResponse schema with status and message fields.",
-  "Method/class decorator that specifies which roles can access an endpoint. Used internally by `@Auth()` but can be used directly with custom guards.": "Method/class decorator that specifies which roles can access an endpoint. Used internally by `@Auth()` but can be used directly with custom guards."
+  "Method/class decorator that specifies which roles can access an endpoint. Used internally by `@Auth()` but can be used directly with custom guards.": "Method/class decorator that specifies which roles can access an endpoint. Used internally by `@Auth()` but can be used directly with custom guards.",
+  "Related Documentation": "Related Documentation",
+  "Authentication": "Authentication",
+  "Cognito authentication and JWT setup": "Cognito authentication and JWT setup",
+  "Modules": "Modules",
+  "Module configuration for controllers": "Module configuration for controllers",
+  "Backend Development": "Backend Development",
+  "Complete backend development guide": "Complete backend development guide",
+  "Interfaces": "Interfaces",
+  "IInvoke and IInvokeContext interfaces": "IInvoke and IInvokeContext interfaces"
 }

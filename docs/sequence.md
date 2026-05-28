@@ -327,3 +327,9 @@ const result = await this.sequencesService.generateSequenceItemWithProvideSettin
 :::
 
 
+## {{Related Documentation}}
+
+- [{{Configuring}}](/docs/configuring) - {{SequencesModule configuration options}}
+- [{{Master}}](/docs/master) - {{Master data settings for sequence format}}
+- [{{Build a Todo App}}](/docs/build-todo-app) - {{Practical example using sequences}}
+- [{{Interfaces}}](/docs/interfaces) - {{SequencesModuleOptions interface}}

@@ -21,5 +21,14 @@
   "Current working tenant code": "現在の作業テナントコード",
   "Method decorator factory that applies standardized error response documentation. Use with Swagger response decorators to document error responses.": "標準化されたエラーレスポンスドキュメントを適用するメソッドデコレーターファクトリー。Swaggerレスポンスデコレーターと一緒に使用してエラーレスポンスを文書化します。",
   "This decorator automatically includes the standard HttpExceptionResponse schema with status and message fields.": "このデコレーターは、statusとmessageフィールドを持つ標準的なHttpExceptionResponseスキーマを自動的に含めます。",
-  "Method/class decorator that specifies which roles can access an endpoint. Used internally by `@Auth()` but can be used directly with custom guards.": "エンドポイントにアクセスできるロールを指定するメソッド/クラスデコレーター。`@Auth()`によって内部的に使用されますが、カスタムガードと直接使用することもできます。"
+  "Method/class decorator that specifies which roles can access an endpoint. Used internally by `@Auth()` but can be used directly with custom guards.": "エンドポイントにアクセスできるロールを指定するメソッド/クラスデコレーター。`@Auth()`によって内部的に使用されますが、カスタムガードと直接使用することもできます。",
+  "Related Documentation": "関連ドキュメント",
+  "Authentication": "認証",
+  "Cognito authentication and JWT setup": "Cognitoの認証とJWTの設定",
+  "Modules": "",
+  "Module configuration for controllers": "コントローラーのモジュール設定",
+  "Backend Development": "バックエンド開発",
+  "Complete backend development guide": "包括的なバックエンド開発ガイド",
+  "Interfaces": "インターフェース",
+  "IInvoke and IInvokeContext interfaces": "IInvokeとIInvokeContextインターフェース"
 }

@@ -825,3 +825,12 @@ export class OrderService {
 - **Single-user scope**: RYW only applies to the user who published the command. Other users still see the eventual-consistent read until the Stream sync completes.
 - **`listItems` pagination overlap**: On paginated external queries (RDS), a create-new item may appear on both page 1 (prepended) and page 2 (after sync). This resolves on the next full reload.
 - **Session table cost**: Each `publishAsync` call writes one DynamoDB item per updated entity. With `RYW_SESSION_TTL_MINUTES=5` the items are small and short-lived. Cost is negligible for typical workloads.
+
+
+## Related Documentation
+
+- [Data Service](/docs/data-service) - Querying data with DynamoDB
+- [Service Patterns](/docs/service-patterns) - Complete CRUD service implementation patterns
+- [Event Handling Patterns](/docs/event-handling-patterns) - Creating data sync handlers
+- [Version Conflict Guide](/docs/version-conflict-guide) - Handling optimistic locking conflicts
+- [Interfaces](/docs/interfaces) - TypeScript interfaces for CommandInputModel and more
