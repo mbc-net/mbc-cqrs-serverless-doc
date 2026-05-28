@@ -1,5 +1,5 @@
 {
-  "Learn how to write unit test": "単体テストの書き方を学びます",
+  "Learn how to write unit tests for MBC CQRS Serverless services, handlers, and commands using Jest and mocking patterns.": "Jestとモッキングパターンを使用して、MBC CQRS Serverlessサービス、ハンドラー、コマンドのユニットテストを書く方法を学びます。",
   "Unit test": "単体テスト",
   "This guide explains how to write unit tests for services and handlers in the MBC CQRS Serverless framework.": "このガイドでは、MBC CQRS Serverless フレームワークでサービスやハンドラーの単体テストを書く方法を説明します。",
   "Mocking Dependencies": "依存関係のモック",

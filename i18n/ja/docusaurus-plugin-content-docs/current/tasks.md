@@ -1,5 +1,5 @@
 ---
-description: 長時間実行タスクの作成および処理方法を学ぶ
+description: AWS Step Functions、タスクトークン、TasksModuleを使用して、長時間実行バックグラウンドタスクを作成・管理する方法を学びます。
 ---
 
 # タスクモジュール

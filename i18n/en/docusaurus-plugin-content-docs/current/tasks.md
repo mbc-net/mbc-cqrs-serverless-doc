@@ -1,5 +1,5 @@
 ---
-description: Learn how to create and process long-running task
+description: Learn how to create and manage long-running background tasks with AWS Step Functions, task tokens, and the TasksModule.
 ---
 
 # Task

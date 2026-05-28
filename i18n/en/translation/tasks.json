@@ -1,5 +1,5 @@
 {
-  "Learn how to create and process long-running task": "Learn how to create and process long-running task",
+  "Learn how to create and manage long-running background tasks with AWS Step Functions, task tokens, and the TasksModule.": "Learn how to create and manage long-running background tasks with AWS Step Functions, task tokens, and the TasksModule.",
   "Task": "Task",
   "The Task package provides comprehensive task management functionality in the MBC CQRS Serverless framework. It enables:": "The Task package provides comprehensive task management functionality in the MBC CQRS Serverless framework. It enables:",
   "Asynchronous task execution": "Asynchronous task execution",
