@@ -69,5 +69,14 @@
   "4. Type Your Attributes": "4. 属性に型を定義する",
   "Define interfaces for attributes to ensure type safety:": "型安全性を確保するために属性にインターフェースを定義します：",
   "5. Handle Null/Undefined Gracefully": "5. Null/Undefinedを適切に処理する",
-  "Use nullish coalescing and optional chaining:": "nullish coalescing演算子とオプショナルチェーンを使用します："
+  "Use nullish coalescing and optional chaining:": "nullish coalescing演算子とオプショナルチェーンを使用します：",
+  "Related Documentation": "",
+  "Event Handling Patterns": "",
+  "Event handler patterns": "",
+  "Backend Development": "",
+  "Core backend patterns": "",
+  "Database Selection Guide": "",
+  "DynamoDB vs RDS": "DynamoDB対RDSの比較",
+  "Prisma": "",
+  "RDS with Prisma ORM": "Prisma ORMを使ったRDS"
 }

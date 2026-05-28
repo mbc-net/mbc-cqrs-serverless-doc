@@ -753,3 +753,10 @@ Key dependencies used by this package:
 :::info Version History
 See [Web Packages Changelog](/docs/web-changelog) for all version history and release notes.
 :::
+
+
+## Related Documentation
+
+- [Survey Template](/docs/survey-template) - Backend survey template service
+- [Frontend Project Structure](/docs/frontend-project-structure) - Project structure
+- [API Integration Patterns](/docs/api-integration-patterns) - API patterns

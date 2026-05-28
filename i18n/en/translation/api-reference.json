@@ -42,5 +42,13 @@
   "Multi-Tenant Context": "Multi-Tenant Context",
   "Most operations require tenant context for data isolation:": "Most operations require tenant context for data isolation:",
   "Module Documentation": "Module Documentation",
-  "Explore each module's detailed documentation:": "Explore each module's detailed documentation:"
+  "Explore each module's detailed documentation:": "Explore each module's detailed documentation:",
+  "Related Documentation": "Related Documentation",
+  "Command Service": "Command Service",
+  "CommandService detailed documentation": "CommandService detailed documentation",
+  "Data Service": "Data Service",
+  "DataService query methods": "DataService query methods",
+  "Interfaces": "Interfaces",
+  "TypeScript interfaces reference": "TypeScript interfaces reference",
+  "Available modules": "Available modules"
 }

@@ -37,5 +37,12 @@
   "Error Handling": "エラーハンドリング",
   "Handle optimistic locking conflict (version mismatch)": "楽観的ロック競合を処理（バージョン不一致）",
   "Testing": "テスト",
-  "Explore Examples": "サンプルを探索"
+  "Explore Examples": "サンプルを探索",
+  "Related Documentation": "",
+  "Service Patterns": "",
+  "CRUD service patterns": "CRUDサービスパターン",
+  "Backend Development": "",
+  "Core backend guide": "",
+  "Key Patterns": "",
+  "Key design for recipes": "レシピ向けキー設計"
 }

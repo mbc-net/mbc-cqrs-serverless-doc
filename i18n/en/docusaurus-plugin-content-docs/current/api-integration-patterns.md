@@ -764,3 +764,11 @@ export const queryClient = new QueryClient({
   },
 });
 ```
+
+
+## Related Documentation
+
+- [API Integration Guide](/docs/api-integration-guide) - API integration guidance
+- [Frontend Project Structure](/docs/frontend-project-structure) - Project organization
+- [State Management Patterns](/docs/state-management-patterns) - Frontend state management
+- [Form Handling Patterns](/docs/form-handling-patterns) - Form handling

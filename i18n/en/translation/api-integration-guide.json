@@ -117,5 +117,13 @@
   "Monitoring and Logging": "Monitoring and Logging",
   "Observability best practices": "Observability best practices",
   "Error Catalog": "Error Catalog",
-  "Error handling reference": "Error handling reference"
+  "Error handling reference": "Error handling reference",
+  "Related Documentation": "Related Documentation",
+  "API Integration Patterns": "API Integration Patterns",
+  "Frontend API patterns": "Frontend API patterns",
+  "Backend Development": "Backend Development",
+  "Core backend patterns": "Core backend patterns",
+  "Authentication": "Authentication",
+  "Authentication setup": "Authentication setup",
+  "API error codes": "API error codes"
 }

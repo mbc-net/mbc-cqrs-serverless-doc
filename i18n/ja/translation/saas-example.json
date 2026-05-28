@@ -86,5 +86,11 @@
   "Tenant Module": "テナントモジュール",
   "Master Module": "マスターモジュール",
   "Multi-Tenant Patterns": "マルチテナントパターン",
-  "Event Handling Patterns": "イベント処理パターン"
+  "Event Handling Patterns": "イベント処理パターン",
+  "Related Documentation": "",
+  "E-commerce Example": "",
+  "Commerce application example": "コマースアプリケーション例",
+  "Tenant isolation": "テナント分離",
+  "Authentication": "",
+  "Subscription authentication": "サブスクリプション認証"
 }

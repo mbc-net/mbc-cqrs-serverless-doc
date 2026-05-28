@@ -66,11 +66,9 @@
   "Provision new tenant": "Provision new tenant",
   "Get current subscription": "Get current subscription",
   "Change plan": "Change plan",
-  "Cancel subscription": "Cancel subscription",
   "Get current usage": "Get current usage",
   "Get usage for period": "Get usage for period",
   "Create API key": "Create API key",
-  "Revoke API key": "Revoke API key",
   "Best Practices": "Best Practices",
   "1. Tenant Isolation": "1. Tenant Isolation",
   "Always scope data access by tenant:": "Always scope data access by tenant:",
@@ -88,5 +86,11 @@
   "Tenant Module": "Tenant Module",
   "Master Module": "Master Module",
   "Multi-Tenant Patterns": "Multi-Tenant Patterns",
-  "Event Handling Patterns": "Event Handling Patterns"
+  "Event Handling Patterns": "Event Handling Patterns",
+  "Related Documentation": "Related Documentation",
+  "E-commerce Example": "E-commerce Example",
+  "Commerce application example": "Commerce application example",
+  "Tenant isolation": "Tenant isolation",
+  "Authentication": "Authentication",
+  "Subscription authentication": "Subscription authentication"
 }

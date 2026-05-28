@@ -1,4 +1,11 @@
 {
   "Building your application": "Building your application",
-  "MBC CQRS serverless provides the core functionalities to create backend application. This guides explain how to use these features and how to customize your application's behavior.": "MBC CQRS serverless provides the core functionalities to create backend application. This guides explain how to use these features and how to customize your application's behavior."
+  "MBC CQRS serverless provides the core functionalities to create backend application. This guides explain how to use these features and how to customize your application's behavior.": "MBC CQRS serverless provides the core functionalities to create backend application. This guides explain how to use these features and how to customize your application's behavior.",
+  "Related Documentation": "Related Documentation",
+  "Getting Started": "Getting Started",
+  "Initial setup": "Initial setup",
+  "Backend Development": "Backend Development",
+  "Backend development guide": "Backend development guide",
+  "Service Patterns": "Service Patterns",
+  "Service implementation patterns": "Service implementation patterns"
 }

@@ -210,5 +210,12 @@
   "lucide-react for icons": "アイコン用lucide-react",
   "Changelog": "変更履歴",
   "Version History": "バージョン履歴",
-  "See [Web Packages Changelog](/docs/web-changelog) for all version history and release notes.": "すべてのバージョン履歴とリリースノートは[Webパッケージ変更履歴](/docs/web-changelog)を参照してください。"
+  "See [Web Packages Changelog](/docs/web-changelog) for all version history and release notes.": "すべてのバージョン履歴とリリースノートは[Webパッケージ変更履歴](/docs/web-changelog)を参照してください。",
+  "Related Documentation": "",
+  "Survey Template": "",
+  "Backend survey template service": "バックエンドのアンケートテンプレートサービス",
+  "Frontend Project Structure": "",
+  "Project structure": "",
+  "API Integration Patterns": "",
+  "API patterns": ""
 }

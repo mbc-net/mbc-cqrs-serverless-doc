@@ -127,5 +127,12 @@
   "Audit Trail": "監査証跡",
   "Use events to maintain an audit trail of all operations": "すべての操作の監査証跡を維持するためにイベントを使用",
   "Use Soft Delete": "論理削除を使用",
-  "Prefer soft delete (remove) over permanent delete (removeFile) for data recovery": "データ復旧のために完全削除（removeFile）よりも論理削除（remove）を推奨"
+  "Prefer soft delete (remove) over permanent delete (removeFile) for data recovery": "データ復旧のために完全削除（removeFile）よりも論理削除（remove）を推奨",
+  "Related Documentation": "",
+  "Multi-Tenant Patterns": "",
+  "Tenant file isolation": "テナントファイル分離",
+  "Environment Variables": "",
+  "S3 configuration": "S3設定",
+  "Interfaces": "",
+  "Directory interfaces": "ディレクトリインターフェース"
 }

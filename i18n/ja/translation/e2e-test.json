@@ -54,5 +54,12 @@
   "Volume management": "ボリューム管理",
   "Health check mechanisms": "ヘルスチェックメカニズム",
   "Workflow Example": "ワークフローの例",
-  "Here's a complete example of a GitHub Actions workflow for E2E testing:": "E2EテストのためのGitHub Actionsワークフローの完全な例を以下に示します："
+  "Here's a complete example of a GitHub Actions workflow for E2E testing:": "E2EテストのためのGitHub Actionsワークフローの完全な例を以下に示します：",
+  "Related Documentation": "",
+  "Unit Testing": "",
+  "Unit testing with Jest": "Jestによるユニットテスト",
+  "Testing": "",
+  "Testing overview": "",
+  "Deployment Guide": "",
+  "Deploy for integration testing": "結合テスト用のデプロイ"
 }

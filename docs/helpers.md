@@ -475,3 +475,10 @@ if (IS_LAMBDA_RUNNING) {
 
 - [{{Command Service}}](/docs/command-service) - {{Using helpers in command operations}}
 - [{{Data Service}}](/docs/data-service) - {{Using helpers in data queries}}
+
+
+## {{Related Documentation}}
+
+- [{{Key Patterns}}](/docs/key-patterns) - {{DynamoDB key design}}
+- [{{Command Service}}](/docs/command-service) - {{Using key helpers}}
+- [{{Interfaces}}](/docs/interfaces) - {{UserContext and IInvoke interfaces}}

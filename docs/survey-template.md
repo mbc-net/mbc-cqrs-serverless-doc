@@ -261,3 +261,10 @@ export class SurveyTemplateDataSyncHandler implements IDataSyncHandler {
 3. **{{Limit Options}}**: {{For multiple choice, keep options to a reasonable number}}
 4. **{{Version Templates}}**: {{Create new versions instead of modifying existing templates in use}}
 5. **{{Test Templates}}**: {{Preview templates before deployment}}
+
+
+## {{Related Documentation}}
+
+- [{{Survey Web}}](/docs/survey-web) - {{Frontend survey components}}
+- [{{Backend Development}}](/docs/backend-development) - {{Core backend patterns}}
+- [{{Service Patterns}}](/docs/service-patterns) - {{Service implementation}}

@@ -415,5 +415,12 @@
   "Zod for validation": "Zod for validation",
   "Changelog": "Changelog",
   "Version History": "Version History",
-  "See [Web Packages Changelog](/docs/web-changelog) for all version history and release notes.": "See [Web Packages Changelog](/docs/web-changelog) for all version history and release notes."
+  "See [Web Packages Changelog](/docs/web-changelog) for all version history and release notes.": "See [Web Packages Changelog](/docs/web-changelog) for all version history and release notes.",
+  "Related Documentation": "Related Documentation",
+  "Master": "Master",
+  "Backend master data service": "Backend master data service",
+  "Frontend Project Structure": "Frontend Project Structure",
+  "Project structure": "Project structure",
+  "API Integration Patterns": "API Integration Patterns",
+  "API patterns": "API patterns"
 }

@@ -96,5 +96,12 @@
   "Next Steps": "Next Steps",
   "[Monitoring and Logging](/docs/monitoring-logging) - Set up observability": "[Monitoring and Logging](/docs/monitoring-logging) - Set up observability",
   "[Deployment Guide](/docs/deployment-guide) - Manual deployment options": "[Deployment Guide](/docs/deployment-guide) - Manual deployment options",
-  "[Troubleshooting](/docs/common-issues) - Common deployment issues": "[Troubleshooting](/docs/common-issues) - Common deployment issues"
+  "[Troubleshooting](/docs/common-issues) - Common deployment issues": "[Troubleshooting](/docs/common-issues) - Common deployment issues",
+  "Related Documentation": "Related Documentation",
+  "Deployment Guide": "Deployment Guide",
+  "Manual deployment options": "Manual deployment options",
+  "Monitoring and Logging": "Monitoring and Logging",
+  "Set up observability": "Set up observability",
+  "Environment Variables": "Environment Variables",
+  "CI/CD environment configuration": "CI/CD environment configuration"
 }

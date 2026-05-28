@@ -95,5 +95,12 @@
   "Use Case 1: User Notification Preferences": "ユースケース1：ユーザー通知設定",
   "Scenario: Each user can configure their notification preferences (email on/off, SMS on/off).": "シナリオ：各ユーザーが通知設定（メールのオン/オフ、SMSのオン/オフ）を構成できます。",
   "Implementation: Create a \"notification-settings\" schema, then store each user's preferences as data entries.": "実装：「notification-settings」スキーマを作成し、各ユーザーの設定をデータエントリとして保存します。",
-  "Create a setting schema for notification preferences": "Create a setting schema for notification preferences (通知設定用のスキーマを作成)"
+  "Create a setting schema for notification preferences": "Create a setting schema for notification preferences (通知設定用のスキーマを作成)",
+  "Related Documentation": "",
+  "Master": "",
+  "Master data management": "",
+  "Frontend Project Structure": "",
+  "UI integration": "UI統合",
+  "Interfaces": "",
+  "UI setting interfaces": "UI設定インターフェース"
 }

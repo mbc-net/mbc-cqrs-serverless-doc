@@ -596,3 +596,10 @@ const orderCode = `ORD-${String(sequence.value).padStart(6, '0')}`;
 - [シーケンスサービス](/docs/sequence)
 - [イベント処理パターン](/docs/event-handling-patterns)
 - [アンチパターンガイド](/docs/anti-patterns)
+
+
+## Related Documentation
+
+- [SaaS Example](/docs/saas-example) - SaaSアプリケーション例
+- [Service Patterns](/docs/service-patterns) - 使用されるCRUDパターン
+- [Multi-Tenant Patterns](/docs/multi-tenant-patterns) - Multi-tenant design

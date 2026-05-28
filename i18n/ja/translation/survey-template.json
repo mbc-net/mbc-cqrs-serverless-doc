@@ -57,5 +57,12 @@
   "Version Templates": "テンプレートのバージョン管理",
   "Create new versions instead of modifying existing templates in use": "使用中の既存テンプレートを変更する代わりに新しいバージョンを作成",
   "Test Templates": "テンプレートのテスト",
-  "Preview templates before deployment": "デプロイ前にテンプレートをプレビュー"
+  "Preview templates before deployment": "デプロイ前にテンプレートをプレビュー",
+  "Related Documentation": "",
+  "Survey Web": "",
+  "Frontend survey components": "フロントエンドのアンケートコンポーネント",
+  "Backend Development": "",
+  "Core backend patterns": "",
+  "Service Patterns": "",
+  "Service implementation": ""
 }

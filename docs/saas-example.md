@@ -842,3 +842,10 @@ async createSubscription() {
 - [{{Master Module}}](/docs/master)
 - [{{Multi-Tenant Patterns}}](/docs/multi-tenant-patterns)
 - [{{Event Handling Patterns}}](/docs/event-handling-patterns)
+
+
+## {{Related Documentation}}
+
+- [{{E-commerce Example}}](/docs/ecommerce-example) - {{Commerce application example}}
+- [{{Multi-Tenant Patterns}}](/docs/multi-tenant-patterns) - {{Tenant isolation}}
+- [{{Authentication}}](/docs/authentication) - {{Subscription authentication}}

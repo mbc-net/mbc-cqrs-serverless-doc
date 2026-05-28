@@ -398,3 +398,11 @@ The following anti-patterns are documented for reference but automated detection
 - [Common Issues](/docs/common-issues) - Troubleshooting guide
 - [Security Best Practices](/docs/security-best-practices) - Security guidelines
 - [Service Patterns](/docs/service-patterns) - Recommended patterns
+
+
+## Related Documentation
+
+- [Service Patterns](/docs/service-patterns) - Recommended patterns
+- [Security Best Practices](/docs/security-best-practices) - Security guidelines
+- [Common Issues](/docs/common-issues) - Troubleshooting guide
+- [MCP Server](/docs/mcp-server) - Anti-pattern detection tools

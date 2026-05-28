@@ -171,3 +171,10 @@ function deserializeToInternal<T extends CommandEntity | DataEntity>(
 | status | status | CQRS処理ステータス |
 | ttl | ttl | DynamoDB TTLタイムスタンプ（Unixエポック秒） |
 | attributes.* | * | 内部構造からフラット化された属性 |
+
+
+## Related Documentation
+
+- [Data Service](/docs/data-service) - シリアライズでDataServiceを使用
+- [Entity Patterns](/docs/entity-patterns) - シリアライズ用エンティティ構造
+- [Data Sync Handler Examples](/docs/data-sync-handler-examples) - デシリアライズを使った同期

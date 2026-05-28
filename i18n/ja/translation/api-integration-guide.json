@@ -117,5 +117,13 @@
   "Monitoring and Logging": "モニタリングとログ",
   "Observability best practices": "オブザーバビリティのベストプラクティス",
   "Error Catalog": "エラーカタログ",
-  "Error handling reference": "エラーハンドリングリファレンス"
+  "Error handling reference": "エラーハンドリングリファレンス",
+  "Related Documentation": "",
+  "API Integration Patterns": "",
+  "Frontend API patterns": "フロントエンドAPIパターン",
+  "Backend Development": "",
+  "Core backend patterns": "",
+  "Authentication": "",
+  "Authentication setup": "",
+  "API error codes": ""
 }

@@ -239,3 +239,10 @@ Create a migration for [SCHEMA_CHANGE]:
 - [AI統合](/docs/ai-integration) - AIツールサポートの概要
 - [MCPサーバー](/docs/mcp-server) - MCP経由の動的AI統合
 - [エラーカタログ](/docs/error-catalog) - よくあるエラーと解決策
+
+
+## Related Documentation
+
+- [AI統合](/docs/ai-integration) - AIツールサポートの概要
+- [MCPサーバー](/docs/mcp-server) - AIツール用MCPサーバー
+- [エラーカタログ](/docs/error-catalog) - Error reference with solutions

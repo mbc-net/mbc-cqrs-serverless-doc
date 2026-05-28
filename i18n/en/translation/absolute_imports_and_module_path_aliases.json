@@ -8,5 +8,12 @@
   "An example of this configuration:": "An example of this configuration:",
   "Module Aliases": "Module Aliases",
   "In addition to configuring the `baseUrl` path, you can use the \"paths\" option to \"alias\" module paths.": "In addition to configuring the `baseUrl` path, you can use the \"paths\" option to \"alias\" module paths.",
-  "For example, the following configuration maps `@/auth/*` to `auth/*`:": "For example, the following configuration maps `@/auth/*` to `auth/*`:"
+  "For example, the following configuration maps `@/auth/*` to `auth/*`:": "For example, the following configuration maps `@/auth/*` to `auth/*`:",
+  "Related Documentation": "Related Documentation",
+  "Project Structure": "Project Structure",
+  "Project file organization": "Project file organization",
+  "Installation": "Installation",
+  "TypeScript configuration setup": "TypeScript configuration setup",
+  "Getting Started": "Getting Started",
+  "Initial project setup": "Initial project setup"
 }

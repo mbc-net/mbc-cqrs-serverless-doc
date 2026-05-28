@@ -16,5 +16,12 @@
   "Separating read and write operations for optimized data handling.": "最適化されたデータ処理のために読み取りと書き込み操作を分離します。",
   "Storing all changes as a sequence of events.": "すべての変更をイベントのシーケンスとして保存します。",
   "Serverless": "サーバーレス",
-  "Leveraging AWS Lambda, DynamoDB, and other managed services.": "AWS Lambda、DynamoDB、その他のマネージドサービスを活用します。"
+  "Leveraging AWS Lambda, DynamoDB, and other managed services.": "AWS Lambda、DynamoDB、その他のマネージドサービスを活用します。",
+  "Related Documentation": "",
+  "AWS infrastructure": "AWSインフラストラクチャ",
+  "CQRS Flow": "",
+  "Command and query flow": "",
+  "Event sourcing details": "",
+  "Getting Started": "",
+  "Start building with these concepts": ""
 }

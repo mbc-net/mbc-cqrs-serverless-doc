@@ -162,5 +162,14 @@
   "Next Steps": "次のステップ",
   "[Deployment Guide](/docs/deployment-guide) - Deploy to AWS": "[デプロイメントガイド](/docs/deployment-guide) - AWSにデプロイ",
   "[Testing](/docs/testing) - Write unit and e2e tests": "[テスト](/docs/testing) - ユニットテストとE2Eテストを記述",
-  "[Monitoring](/docs/monitoring-logging) - Add observability": "[モニタリング](/docs/monitoring-logging) - 可観測性を追加"
+  "[Monitoring](/docs/monitoring-logging) - Add observability": "[モニタリング](/docs/monitoring-logging) - 可観測性を追加",
+  "Related Documentation": "",
+  "Quickstart Tutorial": "",
+  "Shorter introduction": "短い入門ガイド",
+  "Command Service": "",
+  "CommandService API reference": "",
+  "Service Patterns": "",
+  "Advanced CRUD patterns": "",
+  "Testing": "",
+  "Write tests for your application": "アプリケーションのテスト作成"
 }

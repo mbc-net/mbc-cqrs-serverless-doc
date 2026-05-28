@@ -89,5 +89,14 @@
   "5. Retry Configuration": "5. リトライ設定",
   "When: Configuring React Query client.": "タイミング：React Queryクライアントを設定する時。",
   "Why: Avoid retrying client errors (4xx) that will always fail.": "理由：常に失敗するクライアントエラー(4xx)のリトライを避ける。",
-  "Don't retry on 4xx errors": "4xxエラーではリトライしない"
+  "Don't retry on 4xx errors": "4xxエラーではリトライしない",
+  "Related Documentation": "",
+  "API Integration Guide": "",
+  "API integration guidance": "API統合ガイダンス",
+  "Frontend Project Structure": "",
+  "Project organization": "プロジェクト構成",
+  "State Management Patterns": "",
+  "Frontend state management": "フロントエンドステート管理",
+  "Form Handling Patterns": "",
+  "Form handling": "フォーム処理"
 }

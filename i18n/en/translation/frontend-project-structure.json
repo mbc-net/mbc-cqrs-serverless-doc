@@ -116,5 +116,13 @@
   "4. Export Patterns": "4. Export Patterns",
   "Use Case: Create clean public APIs for directories.": "Use Case: Create clean public APIs for directories.",
   "5. Type-Safe Route Constants": "5. Type-Safe Route Constants",
-  "Use Case: Avoid typos in route strings and enable autocomplete.": "Use Case: Avoid typos in route strings and enable autocomplete."
+  "Use Case: Avoid typos in route strings and enable autocomplete.": "Use Case: Avoid typos in route strings and enable autocomplete.",
+  "Related Documentation": "Related Documentation",
+  "API Integration Patterns": "API Integration Patterns",
+  "API client patterns": "API client patterns",
+  "State Management Patterns": "State Management Patterns",
+  "Frontend state": "Frontend state",
+  "Cognito frontend integration": "Cognito frontend integration",
+  "Master Web": "Master Web",
+  "Master data frontend": "Master data frontend"
 }
