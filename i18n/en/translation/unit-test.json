@@ -41,5 +41,12 @@
   "For services that instantiate AWS clients internally, use `jest.mock()`:": "For services that instantiate AWS clients internally, use `jest.mock()`:",
   "Mock at the top of your test file": "Mock at the top of your test file",
   "Best Practice": "Best Practice",
-  "Prefer `aws-sdk-client-mock` over `jest.mock()` when possible, as it provides better type safety and more detailed assertions like `toHaveReceivedCommandWith`.": "Prefer `aws-sdk-client-mock` over `jest.mock()` when possible, as it provides better type safety and more detailed assertions like `toHaveReceivedCommandWith`."
+  "Prefer `aws-sdk-client-mock` over `jest.mock()` when possible, as it provides better type safety and more detailed assertions like `toHaveReceivedCommandWith`.": "Prefer `aws-sdk-client-mock` over `jest.mock()` when possible, as it provides better type safety and more detailed assertions like `toHaveReceivedCommandWith`.",
+  "Related Documentation": "Related Documentation",
+  "E2E Testing": "E2E Testing",
+  "End-to-end testing guide": "End-to-end testing guide",
+  "Testing": "Testing",
+  "Testing overview": "Testing overview",
+  "Debugging Guide": "Debugging Guide",
+  "Debug test failures": "Debug test failures"
 }

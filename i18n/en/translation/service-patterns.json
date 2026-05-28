@@ -101,5 +101,14 @@
   "4. Combine DynamoDB and RDS Queries": "4. Combine DynamoDB and RDS Queries",
   "Use DynamoDB for single-item reads, RDS for complex queries:": "Use DynamoDB for single-item reads, RDS for complex queries:",
   "Single item: Use DataService (DynamoDB)": "Single item: Use DataService (DynamoDB)",
-  "Complex query: Use Prisma (RDS)": "Complex query: Use Prisma (RDS)"
+  "Complex query: Use Prisma (RDS)": "Complex query: Use Prisma (RDS)",
+  "Related Documentation": "Related Documentation",
+  "Backend Development": "Backend Development",
+  "Core backend patterns": "Core backend patterns",
+  "Command Service": "Command Service",
+  "CommandService API reference": "CommandService API reference",
+  "Data Service": "Data Service",
+  "DataService query methods": "DataService query methods",
+  "Database Selection Guide": "Database Selection Guide",
+  "DynamoDB vs RDS": "DynamoDB vs RDS"
 }

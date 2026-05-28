@@ -515,3 +515,11 @@ export const ROUTES = {
   SETTINGS: '/settings',
 } as const;
 ```
+
+
+## Related Documentation
+
+- [API Integration Patterns](/docs/api-integration-patterns) - APIクライアントパターン
+- [State Management Patterns](/docs/state-management-patterns) - Frontend state
+- [認証](/docs/authentication) - Cognitoのフロントエンド統合
+- [Master Web](/docs/master-web) - マスターデータのフロントエンド

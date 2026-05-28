@@ -349,3 +349,10 @@ jobs:
       - name: Run tests
         run: npm run test:e2e
 ```
+
+
+## {{Related Documentation}}
+
+- [{{Unit Testing}}](/docs/unit-test) - {{Unit testing with Jest}}
+- [{{Testing}}](/docs/testing) - {{Testing overview}}
+- [{{Deployment Guide}}](/docs/deployment-guide) - {{Deploy for integration testing}}

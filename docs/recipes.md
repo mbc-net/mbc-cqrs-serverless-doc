@@ -131,3 +131,10 @@ import DocCardList from '@theme/DocCardList';
 
 <DocCardList />
 ```
+
+
+## {{Related Documentation}}
+
+- [{{Service Patterns}}](/docs/service-patterns) - {{CRUD service patterns}}
+- [{{Backend Development}}](/docs/backend-development) - {{Core backend guide}}
+- [{{Key Patterns}}](/docs/key-patterns) - {{Key design for recipes}}

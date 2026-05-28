@@ -113,5 +113,11 @@
   "Command Service": "コマンドサービス",
   "Using helpers in command operations": "コマンド操作でのヘルパーの使用",
   "Data Service": "データサービス",
-  "Using helpers in data queries": "データクエリでのヘルパーの使用"
+  "Using helpers in data queries": "データクエリでのヘルパーの使用",
+  "Related Documentation": "",
+  "Key Patterns": "",
+  "DynamoDB key design": "",
+  "Using key helpers": "キーヘルパーの使用",
+  "Interfaces": "",
+  "UserContext and IInvoke interfaces": "UserContextとIInvokeインターフェース"
 }

@@ -398,3 +398,11 @@ export class MyDataSyncHandler implements IDataSyncHandler {
 - [よくある問題](/docs/common-issues) - トラブルシューティングガイド
 - [セキュリティベストプラクティス](/docs/security-best-practices) - セキュリティガイドライン
 - [サービスパターン](/docs/service-patterns) - 推奨パターン
+
+
+## Related Documentation
+
+- [サービスパターン](/docs/service-patterns) - 推奨パターン
+- [セキュリティベストプラクティス](/docs/security-best-practices) - セキュリティガイドライン
+- [よくある問題](/docs/common-issues) - トラブルシューティングガイド
+- [MCP Server](/docs/mcp-server) - アンチパターン検出ツール

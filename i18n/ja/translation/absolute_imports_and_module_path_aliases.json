@@ -8,5 +8,12 @@
   "An example of this configuration:": "以下が設定例です。",
   "Module Aliases": "モジュールエイリアス",
   "In addition to configuring the `baseUrl` path, you can use the \"paths\" option to \"alias\" module paths.": "\n「baseUrl」パスの設定に加えて、「paths」オプションを使用してモジュール パスを「エイリアス」することもできます。",
-  "For example, the following configuration maps `@/auth/*` to `auth/*`:": "たとえば、次の設定は `@/auth/*` を `auth/*` にマップします。"
+  "For example, the following configuration maps `@/auth/*` to `auth/*`:": "たとえば、次の設定は `@/auth/*` を `auth/*` にマップします。",
+  "Related Documentation": "",
+  "Project Structure": "",
+  "Project file organization": "",
+  "Installation": "",
+  "TypeScript configuration setup": "TypeScript設定のセットアップ",
+  "Getting Started": "",
+  "Initial project setup": "初期プロジェクトセットアップ"
 }

@@ -595,3 +595,10 @@ function Profile() {
 ```
 
 Choose the right tool based on your project's complexity and requirements. The current implementation with Context API + axios + Apollo Client provides a solid foundation that can be extended as needed.
+
+
+## Related Documentation
+
+- [API Integration Patterns](/docs/api-integration-patterns) - API client setup
+- [Frontend Project Structure](/docs/frontend-project-structure) - Project structure
+- [Authentication](/docs/authentication) - Auth state management

@@ -210,5 +210,12 @@
   "lucide-react for icons": "lucide-react for icons",
   "Changelog": "Changelog",
   "Version History": "Version History",
-  "See [Web Packages Changelog](/docs/web-changelog) for all version history and release notes.": "See [Web Packages Changelog](/docs/web-changelog) for all version history and release notes."
+  "See [Web Packages Changelog](/docs/web-changelog) for all version history and release notes.": "See [Web Packages Changelog](/docs/web-changelog) for all version history and release notes.",
+  "Related Documentation": "Related Documentation",
+  "Survey Template": "Survey Template",
+  "Backend survey template service": "Backend survey template service",
+  "Frontend Project Structure": "Frontend Project Structure",
+  "Project structure": "Project structure",
+  "API Integration Patterns": "API Integration Patterns",
+  "API patterns": "API patterns"
 }

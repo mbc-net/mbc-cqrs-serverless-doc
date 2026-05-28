@@ -72,5 +72,12 @@
   "Command Service": "コマンドサービス",
   "Sequence Service": "シーケンスサービス",
   "Event Handling Patterns": "イベント処理パターン",
-  "Anti-Patterns Guide": "アンチパターンガイド"
+  "Anti-Patterns Guide": "アンチパターンガイド",
+  "Related Documentation": "",
+  "SaaS Example": "",
+  "SaaS application example": "SaaSアプリケーション例",
+  "Service Patterns": "",
+  "CRUD patterns used": "使用されるCRUDパターン",
+  "Multi-Tenant Patterns": "",
+  "Multi-tenant design": ""
 }

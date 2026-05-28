@@ -57,5 +57,12 @@
   "Version Templates": "Version Templates",
   "Create new versions instead of modifying existing templates in use": "Create new versions instead of modifying existing templates in use",
   "Test Templates": "Test Templates",
-  "Preview templates before deployment": "Preview templates before deployment"
+  "Preview templates before deployment": "Preview templates before deployment",
+  "Related Documentation": "Related Documentation",
+  "Survey Web": "Survey Web",
+  "Frontend survey components": "Frontend survey components",
+  "Backend Development": "Backend Development",
+  "Core backend patterns": "Core backend patterns",
+  "Service Patterns": "Service Patterns",
+  "Service implementation": "Service implementation"
 }

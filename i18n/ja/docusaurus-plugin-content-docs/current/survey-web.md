@@ -753,3 +753,10 @@ import "@mbc-cqrs-serverless/survey-web/styles.css";
 :::info バージョン履歴
 すべてのバージョン履歴とリリースノートは[Webパッケージ変更履歴](/docs/web-changelog)を参照してください。
 :::
+
+
+## Related Documentation
+
+- [Survey Template](/docs/survey-template) - バックエンドのアンケートテンプレートサービス
+- [Frontend Project Structure](/docs/frontend-project-structure) - Project structure
+- [API Integration Patterns](/docs/api-integration-patterns) - API patterns

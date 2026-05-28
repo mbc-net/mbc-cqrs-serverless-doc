@@ -750,3 +750,11 @@ const items = await this.prismaService.product.findMany({
   orderBy: { price: "asc" },
 });
 ```
+
+
+## Related Documentation
+
+- [Backend Development](/docs/backend-development) - Core backend patterns
+- [Command Service](/docs/command-service) - CommandService API reference
+- [Data Service](/docs/data-service) - DataService query methods
+- [Database Selection Guide](/docs/database-selection-guide) - DynamoDB vs RDS

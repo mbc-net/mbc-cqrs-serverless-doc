@@ -53,3 +53,10 @@ TODO:
   "include": ["src/*", "src/**/*"]
 }
 ```
+
+
+## Related Documentation
+
+- [Project Structure](/docs/project-structure) - Project file organization
+- [Installation](/docs/installation) - TypeScript設定のセットアップ
+- [Getting Started](/docs/getting-started) - 初期プロジェクトセットアップ

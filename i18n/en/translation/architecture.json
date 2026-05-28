@@ -16,5 +16,12 @@
   "Separating read and write operations for optimized data handling.": "Separating read and write operations for optimized data handling.",
   "Storing all changes as a sequence of events.": "Storing all changes as a sequence of events.",
   "Serverless": "Serverless",
-  "Leveraging AWS Lambda, DynamoDB, and other managed services.": "Leveraging AWS Lambda, DynamoDB, and other managed services."
+  "Leveraging AWS Lambda, DynamoDB, and other managed services.": "Leveraging AWS Lambda, DynamoDB, and other managed services.",
+  "Related Documentation": "Related Documentation",
+  "AWS infrastructure": "AWS infrastructure",
+  "CQRS Flow": "CQRS Flow",
+  "Command and query flow": "Command and query flow",
+  "Event sourcing details": "Event sourcing details",
+  "Getting Started": "Getting Started",
+  "Start building with these concepts": "Start building with these concepts"
 }

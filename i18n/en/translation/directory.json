@@ -127,5 +127,12 @@
   "Audit Trail": "Audit Trail",
   "Use events to maintain an audit trail of all operations": "Use events to maintain an audit trail of all operations",
   "Use Soft Delete": "Use Soft Delete",
-  "Prefer soft delete (remove) over permanent delete (removeFile) for data recovery": "Prefer soft delete (remove) over permanent delete (removeFile) for data recovery"
+  "Prefer soft delete (remove) over permanent delete (removeFile) for data recovery": "Prefer soft delete (remove) over permanent delete (removeFile) for data recovery",
+  "Related Documentation": "Related Documentation",
+  "Multi-Tenant Patterns": "Multi-Tenant Patterns",
+  "Tenant file isolation": "Tenant file isolation",
+  "Environment Variables": "Environment Variables",
+  "S3 configuration": "S3 configuration",
+  "Interfaces": "Interfaces",
+  "Directory interfaces": "Directory interfaces"
 }

@@ -54,5 +54,12 @@
   "Volume management": "Volume management",
   "Health check mechanisms": "Health check mechanisms",
   "Workflow Example": "Workflow Example",
-  "Here's a complete example of a GitHub Actions workflow for E2E testing:": "Here's a complete example of a GitHub Actions workflow for E2E testing:"
+  "Here's a complete example of a GitHub Actions workflow for E2E testing:": "Here's a complete example of a GitHub Actions workflow for E2E testing:",
+  "Related Documentation": "Related Documentation",
+  "Unit Testing": "Unit Testing",
+  "Unit testing with Jest": "Unit testing with Jest",
+  "Testing": "Testing",
+  "Testing overview": "Testing overview",
+  "Deployment Guide": "Deployment Guide",
+  "Deploy for integration testing": "Deploy for integration testing"
 }

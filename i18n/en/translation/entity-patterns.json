@@ -145,5 +145,14 @@
   "4. Validate Input DTOs": "4. Validate Input DTOs",
   "Use class-validator for input validation:": "Use class-validator for input validation:",
   "5. Use Enums for Status Fields": "5. Use Enums for Status Fields",
-  "Define enums for status and type fields:": "Define enums for status and type fields:"
+  "Define enums for status and type fields:": "Define enums for status and type fields:",
+  "Related Documentation": "Related Documentation",
+  "Key Patterns": "Key Patterns",
+  "PK/SK key design": "PK/SK key design",
+  "Data Service": "Data Service",
+  "Query entities with DataService": "Query entities with DataService",
+  "Interfaces": "Interfaces",
+  "DataEntity and CommandEntity interfaces": "DataEntity and CommandEntity interfaces",
+  "Service Patterns": "Service Patterns",
+  "Service layer with entities": "Service layer with entities"
 }

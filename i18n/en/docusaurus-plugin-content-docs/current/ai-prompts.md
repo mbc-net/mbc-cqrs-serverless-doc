@@ -239,3 +239,10 @@ When using these prompts:
 - [AI Integration](/docs/ai-integration) - Overview of AI tool support
 - [MCP Server](/docs/mcp-server) - Dynamic AI integration via MCP
 - [Error Catalog](/docs/error-catalog) - Common errors and solutions
+
+
+## Related Documentation
+
+- [AI Integration](/docs/ai-integration) - Overview of AI tool support
+- [MCP Server](/docs/mcp-server) - MCP server for AI tools
+- [Error Catalog](/docs/error-catalog) - Error reference with solutions

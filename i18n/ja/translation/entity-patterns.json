@@ -145,5 +145,14 @@
   "4. Validate Input DTOs": "4. 入力DTOをバリデートする",
   "Use class-validator for input validation:": "入力バリデーションにはclass-validatorを使用します：",
   "5. Use Enums for Status Fields": "5. ステータスフィールドには列挙型を使用する",
-  "Define enums for status and type fields:": "ステータスとタイプフィールドには列挙型を定義します："
+  "Define enums for status and type fields:": "ステータスとタイプフィールドには列挙型を定義します：",
+  "Related Documentation": "",
+  "Key Patterns": "",
+  "PK/SK key design": "",
+  "Data Service": "",
+  "Query entities with DataService": "DataServiceでエンティティをクエリ",
+  "Interfaces": "",
+  "DataEntity and CommandEntity interfaces": "DataEntityとCommandEntityインターフェース",
+  "Service Patterns": "",
+  "Service layer with entities": "エンティティを使ったサービス層"
 }

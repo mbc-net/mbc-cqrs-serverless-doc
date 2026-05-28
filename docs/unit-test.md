@@ -289,3 +289,10 @@ jest.mock('@aws-sdk/client-dynamodb', () => {
 :::tip {{Best Practice}}
 {{Prefer `aws-sdk-client-mock` over `jest.mock()` when possible, as it provides better type safety and more detailed assertions like `toHaveReceivedCommandWith`.}}
 :::
+
+
+## {{Related Documentation}}
+
+- [{{E2E Testing}}](/docs/e2e-test) - {{End-to-end testing guide}}
+- [{{Testing}}](/docs/testing) - {{Testing overview}}
+- [{{Debugging Guide}}](/docs/debugging-guide) - {{Debug test failures}}

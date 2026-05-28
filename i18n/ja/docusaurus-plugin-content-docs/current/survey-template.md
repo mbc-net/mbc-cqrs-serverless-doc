@@ -261,3 +261,10 @@ export class SurveyTemplateDataSyncHandler implements IDataSyncHandler {
 3. **オプションを制限**: 複数選択の場合、オプションを適切な数に保つ
 4. **テンプレートのバージョン管理**: 使用中の既存テンプレートを変更する代わりに新しいバージョンを作成
 5. **テンプレートのテスト**: デプロイ前にテンプレートをプレビュー
+
+
+## Related Documentation
+
+- [Survey Web](/docs/survey-web) - フロントエンドのアンケートコンポーネント
+- [Backend Development](/docs/backend-development) - Core backend patterns
+- [Service Patterns](/docs/service-patterns) - Service implementation

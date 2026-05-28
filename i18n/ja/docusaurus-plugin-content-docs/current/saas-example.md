@@ -842,3 +842,10 @@ async createSubscription() {
 - [マスターモジュール](/docs/master)
 - [マルチテナントパターン](/docs/multi-tenant-patterns)
 - [イベント処理パターン](/docs/event-handling-patterns)
+
+
+## Related Documentation
+
+- [E-commerce Example](/docs/ecommerce-example) - コマースアプリケーション例
+- [マルチテナントパターン](/docs/multi-tenant-patterns) - テナント分離
+- [Authentication](/docs/authentication) - サブスクリプション認証

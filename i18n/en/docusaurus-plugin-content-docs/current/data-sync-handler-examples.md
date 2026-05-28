@@ -719,3 +719,11 @@ startDate: attrs.schedule?.startDate
   ? new Date(attrs.schedule.startDate)
   : null,
 ```
+
+
+## Related Documentation
+
+- [Event Handling Patterns](/docs/event-handling-patterns) - Event handler patterns
+- [Backend Development](/docs/backend-development) - Core backend patterns
+- [Database Selection Guide](/docs/database-selection-guide) - DynamoDB vs RDS
+- [Prisma](/docs/prisma) - RDS with Prisma ORM

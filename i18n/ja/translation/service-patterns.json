@@ -101,5 +101,14 @@
   "4. Combine DynamoDB and RDS Queries": "4. DynamoDBとRDSクエリを組み合わせる",
   "Use DynamoDB for single-item reads, RDS for complex queries:": "単一アイテムの読み取りにはDynamoDB、複雑なクエリにはRDSを使用します：",
   "Single item: Use DataService (DynamoDB)": "単一アイテム: DataService（DynamoDB）を使用",
-  "Complex query: Use Prisma (RDS)": "複雑なクエリ: Prisma（RDS）を使用"
+  "Complex query: Use Prisma (RDS)": "複雑なクエリ: Prisma（RDS）を使用",
+  "Related Documentation": "",
+  "Backend Development": "",
+  "Core backend patterns": "コアバックエンドパターン",
+  "Command Service": "",
+  "CommandService API reference": "CommandService APIリファレンス",
+  "Data Service": "",
+  "DataService query methods": "DataServiceクエリメソッド",
+  "Database Selection Guide": "",
+  "DynamoDB vs RDS": ""
 }

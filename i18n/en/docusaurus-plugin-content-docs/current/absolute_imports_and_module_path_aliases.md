@@ -52,3 +52,10 @@ For example, the following configuration maps `@/auth/*` to `auth/*`:
   "include": ["src/*", "src/**/*"]
 }
 ```
+
+
+## Related Documentation
+
+- [Project Structure](/docs/project-structure) - Project file organization
+- [Installation](/docs/installation) - TypeScript configuration setup
+- [Getting Started](/docs/getting-started) - Initial project setup

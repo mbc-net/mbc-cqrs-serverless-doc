@@ -808,3 +808,11 @@ WEBHOOK_SECRET=${ssm:/myapp/webhook-secret}
 - [イベントハンドリングパターン](/docs/event-handling-patterns) - イベント駆動アーキテクチャ
 - [モニタリングとログ](/docs/monitoring-logging) - オブザーバビリティのベストプラクティス
 - [エラーカタログ](/docs/error-catalog) - エラーハンドリングリファレンス
+
+
+## Related Documentation
+
+- [API Integration Patterns](/docs/api-integration-patterns) - フロントエンドAPIパターン
+- [Backend Development](/docs/backend-development) - Core backend patterns
+- [Authentication](/docs/authentication) - Authentication setup
+- [エラーカタログ](/docs/error-catalog) - API error codes

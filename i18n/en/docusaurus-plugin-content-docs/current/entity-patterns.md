@@ -857,3 +857,11 @@ enum OrderStatus {
 @IsEnum(OrderStatus)
 status: OrderStatus;
 ```
+
+
+## Related Documentation
+
+- [Key Patterns](/docs/key-patterns) - PK/SK key design
+- [Data Service](/docs/data-service) - Query entities with DataService
+- [Interfaces](/docs/interfaces) - DataEntity and CommandEntity interfaces
+- [Service Patterns](/docs/service-patterns) - Service layer with entities

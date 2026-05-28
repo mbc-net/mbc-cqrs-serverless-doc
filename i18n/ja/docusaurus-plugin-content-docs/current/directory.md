@@ -484,3 +484,10 @@ export class DirectoryDataSyncHandler implements IDataSyncHandler {
 4. **クリーンアップ**: 一時ファイルの保持ポリシーを実装
 5. **監査証跡**: すべての操作の監査証跡を維持するためにイベントを使用
 6. **論理削除を使用**: データ復旧のために完全削除（removeFile）よりも論理削除（remove）を推奨
+
+
+## Related Documentation
+
+- [Multi-Tenant Patterns](/docs/multi-tenant-patterns) - テナントファイル分離
+- [Environment Variables](/docs/environment-variables) - S3設定
+- [Interfaces](/docs/interfaces) - ディレクトリインターフェース

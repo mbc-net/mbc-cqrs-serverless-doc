@@ -37,5 +37,12 @@
   "Error Handling": "Error Handling",
   "Handle optimistic locking conflict (version mismatch)": "Handle optimistic locking conflict (version mismatch)",
   "Testing": "Testing",
-  "Explore Examples": "Explore Examples"
+  "Explore Examples": "Explore Examples",
+  "Related Documentation": "Related Documentation",
+  "Service Patterns": "Service Patterns",
+  "CRUD service patterns": "CRUD service patterns",
+  "Backend Development": "Backend Development",
+  "Core backend guide": "Core backend guide",
+  "Key Patterns": "Key Patterns",
+  "Key design for recipes": "Key design for recipes"
 }

@@ -69,5 +69,14 @@
   "4. Type Your Attributes": "4. Type Your Attributes",
   "Define interfaces for attributes to ensure type safety:": "Define interfaces for attributes to ensure type safety:",
   "5. Handle Null/Undefined Gracefully": "5. Handle Null/Undefined Gracefully",
-  "Use nullish coalescing and optional chaining:": "Use nullish coalescing and optional chaining:"
+  "Use nullish coalescing and optional chaining:": "Use nullish coalescing and optional chaining:",
+  "Related Documentation": "Related Documentation",
+  "Event Handling Patterns": "Event Handling Patterns",
+  "Event handler patterns": "Event handler patterns",
+  "Backend Development": "Backend Development",
+  "Core backend patterns": "Core backend patterns",
+  "Database Selection Guide": "Database Selection Guide",
+  "DynamoDB vs RDS": "DynamoDB vs RDS",
+  "Prisma": "Prisma",
+  "RDS with Prisma ORM": "RDS with Prisma ORM"
 }

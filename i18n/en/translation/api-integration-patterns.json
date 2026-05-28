@@ -89,5 +89,14 @@
   "5. Retry Configuration": "5. Retry Configuration",
   "When: Configuring React Query client.": "When: Configuring React Query client.",
   "Why: Avoid retrying client errors (4xx) that will always fail.": "Why: Avoid retrying client errors (4xx) that will always fail.",
-  "Don't retry on 4xx errors": "Don't retry on 4xx errors"
+  "Don't retry on 4xx errors": "Don't retry on 4xx errors",
+  "Related Documentation": "Related Documentation",
+  "API Integration Guide": "API Integration Guide",
+  "API integration guidance": "API integration guidance",
+  "Frontend Project Structure": "Frontend Project Structure",
+  "Project organization": "Project organization",
+  "State Management Patterns": "State Management Patterns",
+  "Frontend state management": "Frontend state management",
+  "Form Handling Patterns": "Form Handling Patterns",
+  "Form handling": "Form handling"
 }

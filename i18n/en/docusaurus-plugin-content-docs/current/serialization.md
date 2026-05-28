@@ -171,3 +171,10 @@ Returns:
 | status | status | CQRS processing status |
 | ttl | ttl | DynamoDB TTL timestamp (Unix epoch seconds) |
 | attributes.* | * | Flattened attributes from internal structure |
+
+
+## Related Documentation
+
+- [Data Service](/docs/data-service) - Using DataService with serialization
+- [Entity Patterns](/docs/entity-patterns) - Entity structure for serialization
+- [Data Sync Handler Examples](/docs/data-sync-handler-examples) - Sync with deserialization
