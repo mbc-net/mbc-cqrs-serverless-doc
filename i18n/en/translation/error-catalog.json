@@ -190,7 +190,7 @@
   "Use request IDs for tracing": "Use request IDs for tracing",
   "Verify environment variables": "Verify environment variables",
   "Test locally with serverless-offline": "Test locally with serverless-offline",
-  "See Also": "See Also",
+  "Related Documentation": "Related Documentation",
   "[Debugging Guide](/docs/debugging-guide) - Detailed debugging procedures": "[Debugging Guide](/docs/debugging-guide) - Detailed debugging procedures",
   "[Common Issues](/docs/common-issues) - Frequently encountered problems": "[Common Issues](/docs/common-issues) - Frequently encountered problems",
   "[Monitoring and Logging](/docs/monitoring-logging) - Production monitoring setup": "[Monitoring and Logging](/docs/monitoring-logging) - Production monitoring setup"

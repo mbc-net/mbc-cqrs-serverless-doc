@@ -190,7 +190,7 @@
   "Use request IDs for tracing": "トレーシングには**リクエストID**を使用",
   "Verify environment variables": "環境変数を確認",
   "Test locally with serverless-offline": "serverless-offlineでローカルテスト",
-  "See Also": "関連情報",
+  "Related Documentation": "",
   "[Debugging Guide](/docs/debugging-guide) - Detailed debugging procedures": "[デバッグガイド](/docs/debugging-guide) - 詳細なデバッグ手順",
   "[Common Issues](/docs/common-issues) - Frequently encountered problems": "[よくある問題](/docs/common-issues) - よく発生する問題",
   "[Monitoring and Logging](/docs/monitoring-logging) - Production monitoring setup": "[監視とログ](/docs/monitoring-logging) - 本番監視の設定"
