@@ -1,5 +1,6 @@
 ---
 sidebar_position: 7
+description: {{Directory management module with S3 integration for file and folder management in multi-tenant serverless applications.}}
 ---
 
 # {{Directory}}

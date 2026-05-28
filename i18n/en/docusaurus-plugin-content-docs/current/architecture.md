@@ -1,5 +1,6 @@
 ---
 sidebar_position: 2
+description: Comprehensive overview of MBC CQRS Serverless framework architecture including system overview, CQRS pattern flow, and event sourcing.
 ---
 
 # Architecture
