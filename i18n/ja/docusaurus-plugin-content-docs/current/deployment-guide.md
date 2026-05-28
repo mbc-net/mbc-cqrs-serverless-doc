@@ -349,9 +349,9 @@ cdk destroy dev-your-app-pipeline-stack
 - [トラブルシューティング](/docs/common-issues) - よくあるデプロイの問題
 
 
-## Related Documentation
+## 関連ドキュメント
 
 - [CodePipelineによるCI/CD](/docs/codepipeline-cicd) - CodePipelineでデプロイを自動化
-- [Monitoring and Logging](/docs/monitoring-logging) - デプロイ後のオブザーバビリティ設定
+- [監視とログ](/docs/monitoring-logging) - デプロイ後のオブザーバビリティ設定
 - [環境変数](/docs/environment-variables) - デプロイ用の環境設定
 - [トラブルシューティング](/docs/common-issues) - よくあるデプロイの問題

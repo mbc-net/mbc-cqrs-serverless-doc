@@ -433,8 +433,8 @@ import DocCardList from '@theme/DocCardList';
 - [デプロイガイド](/docs/deployment-guide) - デプロイ設定
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [Environment Variables](/docs/environment-variables) - 利用可能な全環境変数
-- [Modules](/docs/modules) - モジュールの設定と登録
-- [Deployment Guide](/docs/deployment-guide) - 本番環境の設定
+- [環境変数](/docs/environment-variables) - 利用可能な全環境変数
+- [モジュール](/docs/modules) - モジュールの設定と登録
+- [デプロイガイド](/docs/deployment-guide) - 本番環境の設定

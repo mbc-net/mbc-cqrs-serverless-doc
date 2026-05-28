@@ -351,8 +351,8 @@ jobs:
 ```
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [Unit Testing](/docs/unit-test) - Jestによるユニットテスト
-- [Testing](/docs/testing) - Testing overview
-- [Deployment Guide](/docs/deployment-guide) - 結合テスト用のデプロイ
+- [ユニットテスト](/docs/unit-test) - Jestによるユニットテスト
+- [テスト](/docs/testing) - テストの概要
+- [デプロイガイド](/docs/deployment-guide) - 結合テスト用のデプロイ

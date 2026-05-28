@@ -90,11 +90,11 @@
   "Optional: For single task processing": "Optional: For single task processing (オプション: 単一タスク処理用)",
   "Optional: For Step Function task processing": "Optional: For Step Function task processing (オプション: Step Functionタスク処理用)",
   "Note: Both methods are optional. Implement `transformTask` for single task processing, or `transformStepFunctionTask` for Step Function task processing, or both if your application uses both types.": "注意: 両方のメソッドはオプションです。単一タスク処理には`transformTask`を、Step Functionタスク処理には`transformStepFunctionTask`を実装します。アプリケーションが両方のタイプを使用する場合は両方を実装してください。",
-  "Related Documentation": "",
-  "Import/Export Patterns": "",
+  "Related Documentation": "関連ドキュメント",
+  "Import/Export Patterns": "インポート/エクスポートパターン",
   "Step Functions integration for imports": "インポートのStep Functions統合",
-  "Architecture: Step Functions": "",
+  "Architecture: Step Functions": "アーキテクチャ: Step Functions",
   "Workflow orchestration": "ワークフローオーケストレーション",
-  "Interfaces": "",
+  "Interfaces": "インターフェース",
   "StepFunctionsEvent interface": "StepFunctionsEventインターフェース"
 }

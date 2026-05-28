@@ -112,11 +112,11 @@
   "Scenario: Server returns field-level validation errors.": "シナリオ: サーバーがフィールドレベルのバリデーションエラーを返す。",
   "Solution: Use setError to display server errors on specific fields.": "解決策: setErrorを使用してサーバーエラーを特定のフィールドに表示する。",
   "Set field-level errors from server": "サーバーからのフィールドレベルエラーを設定",
-  "Related Documentation": "",
-  "API Integration Patterns": "",
+  "Related Documentation": "関連ドキュメント",
+  "API Integration Patterns": "API統合パターン",
   "API calls from forms": "フォームからのAPI呼び出し",
-  "Frontend Project Structure": "",
+  "Frontend Project Structure": "フロントエンドプロジェクト構成",
   "Project organization": "プロジェクト構成",
-  "State Management Patterns": "",
+  "State Management Patterns": "ステート管理パターン",
   "Form state": "フォームステート"
 }

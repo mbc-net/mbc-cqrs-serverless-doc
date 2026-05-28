@@ -477,8 +477,8 @@ if (IS_LAMBDA_RUNNING) {
 - [データサービス](/docs/data-service) - データクエリでのヘルパーの使用
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [Key Patterns](/docs/key-patterns) - DynamoDB key design
+- [キーパターン](/docs/key-patterns) - DynamoDBキー設計
 - [コマンドサービス](/docs/command-service) - キーヘルパーの使用
-- [Interfaces](/docs/interfaces) - UserContextとIInvokeインターフェース
+- [インターフェース](/docs/interfaces) - UserContextとIInvokeインターフェース

@@ -556,9 +556,9 @@ await this.emailService.sendEmail(email);
 - [環境変数](/docs/environment-variables) - 設定リファレンス
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [Email Service](/docs/email-service) - SESメール送信
+- [メールサービス](/docs/email-service) - SESメール送信
 - [イベントハンドリングパターン](/docs/event-handling-patterns) - 通知がイベントとどのように統合されるか
 - [環境変数](/docs/environment-variables) - AppSyncとSESの設定
-- [Queue](/docs/queue) - 通知キューイングのSQS
+- [キュー](/docs/queue) - 通知キューイングのSQS

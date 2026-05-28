@@ -30,11 +30,11 @@
   "Deletes a single message from the queue after processing.": "処理後にキューから単一メッセージを削除します。",
   "Process message...": "メッセージを処理...",
   "Deletes up to 10 messages in a single API call.": "1回のAPIコールで最大10件のメッセージを削除します。",
-  "Related Documentation": "",
-  "Notification Module": "",
-  "Real-time notifications with AppSync": "",
-  "Event Handling Patterns": "",
-  "Event-driven architecture": "",
-  "Interfaces": "",
+  "Related Documentation": "関連ドキュメント",
+  "Notification Module": "通知モジュール",
+  "Real-time notifications with AppSync": "AppSyncを使ったリアルタイム通知",
+  "Event Handling Patterns": "イベント処理パターン",
+  "Event-driven architecture": "イベント駆動アーキテクチャ",
+  "Interfaces": "インターフェース",
   "SQS message interfaces": "SQSメッセージインターフェース"
 }

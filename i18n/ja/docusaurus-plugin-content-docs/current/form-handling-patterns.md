@@ -986,8 +986,8 @@ function FormWithServerErrors() {
 ```
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [API Integration Patterns](/docs/api-integration-patterns) - フォームからのAPI呼び出し
-- [Frontend Project Structure](/docs/frontend-project-structure) - プロジェクト構成
-- [State Management Patterns](/docs/state-management-patterns) - フォームステート
+- [API統合パターン](/docs/api-integration-patterns) - フォームからのAPI呼び出し
+- [フロントエンドプロジェクト構成](/docs/frontend-project-structure) - プロジェクト構成
+- [ステート管理パターン](/docs/state-management-patterns) - フォームステート

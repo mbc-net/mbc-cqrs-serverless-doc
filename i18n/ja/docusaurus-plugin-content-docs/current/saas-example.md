@@ -844,8 +844,8 @@ async createSubscription() {
 - [イベント処理パターン](/docs/event-handling-patterns)
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [E-commerce Example](/docs/ecommerce-example) - コマースアプリケーション例
+- [Eコマース例](/docs/ecommerce-example) - コマースアプリケーション例
 - [マルチテナントパターン](/docs/multi-tenant-patterns) - テナント分離
-- [Authentication](/docs/authentication) - サブスクリプション認証
+- [認証](/docs/authentication) - サブスクリプション認証

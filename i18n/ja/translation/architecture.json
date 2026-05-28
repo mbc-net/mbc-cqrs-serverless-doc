@@ -17,11 +17,11 @@
   "Storing all changes as a sequence of events.": "すべての変更をイベントのシーケンスとして保存します。",
   "Serverless": "サーバーレス",
   "Leveraging AWS Lambda, DynamoDB, and other managed services.": "AWS Lambda、DynamoDB、その他のマネージドサービスを活用します。",
-  "Related Documentation": "",
+  "Related Documentation": "関連ドキュメント",
   "AWS infrastructure": "AWSインフラストラクチャ",
-  "CQRS Flow": "",
-  "Command and query flow": "",
-  "Event sourcing details": "",
-  "Getting Started": "",
-  "Start building with these concepts": ""
+  "CQRS Flow": "CQRSフロー",
+  "Command and query flow": "コマンドとクエリのフロー",
+  "Event sourcing details": "イベントソーシングの詳細",
+  "Getting Started": "はじめに",
+  "Start building with these concepts": "これらの概念で構築を開始"
 }

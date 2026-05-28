@@ -312,6 +312,6 @@ const listEntity = new DataListEntity(result);
 ## 関連ドキュメント
 
 - [コマンドサービス](/docs/command-service) - CommandServiceを使ったコマンド操作
-- [サービスパターン](/docs/service-patterns) - Complete service layer patterns
+- [サービスパターン](/docs/service-patterns) - 完全なサービス層パターン
 - [キーパターン](/docs/key-patterns) - 効率的なクエリのためのDynamoDBキー設計
 - [エンティティパターン](/docs/entity-patterns) - DataEntityを使ったエンティティ定義

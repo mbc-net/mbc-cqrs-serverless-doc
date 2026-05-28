@@ -42,11 +42,11 @@
   "Mock at the top of your test file": "Mock at the top of your test file (テストファイルの先頭でモック)",
   "Best Practice": "ベストプラクティス",
   "Prefer `aws-sdk-client-mock` over `jest.mock()` when possible, as it provides better type safety and more detailed assertions like `toHaveReceivedCommandWith`.": "可能な場合は `jest.mock()` よりも `aws-sdk-client-mock` を優先してください。より良い型安全性と `toHaveReceivedCommandWith` のような詳細なアサーションを提供します。",
-  "Related Documentation": "",
-  "E2E Testing": "",
+  "Related Documentation": "関連ドキュメント",
+  "E2E Testing": "E2Eテスト",
   "End-to-end testing guide": "エンドツーエンドテストガイド",
-  "Testing": "",
-  "Testing overview": "",
-  "Debugging Guide": "",
+  "Testing": "テスト",
+  "Testing overview": "テストの概要",
+  "Debugging Guide": "デバッグガイド",
   "Debug test failures": "テスト失敗のデバッグ"
 }

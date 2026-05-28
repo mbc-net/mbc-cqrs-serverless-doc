@@ -134,10 +134,10 @@
   "Command operations used by ProcessStrategy": "ProcessStrategyで使用されるコマンド操作",
   "Step Functions": "Step Functions",
   "Async processing infrastructure": "非同期処理インフラストラクチャ",
-  "Related Documentation": "",
+  "Related Documentation": "関連ドキュメント",
   "Complete import patterns and examples": "完全なインポートパターンと例",
-  "Data Migration Patterns": "",
+  "Data Migration Patterns": "データ移行パターン",
   "Migration strategies": "移行戦略",
-  "Tasks": "",
+  "Tasks": "タスク",
   "Step Functions task management": "Step Functionsタスク管理"
 }

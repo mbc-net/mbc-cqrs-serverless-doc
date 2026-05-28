@@ -9,11 +9,11 @@
   "Module Aliases": "モジュールエイリアス",
   "In addition to configuring the `baseUrl` path, you can use the \"paths\" option to \"alias\" module paths.": "\n「baseUrl」パスの設定に加えて、「paths」オプションを使用してモジュール パスを「エイリアス」することもできます。",
   "For example, the following configuration maps `@/auth/*` to `auth/*`:": "たとえば、次の設定は `@/auth/*` を `auth/*` にマップします。",
-  "Related Documentation": "",
-  "Project Structure": "",
-  "Project file organization": "",
-  "Installation": "",
+  "Related Documentation": "関連ドキュメント",
+  "Project Structure": "プロジェクト構成",
+  "Project file organization": "プロジェクトファイル構成",
+  "Installation": "インストール",
   "TypeScript configuration setup": "TypeScript設定のセットアップ",
-  "Getting Started": "",
+  "Getting Started": "はじめに",
   "Initial project setup": "初期プロジェクトセットアップ"
 }

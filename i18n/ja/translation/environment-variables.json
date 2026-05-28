@@ -79,11 +79,11 @@
   "a class with validation constraints,": "検証制約のあるクラス",
   "extend the EnvironmentVariables class.": "EnvironmentVariables 拡張クラス",
   "With this in place, you pass the `EnvValidation` class as a configuration argument of the `createHandler` function, as follows:": "これを配置したら、次のように `EnvValidation` クラスを `createHandler` 関数の構成引数として渡します。",
-  "Related Documentation": "",
-  "Configuring": "",
+  "Related Documentation": "関連ドキュメント",
+  "Configuring": "設定",
   "Module-level configuration options": "モジュールレベルの設定オプション",
-  "Deployment Guide": "",
-  "Deployment environment setup": "",
-  "Installation": "",
-  "Initial environment setup": ""
+  "Deployment Guide": "デプロイガイド",
+  "Deployment environment setup": "デプロイ環境のセットアップ",
+  "Installation": "インストール",
+  "Initial environment setup": "初期環境セットアップ"
 }

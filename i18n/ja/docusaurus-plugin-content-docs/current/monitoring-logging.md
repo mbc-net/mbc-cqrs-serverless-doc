@@ -490,7 +490,7 @@ export class HealthController {
 - [トラブルシューティング](/docs/common-issues) - 問題のデバッグ
 
 
-## Related Documentation
+## 関連ドキュメント
 
 - [デプロイガイド](/docs/deployment-guide) - 監視を有効にしてデプロイ
 - [デバッグガイド](/docs/debugging-guide) - デバッグへのログ活用

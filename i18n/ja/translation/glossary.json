@@ -130,11 +130,11 @@
   "[Architecture Overview](/docs/architecture) - System architecture explanation": "[アーキテクチャ概要](/docs/architecture) - システムアーキテクチャの説明",
   "[CQRS Flow](/docs/architecture/cqrs-flow) - Detailed CQRS implementation": "[CQRSフロー](/docs/architecture/cqrs-flow) - 詳細なCQRS実装",
   "[Key Patterns](/docs/key-patterns) - PK/SK design patterns": "[キーパターン](/docs/key-patterns) - PK/SK設計パターン",
-  "Related Documentation": "",
-  "Architecture": "",
-  "System architecture overview": "",
-  "CQRS Flow": "",
-  "Detailed CQRS implementation": "",
-  "Getting Started": "",
+  "Related Documentation": "関連ドキュメント",
+  "Architecture": "アーキテクチャ",
+  "System architecture overview": "システムアーキテクチャ概要",
+  "CQRS Flow": "CQRSフロー",
+  "Detailed CQRS implementation": "CQRSの詳細実装",
+  "Getting Started": "はじめに",
   "Introduction to key concepts": "主要概念の紹介"
 }

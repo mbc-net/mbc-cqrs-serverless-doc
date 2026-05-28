@@ -157,8 +157,8 @@ describe('Independent Versioning', () => {
 5. APIドキュメントにバージョン管理を記載する
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [Command Service](/docs/command-service) - バージョン処理を伴うpublishSync
-- [Error Catalog](/docs/error-catalog) - バージョン競合エラー
-- [Service Patterns](/docs/service-patterns) - 楽観的ロックパターン
+- [コマンドサービス](/docs/command-service) - バージョン処理を伴うpublishSync
+- [エラーカタログ](/docs/error-catalog) - バージョン競合エラー
+- [サービスパターン](/docs/service-patterns) - 楽観的ロックパターン

@@ -486,8 +486,8 @@ export class DirectoryDataSyncHandler implements IDataSyncHandler {
 6. **論理削除を使用**: データ復旧のために完全削除（removeFile）よりも論理削除（remove）を推奨
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [Multi-Tenant Patterns](/docs/multi-tenant-patterns) - テナントファイル分離
-- [Environment Variables](/docs/environment-variables) - S3設定
-- [Interfaces](/docs/interfaces) - ディレクトリインターフェース
+- [マルチテナントパターン](/docs/multi-tenant-patterns) - テナントファイル分離
+- [環境変数](/docs/environment-variables) - S3設定
+- [インターフェース](/docs/interfaces) - ディレクトリインターフェース

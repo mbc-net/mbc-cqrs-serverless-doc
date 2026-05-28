@@ -355,8 +355,8 @@ export class AppConfigService {
 ```
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [Master](/docs/master) - Master data management
-- [Frontend Project Structure](/docs/frontend-project-structure) - UI統合
-- [Interfaces](/docs/interfaces) - UI設定インターフェース
+- [マスター](/docs/master) - マスターデータ管理
+- [フロントエンドプロジェクト構成](/docs/frontend-project-structure) - UI統合
+- [インターフェース](/docs/interfaces) - UI設定インターフェース

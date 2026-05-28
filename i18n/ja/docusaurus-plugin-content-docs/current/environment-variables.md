@@ -213,8 +213,8 @@ export const handler = createHandler({
 ```
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [Configuring](/docs/configuring) - モジュールレベルの設定オプション
-- [Deployment Guide](/docs/deployment-guide) - Deployment environment setup
-- [Installation](/docs/installation) - Initial environment setup
+- [設定](/docs/configuring) - モジュールレベルの設定オプション
+- [デプロイガイド](/docs/deployment-guide) - デプロイ環境のセットアップ
+- [インストール](/docs/installation) - 初期環境セットアップ

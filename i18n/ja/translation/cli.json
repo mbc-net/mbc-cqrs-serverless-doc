@@ -103,12 +103,12 @@
   "Solution: Use a new directory or remove existing files before creating a project.": "解決策: 新しいディレクトリを使用するか、プロジェクト作成前に既存のファイルを削除してください。",
   "Permission denied": "権限エラー",
   "If you encounter permission errors during global installation:": "グローバルインストール時に権限エラーが発生した場合：",
-  "Related Documentation": "",
-  "Getting Started": "",
+  "Related Documentation": "関連ドキュメント",
+  "Getting Started": "はじめに",
   "Introduction and first steps": "はじめに・最初のステップ",
   "Install CLI and setup": "CLIのインストールとセットアップ",
-  "MCP Server": "",
-  "AI development tool integration": "",
-  "Project Structure": "",
+  "MCP Server": "MCPサーバー",
+  "AI development tool integration": "AI開発ツール統合",
+  "Project Structure": "プロジェクト構成",
   "Generated project layout": "生成されたプロジェクト構成"
 }

@@ -32,9 +32,9 @@ description: システム概要、CQRSパターンフロー、イベントソー
 AWS Lambda、DynamoDB、その他のマネージドサービスを活用します。
 
 
-## Related Documentation
+## 関連ドキュメント
 
 - [システム概要](/docs/architecture/system-overview) - AWSインフラストラクチャ
-- [CQRS Flow](/docs/architecture/cqrs-flow) - Command and query flow
-- [イベントソーシング](/docs/architecture/event-sourcing) - Event sourcing details
-- [Getting Started](/docs/getting-started) - Start building with these concepts
+- [CQRSフロー](/docs/architecture/cqrs-flow) - コマンドとクエリのフロー
+- [イベントソーシング](/docs/architecture/event-sourcing) - イベントソーシングの詳細
+- [はじめに](/docs/getting-started) - これらの概念で構築を開始

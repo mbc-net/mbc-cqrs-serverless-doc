@@ -752,9 +752,9 @@ const items = await this.prismaService.product.findMany({
 ```
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [Backend Development](/docs/backend-development) - コアバックエンドパターン
-- [Command Service](/docs/command-service) - CommandService APIリファレンス
-- [Data Service](/docs/data-service) - DataServiceクエリメソッド
-- [Database Selection Guide](/docs/database-selection-guide) - DynamoDB vs RDS
+- [バックエンド開発](/docs/backend-development) - コアバックエンドパターン
+- [コマンドサービス](/docs/command-service) - CommandService APIリファレンス
+- [データサービス](/docs/data-service) - DataServiceクエリメソッド
+- [データベース選択ガイド](/docs/database-selection-guide) - DynamoDB対RDSの比較

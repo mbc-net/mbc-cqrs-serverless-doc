@@ -400,9 +400,9 @@ export class MyDataSyncHandler implements IDataSyncHandler {
 - [サービスパターン](/docs/service-patterns) - 推奨パターン
 
 
-## Related Documentation
+## 関連ドキュメント
 
 - [サービスパターン](/docs/service-patterns) - 推奨パターン
 - [セキュリティベストプラクティス](/docs/security-best-practices) - セキュリティガイドライン
 - [よくある問題](/docs/common-issues) - トラブルシューティングガイド
-- [MCP Server](/docs/mcp-server) - アンチパターン検出ツール
+- [MCPサーバー](/docs/mcp-server) - アンチパターン検出ツール

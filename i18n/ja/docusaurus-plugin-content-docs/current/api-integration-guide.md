@@ -810,9 +810,9 @@ WEBHOOK_SECRET=${ssm:/myapp/webhook-secret}
 - [エラーカタログ](/docs/error-catalog) - エラーハンドリングリファレンス
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [API Integration Patterns](/docs/api-integration-patterns) - フロントエンドAPIパターン
-- [Backend Development](/docs/backend-development) - Core backend patterns
-- [Authentication](/docs/authentication) - Authentication setup
-- [エラーカタログ](/docs/error-catalog) - API error codes
+- [API統合パターン](/docs/api-integration-patterns) - フロントエンドAPIパターン
+- [バックエンド開発](/docs/backend-development) - コアバックエンドパターン
+- [認証](/docs/authentication) - 認証のセットアップ
+- [エラーカタログ](/docs/error-catalog) - APIエラーコード

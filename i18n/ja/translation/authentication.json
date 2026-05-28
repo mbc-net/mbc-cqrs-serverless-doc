@@ -66,13 +66,13 @@
   "Allow specific users to override tenant": "Allow specific users to override tenant (特定ユーザーにテナントオーバーライドを許可)",
   "Regional managers can only access tenants in their region": "Regional managers can only access tenants in their region (リージョナルマネージャーは自リージョンのテナントのみアクセス可能)",
   "Custom logic to verify regional access": "Custom logic to verify regional access (リージョナルアクセスを検証するカスタムロジック)",
-  "Related Documentation": "",
-  "Security Best Practices": "",
+  "Related Documentation": "関連ドキュメント",
+  "Security Best Practices": "セキュリティベストプラクティス",
   "Security implementation guidelines": "セキュリティ実装ガイドライン",
-  "Multi-Tenant Patterns": "",
+  "Multi-Tenant Patterns": "マルチテナントパターン",
   "Tenant-based access control": "テナントベースのアクセス制御",
-  "Controllers": "",
-  "Authentication decorators for controllers": "",
-  "Environment Variables": "",
-  "Cognito configuration variables": ""
+  "Controllers": "コントローラー",
+  "Authentication decorators for controllers": "コントローラーの認証デコレーター",
+  "Environment Variables": "環境変数",
+  "Cognito configuration variables": "Cognito設定変数"
 }

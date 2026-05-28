@@ -490,8 +490,8 @@ const bucket = new s3.Bucket(this, 'Bucket', {
    - 環境の詳細（Nodeバージョン、OSなど）
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [Debugging Guide](/docs/debugging-guide) - 詳細なデバッグ手順
-- [Error Catalog](/docs/error-catalog) - Error codes and solutions
-- [Monitoring and Logging](/docs/monitoring-logging) - 本番監視の設定
+- [デバッグガイド](/docs/debugging-guide) - 詳細なデバッグ手順
+- [エラーカタログ](/docs/error-catalog) - エラーコードと解決策
+- [監視とログ](/docs/monitoring-logging) - 本番監視の設定

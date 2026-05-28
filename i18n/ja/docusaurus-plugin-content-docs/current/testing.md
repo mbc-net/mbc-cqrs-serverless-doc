@@ -22,9 +22,9 @@ import DocCardList from '@theme/DocCardList';
 ```
 
 
-## Related Documentation
+## 関連ドキュメント
 
 - [ユニットテスト](/docs/unit-test) - Jestによるユニットテスト
-- [E2Eテスト](/docs/e2e-test) - End-to-end testing setup
+- [E2Eテスト](/docs/e2e-test) - エンドツーエンドテストのセットアップ
 - [デバッグガイド](/docs/debugging-guide) - テスト失敗のデバッグ
 - [よくある問題](/docs/common-issues) - テスト関連の問題

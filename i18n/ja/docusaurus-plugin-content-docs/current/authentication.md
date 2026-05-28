@@ -302,9 +302,9 @@ export class CustomRolesGuard extends RolesGuard {
 ```
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [Security Best Practices](/docs/security-best-practices) - セキュリティ実装ガイドライン
-- [Multi-Tenant Patterns](/docs/multi-tenant-patterns) - テナントベースのアクセス制御
-- [Controllers](/docs/controllers) - Authentication decorators for controllers
-- [Environment Variables](/docs/environment-variables) - Cognito configuration variables
+- [セキュリティベストプラクティス](/docs/security-best-practices) - セキュリティ実装ガイドライン
+- [マルチテナントパターン](/docs/multi-tenant-patterns) - テナントベースのアクセス制御
+- [コントローラー](/docs/controllers) - コントローラーの認証デコレーター
+- [環境変数](/docs/environment-variables) - Cognito設定変数

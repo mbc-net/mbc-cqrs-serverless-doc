@@ -145,11 +145,11 @@
   "Steps to reproduce": "再現手順",
   "Error messages and logs": "エラーメッセージとログ",
   "Environment details (Node version, OS, etc.)": "環境の詳細（Nodeバージョン、OSなど）",
-  "Related Documentation": "",
-  "Debugging Guide": "",
+  "Related Documentation": "関連ドキュメント",
+  "Debugging Guide": "デバッグガイド",
   "Detailed debugging procedures": "詳細なデバッグ手順",
-  "Error Catalog": "",
-  "Error codes and solutions": "",
-  "Monitoring and Logging": "",
+  "Error Catalog": "エラーカタログ",
+  "Error codes and solutions": "エラーコードと解決策",
+  "Monitoring and Logging": "監視とログ",
   "Production monitoring setup": "本番監視の設定"
 }

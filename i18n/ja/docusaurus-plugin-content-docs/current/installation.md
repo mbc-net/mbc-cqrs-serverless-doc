@@ -146,9 +146,9 @@ sudo chmod -R 777 ./infra-local/docker-data/dynamodb-local
 :::
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [Getting Started](/docs/getting-started) - MBC CQRS Serverlessの紹介
-- [Project Structure](/docs/project-structure) - 生成されたプロジェクト構成を理解
-- [Configuring](/docs/configuring) - アプリケーションのモジュール設定
+- [はじめに](/docs/getting-started) - MBC CQRS Serverlessの紹介
+- [プロジェクト構成](/docs/project-structure) - 生成されたプロジェクト構成を理解
+- [設定](/docs/configuring) - アプリケーションのモジュール設定
 - [CLI](/docs/cli) - スキャフォールディング用CLIコマンド

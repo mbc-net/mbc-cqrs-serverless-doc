@@ -348,8 +348,8 @@ I'm getting ConditionalCheckFailedException errors
 - [APIリファレンス](/docs/api-reference) - 詳細なAPIドキュメント
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [AI Integration](/docs/ai-integration) - AIツールサポートの概要
-- [AI Prompts Library](/docs/ai-prompts) - よく使うタスクに最適化されたプロンプト
+- [AI統合](/docs/ai-integration) - AIツールサポートの概要
+- [AIプロンプトライブラリ](/docs/ai-prompts) - よく使うタスクに最適化されたプロンプト
 - [CLI](/docs/cli) - MBC CLIコード生成ツール

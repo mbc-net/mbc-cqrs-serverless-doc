@@ -13,8 +13,8 @@ import DocCardList from '@theme/DocCardList';
 ```
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [Getting Started](/docs/getting-started) - 初期セットアップ
-- [Backend Development](/docs/backend-development) - Backend development guide
-- [Service Patterns](/docs/service-patterns) - Service implementation patterns
+- [はじめに](/docs/getting-started) - 初期セットアップ
+- [バックエンド開発](/docs/backend-development) - バックエンド開発ガイド
+- [サービスパターン](/docs/service-patterns) - サービス実装パターン

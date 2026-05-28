@@ -102,13 +102,13 @@
   "Use DynamoDB for single-item reads, RDS for complex queries:": "単一アイテムの読み取りにはDynamoDB、複雑なクエリにはRDSを使用します：",
   "Single item: Use DataService (DynamoDB)": "単一アイテム: DataService（DynamoDB）を使用",
   "Complex query: Use Prisma (RDS)": "複雑なクエリ: Prisma（RDS）を使用",
-  "Related Documentation": "",
-  "Backend Development": "",
+  "Related Documentation": "関連ドキュメント",
+  "Backend Development": "バックエンド開発",
   "Core backend patterns": "コアバックエンドパターン",
-  "Command Service": "",
+  "Command Service": "コマンドサービス",
   "CommandService API reference": "CommandService APIリファレンス",
-  "Data Service": "",
+  "Data Service": "データサービス",
   "DataService query methods": "DataServiceクエリメソッド",
-  "Database Selection Guide": "",
-  "DynamoDB vs RDS": ""
+  "Database Selection Guide": "データベース選択ガイド",
+  "DynamoDB vs RDS": "DynamoDB対RDSの比較"
 }

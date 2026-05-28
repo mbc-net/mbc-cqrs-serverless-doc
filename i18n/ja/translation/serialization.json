@@ -67,11 +67,11 @@
   "Last update timestamp": "更新日時",
   "CQRS processing status": "CQRS処理ステータス",
   "Flattened attributes from internal structure": "内部構造からフラット化された属性",
-  "Related Documentation": "",
-  "Data Service": "",
+  "Related Documentation": "関連ドキュメント",
+  "Data Service": "データサービス",
   "Using DataService with serialization": "シリアライズでDataServiceを使用",
-  "Entity Patterns": "",
+  "Entity Patterns": "エンティティパターン",
   "Entity structure for serialization": "シリアライズ用エンティティ構造",
-  "Data Sync Handler Examples": "",
+  "Data Sync Handler Examples": "データ同期ハンドラー例",
   "Sync with deserialization": "デシリアライズを使った同期"
 }
