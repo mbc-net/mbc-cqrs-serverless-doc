@@ -516,7 +516,7 @@ export class OrderDataSyncHandler implements IDataSyncHandler {
 ### 注文作成
 
 ```json
-// POST /orders
+// POST /orders（注文作成）
 // リクエスト
 {
   "customerId": "CUST-001",

@@ -98,6 +98,7 @@
   "Custom S3 Event Example": "カスタムS3イベントの例",
   "Event Factory Transform Methods": "イベントファクトリーの変換メソッド",
   "The Event Factory supports transforming events from various AWS sources:": "イベントファクトリーは様々なAWSソースからのイベント変換をサポートしています：",
+  "Available transform methods in DefaultEventFactory": "DefaultEventFactoryで利用可能な変換メソッド",
   "Related Documentation": "関連ドキュメント",
   "[Backend Development Guide](/docs/backend-development) - Core patterns": "[バックエンド開発ガイド](/docs/backend-development) - コアパターン",
   "[Step Functions](/docs/architecture/step-functions) - Workflow orchestration": "[Step Functions](/docs/architecture/step-functions) - ワークフローオーケストレーション",

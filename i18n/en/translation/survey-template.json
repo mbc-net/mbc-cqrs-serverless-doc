@@ -45,6 +45,7 @@
   "Templates are automatically isolated by tenant through the invoke context:": "Templates are automatically isolated by tenant through the invoke context:",
   "Event Handling": "Event Handling",
   "Handle survey template data synchronization using data sync handlers:": "Handle survey template data synchronization using data sync handlers:",
+  "Sync to RDS, notify users, etc.": "Sync to RDS, notify users, etc.",
   "Best Practices": "Best Practices",
   "Use Sections": "Use Sections",
   "Organize questions into logical sections for better user experience": "Organize questions into logical sections for better user experience",

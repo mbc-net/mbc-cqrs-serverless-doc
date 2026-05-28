@@ -62,6 +62,7 @@
   "Request Correlation": "Request Correlation",
   "Add correlation IDs to trace requests:": "Add correlation IDs to trace requests:",
   "Debug Environment Variables": "Debug Environment Variables",
+  "Log environment on startup (development only)": "Log environment on startup (development only)",
   "Conditional Debugging": "Conditional Debugging",
   "Troubleshooting Checklist": "Troubleshooting Checklist",
   "When debugging an issue:": "When debugging an issue:",

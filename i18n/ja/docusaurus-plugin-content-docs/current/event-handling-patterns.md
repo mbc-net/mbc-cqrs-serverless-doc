@@ -925,7 +925,7 @@ export class CustomS3ImportEvent implements IEvent, Partial<S3EventRecord> {
 イベントファクトリーは様々なAWSソースからのイベント変換をサポートしています：
 
 ```typescript
-// Available transform methods in DefaultEventFactory
+// DefaultEventFactoryで利用可能な変換メソッド
 transformSqs(event: SQSEvent): Promise<IEvent[]>;
 transformSns(event: SNSEvent): Promise<IEvent[]>;
 transformDynamodbStream(event: DynamoDBStreamEvent): Promise<IEvent[]>;

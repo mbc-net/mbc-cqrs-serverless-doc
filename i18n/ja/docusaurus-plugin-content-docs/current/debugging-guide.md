@@ -364,7 +364,7 @@ export class CorrelationMiddleware implements NestMiddleware {
 ### 環境変数のデバッグ
 
 ```typescript
-// Log environment on startup (development only)
+// 起動時に環境変数をログ出力（開発環境のみ）
 if (process.env.NODE_ENV === 'development') {
   console.log('Environment:', {
     NODE_ENV: process.env.NODE_ENV,
