@@ -141,7 +141,7 @@ Claude Codeに以下のように依頼できます:
 ## コード分析ツール {#code-analysis-tools}
 
 :::info バージョン情報
-コード分析ツール（`mbc_check_anti_patterns`、`mbc_health_check`、`mbc_explain_code`）は[バージョン1.0.22](./changelog#v1022)で追加されました。
+Code analysis tools (`mbc_check_anti_patterns`, `mbc_health_check`, `mbc_explain_code`) were added in [version 1.0.22](/docs/changelog#v1022).
 :::
 
 ### アンチパターン検出
@@ -344,5 +344,5 @@ I'm getting ConditionalCheckFailedException errors
 
 ## 関連パッケージ
 
-- [CLIツール](./cli) - コード生成用CLIツール
-- [APIリファレンス](./api-reference) - 詳細なAPIドキュメント
+- [CLIツール](/docs/cli) - コード生成用CLIツール
+- [APIリファレンス](/docs/api-reference) - 詳細なAPIドキュメント

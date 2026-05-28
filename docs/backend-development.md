@@ -299,7 +299,7 @@ export class ProductService {
 ```
 
 :::tip {{For Complete Service Patterns}}
-{{For comprehensive CRUD operations, batch processing, optimistic locking, and more advanced patterns, see [Service Patterns](./service-patterns.md).}}
+{{For comprehensive CRUD operations, batch processing, optimistic locking, and more advanced patterns, see [Service Patterns](/docs/service-patterns).}}
 :::
 
 ## {{Data Sync Handler}}
@@ -468,7 +468,7 @@ const opts = {
 
 ### {{2. Batch Processing}}
 
-{{Process large datasets in batches to avoid timeouts. See [Service Patterns - Batch Operations](./service-patterns.md#batch-operations) for detailed examples.}}
+{{Process large datasets in batches to avoid timeouts. See [Service Patterns - Batch Operations](/docs/service-patterns#batch-operations) for detailed examples.}}
 
 ### {{3. Error Handling}}
 
@@ -536,8 +536,8 @@ async searchWithPagination(
 
 ## {{Related Documentation}}
 
-- [Service Patterns](./service-patterns.md) - {{Advanced service implementation patterns}}
-- [Data Sync Handler Examples](./data-sync-handler-examples.md) - {{Comprehensive sync handler examples}}
-- [Key Patterns](./key-patterns.md) - {{PK/SK design patterns}}
-- [Multi-Tenant Patterns](./multi-tenant-patterns.md) - {{Multi-tenant implementation}}
-- [Import/Export Patterns](./import-export-patterns.md) - {{Batch data processing}}
+- [Service Patterns](/docs/service-patterns) - {{Advanced service implementation patterns}}
+- [Data Sync Handler Examples](/docs/data-sync-handler-examples) - {{Comprehensive sync handler examples}}
+- [Key Patterns](/docs/key-patterns) - {{PK/SK design patterns}}
+- [Multi-Tenant Patterns](/docs/multi-tenant-patterns) - {{Multi-tenant implementation}}
+- [Import/Export Patterns](/docs/import-export-patterns) - {{Batch data processing}}

@@ -1428,7 +1428,7 @@ export class CustomEventFactory extends EventFactoryAddedTask {
 {{This ensures Step Functions workflows properly handle both success and failure cases without hanging indefinitely.}}
 
 :::info Version Note
-{{The `sendTaskFailure()` method was added in [version 1.0.18](./changelog#v1018) to fix an issue where Step Functions would wait indefinitely when import jobs failed. See also [Import Module Errors](./error-catalog#import-module-errors) for troubleshooting.}}
+{{The `sendTaskFailure()` method was added in [version 1.0.18](/docs/changelog#v1018) to fix an issue where Step Functions would wait indefinitely when import jobs failed. See also [Import Module Errors](/docs/error-catalog#import-module-errors) for troubleshooting.}}
 :::
 
 ### {{ImportQueueEventHandler Error Handling}} {#import-error-handling}
@@ -1492,7 +1492,7 @@ export class CustomEventFactory extends EventFactoryAddedTask {
 :::
 
 :::info Version Note
-{{Prior to v1.0.19, errors in child jobs would crash the Lambda and leave the master job in `PROCESSING` status indefinitely. The fixes in [version 1.0.19](./changelog#v1019) ensure proper error propagation and status updates.}}
+{{Prior to v1.0.19, errors in child jobs would crash the Lambda and leave the master job in `PROCESSING` status indefinitely. The fixes in [version 1.0.19](/docs/changelog#v1019) ensure proper error propagation and status updates.}}
 :::
 
 ### {{CsvImportSfnEventHandler}} {#csvimportsfneventhandler}
@@ -1681,7 +1681,7 @@ export class ZipImportSfnEvent implements IEvent {
 
 ## {{Related Documentation}}
 
-- {{[Backend Development Guide](./backend-development) - Core backend patterns}}
-- {{[Service Patterns](./service-patterns) - Service implementation}}
-- {{[Step Functions](./architecture/step-functions) - Workflow orchestration}}
-- {{[Data Sync Handler Examples](./data-sync-handler-examples) - Sync handler patterns}}
+- {{[Backend Development Guide](/docs/backend-development) - Core backend patterns}}
+- {{[Service Patterns](/docs/service-patterns) - Service implementation}}
+- {{[Step Functions](/docs/architecture/step-functions) - Workflow orchestration}}
+- {{[Data Sync Handler Examples](/docs/data-sync-handler-examples) - Sync handler patterns}}

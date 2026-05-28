@@ -804,7 +804,7 @@ WEBHOOK_SECRET=${ssm:/myapp/webhook-secret}
 
 ## See Also
 
-- [Service Implementation Patterns](./service-patterns) - Core service patterns
-- [Event Handling Patterns](./event-handling-patterns) - Event-driven architecture
-- [Monitoring and Logging](./monitoring-logging) - Observability best practices
-- [Error Catalog](./error-catalog) - Error handling reference
+- [Service Implementation Patterns](/docs/service-patterns) - Core service patterns
+- [Event Handling Patterns](/docs/event-handling-patterns) - Event-driven architecture
+- [Monitoring and Logging](/docs/monitoring-logging) - Observability best practices
+- [Error Catalog](/docs/error-catalog) - Error handling reference

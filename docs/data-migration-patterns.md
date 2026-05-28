@@ -1465,7 +1465,7 @@ const startFrom = checkpoint?.lastProcessedSk ?? '';
 
 ## {{Related Documentation}}
 
-- {{[Import/Export Patterns](./import-export-patterns) - Bulk data operations}}
-- {{[Multi-Tenant Patterns](./multi-tenant-patterns) - Tenant isolation strategies}}
-- {{[Data Sync Handler Examples](./data-sync-handler-examples) - Sync handler patterns}}
-- {{[Version Conflict Guide](./version-conflict-guide) - Handling version conflicts}}
+- {{[Import/Export Patterns](/docs/import-export-patterns) - Bulk data operations}}
+- {{[Multi-Tenant Patterns](/docs/multi-tenant-patterns) - Tenant isolation strategies}}
+- {{[Data Sync Handler Examples](/docs/data-sync-handler-examples) - Sync handler patterns}}
+- {{[Version Conflict Guide](/docs/version-conflict-guide) - Handling version conflicts}}

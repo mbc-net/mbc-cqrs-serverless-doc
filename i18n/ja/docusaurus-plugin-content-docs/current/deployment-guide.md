@@ -344,6 +344,6 @@ cdk destroy dev-your-app-pipeline-stack
 
 ## 次のステップ
 
-- [CodePipelineによるCI/CD](./codepipeline-cicd) - デプロイを自動化する
-- [モニタリングとロギング](./monitoring-logging) - 可観測性をセットアップする
-- [トラブルシューティング](./common-issues) - よくあるデプロイの問題
+- [CI/CD with CodePipeline](/docs/codepipeline-cicd) - Automate your deployments
+- [Monitoring and Logging](/docs/monitoring-logging) - Set up observability
+- [Troubleshooting](/docs/common-issues) - Common deployment issues

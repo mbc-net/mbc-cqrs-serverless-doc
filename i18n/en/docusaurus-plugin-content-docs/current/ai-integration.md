@@ -78,7 +78,7 @@ Add to Claude Code or other MCP-compatible tools:
 }
 ```
 
-Learn more: [MCP Server Documentation](./mcp-server)
+Learn more: [MCP Server Documentation](/docs/mcp-server)
 
 ## Best Practices
 
@@ -118,8 +118,8 @@ The following AI tools can integrate with MBC CQRS Serverless:
 
 ## Related Resources
 
-- [AI Prompts Library](./ai-prompts) - Optimized prompts for common tasks
-- [MCP Server](./mcp-server) - Detailed MCP server documentation
-- [CLI Tool](./cli) - CLI commands for code generation
-- [Error Catalog](./error-catalog) - Error reference with solutions
-- [Architecture](./architecture) - System architecture overview
+- [AI Prompts Library](/docs/ai-prompts) - Optimized prompts for common tasks
+- [MCP Server](/docs/mcp-server) - Detailed MCP server documentation
+- [CLI Tool](/docs/cli) - CLI commands for code generation
+- [Error Catalog](/docs/error-catalog) - Error reference with solutions
+- [Architecture](/docs/architecture) - System architecture overview

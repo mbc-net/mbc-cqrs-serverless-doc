@@ -236,6 +236,6 @@ Create a migration for [SCHEMA_CHANGE]:
 
 ## {{See Also}}
 
-- [{{AI Integration}}](./ai-integration) - {{Overview of AI tool support}}
-- [{{MCP Server}}](./mcp-server) - {{Dynamic AI integration via MCP}}
-- [{{Error Catalog}}](./error-catalog) - {{Common errors and solutions}}
+- [{{AI Integration}}](/docs/ai-integration) - {{Overview of AI tool support}}
+- [{{MCP Server}}](/docs/mcp-server) - {{Dynamic AI integration via MCP}}
+- [{{Error Catalog}}](/docs/error-catalog) - {{Common errors and solutions}}

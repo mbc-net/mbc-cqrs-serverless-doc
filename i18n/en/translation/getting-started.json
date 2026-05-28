@@ -24,5 +24,5 @@
   "How to Use These Docs": "How to Use These Docs",
   "On the left side of the screen, you'll find the docs navbar. The pages of the docs are organized sequentially, you can follow them step-by-step when building your application. However, you can read them in any order or skip to the pages that apply to your case.": "On the left side of the screen, you'll find the docs navbar. The pages of the docs are organized sequentially, you can follow them step-by-step when building your application. However, you can read them in any order or skip to the pages that apply to your case.",
   "On the right side of the screen, you'll see a table of contents that makes it easier to navigate between sections of a page. If you need to quickly find a page, you can use the search bar at the top, or the search shortcut (Ctrl+K or Cmd+K).": "On the right side of the screen, you'll see a table of contents that makes it easier to navigate between sections of a page. If you need to quickly find a page, you can use the search bar at the top, or the search shortcut (Ctrl+K or Cmd+K).",
-  "To get started, checkout the [Installation](./installation.md) guide.": "To get started, checkout the [Installation](./installation.md) guide."
+  "To get started, checkout the [Installation](/docs/installation) guide.": "To get started, checkout the [Installation](/docs/installation) guide."
 }

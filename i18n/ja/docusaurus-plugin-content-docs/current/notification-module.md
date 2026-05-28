@@ -552,5 +552,5 @@ await this.emailService.sendEmail(email);
 
 ## 関連情報
 
-- [イベントハンドリングパターン](./event-handling-patterns) - 通知がイベントとどのように統合されるか
-- [環境変数](./environment-variables) - 設定リファレンス
+- [イベントハンドリングパターン](/docs/event-handling-patterns) - 通知がイベントとどのように統合されるか
+- [環境変数](/docs/environment-variables) - 設定リファレンス

@@ -838,7 +838,7 @@ async createSubscription() {
 
 ## 関連項目
 
-- [テナントモジュール](./tenant)
-- [マスターモジュール](./master)
-- [マルチテナントパターン](./multi-tenant-patterns)
-- [イベント処理パターン](./event-handling-patterns)
+- [テナントモジュール](/docs/tenant)
+- [マスターモジュール](/docs/master)
+- [マルチテナントパターン](/docs/multi-tenant-patterns)
+- [イベント処理パターン](/docs/event-handling-patterns)

@@ -821,6 +821,6 @@ await tenantService.customizeSettingGroups({
 
 ## 関連ドキュメント
 
-- [バックエンド開発ガイド](./backend-development) - コアパターン
-- [キーパターン](./key-patterns) - マルチテナント用PK/SK設計
-- [認証](./authentication) - ユーザー認証
+- [Backend Development Guide](/docs/backend-development) - Core patterns
+- [Key Patterns](/docs/key-patterns) - PK/SK design for multi-tenant
+- [Authentication](/docs/authentication) - User authentication

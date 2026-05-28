@@ -481,7 +481,7 @@ const bucket = new s3.Bucket(this, 'Bucket', {
 
 ここで解決策が見つからない場合：
 
-1. [デバッグガイド](./debugging-guide)で調査テクニックを確認
+1. Check the [Debugging Guide](/docs/debugging-guide) for investigation techniques
 2. GitHubで既存のIssueを検索
 3. 以下を含む新しいIssueを作成：
    - 問題の明確な説明

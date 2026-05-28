@@ -28,4 +28,4 @@ description: {{Getting started}}
 
 {{On the right side of the screen, you'll see a table of contents that makes it easier to navigate between sections of a page. If you need to quickly find a page, you can use the search bar at the top, or the search shortcut (Ctrl+K or Cmd+K).}}
 
-{{To get started, checkout the [Installation](./installation.md) guide.}}
+{{To get started, checkout the [Installation](/docs/installation) guide.}}

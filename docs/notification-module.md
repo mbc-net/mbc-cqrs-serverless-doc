@@ -552,5 +552,5 @@ await this.emailService.sendEmail(email);
 
 ## {{See Also}}
 
-- [{{Event Handling Patterns}}](./event-handling-patterns) - {{How notifications integrate with events}}
-- [{{Environment Variables}}](./environment-variables) - {{Configuration reference}}
+- [{{Event Handling Patterns}}](/docs/event-handling-patterns) - {{How notifications integrate with events}}
+- [{{Environment Variables}}](/docs/environment-variables) - {{Configuration reference}}

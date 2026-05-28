@@ -804,7 +804,7 @@ WEBHOOK_SECRET=${ssm:/myapp/webhook-secret}
 
 ## 関連情報
 
-- [サービス実装パターン](./service-patterns) - コアサービスパターン
-- [イベントハンドリングパターン](./event-handling-patterns) - イベント駆動アーキテクチャ
-- [モニタリングとログ](./monitoring-logging) - オブザーバビリティのベストプラクティス
-- [エラーカタログ](./error-catalog) - エラーハンドリングリファレンス
+- [サービス実装パターン](/docs/service-patterns) - コアサービスパターン
+- [イベントハンドリングパターン](/docs/event-handling-patterns) - イベント駆動アーキテクチャ
+- [モニタリングとログ](/docs/monitoring-logging) - オブザーバビリティのベストプラクティス
+- [エラーカタログ](/docs/error-catalog) - エラーハンドリングリファレンス

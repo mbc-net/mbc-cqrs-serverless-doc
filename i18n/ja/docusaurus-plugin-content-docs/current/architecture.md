@@ -12,9 +12,9 @@ sidebar_position: 2
 
 ## アーキテクチャセクション
 
-- [システム概要](./architecture/system-overview) - AWSインフラストラクチャコンポーネントとその相互作用。
-- [CQRSパターンフロー](./architecture/cqrs-flow) - コマンドとクエリがどのように分離され処理されるか。
-- [イベントソーシング](./architecture/event-sourcing) - イベントの保存、リプレイ、プロジェクションメカニズム。
+- [システム概要](/docs/architecture/system-overview) - AWSインフラストラクチャコンポーネントとその相互作用。
+- [CQRSパターンフロー](/docs/architecture/cqrs-flow) - コマンドとクエリがどのように分離され処理されるか。
+- [イベントソーシング](/docs/architecture/event-sourcing) - イベントの保存、リプレイ、プロジェクションメカニズム。
 
 ## 主要概念
 

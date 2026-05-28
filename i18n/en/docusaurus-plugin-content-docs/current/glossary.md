@@ -257,6 +257,6 @@ An access control method where permissions are assigned to roles, and users are 
 
 ## See Also
 
-- [Architecture Overview](./architecture) - System architecture explanation
-- [CQRS Flow](./architecture/cqrs-flow) - Detailed CQRS implementation
-- [Key Patterns](./key-patterns) - PK/SK design patterns
+- [Architecture Overview](/docs/architecture) - System architecture explanation
+- [CQRS Flow](/docs/architecture/cqrs-flow) - Detailed CQRS implementation
+- [Key Patterns](/docs/key-patterns) - PK/SK design patterns

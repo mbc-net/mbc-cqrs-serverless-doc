@@ -99,7 +99,7 @@
   "Event Factory Transform Methods": "Event Factory Transform Methods",
   "The Event Factory supports transforming events from various AWS sources:": "The Event Factory supports transforming events from various AWS sources:",
   "Related Documentation": "Related Documentation",
-  "[Backend Development Guide](./backend-development) - Core patterns": "[Backend Development Guide](./backend-development) - Core patterns",
-  "[Step Functions](./architecture/step-functions) - Workflow orchestration": "[Step Functions](./architecture/step-functions) - Workflow orchestration",
-  "[Data Sync Handler Examples](./data-sync-handler-examples) - Comprehensive sync examples": "[Data Sync Handler Examples](./data-sync-handler-examples) - Comprehensive sync examples"
+  "[Backend Development Guide](/docs/backend-development) - Core patterns": "[Backend Development Guide](/docs/backend-development) - Core patterns",
+  "[Step Functions](/docs/architecture/step-functions) - Workflow orchestration": "[Step Functions](/docs/architecture/step-functions) - Workflow orchestration",
+  "[Data Sync Handler Examples](/docs/data-sync-handler-examples) - Comprehensive sync examples": "[Data Sync Handler Examples](/docs/data-sync-handler-examples) - Comprehensive sync examples"
 }

@@ -236,6 +236,6 @@ Create a migration for [SCHEMA_CHANGE]:
 
 ## 関連情報
 
-- [AI統合](./ai-integration) - AIツールサポートの概要
-- [MCPサーバー](./mcp-server) - MCP経由の動的AI統合
-- [エラーカタログ](./error-catalog) - よくあるエラーと解決策
+- [AI統合](/docs/ai-integration) - AIツールサポートの概要
+- [MCPサーバー](/docs/mcp-server) - MCP経由の動的AI統合
+- [エラーカタログ](/docs/error-catalog) - よくあるエラーと解決策

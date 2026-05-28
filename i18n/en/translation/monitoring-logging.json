@@ -122,7 +122,7 @@
   "Include runbooks in alert descriptions": "Include runbooks in alert descriptions",
   "Use escalation policies": "Use escalation policies",
   "Next Steps": "Next Steps",
-  "[Deployment Guide](./deployment-guide) - Deploy with monitoring enabled": "[Deployment Guide](./deployment-guide) - Deploy with monitoring enabled",
-  "[CI/CD with CodePipeline](./codepipeline-cicd) - Automate deployments": "[CI/CD with CodePipeline](./codepipeline-cicd) - Automate deployments",
-  "[Troubleshooting](./common-issues) - Debug issues": "[Troubleshooting](./common-issues) - Debug issues"
+  "[Deployment Guide](/docs/deployment-guide) - Deploy with monitoring enabled": "[Deployment Guide](/docs/deployment-guide) - Deploy with monitoring enabled",
+  "[CI/CD with CodePipeline](/docs/codepipeline-cicd) - Automate deployments": "[CI/CD with CodePipeline](/docs/codepipeline-cicd) - Automate deployments",
+  "[Troubleshooting](/docs/common-issues) - Debug issues": "[Troubleshooting](/docs/common-issues) - Debug issues"
 }

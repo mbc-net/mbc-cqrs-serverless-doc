@@ -154,9 +154,9 @@ curl http://localhost:3000/hello
 
 おめでとうございます！最初のMBC CQRS Serverlessアプリケーションが完成しました。次に探索すべき内容：
 
-- [Todoアプリの構築](./build-todo-app) - 完全なアプリケーションを構築してCQRSパターンを学ぶ
-- [コアコンセプト](./architecture) - CQRSとイベントソーシングアーキテクチャを理解する
-- [デプロイメントガイド](./deployment-guide) - アプリケーションをAWSにデプロイする
+- [Build a Todo App](/docs/build-todo-app) - Learn CQRS patterns by building a complete application
+- [Core Concepts](/docs/architecture) - Understand the CQRS and Event Sourcing architecture
+- [Deployment Guide](/docs/deployment-guide) - Deploy your application to AWS
 
 ## よく使うコマンド
 

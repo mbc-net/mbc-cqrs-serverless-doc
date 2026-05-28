@@ -118,7 +118,7 @@
   "RDS instances with deletion protection": "削除保護が設定されたRDSインスタンス",
   "S3 buckets (must be emptied first)": "S3バケット（先に空にする必要があります）",
   "Next Steps": "次のステップ",
-  "[CI/CD with CodePipeline](./codepipeline-cicd) - Automate your deployments": "[CodePipelineによるCI/CD](./codepipeline-cicd) - デプロイを自動化する",
-  "[Monitoring and Logging](./monitoring-logging) - Set up observability": "[モニタリングとロギング](./monitoring-logging) - 可観測性をセットアップする",
-  "[Troubleshooting](./common-issues) - Common deployment issues": "[トラブルシューティング](./common-issues) - よくあるデプロイの問題"
+  "[CI/CD with CodePipeline](/docs/codepipeline-cicd) - Automate your deployments": "",
+  "[Monitoring and Logging](/docs/monitoring-logging) - Set up observability": "",
+  "[Troubleshooting](/docs/common-issues) - Common deployment issues": ""
 }

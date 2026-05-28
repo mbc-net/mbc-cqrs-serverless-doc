@@ -1,8 +1,5 @@
 {
   "Security best practices for building secure applications with MBC CQRS Serverless.": "MBC CQRS Serverlessで安全なアプリケーションを構築するためのセキュリティベストプラクティス。",
-  "Default Implementation Note": "デフォルト実装に関する注記",
-  "The default implementation uses `minLength: 6` for development convenience. For production environments, we strongly recommend using at least 12 characters as shown above, along with MFA enabled.": "デフォルト実装では開発の利便性のため `minLength: 6` を使用しています。本番環境では、上記のように最低12文字以上を設定し、MFAを有効にすることを強く推奨します。",
-  "The default implementation uses `allowedOrigins: ['*']` for development convenience. For production environments, you should always restrict allowed origins to specific domains as shown above to prevent cross-site request forgery (CSRF) attacks.": "デフォルト実装では開発の利便性のため `allowedOrigins: ['*']` を使用しています。本番環境では、クロスサイトリクエストフォージェリ（CSRF）攻撃を防ぐために、上記のように許可するオリジンを特定のドメインに制限する必要があります。",
   "Security Best Practices": "セキュリティベストプラクティス",
   "This guide covers security best practices for building secure applications with MBC CQRS Serverless, including input validation, authentication, authorization, and data protection.": "このガイドでは、入力バリデーション、認証、認可、データ保護など、MBC CQRS Serverlessで安全なアプリケーションを構築するためのセキュリティベストプラクティスについて説明します。",
   "Input Validation": "入力バリデーション",
@@ -15,6 +12,8 @@
   "Authentication": "認証",
   "Configure Cognito Securely": "Cognitoのセキュア設定",
   "Use strong password policies and MFA.": "強力なパスワードポリシーとMFAを使用します。",
+  "Default Implementation Note": "デフォルト実装に関する注記",
+  "The default implementation uses `minLength: 6` for development convenience. For production environments, we strongly recommend using at least 12 characters as shown above, along with MFA enabled.": "デフォルト実装では開発の利便性のため `minLength: 6` を使用しています。本番環境では、上記のように最低12文字以上を設定し、MFAを有効にすることを強く推奨します。",
   "Validate JWT Tokens": "JWTトークンのバリデーション",
   "Always validate JWT tokens on the server side.": "サーバー側で常にJWTトークンをバリデーションします。",
   "Token Refresh Strategy": "トークンリフレッシュ戦略",
@@ -38,6 +37,7 @@
   "Implement rate limiting to prevent abuse.": "悪用を防止するためにレート制限を実装します。",
   "CORS Configuration": "CORS設定",
   "Configure CORS strictly.": "CORSを厳密に設定します。",
+  "The default implementation uses `allowedOrigins: ['*']` for development convenience. For production environments, you should always restrict allowed origins to specific domains as shown above to prevent cross-site request forgery (CSRF) attacks.": "デフォルト実装では開発の利便性のため `allowedOrigins: ['*']` を使用しています。本番環境では、クロスサイトリクエストフォージェリ（CSRF）攻撃を防ぐために、上記のように許可するオリジンを特定のドメインに制限する必要があります。",
   "Request Size Limits": "リクエストサイズ制限",
   "Limit request payload size to prevent DoS.": "DoSを防止するためにリクエストペイロードサイズを制限します。",
   "Infrastructure Security": "インフラストラクチャセキュリティ",
@@ -66,8 +66,8 @@
   "API Gateway throttling is verified": "API Gatewayスロットリングが検証されている",
   "Penetration testing is completed": "ペネトレーションテストが完了している",
   "See Also": "関連情報",
-  "[Authentication](./authentication) - Authentication setup": "[認証](./authentication) - 認証設定",
-  "[Error Catalog](./error-catalog) - Security-related errors": "[エラーカタログ](./error-catalog) - セキュリティ関連エラー",
-  "[Monitoring and Logging](./monitoring-logging) - Security monitoring": "[監視とロギング](./monitoring-logging) - セキュリティ監視",
-  "[Deployment Guide](./deployment-guide) - Secure deployment": "[デプロイガイド](./deployment-guide) - セキュアデプロイ"
+  "[Authentication](/docs/authentication) - Authentication setup": "",
+  "[Error Catalog](/docs/error-catalog) - Security-related errors": "",
+  "[Monitoring and Logging](/docs/monitoring-logging) - Security monitoring": "",
+  "[Deployment Guide](/docs/deployment-guide) - Secure deployment": ""
 }

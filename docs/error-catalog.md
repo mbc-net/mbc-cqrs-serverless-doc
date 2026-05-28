@@ -481,7 +481,7 @@ try {
 ## {{Import Module Errors}} {#import-module-errors}
 
 :::tip Related Documentation
-{{For API details and usage patterns, see [ImportStatusHandler API](./import-export-patterns#importstatushandler-api). For version history, see [Changelog v1.0.18](./changelog#v1018).}}
+{{For API details and usage patterns, see [ImportStatusHandler API](/docs/import-export-patterns#importstatushandler-api). For version history, see [Changelog v1.0.18](/docs/changelog#v1018).}}
 :::
 
 ### {{Step Functions Timeout (Import Job)}}
@@ -876,6 +876,6 @@ class CircuitBreaker {
 
 ## {{See Also}}
 
-- {{[Debugging Guide](./debugging-guide) - Detailed debugging procedures}}
-- {{[Common Issues](./common-issues) - Frequently encountered problems}}
-- {{[Monitoring and Logging](./monitoring-logging) - Production monitoring setup}}
+- {{[Debugging Guide](/docs/debugging-guide) - Detailed debugging procedures}}
+- {{[Common Issues](/docs/common-issues) - Frequently encountered problems}}
+- {{[Monitoring and Logging](/docs/monitoring-logging) - Production monitoring setup}}

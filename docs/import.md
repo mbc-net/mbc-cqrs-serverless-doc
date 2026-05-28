@@ -504,6 +504,6 @@ export class BackupToS3Hook implements IZipFinalizationHook {
 
 ## {{See Also}}
 
-- [{{Import/Export Patterns}}](./import-export-patterns) - {{Common patterns for data import and export}}
-- [{{Command Service}}](./command-service) - {{Command operations used by ProcessStrategy}}
-- [{{Step Functions}}](./architecture/step-functions) - {{Async processing infrastructure}}
+- [{{Import/Export Patterns}}](/docs/import-export-patterns) - {{Common patterns for data import and export}}
+- [{{Command Service}}](/docs/command-service) - {{Command operations used by ProcessStrategy}}
+- [{{Step Functions}}](/docs/architecture/step-functions) - {{Async processing infrastructure}}

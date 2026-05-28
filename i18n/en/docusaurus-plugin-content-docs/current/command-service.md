@@ -70,7 +70,7 @@ export class CatModule {}
 Then, the `CommandService` and `DataService` will be ready for injection into other services for your use.
 
 :::tip For Implementation Patterns
-For complete CRUD implementation patterns using CommandService, see [Service Patterns](./service-patterns.md).
+For complete CRUD implementation patterns using CommandService, see [Service Patterns](/docs/service-patterns).
 :::
 
 ## Methods

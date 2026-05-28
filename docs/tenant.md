@@ -258,5 +258,5 @@ import { ITenantService } from "@mbc-cqrs-serverless/tenant";
 
 ## {{See Also}}
 
-- [{{Multi-Tenant Patterns}}](./multi-tenant-patterns) - {{Advanced multi-tenant implementation patterns}}
-- [{{Command Service}}](./command-service) - {{Command operations used by TenantService}}
+- [{{Multi-Tenant Patterns}}](/docs/multi-tenant-patterns) - {{Advanced multi-tenant implementation patterns}}
+- [{{Command Service}}](/docs/command-service) - {{Command operations used by TenantService}}

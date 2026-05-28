@@ -270,7 +270,7 @@ export interface CommandModel extends CommandInputModel {
 ```
 
 :::tip Step Functions連携
-`taskToken`フィールドは、AWS Step Functionsコールバックパターンと統合する際に使用されます。Step Functionsステートマシンがタスクトークンでアプリケーションを呼び出す場合、[`CommandService.updateTaskToken()`](./command-service.md#updatetasktoken)を使用してトークンを保存します。その後、AWS SDKの`SendTaskSuccessCommand`または`SendTaskFailureCommand`でトークンを使用してタスク完了を通知します。
+The `taskToken` field is used when integrating with AWS Step Functions callback patterns. When a Step Functions state machine invokes your application with a task token, store it using [`CommandService.updateTaskToken()`](/docs/command-service#updatetasktoken). Later, use the token with AWS SDK's `SendTaskSuccessCommand` or `SendTaskFailureCommand` to signal task completion.
 :::
 
 #### DataModel
@@ -566,7 +566,7 @@ type EntityInput<T> = Omit<T, 'createdAt' | 'createdBy' | 'updatedAt' | 'updated
 
 ## 関連情報
 
-- [コマンドサービス](./command-service) - これらのインターフェースを使用したコマンド
-- [データサービス](./data-service) - これらのインターフェースを使用したデータクエリ
-- [エンティティパターン](./entity-patterns) - エンティティの設計
-- [エラーカタログ](./error-catalog) - エラーハンドリング
+- [Command Service](/docs/command-service) - Using commands with these interfaces
+- [Data Service](/docs/data-service) - Querying data with these interfaces
+- [Entity Patterns](/docs/entity-patterns) - Designing entities
+- [Error Catalog](/docs/error-catalog) - Error handling

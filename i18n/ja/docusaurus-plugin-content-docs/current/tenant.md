@@ -258,5 +258,5 @@ import { ITenantService } from "@mbc-cqrs-serverless/tenant";
 
 ## 関連項目
 
-- [マルチテナントパターン](./multi-tenant-patterns) - 高度なマルチテナント実装パターン
-- [コマンドサービス](./command-service) - TenantServiceで使用されるコマンド操作
+- [マルチテナントパターン](/docs/multi-tenant-patterns) - 高度なマルチテナント実装パターン
+- [コマンドサービス](/docs/command-service) - TenantServiceで使用されるコマンド操作

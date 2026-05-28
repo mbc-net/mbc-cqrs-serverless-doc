@@ -130,7 +130,7 @@ The `tenantCode` returned by `getUserContext()` is normalized to lowercase for c
 
 **Impact on partition keys:** Since tenant codes are typically included in partition keys (e.g., `PRODUCT#tenantCode`), this normalization affects data access. If your existing data uses uppercase tenant codes in keys, queries will fail to find that data.
 
-**See also:** [Tenant Code Normalization Migration](./data-migration-patterns#tenant-code-normalization-migration) for migration strategies.
+**See also:** [Tenant Code Normalization Migration](/docs/data-migration-patterns#tenant-code-normalization-migration) for migration strategies.
 :::
 
 If you need custom logic, you can implement your own helper function:

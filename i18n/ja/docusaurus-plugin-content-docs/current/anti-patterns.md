@@ -394,7 +394,7 @@ export class MyDataSyncHandler implements IDataSyncHandler {
 
 ## 関連項目
 
-- [エラーカタログ](./error-catalog) - エラーコードと解決策
-- [よくある問題](./common-issues) - トラブルシューティングガイド
-- [セキュリティベストプラクティス](./security-best-practices) - セキュリティガイドライン
-- [サービスパターン](./service-patterns) - 推奨パターン
+- [エラーカタログ](/docs/error-catalog) - エラーコードと解決策
+- [よくある問題](/docs/common-issues) - トラブルシューティングガイド
+- [セキュリティベストプラクティス](/docs/security-best-practices) - セキュリティガイドライン
+- [サービスパターン](/docs/service-patterns) - 推奨パターン

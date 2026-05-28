@@ -1465,7 +1465,7 @@ const startFrom = checkpoint?.lastProcessedSk ?? '';
 
 ## 関連ドキュメント
 
-- [インポート/エクスポートパターン](./import-export-patterns) - 一括データ操作
-- [マルチテナントパターン](./multi-tenant-patterns) - テナント分離戦略
-- [データ同期ハンドラー例](./data-sync-handler-examples) - 同期ハンドラーパターン
-- [バージョンコンフリクトガイド](./version-conflict-guide) - バージョンコンフリクトの処理
+- [Import/Export Patterns](/docs/import-export-patterns) - Bulk data operations
+- [Multi-Tenant Patterns](/docs/multi-tenant-patterns) - Tenant isolation strategies
+- [Data Sync Handler Examples](/docs/data-sync-handler-examples) - Sync handler patterns
+- [Version Conflict Guide](/docs/version-conflict-guide) - Handling version conflicts

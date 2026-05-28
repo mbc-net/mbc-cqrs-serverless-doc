@@ -20,12 +20,12 @@
   "Configure the core CommandModule.": "コアCommandModuleを設定します。",
   "SequenceModule Options": "SequenceModuleオプション",
   "Configure auto-incrementing sequences.": "自動インクリメントシーケンスを設定します。",
+  "Note: Rotation strategy (day, month, year, fiscal_yearly, none) is configured through master data settings, not module options. See the [Sequence documentation](/docs/sequence) for details.": "",
   "TenantModule Options": "TenantModuleオプション",
   "Configure multi-tenant support.": "マルチテナントサポートを設定します。",
   "NotificationModule": "NotificationModule",
   "Configure email notifications via environment variables.": "環境変数を使用してメール通知を設定します。",
   "NotificationModule is configured through environment variables:": "NotificationModuleは環境変数で設定されます：",
-  "Note: Rotation strategy (day, month, year, fiscal_yearly, none) is configured through master data settings, not module options. See the [Sequence documentation](./sequence) for details.": "注: ローテーション戦略（day、month、year、fiscal_yearly、none）はマスターデータ設定で設定され、モジュールオプションではありません。詳細は[シーケンスドキュメント](./sequence)を参照してください。",
   "Logging Configuration": "ログ設定",
   "Configure Logger": "ロガーの設定",
   "Set up structured logging for production.": "本番環境向けの構造化ログを設定します。",
@@ -39,7 +39,7 @@
   "Environment-Based Settings": "環境ベースの設定",
   "Configure different settings per environment.": "環境ごとに異なる設定を設定します。",
   "See Also": "関連情報",
-  "[Environment Variables](./environment-variables) - Environment configuration": "[環境変数](./environment-variables) - 環境設定",
-  "[Absolute Imports](./absolute_imports_and_module_path_aliases) - Path aliases": "[絶対インポート](./absolute_imports_and_module_path_aliases) - パスエイリアス",
-  "[Deployment Guide](./deployment-guide) - Deployment configuration": "[デプロイガイド](./deployment-guide) - デプロイ設定"
+  "[Environment Variables](/docs/environment-variables) - Environment configuration": "",
+  "[Absolute Imports](/docs/absolute_imports_and_module_path_aliases) - Path aliases": "",
+  "[Deployment Guide](/docs/deployment-guide) - Deployment configuration": ""
 }

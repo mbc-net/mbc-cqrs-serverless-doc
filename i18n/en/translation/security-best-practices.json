@@ -1,8 +1,5 @@
 {
   "Security best practices for building secure applications with MBC CQRS Serverless.": "Security best practices for building secure applications with MBC CQRS Serverless.",
-  "Default Implementation Note": "Default Implementation Note",
-  "The default implementation uses `minLength: 6` for development convenience. For production environments, we strongly recommend using at least 12 characters as shown above, along with MFA enabled.": "The default implementation uses `minLength: 6` for development convenience. For production environments, we strongly recommend using at least 12 characters as shown above, along with MFA enabled.",
-  "The default implementation uses `allowedOrigins: ['*']` for development convenience. For production environments, you should always restrict allowed origins to specific domains as shown above to prevent cross-site request forgery (CSRF) attacks.": "The default implementation uses `allowedOrigins: ['*']` for development convenience. For production environments, you should always restrict allowed origins to specific domains as shown above to prevent cross-site request forgery (CSRF) attacks.",
   "Security Best Practices": "Security Best Practices",
   "This guide covers security best practices for building secure applications with MBC CQRS Serverless, including input validation, authentication, authorization, and data protection.": "This guide covers security best practices for building secure applications with MBC CQRS Serverless, including input validation, authentication, authorization, and data protection.",
   "Input Validation": "Input Validation",
@@ -15,6 +12,8 @@
   "Authentication": "Authentication",
   "Configure Cognito Securely": "Configure Cognito Securely",
   "Use strong password policies and MFA.": "Use strong password policies and MFA.",
+  "Default Implementation Note": "Default Implementation Note",
+  "The default implementation uses `minLength: 6` for development convenience. For production environments, we strongly recommend using at least 12 characters as shown above, along with MFA enabled.": "The default implementation uses `minLength: 6` for development convenience. For production environments, we strongly recommend using at least 12 characters as shown above, along with MFA enabled.",
   "Validate JWT Tokens": "Validate JWT Tokens",
   "Always validate JWT tokens on the server side.": "Always validate JWT tokens on the server side.",
   "Token Refresh Strategy": "Token Refresh Strategy",
@@ -38,6 +37,7 @@
   "Implement rate limiting to prevent abuse.": "Implement rate limiting to prevent abuse.",
   "CORS Configuration": "CORS Configuration",
   "Configure CORS strictly.": "Configure CORS strictly.",
+  "The default implementation uses `allowedOrigins: ['*']` for development convenience. For production environments, you should always restrict allowed origins to specific domains as shown above to prevent cross-site request forgery (CSRF) attacks.": "The default implementation uses `allowedOrigins: ['*']` for development convenience. For production environments, you should always restrict allowed origins to specific domains as shown above to prevent cross-site request forgery (CSRF) attacks.",
   "Request Size Limits": "Request Size Limits",
   "Limit request payload size to prevent DoS.": "Limit request payload size to prevent DoS.",
   "Infrastructure Security": "Infrastructure Security",
@@ -66,8 +66,8 @@
   "API Gateway throttling is verified": "API Gateway throttling is verified",
   "Penetration testing is completed": "Penetration testing is completed",
   "See Also": "See Also",
-  "[Authentication](./authentication) - Authentication setup": "[Authentication](./authentication) - Authentication setup",
-  "[Error Catalog](./error-catalog) - Security-related errors": "[Error Catalog](./error-catalog) - Security-related errors",
-  "[Monitoring and Logging](./monitoring-logging) - Security monitoring": "[Monitoring and Logging](./monitoring-logging) - Security monitoring",
-  "[Deployment Guide](./deployment-guide) - Secure deployment": "[Deployment Guide](./deployment-guide) - Secure deployment"
+  "[Authentication](/docs/authentication) - Authentication setup": "[Authentication](/docs/authentication) - Authentication setup",
+  "[Error Catalog](/docs/error-catalog) - Security-related errors": "[Error Catalog](/docs/error-catalog) - Security-related errors",
+  "[Monitoring and Logging](/docs/monitoring-logging) - Security monitoring": "[Monitoring and Logging](/docs/monitoring-logging) - Security monitoring",
+  "[Deployment Guide](/docs/deployment-guide) - Secure deployment": "[Deployment Guide](/docs/deployment-guide) - Secure deployment"
 }

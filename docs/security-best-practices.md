@@ -660,7 +660,7 @@ trail.addEventSelector(cloudtrail.DataResourceType.DYNAMODB_TABLE, [
 
 ## {{See Also}}
 
-- {{[Authentication](./authentication) - Authentication setup}}
-- {{[Error Catalog](./error-catalog) - Security-related errors}}
-- {{[Monitoring and Logging](./monitoring-logging) - Security monitoring}}
-- {{[Deployment Guide](./deployment-guide) - Secure deployment}}
+- {{[Authentication](/docs/authentication) - Authentication setup}}
+- {{[Error Catalog](/docs/error-catalog) - Security-related errors}}
+- {{[Monitoring and Logging](/docs/monitoring-logging) - Security monitoring}}
+- {{[Deployment Guide](/docs/deployment-guide) - Secure deployment}}

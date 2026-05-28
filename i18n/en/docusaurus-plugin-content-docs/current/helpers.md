@@ -473,5 +473,5 @@ if (IS_LAMBDA_RUNNING) {
 
 ## See Also
 
-- [Command Service](./command-service) - Using helpers in command operations
-- [Data Service](./data-service) - Using helpers in data queries
+- [Command Service](/docs/command-service) - Using helpers in command operations
+- [Data Service](/docs/data-service) - Using helpers in data queries

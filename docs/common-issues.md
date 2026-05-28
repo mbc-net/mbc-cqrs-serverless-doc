@@ -481,7 +481,7 @@ const bucket = new s3.Bucket(this, 'Bucket', {
 
 {{If you can't find a solution here:}}
 
-1. {{Check the [Debugging Guide](./debugging-guide) for investigation techniques}}
+1. {{Check the [Debugging Guide](/docs/debugging-guide) for investigation techniques}}
 2. {{Search existing issues on GitHub}}
 3. {{Create a new issue with:}}
    - {{Clear description of the problem}}

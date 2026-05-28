@@ -61,7 +61,7 @@
   "**X-Ray Tracing**: Enable distributed tracing for debugging": "**X-Ray Tracing**: Enable distributed tracing for debugging",
   "**CloudWatch Alarms**: Set up alerts for failures and latency": "**CloudWatch Alarms**: Set up alerts for failures and latency",
   "Related Documentation": "Related Documentation",
-  "[Step Functions](./step-functions.md) - Workflow orchestration details": "[Step Functions](./step-functions.md) - Workflow orchestration details",
-  "[System Overview](./system-overview.md) - High-level architecture": "[System Overview](./system-overview.md) - High-level architecture",
-  "[Installation](../installation.md) - Getting started guide": "[Installation](../installation.md) - Getting started guide"
+  "[Step Functions](/docs/architecture/step-functions) - Workflow orchestration details": "[Step Functions](/docs/architecture/step-functions) - Workflow orchestration details",
+  "[System Overview](/docs/architecture/system-overview) - High-level architecture": "[System Overview](/docs/architecture/system-overview) - High-level architecture",
+  "[Installation](/docs/installation) - Getting started guide": "[Installation](/docs/installation) - Getting started guide"
 }
