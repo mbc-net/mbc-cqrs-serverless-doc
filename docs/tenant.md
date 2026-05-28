@@ -256,12 +256,6 @@ import { ITenantService } from "@mbc-cqrs-serverless/tenant";
 {{The `createTenantGroup` method is available on `TenantService` but is not part of the `ITenantService` interface.}}
 :::
 
-## {{See Also}}
-
-- [{{Multi-Tenant Patterns}}](/docs/multi-tenant-patterns) - {{Advanced multi-tenant implementation patterns}}
-- [{{Command Service}}](/docs/command-service) - {{Command operations used by TenantService}}
-
-
 ## {{Related Documentation}}
 
 - [{{Multi-Tenant Patterns}}](/docs/multi-tenant-patterns) - {{Tenant isolation patterns}}

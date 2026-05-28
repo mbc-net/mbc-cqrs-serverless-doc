@@ -802,14 +802,6 @@ if (failed.length > 0) {
 WEBHOOK_SECRET=${ssm:/myapp/webhook-secret}
 ```
 
-## {{See Also}}
-
-- [{{Service Implementation Patterns}}](/docs/service-patterns) - {{Core service patterns}}
-- [{{Event Handling Patterns}}](/docs/event-handling-patterns) - {{Event-driven architecture}}
-- [{{Monitoring and Logging}}](/docs/monitoring-logging) - {{Observability best practices}}
-- [{{Error Catalog}}](/docs/error-catalog) - {{Error handling reference}}
-
-
 ## {{Related Documentation}}
 
 - [{{API Integration Patterns}}](/docs/api-integration-patterns) - {{Frontend API patterns}}

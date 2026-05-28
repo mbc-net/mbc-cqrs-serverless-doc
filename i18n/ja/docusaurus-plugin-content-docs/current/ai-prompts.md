@@ -234,13 +234,6 @@ Create a migration for [SCHEMA_CHANGE]:
 4. **制約を指定**: パフォーマンス、セキュリティ、互換性の要件があれば言及してください
 5. **説明を求める**: AIに実装の選択理由を説明させてください
 
-## 関連情報
-
-- [AI統合](/docs/ai-integration) - AIツールサポートの概要
-- [MCPサーバー](/docs/mcp-server) - MCP経由の動的AI統合
-- [エラーカタログ](/docs/error-catalog) - よくあるエラーと解決策
-
-
 ## 関連ドキュメント
 
 - [AI統合](/docs/ai-integration) - AIツールサポートの概要

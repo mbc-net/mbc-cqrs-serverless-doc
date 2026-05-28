@@ -109,15 +109,6 @@
   "Continue processing even if some external calls fail": "Continue processing even if some external calls fail (一部の外部呼び出しが失敗しても処理を継続)",
   "5. Store Webhook Secrets Securely": "5. Webhookシークレットを安全に保存する",
   "Use AWS Secrets Manager or SSM Parameter Store": "Use AWS Secrets Manager or SSM Parameter Store (AWS Secrets ManagerまたはSSM Parameter Storeを使用)",
-  "See Also": "関連情報",
-  "Service Implementation Patterns": "サービス実装パターン",
-  "Core service patterns": "コアサービスパターン",
-  "Event Handling Patterns": "イベントハンドリングパターン",
-  "Event-driven architecture": "イベント駆動アーキテクチャ",
-  "Monitoring and Logging": "モニタリングとログ",
-  "Observability best practices": "オブザーバビリティのベストプラクティス",
-  "Error Catalog": "エラーカタログ",
-  "Error handling reference": "エラーハンドリングリファレンス",
   "Related Documentation": "関連ドキュメント",
   "API Integration Patterns": "API統合パターン",
   "Frontend API patterns": "フロントエンドAPIパターン",
@@ -125,5 +116,6 @@
   "Core backend patterns": "コアバックエンドパターン",
   "Authentication": "認証",
   "Authentication setup": "認証のセットアップ",
+  "Error Catalog": "エラーカタログ",
   "API error codes": "APIエラーコード"
 }

@@ -196,3 +196,11 @@ Best practices for effective Event Sourcing:
 3. **Event Versioning**: Plan for event schema evolution
 4. **Correlation IDs**: Track related events across services
 5. **Dead Letter Queues**: Handle failed event processing
+
+
+## Related Documentation
+
+- [CQRS Flow](/docs/architecture/cqrs-flow) - Command and query separation
+- [Command Service](/docs/command-service) - Publishing events with commands
+- [DynamoDB](/docs/dynamodb) - Event store implementation
+- [Version Conflict Guide](/docs/version-conflict-guide) - Optimistic locking with events

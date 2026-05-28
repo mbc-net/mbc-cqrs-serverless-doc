@@ -43,5 +43,14 @@
   "Request Context": "リクエストコンテキスト",
   "Tenant information is extracted from JWT tokens": "テナント情報はJWTトークンから抽出される",
   "Query Filtering": "クエリフィルタリング",
-  "All queries are automatically scoped to the tenant": "すべてのクエリは自動的にテナントにスコープされる"
+  "All queries are automatically scoped to the tenant": "すべてのクエリは自動的にテナントにスコープされる",
+  "Related Documentation": "関連ドキュメント",
+  "CQRS Flow": "CQRSフロー",
+  "How commands and queries flow": "コマンドとクエリのフロー",
+  "CDK Infrastructure": "CDKインフラストラクチャ",
+  "AWS infrastructure code": "AWSインフラストラクチャコード",
+  "Multi-Tenant Patterns": "マルチテナントパターン",
+  "Tenant isolation details": "テナント分離の詳細",
+  "Getting Started": "はじめに",
+  "Start building": "構築を開始"
 }

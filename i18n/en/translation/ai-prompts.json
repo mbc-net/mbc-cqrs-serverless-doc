@@ -42,14 +42,11 @@
   "Mention any performance, security, or compatibility requirements": "Mention any performance, security, or compatibility requirements",
   "Request Explanations": "Request Explanations",
   "Ask AI to explain its implementation choices": "Ask AI to explain its implementation choices",
-  "See Also": "See Also",
+  "Related Documentation": "Related Documentation",
   "AI Integration": "AI Integration",
   "Overview of AI tool support": "Overview of AI tool support",
   "MCP Server": "MCP Server",
-  "Dynamic AI integration via MCP": "Dynamic AI integration via MCP",
-  "Error Catalog": "Error Catalog",
-  "Common errors and solutions": "Common errors and solutions",
-  "Related Documentation": "Related Documentation",
   "MCP server for AI tools": "MCP server for AI tools",
+  "Error Catalog": "Error Catalog",
   "Error reference with solutions": "Error reference with solutions"
 }

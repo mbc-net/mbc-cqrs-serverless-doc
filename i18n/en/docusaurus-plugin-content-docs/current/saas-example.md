@@ -836,14 +836,6 @@ async createSubscription() {
 }
 ```
 
-## See Also
-
-- [Tenant Module](/docs/tenant)
-- [Master Module](/docs/master)
-- [Multi-Tenant Patterns](/docs/multi-tenant-patterns)
-- [Event Handling Patterns](/docs/event-handling-patterns)
-
-
 ## Related Documentation
 
 - [E-commerce Example](/docs/ecommerce-example) - Commerce application example

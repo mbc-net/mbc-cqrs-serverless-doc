@@ -392,14 +392,6 @@ export class MyDataSyncHandler implements IDataSyncHandler {
 | AP017 | コールドスタートの増幅 | 中 | 計画中 |
 | AP018 | 無制限のバッチ操作 | 高 | 計画中 |
 
-## 関連項目
-
-- [エラーカタログ](/docs/error-catalog) - エラーコードと解決策
-- [よくある問題](/docs/common-issues) - トラブルシューティングガイド
-- [セキュリティベストプラクティス](/docs/security-best-practices) - セキュリティガイドライン
-- [サービスパターン](/docs/service-patterns) - 推奨パターン
-
-
 ## 関連ドキュメント
 
 - [サービスパターン](/docs/service-patterns) - 推奨パターン

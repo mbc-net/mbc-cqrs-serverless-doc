@@ -42,14 +42,11 @@
   "Mention any performance, security, or compatibility requirements": "パフォーマンス、セキュリティ、互換性の要件があれば言及してください",
   "Request Explanations": "説明を求める",
   "Ask AI to explain its implementation choices": "AIに実装の選択理由を説明させてください",
-  "See Also": "関連情報",
+  "Related Documentation": "関連ドキュメント",
   "AI Integration": "AI統合",
   "Overview of AI tool support": "AIツールサポートの概要",
   "MCP Server": "MCPサーバー",
-  "Dynamic AI integration via MCP": "MCP経由の動的AI統合",
-  "Error Catalog": "エラーカタログ",
-  "Common errors and solutions": "よくあるエラーと解決策",
-  "Related Documentation": "関連ドキュメント",
   "MCP server for AI tools": "AIツール用MCPサーバー",
+  "Error Catalog": "エラーカタログ",
   "Error reference with solutions": "エラーリファレンスと解決策"
 }

@@ -658,14 +658,6 @@ trail.addEventSelector(cloudtrail.DataResourceType.DYNAMODB_TABLE, [
 - [ ] API Gateway throttling is verified
 - [ ] Penetration testing is completed
 
-## See Also
-
-- [Authentication](/docs/authentication) - Authentication setup
-- [Error Catalog](/docs/error-catalog) - Security-related errors
-- [Monitoring and Logging](/docs/monitoring-logging) - Security monitoring
-- [Deployment Guide](/docs/deployment-guide) - Secure deployment
-
-
 ## Related Documentation
 
 - [Authentication](/docs/authentication) - Cognito authentication and JWT setup

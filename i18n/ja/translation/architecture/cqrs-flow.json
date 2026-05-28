@@ -69,5 +69,14 @@
   "When `RYW_SESSION_TTL_MINUTES` is unset, `SessionService.put()` is a no-op and `Repository` behaves identically to `DataService`": "`RYW_SESSION_TTL_MINUTES` が未設定または0以下の値の場合、`SessionService.put()` はno-opとなり、`Repository` は `DataService` と同じ動作をする",
   "Version Note (v1.2.0)": "バージョン情報 (v1.2.0)",
   "Read-Your-Writes support (`SessionService`, `Repository`) was added in [v1.2.0](/docs/changelog#v120). Enabling it requires setting `RYW_SESSION_TTL_MINUTES` and provisioning a session DynamoDB table.": "Read-Your-Writesサポート（`SessionService`、`Repository`）は [v1.2.0](/docs/changelog#v120) で追加されました。有効にするには `RYW_SESSION_TTL_MINUTES` の設定とセッション用DynamoDBテーブルのプロビジョニングが必要です。",
-  "See the [Read-Your-Writes implementation guide](/docs/command-service#read-your-writes) for setup steps and full API reference.": "セットアップ手順と完全なAPIリファレンスについては、[Read-Your-Writes実装ガイド](/docs/command-service#read-your-writes)を参照してください。"
+  "See the [Read-Your-Writes implementation guide](/docs/command-service#read-your-writes) for setup steps and full API reference.": "セットアップ手順と完全なAPIリファレンスについては、[Read-Your-Writes実装ガイド](/docs/command-service#read-your-writes)を参照してください。",
+  "Related Documentation": "関連ドキュメント",
+  "System Overview": "システム概要",
+  "AWS infrastructure components": "AWSインフラストラクチャコンポーネント",
+  "Event Sourcing": "イベントソーシング",
+  "Event storage and replay": "イベントストアとリプレイ",
+  "Command Service": "コマンドサービス",
+  "Implement CQRS commands": "CQRSコマンドの実装",
+  "Data Service": "データサービス",
+  "Implement CQRS queries": "CQRSクエリの実装"
 }

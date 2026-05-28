@@ -420,19 +420,6 @@ export class AppService {
 }
 ```
 
-## {{See Also}}
-
-```mdx-code-block
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />
-```
-
-- {{[Environment Variables](/docs/environment-variables) - Environment configuration}}
-- {{[Absolute Imports](/docs/absolute_imports_and_module_path_aliases) - Path aliases}}
-- {{[Deployment Guide](/docs/deployment-guide) - Deployment configuration}}
-
-
 ## {{Related Documentation}}
 
 - [{{Environment Variables}}](/docs/environment-variables) - {{All available environment variables}}

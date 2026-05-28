@@ -590,14 +590,6 @@ Use sequence numbers or UUIDs to ensure operations are idempotent:
 const orderCode = `ORD-${String(sequence.value).padStart(6, '0')}`;
 ```
 
-## See Also
-
-- [Command Service](/docs/command-service)
-- [Sequence Service](/docs/sequence)
-- [Event Handling Patterns](/docs/event-handling-patterns)
-- [Anti-Patterns Guide](/docs/anti-patterns)
-
-
 ## Related Documentation
 
 - [SaaS Example](/docs/saas-example) - SaaS application example
