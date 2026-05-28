@@ -217,7 +217,7 @@ const item = await this.commandService.publishSync(catCommand, {
 {{This method is a synchronous version of the `publishPartialUpdateAsync` method. It will block the execution of the code until the command is processed.}}
 
 :::danger {{Breaking Change (v1.2.0)}}
-{{Since [v1.2.0](/docs/changelog#v120), this method returns `null` when the command is not dirty (no-op). Always null-check the result. See [publishSync null return](/docs/command-service#publishsync-null-return) for details.}}
+{{Since [v1.2.0](/docs/changelog#v120), this method returns `null` when the command is not dirty (no-op). Always null-check the result. See [publishSync null return](/docs/command-service#publishsync-audit-trail) for details.}}
 :::
 
 :::warning {{Version Matching}}

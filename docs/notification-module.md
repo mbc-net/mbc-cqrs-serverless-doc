@@ -344,7 +344,7 @@ export class MyService {
 
 #### {{Template Syntax}}
 
-{{Templates use `{{variableName}}` placeholders that are replaced with values from the `data` object:}}
+{{Templates use}} `{{variableName}}` {{placeholders that are replaced with values from the `data` object:}}
 
 ```ts
 const notification: TemplatedEmailNotification = {
@@ -446,7 +446,7 @@ template: {
 {{If a variable is not found in the data object, the placeholder is preserved in the output. This helps identify missing data during development:}}
 
 ```ts
-// {{If 'missingKey' is not in data, output will contain '{{missingKey}}'}}
+// {{If 'missingKey' is not in data, output will contain '}} {{missingKey}} {{'}}
 template: {
   html: "<p>Value: {{missingKey}}</p>",
 }
