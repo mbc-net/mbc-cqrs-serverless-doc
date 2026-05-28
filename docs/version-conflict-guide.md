@@ -349,6 +349,6 @@ async function updateItem(item, changes) {
 
 ## {{Related Documentation}}
 
-- [{{Versioning Rules}}](./version-rules.md)
-- [{{CommandService}}](./command-service.md)
-- [{{Error Catalog}}](./error-catalog.md)
+- [{{Versioning Rules}}](/docs/version-rules)
+- [{{CommandService}}](/docs/command-service)
+- [{{Error Catalog}}](/docs/error-catalog)

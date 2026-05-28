@@ -403,7 +403,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ### {{Features}}
 
-- **mcp-server:** {{Add code analysis tools for AI-assisted development}} ([{{See Details}}](./mcp-server#code-analysis-tools))
+- **mcp-server:** {{Add code analysis tools for AI-assisted development}} ([{{See Details}}](/docs/mcp-server#code-analysis-tools))
   - {{`mbc_check_anti_patterns`: Detect common anti-patterns in code with severity levels}}
   - {{`mbc_health_check`: Project health check (dependencies, structure, configuration)}}
   - {{`mbc_explain_code`: Analyze and explain code in MBC CQRS context}}
@@ -450,7 +450,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
   - {{Previously, the ternary operator was incorrectly returning COMPLETED for both cases: `failedRows > 0 ? COMPLETED : COMPLETED`}}
   - {{Now correctly returns FAILED when failedRows > 0: `failedRows > 0 ? FAILED : COMPLETED`}}
   - {{This bug caused Step Functions to report SUCCESS even when child import jobs failed}}
-  - {{See [CsvImportSfnEventHandler](./import-export-patterns#csvimportsfneventhandler) for details}}
+  - {{See [CsvImportSfnEventHandler](/docs/import-export-patterns#csvimportsfneventhandler) for details}}
 
 ---
 
@@ -464,7 +464,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
   - {{Fixed `ImportQueueEventHandler.handleImport` to call `incrementParentJobCounters` on error, ensuring parent counters are updated}}
   - {{Removed `throw error` in error handler to prevent Lambda crashes and allow proper status propagation}}
   - {{This fix completes the Step Functions error handling started in v1.0.18, ensuring `SendTaskFailure` is properly triggered}}
-  - {{See [ImportQueueEventHandler Error Handling](./import-export-patterns#import-error-handling) for details}}
+  - {{See [ImportQueueEventHandler Error Handling](/docs/import-export-patterns#import-error-handling) for details}}
 
 ---
 
@@ -477,7 +477,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
   - {{Now the handler properly sends `SendTaskFailure` when a job fails, allowing Step Functions to handle errors correctly}}
   - {{Added `sendTaskFailure()` method to send `SendTaskFailureCommand`}}
   - {{Handler now processes both `COMPLETED` and `FAILED` statuses for CSV import jobs}}
-  - {{See [ImportStatusHandler API](./import-export-patterns#importstatushandler-api) for details}}
+  - {{See [ImportStatusHandler API](/docs/import-export-patterns#importstatushandler-api) for details}}
 
 ---
 
@@ -485,7 +485,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ### {{Bug Fixes}}
 
-- **master:** {{Fix `masterTypeCode` comparison in `MasterDataService.search()` - Changed from partial match (`contains`) to exact match for `settingCode` search parameter}} ([{{See Details}}](./master#search-parameters))
+- **master:** {{Fix `masterTypeCode` comparison in `MasterDataService.search()` - Changed from partial match (`contains`) to exact match for `settingCode` search parameter}} ([{{See Details}}](/docs/master#search-parameters))
 - **cli:** {{Stabilize AbstractRunner tests by removing setTimeout to fix flaky CI failures}}
 
 ### {{Security}}
@@ -682,7 +682,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
   - {{Now the handler properly sends `SendTaskFailure` when a job fails, allowing Step Functions to handle errors correctly}}
   - {{Added `sendTaskFailure()` method to send `SendTaskFailureCommand`}}
   - {{Handler now processes both `COMPLETED` and `FAILED` statuses for CSV import jobs}}
-  - {{See [ImportStatusHandler API](./import-export-patterns#importstatushandler-api) for details}}
+  - {{See [ImportStatusHandler API](/docs/import-export-patterns#importstatushandler-api) for details}}
 
 ---
 

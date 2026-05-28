@@ -838,5 +838,5 @@ Debugging steps:
 
 ## Next Steps
 
-- [Common Issues](./common-issues) - Known issues and solutions
-- [Monitoring and Logging](./monitoring-logging) - Set up comprehensive monitoring
+- [Common Issues](/docs/common-issues) - Known issues and solutions
+- [Monitoring and Logging](/docs/monitoring-logging) - Set up comprehensive monitoring

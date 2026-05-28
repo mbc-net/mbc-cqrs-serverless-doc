@@ -20,7 +20,7 @@ A fully functional Todo application with:
 
 ## Prerequisites
 
-- Completed the [Quickstart Tutorial](./quickstart-tutorial)
+- Completed the [Quickstart Tutorial](/docs/quickstart-tutorial)
 - Basic understanding of NestJS
 - Docker running for local development
 
@@ -1169,6 +1169,6 @@ The complete source code for each step is available at:
 
 ## Next Steps
 
-- [Deployment Guide](./deployment-guide) - Deploy to AWS
-- [Testing](./testing) - Write unit and e2e tests
-- [Monitoring](./monitoring-logging) - Add observability
+- [Deployment Guide](/docs/deployment-guide) - Deploy to AWS
+- [Testing](/docs/testing) - Write unit and e2e tests
+- [Monitoring](/docs/monitoring-logging) - Add observability

@@ -20,12 +20,12 @@
   "Configure the core CommandModule.": "Configure the core CommandModule.",
   "SequenceModule Options": "SequenceModule Options",
   "Configure auto-incrementing sequences.": "Configure auto-incrementing sequences.",
+  "Note: Rotation strategy (day, month, year, fiscal_yearly, none) is configured through master data settings, not module options. See the [Sequence documentation](/docs/sequence) for details.": "Note: Rotation strategy (day, month, year, fiscal_yearly, none) is configured through master data settings, not module options. See the [Sequence documentation](/docs/sequence) for details.",
   "TenantModule Options": "TenantModule Options",
   "Configure multi-tenant support.": "Configure multi-tenant support.",
   "NotificationModule": "NotificationModule",
   "Configure email notifications via environment variables.": "Configure email notifications via environment variables.",
   "NotificationModule is configured through environment variables:": "NotificationModule is configured through environment variables:",
-  "Note: Rotation strategy (day, month, year, fiscal_yearly, none) is configured through master data settings, not module options. See the [Sequence documentation](./sequence) for details.": "Note: Rotation strategy (day, month, year, fiscal_yearly, none) is configured through master data settings, not module options. See the [Sequence documentation](./sequence) for details.",
   "Logging Configuration": "Logging Configuration",
   "Configure Logger": "Configure Logger",
   "Set up structured logging for production.": "Set up structured logging for production.",
@@ -39,7 +39,7 @@
   "Environment-Based Settings": "Environment-Based Settings",
   "Configure different settings per environment.": "Configure different settings per environment.",
   "See Also": "See Also",
-  "[Environment Variables](./environment-variables) - Environment configuration": "[Environment Variables](./environment-variables) - Environment configuration",
-  "[Absolute Imports](./absolute_imports_and_module_path_aliases) - Path aliases": "[Absolute Imports](./absolute_imports_and_module_path_aliases) - Path aliases",
-  "[Deployment Guide](./deployment-guide) - Deployment configuration": "[Deployment Guide](./deployment-guide) - Deployment configuration"
+  "[Environment Variables](/docs/environment-variables) - Environment configuration": "[Environment Variables](/docs/environment-variables) - Environment configuration",
+  "[Absolute Imports](/docs/absolute_imports_and_module_path_aliases) - Path aliases": "[Absolute Imports](/docs/absolute_imports_and_module_path_aliases) - Path aliases",
+  "[Deployment Guide](/docs/deployment-guide) - Deployment configuration": "[Deployment Guide](/docs/deployment-guide) - Deployment configuration"
 }

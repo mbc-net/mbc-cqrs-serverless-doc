@@ -344,6 +344,6 @@ cdk destroy dev-your-app-pipeline-stack
 
 ## {{Next Steps}}
 
-- {{[CI/CD with CodePipeline](./codepipeline-cicd) - Automate your deployments}}
-- {{[Monitoring and Logging](./monitoring-logging) - Set up observability}}
-- {{[Troubleshooting](./common-issues) - Common deployment issues}}
+- {{[CI/CD with CodePipeline](/docs/codepipeline-cicd) - Automate your deployments}}
+- {{[Monitoring and Logging](/docs/monitoring-logging) - Set up observability}}
+- {{[Troubleshooting](/docs/common-issues) - Common deployment issues}}

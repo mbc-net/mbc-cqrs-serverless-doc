@@ -317,5 +317,5 @@ export class AppModule {}
 ## 関連ドキュメント
 
 - [NestJS Modules](https://docs.nestjs.com/modules): NestJS公式モジュールドキュメント
-- [CommandService](./command-service.md): CommandModuleの詳細設定
-- [Event Handling Patterns](./event-handling-patterns.md): データ同期ハンドラーの作成
+- [CommandService](/docs/command-service): Detailed CommandModule configuration
+- [Event Handling Patterns](/docs/event-handling-patterns): Creating data sync handlers

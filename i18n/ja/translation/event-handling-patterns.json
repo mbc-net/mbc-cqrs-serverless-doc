@@ -99,7 +99,7 @@
   "Event Factory Transform Methods": "イベントファクトリーの変換メソッド",
   "The Event Factory supports transforming events from various AWS sources:": "イベントファクトリーは様々なAWSソースからのイベント変換をサポートしています：",
   "Related Documentation": "関連ドキュメント",
-  "[Backend Development Guide](./backend-development) - Core patterns": "[バックエンド開発ガイド](./backend-development) - コアパターン",
-  "[Step Functions](./architecture/step-functions) - Workflow orchestration": "[Step Functions](./architecture/step-functions) - ワークフローオーケストレーション",
-  "[Data Sync Handler Examples](./data-sync-handler-examples) - Comprehensive sync examples": "[データ同期ハンドラーの例](./data-sync-handler-examples) - 包括的な同期の例"
+  "[Backend Development Guide](/docs/backend-development) - Core patterns": "",
+  "[Step Functions](/docs/architecture/step-functions) - Workflow orchestration": "",
+  "[Data Sync Handler Examples](/docs/data-sync-handler-examples) - Comprehensive sync examples": ""
 }

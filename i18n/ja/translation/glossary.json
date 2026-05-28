@@ -127,7 +127,7 @@
   "RBAC (Role-Based Access Control)": "RBAC（ロールベースアクセス制御）",
   "An access control method where permissions are assigned to roles, and users are assigned to roles. Implemented via Cognito groups.": "権限がロールに割り当てられ、ユーザーがロールに割り当てられるアクセス制御方法。Cognitoグループを介して実装されます。",
   "See Also": "関連情報",
-  "[Architecture Overview](./architecture) - System architecture explanation": "[アーキテクチャ概要](./architecture) - システムアーキテクチャの説明",
-  "[CQRS Flow](./architecture/cqrs-flow) - Detailed CQRS implementation": "[CQRSフロー](./architecture/cqrs-flow) - 詳細なCQRS実装",
-  "[Key Patterns](./key-patterns) - PK/SK design patterns": "[キーパターン](./key-patterns) - PK/SK設計パターン"
+  "[Architecture Overview](/docs/architecture) - System architecture explanation": "",
+  "[CQRS Flow](/docs/architecture/cqrs-flow) - Detailed CQRS implementation": "",
+  "[Key Patterns](/docs/key-patterns) - PK/SK design patterns": ""
 }

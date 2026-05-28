@@ -7,8 +7,8 @@
   "[Docker](https://docs.docker.com/engine/install/)": "[Docker](https://docs.docker.com/engine/install/)",
   "windows, macOS and Linux are supported.": "windows, macOS and Linux are supported.",
   "Automatic Installation": "Automatic Installation",
-  "To get started, you can scaffold the project with the [mbc-cqrs-serverless CLI](./cli.md). To scaffold the project with the mbc-cqrs-serverless CLI, run the following commands. This will create a new project directory, and populate the directory with the initial core mbc-cqrs-serverless files and supporting modules, creating a conventional base structure for your project.": "To get started, you can scaffold the project with the [mbc-cqrs-serverless CLI](./cli.md). To scaffold the project with the mbc-cqrs-serverless CLI, run the following commands. This will create a new project directory, and populate the directory with the initial core mbc-cqrs-serverless files and supporting modules, creating a conventional base structure for your project.",
-  "If you're new to mbc-cqrs-serverless, see the [project structure](./project-structure.md) docs for an overview of all the possible files and folders in your application.": "If you're new to mbc-cqrs-serverless, see the [project structure](./project-structure.md) docs for an overview of all the possible files and folders in your application.",
+  "To get started, you can scaffold the project with the [mbc-cqrs-serverless CLI](/docs/cli). To scaffold the project with the mbc-cqrs-serverless CLI, run the following commands. This will create a new project directory, and populate the directory with the initial core mbc-cqrs-serverless files and supporting modules, creating a conventional base structure for your project.": "To get started, you can scaffold the project with the [mbc-cqrs-serverless CLI](/docs/cli). To scaffold the project with the mbc-cqrs-serverless CLI, run the following commands. This will create a new project directory, and populate the directory with the initial core mbc-cqrs-serverless files and supporting modules, creating a conventional base structure for your project.",
+  "If you're new to mbc-cqrs-serverless, see the [project structure](/docs/project-structure) docs for an overview of all the possible files and folders in your application.": "If you're new to mbc-cqrs-serverless, see the [project structure](/docs/project-structure) docs for an overview of all the possible files and folders in your application.",
   "Run the Development Server": "Run the Development Server",
   "Run `npm run build` to the build project using development mode.": "Run `npm run build` to the build project using development mode.",
   "Open in other terminal session and run `npm run offline:docker`": "Open in other terminal session and run `npm run offline:docker`",
@@ -31,8 +31,9 @@
   "EventBridge: http://localhost:4010": "EventBridge: http://localhost:4010",
   "Simple Email Service: http://localhost:8005": "Simple Email Service: http://localhost:8005",
   "Run `npx prisma studio` to open studio web: http://localhost:5000": "Run `npx prisma studio` to open studio web: http://localhost:5000",
-  "In the local environment, if you have trouble with the `npm run migrate` command or cannot log in with local Cognito, you will need to add more permissions to files and folders using the command below:": "In the local environment, if you have trouble with the `npm run migrate` command or cannot log in with local Cognito, you will need to add more permissions to files and folders using the command below:",
   "Configuring Local Service Ports": "Configuring Local Service Ports",
+  "Version Note": "Version Note",
+  "Local port configuration feature was added in [version 1.0.26](/docs/changelog#v1026).": "Local port configuration feature was added in [version 1.0.26](/docs/changelog#v1026).",
   "If you have port conflicts with other services (e.g., another MySQL instance, another application using port 3000), you can configure the local service ports via environment variables in your `.env` file.": "If you have port conflicts with other services (e.g., another MySQL instance, another application using port 3000), you can configure the local service ports via environment variables in your `.env` file.",
   "Available Port Variables": "Available Port Variables",
   "Variable": "Variable",
@@ -62,6 +63,5 @@
   "Run `npm run offline:docker` to restart Docker services": "Run `npm run offline:docker` to restart Docker services",
   "Run `npm run offline:sls` to restart Serverless Offline": "Run `npm run offline:sls` to restart Serverless Offline",
   "The port configuration is automatically applied to all related services including Docker Compose, Serverless Offline, and the DynamoDB stream trigger script. You only need to set the environment variables once in your `.env` file.": "The port configuration is automatically applied to all related services including Docker Compose, Serverless Offline, and the DynamoDB stream trigger script. You only need to set the environment variables once in your `.env` file.",
-  "Version Note": "Version Note",
-  "Local port configuration feature was added in [version 1.0.26](/docs/changelog#v1026).": "Local port configuration feature was added in [version 1.0.26](/docs/changelog#v1026)."
+  "In the local environment, if you have trouble with the `npm run migrate` command or cannot log in with local Cognito, you will need to add more permissions to files and folders using the command below:": "In the local environment, if you have trouble with the `npm run migrate` command or cannot log in with local Cognito, you will need to add more permissions to files and folders using the command below:"
 }

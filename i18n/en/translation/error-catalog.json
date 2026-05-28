@@ -95,7 +95,7 @@
   "Invalid credentials or token expired.": "Invalid credentials or token expired.",
   "User does not exist in the user pool.": "User does not exist in the user pool.",
   "User has not confirmed their email/phone.": "User has not confirmed their email/phone.",
-  "For API details and usage patterns, see [ImportStatusHandler API](./import-export-patterns#importstatushandler-api). For version history, see [Changelog v1.0.18](./changelog#v1018).": "For API details and usage patterns, see [ImportStatusHandler API](./import-export-patterns#importstatushandler-api). For version history, see [Changelog v1.0.18](./changelog#v1018).",
+  "For API details and usage patterns, see [ImportStatusHandler API](/docs/import-export-patterns#importstatushandler-api). For version history, see [Changelog v1.0.18](/docs/changelog#v1018).": "For API details and usage patterns, see [ImportStatusHandler API](/docs/import-export-patterns#importstatushandler-api). For version history, see [Changelog v1.0.18](/docs/changelog#v1018).",
   "Step Functions Timeout (Import Job)": "Step Functions Timeout (Import Job)",
   "Symptom": "Symptom",
   "Step Functions execution stays in `RUNNING` state indefinitely for import jobs.": "Step Functions execution stays in `RUNNING` state indefinitely for import jobs.",
@@ -156,7 +156,7 @@
   "Verify environment variables": "Verify environment variables",
   "Test locally with serverless-offline": "Test locally with serverless-offline",
   "See Also": "See Also",
-  "[Debugging Guide](./debugging-guide) - Detailed debugging procedures": "[Debugging Guide](./debugging-guide) - Detailed debugging procedures",
-  "[Common Issues](./common-issues) - Frequently encountered problems": "[Common Issues](./common-issues) - Frequently encountered problems",
-  "[Monitoring and Logging](./monitoring-logging) - Production monitoring setup": "[Monitoring and Logging](./monitoring-logging) - Production monitoring setup"
+  "[Debugging Guide](/docs/debugging-guide) - Detailed debugging procedures": "[Debugging Guide](/docs/debugging-guide) - Detailed debugging procedures",
+  "[Common Issues](/docs/common-issues) - Frequently encountered problems": "[Common Issues](/docs/common-issues) - Frequently encountered problems",
+  "[Monitoring and Logging](/docs/monitoring-logging) - Production monitoring setup": "[Monitoring and Logging](/docs/monitoring-logging) - Production monitoring setup"
 }

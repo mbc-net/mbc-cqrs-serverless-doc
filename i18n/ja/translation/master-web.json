@@ -69,7 +69,7 @@
   "AddJsonData": "AddJsonData",
   "JSON editor component for bulk importing master settings and master data via JSON. This component is used internally by `EditMasterSettings` for the JSON import tab.": "JSON経由でマスター設定とマスターデータを一括インポートするためのJSONエディタコンポーネント。このコンポーネントは`EditMasterSettings`のJSONインポートタブで内部的に使用されます。",
   "Create-only by Default": "デフォルトでは新規作成のみ",
-  "`AddJsonData` uses hardcoded API URLs (`/master-setting/bulk` for settings, `/master-data/bulk` for data) which call the framework's `createBulk` method. This means re-importing JSON data for existing records will fail with a `BadRequestException`. To support upsert behavior, use an Axios interceptor to rewrite these URLs to custom upsert endpoints. See [Master - Upsert Pattern](./master#upsert-pattern) for details.": "`AddJsonData`はハードコードされたAPI URL（設定用の`/master-setting/bulk`、データ用の`/master-data/bulk`）を使用し、フレームワークの`createBulk`メソッドを呼び出します。そのため、既存レコードのJSONデータを再インポートすると`BadRequestException`で失敗します。upsert動作をサポートするには、AxiosインターセプターでこれらのURLをカスタムupsertエンドポイントに書き換えてください。詳細は[Master - Upsertパターン](./master#upsert-pattern)を参照してください。",
+  "`AddJsonData` uses hardcoded API URLs (`/master-setting/bulk` for settings, `/master-data/bulk` for data) which call the framework's `createBulk` method. This means re-importing JSON data for existing records will fail with a `BadRequestException`. To support upsert behavior, use an Axios interceptor to rewrite these URLs to custom upsert endpoints. See [Master - Upsert Pattern](/docs/master#upsert-pattern) for details.": "",
   "Provider Setup": "プロバイダーのセットアップ",
   "Wrap your application with the required providers for authentication and API access.": "認証とAPIアクセスに必要なプロバイダーでアプリケーションをラップします。",
   "AppProviders": "AppProviders",

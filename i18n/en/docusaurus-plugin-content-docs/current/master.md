@@ -527,7 +527,7 @@ In versions prior to v1.0.17, the `settingCode` parameter incorrectly used parti
 
 If you are using v1.0.16 or earlier and need exact matching for `settingCode`, upgrade to v1.0.17 or later.
 
-See also: [Changelog v1.0.17](./changelog#v1017)
+See also: [Changelog v1.0.17](/docs/changelog#v1017)
 :::
 
 ## Built-in Upsert API {#upsert-pattern}

@@ -127,7 +127,7 @@
   "RBAC (Role-Based Access Control)": "RBAC (Role-Based Access Control)",
   "An access control method where permissions are assigned to roles, and users are assigned to roles. Implemented via Cognito groups.": "An access control method where permissions are assigned to roles, and users are assigned to roles. Implemented via Cognito groups.",
   "See Also": "See Also",
-  "[Architecture Overview](./architecture) - System architecture explanation": "[Architecture Overview](./architecture) - System architecture explanation",
-  "[CQRS Flow](./architecture/cqrs-flow) - Detailed CQRS implementation": "[CQRS Flow](./architecture/cqrs-flow) - Detailed CQRS implementation",
-  "[Key Patterns](./key-patterns) - PK/SK design patterns": "[Key Patterns](./key-patterns) - PK/SK design patterns"
+  "[Architecture Overview](/docs/architecture) - System architecture explanation": "[Architecture Overview](/docs/architecture) - System architecture explanation",
+  "[CQRS Flow](/docs/architecture/cqrs-flow) - Detailed CQRS implementation": "[CQRS Flow](/docs/architecture/cqrs-flow) - Detailed CQRS implementation",
+  "[Key Patterns](/docs/key-patterns) - PK/SK design patterns": "[Key Patterns](/docs/key-patterns) - PK/SK design patterns"
 }

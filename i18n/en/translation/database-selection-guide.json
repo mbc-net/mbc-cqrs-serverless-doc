@@ -136,7 +136,7 @@
   "To query data from RDS, you must implement a Data Sync Handler that synchronizes data from DynamoDB to RDS.": "To query data from RDS, you must implement a Data Sync Handler that synchronizes data from DynamoDB to RDS.",
   "Map attributes to RDS columns": "Map attributes to RDS columns",
   "Handle rollback if needed": "Handle rollback if needed",
-  "See [Data Sync Handler Examples](./data-sync-handler-examples.md) for more detailed examples.": "See [Data Sync Handler Examples](./data-sync-handler-examples.md) for more detailed examples.",
+  "See [Data Sync Handler Examples](/docs/data-sync-handler-examples) for more detailed examples.": "See [Data Sync Handler Examples](/docs/data-sync-handler-examples) for more detailed examples.",
   "Summary": "Summary",
   "Use Case": "Use Case",
   "Database": "Database",
@@ -149,9 +149,9 @@
   "Aggregations": "Aggregations",
   "Pagination with count": "Pagination with count",
   "Related Documentation": "Related Documentation",
-  "[DynamoDB](./dynamodb.md): DynamoDB table design and management": "[DynamoDB](./dynamodb.md): DynamoDB table design and management",
-  "[Prisma](./prisma.md): Prisma ORM setup and conventions": "[Prisma](./prisma.md): Prisma ORM setup and conventions",
-  "[DataService](./data-service.md): DynamoDB query methods": "[DataService](./data-service.md): DynamoDB query methods",
-  "[Data Sync Handler Examples](./data-sync-handler-examples.md): RDS synchronization patterns": "[Data Sync Handler Examples](./data-sync-handler-examples.md): RDS synchronization patterns",
-  "[Service Implementation Patterns](./service-patterns.md): Complete service layer examples": "[Service Implementation Patterns](./service-patterns.md): Complete service layer examples"
+  "[DynamoDB](/docs/dynamodb): DynamoDB table design and management": "[DynamoDB](/docs/dynamodb): DynamoDB table design and management",
+  "[Prisma](/docs/prisma): Prisma ORM setup and conventions": "[Prisma](/docs/prisma): Prisma ORM setup and conventions",
+  "[DataService](/docs/data-service): DynamoDB query methods": "[DataService](/docs/data-service): DynamoDB query methods",
+  "[Data Sync Handler Examples](/docs/data-sync-handler-examples): RDS synchronization patterns": "[Data Sync Handler Examples](/docs/data-sync-handler-examples): RDS synchronization patterns",
+  "[Service Implementation Patterns](/docs/service-patterns): Complete service layer examples": "[Service Implementation Patterns](/docs/service-patterns): Complete service layer examples"
 }

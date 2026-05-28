@@ -299,7 +299,7 @@ export class ProductService {
 ```
 
 :::tip 完全なServiceパターンについて
-包括的なCRUD操作、バッチ処理、楽観的ロック、およびその他の高度なパターンについては、[Service実装パターン](./service-patterns.md)を参照してください。
+For comprehensive CRUD operations, batch processing, optimistic locking, and more advanced patterns, see [Service Patterns](/docs/service-patterns).
 :::
 
 ## データ同期ハンドラー
@@ -468,7 +468,7 @@ const opts = {
 
 ### 2. バッチ処理
 
-タイムアウトを避けるために大規模なデータセットをバッチで処理します。詳細な例については[Service実装パターン - バッチ操作](./service-patterns.md#batch-operations)を参照してください。
+Process large datasets in batches to avoid timeouts. See [Service Patterns - Batch Operations](/docs/service-patterns#batch-operations) for detailed examples.
 
 ### 3. エラーハンドリング
 
@@ -536,8 +536,8 @@ async searchWithPagination(
 
 ## 関連ドキュメント
 
-- [Service Patterns](./service-patterns.md) - 高度なサービス実装パターン
-- [Data Sync Handler Examples](./data-sync-handler-examples.md) - 包括的な同期ハンドラー例
-- [Key Patterns](./key-patterns.md) - PK/SK設計パターン
-- [Multi-Tenant Patterns](./multi-tenant-patterns.md) - マルチテナント実装
-- [Import/Export Patterns](./import-export-patterns.md) - バッチデータ処理
+- [Service Patterns](/docs/service-patterns) - 高度なサービス実装パターン
+- [Data Sync Handler Examples](/docs/data-sync-handler-examples) - 包括的な同期ハンドラー例
+- [Key Patterns](/docs/key-patterns) - PK/SK設計パターン
+- [Multi-Tenant Patterns](/docs/multi-tenant-patterns) - マルチテナント実装
+- [Import/Export Patterns](/docs/import-export-patterns) - バッチデータ処理

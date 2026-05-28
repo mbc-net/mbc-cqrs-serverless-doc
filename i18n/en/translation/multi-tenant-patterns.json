@@ -101,7 +101,7 @@
   "`customizeSettingGroups(dto, context): Promise<CommandModel>`": "`customizeSettingGroups(dto, context): Promise<CommandModel>`",
   "Customizes the settings of groups associated with a tenant.": "Customizes the settings of groups associated with a tenant.",
   "Related Documentation": "Related Documentation",
-  "[Backend Development Guide](./backend-development) - Core patterns": "[Backend Development Guide](./backend-development) - Core patterns",
-  "[Key Patterns](./key-patterns) - PK/SK design for multi-tenant": "[Key Patterns](./key-patterns) - PK/SK design for multi-tenant",
-  "[Authentication](./authentication) - User authentication": "[Authentication](./authentication) - User authentication"
+  "[Backend Development Guide](/docs/backend-development) - Core patterns": "[Backend Development Guide](/docs/backend-development) - Core patterns",
+  "[Key Patterns](/docs/key-patterns) - PK/SK design for multi-tenant": "[Key Patterns](/docs/key-patterns) - PK/SK design for multi-tenant",
+  "[Authentication](/docs/authentication) - User authentication": "[Authentication](/docs/authentication) - User authentication"
 }

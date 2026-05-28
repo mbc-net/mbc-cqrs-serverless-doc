@@ -122,7 +122,7 @@
   "Include runbooks in alert descriptions": "アラート説明にランブックを含める",
   "Use escalation policies": "エスカレーションポリシーを使用",
   "Next Steps": "次のステップ",
-  "[Deployment Guide](./deployment-guide) - Deploy with monitoring enabled": "[デプロイメントガイド](./deployment-guide) - モニタリングを有効にしてデプロイ",
-  "[CI/CD with CodePipeline](./codepipeline-cicd) - Automate deployments": "[CodePipelineによるCI/CD](./codepipeline-cicd) - デプロイを自動化",
-  "[Troubleshooting](./common-issues) - Debug issues": "[トラブルシューティング](./common-issues) - 問題のデバッグ"
+  "[Deployment Guide](/docs/deployment-guide) - Deploy with monitoring enabled": "",
+  "[CI/CD with CodePipeline](/docs/codepipeline-cicd) - Automate deployments": "",
+  "[Troubleshooting](/docs/common-issues) - Debug issues": ""
 }

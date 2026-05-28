@@ -200,7 +200,7 @@
   "with result data": "結果データとともに",
   "with error details": "エラー詳細とともに",
   "This ensures Step Functions workflows properly handle both success and failure cases without hanging indefinitely.": "これにより、Step Functionsワークフローが無限に待機することなく、成功と失敗の両方のケースを適切に処理できます。",
-  "The `sendTaskFailure()` method was added in [version 1.0.18](./changelog#v1018) to fix an issue where Step Functions would wait indefinitely when import jobs failed. See also [Import Module Errors](./error-catalog#import-module-errors) for troubleshooting.": "`sendTaskFailure()`メソッドは[バージョン1.0.18](./changelog#v1018)で追加され、インポートジョブが失敗した際にStep Functionsが無限に待機する問題を修正しました。トラブルシューティングについては[インポートモジュールエラー](./error-catalog#import-module-errors)も参照してください。",
+  "The `sendTaskFailure()` method was added in [version 1.0.18](/docs/changelog#v1018) to fix an issue where Step Functions would wait indefinitely when import jobs failed. See also [Import Module Errors](/docs/error-catalog#import-module-errors) for troubleshooting.": "",
   "ImportQueueEventHandler Error Handling": "ImportQueueEventHandlerエラーハンドリング",
   "The `ImportQueueEventHandler` processes individual import records from the SQS queue. When an error occurs during processing (e.g., `ConditionalCheckFailedException`), the handler properly updates the parent job status.": "`ImportQueueEventHandler`はSQSキューから個々のインポートレコードを処理します。処理中にエラーが発生した場合（例：`ConditionalCheckFailedException`）、ハンドラーは親ジョブのステータスを適切に更新します。",
   "Error Flow (v1.0.19+)": "エラーフロー（v1.0.19以降）",
@@ -226,7 +226,7 @@
   "If all succeeded → Master status = `COMPLETED`": "すべて成功した場合 → マスターステータス = `COMPLETED`",
   "Lambda does NOT crash - error is handled gracefully": "Lambdaはクラッシュしない - エラーは適切に処理される",
   "`ConditionalCheckFailedException`: This occurs when attempting to import data that already exists with conflicting version. The import job will be marked as FAILED and the parent job will properly aggregate this failure.": "`ConditionalCheckFailedException`：競合するバージョンで既に存在するデータをインポートしようとした場合に発生します。インポートジョブはFAILEDとしてマークされ、親ジョブはこの失敗を適切に集計します。",
-  "Prior to v1.0.19, errors in child jobs would crash the Lambda and leave the master job in `PROCESSING` status indefinitely. The fixes in [version 1.0.19](./changelog#v1019) ensure proper error propagation and status updates.": "v1.0.19より前は、子ジョブのエラーによりLambdaがクラッシュし、マスタージョブが`PROCESSING`ステータスのまま無限に残っていました。[バージョン1.0.19](./changelog#v1019)の修正により、適切なエラー伝播とステータス更新が保証されます。",
+  "Prior to v1.0.19, errors in child jobs would crash the Lambda and leave the master job in `PROCESSING` status indefinitely. The fixes in [version 1.0.19](/docs/changelog#v1019) ensure proper error propagation and status updates.": "",
   "CsvImportSfnEventHandler": "CsvImportSfnEventHandler",
   "The `CsvImportSfnEventHandler` handles Step Functions CSV import workflow states. It manages the `csv_loader` and `finalize_parent_job` states in the import state machine.": "`CsvImportSfnEventHandler`はStep FunctionsのCSVインポートワークフローステートを処理します。インポートステートマシン内の`csv_loader`と`finalize_parent_job`ステートを管理します。",
   "Routes events to appropriate handlers based on state name (`csv_loader` or `finalize_parent_job`)": "ステート名（`csv_loader`または`finalize_parent_job`）に基づいてイベントを適切なハンドラーにルーティング",
@@ -314,8 +314,8 @@
   "Primary key of the ZIP master job in DynamoDB": "DynamoDBのZIPマスタージョブのプライマリキー",
   "Original import parameters (bucket, tenantCode, tableName)": "元のインポートパラメータ（bucket、tenantCode、tableName）",
   "Related Documentation": "関連ドキュメント",
-  "[Backend Development Guide](./backend-development) - Core backend patterns": "[バックエンド開発ガイド](./backend-development) - コアバックエンドパターン",
-  "[Service Patterns](./service-patterns) - Service implementation": "[サービスパターン](./service-patterns) - サービス実装",
-  "[Step Functions](./architecture/step-functions) - Workflow orchestration": "[Step Functions](./architecture/step-functions) - ワークフローオーケストレーション",
-  "[Data Sync Handler Examples](./data-sync-handler-examples) - Sync handler patterns": "[データ同期ハンドラー例](./data-sync-handler-examples) - 同期ハンドラーパターン"
+  "[Backend Development Guide](/docs/backend-development) - Core backend patterns": "",
+  "[Service Patterns](/docs/service-patterns) - Service implementation": "",
+  "[Step Functions](/docs/architecture/step-functions) - Workflow orchestration": "",
+  "[Data Sync Handler Examples](/docs/data-sync-handler-examples) - Sync handler patterns": ""
 }

@@ -61,7 +61,7 @@
   "**X-Ray Tracing**: Enable distributed tracing for debugging": "**X-Rayトレーシング**：デバッグのための分散トレーシングを有効化",
   "**CloudWatch Alarms**: Set up alerts for failures and latency": "**CloudWatch Alarms**：失敗とレイテンシに対するアラートを設定",
   "Related Documentation": "関連ドキュメント",
-  "[Step Functions](./step-functions.md) - Workflow orchestration details": "[Step Functions](./step-functions.md) - ワークフローオーケストレーションの詳細",
-  "[System Overview](./system-overview.md) - High-level architecture": "[システム概要](./system-overview.md) - 高レベルアーキテクチャ",
-  "[Installation](../installation.md) - Getting started guide": "[インストール](../installation.md) - はじめにガイド"
+  "[Step Functions](/docs/architecture/step-functions) - Workflow orchestration details": "[Step Functions](./step-functions.md) - ワークフローオーケストレーションの詳細",
+  "[System Overview](/docs/architecture/system-overview) - High-level architecture": "[システム概要](./system-overview.md) - 高レベルアーキテクチャ",
+  "[Installation](/docs/installation) - Getting started guide": "[インストール](../installation.md) - はじめにガイド"
 }

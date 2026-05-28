@@ -141,7 +141,7 @@ npx @mbc-cqrs-serverless/mcp-server
 ## {{Code Analysis Tools}} {#code-analysis-tools}
 
 :::info {{Version Note}}
-{{Code analysis tools (`mbc_check_anti_patterns`, `mbc_health_check`, `mbc_explain_code`) were added in [version 1.0.22](./changelog#v1022).}}
+{{Code analysis tools (`mbc_check_anti_patterns`, `mbc_health_check`, `mbc_explain_code`) were added in [version 1.0.22](/docs/changelog#v1022).}}
 :::
 
 ### {{Anti-Pattern Detection}}
@@ -344,5 +344,5 @@ I'm getting ConditionalCheckFailedException errors
 
 ## {{Related Packages}}
 
-- [{{CLI Tool}}](./cli) - {{CLI tool for code generation}}
-- [{{API Reference}}](./api-reference) - {{Detailed API documentation}}
+- [{{CLI Tool}}](/docs/cli) - {{CLI tool for code generation}}
+- [{{API Reference}}](/docs/api-reference) - {{Detailed API documentation}}

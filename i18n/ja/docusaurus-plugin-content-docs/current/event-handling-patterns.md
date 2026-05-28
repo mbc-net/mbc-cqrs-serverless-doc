@@ -936,6 +936,6 @@ transformS3(event: S3Event): Promise<IEvent[]>;
 
 ## 関連ドキュメント
 
-- [バックエンド開発ガイド](./backend-development) - コアパターン
-- [Step Functions](./architecture/step-functions) - ワークフローオーケストレーション
-- [データ同期ハンドラーの例](./data-sync-handler-examples) - 包括的な同期の例
+- [Backend Development Guide](/docs/backend-development) - Core patterns
+- [Step Functions](/docs/architecture/step-functions) - Workflow orchestration
+- [Data Sync Handler Examples](/docs/data-sync-handler-examples) - Comprehensive sync examples

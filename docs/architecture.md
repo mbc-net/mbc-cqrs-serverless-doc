@@ -12,9 +12,9 @@ sidebar_position: 2
 
 ## {{Architecture Sections}}
 
-- [{{System Overview}}](./architecture/system-overview) - {{AWS infrastructure components and their interactions.}}
-- [{{CQRS Pattern Flow}}](./architecture/cqrs-flow) - {{How commands and queries are separated and processed.}}
-- [{{Event Sourcing}}](./architecture/event-sourcing) - {{Event storage, replay, and projection mechanisms.}}
+- [{{System Overview}}](/docs/architecture/system-overview) - {{AWS infrastructure components and their interactions.}}
+- [{{CQRS Pattern Flow}}](/docs/architecture/cqrs-flow) - {{How commands and queries are separated and processed.}}
+- [{{Event Sourcing}}](/docs/architecture/event-sourcing) - {{Event storage, replay, and projection mechanisms.}}
 
 ## {{Key Concepts}}
 

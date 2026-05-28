@@ -154,9 +154,9 @@ You should see: `Hello, MBC CQRS Serverless!`
 
 Congratulations! You've created your first MBC CQRS Serverless application. Here's what to explore next:
 
-- [Build a Todo App](./build-todo-app) - Learn CQRS patterns by building a complete application
-- [Core Concepts](./architecture) - Understand the CQRS and Event Sourcing architecture
-- [Deployment Guide](./deployment-guide) - Deploy your application to AWS
+- [Build a Todo App](/docs/build-todo-app) - Learn CQRS patterns by building a complete application
+- [Core Concepts](/docs/architecture) - Understand the CQRS and Event Sourcing architecture
+- [Deployment Guide](/docs/deployment-guide) - Deploy your application to AWS
 
 ## Common Commands
 

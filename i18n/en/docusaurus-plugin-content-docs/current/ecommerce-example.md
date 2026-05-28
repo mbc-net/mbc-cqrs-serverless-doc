@@ -592,7 +592,7 @@ const orderCode = `ORD-${String(sequence.value).padStart(6, '0')}`;
 
 ## See Also
 
-- [Command Service](./command-service)
-- [Sequence Service](./sequence)
-- [Event Handling Patterns](./event-handling-patterns)
-- [Anti-Patterns Guide](./anti-patterns)
+- [Command Service](/docs/command-service)
+- [Sequence Service](/docs/sequence)
+- [Event Handling Patterns](/docs/event-handling-patterns)
+- [Anti-Patterns Guide](/docs/anti-patterns)

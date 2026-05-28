@@ -163,8 +163,8 @@
   "**CloudWatch Logs**: Capture detailed execution logs": "**CloudWatch Logs**：詳細な実行ログをキャプチャ",
   "**Alarms**: Set up alerts for failure rates and execution times": "**アラーム**：失敗率と実行時間に対するアラートを設定",
   "Related Documentation": "関連ドキュメント",
-  "[Task Module](../tasks.md) - Task management with Step Functions": "[タスクモジュール](../tasks.md) - Step Functionsを使用したタスク管理",
-  "[Import/Export Patterns](../import-export-patterns.md) - CSV import with Distributed Map": "[インポート/エクスポートパターン](../import-export-patterns.md) - Distributed Mapを使用したCSVインポート",
-  "[Event Sourcing](./event-sourcing.md) - Event-driven architecture": "[イベントソーシング](./event-sourcing.md) - イベント駆動アーキテクチャ",
-  "[CQRS Flow](./cqrs-flow.md) - Command and query separation": "[CQRSフロー](./cqrs-flow.md) - コマンドとクエリの分離"
+  "[Task Module](/docs/tasks) - Task management with Step Functions": "[タスクモジュール](../tasks.md) - Step Functionsを使用したタスク管理",
+  "[Import/Export Patterns](/docs/import-export-patterns) - CSV import with Distributed Map": "[インポート/エクスポートパターン](../import-export-patterns.md) - Distributed Mapを使用したCSVインポート",
+  "[Event Sourcing](/docs/architecture/event-sourcing) - Event-driven architecture": "[イベントソーシング](./event-sourcing.md) - イベント駆動アーキテクチャ",
+  "[CQRS Flow](/docs/architecture/cqrs-flow) - Command and query separation": "[CQRSフロー](./cqrs-flow.md) - コマンドとクエリの分離"
 }

@@ -838,7 +838,7 @@ async createSubscription() {
 
 ## See Also
 
-- [Tenant Module](./tenant)
-- [Master Module](./master)
-- [Multi-Tenant Patterns](./multi-tenant-patterns)
-- [Event Handling Patterns](./event-handling-patterns)
+- [Tenant Module](/docs/tenant)
+- [Master Module](/docs/master)
+- [Multi-Tenant Patterns](/docs/multi-tenant-patterns)
+- [Event Handling Patterns](/docs/event-handling-patterns)
