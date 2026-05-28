@@ -15,10 +15,10 @@ NotificationModuleは、MBC CQRS Serverlessフレームワークで2種類の通
 graph TB
     subgraph "リアルタイム通知"
         A["DynamoDBストリーム"] --> B["NotificationEventHandler"]
-        B --> C["{{AppSyncService\n(GraphQL Subscription)}}"]
-        B --> C2["{{AppSyncEventsService\n(Events API, opt-in)}}"]
+        B --> C["AppSyncService\n（GraphQL サブスクリプション）"]
+        B --> C2["AppSyncEventsService\n（Events API、オプトイン）"]
         C --> D["AppSync GraphQL"]
-        C2 --> D2["{{AppSync Events API}}"]
+        C2 --> D2["AppSync Events API"]
         D --> E["WebSocketクライアント"]
         D2 --> E
     end
@@ -201,7 +201,7 @@ APPSYNC_EVENTS_ENDPOINT=https://xxxx.appsync-api.ap-northeast-1.amazonaws.com/ev
 APPSYNC_EVENTS_NAMESPACE=default
 ```
 
-{{See [AppSync Events Environment Variables](/docs/environment-variables#appsync-events-env) for the full reference.}}
+[AppSync Events 環境変数](/docs/environment-variables#appsync-events-env) を参照してください。
 
 ### GraphQL サブスクリプションからの移行
 
@@ -328,9 +328,9 @@ export class MyService {
     const notification: TemplatedEmailNotification = {
       toAddrs: [user.email],
       template: {
-        subject: "Welcome, name!",
-        html: "<h1>Hello name</h1><p>Welcome to our service!</p>",
-        text: "Hello name, Welcome to our service!", // Optional plain text version (オプションのプレーンテキスト版)
+        subject: "Welcome, {{name}}!",
+        html: "<h1>Hello {{name}}</h1><p>Welcome to our service!</p>",
+        text: "Hello {{name}}, Welcome to our service!", // Optional plain text version (オプションのプレーンテキスト版)
       },
       data: {
         name: user.name,
@@ -344,17 +344,17 @@ export class MyService {
 
 #### テンプレート構文
 
-Templates use `{{variableName` placeholders that are replaced with values from the `data` object:}}
+テンプレートは `{{variableName}}` プレースホルダーを使用し、`data`オブジェクトの値に置き換えられます：
 
 ```ts
 const notification: TemplatedEmailNotification = {
   toAddrs: ["user@example.com"],
   template: {
-    subject: "Order orderId Confirmation",
+    subject: "Order {{orderId}} Confirmation",
     html: `
-      <h1>Thank you, customerName!</h1>
-      <p>Your order #orderId has been confirmed.</p>
-      <p>Total: currencytotalAmount</p>
+      <h1>Thank you, {{customerName}}!</h1>
+      <p>Your order #{{orderId}} has been confirmed.</p>
+      <p>Total: {{currency}}{{totalAmount}}</p>
     `,
   },
   data: {
@@ -380,10 +380,10 @@ const notification: TemplatedEmailNotification = {
 const notification: TemplatedEmailNotification = {
   toAddrs: ["user@example.com"],
   template: {
-    subject: "Welcome user.profile.firstName!",
+    subject: "Welcome {{user.profile.firstName}}!",
     html: `
-      <p>Hello user.profile.firstName user.profile.lastName,</p>
-      <p>Your verification code is: auth.otp</p>
+      <p>Hello {{user.profile.firstName}} {{user.profile.lastName}},</p>
+      <p>Your verification code is: {{auth.otp}}</p>
     `,
   },
   data: {
@@ -408,11 +408,11 @@ const notification: TemplatedEmailNotification = {
 const notification: TemplatedEmailNotification = {
   toAddrs: ["user@example.com"],
   template: {
-    subject: "注文.確認番号 - Order Confirmation",
+    subject: "{{注文.確認番号}} - Order Confirmation",
     html: `
-      <p>顧客.名前 様</p>
-      <p>ご注文番号: 注文.確認番号</p>
-      <p>商品: 注文.詳細.品名</p>
+      <p>{{顧客.名前}} 様</p>
+      <p>ご注文番号: {{注文.確認番号}}</p>
+      <p>商品: {{注文.詳細.品名}}</p>
     `,
   },
   data: {
@@ -431,13 +431,13 @@ const notification: TemplatedEmailNotification = {
 
 ##### プレースホルダー内の空白
 
-Whitespace inside placeholders is automatically trimmed, so a placeholder with surrounding spaces is equivalent to one without (see the example below):
+プレースホルダー内の空白は自動的にトリミングされるため、前後に空白があるプレースホルダーは空白なしのものと同等です（以下の例を参照）：
 
 ```ts
 // Both of these work identically (これらは同じように動作します)
 template: {
   subject: "Hello {{ name }}!",  // Whitespace is trimmed (空白はトリミングされます)
-  html: "<p>Hello name!</p>", // No whitespace (空白なし)
+  html: "<p>Hello {{name}}!</p>", // No whitespace (空白なし)
 }
 ```
 
@@ -446,9 +446,9 @@ template: {
 データオブジェクトに変数が見つからない場合、プレースホルダーは出力に保持されます。これは開発中に欠落データを特定するのに役立ちます：
 
 ```ts
-// If 'missingKey' is not in data, output will contain '{{missingKey'}}
+// データに 'missingKey' がない場合、出力に ' {{missingKey}} ' が残ります
 template: {
-  html: "<p>Value: missingKey</p>",
+  html: "<p>Value: {{missingKey}}</p>",
 }
 ```
 

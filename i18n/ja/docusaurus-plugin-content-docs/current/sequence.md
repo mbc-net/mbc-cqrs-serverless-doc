@@ -78,7 +78,7 @@ export class SeqModule {}
 
 `SequencesService` には4つのパブリックメソッドがあります（2つの現行メソッドと2つの非推奨メソッド）:
 
-### *async* `generateSequenceItem( dto: GenerateFormattedSequenceDto, options?: {invokeContext:IInvoke}):  Promise<SequenceEntity>`
+### *async* `generateSequenceItem( dto: GenerateFormattedSequenceDto, options?: {invokeContext:IInvoke}):  Promise<SequenceEntity>` {#generate-sequence-item}
 
 
 GenerateFormattedSequenceDto オブジェクトで提供されたパラメータに基づいて新しいシーケンスを生成します。
@@ -223,7 +223,7 @@ GenerateFormattedSequenceDto オブジェクトで提供されたパラメータ
 
 これにより、特定のビジネス ニーズに応じて会計年度の計算をカスタマイズできます。
 
-### *async* `generateSequenceItemWithProvideSetting(dto: GenerateFormattedSequenceWithProvidedSettingDto, options?: {invokeContext: IInvoke}): Promise<SequenceEntity>`
+### *async* `generateSequenceItemWithProvideSetting(dto: GenerateFormattedSequenceWithProvidedSettingDto, options?: {invokeContext: IInvoke}): Promise<SequenceEntity>` {#generate-sequence-item-with-provide-setting}
 
 このメソッドを使用すると、DynamoDBでのマスターデータ設定なしで、DTOで直接提供されたカスタム設定でシーケンスを生成できます。
 
@@ -322,7 +322,7 @@ const result = await this.sequencesService.generateSequenceItemWithProvideSettin
 
 :::danger v1.2.0で削除
 
-このメソッドは[v1.2.0](/docs/changelog#v120)で削除されました。代わりに[`generateSequenceItem`](#async-generatesequenceitem-dto-generateformattedsequencedto-options-invokecontextiinvoke--promisesequenceentity)または[`generateSequenceItemWithProvideSetting`](#async-generatesequenceitemwithprovidesetting-dto-generateformattedsequencewithprovidedsettingdto-options-invokecontextiinvoke--promisesequenceentity)を使用してください。
+このメソッドは[v1.2.0](/docs/changelog#v120)で削除されました。代わりに[`generateSequenceItem`](#generate-sequence-item)または[`generateSequenceItemWithProvideSetting`](#generate-sequence-item-with-provide-setting)を使用してください。
 
 :::
 

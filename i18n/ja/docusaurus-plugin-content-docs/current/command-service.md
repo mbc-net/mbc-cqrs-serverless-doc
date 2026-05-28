@@ -217,7 +217,7 @@ const item = await this.commandService.publishSync(catCommand, {
 このメソッドは、`publishPartialUpdateAsync` メソッドの同期バージョンです。コマンドが処理されるまでコードの実行がブロックされます。
 
 :::danger 破壊的変更 (v1.2.0)
-[v1.2.0](/docs/changelog#v120)以降、このメソッドはコマンドに変更がない場合（no-op）に`null`を返します。結果を必ずnullチェックしてください。詳細は[publishSync null return](/docs/command-service#publishsync-null-return)を参照。
+[v1.2.0](/docs/changelog#v120)以降、このメソッドはコマンドに変更がない場合（no-op）に`null`を返します。結果を必ずnullチェックしてください。詳細は[publishSync null return](/docs/command-service#publishsync-audit-trail)を参照。
 :::
 
 :::warning バージョンマッチング

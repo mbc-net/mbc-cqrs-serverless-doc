@@ -78,7 +78,7 @@ export class SeqModule {}
 
 {{The `SequencesService` has four public methods (two current and two deprecated):}}
 
-### {{*async* `generateSequenceItem( dto: GenerateFormattedSequenceDto, options?: {invokeContext:IInvoke}):  Promise<SequenceEntity>`}}
+### {{*async* `generateSequenceItem( dto: GenerateFormattedSequenceDto, options?: {invokeContext:IInvoke}):  Promise<SequenceEntity>`}} {#generate-sequence-item}
 
 
 {{Generates a new sequence based on the parameters provided in the GenerateFormattedSequenceDto object.}}
@@ -223,7 +223,7 @@ export class SeqModule {}
 
 {{This allows you to customize the fiscal year calculation according to your specific business needs.}}
 
-### {{*async* `generateSequenceItemWithProvideSetting(dto: GenerateFormattedSequenceWithProvidedSettingDto, options?: {invokeContext: IInvoke}): Promise<SequenceEntity>`}}
+### {{*async* `generateSequenceItemWithProvideSetting(dto: GenerateFormattedSequenceWithProvidedSettingDto, options?: {invokeContext: IInvoke}): Promise<SequenceEntity>`}} {#generate-sequence-item-with-provide-setting}
 
 {{This method allows you to generate a sequence with custom settings directly provided in the DTO, without requiring master data configuration in DynamoDB.}}
 
@@ -322,7 +322,7 @@ const result = await this.sequencesService.generateSequenceItemWithProvideSettin
 
 :::danger {{Removed in v1.2.0}}
 
-{{This method was removed in [v1.2.0](/docs/changelog#v120). Use [`generateSequenceItem`](#async-generatesequenceitem-dto-generateformattedsequencedto-options-invokecontextiinvoke--promisesequenceentity) or [`generateSequenceItemWithProvideSetting`](#async-generatesequenceitemwithprovidesetting-dto-generateformattedsequencewithprovidedsettingdto-options-invokecontextiinvoke--promisesequenceentity) instead.}}
+{{This method was removed in [v1.2.0](/docs/changelog#v120). Use [`generateSequenceItem`](#generate-sequence-item) or [`generateSequenceItemWithProvideSetting`](#generate-sequence-item-with-provide-setting) instead.}}
 
 :::
 

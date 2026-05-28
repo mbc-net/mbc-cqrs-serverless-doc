@@ -121,7 +121,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ### {{Breaking Changes}}
 
-- **core:** {{`publishSync()` and `publishPartialUpdateSync()` now return `null` when the command is not dirty (no-op)}} ([{{See Details}}](/docs/command-service#publishsync-null-return)) ([PR #375](https://github.com/mbc-net/mbc-cqrs-serverless/pull/375))
+- **core:** {{`publishSync()` and `publishPartialUpdateSync()` now return `null` when the command is not dirty (no-op)}} ([{{See Details}}](/docs/command-service#publishsync-audit-trail)) ([PR #375](https://github.com/mbc-net/mbc-cqrs-serverless/pull/375))
   - {{Return type changes from `Promise<CommandModel>` to `Promise<CommandModel | null>`}}
   - {{Matches the existing behavior of `publishAsync()` and `publishPartialUpdateAsync()`}}
   - {{Migration: add a null check before accessing any property on the result}}
