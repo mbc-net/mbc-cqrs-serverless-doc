@@ -1,5 +1,5 @@
 {
-  "Learn the fundamentals of routing.": "ルーティングの基礎を学びます。",
+  "Learn how to create NestJS controllers with MBC CQRS Serverless decorators for routing, authentication, and tenant context.": "ルーティング、認証、テナントコンテキスト用のMBC CQRS Serverlessデコレーターを使ったNestJSコントローラーの作成方法を学びます。",
   "Controllers": "コントローラ",
   "Controllers are responsible for handling incoming **requests** and returning **responses** to the client.": "コントローラーは、受信した **リクエスト**を処理し、**レスポンス**をクライアントに返す責務があります。",
   "Defining a controller in the MBC Serverless Framework is the same as in Nest.js, so please refer to this section using the [provided link](https://docs.nestjs.com/controllers).": "MBC サーバーレス フレームワークでのコントローラーの定義は Nest.js の場合と同じであるため、[Nest.js内のリンク](https://docs.nestjs.com/controllers) を使用してこのセクションを参照してください。",

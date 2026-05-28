@@ -1,5 +1,5 @@
 ---
-description: {{Learn the fundamentals of routing.}}
+description: {{Learn how to create NestJS controllers with MBC CQRS Serverless decorators for routing, authentication, and tenant context.}}
 ---
 
 # {{Controllers}}

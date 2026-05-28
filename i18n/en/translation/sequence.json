@@ -1,5 +1,5 @@
 {
-  "Sequence setup and usage.": "Sequence setup and usage.",
+  "Generate auto-incrementing sequence numbers for business IDs with customizable formats and rotation cycles using the SequencesModule.": "Generate auto-incrementing sequence numbers for business IDs with customizable formats and rotation cycles using the SequencesModule.",
   "Sequence": "Sequence",
   "Purpose": "Purpose",
   "`SequenceModule`  is a service for managing dynamic sequences in the system using DynamoDB as the primary database.": "`SequenceModule`  is a service for managing dynamic sequences in the system using DynamoDB as the primary database.",

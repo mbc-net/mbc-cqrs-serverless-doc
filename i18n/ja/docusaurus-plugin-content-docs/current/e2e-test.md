@@ -1,5 +1,5 @@
 ---
-description: e2e(エンドツーエンド)の方法を学びましょう。
+description: JestとLocalStackを使用したMBC CQRS Serverlessアプリケーションのエンドツーエンドテストの書き方と実行方法を学びます。
 ---
 
 # e2e(エンドツーエンド)テスト

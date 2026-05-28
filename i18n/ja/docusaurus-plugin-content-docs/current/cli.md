@@ -1,5 +1,5 @@
 ---
-description: CLI
+description: プロジェクトのスキャフォールディング、モジュール生成、サーバーレスアプリケーション管理のためのMBC CQRS Serverless CLIツール。
 ---
 
 # CLI

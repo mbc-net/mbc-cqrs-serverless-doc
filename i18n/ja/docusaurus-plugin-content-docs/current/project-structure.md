@@ -1,5 +1,5 @@
 ---
-description: プロジェクト構造 
+description: CLIスキャフォールディングツールによって生成されるMBC CQRS Serverlessプロジェクトのファイルとフォルダー構成の概要。
 ---
 
 # プロジェクト構造 

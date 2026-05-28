@@ -1,5 +1,5 @@
 ---
-description: Installation
+description: Install and set up MBC CQRS Serverless framework with system requirements, CLI scaffolding, and local development environment.
 ---
 
 # Installation

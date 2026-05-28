@@ -1,5 +1,5 @@
 ---
-description: {{CLI}}
+description: {{MBC CQRS Serverless CLI tool for scaffolding projects, generating modules, and managing your serverless application.}}
 ---
 
 # {{CLI}}
