@@ -401,7 +401,7 @@ const sensitiveData = {
 機密情報をログに記録しないでください。
 
 ```typescript
-// Create a logger that masks sensitive fields
+// 機密フィールドをマスクするロガーを作成
 const SENSITIVE_FIELDS = ['password', 'token', 'ssn', 'creditCard', 'secret'];
 
 function maskSensitiveData(obj: any): any {

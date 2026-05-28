@@ -219,7 +219,7 @@ if (existing) {
 
 **解決策**:
 ```typescript
-// Generate sequence - auto-initializes on first use
+// シーケンスを生成 - 初回使用時に自動初期化
 try {
   const result = await sequencesService.generateSequenceItem(
     {

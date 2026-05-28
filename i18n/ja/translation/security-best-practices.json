@@ -30,6 +30,7 @@
   "Encrypt sensitive data before storing.": "保存前に機密データを暗号化します。",
   "Mask Sensitive Data in Logs": "ログ内の機密データのマスキング",
   "Never log sensitive information.": "機密情報をログに記録しないでください。",
+  "Create a logger that masks sensitive fields": "機密フィールドをマスクするロガーを作成",
   "Secure Environment Variables": "環境変数のセキュア管理",
   "Use AWS Secrets Manager for sensitive configuration.": "機密設定にはAWS Secrets Managerを使用します。",
   "API Security": "APIセキュリティ",

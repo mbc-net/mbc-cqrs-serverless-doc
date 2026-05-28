@@ -79,6 +79,7 @@
   "Attempting to create a tenant with an existing code.": "既に存在するコードでテナントを作成しようとしています。",
   "Sequence Errors": "シーケンスエラー",
   "The requested sequence key does not exist.": "リクエストされたシーケンスキーが存在しません。",
+  "Generate sequence - auto-initializes on first use": "シーケンスを生成 - 初回使用時に自動初期化",
   "Task Errors": "タスクエラー",
   "The specified task does not exist or has been completed/deleted.": "指定されたタスクが存在しないか、完了/削除されています。",
   "The request DTO failed class-validator validation.": "リクエストDTOがclass-validatorのバリデーションに失敗しました。",

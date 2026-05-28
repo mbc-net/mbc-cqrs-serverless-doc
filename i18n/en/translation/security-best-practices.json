@@ -30,6 +30,7 @@
   "Encrypt sensitive data before storing.": "Encrypt sensitive data before storing.",
   "Mask Sensitive Data in Logs": "Mask Sensitive Data in Logs",
   "Never log sensitive information.": "Never log sensitive information.",
+  "Create a logger that masks sensitive fields": "Create a logger that masks sensitive fields",
   "Secure Environment Variables": "Secure Environment Variables",
   "Use AWS Secrets Manager for sensitive configuration.": "Use AWS Secrets Manager for sensitive configuration.",
   "API Security": "API Security",
