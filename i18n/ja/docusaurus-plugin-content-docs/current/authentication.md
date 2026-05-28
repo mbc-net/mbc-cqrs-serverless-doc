@@ -217,7 +217,7 @@ export class CustomRoleGuard extends RolesGuard {
 
 `RolesGuard`にはテナント検証用の拡張可能なメソッドが含まれており、クロステナントアクセスの動作をカスタマイズできます。
 
-:::info Version Note
+:::info バージョン情報
 拡張可能なテナント検証メソッドは[バージョン1.1.0](/docs/changelog#v110)で追加されました。
 :::
 
@@ -225,7 +225,7 @@ export class CustomRoleGuard extends RolesGuard {
 
 以下のprotectedメソッドをオーバーライドしてテナント検証をカスタマイズできます：
 
-| メソッド | Description | デフォルト動作 |
+| メソッド | 説明 | デフォルト動作 |
 |------------|-----------------|----------------------|
 | `isHeaderOverride()` | テナントコードがヘッダーからのものかを検出 | x-tenant-codeヘッダーがCognitoのcustom:tenantと異なる場合trueを返す |
 | `canOverrideTenant()` | ユーザーがテナントをオーバーライドできるかチェック | system_adminロールの場合trueを返す |

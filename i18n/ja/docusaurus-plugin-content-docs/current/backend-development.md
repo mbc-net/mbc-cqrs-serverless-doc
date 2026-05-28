@@ -213,7 +213,7 @@ export class ProductController {
   }
 
   /**
-   * Resync all data to RDS
+   * すべてのデータをRDSに再同期
    */
   @Put('resync-data/:pk')
   async resyncData(@Param('pk') pk: string): Promise<void> {

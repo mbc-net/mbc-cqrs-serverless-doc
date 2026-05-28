@@ -21,7 +21,7 @@
   "Sends a single message to an SQS queue.": "SQSキューへ単一メッセージを送信します。",
   "With optional fields": "オプションフィールドを指定する場合",
   "FIFO queues only": "FIFOキューのみ",
-  "Custom message attributes": "",
+  "Custom message attributes": "カスタムメッセージ属性",
   "Sends up to 10 messages in a single API call. Caller is responsible for ensuring `entries.length <= 10`.": "1回のAPIコールで最大10件のメッセージを送信します。`entries.length <= 10`であることは呼び出し側の責任です。",
   "Receives messages from an SQS queue. Defaults to `MaxNumberOfMessages: 10` and `WaitTimeSeconds: 0`.": "SQSキューからメッセージを受信します。デフォルトは`MaxNumberOfMessages: 10`、`WaitTimeSeconds: 0`です。",
   "Default: MaxNumberOfMessages=10, WaitTimeSeconds=0": "デフォルト: MaxNumberOfMessages=10, WaitTimeSeconds=0",

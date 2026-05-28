@@ -496,11 +496,11 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
 |------------|------------|-----------|
 | pk + skでアイテムを取得 | DynamoDB | `DataService.getItem()` |
 | pkでskフィルター付きリスト | DynamoDB | `DataService.listItemsByPk()` |
-| 複数属性フィルター | RDS | `PrismaService.findMany()` |
-| 全文検索 | RDS | `PrismaService.findMany()` |
-| JOINクエリ | RDS | `PrismaService.findMany({ include })` |
-| 集計 | RDS | `PrismaService.count/groupBy()` |
-| Pagination with count | RDS | `PrismaService.count() + findMany()` |
+| 複数属性フィルター | RDS（リレーショナルデータベースサービス） | `PrismaService.findMany()` |
+| 全文検索 | RDS（リレーショナルデータベースサービス） | `PrismaService.findMany()` |
+| JOINクエリ | RDS（リレーショナルデータベースサービス） | `PrismaService.findMany({ include })` |
+| 集計 | RDS（リレーショナルデータベースサービス） | `PrismaService.count/groupBy()` |
+| 件数付きページネーション | RDS（リレーショナルデータベースサービス） | `PrismaService.count() + findMany()` |
 
 ## 関連ドキュメント
 

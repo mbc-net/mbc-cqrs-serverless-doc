@@ -85,33 +85,33 @@ GenerateFormattedSequenceDto オブジェクトで提供されたパラメータ
 
 #### パラメータ
 
-`dto: GenerateFormattedSequenceDto`
+`dto: GenerateFormattedSequenceDto`（生成設定DTO）
 シーケンス生成の動作をカスタマイズするデータ転送オブジェクトです。そのプロパティには以下が含まれます:
 
-- `date?: Date`
+- `date?: Date`（基準日、省略時は現在日時）
   - デフォルト: 現在の日付。
   - 説明: シーケンスが生成される日付を指定します。
 
 - `rotateBy?: RotateByEnum`
   - デフォルト: NONE。
   - オプション
-    - FISCAL_YEARLY
-    - YEARLY
-    - MONTHLY
-    - DAILY
-    - NONE
+    - FISCAL_YEARLY（会計年度）
+    - YEARLY（年次）
+    - MONTHLY（月次）
+    - DAILY（日次）
+    - NONE（採番なし）
   - 説明: シーケンスの回転タイプを決定します。
 
 - `tenantCode: string`
   - 必須: はい。
   - 説明: テナントと用途のタイプコードを識別します。
 
-- `typeCode: string`
+- `typeCode: string`（シーケンス種別コード）
   - 必須: はい。
   - 説明: テナントと用途のタイプコードを識別します。
   
-- `params?: SequenceParamsDto`
-  - Required: No.
+- `params?: SequenceParamsDto`（追加パラメーター）
+  - 必須: いいえ
   - 説明: シーケンスを識別するためのパラメータを定義します。
     ```ts
     export class SequenceParamsDto {
@@ -141,16 +141,16 @@ GenerateFormattedSequenceDto オブジェクトで提供されたパラメータ
     ```
 
 - `prefix?: string`
-  - Required: No.
+  - 必須: いいえ
   - 説明: フォーマットされたシーケンスの先頭に追加するオプションのプレフィックス。プレフィックスはフォーマットされたパターンの前に追加されます。
   - 例: prefixが`'INV-'`でフォーマットが`'2024-001'`を生成する場合、結果は`'INV-2024-001'`になります。
 
 - `postfix?: string`
-  - Required: No.
+  - 必須: いいえ
   - 説明: フォーマットされたシーケンスの末尾に追加するオプションのポストフィックス。ポストフィックスはフォーマットされたパターンの後に追加されます。
   - 例: postfixが`'-DRAFT'`でフォーマットが`'2024-001'`を生成する場合、結果は`'2024-001-DRAFT'`になります。
 
-####  Response
+####  レスポンス
 この関数の戻り値は次のような `SequenceEntity` 型になります。
   ```ts
   export class SequenceEntity {
@@ -232,7 +232,7 @@ GenerateFormattedSequenceDto オブジェクトで提供されたパラメータ
 `dto: GenerateFormattedSequenceWithProvidedSettingDto`
 シーケンスパラメータとフォーマット設定の両方を含むデータ転送オブジェクト。プロパティには以下が含まれます：
 
-- `date?: Date`
+- `date?: Date`（基準日、省略時は現在日時）
   - デフォルト: 現在の日付。
   - 説明: シーケンスが生成される日付を指定します。
 
@@ -245,20 +245,20 @@ GenerateFormattedSequenceDto オブジェクトで提供されたパラメータ
   - 必須: はい。
   - 説明: シーケンスのテナントを識別します。
 
-- `typeCode: string`
+- `typeCode: string`（シーケンス種別コード）
   - 必須: はい。
   - 説明: シーケンスのタイプコードを識別します。
 
-- `params?: SequenceParamsDto`
-  - Required: No.
+- `params?: SequenceParamsDto`（追加パラメーター）
+  - 必須: いいえ
   - 説明: シーケンスを識別するためのパラメータを定義します（code1からcode5）。
 
 - `prefix?: string`
-  - Required: No.
+  - 必須: いいえ
   - 説明: フォーマットされたシーケンスの先頭に追加するオプションのプレフィックス。
 
 - `postfix?: string`
-  - Required: No.
+  - 必須: いいえ
   - 説明: フォーマットされたシーケンスの末尾に追加するオプションのポストフィックス。
 
 - `format: string`
@@ -266,11 +266,11 @@ GenerateFormattedSequenceDto オブジェクトで提供されたパラメータ
   - 説明: 生成されるシーケンスの構造を定義するフォーマット文字列。例: `%%code1%%-%%no#:0>5%%`。
 
 - `registerDate?: string`
-  - Required: No.
+  - 必須: いいえ
   - 説明: 会計年度計算に影響を与えるオプションの登録日（ISO 8601形式）。
 
 - `startMonth?: number`
-  - Required: No.
+  - 必須: いいえ
   - 説明: 会計年度の開始月（1-12）。指定しない場合のデフォルトは4（4月）。
 
 #### 例

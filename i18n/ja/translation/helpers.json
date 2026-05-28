@@ -53,7 +53,7 @@
   "Original JWT ID": "元のJWT ID",
   "OAuth client ID": "OAuthクライアントID",
   "OAuth scopes": "OAuthスコープ",
-  "Token audience": "",
+  "Token audience": "トークンオーディエンス",
   "Cognito event ID": "Cognitoイベント ID",
   "Token type (access/id)": "トークンタイプ（access/id）",
   "Authentication timestamp": "認証タイムスタンプ",

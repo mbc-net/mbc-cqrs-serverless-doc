@@ -209,7 +209,7 @@
   "Update Parent Job Counters": "親ジョブカウンターを更新",
   "Check if All Children Complete": "すべての子ジョブが完了したか確認",
   "Update Master": "マスターを更新",
-  "more children": "",
+  "more children": "その他の子要素",
   "FAILED": "FAILED",
   "COMPLETED": "COMPLETED",
   "ImportStatusHandler Triggered": "ImportStatusHandlerがトリガー",
