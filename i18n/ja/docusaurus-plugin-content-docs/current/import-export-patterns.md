@@ -1427,7 +1427,7 @@ Step Functionsワークフロー（例：ZIPインポート）の一部として
 
 これにより、Step Functionsワークフローが無限に待機することなく、成功と失敗の両方のケースを適切に処理できます。
 
-:::info Version Note
+:::info バージョンノート
 `sendTaskFailure()`メソッドは[バージョン1.0.18](/docs/changelog#v1018)で追加され、インポートジョブが失敗した際にStep Functionsが無限に待機する問題を修正しました。トラブルシューティングについては[インポートモジュールエラー](/docs/error-catalog#import-module-errors)も参照してください。
 :::
 
@@ -1487,11 +1487,11 @@ SendTaskFailure/SendTaskSuccess
    - すべて成功した場合 → マスターステータス = `COMPLETED`
 4. Lambdaはクラッシュしない - エラーは適切に処理される
 
-:::warning Common Errors
+:::warning よくあるエラー
 `ConditionalCheckFailedException`：競合するバージョンで既に存在するデータをインポートしようとした場合に発生します。インポートジョブはFAILEDとしてマークされ、親ジョブはこの失敗を適切に集計します。
 :::
 
-:::info Version Note
+:::info バージョンノート
 v1.0.19より前は、子ジョブのエラーによりLambdaがクラッシュし、マスタージョブが`PROCESSING`ステータスのまま無限に残っていました。[バージョン1.0.19](/docs/changelog#v1019)の修正により、適切なエラー伝播とステータス更新が保証されます。
 :::
 

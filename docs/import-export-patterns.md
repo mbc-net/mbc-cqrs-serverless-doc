@@ -1427,7 +1427,7 @@ export class CustomEventFactory extends EventFactoryAddedTask {
 
 {{This ensures Step Functions workflows properly handle both success and failure cases without hanging indefinitely.}}
 
-:::info Version Note
+:::info {{Version Note}}
 {{The `sendTaskFailure()` method was added in [version 1.0.18](/docs/changelog#v1018) to fix an issue where Step Functions would wait indefinitely when import jobs failed. See also [Import Module Errors](/docs/error-catalog#import-module-errors) for troubleshooting.}}
 :::
 
@@ -1487,11 +1487,11 @@ export class CustomEventFactory extends EventFactoryAddedTask {
    - {{If all succeeded → Master status = `COMPLETED`}}
 4. {{Lambda does NOT crash - error is handled gracefully}}
 
-:::warning Common Errors
+:::warning {{Common Errors}}
 {{`ConditionalCheckFailedException`: This occurs when attempting to import data that already exists with conflicting version. The import job will be marked as FAILED and the parent job will properly aggregate this failure.}}
 :::
 
-:::info Version Note
+:::info {{Version Note}}
 {{Prior to v1.0.19, errors in child jobs would crash the Lambda and leave the master job in `PROCESSING` status indefinitely. The fixes in [version 1.0.19](/docs/changelog#v1019) ensure proper error propagation and status updates.}}
 :::
 
