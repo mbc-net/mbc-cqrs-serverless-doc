@@ -536,8 +536,8 @@ async searchWithPagination(
 
 ## 関連ドキュメント
 
-- [Service Patterns](/docs/service-patterns) - 高度なサービス実装パターン
-- [Data Sync Handler Examples](/docs/data-sync-handler-examples) - 包括的な同期ハンドラー例
-- [Key Patterns](/docs/key-patterns) - PK/SK設計パターン
-- [Multi-Tenant Patterns](/docs/multi-tenant-patterns) - マルチテナント実装
-- [Import/Export Patterns](/docs/import-export-patterns) - バッチデータ処理
+- [サービスパターン](/docs/service-patterns) - 高度なサービス実装パターン
+- [Data Sync Handlerの実装例](/docs/data-sync-handler-examples) - 包括的な同期ハンドラー例
+- [キーパターン](/docs/key-patterns) - PK/SK設計パターン
+- [マルチテナントパターン](/docs/multi-tenant-patterns) - マルチテナント実装
+- [インポート/エクスポートパターン](/docs/import-export-patterns) - バッチデータ処理

@@ -536,8 +536,8 @@ async searchWithPagination(
 
 ## {{Related Documentation}}
 
-- [Service Patterns](/docs/service-patterns) - {{Advanced service implementation patterns}}
-- [Data Sync Handler Examples](/docs/data-sync-handler-examples) - {{Comprehensive sync handler examples}}
-- [Key Patterns](/docs/key-patterns) - {{PK/SK design patterns}}
-- [Multi-Tenant Patterns](/docs/multi-tenant-patterns) - {{Multi-tenant implementation}}
-- [Import/Export Patterns](/docs/import-export-patterns) - {{Batch data processing}}
+- [{{Service Patterns}}](/docs/service-patterns) - {{Advanced service implementation patterns}}
+- [{{Data Sync Handler Examples}}](/docs/data-sync-handler-examples) - {{Comprehensive sync handler examples}}
+- [{{Key Patterns}}](/docs/key-patterns) - {{PK/SK design patterns}}
+- [{{Multi-Tenant Patterns}}](/docs/multi-tenant-patterns) - {{Multi-tenant implementation}}
+- [{{Import/Export Patterns}}](/docs/import-export-patterns) - {{Batch data processing}}

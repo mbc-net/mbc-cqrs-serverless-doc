@@ -52,9 +52,14 @@
   "5. Pagination": "5. ページネーション",
   "Always support pagination for list operations:": "一覧操作では常にページネーションをサポートします：",
   "Related Documentation": "関連ドキュメント",
+  "Service Patterns": "サービスパターン",
   "Advanced service implementation patterns": "高度なサービス実装パターン",
+  "Data Sync Handler Examples": "Data Sync Handlerの実装例",
   "Comprehensive sync handler examples": "包括的な同期ハンドラー例",
+  "Key Patterns": "キーパターン",
   "PK/SK design patterns": "PK/SK設計パターン",
+  "Multi-Tenant Patterns": "マルチテナントパターン",
   "Multi-tenant implementation": "マルチテナント実装",
+  "Import/Export Patterns": "インポート/エクスポートパターン",
   "Batch data processing": "バッチデータ処理"
 }
