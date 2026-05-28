@@ -38,5 +38,14 @@
   "Correlation IDs": "相関ID",
   "Track related events across services": "サービス間で関連イベントを追跡",
   "Dead Letter Queues": "デッドレターキュー",
-  "Handle failed event processing": "失敗したイベント処理を処理"
+  "Handle failed event processing": "失敗したイベント処理を処理",
+  "Related Documentation": "関連ドキュメント",
+  "CQRS Flow": "CQRSフロー",
+  "Command and query separation": "コマンドとクエリの分離",
+  "Command Service": "コマンドサービス",
+  "Publishing events with commands": "コマンドを使ったイベント発行",
+  "DynamoDB": "DynamoDB",
+  "Event store implementation": "イベントストアの実装",
+  "Version Conflict Guide": "バージョン競合ガイド",
+  "Optimistic locking with events": "イベントを使った楽観的ロック"
 }

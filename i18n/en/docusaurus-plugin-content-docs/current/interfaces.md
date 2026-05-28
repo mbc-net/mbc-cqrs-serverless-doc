@@ -564,14 +564,6 @@ type DeepPartial<T> = {
 type EntityInput<T> = Omit<T, 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'>;
 ```
 
-## See Also
-
-- [Command Service](/docs/command-service) - Using commands with these interfaces
-- [Data Service](/docs/data-service) - Querying data with these interfaces
-- [Entity Patterns](/docs/entity-patterns) - Designing entities
-- [Error Catalog](/docs/error-catalog) - Error handling
-
-
 ## Related Documentation
 
 - [Command Service](/docs/command-service) - Using commands with these interfaces

@@ -210,3 +210,11 @@ Adopting the CQRS pattern provides these benefits:
 - **Flexibility**: Use different data models for reads and writes
 - **Performance**: Denormalize read models for fast queries
 - **Auditability**: Complete event history for audit trails
+
+
+## Related Documentation
+
+- [System Overview](/docs/architecture/system-overview) - AWS infrastructure components
+- [Event Sourcing](/docs/architecture/event-sourcing) - Event storage and replay
+- [Command Service](/docs/command-service) - Implement CQRS commands
+- [Data Service](/docs/data-service) - Implement CQRS queries

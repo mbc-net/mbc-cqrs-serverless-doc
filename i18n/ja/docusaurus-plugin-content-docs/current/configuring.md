@@ -420,19 +420,6 @@ export class AppService {
 }
 ```
 
-## 関連情報
-
-```mdx-code-block
-import DocCardList from '@theme/DocCardList';
-
-<DocCardList />
-```
-
-- [環境変数](/docs/environment-variables) - 環境設定
-- [絶対インポート](/docs/absolute_imports_and_module_path_aliases) - パスエイリアス
-- [デプロイガイド](/docs/deployment-guide) - デプロイ設定
-
-
 ## 関連ドキュメント
 
 - [環境変数](/docs/environment-variables) - 利用可能な全環境変数

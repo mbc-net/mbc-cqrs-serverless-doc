@@ -392,14 +392,6 @@ The following anti-patterns are documented for reference but automated detection
 | AP017 | Cold start amplification | Medium | Planned |
 | AP018 | Unbounded batch operations | High | Planned |
 
-## See Also
-
-- [Error Catalog](/docs/error-catalog) - Error codes and solutions
-- [Common Issues](/docs/common-issues) - Troubleshooting guide
-- [Security Best Practices](/docs/security-best-practices) - Security guidelines
-- [Service Patterns](/docs/service-patterns) - Recommended patterns
-
-
 ## Related Documentation
 
 - [Service Patterns](/docs/service-patterns) - Recommended patterns

@@ -590,14 +590,6 @@ const validTransitions = {
 const orderCode = `ORD-${String(sequence.value).padStart(6, '0')}`;
 ```
 
-## 関連項目
-
-- [コマンドサービス](/docs/command-service)
-- [シーケンスサービス](/docs/sequence)
-- [イベント処理パターン](/docs/event-handling-patterns)
-- [アンチパターンガイド](/docs/anti-patterns)
-
-
 ## 関連ドキュメント
 
 - [SaaS例](/docs/saas-example) - SaaSアプリケーション例

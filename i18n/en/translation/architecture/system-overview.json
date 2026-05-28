@@ -43,5 +43,14 @@
   "Request Context": "Request Context",
   "Tenant information is extracted from JWT tokens": "Tenant information is extracted from JWT tokens",
   "Query Filtering": "Query Filtering",
-  "All queries are automatically scoped to the tenant": "All queries are automatically scoped to the tenant"
+  "All queries are automatically scoped to the tenant": "All queries are automatically scoped to the tenant",
+  "Related Documentation": "Related Documentation",
+  "CQRS Flow": "CQRS Flow",
+  "How commands and queries flow": "How commands and queries flow",
+  "CDK Infrastructure": "CDK Infrastructure",
+  "AWS infrastructure code": "AWS infrastructure code",
+  "Multi-Tenant Patterns": "Multi-Tenant Patterns",
+  "Tenant isolation details": "Tenant isolation details",
+  "Getting Started": "Getting Started",
+  "Start building": "Start building"
 }

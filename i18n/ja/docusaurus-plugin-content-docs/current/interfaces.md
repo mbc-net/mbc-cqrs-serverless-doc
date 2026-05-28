@@ -564,14 +564,6 @@ type DeepPartial<T> = {
 type EntityInput<T> = Omit<T, 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'>;
 ```
 
-## 関連情報
-
-- [コマンドサービス](/docs/command-service) - これらのインターフェースを使用したコマンド
-- [データサービス](/docs/data-service) - これらのインターフェースを使用したデータクエリ
-- [エンティティパターン](/docs/entity-patterns) - エンティティの設計
-- [エラーカタログ](/docs/error-catalog) - エラーハンドリング
-
-
 ## 関連ドキュメント
 
 - [コマンドサービス](/docs/command-service) - これらのインターフェースを使ったコマンド操作

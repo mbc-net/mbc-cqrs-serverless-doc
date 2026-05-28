@@ -256,12 +256,6 @@ import { ITenantService } from "@mbc-cqrs-serverless/tenant";
 `createTenantGroup`メソッドは`TenantService`で利用可能ですが、`ITenantService`インターフェースには含まれていません。
 :::
 
-## 関連項目
-
-- [マルチテナントパターン](/docs/multi-tenant-patterns) - 高度なマルチテナント実装パターン
-- [コマンドサービス](/docs/command-service) - TenantServiceで使用されるコマンド操作
-
-
 ## 関連ドキュメント
 
 - [マルチテナントパターン](/docs/multi-tenant-patterns) - テナント分離パターン

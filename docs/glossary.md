@@ -255,13 +255,6 @@ description: {{Comprehensive glossary of terms used in MBC CQRS Serverless frame
 
 {{An access control method where permissions are assigned to roles, and users are assigned to roles. Implemented via Cognito groups.}}
 
-## {{See Also}}
-
-- {{[Architecture Overview](/docs/architecture) - System architecture explanation}}
-- {{[CQRS Flow](/docs/architecture/cqrs-flow) - Detailed CQRS implementation}}
-- {{[Key Patterns](/docs/key-patterns) - PK/SK design patterns}}
-
-
 ## {{Related Documentation}}
 
 - [{{Architecture}}](/docs/architecture) - {{System architecture overview}}

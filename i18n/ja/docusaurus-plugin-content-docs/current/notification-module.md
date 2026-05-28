@@ -550,12 +550,6 @@ await this.emailService.sendEmail(email);
 | `content` | `Buffer` | はい | Buffer形式のファイルコンテンツ |
 | `contentType` | `string` | いいえ | MIMEタイプ（例：'application/pdf'） |
 
-## 関連情報
-
-- [イベントハンドリングパターン](/docs/event-handling-patterns) - 通知がイベントとどのように統合されるか
-- [環境変数](/docs/environment-variables) - 設定リファレンス
-
-
 ## 関連ドキュメント
 
 - [メールサービス](/docs/email-service) - SESメール送信

@@ -836,14 +836,6 @@ async createSubscription() {
 }
 ```
 
-## 関連項目
-
-- [テナントモジュール](/docs/tenant)
-- [マスターモジュール](/docs/master)
-- [マルチテナントパターン](/docs/multi-tenant-patterns)
-- [イベント処理パターン](/docs/event-handling-patterns)
-
-
 ## 関連ドキュメント
 
 - [Eコマース例](/docs/ecommerce-example) - コマースアプリケーション例

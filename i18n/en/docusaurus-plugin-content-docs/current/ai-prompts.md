@@ -234,13 +234,6 @@ When using these prompts:
 4. **Specify Constraints**: Mention any performance, security, or compatibility requirements
 5. **Request Explanations**: Ask AI to explain its implementation choices
 
-## See Also
-
-- [AI Integration](/docs/ai-integration) - Overview of AI tool support
-- [MCP Server](/docs/mcp-server) - Dynamic AI integration via MCP
-- [Error Catalog](/docs/error-catalog) - Common errors and solutions
-
-
 ## Related Documentation
 
 - [AI Integration](/docs/ai-integration) - Overview of AI tool support

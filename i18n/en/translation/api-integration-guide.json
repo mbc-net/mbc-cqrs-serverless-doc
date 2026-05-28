@@ -109,15 +109,6 @@
   "Continue processing even if some external calls fail": "Continue processing even if some external calls fail",
   "5. Store Webhook Secrets Securely": "5. Store Webhook Secrets Securely",
   "Use AWS Secrets Manager or SSM Parameter Store": "Use AWS Secrets Manager or SSM Parameter Store",
-  "See Also": "See Also",
-  "Service Implementation Patterns": "Service Implementation Patterns",
-  "Core service patterns": "Core service patterns",
-  "Event Handling Patterns": "Event Handling Patterns",
-  "Event-driven architecture": "Event-driven architecture",
-  "Monitoring and Logging": "Monitoring and Logging",
-  "Observability best practices": "Observability best practices",
-  "Error Catalog": "Error Catalog",
-  "Error handling reference": "Error handling reference",
   "Related Documentation": "Related Documentation",
   "API Integration Patterns": "API Integration Patterns",
   "Frontend API patterns": "Frontend API patterns",
@@ -125,5 +116,6 @@
   "Core backend patterns": "Core backend patterns",
   "Authentication": "Authentication",
   "Authentication setup": "Authentication setup",
+  "Error Catalog": "Error Catalog",
   "API error codes": "API error codes"
 }

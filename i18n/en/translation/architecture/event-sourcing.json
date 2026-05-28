@@ -38,5 +38,14 @@
   "Correlation IDs": "Correlation IDs",
   "Track related events across services": "Track related events across services",
   "Dead Letter Queues": "Dead Letter Queues",
-  "Handle failed event processing": "Handle failed event processing"
+  "Handle failed event processing": "Handle failed event processing",
+  "Related Documentation": "Related Documentation",
+  "CQRS Flow": "CQRS Flow",
+  "Command and query separation": "Command and query separation",
+  "Command Service": "Command Service",
+  "Publishing events with commands": "Publishing events with commands",
+  "DynamoDB": "DynamoDB",
+  "Event store implementation": "Event store implementation",
+  "Version Conflict Guide": "Version Conflict Guide",
+  "Optimistic locking with events": "Optimistic locking with events"
 }

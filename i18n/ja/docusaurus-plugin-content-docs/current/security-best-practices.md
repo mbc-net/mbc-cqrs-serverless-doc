@@ -658,14 +658,6 @@ trail.addEventSelector(cloudtrail.DataResourceType.DYNAMODB_TABLE, [
 - [ ] API Gatewayスロットリングが検証されている
 - [ ] ペネトレーションテストが完了している
 
-## 関連情報
-
-- [認証](/docs/authentication) - 認証設定
-- [エラーカタログ](/docs/error-catalog) - セキュリティ関連エラー
-- [監視とロギング](/docs/monitoring-logging) - セキュリティ監視
-- [デプロイガイド](/docs/deployment-guide) - セキュアデプロイ
-
-
 ## 関連ドキュメント
 
 - [認証](/docs/authentication) - Cognito認証とJWTの設定

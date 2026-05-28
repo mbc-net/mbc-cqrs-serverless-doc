@@ -550,12 +550,6 @@ await this.emailService.sendEmail(email);
 | `content` | `Buffer` | {{Yes}} | {{File content as Buffer}} |
 | `contentType` | `string` | {{No}} | {{MIME type (e.g., 'application/pdf')}} |
 
-## {{See Also}}
-
-- [{{Event Handling Patterns}}](/docs/event-handling-patterns) - {{How notifications integrate with events}}
-- [{{Environment Variables}}](/docs/environment-variables) - {{Configuration reference}}
-
-
 ## {{Related Documentation}}
 
 - [{{Email Service}}](/docs/email-service) - {{SES email sending}}
