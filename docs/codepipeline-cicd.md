@@ -52,13 +52,13 @@ export class PipelineStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: PipelineStackProps) {
     super(scope, id, props);
 
-    // Source artifact
+    // {{Source artifact}}
     const sourceOutput = new codepipeline.Artifact();
 
-    // Build artifact
+    // {{Build artifact}}
     const buildOutput = new codepipeline.Artifact();
 
-    // CodeBuild project
+    // {{CodeBuild project}}
     const buildProject = new codebuild.PipelineProject(this, 'BuildProject', {
       environment: {
         buildImage: codebuild.LinuxBuildImage.STANDARD_7_0,
@@ -197,13 +197,13 @@ artifacts:
 ```typescript
 const pipeline = new codepipeline.Pipeline(this, 'Pipeline', {
   stages: [
-    // Source stage
+    // {{Source stage}}
     { stageName: 'Source', actions: [sourceAction] },
 
-    // Build stage
+    // {{Build stage}}
     { stageName: 'Build', actions: [buildAction] },
 
-    // Deploy to Development
+    // {{Deploy to Development}}
     {
       stageName: 'Deploy_Dev',
       actions: [
@@ -216,7 +216,7 @@ const pipeline = new codepipeline.Pipeline(this, 'Pipeline', {
       ],
     },
 
-    // Manual Approval for Production
+    // {{Manual Approval for Production}}
     {
       stageName: 'Approval',
       actions: [
@@ -227,7 +227,7 @@ const pipeline = new codepipeline.Pipeline(this, 'Pipeline', {
       ],
     },
 
-    // Deploy to Production
+    // {{Deploy to Production}}
     {
       stageName: 'Deploy_Prod',
       actions: [
@@ -285,7 +285,7 @@ new codepipeline_actions.CodeStarConnectionsSourceAction({
 ### {{CDK Pipeline with Branches}}
 
 ```typescript
-// Development pipeline (auto-deploy)
+// {{Development pipeline (auto-deploy)}}
 new PipelineStack(app, 'DevPipeline', {
   repositoryName: 'your-app',
   branchName: 'develop',
@@ -293,7 +293,7 @@ new PipelineStack(app, 'DevPipeline', {
   autoApprove: true,
 });
 
-// Production pipeline (manual approval)
+// {{Production pipeline (manual approval)}}
 new PipelineStack(app, 'ProdPipeline', {
   repositoryName: 'your-app',
   branchName: 'main',

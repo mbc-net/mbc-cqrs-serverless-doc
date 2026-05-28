@@ -159,12 +159,12 @@ export class ProductService {
 import { client } from '@/services/sdk/client';
 import { fetchAuthSession } from 'aws-amplify/auth';
 
-// Configure the base URL
+// {{Configure the base URL}}
 client.setConfig({
   baseUrl: process.env.NEXT_PUBLIC_API_URL,
 });
 
-// Add authentication interceptor
+// {{Add authentication interceptor}}
 client.interceptors.request.use(async (request) => {
   try {
     const session = await fetchAuthSession();
@@ -180,7 +180,7 @@ client.interceptors.request.use(async (request) => {
   return request;
 });
 
-// Add tenant header interceptor
+// {{Add tenant header interceptor}}
 client.interceptors.request.use((request) => {
   const tenantCode = getTenantFromStore(); // Get from Zustand store
   if (tenantCode) {
@@ -189,12 +189,12 @@ client.interceptors.request.use((request) => {
   return request;
 });
 
-// Add error handling interceptor
+// {{Add error handling interceptor}}
 client.interceptors.response.use((response) => {
   if (!response.ok) {
-    // Handle specific error codes
+    // {{Handle specific error codes}}
     if (response.status === 401) {
-      // Redirect to login
+      // {{Redirect to login}}
       window.location.href = '/login';
     }
   }
@@ -478,7 +478,7 @@ export function handleApiError(error: unknown): never {
   throw new ApiException(500, 'An unexpected error occurred');
 }
 
-// Usage in API wrapper
+// {{Usage in API wrapper}}
 export const productApi = {
   async list(filters: ProductFilters = {}): Promise<ProductListResponse> {
     try {
@@ -717,7 +717,7 @@ function useUpdateProductWithVersion() {
   return {
     ...updateProduct,
     mutateAsync: async ({ pk, sk, dto }: UpdateParams) => {
-      // Get current version from cache
+      // {{Get current version from cache}}
       const cached = queryClient.getQueryData<Product>(
         productKeys.detail(pk, sk)
       );
@@ -751,7 +751,7 @@ export const queryClient = new QueryClient({
     queries: {
       staleTime: 60 * 1000,
       retry: (failureCount, error) => {
-        // Don't retry on 4xx errors
+        // {{Don't retry on 4xx errors}}
         if (error instanceof ApiException && error.statusCode < 500) {
           return false;
         }

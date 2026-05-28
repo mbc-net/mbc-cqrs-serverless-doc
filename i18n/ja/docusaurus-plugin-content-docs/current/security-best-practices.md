@@ -451,7 +451,7 @@ async function getSecret(secretName: string): Promise<Record<string, string>> {
   throw new Error('Secret not found');
 }
 
-// Cache secrets to avoid repeated API calls
+// 繰り返しのAPIコールを避けるためにシークレットをキャッシュ
 let cachedSecrets: Record<string, string> | null = null;
 
 async function getDatabasePassword(): Promise<string> {
@@ -469,14 +469,14 @@ async function getDatabasePassword(): Promise<string> {
 悪用を防止するためにレート制限を実装します。
 
 ```typescript
-// API Gateway throttling in serverless.yml
+// serverless.ymlのAPI Gatewayスロットリング
 provider:
   apiGateway:
     throttling:
       burstLimit: 200
       rateLimit: 100
 
-// Per-function throttling
+// 関数ごとのスロットリング
 functions:
   createOrder:
     handler: handler.createOrder
@@ -523,14 +523,14 @@ provider:
 DoSを防止するためにリクエストペイロードサイズを制限します。
 
 ```typescript
-// API Gateway payload limit in serverless.yml
+// serverless.ymlのAPI Gatewayペイロード制限
 provider:
   apiGateway:
     binaryMediaTypes:
       - 'application/octet-stream'
     maximumPayloadSize: 10485760  # 10MB
 
-// Application-level validation
+// アプリケーションレベルの検証
 @Post('upload')
 @UseInterceptors(
   FileInterceptor('file', {
@@ -540,7 +540,7 @@ provider:
   }),
 )
 async uploadFile(@UploadedFile() file: Express.Multer.File) {
-  // Process file
+  // ファイルを処理
 }
 ```
 
@@ -629,7 +629,7 @@ const trail = new cloudtrail.Trail(this, 'AuditTrail', {
   isMultiRegionTrail: true,
 });
 
-// Log specific events
+// 特定のイベントをログ記録
 trail.addEventSelector(cloudtrail.DataResourceType.DYNAMODB_TABLE, [
   `arn:aws:dynamodb:${this.region}:${this.account}:table/*`,
 ]);

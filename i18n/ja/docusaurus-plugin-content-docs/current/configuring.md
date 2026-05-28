@@ -329,18 +329,18 @@ app.useGlobalPipes(
     // ペイロードをDTOインスタンスに変換
     transform: true,
 
-    // Strip properties not in DTO
+    // DTOにないプロパティを除去
     whitelist: true,
 
-    // Throw error for extra properties
+    // 余分なプロパティでエラーをスロー
     forbidNonWhitelisted: true,
 
-    // Transform primitive types
+    // プリミティブ型を変換
     transformOptions: {
       enableImplicitConversion: true,
     },
 
-    // Custom error messages
+    // カスタムエラーメッセージ
     exceptionFactory: (errors) => {
       const messages = errors.map(error => ({
         field: error.property,

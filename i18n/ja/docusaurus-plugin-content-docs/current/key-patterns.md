@@ -472,7 +472,7 @@ import {
   removeSortKeyVersion,
 } from "@mbc-cqrs-serverless/core";
 
-// Creating first version
+// 最初のバージョンを作成
 const command = new OrderCommandDto({
   pk,
   sk,
@@ -480,14 +480,14 @@ const command = new OrderCommandDto({
   // ...
 });
 
-// Reading specific version from history
+// 履歴から特定のバージョンを読み取り
 const skWithVersion = addSortKeyVersion(baseSk, 2);
 const historicalItem = await historyService.getItem({ pk, sk: skWithVersion });
 
-// In Data Sync Handler - always remove version for RDS storage
+// データ同期ハンドラーで - RDS保存時は常にバージョンを削除
 async up(cmd: CommandModel): Promise<any> {
   const sk = removeSortKeyVersion(cmd.sk);
-  // Store sk without version in RDS
+  // バージョンなしのSKをRDSに保存
 }
 ```
 
@@ -496,7 +496,7 @@ async up(cmd: CommandModel): Promise<any> {
 ### PKによるクエリ
 
 ```ts
-// Get all products for a tenant
+// テナントの全商品を取得
 const items = await dataService.listItemsByPk(
   `PRODUCT${KEY_SEPARATOR}${tenantCode}`,
 );
@@ -505,7 +505,7 @@ const items = await dataService.listItemsByPk(
 ### SKプレフィックスによるクエリ
 
 ```ts
-// Get all order items for a specific order
+// 特定の注文の全注文アイテムを取得
 const items = await dataService.listItemsByPk(
   `ORDER${KEY_SEPARATOR}${tenantCode}`,
   {
@@ -520,7 +520,7 @@ const items = await dataService.listItemsByPk(
 ### SK範囲によるクエリ
 
 ```ts
-// Get orders within a date range (if using timestamp in SK)
+// SKにタイムスタンプを使用している場合、日付範囲内の注文を取得
 const items = await dataService.listItemsByPk(
   `ORDER${KEY_SEPARATOR}${tenantCode}`,
   {
@@ -556,7 +556,7 @@ import { ulid } from "ulid";
 
 const sk = ulid();
 // Result: "01HX7MBJK3V9WQBZ7XNDK5ZT2M"
-// Sortable by creation time
+// 作成時刻でソート可能
 ```
 
 ### 3. クエリパターンに合わせた設計
@@ -564,12 +564,12 @@ const sk = ulid();
 データのクエリ方法に基づいてキーを構造化します：
 
 ```ts
-// If you need to query all items for an order:
+// 注文の全アイテムを取得する必要がある場合:
 PK: ORDER#tenant001
 SK: ORDER_ITEM#orderId#itemId  // Query by SK prefix
 
-// If you need to query items by product across orders:
-// Consider a GSI or separate table
+// 注文を横断して商品別にアイテムを取得する必要がある場合:
+// GSIまたは別テーブルを検討
 ```
 
 ### 4. PKのカーディナリティを管理可能に保つ
@@ -577,10 +577,10 @@ SK: ORDER_ITEM#orderId#itemId  // Query by SK prefix
 ホットパーティションを防ぐために、ユニークなPKが多すぎないようにします：
 
 ```ts
-// Good - bounded by tenants
+// 良い - テナントで制限される
 PK: PRODUCT#tenant001
 
-// Avoid - unbounded by users
+// 避ける - ユーザーで制限されない
 PK: USER_ACTIVITY#user123  // Could create millions of partitions
 ```
 
@@ -621,11 +621,11 @@ PK: PRODUCT#my_tenant
 テナント間で共有されるデータには共通テナントコードを使用します：
 
 ```ts
-// User data (shared across tenants)
+// ユーザーデータ（テナント間で共有）
 PK: USER#common
 SK: sso#userId
 
-// User-tenant association
+// ユーザー-テナント関連付け
 PK: USER_TENANT#common
 SK: tenant001#userId
 ```
@@ -635,10 +635,10 @@ SK: tenant001#userId
 ### 1. キーに情報を詰め込みすぎる
 
 ```ts
-// Avoid - too complex
+// 避ける - 複雑すぎる
 SK: ORDER#2024-01-15#electronics#high-priority#01HX7M...
 
-// Better - use attributes for filtering
+// 良い - フィルタリングに属性を使用
 SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M
 attributes: {
   date: "2024-01-15",
@@ -650,10 +650,10 @@ attributes: {
 ### 2. キーに可変データを使用する
 
 ```ts
-// Avoid - status changes
+// 避ける - ステータスが変わる
 SK: ORDER#pending#01HX7M...  // What happens when status changes?
 
-// Better - use attributes
+// 良い - 属性を使用
 SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M
 attributes: { status: "pending" }
 ```

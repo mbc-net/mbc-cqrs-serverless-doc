@@ -365,7 +365,7 @@ import { Providers } from './providers';
 import { configureAmplify } from '@/lib/auth/amplify';
 import './globals.css';
 
-// Configure Amplify on the server
+// サーバー側でAmplifyを設定
 configureAmplify();
 
 export default function RootLayout({
@@ -436,7 +436,7 @@ export const config = {
 解決策：フックやブラウザAPIを使用するコンポーネントに'use client'をマークします。
 
 ```typescript
-// Server Component (default)
+// サーバーコンポーネント（デフォルト）
 // src/app/(main)/products/page.tsx
 import { ProductList } from '@/containers/products/ProductList';
 
@@ -444,7 +444,7 @@ export default function ProductsPage() {
   return <ProductList />;
 }
 
-// Client Component
+// クライアントコンポーネント
 // src/containers/products/ProductList.tsx
 'use client';
 

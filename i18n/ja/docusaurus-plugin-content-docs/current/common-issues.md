@@ -91,7 +91,7 @@ docker ps | grep dynamodb
 
 2. 設定でエンドポイントURLを確認：
 ```typescript
-// Should be http://localhost:8000 for local development
+// ローカル開発では http://localhost:8000 を使用
 dynamodbEndpoint: 'http://localhost:8000'
 ```
 
@@ -227,7 +227,7 @@ npm run migrate
 - 本番用：プロビジョニング容量を増やすか、オートスケーリングを有効化
 
 ```typescript
-// CDK configuration for on-demand
+// オンデマンド用CDK設定
 const table = new dynamodb.Table(this, 'Table', {
   billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
 });
@@ -273,7 +273,7 @@ const handler = new lambda.Function(this, 'Handler', {
 
 1. バンドリング設定を確認：
 ```typescript
-// Ensure dependencies are bundled
+// 依存関係がバンドルされていることを確認
 const handler = new lambda_nodejs.NodejsFunction(this, 'Handler', {
   bundling: {
     externalModules: [], // Don't exclude anything
@@ -293,7 +293,7 @@ const handler = new lambda_nodejs.NodejsFunction(this, 'Handler', {
 
 1. Cognito設定を確認：
 ```typescript
-// Check USER_POOL_ID and CLIENT_ID match
+// USER_POOL_IDとCLIENT_IDが一致することを確認
 COGNITO_USER_POOL_ID=ap-northeast-1_xxxxxx
 COGNITO_CLIENT_ID=xxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
@@ -344,7 +344,7 @@ aws lambda list-event-source-mappings --function-name your-function
 @EventHandler(YourEvent)
 export class YourEventHandler implements IEventHandler<YourEvent> {
   async execute(event: YourEvent): Promise<void> {
-    // Handler implementation
+    // ハンドラーの実装
   }
 }
 ```
@@ -384,7 +384,7 @@ if (await this.isProcessed(idempotencyKey)) {
 
 2. エラーハンドリングを追加：
 ```typescript
-// Add retry and catch in state machine definition
+// ステートマシン定義にリトライとキャッチを追加
 {
   "Retry": [
     {

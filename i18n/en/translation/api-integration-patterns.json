@@ -40,6 +40,12 @@
   "Scenario: Every API request needs a Bearer token from Cognito.": "Scenario: Every API request needs a Bearer token from Cognito.",
   "Problem: Manually adding headers to each request is error-prone.": "Problem: Manually adding headers to each request is error-prone.",
   "Solution: Use interceptors to add authentication header automatically.": "Solution: Use interceptors to add authentication header automatically.",
+  "Configure the base URL": "Configure the base URL",
+  "Add authentication interceptor": "Add authentication interceptor",
+  "Add tenant header interceptor": "Add tenant header interceptor",
+  "Add error handling interceptor": "Add error handling interceptor",
+  "Handle specific error codes": "Handle specific error codes",
+  "Redirect to login": "Redirect to login",
   "Use Case: Create API Wrapper with Error Handling": "Use Case: Create API Wrapper with Error Handling",
   "Scenario: Components need clean APIs that throw meaningful errors.": "Scenario: Components need clean APIs that throw meaningful errors.",
   "Problem: Generated SDK returns `{ data, error }` which requires handling in every component.": "Problem: Generated SDK returns `{ data, error }` which requires handling in every component.",
@@ -56,6 +62,7 @@
   "Solution: Create error types that match backend response format.": "Solution: Create error types that match backend response format.",
   "Use Case: Centralized Error Handler": "Use Case: Centralized Error Handler",
   "Scenario: Convert various error types to consistent ApiException.": "Scenario: Convert various error types to consistent ApiException.",
+  "Usage in API wrapper": "Usage in API wrapper",
   "Use Case: Display Errors with Field Details": "Use Case: Display Errors with Field Details",
   "Scenario: Show validation errors returned by the server.": "Scenario: Show validation errors returned by the server.",
   "Multi-Tenant API Calls": "Multi-Tenant API Calls",
@@ -78,7 +85,9 @@
   "4. Version Handling for Updates": "4. Version Handling for Updates",
   "When: Updating entities that use optimistic locking.": "When: Updating entities that use optimistic locking.",
   "Why: MBC CQRS Serverless uses version field to prevent concurrent update conflicts.": "Why: MBC CQRS Serverless uses version field to prevent concurrent update conflicts.",
+  "Get current version from cache": "Get current version from cache",
   "5. Retry Configuration": "5. Retry Configuration",
   "When: Configuring React Query client.": "When: Configuring React Query client.",
-  "Why: Avoid retrying client errors (4xx) that will always fail.": "Why: Avoid retrying client errors (4xx) that will always fail."
+  "Why: Avoid retrying client errors (4xx) that will always fail.": "Why: Avoid retrying client errors (4xx) that will always fail.",
+  "Don't retry on 4xx errors": "Don't retry on 4xx errors"
 }

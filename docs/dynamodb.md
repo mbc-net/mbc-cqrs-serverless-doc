@@ -98,19 +98,19 @@ npm run migrate
 ### {{Entity Key Examples}}
 
 ```typescript
-// Order entity
+// {{Order entity}}
 const orderKey = {
   pk: `ORDER#${tenantCode}`,
   sk: `ORDER#${orderId}`,
 };
 
-// User entity
+// {{User entity}}
 const userKey = {
   pk: `USER#${tenantCode}`,
   sk: `USER#${userId}`,
 };
 
-// Hierarchical data (e.g., organization)
+// {{Hierarchical data (e.g., organization)}}
 const departmentKey = {
   pk: `ORG#${tenantCode}`,
   sk: `DEPT#${parentId}#${deptId}`,
@@ -180,7 +180,7 @@ const departmentKey = {
 {{Example usage with custom GSI:}}
 
 ```typescript
-// Find entity by code (requires code-index GSI)
+// {{Find entity by code (requires code-index GSI)}}
 const params = {
   TableName: 'entity-data',
   IndexName: 'code-index',
