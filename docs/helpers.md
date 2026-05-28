@@ -156,7 +156,7 @@ const { bucket, key } = parseS3AttributeKey('s3://my-bucket/path/to/file.pdf');
 import { getUserContext } from '@mbc-cqrs-serverless/core';
 
 const userContext = getUserContext(invokeContext);
-// {{Returns: { userId: '...', tenantCode: 'mbc', tenantRole: 'admin' }}}
+// {{Returns:}} { userId: '...', tenantCode: 'mbc', tenantRole: 'admin' }
 ```
 
 ### `extractInvokeContext(ctx?: ExecutionContext): IInvoke`
@@ -332,7 +332,7 @@ const result = mergeDeep(
   { a: 1, b: { c: 2 } },
   { b: { d: 3 }, e: 4 }
 );
-// {{Result: { a: 1, b: { c: 2, d: 3 }, e: 4 }}}
+// {{Result:}} { a: 1, b: { c: 2, d: 3 }, e: 4 }
 ```
 
 ### `objectBytes(obj: any): number`
@@ -354,7 +354,7 @@ const size = objectBytes({ name: 'test', value: 123 });
 import { pickKeys } from '@mbc-cqrs-serverless/core';
 
 const result = pickKeys({ a: 1, b: 2, c: 3 }, ['a', 'c']);
-// {{Result: { a: 1, c: 3 }}}
+// {{Result:}} { a: 1, c: 3 }
 ```
 
 ### `omitKeys(obj: any, keys: string[]): object`
@@ -365,7 +365,7 @@ const result = pickKeys({ a: 1, b: 2, c: 3 }, ['a', 'c']);
 import { omitKeys } from '@mbc-cqrs-serverless/core';
 
 const result = omitKeys({ a: 1, b: 2, c: 3 }, ['b']);
-// {{Result: { a: 1, c: 3 }}}
+// {{Result:}} { a: 1, c: 3 }
 ```
 
 ## {{Serializer Helpers}}
@@ -437,7 +437,7 @@ const external = {
 };
 
 const entity = deserializeToInternal(external, DataEntity);
-// {{Result: DataEntity with pk, sk, name, and attributes: { color, size }}}
+// {{Result: DataEntity with pk, sk, name, and attributes:}} { color, size }
 ```
 
 ## {{Source Helper}}
