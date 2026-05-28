@@ -27,5 +27,14 @@
   "Updated at": "Updated at",
   "properties": "properties",
   "relations": "relations",
-  "index": "index"
+  "index": "index",
+  "Related Documentation": "Related Documentation",
+  "Database Selection Guide": "Database Selection Guide",
+  "Choosing between DynamoDB and RDS": "Choosing between DynamoDB and RDS",
+  "Data Sync Handler Examples": "Data Sync Handler Examples",
+  "Sync DynamoDB data to RDS": "Sync DynamoDB data to RDS",
+  "Environment Variables": "Environment Variables",
+  "Database connection configuration": "Database connection configuration",
+  "Deployment Guide": "Deployment Guide",
+  "Database migration in deployment": "Database migration in deployment"
 }

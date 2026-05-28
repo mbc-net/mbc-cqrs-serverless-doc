@@ -57,3 +57,11 @@ updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamp(0) // Updated at
 @@unique([tenantCode, code])
 @@index([tenantCode, name])
 ```
+
+
+## Related Documentation
+
+- [Database Selection Guide](/docs/database-selection-guide) - Choosing between DynamoDB and RDS
+- [Data Sync Handler Examples](/docs/data-sync-handler-examples) - Sync DynamoDB data to RDS
+- [Environment Variables](/docs/environment-variables) - Database connection configuration
+- [Deployment Guide](/docs/deployment-guide) - Database migration in deployment

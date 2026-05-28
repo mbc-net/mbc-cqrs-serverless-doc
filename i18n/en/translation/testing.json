@@ -6,5 +6,14 @@
   "provides integration with [Jest](https://github.com/facebook/jest) and [Supertest](https://github.com/ladjs/supertest) out-of-the-box, while remaining agnostic to testing tools": "provides integration with [Jest](https://github.com/facebook/jest) and [Supertest](https://github.com/ladjs/supertest) out-of-the-box, while remaining agnostic to testing tools",
   "makes the Nest dependency injection system available in the testing environment for easily mocking components": "makes the Nest dependency injection system available in the testing environment for easily mocking components",
   "effortlessly mock AWS services": "effortlessly mock AWS services",
-  "See the guides below to learn how to write test:": "See the guides below to learn how to write test:"
+  "See the guides below to learn how to write test:": "See the guides below to learn how to write test:",
+  "Related Documentation": "Related Documentation",
+  "Unit Testing": "Unit Testing",
+  "Unit testing with Jest": "Unit testing with Jest",
+  "E2E Testing": "E2E Testing",
+  "End-to-end testing setup": "End-to-end testing setup",
+  "Debugging Guide": "Debugging Guide",
+  "Debug test failures": "Debug test failures",
+  "Common Issues": "Common Issues",
+  "Testing-related issues": "Testing-related issues"
 }

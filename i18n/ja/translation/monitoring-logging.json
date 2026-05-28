@@ -134,5 +134,14 @@
   "Next Steps": "次のステップ",
   "[Deployment Guide](/docs/deployment-guide) - Deploy with monitoring enabled": "[デプロイメントガイド](/docs/deployment-guide) - モニタリングを有効にしてデプロイ",
   "[CI/CD with CodePipeline](/docs/codepipeline-cicd) - Automate deployments": "[CodePipelineによるCI/CD](/docs/codepipeline-cicd) - デプロイを自動化",
-  "[Troubleshooting](/docs/common-issues) - Debug issues": "[トラブルシューティング](/docs/common-issues) - 問題のデバッグ"
+  "[Troubleshooting](/docs/common-issues) - Debug issues": "[トラブルシューティング](/docs/common-issues) - 問題のデバッグ",
+  "Related Documentation": "",
+  "Deployment Guide": "デプロイガイド",
+  "Deploy with monitoring enabled": "監視を有効にしてデプロイ",
+  "Debugging Guide": "デバッグガイド",
+  "Use logging for debugging": "デバッグへのログ活用",
+  "CI/CD with CodePipeline": "CodePipelineによるCI/CD",
+  "Pipeline monitoring": "パイプライン監視",
+  "Troubleshooting": "トラブルシューティング",
+  "Common production issues": "よくある本番環境の問題"
 }

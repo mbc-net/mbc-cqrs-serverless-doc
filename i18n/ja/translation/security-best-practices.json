@@ -91,5 +91,13 @@
   "[Authentication](/docs/authentication) - Authentication setup": "[認証](/docs/authentication) - 認証設定",
   "[Error Catalog](/docs/error-catalog) - Security-related errors": "[エラーカタログ](/docs/error-catalog) - セキュリティ関連エラー",
   "[Monitoring and Logging](/docs/monitoring-logging) - Security monitoring": "[監視とロギング](/docs/monitoring-logging) - セキュリティ監視",
-  "[Deployment Guide](/docs/deployment-guide) - Secure deployment": "[デプロイガイド](/docs/deployment-guide) - セキュアデプロイ"
+  "[Deployment Guide](/docs/deployment-guide) - Secure deployment": "[デプロイガイド](/docs/deployment-guide) - セキュアデプロイ",
+  "Related Documentation": "",
+  "Cognito authentication and JWT setup": "",
+  "Multi-Tenant Patterns": "マルチテナントパターン",
+  "Tenant isolation and access control": "テナント分離とアクセス制御",
+  "Error Catalog": "エラーカタログ",
+  "Security-related error codes": "セキュリティ関連エラーコード",
+  "Monitoring and Logging": "",
+  "Security event monitoring": "セキュリティイベント監視"
 }

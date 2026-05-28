@@ -120,5 +120,13 @@
   "Next Steps": "次のステップ",
   "[CI/CD with CodePipeline](/docs/codepipeline-cicd) - Automate your deployments": "[CodePipelineによるCI/CD](/docs/codepipeline-cicd) - デプロイを自動化する",
   "[Monitoring and Logging](/docs/monitoring-logging) - Set up observability": "[モニタリングとロギング](/docs/monitoring-logging) - 可観測性をセットアップする",
-  "[Troubleshooting](/docs/common-issues) - Common deployment issues": "[トラブルシューティング](/docs/common-issues) - よくあるデプロイの問題"
+  "[Troubleshooting](/docs/common-issues) - Common deployment issues": "[トラブルシューティング](/docs/common-issues) - よくあるデプロイの問題",
+  "Related Documentation": "",
+  "CI/CD with CodePipeline": "CodePipelineによるCI/CD",
+  "Automate deployments with CodePipeline": "CodePipelineでデプロイを自動化",
+  "Monitoring and Logging": "",
+  "Set up observability after deployment": "デプロイ後のオブザーバビリティ設定",
+  "Configure environment for deployment": "デプロイ用の環境設定",
+  "Troubleshooting": "トラブルシューティング",
+  "Common deployment issues": "よくあるデプロイの問題"
 }

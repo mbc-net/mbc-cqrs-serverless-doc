@@ -134,5 +134,14 @@
   "Next Steps": "Next Steps",
   "[Deployment Guide](/docs/deployment-guide) - Deploy with monitoring enabled": "[Deployment Guide](/docs/deployment-guide) - Deploy with monitoring enabled",
   "[CI/CD with CodePipeline](/docs/codepipeline-cicd) - Automate deployments": "[CI/CD with CodePipeline](/docs/codepipeline-cicd) - Automate deployments",
-  "[Troubleshooting](/docs/common-issues) - Debug issues": "[Troubleshooting](/docs/common-issues) - Debug issues"
+  "[Troubleshooting](/docs/common-issues) - Debug issues": "[Troubleshooting](/docs/common-issues) - Debug issues",
+  "Related Documentation": "Related Documentation",
+  "Deployment Guide": "Deployment Guide",
+  "Deploy with monitoring enabled": "Deploy with monitoring enabled",
+  "Debugging Guide": "Debugging Guide",
+  "Use logging for debugging": "Use logging for debugging",
+  "CI/CD with CodePipeline": "CI/CD with CodePipeline",
+  "Pipeline monitoring": "Pipeline monitoring",
+  "Troubleshooting": "Troubleshooting",
+  "Common production issues": "Common production issues"
 }
