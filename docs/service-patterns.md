@@ -58,7 +58,7 @@ export class ProductService {
     private readonly prismaService: PrismaService,
   ) {}
 
-  // CRUD methods will be implemented below
+  // {{CRUD methods will be implemented below}}
 }
 ```
 
@@ -75,15 +75,15 @@ async create(
   createDto: CreateProductDto,
   opts: { invokeContext: IInvoke },
 ): Promise<ProductDataEntity> {
-  // Get tenant context from the invoke context
+  // {{Get tenant context from the invoke context}}
   const { tenantCode } = getUserContext(opts.invokeContext);
 
-  // Generate PK and SK
+  // {{Generate PK and SK}}
   const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
   const sk = ulid(); // Use ULID for sortable unique ID
   const id = generateId(pk, sk);
 
-  // Create command DTO
+  // {{Create command DTO}}
   const command = new ProductCommandDto({
     pk,
     sk,
@@ -101,7 +101,7 @@ async create(
     },
   });
 
-  // Publish command (async - returns immediately)
+  // {{Publish command (async - returns immediately)}}
   const item = await this.commandService.publishAsync(command, {
     invokeContext: opts.invokeContext,
   });
@@ -151,7 +151,7 @@ async findAll(
   const limit = searchDto.limit ?? 20;
   const skip = (page - 1) * limit;
 
-  // Build where clause
+  // {{Build where clause}}
   const where: any = {
     tenantCode: searchDto.tenantCode,
     isDeleted: false,
@@ -165,7 +165,7 @@ async findAll(
     where.inStock = searchDto.inStock;
   }
 
-  // Execute parallel queries for count and data
+  // {{Execute parallel queries for count and data}}
   const [total, items] = await Promise.all([
     this.prismaService.product.count({ where }),
     this.prismaService.product.findMany({
@@ -205,20 +205,20 @@ async update(
   updateDto: UpdateProductDto,
   opts: { invokeContext: IInvoke },
 ): Promise<ProductDataEntity> {
-  // First, get the existing item
+  // {{First, get the existing item}}
   const existing = await this.dataService.getItem(detailDto);
 
   if (!existing) {
     throw new NotFoundException("Product not found");
   }
 
-  // Merge existing attributes with updates
+  // {{Merge existing attributes with updates}}
   const updatedAttributes = {
     ...existing.attributes,
     ...updateDto.attributes,
   };
 
-  // Create partial update command
+  // {{Create partial update command}}
   const command: CommandPartialInputModel = {
     pk: existing.pk,
     sk: existing.sk,
@@ -227,7 +227,7 @@ async update(
     attributes: updatedAttributes,
   };
 
-  // Publish partial update
+  // {{Publish partial update}}
   const item = await this.commandService.publishPartialUpdateAsync(command, {
     invokeContext: opts.invokeContext,
   });
@@ -266,14 +266,14 @@ async remove(
   detailDto: { pk: string; sk: string },
   opts: { invokeContext: IInvoke },
 ): Promise<ProductDataEntity> {
-  // Get existing item
+  // {{Get existing item}}
   const existing = await this.dataService.getItem(detailDto);
 
   if (!existing) {
     throw new NotFoundException("Product not found");
   }
 
-  // Create soft delete command
+  // {{Create soft delete command}}
   const command: CommandPartialInputModel = {
     pk: existing.pk,
     sk: existing.sk,
@@ -497,7 +497,7 @@ async createBatch(
   const { tenantCode } = getUserContext(opts.invokeContext);
   const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
 
-  // Create all commands
+  // {{Create all commands}}
   const commands = items.map((item) => {
     const sk = ulid();
     return new ProductCommandDto({
@@ -518,7 +518,7 @@ async createBatch(
     });
   });
 
-  // Publish all commands in parallel
+  // {{Publish all commands in parallel}}
   const results = await Promise.all(
     commands.map((command) =>
       this.commandService.publishAsync(command, {
@@ -610,19 +610,19 @@ async copy(
   targetTenantCode: string,
   opts: { invokeContext: IInvoke },
 ): Promise<ProductDataEntity> {
-  // Get source item
+  // {{Get source item}}
   const source = await this.dataService.getItem(sourceKey);
 
   if (!source) {
     throw new NotFoundException("Source product not found");
   }
 
-  // Create new keys for target tenant
+  // {{Create new keys for target tenant}}
   const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${targetTenantCode}`;
   const sk = ulid();
   const id = generateId(pk, sk);
 
-  // Create command with source data
+  // {{Create command with source data}}
   const command = new ProductCommandDto({
     pk,
     sk,
@@ -676,16 +676,16 @@ export class ProductService {
     detailDto: { pk: string; sk: string },
     version: number,
   ): Promise<ProductDataEntity> {
-    // Add version to SK
+    // {{Add version to SK}}
     const skWithVersion = addSortKeyVersion(detailDto.sk, version);
 
-    // Try to get from history
+    // {{Try to get from history}}
     let item = await this.historyService.getItem({
       pk: detailDto.pk,
       sk: skWithVersion,
     });
 
-    // Fallback to latest if not in history
+    // {{Fallback to latest if not in history}}
     if (!item) {
       item = await this.dataService.getItem(detailDto);
     }
@@ -729,10 +729,10 @@ const command: CommandPartialInputModel = {
 {{Use async methods for better responsiveness:}}
 
 ```ts
-// Recommended: Returns immediately
+// {{Recommended: Returns immediately}}
 await this.commandService.publishAsync(command, opts);
 
-// Use only when you need to wait for processing
+// {{Use only when you need to wait for processing}}
 await this.commandService.publishSync(command, opts);
 ```
 
@@ -741,10 +741,10 @@ await this.commandService.publishSync(command, opts);
 {{Use DynamoDB for single-item reads, RDS for complex queries:}}
 
 ```ts
-// Single item: Use DataService (DynamoDB)
+// {{Single item: Use DataService (DynamoDB)}}
 const item = await this.dataService.getItem({ pk, sk });
 
-// Complex query: Use Prisma (RDS)
+// {{Complex query: Use Prisma (RDS)}}
 const items = await this.prismaService.product.findMany({
   where: { category: "electronics", inStock: true },
   orderBy: { price: "asc" },

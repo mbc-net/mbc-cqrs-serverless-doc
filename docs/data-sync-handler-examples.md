@@ -40,11 +40,11 @@ export class EntityDataSyncRdsHandler implements IDataSyncHandler {
   constructor(private readonly prismaService: PrismaService) {}
 
   async up(cmd: CommandModel): Promise<any> {
-    // Sync data to RDS
+    // {{Sync data to RDS}}
   }
 
   async down(cmd: CommandModel): Promise<any> {
-    // Optional: Handle rollback (usually just logs)
+    // {{Optional: Handle rollback (usually just logs)}}
     this.logger.debug(cmd);
   }
 }
@@ -82,7 +82,7 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
   constructor(private readonly prismaService: PrismaService) {}
 
   async up(cmd: CommandModel): Promise<any> {
-    // Remove version suffix from sort key (e.g., "PROD001@1" -> "PROD001")
+    // {{Remove version suffix from sort key (e.g., "PROD001@1" -> "PROD001")}}
     const sk = removeSortKeyVersion(cmd.sk);
     const attrs = cmd.attributes as ProductAttributes;
 
@@ -95,12 +95,12 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
         code: cmd.code,
         version: cmd.version,
         tenantCode: cmd.tenantCode,
-        // Map attributes to columns
+        // {{Map attributes to columns}}
         description: attrs.description,
         price: attrs.price,
         category: attrs.category,
         inStock: attrs.inStock,
-        // Audit fields
+        // {{Audit fields}}
         isDeleted: cmd.isDeleted ?? false,
         createdAt: cmd.createdAt,
         createdBy: cmd.createdBy,
@@ -111,7 +111,7 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
         id: cmd.id,
         pk: cmd.pk,
         sk: sk,
-        // Also store original keys with version for reference
+        // {{Also store original keys with version for reference}}
         cpk: cmd.pk,
         csk: cmd.sk,
         name: cmd.name,
@@ -181,13 +181,13 @@ export class OrderDataSyncRdsHandler implements IDataSyncHandler {
   async up(cmd: CommandModel): Promise<any> {
     const sk = removeSortKeyVersion(cmd.sk);
 
-    // Process only ORDER records, skip ORDER_ITEM
+    // {{Process only ORDER records, skip ORDER_ITEM}}
     if (sk.startsWith(ORDER_SK_PREFIX) && !sk.startsWith(ORDER_ITEM_SK_PREFIX)) {
       await this.syncOrder(cmd, sk);
     } else if (sk.startsWith(ORDER_ITEM_SK_PREFIX)) {
       await this.syncOrderItem(cmd, sk);
     }
-    // Skip other record types
+    // {{Skip other record types}}
   }
 
   private async syncOrder(cmd: CommandModel, sk: string): Promise<void> {
@@ -332,7 +332,7 @@ export class NotificationDataSyncRdsHandler implements IDataSyncHandler {
     const sk = removeSortKeyVersion(cmd.sk);
     const attrs = cmd.attributes as NotificationAttributes;
 
-    // Extract title based on notification type
+    // {{Extract title based on notification type}}
     const title = this.getTitle(attrs);
     const body = this.getBody(attrs);
 
@@ -346,10 +346,10 @@ export class NotificationDataSyncRdsHandler implements IDataSyncHandler {
         type: attrs.type,
         title: title,
         body: body,
-        // Convert arrays to comma-separated strings for RDS
+        // {{Convert arrays to comma-separated strings for RDS}}
         targetUsers: attrs.targetUsers?.join(",") ?? null,
         tags: attrs.tags?.join(",") ?? null,
-        // Handle dates
+        // {{Handle dates}}
         startDate: attrs.schedule?.startDate
           ? new Date(attrs.schedule.startDate)
           : null,
@@ -462,12 +462,12 @@ export class UserDataSyncRdsHandler implements IDataSyncHandler {
   constructor(private readonly prismaService: PrismaService) {}
 
   async up(cmd: CommandModel): Promise<any> {
-    // Only process USER records
+    // {{Only process USER records}}
     if (!cmd.pk.startsWith(USER_PK_PREFIX + KEY_SEPARATOR)) {
       return;
     }
 
-    // Skip temporary or profile records
+    // {{Skip temporary or profile records}}
     if (cmd.sk.startsWith("temp") || cmd.sk.startsWith("profile")) {
       return;
     }
@@ -562,8 +562,8 @@ export class MasterDataSyncRdsHandler implements IDataSyncHandler {
     const sk = removeSortKeyVersion(cmd.sk);
     const attrs = cmd.attributes as MasterAttributes;
 
-    // Parse SK to extract type and code
-    // SK format: "SETTING#category#code" or "DATA#category#code"
+    // {{Parse SK to extract type and code}}
+    // {{SK format: "SETTING#category#code" or "DATA#category#code"}}
     const skParts = sk.split(KEY_SEPARATOR);
 
     let masterType: string;
@@ -579,7 +579,7 @@ export class MasterDataSyncRdsHandler implements IDataSyncHandler {
       masterCategory = skParts[1] ?? "";
       masterCode = skParts[2] ?? "";
     } else {
-      // Skip unknown types
+      // {{Skip unknown types}}
       return;
     }
 

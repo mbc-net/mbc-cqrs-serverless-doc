@@ -192,7 +192,7 @@ export class ProductListEntity extends DataListEntity {
 `DataListEntity`基底クラスに含まれるもの：
 
 ```ts
-// Inherited from DataListEntity
+// DataListEntityから継承
 {
   total: number;        // Total count
   lastSk?: string;      // Last sort key for pagination
@@ -246,7 +246,7 @@ export class ProductCommandDto extends CommandDto {
 解決策: ドメインデータの構造を記述するTypeScriptインターフェースを定義する。
 
 ```ts
-// Simple attributes
+// シンプルな属性
 export interface ProductAttributes {
   description: string;
   price: number;
@@ -254,7 +254,7 @@ export interface ProductAttributes {
   inStock: boolean;
 }
 
-// Complex attributes with nested objects
+// ネストされたオブジェクトを含む複雑な属性
 export interface OrderAttributes {
   customerId: string;
   status: OrderStatus;
@@ -351,7 +351,7 @@ export class UpdateProductDto {
 import { IsString, IsOptional, IsNumber, Min, Max } from "class-validator";
 import { Type } from "class-transformer";
 
-// For single item lookup
+// 単一アイテム検索用
 export class DetailDto {
   @IsString()
   pk: string;
@@ -360,7 +360,7 @@ export class DetailDto {
   sk: string;
 }
 
-// For list queries
+// リストクエリ用
 export class SearchProductDto {
   @IsString()
   tenantCode: string;
@@ -527,7 +527,7 @@ export class OrderDataEntity extends DataEntity {
     Object.assign(this, partial);
   }
 
-  // Computed properties
+  // 計算プロパティ
   get status(): string {
     return this.attributes?.status;
   }
@@ -785,10 +785,10 @@ export class SearchOrderDto {
 読み取りには`DataEntity`、書き込みには`CommandEntity`を使用します：
 
 ```ts
-// Read operations return DataEntity
+// 読み取り操作はDataEntityを返す
 async findOne(key: DetailDto): Promise<OrderDataEntity>
 
-// Write operations return DataEntity (after command is processed)
+// 書き込み操作はDataEntityを返す（コマンド処理後）
 async create(dto: CreateOrderDto): Promise<OrderDataEntity>
 ```
 

@@ -192,7 +192,7 @@ export class ProductListEntity extends DataListEntity {
 {{The `DataListEntity` base class includes:}}
 
 ```ts
-// Inherited from DataListEntity
+// {{Inherited from DataListEntity}}
 {
   total: number;        // Total count
   lastSk?: string;      // Last sort key for pagination
@@ -246,7 +246,7 @@ export class ProductCommandDto extends CommandDto {
 {{Solution: Define TypeScript interfaces that describe the structure of your domain data.}}
 
 ```ts
-// Simple attributes
+// {{Simple attributes}}
 export interface ProductAttributes {
   description: string;
   price: number;
@@ -254,7 +254,7 @@ export interface ProductAttributes {
   inStock: boolean;
 }
 
-// Complex attributes with nested objects
+// {{Complex attributes with nested objects}}
 export interface OrderAttributes {
   customerId: string;
   status: OrderStatus;
@@ -351,7 +351,7 @@ export class UpdateProductDto {
 import { IsString, IsOptional, IsNumber, Min, Max } from "class-validator";
 import { Type } from "class-transformer";
 
-// For single item lookup
+// {{For single item lookup}}
 export class DetailDto {
   @IsString()
   pk: string;
@@ -360,7 +360,7 @@ export class DetailDto {
   sk: string;
 }
 
-// For list queries
+// {{For list queries}}
 export class SearchProductDto {
   @IsString()
   tenantCode: string;
@@ -527,7 +527,7 @@ export class OrderDataEntity extends DataEntity {
     Object.assign(this, partial);
   }
 
-  // Computed properties
+  // {{Computed properties}}
   get status(): string {
     return this.attributes?.status;
   }
@@ -785,10 +785,10 @@ export class SearchOrderDto {
 {{Use `DataEntity` for reads and `CommandEntity` for writes:}}
 
 ```ts
-// Read operations return DataEntity
+// {{Read operations return DataEntity}}
 async findOne(key: DetailDto): Promise<OrderDataEntity>
 
-// Write operations return DataEntity (after command is processed)
+// {{Write operations return DataEntity (after command is processed)}}
 async create(dto: CreateOrderDto): Promise<OrderDataEntity>
 ```
 

@@ -235,10 +235,10 @@ import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch';
 import * as sns from 'aws-cdk-lib/aws-sns';
 import * as actions from 'aws-cdk-lib/aws-cloudwatch-actions';
 
-// SNS topic for notifications
+// 通知用SNSトピック
 const alertTopic = new sns.Topic(this, 'AlertTopic');
 
-// Lambda error alarm
+// Lambdaエラーアラーム
 const errorAlarm = new cloudwatch.Alarm(this, 'LambdaErrorAlarm', {
   metric: handler.metricErrors(),
   threshold: 5,
@@ -248,7 +248,7 @@ const errorAlarm = new cloudwatch.Alarm(this, 'LambdaErrorAlarm', {
 });
 errorAlarm.addAlarmAction(new actions.SnsAction(alertTopic));
 
-// High latency alarm
+// 高レイテンシーアラーム
 const latencyAlarm = new cloudwatch.Alarm(this, 'LatencyAlarm', {
   metric: handler.metricDuration({
     statistic: 'p99',
@@ -259,7 +259,7 @@ const latencyAlarm = new cloudwatch.Alarm(this, 'LatencyAlarm', {
 });
 latencyAlarm.addAlarmAction(new actions.SnsAction(alertTopic));
 
-// DynamoDB throttling alarm
+// DynamoDBスロットリングアラーム
 const throttleAlarm = new cloudwatch.Alarm(this, 'ThrottleAlarm', {
   metric: table.metricThrottledRequests(),
   threshold: 1,
@@ -299,7 +299,7 @@ const api = new apigateway.HttpApi(this, 'Api', {
   // ... other config
 });
 
-// Enable X-Ray for API Gateway
+// API GatewayのX-Rayを有効化
 const stage = api.defaultStage?.node.defaultChild as apigateway.CfnStage;
 stage.addPropertyOverride('TracingEnabled', true);
 ```
@@ -313,14 +313,14 @@ AWS SDK呼び出しとHTTPリクエストのより深いトレーシングのた
 ```typescript
 import * as AWSXRay from 'aws-xray-sdk';
 
-// Instrument AWS SDK
+// AWS SDKをインストルメント
 const AWS = AWSXRay.captureAWS(require('aws-sdk'));
 
-// Instrument HTTP calls
+// HTTPコールをインストルメント
 AWSXRay.captureHTTPsGlobal(require('http'));
 AWSXRay.captureHTTPsGlobal(require('https'));
 
-// Add custom annotations
+// カスタムアノテーションを追加
 const segment = AWSXRay.getSegment();
 const subsegment = segment?.addNewSubsegment('CustomOperation');
 subsegment?.addAnnotation('userId', userId);
@@ -346,7 +346,7 @@ const centralLogGroup = new logs.LogGroup(this, 'CentralLogs', {
   retention: logs.RetentionDays.THREE_MONTHS,
 });
 
-// Subscribe Lambda logs
+// LambdaログをサブスクライB
 new logs.SubscriptionFilter(this, 'LambdaLogSubscription', {
   logGroup: lambdaLogGroup,
   destination: new destinations.LambdaDestination(logProcessorFunction),

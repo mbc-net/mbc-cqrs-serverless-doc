@@ -98,7 +98,7 @@ export class CommentDto {
 {{Restrict file types, sizes, and scan for malware.}}
 
 ```typescript
-// Validate file type and size
+// {{Validate file type and size}}
 const ALLOWED_MIME_TYPES = [
   'image/jpeg',
   'image/png',
@@ -108,17 +108,17 @@ const ALLOWED_MIME_TYPES = [
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
 async function validateUpload(file: Express.Multer.File): Promise<void> {
-  // Check MIME type
+  // {{Check MIME type}}
   if (!ALLOWED_MIME_TYPES.includes(file.mimetype)) {
     throw new BadRequestException('File type not allowed');
   }
 
-  // Check file size
+  // {{Check file size}}
   if (file.size > MAX_FILE_SIZE) {
     throw new BadRequestException('File too large');
   }
 
-  // Verify file signature (magic bytes)
+  // {{Verify file signature (magic bytes)}}
   const fileType = await FileType.fromBuffer(file.buffer);
   if (!fileType || !ALLOWED_MIME_TYPES.includes(fileType.mime)) {
     throw new BadRequestException('Invalid file content');
@@ -133,7 +133,7 @@ async function validateUpload(file: Express.Multer.File): Promise<void> {
 {{Use strong password policies and MFA.}}
 
 ```typescript
-// CDK configuration for Cognito User Pool
+// {{CDK configuration for Cognito User Pool}}
 const userPool = new cognito.UserPool(this, 'UserPool', {
   selfSignUpEnabled: false,  // Disable self-registration if not needed
   signInAliases: {
@@ -214,14 +214,14 @@ export class JwtAuthGuard implements CanActivate {
 {{Implement secure token refresh without storing refresh tokens on client.}}
 
 ```typescript
-// Frontend token refresh
+// {{Frontend token refresh}}
 async function refreshTokenIfNeeded(): Promise<string> {
   try {
     const session = await Auth.currentSession();
     return session.getAccessToken().getJwtToken();
   } catch (error) {
     if (error.name === 'NotAuthorizedException') {
-      // Redirect to login
+      // {{Redirect to login}}
       await Auth.signOut();
       throw new Error('Session expired');
     }
@@ -263,14 +263,14 @@ export class RolesGuard implements CanActivate {
   }
 }
 
-// Usage in controller
+// {{Usage in controller}}
 @Controller('admin')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class AdminController {
   @Get('users')
   @Roles('admin', 'super-admin')
   findAllUsers() {
-    // Only admin or super-admin can access
+    // {{Only admin or super-admin can access}}
   }
 }
 ```
@@ -301,15 +301,15 @@ export class TenantGuard implements CanActivate {
   }
 }
 
-// Always include tenant in queries
+// {{Always include tenant in queries}}
 async function getOrdersByTenant(tenantCode: string, userId: string) {
-  // Verify user has access to tenant first
+  // {{Verify user has access to tenant first}}
   const user = await this.userService.getUser(userId);
   if (!user.tenantCodes.includes(tenantCode)) {
     throw new ForbiddenException('Access denied');
   }
 
-  // Tenant is always part of the partition key
+  // {{Tenant is always part of the partition key}}
   return this.dataService.listItemsByPk(`ORDER#${tenantCode}`);
 }
 ```
@@ -330,7 +330,7 @@ async function updateOrder(
     throw new NotFoundException('Order not found');
   }
 
-  // Check ownership
+  // {{Check ownership}}
   if (order.createdBy !== userId && !this.isAdmin(userId)) {
     throw new ForbiddenException('Not authorized to update this order');
   }
@@ -451,7 +451,7 @@ async function getSecret(secretName: string): Promise<Record<string, string>> {
   throw new Error('Secret not found');
 }
 
-// Cache secrets to avoid repeated API calls
+// {{Cache secrets to avoid repeated API calls}}
 let cachedSecrets: Record<string, string> | null = null;
 
 async function getDatabasePassword(): Promise<string> {
@@ -469,14 +469,14 @@ async function getDatabasePassword(): Promise<string> {
 {{Implement rate limiting to prevent abuse.}}
 
 ```typescript
-// API Gateway throttling in serverless.yml
+// {{API Gateway throttling in serverless.yml}}
 provider:
   apiGateway:
     throttling:
       burstLimit: 200
       rateLimit: 100
 
-// Per-function throttling
+// {{Per-function throttling}}
 functions:
   createOrder:
     handler: handler.createOrder
@@ -523,14 +523,14 @@ provider:
 {{Limit request payload size to prevent DoS.}}
 
 ```typescript
-// API Gateway payload limit in serverless.yml
+// {{API Gateway payload limit in serverless.yml}}
 provider:
   apiGateway:
     binaryMediaTypes:
       - 'application/octet-stream'
     maximumPayloadSize: 10485760  # 10MB
 
-// Application-level validation
+// {{Application-level validation}}
 @Post('upload')
 @UseInterceptors(
   FileInterceptor('file', {
@@ -540,7 +540,7 @@ provider:
   }),
 )
 async uploadFile(@UploadedFile() file: Express.Multer.File) {
-  // Process file
+  // {{Process file}}
 }
 ```
 
@@ -620,7 +620,7 @@ resources:
 {{Log all API calls for audit.}}
 
 ```typescript
-// CDK configuration
+// {{CDK configuration}}
 const trail = new cloudtrail.Trail(this, 'AuditTrail', {
   bucket: auditBucket,
   sendToCloudWatchLogs: true,
@@ -629,7 +629,7 @@ const trail = new cloudtrail.Trail(this, 'AuditTrail', {
   isMultiRegionTrail: true,
 });
 
-// Log specific events
+// {{Log specific events}}
 trail.addEventSelector(cloudtrail.DataResourceType.DYNAMODB_TABLE, [
   `arn:aws:dynamodb:${this.region}:${this.account}:table/*`,
 ]);

@@ -81,12 +81,12 @@ describe('Version Conflicts', () => {
       type: 'test',
     }
 
-    // First update succeeds
+    // 最初の更新は成功
     const res1 = await request(config.apiBaseUrl)
       .put(`/items/${payload.id}`)
       .send(payload)
 
-    // Second update with same version fails
+    // 同じバージョンでの2番目の更新は失敗
     const res2 = await request(config.apiBaseUrl)
       .put(`/items/${payload.id}`)
       .send(payload)
@@ -120,7 +120,7 @@ describe('Independent Versioning', () => {
       type: 'TEST',
     }
 
-    // Both items start at version 1
+    // 両方のアイテムはバージョン1から開始
     const res1 = await request(config.apiBaseUrl)
       .post('/items')
       .send(item1)
@@ -132,14 +132,14 @@ describe('Independent Versioning', () => {
     expect(res1.body.version).toBe(1)
     expect(res2.body.version).toBe(1)
 
-    // Update first item
+    // 最初のアイテムを更新
     const updateRes = await request(config.apiBaseUrl)
       .put(`/items/${item1.id}`)
       .send({ ...item1, version: 1 })
 
     expect(updateRes.body.version).toBe(2)
 
-    // Second item still at version 1
+    // 2番目のアイテムはまだバージョン1
     const getRes = await request(config.apiBaseUrl)
       .get(`/items/${item2.id}`)
 
