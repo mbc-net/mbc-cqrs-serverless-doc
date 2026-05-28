@@ -1,4 +1,5 @@
 {
+  "Survey template management module for building dynamic multi-tenant surveys and questionnaires in MBC CQRS Serverless.": "MBC CQRS Serverlessで動的なマルチテナントアンケートとフォームを構築するためのアンケートテンプレート管理モジュール。",
   "Survey Template": "アンケートテンプレート",
   "Survey template management functionality for the MBC CQRS Serverless framework.": "MBC CQRS Serverlessフレームワークのためのアンケートテンプレート管理機能です。",
   "Installation": "インストール",

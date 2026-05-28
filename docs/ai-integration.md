@@ -1,5 +1,6 @@
 ---
 sidebar_position: 1
+description: {{Integrate AI development tools with MBC CQRS Serverless using llms.txt, MCP server, and AI-optimized documentation.}}
 ---
 
 # {{AI Integration}}

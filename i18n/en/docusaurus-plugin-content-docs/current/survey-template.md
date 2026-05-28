@@ -1,5 +1,6 @@
 ---
 sidebar_position: 8
+description: Survey template management module for building dynamic multi-tenant surveys and questionnaires in MBC CQRS Serverless.
 ---
 
 # Survey Template

@@ -1,5 +1,6 @@
 ---
 sidebar_position: 2
+description: システム概要、CQRSパターンフロー、イベントソーシングを含むMBC CQRS Serverlessフレームワークアーキテクチャの包括的な概要。
 ---
 
 # アーキテクチャ

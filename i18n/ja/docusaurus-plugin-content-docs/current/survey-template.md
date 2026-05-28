@@ -1,5 +1,6 @@
 ---
 sidebar_position: 8
+description: MBC CQRS Serverlessで動的なマルチテナントアンケートとフォームを構築するためのアンケートテンプレート管理モジュール。
 ---
 
 # アンケートテンプレート

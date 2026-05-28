@@ -1,5 +1,6 @@
 ---
 sidebar_position: 1
+description: llms.txt、MCPサーバー、AI最適化ドキュメントを使用して、AI開発ツールをMBC CQRS Serverlessと統合します。
 ---
 
 # AI統合
