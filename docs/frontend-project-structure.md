@@ -162,13 +162,13 @@ src/
 
 ```typescript
 // src/app/(auth)/login/page.tsx
-// URL: /login - No authentication required
+// {{URL: /login - No authentication required}}
 
 // src/app/(main)/dashboard/page.tsx
-// URL: /dashboard - Requires authentication
+// {{URL: /dashboard - Requires authentication}}
 
 // src/app/(main)/products/page.tsx
-// URL: /products - Requires authentication
+// {{URL: /products - Requires authentication}}
 ```
 
 ### {{Layout Pattern}}

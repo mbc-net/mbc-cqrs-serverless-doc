@@ -516,7 +516,7 @@ export class OrderDataSyncHandler implements IDataSyncHandler {
 ### {{Create Order}}
 
 ```json
-// POST /orders
+// {{POST /orders}}
 // {{Request}}
 {
   "customerId": "CUST-001",

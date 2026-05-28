@@ -162,13 +162,13 @@ src/
 
 ```typescript
 // src/app/(auth)/login/page.tsx
-// URL: /login - No authentication required
+// URL: /login - 認証不要
 
 // src/app/(main)/dashboard/page.tsx
-// URL: /dashboard - Requires authentication
+// URL: /dashboard - 認証が必要
 
 // src/app/(main)/products/page.tsx
-// URL: /products - Requires authentication
+// URL: /products - 認証が必要
 ```
 
 ### レイアウトパターン

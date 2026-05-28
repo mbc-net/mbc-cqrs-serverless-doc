@@ -428,7 +428,7 @@ import { useApolloClient } from "@mbc-cqrs-serverless/master-web";
 
 function MyComponent() {
   const client = useApolloClient();
-  // Use client for custom GraphQL queries
+  // {{Use client for custom GraphQL queries}}
 }
 ```
 
@@ -441,7 +441,7 @@ import { useHttpClient } from "@mbc-cqrs-serverless/master-web";
 
 function MyComponent() {
   const httpClient = useHttpClient();
-  // Use httpClient for custom API requests
+  // {{Use httpClient for custom API requests}}
 }
 ```
 

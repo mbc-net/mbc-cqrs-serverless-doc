@@ -428,7 +428,7 @@ import { useApolloClient } from "@mbc-cqrs-serverless/master-web";
 
 function MyComponent() {
   const client = useApolloClient();
-  // Use client for custom GraphQL queries
+  // カスタムGraphQLクエリにはclientを使用
 }
 ```
 
@@ -441,7 +441,7 @@ import { useHttpClient } from "@mbc-cqrs-serverless/master-web";
 
 function MyComponent() {
   const httpClient = useHttpClient();
-  // Use httpClient for custom API requests
+  // カスタムAPIリクエストにはhttpClientを使用
 }
 ```
 

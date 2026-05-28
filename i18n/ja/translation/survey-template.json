@@ -45,6 +45,7 @@
   "Templates are automatically isolated by tenant through the invoke context:": "テンプレートはinvokeコンテキストを通じてテナントごとに自動的に分離されます：",
   "Event Handling": "イベント処理",
   "Handle survey template data synchronization using data sync handlers:": "データ同期ハンドラーを使用してアンケートテンプレートデータの同期を処理：",
+  "Sync to RDS, notify users, etc.": "RDSに同期、ユーザーへ通知など",
   "Best Practices": "ベストプラクティス",
   "Use Sections": "セクションを使用",
   "Organize questions into logical sections for better user experience": "より良いユーザー体験のために質問を論理的なセクションに整理",

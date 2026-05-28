@@ -240,7 +240,7 @@ import { IDataSyncHandler, DataEntity } from '@mbc-cqrs-serverless/core';
 export class SurveyTemplateDataSyncHandler implements IDataSyncHandler {
   async onCreated(data: DataEntity): Promise<void> {
     console.log('Survey template created:', data.name);
-    // Sync to RDS, notify users, etc.
+    // RDSに同期、ユーザーへ通知など
   }
 
   async onUpdated(data: DataEntity): Promise<void> {
