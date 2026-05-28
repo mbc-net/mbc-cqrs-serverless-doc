@@ -874,7 +874,7 @@ class CircuitBreaker {
    npm run offline -- --stage dev
    ```
 
-## 関連情報
+## Related Documentation
 
 - [デバッグガイド](/docs/debugging-guide) - 詳細なデバッグ手順
 - [よくある問題](/docs/common-issues) - よく発生する問題
