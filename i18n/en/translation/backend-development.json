@@ -52,9 +52,14 @@
   "5. Pagination": "5. Pagination",
   "Always support pagination for list operations:": "Always support pagination for list operations:",
   "Related Documentation": "Related Documentation",
+  "Service Patterns": "Service Patterns",
   "Advanced service implementation patterns": "Advanced service implementation patterns",
+  "Data Sync Handler Examples": "Data Sync Handler Examples",
   "Comprehensive sync handler examples": "Comprehensive sync handler examples",
+  "Key Patterns": "Key Patterns",
   "PK/SK design patterns": "PK/SK design patterns",
+  "Multi-Tenant Patterns": "Multi-Tenant Patterns",
   "Multi-tenant implementation": "Multi-tenant implementation",
+  "Import/Export Patterns": "Import/Export Patterns",
   "Batch data processing": "Batch data processing"
 }
