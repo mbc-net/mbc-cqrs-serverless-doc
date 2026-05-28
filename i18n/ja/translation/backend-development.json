@@ -17,7 +17,7 @@
   "Controller Pattern": "コントローラーパターン",
   "Standard Controller": "標準コントローラー",
   "Controllers should be thin, delegating business logic to services:": "コントローラーは薄く保ち、ビジネスロジックはサービスに委譲すべきです：",
-  "Resync all data to RDS": "",
+  "Resync all data to RDS": "すべてのデータをRDSに再同期",
   "Service Implementation": "サービス実装",
   "Basic Service Pattern": "基本サービスパターン",
   "Services contain business logic and orchestrate data operations. Here is a minimal example:": "サービスにはビジネスロジックが含まれ、データ操作を調整します。最小限の例を示します：",

@@ -692,7 +692,7 @@ upsertメソッドは以下のルールに従います：
 ### レガシーUpsertパターン {#legacy-upsert-pattern}
 
 :::warning 非推奨パターン
-The custom upsert pattern below was required in versions prior to 1.1.2. For new projects, use the [built-in upsert methods](#upsert-pattern) instead.
+以下のカスタム upsert パターンはバージョン1.1.2より前に必要でした。新規プロジェクトでは、代わりに[組み込みの upsert メソッド](#upsert-pattern)を使用してください。
 :::
 
-For versions prior to 1.1.2, implement a custom upsert service that checks for existing records before deciding whether to call create or update. See the [v1.1.1 documentation](https://github.com/mbc-net/mbc-cqrs-serverless/tree/v1.1.1) for the full legacy pattern.
+バージョン1.1.2より前では、既存レコードを確認してから create か update かを決定するカスタム upsert サービスを実装する必要がありました。完全なレガシーパターンは [v1.1.1 ドキュメント](https://github.com/mbc-net/mbc-cqrs-serverless/tree/v1.1.1)を参照してください。
