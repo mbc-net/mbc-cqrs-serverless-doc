@@ -130,7 +130,7 @@ import { ExecutionContext } from "@nestjs/common";
 
 **パーティションキーへの影響:** テナントコードは通常パーティションキーに含まれるため（例：`PRODUCT#tenantCode`）、この正規化はデータアクセスに影響します。既存のデータがキーに大文字のテナントコードを使用している場合、クエリはそのデータを見つけることができません。
 
-**See also:** [Tenant Code Normalization Migration](/docs/data-migration-patterns#tenant-code-normalization-migration) for migration strategies.
+**参照:** マイグレーション戦略については[テナントコード正規化マイグレーション](/docs/data-migration-patterns#tenant-code-normalization-migration)を参照してください。
 :::
 
 カスタムロジックが必要な場合は、独自のヘルパー関数を実装できます：

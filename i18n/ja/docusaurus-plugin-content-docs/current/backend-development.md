@@ -299,7 +299,7 @@ export class ProductService {
 ```
 
 :::tip 完全なServiceパターンについて
-For comprehensive CRUD operations, batch processing, optimistic locking, and more advanced patterns, see [Service Patterns](/docs/service-patterns).
+包括的なCRUD操作、バッチ処理、楽観的ロック、およびその他の高度なパターンについては、[Service実装パターン](/docs/service-patterns)を参照してください。
 :::
 
 ## データ同期ハンドラー
@@ -468,7 +468,7 @@ const opts = {
 
 ### 2. バッチ処理
 
-Process large datasets in batches to avoid timeouts. See [Service Patterns - Batch Operations](/docs/service-patterns#batch-operations) for detailed examples.
+タイムアウトを避けるために大規模なデータセットをバッチで処理します。詳細な例については[Service実装パターン - バッチ操作](/docs/service-patterns#batch-operations)を参照してください。
 
 ### 3. エラーハンドリング
 

@@ -101,7 +101,7 @@
   "`customizeSettingGroups(dto, context): Promise<CommandModel>`": "`customizeSettingGroups(dto, context): Promise<CommandModel>`",
   "Customizes the settings of groups associated with a tenant.": "テナントに関連付けられたグループの設定をカスタマイズします。",
   "Related Documentation": "関連ドキュメント",
-  "[Backend Development Guide](/docs/backend-development) - Core patterns": "",
-  "[Key Patterns](/docs/key-patterns) - PK/SK design for multi-tenant": "",
-  "[Authentication](/docs/authentication) - User authentication": ""
+  "[Backend Development Guide](/docs/backend-development) - Core patterns": "[バックエンド開発ガイド](/docs/backend-development) - コアパターン",
+  "[Key Patterns](/docs/key-patterns) - PK/SK design for multi-tenant": "[キーパターン](/docs/key-patterns) - マルチテナント用PK/SK設計",
+  "[Authentication](/docs/authentication) - User authentication": "[認証](/docs/authentication) - ユーザー認証"
 }

@@ -488,7 +488,7 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
 }
 ```
 
-See [Data Sync Handler Examples](/docs/data-sync-handler-examples) for more detailed examples.
+詳細な例については[Data Sync Handlerの実装例](/docs/data-sync-handler-examples)を参照してください。
 
 ## まとめ
 
@@ -504,8 +504,8 @@ See [Data Sync Handler Examples](/docs/data-sync-handler-examples) for more deta
 
 ## 関連ドキュメント
 
-- [DynamoDB](/docs/dynamodb): DynamoDB table design and management
-- [Prisma](/docs/prisma): Prisma ORM setup and conventions
-- [DataService](/docs/data-service): DynamoDB query methods
-- [Data Sync Handler Examples](/docs/data-sync-handler-examples): RDS synchronization patterns
-- [Service Implementation Patterns](/docs/service-patterns): Complete service layer examples
+- [DynamoDB](/docs/dynamodb): DynamoDBテーブル設計と管理
+- [Prisma](/docs/prisma): Prisma ORMのセットアップと規約
+- [DataService](/docs/data-service): DynamoDBクエリメソッド
+- [Data Sync Handlerの実装例](/docs/data-sync-handler-examples): RDS同期パターン
+- [サービス実装パターン](/docs/service-patterns): 完全なサービスレイヤー例

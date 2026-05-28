@@ -93,6 +93,6 @@
   "Each module should have a single responsibility": "各モジュールは単一の責任を持つべき",
   "Related Documentation": "関連ドキュメント",
   "[NestJS Modules](https://docs.nestjs.com/modules): Official NestJS module documentation": "[NestJS Modules](https://docs.nestjs.com/modules): NestJS公式モジュールドキュメント",
-  "[CommandService](/docs/command-service): Detailed CommandModule configuration": "",
-  "[Event Handling Patterns](/docs/event-handling-patterns): Creating data sync handlers": ""
+  "[CommandService](/docs/command-service): Detailed CommandModule configuration": "[CommandService](/docs/command-service): CommandModuleの詳細設定",
+  "[Event Handling Patterns](/docs/event-handling-patterns): Creating data sync handlers": "[Event Handling Patterns](/docs/event-handling-patterns): データ同期ハンドラーの作成"
 }

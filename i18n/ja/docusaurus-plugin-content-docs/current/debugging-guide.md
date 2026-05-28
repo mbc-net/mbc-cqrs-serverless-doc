@@ -838,5 +838,5 @@ async function getCommandHistory(pk: string, baseSk: string) {
 
 ## 次のステップ
 
-- [Common Issues](/docs/common-issues) - Known issues and solutions
-- [Monitoring and Logging](/docs/monitoring-logging) - Set up comprehensive monitoring
+- [よくある問題](/docs/common-issues) - 既知の問題と解決策
+- [モニタリングとロギング](/docs/monitoring-logging) - 包括的なモニタリングをセットアップ

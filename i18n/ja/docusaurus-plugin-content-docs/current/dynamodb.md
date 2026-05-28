@@ -236,7 +236,7 @@ DYNAMODB_REGION=ap-northeast-1
 
 ## 関連ドキュメント
 
-- [Key Patterns](/docs/key-patterns): Detailed key design strategies
-- [Entity Patterns](/docs/entity-patterns): Entity modeling guidelines
-- [Sequence](/docs/sequence): Sequence ID generation
-- [CommandService](/docs/command-service): Command handling and data sync
+- [Key Patterns](/docs/key-patterns): 詳細なキー設計戦略
+- [Entity Patterns](/docs/entity-patterns): エンティティモデリングガイドライン
+- [Sequence](/docs/sequence): シーケンスID生成
+- [CommandService](/docs/command-service): コマンド処理とデータ同期
