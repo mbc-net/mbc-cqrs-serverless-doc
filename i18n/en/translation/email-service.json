@@ -27,5 +27,12 @@
   "Attachment Interface": "Attachment Interface",
   "Filename shown to recipient": "Filename shown to recipient",
   "File content as Buffer": "File content as Buffer",
-  "MIME type (e.g., 'application/pdf')": "MIME type (e.g., 'application/pdf')"
+  "MIME type (e.g., 'application/pdf')": "MIME type (e.g., 'application/pdf')",
+  "Related Documentation": "Related Documentation",
+  "Notification Module": "Notification Module",
+  "Real-time notifications with AppSync": "Real-time notifications with AppSync",
+  "Environment Variables": "Environment Variables",
+  "SES configuration environment variables": "SES configuration environment variables",
+  "Interfaces": "Interfaces",
+  "EmailNotification interface reference": "EmailNotification interface reference"
 }

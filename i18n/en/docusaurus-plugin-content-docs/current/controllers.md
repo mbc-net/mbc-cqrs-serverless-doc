@@ -137,3 +137,11 @@ export class CustomController {
   async protectedEndpoint() {}
 }
 ```
+
+
+## Related Documentation
+
+- [Authentication](/docs/authentication) - Cognito authentication and JWT setup
+- [Modules](/docs/modules) - Module configuration for controllers
+- [Backend Development](/docs/backend-development) - Complete backend development guide
+- [Interfaces](/docs/interfaces) - IInvoke and IInvokeContext interfaces

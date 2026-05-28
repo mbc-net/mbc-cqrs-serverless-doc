@@ -207,5 +207,16 @@
   "**Visibility guarantee, not ordering**: Pending create-new items appear at the top of lists, not in the caller's sort order.": "**可視性の保証であり、順序ではない**: 保留中の新規作成アイテムはリストの先頭に表示されますが、呼び出し元のソート順には統合されません。",
   "**Single-user scope**: RYW only applies to the user who published the command. Other users still see the eventual-consistent read until the Stream sync completes.": "**単一ユーザースコープ**: RYWはコマンドを発行したユーザーにのみ適用されます。他のユーザーはStreamの同期が完了するまで結果整合性の読み取りが返ります。",
   "**`listItems` pagination overlap**: On paginated external queries (RDS), a create-new item may appear on both page 1 (prepended) and page 2 (after sync). This resolves on the next full reload.": "**`listItems`のページネーション重複**: ページネーションされた外部クエリ（RDS）では、新規作成アイテムがページ1（先頭追加）とページ2（同期後）の両方に表示される場合があります。次の完全なリロードで解消されます。",
-  "**Session table cost**: Each `publishAsync` call writes one DynamoDB item per updated entity. With `RYW_SESSION_TTL_MINUTES=5` the items are small and short-lived. Cost is negligible for typical workloads.": "**セッションテーブルのコスト**: `publishAsync`の呼び出しごとに更新エンティティ1件につきDynamoDBアイテムを1件書き込みます。`RYW_SESSION_TTL_MINUTES=5`の場合、アイテムは小さく短命です。一般的なワークロードではコストは無視できます。"
+  "**Session table cost**: Each `publishAsync` call writes one DynamoDB item per updated entity. With `RYW_SESSION_TTL_MINUTES=5` the items are small and short-lived. Cost is negligible for typical workloads.": "**セッションテーブルのコスト**: `publishAsync`の呼び出しごとに更新エンティティ1件につきDynamoDBアイテムを1件書き込みます。`RYW_SESSION_TTL_MINUTES=5`の場合、アイテムは小さく短命です。一般的なワークロードではコストは無視できます。",
+  "Related Documentation": "関連ドキュメント",
+  "Data Service": "データサービス",
+  "Querying data with DynamoDB": "DynamoDBを使ったデータクエリ",
+  "Service Patterns": "サービスパターン",
+  "Complete CRUD service implementation patterns": "完全なCRUDサービス実装パターン",
+  "Event Handling Patterns": "イベント処理パターン",
+  "Creating data sync handlers": "データ同期ハンドラーの作成",
+  "Version Conflict Guide": "バージョン競合ガイド",
+  "Handling optimistic locking conflicts": "楽観的ロック競合の処理",
+  "Interfaces": "インターフェース",
+  "TypeScript interfaces for CommandInputModel and more": "CommandInputModelなどのTypeScriptインターフェース"
 }

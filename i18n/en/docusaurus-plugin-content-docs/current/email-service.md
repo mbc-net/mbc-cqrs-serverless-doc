@@ -107,3 +107,9 @@ await this.mailService.sendEmail({
 | `content` | `Buffer` | Yes | File content as Buffer |
 | `contentType` | `string` | No | MIME type (e.g., 'application/pdf') |
 
+
+## Related Documentation
+
+- [Notification Module](/docs/notification-module) - Real-time notifications with AppSync
+- [Environment Variables](/docs/environment-variables) - SES configuration environment variables
+- [Interfaces](/docs/interfaces) - EmailNotification interface reference
