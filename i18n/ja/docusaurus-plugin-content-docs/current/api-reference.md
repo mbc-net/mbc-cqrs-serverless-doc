@@ -125,9 +125,9 @@ import DocCardList from '@theme/DocCardList';
 ```
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [Command Service](/docs/command-service) - CommandServiceの詳細ドキュメント
-- [Data Service](/docs/data-service) - DataService query methods
-- [Interfaces](/docs/interfaces) - TypeScriptインターフェースリファレンス
+- [コマンドサービス](/docs/command-service) - CommandServiceの詳細ドキュメント
+- [データサービス](/docs/data-service) - DataServiceクエリメソッド
+- [インターフェース](/docs/interfaces) - TypeScriptインターフェースリファレンス
 - [モジュール](/docs/modules) - 利用可能なモジュール

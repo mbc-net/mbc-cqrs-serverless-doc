@@ -842,9 +842,9 @@ async function getCommandHistory(pk: string, baseSk: string) {
 - [モニタリングとロギング](/docs/monitoring-logging) - 包括的なモニタリングをセットアップ
 
 
-## Related Documentation
+## 関連ドキュメント
 
 - [よくある問題](/docs/common-issues) - よく発生する問題と解決策
-- [Monitoring and Logging](/docs/monitoring-logging) - 包括的な監視の設定
+- [監視とログ](/docs/monitoring-logging) - 包括的な監視の設定
 - [エラーカタログ](/docs/error-catalog) - エラーコードと解決手順
 - [E2Eテスト](/docs/e2e-test) - デバッグ用エンドツーエンドテスト

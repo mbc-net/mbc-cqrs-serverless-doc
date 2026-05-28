@@ -241,8 +241,8 @@ Create a migration for [SCHEMA_CHANGE]:
 - [エラーカタログ](/docs/error-catalog) - よくあるエラーと解決策
 
 
-## Related Documentation
+## 関連ドキュメント
 
 - [AI統合](/docs/ai-integration) - AIツールサポートの概要
 - [MCPサーバー](/docs/mcp-server) - AIツール用MCPサーバー
-- [エラーカタログ](/docs/error-catalog) - Error reference with solutions
+- [エラーカタログ](/docs/error-catalog) - エラーリファレンスと解決策

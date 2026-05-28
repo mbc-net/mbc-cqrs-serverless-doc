@@ -64,13 +64,13 @@
   "Run `npm run offline:sls` to restart Serverless Offline": "`npm run offline:sls`を実行してServerless Offlineを再起動",
   "The port configuration is automatically applied to all related services including Docker Compose, Serverless Offline, and the DynamoDB stream trigger script. You only need to set the environment variables once in your `.env` file.": "ポート設定は、Docker Compose、Serverless Offline、DynamoDBストリームトリガースクリプトを含むすべての関連サービスに自動的に適用されます。`.env`ファイルで環境変数を一度設定するだけで済みます。",
   "In the local environment, if you have trouble with the `npm run migrate` command or cannot log in with local Cognito, you will need to add more permissions to files and folders using the command below:": "ローカル開発環境で `npm run migrate` コマンドやローカルの Cognito にログイン出来ない場合は次のコマンドを使用してファイルやフォルダーにアクセス権を設定する必要があります。",
-  "Related Documentation": "",
-  "Getting Started": "",
+  "Related Documentation": "関連ドキュメント",
+  "Getting Started": "はじめに",
   "Introduction to MBC CQRS Serverless": "MBC CQRS Serverlessの紹介",
-  "Project Structure": "",
+  "Project Structure": "プロジェクト構成",
   "Understanding the generated project layout": "生成されたプロジェクト構成を理解",
-  "Configuring": "",
+  "Configuring": "設定",
   "Configure modules for your application": "アプリケーションのモジュール設定",
-  "CLI": "",
+  "CLI": "CLI",
   "CLI commands for scaffolding": "スキャフォールディング用CLIコマンド"
 }

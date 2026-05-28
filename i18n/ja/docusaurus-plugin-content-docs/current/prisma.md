@@ -59,9 +59,9 @@ updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamp(0) // Updated at
 ```
 
 
-## Related Documentation
+## 関連ドキュメント
 
 - [データベース選択ガイド](/docs/database-selection-guide) - DynamoDBとRDSの選択
-- [Data Sync Handler Examples](/docs/data-sync-handler-examples) - DynamoDBデータのRDSへの同期
-- [Environment Variables](/docs/environment-variables) - データベース接続設定
+- [データ同期ハンドラー例](/docs/data-sync-handler-examples) - DynamoDBデータのRDSへの同期
+- [環境変数](/docs/environment-variables) - データベース接続設定
 - [デプロイガイド](/docs/deployment-guide) - デプロイ時のデータベース移行

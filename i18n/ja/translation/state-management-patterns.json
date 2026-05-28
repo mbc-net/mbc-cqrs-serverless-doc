@@ -107,11 +107,11 @@
   "Polling support": "ポーリングサポート",
   "Example: SWR usage": "Example: SWR usage (例: SWRの使用)",
   "Choose the right tool based on your project's complexity and requirements. The current implementation with Context API + axios + Apollo Client provides a solid foundation that can be extended as needed.": "プロジェクトの複雑さと要件に基づいて適切なツールを選択してください。Context API + axios + Apollo Clientによる現在の実装は、必要に応じて拡張できる堅実な基盤を提供します。",
-  "Related Documentation": "",
-  "API Integration Patterns": "",
-  "API client setup": "",
-  "Frontend Project Structure": "",
-  "Project structure": "",
-  "Authentication": "",
+  "Related Documentation": "関連ドキュメント",
+  "API Integration Patterns": "API統合パターン",
+  "API client setup": "APIクライアントのセットアップ",
+  "Frontend Project Structure": "フロントエンドプロジェクト構成",
+  "Project structure": "プロジェクト構成",
+  "Authentication": "認証",
   "Auth state management": "認証ステート管理"
 }

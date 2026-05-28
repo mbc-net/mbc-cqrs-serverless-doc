@@ -173,8 +173,8 @@ function deserializeToInternal<T extends CommandEntity | DataEntity>(
 | attributes.* | * | 内部構造からフラット化された属性 |
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [Data Service](/docs/data-service) - シリアライズでDataServiceを使用
-- [Entity Patterns](/docs/entity-patterns) - シリアライズ用エンティティ構造
-- [Data Sync Handler Examples](/docs/data-sync-handler-examples) - デシリアライズを使った同期
+- [データサービス](/docs/data-service) - シリアライズでDataServiceを使用
+- [エンティティパターン](/docs/entity-patterns) - シリアライズ用エンティティ構造
+- [データ同期ハンドラー例](/docs/data-sync-handler-examples) - デシリアライズを使った同期

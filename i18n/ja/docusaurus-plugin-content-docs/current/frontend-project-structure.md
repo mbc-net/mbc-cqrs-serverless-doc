@@ -517,9 +517,9 @@ export const ROUTES = {
 ```
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [API Integration Patterns](/docs/api-integration-patterns) - APIクライアントパターン
-- [State Management Patterns](/docs/state-management-patterns) - Frontend state
+- [API統合パターン](/docs/api-integration-patterns) - APIクライアントパターン
+- [ステート管理パターン](/docs/state-management-patterns) - フロントエンドステート
 - [認証](/docs/authentication) - Cognitoのフロントエンド統合
-- [Master Web](/docs/master-web) - マスターデータのフロントエンド
+- [マスターWeb](/docs/master-web) - マスターデータのフロントエンド

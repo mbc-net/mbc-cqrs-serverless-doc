@@ -291,8 +291,8 @@ jest.mock('@aws-sdk/client-dynamodb', () => {
 :::
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [E2E Testing](/docs/e2e-test) - エンドツーエンドテストガイド
-- [Testing](/docs/testing) - Testing overview
-- [Debugging Guide](/docs/debugging-guide) - テスト失敗のデバッグ
+- [E2Eテスト](/docs/e2e-test) - エンドツーエンドテストガイド
+- [テスト](/docs/testing) - テストの概要
+- [デバッグガイド](/docs/debugging-guide) - テスト失敗のデバッグ

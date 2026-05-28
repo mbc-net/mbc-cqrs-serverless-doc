@@ -84,7 +84,7 @@
   "Command Service": "コマンドサービス",
   "Writing commands with CommandService": "CommandServiceを使ったコマンド操作",
   "Service Patterns": "サービスパターン",
-  "Complete service layer patterns": "",
+  "Complete service layer patterns": "完全なサービス層パターン",
   "Key Patterns": "キーパターン",
   "DynamoDB key design for efficient queries": "効率的なクエリのためのDynamoDBキー設計",
   "Entity Patterns": "エンティティパターン",

@@ -38,11 +38,11 @@
   "Handle optimistic locking conflict (version mismatch)": "楽観的ロック競合を処理（バージョン不一致）",
   "Testing": "テスト",
   "Explore Examples": "サンプルを探索",
-  "Related Documentation": "",
-  "Service Patterns": "",
+  "Related Documentation": "関連ドキュメント",
+  "Service Patterns": "サービスパターン",
   "CRUD service patterns": "CRUDサービスパターン",
-  "Backend Development": "",
-  "Core backend guide": "",
-  "Key Patterns": "",
+  "Backend Development": "バックエンド開発",
+  "Core backend guide": "コアバックエンドガイド",
+  "Key Patterns": "キーパターン",
   "Key design for recipes": "レシピ向けキー設計"
 }

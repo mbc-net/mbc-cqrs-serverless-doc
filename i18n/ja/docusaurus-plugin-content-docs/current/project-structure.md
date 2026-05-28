@@ -52,9 +52,9 @@ description: プロジェクト構造
 | [name].module.ts     | file   | 特定の機能に関するコード記述します。整理した状態を保ち明確な境界を確立します。     |
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [Getting Started](/docs/getting-started) - はじめに・前提条件
-- [Modules](/docs/modules) - Module configuration and usage
-- [Configuring](/docs/configuring) - Configuration options
+- [はじめに](/docs/getting-started) - はじめに・前提条件
+- [モジュール](/docs/modules) - モジュールの設定と使用
+- [設定](/docs/configuring) - 設定オプション
 - [CLI](/docs/cli) - CLIでプロジェクトを生成

@@ -43,12 +43,12 @@
   "Most operations require tenant context for data isolation:": "ほとんどの操作はデータ分離のためにテナントコンテキストが必要です：",
   "Module Documentation": "モジュールドキュメント",
   "Explore each module's detailed documentation:": "各モジュールの詳細ドキュメントを参照：",
-  "Related Documentation": "",
-  "Command Service": "",
+  "Related Documentation": "関連ドキュメント",
+  "Command Service": "コマンドサービス",
   "CommandService detailed documentation": "CommandServiceの詳細ドキュメント",
-  "Data Service": "",
-  "DataService query methods": "",
-  "Interfaces": "",
+  "Data Service": "データサービス",
+  "DataService query methods": "DataServiceクエリメソッド",
+  "Interfaces": "インターフェース",
   "TypeScript interfaces reference": "TypeScriptインターフェースリファレンス",
   "Available modules": "利用可能なモジュール"
 }

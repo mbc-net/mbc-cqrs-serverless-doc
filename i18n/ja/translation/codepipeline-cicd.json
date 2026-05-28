@@ -97,11 +97,11 @@
   "[Monitoring and Logging](/docs/monitoring-logging) - Set up observability": "[モニタリングとロギング](/docs/monitoring-logging) - 可観測性をセットアップする",
   "[Deployment Guide](/docs/deployment-guide) - Manual deployment options": "[デプロイメントガイド](/docs/deployment-guide) - 手動デプロイオプション",
   "[Troubleshooting](/docs/common-issues) - Common deployment issues": "[トラブルシューティング](/docs/common-issues) - よくあるデプロイの問題",
-  "Related Documentation": "",
-  "Deployment Guide": "",
-  "Manual deployment options": "",
-  "Monitoring and Logging": "",
-  "Set up observability": "",
-  "Environment Variables": "",
+  "Related Documentation": "関連ドキュメント",
+  "Deployment Guide": "デプロイガイド",
+  "Manual deployment options": "手動デプロイオプション",
+  "Monitoring and Logging": "監視とログ",
+  "Set up observability": "オブザーバビリティの設定",
+  "Environment Variables": "環境変数",
   "CI/CD environment configuration": "CI/CD環境設定"
 }

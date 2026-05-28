@@ -142,6 +142,6 @@ export class CustomController {
 ## 関連ドキュメント
 
 - [認証](/docs/authentication) - Cognitoの認証とJWTの設定
-- [Modules](/docs/modules) - コントローラーのモジュール設定
+- [モジュール](/docs/modules) - コントローラーのモジュール設定
 - [バックエンド開発](/docs/backend-development) - 包括的なバックエンド開発ガイド
 - [インターフェース](/docs/interfaces) - IInvokeとIInvokeContextインターフェース

@@ -121,8 +121,8 @@ await this.sqsService.deleteMessageBatch(queueUrl, [
 ```
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [Notification Module](/docs/notification-module) - Real-time notifications with AppSync
-- [Event Handling Patterns](/docs/event-handling-patterns) - Event-driven architecture
-- [Interfaces](/docs/interfaces) - SQSメッセージインターフェース
+- [通知モジュール](/docs/notification-module) - AppSyncを使ったリアルタイム通知
+- [イベント処理パターン](/docs/event-handling-patterns) - イベント駆動アーキテクチャ
+- [インターフェース](/docs/interfaces) - SQSメッセージインターフェース

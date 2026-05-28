@@ -133,8 +133,8 @@ import DocCardList from '@theme/DocCardList';
 ```
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [Service Patterns](/docs/service-patterns) - CRUDサービスパターン
-- [Backend Development](/docs/backend-development) - Core backend guide
-- [Key Patterns](/docs/key-patterns) - レシピ向けキー設計
+- [サービスパターン](/docs/service-patterns) - CRUDサービスパターン
+- [バックエンド開発](/docs/backend-development) - コアバックエンドガイド
+- [キーパターン](/docs/key-patterns) - レシピ向けキー設計

@@ -126,7 +126,7 @@ AIにモジュールを生成させる際は、具体的に記述してくださ
 - [アーキテクチャ](/docs/architecture) - システムアーキテクチャの概要
 
 
-## Related Documentation
+## 関連ドキュメント
 
 - [MCPサーバー](/docs/mcp-server) - 詳細なMCPサーバードキュメント
 - [AIプロンプトライブラリ](/docs/ai-prompts) - 一般的なタスク用に最適化されたプロンプト

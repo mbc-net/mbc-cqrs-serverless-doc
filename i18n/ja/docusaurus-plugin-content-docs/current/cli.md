@@ -348,9 +348,9 @@ npm install -g @mbc-cqrs-serverless/cli
 ```
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [Getting Started](/docs/getting-started) - はじめに・最初のステップ
+- [はじめに](/docs/getting-started) - はじめに・最初のステップ
 - [インストール](/docs/installation) - CLIのインストールとセットアップ
-- [MCP Server](/docs/mcp-server) - AI development tool integration
-- [Project Structure](/docs/project-structure) - 生成されたプロジェクト構成
+- [MCPサーバー](/docs/mcp-server) - AI開発ツール統合
+- [プロジェクト構成](/docs/project-structure) - 生成されたプロジェクト構成

@@ -183,10 +183,10 @@
   "How notifications integrate with events": "通知がイベントとどのように統合されるか",
   "Environment Variables": "環境変数",
   "Configuration reference": "設定リファレンス",
-  "Related Documentation": "",
-  "Email Service": "",
+  "Related Documentation": "関連ドキュメント",
+  "Email Service": "メールサービス",
   "SES email sending": "SESメール送信",
   "AppSync and SES configuration": "AppSyncとSESの設定",
-  "Queue": "",
+  "Queue": "キュー",
   "SQS for notification queuing": "通知キューイングのSQS"
 }

@@ -1174,9 +1174,9 @@ npm run test:e2e
 - [モニタリング](/docs/monitoring-logging) - 可観測性を追加
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [Quickstart Tutorial](/docs/quickstart-tutorial) - 短い入門ガイド
-- [Command Service](/docs/command-service) - CommandService API reference
-- [Service Patterns](/docs/service-patterns) - Advanced CRUD patterns
-- [Testing](/docs/testing) - アプリケーションのテスト作成
+- [クイックスタートチュートリアル](/docs/quickstart-tutorial) - 短い入門ガイド
+- [コマンドサービス](/docs/command-service) - CommandService APIリファレンス
+- [サービスパターン](/docs/service-patterns) - 高度なCRUDパターン
+- [テスト](/docs/testing) - アプリケーションのテスト作成

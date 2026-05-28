@@ -598,8 +598,8 @@ const orderCode = `ORD-${String(sequence.value).padStart(6, '0')}`;
 - [アンチパターンガイド](/docs/anti-patterns)
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [SaaS Example](/docs/saas-example) - SaaSアプリケーション例
-- [Service Patterns](/docs/service-patterns) - 使用されるCRUDパターン
-- [Multi-Tenant Patterns](/docs/multi-tenant-patterns) - Multi-tenant design
+- [SaaS例](/docs/saas-example) - SaaSアプリケーション例
+- [サービスパターン](/docs/service-patterns) - 使用されるCRUDパターン
+- [マルチテナントパターン](/docs/multi-tenant-patterns) - マルチテナント設計

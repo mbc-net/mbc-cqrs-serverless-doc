@@ -572,9 +572,9 @@ type EntityInput<T> = Omit<T, 'createdAt' | 'createdBy' | 'updatedAt' | 'updated
 - [エラーカタログ](/docs/error-catalog) - エラーハンドリング
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [Command Service](/docs/command-service) - Using commands with these interfaces
-- [Data Service](/docs/data-service) - Querying data with these interfaces
-- [Entity Patterns](/docs/entity-patterns) - Designing entities
-- [Error Catalog](/docs/error-catalog) - Error handling
+- [コマンドサービス](/docs/command-service) - これらのインターフェースを使ったコマンド操作
+- [データサービス](/docs/data-service) - これらのインターフェースを使ったデータクエリ
+- [エンティティパターン](/docs/entity-patterns) - エンティティの設計
+- [エラーカタログ](/docs/error-catalog) - エラー処理

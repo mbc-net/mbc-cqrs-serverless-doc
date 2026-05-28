@@ -117,12 +117,12 @@
   "Use Case: Create clean public APIs for directories.": "ユースケース：ディレクトリ用のクリーンな公開APIを作成します。",
   "5. Type-Safe Route Constants": "5. 型安全なルート定数",
   "Use Case: Avoid typos in route strings and enable autocomplete.": "ユースケース：ルート文字列のタイプミスを防ぎ、自動補完を有効にします。",
-  "Related Documentation": "",
-  "API Integration Patterns": "",
+  "Related Documentation": "関連ドキュメント",
+  "API Integration Patterns": "API統合パターン",
   "API client patterns": "APIクライアントパターン",
-  "State Management Patterns": "",
-  "Frontend state": "",
+  "State Management Patterns": "ステート管理パターン",
+  "Frontend state": "フロントエンドステート",
   "Cognito frontend integration": "Cognitoのフロントエンド統合",
-  "Master Web": "",
+  "Master Web": "マスターWeb",
   "Master data frontend": "マスターデータのフロントエンド"
 }

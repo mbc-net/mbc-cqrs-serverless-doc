@@ -73,11 +73,11 @@
   "Sequence Service": "シーケンスサービス",
   "Event Handling Patterns": "イベント処理パターン",
   "Anti-Patterns Guide": "アンチパターンガイド",
-  "Related Documentation": "",
-  "SaaS Example": "",
+  "Related Documentation": "関連ドキュメント",
+  "SaaS Example": "SaaS例",
   "SaaS application example": "SaaSアプリケーション例",
-  "Service Patterns": "",
+  "Service Patterns": "サービスパターン",
   "CRUD patterns used": "使用されるCRUDパターン",
-  "Multi-Tenant Patterns": "",
-  "Multi-tenant design": ""
+  "Multi-Tenant Patterns": "マルチテナントパターン",
+  "Multi-tenant design": "マルチテナント設計"
 }

@@ -118,12 +118,12 @@
   "Observability best practices": "オブザーバビリティのベストプラクティス",
   "Error Catalog": "エラーカタログ",
   "Error handling reference": "エラーハンドリングリファレンス",
-  "Related Documentation": "",
-  "API Integration Patterns": "",
+  "Related Documentation": "関連ドキュメント",
+  "API Integration Patterns": "API統合パターン",
   "Frontend API patterns": "フロントエンドAPIパターン",
-  "Backend Development": "",
-  "Core backend patterns": "",
-  "Authentication": "",
-  "Authentication setup": "",
-  "API error codes": ""
+  "Backend Development": "バックエンド開発",
+  "Core backend patterns": "コアバックエンドパターン",
+  "Authentication": "認証",
+  "Authentication setup": "認証のセットアップ",
+  "API error codes": "APIエラーコード"
 }

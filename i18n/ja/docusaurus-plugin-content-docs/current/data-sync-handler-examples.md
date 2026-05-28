@@ -721,9 +721,9 @@ startDate: attrs.schedule?.startDate
 ```
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [Event Handling Patterns](/docs/event-handling-patterns) - Event handler patterns
-- [Backend Development](/docs/backend-development) - Core backend patterns
-- [Database Selection Guide](/docs/database-selection-guide) - DynamoDB対RDSの比較
+- [イベント処理パターン](/docs/event-handling-patterns) - イベントハンドラーパターン
+- [バックエンド開発](/docs/backend-development) - コアバックエンドパターン
+- [データベース選択ガイド](/docs/database-selection-guide) - DynamoDB対RDSの比較
 - [Prisma](/docs/prisma) - Prisma ORMを使ったRDS

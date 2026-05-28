@@ -416,11 +416,11 @@
   "Changelog": "変更履歴",
   "Version History": "バージョン履歴",
   "See [Web Packages Changelog](/docs/web-changelog) for all version history and release notes.": "すべてのバージョン履歴とリリースノートは[Webパッケージ変更履歴](/docs/web-changelog)を参照してください。",
-  "Related Documentation": "",
-  "Master": "",
+  "Related Documentation": "関連ドキュメント",
+  "Master": "マスター",
   "Backend master data service": "バックエンドのマスターデータサービス",
-  "Frontend Project Structure": "",
-  "Project structure": "",
-  "API Integration Patterns": "",
-  "API patterns": ""
+  "Frontend Project Structure": "フロントエンドプロジェクト構成",
+  "Project structure": "プロジェクト構成",
+  "API Integration Patterns": "API統合パターン",
+  "API patterns": "APIパターン"
 }

@@ -666,9 +666,9 @@ trail.addEventSelector(cloudtrail.DataResourceType.DYNAMODB_TABLE, [
 - [デプロイガイド](/docs/deployment-guide) - セキュアデプロイ
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [認証](/docs/authentication) - Cognito authentication and JWT setup
+- [認証](/docs/authentication) - Cognito認証とJWTの設定
 - [マルチテナントパターン](/docs/multi-tenant-patterns) - テナント分離とアクセス制御
 - [エラーカタログ](/docs/error-catalog) - セキュリティ関連エラーコード
-- [Monitoring and Logging](/docs/monitoring-logging) - セキュリティイベント監視
+- [監視とログ](/docs/monitoring-logging) - セキュリティイベント監視

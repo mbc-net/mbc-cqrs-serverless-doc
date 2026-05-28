@@ -755,8 +755,8 @@ import "@mbc-cqrs-serverless/survey-web/styles.css";
 :::
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [Survey Template](/docs/survey-template) - バックエンドのアンケートテンプレートサービス
-- [Frontend Project Structure](/docs/frontend-project-structure) - Project structure
-- [API Integration Patterns](/docs/api-integration-patterns) - API patterns
+- [アンケートテンプレート](/docs/survey-template) - バックエンドのアンケートテンプレートサービス
+- [フロントエンドプロジェクト構成](/docs/frontend-project-structure) - プロジェクト構成
+- [API統合パターン](/docs/api-integration-patterns) - APIパターン

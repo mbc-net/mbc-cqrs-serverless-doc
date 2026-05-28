@@ -55,8 +55,8 @@ TODO:
 ```
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [Project Structure](/docs/project-structure) - Project file organization
-- [Installation](/docs/installation) - TypeScript設定のセットアップ
-- [Getting Started](/docs/getting-started) - 初期プロジェクトセットアップ
+- [プロジェクト構成](/docs/project-structure) - プロジェクトファイル構成
+- [インストール](/docs/installation) - TypeScript設定のセットアップ
+- [はじめに](/docs/getting-started) - 初期プロジェクトセットアップ

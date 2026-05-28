@@ -262,9 +262,9 @@ import { ITenantService } from "@mbc-cqrs-serverless/tenant";
 - [コマンドサービス](/docs/command-service) - TenantServiceで使用されるコマンド操作
 
 
-## Related Documentation
+## 関連ドキュメント
 
 - [マルチテナントパターン](/docs/multi-tenant-patterns) - テナント分離パターン
-- [Authentication](/docs/authentication) - テナントベースの認証
-- [Key Patterns](/docs/key-patterns) - テナントキー設計
+- [認証](/docs/authentication) - テナントベースの認証
+- [キーパターン](/docs/key-patterns) - テナントキー設計
 - [インターフェース](/docs/interfaces) - TenantModuleインターフェース

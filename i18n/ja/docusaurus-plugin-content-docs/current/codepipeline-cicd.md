@@ -371,8 +371,8 @@ aws logs tail /aws/codebuild/your-build-project --follow
 - [トラブルシューティング](/docs/common-issues) - よくあるデプロイの問題
 
 
-## Related Documentation
+## 関連ドキュメント
 
-- [Deployment Guide](/docs/deployment-guide) - Manual deployment options
-- [Monitoring and Logging](/docs/monitoring-logging) - Set up observability
-- [Environment Variables](/docs/environment-variables) - CI/CD環境設定
+- [デプロイガイド](/docs/deployment-guide) - 手動デプロイオプション
+- [監視とログ](/docs/monitoring-logging) - オブザーバビリティの設定
+- [環境変数](/docs/environment-variables) - CI/CD環境設定

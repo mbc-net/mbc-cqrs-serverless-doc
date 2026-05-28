@@ -66,11 +66,11 @@
   "Advanced multi-tenant implementation patterns": "高度なマルチテナント実装パターン",
   "Command Service": "コマンドサービス",
   "Command operations used by TenantService": "TenantServiceで使用されるコマンド操作",
-  "Related Documentation": "",
+  "Related Documentation": "関連ドキュメント",
   "Tenant isolation patterns": "テナント分離パターン",
-  "Authentication": "",
+  "Authentication": "認証",
   "Tenant-based authentication": "テナントベースの認証",
-  "Key Patterns": "",
+  "Key Patterns": "キーパターン",
   "Tenant key design": "テナントキー設計",
   "TenantModule interfaces": "TenantModuleインターフェース"
 }
