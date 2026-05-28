@@ -27,5 +27,14 @@
   "Updated at": "Updated at (更新日時)",
   "properties": "properties (プロパティ)",
   "relations": "relations (リレーション)",
-  "index": "index (インデックス)"
+  "index": "index (インデックス)",
+  "Related Documentation": "",
+  "Database Selection Guide": "データベース選択ガイド",
+  "Choosing between DynamoDB and RDS": "DynamoDBとRDSの選択",
+  "Data Sync Handler Examples": "",
+  "Sync DynamoDB data to RDS": "DynamoDBデータのRDSへの同期",
+  "Environment Variables": "",
+  "Database connection configuration": "データベース接続設定",
+  "Deployment Guide": "デプロイガイド",
+  "Database migration in deployment": "デプロイ時のデータベース移行"
 }

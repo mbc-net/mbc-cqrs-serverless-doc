@@ -120,5 +120,13 @@
   "Next Steps": "Next Steps",
   "[CI/CD with CodePipeline](/docs/codepipeline-cicd) - Automate your deployments": "[CI/CD with CodePipeline](/docs/codepipeline-cicd) - Automate your deployments",
   "[Monitoring and Logging](/docs/monitoring-logging) - Set up observability": "[Monitoring and Logging](/docs/monitoring-logging) - Set up observability",
-  "[Troubleshooting](/docs/common-issues) - Common deployment issues": "[Troubleshooting](/docs/common-issues) - Common deployment issues"
+  "[Troubleshooting](/docs/common-issues) - Common deployment issues": "[Troubleshooting](/docs/common-issues) - Common deployment issues",
+  "Related Documentation": "Related Documentation",
+  "CI/CD with CodePipeline": "CI/CD with CodePipeline",
+  "Automate deployments with CodePipeline": "Automate deployments with CodePipeline",
+  "Monitoring and Logging": "Monitoring and Logging",
+  "Set up observability after deployment": "Set up observability after deployment",
+  "Configure environment for deployment": "Configure environment for deployment",
+  "Troubleshooting": "Troubleshooting",
+  "Common deployment issues": "Common deployment issues"
 }

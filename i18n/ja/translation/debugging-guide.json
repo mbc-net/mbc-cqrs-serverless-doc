@@ -193,5 +193,14 @@
   "Must be called before any AWS SDK usage": "Must be called before any AWS SDK usage (AWS SDK使用前に呼び出す必要がある)",
   "Next Steps": "次のステップ",
   "[Common Issues](/docs/common-issues) - Known issues and solutions": "[よくある問題](/docs/common-issues) - 既知の問題と解決策",
-  "[Monitoring and Logging](/docs/monitoring-logging) - Set up comprehensive monitoring": "[モニタリングとロギング](/docs/monitoring-logging) - 包括的なモニタリングをセットアップ"
+  "[Monitoring and Logging](/docs/monitoring-logging) - Set up comprehensive monitoring": "[モニタリングとロギング](/docs/monitoring-logging) - 包括的なモニタリングをセットアップ",
+  "Related Documentation": "",
+  "Common Issues": "よくある問題",
+  "Frequently encountered problems and solutions": "よく発生する問題と解決策",
+  "Monitoring and Logging": "",
+  "Set up comprehensive monitoring": "包括的な監視の設定",
+  "Error Catalog": "エラーカタログ",
+  "Error codes and resolution steps": "エラーコードと解決手順",
+  "E2E Testing": "E2Eテスト",
+  "End-to-end testing for debugging": "デバッグ用エンドツーエンドテスト"
 }

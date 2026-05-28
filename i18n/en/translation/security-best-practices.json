@@ -91,5 +91,13 @@
   "[Authentication](/docs/authentication) - Authentication setup": "[Authentication](/docs/authentication) - Authentication setup",
   "[Error Catalog](/docs/error-catalog) - Security-related errors": "[Error Catalog](/docs/error-catalog) - Security-related errors",
   "[Monitoring and Logging](/docs/monitoring-logging) - Security monitoring": "[Monitoring and Logging](/docs/monitoring-logging) - Security monitoring",
-  "[Deployment Guide](/docs/deployment-guide) - Secure deployment": "[Deployment Guide](/docs/deployment-guide) - Secure deployment"
+  "[Deployment Guide](/docs/deployment-guide) - Secure deployment": "[Deployment Guide](/docs/deployment-guide) - Secure deployment",
+  "Related Documentation": "Related Documentation",
+  "Cognito authentication and JWT setup": "Cognito authentication and JWT setup",
+  "Multi-Tenant Patterns": "Multi-Tenant Patterns",
+  "Tenant isolation and access control": "Tenant isolation and access control",
+  "Error Catalog": "Error Catalog",
+  "Security-related error codes": "Security-related error codes",
+  "Monitoring and Logging": "Monitoring and Logging",
+  "Security event monitoring": "Security event monitoring"
 }

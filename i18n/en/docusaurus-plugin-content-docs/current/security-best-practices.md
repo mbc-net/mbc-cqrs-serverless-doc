@@ -664,3 +664,11 @@ trail.addEventSelector(cloudtrail.DataResourceType.DYNAMODB_TABLE, [
 - [Error Catalog](/docs/error-catalog) - Security-related errors
 - [Monitoring and Logging](/docs/monitoring-logging) - Security monitoring
 - [Deployment Guide](/docs/deployment-guide) - Secure deployment
+
+
+## Related Documentation
+
+- [Authentication](/docs/authentication) - Cognito authentication and JWT setup
+- [Multi-Tenant Patterns](/docs/multi-tenant-patterns) - Tenant isolation and access control
+- [Error Catalog](/docs/error-catalog) - Security-related error codes
+- [Monitoring and Logging](/docs/monitoring-logging) - Security event monitoring

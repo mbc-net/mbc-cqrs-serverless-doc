@@ -6,5 +6,14 @@
   "provides integration with [Jest](https://github.com/facebook/jest) and [Supertest](https://github.com/ladjs/supertest) out-of-the-box, while remaining agnostic to testing tools": "[Jest](https://github.com/facebook/jest) および [Supertest](https://github.com/ladjs/supertest) との統合をすぐに使用できるように提供しますが、テスト ツールには依存しません。",
   "makes the Nest dependency injection system available in the testing environment for easily mocking components": "Nest 依存関係注入システムをテスト環境で使用して、コンポーネントを簡単にモックできるようにします。",
   "effortlessly mock AWS services": "AWS サービスを簡単にモックする",
-  "See the guides below to learn how to write test:": "テストの作成方法については、以下のガイドを参照してください。"
+  "See the guides below to learn how to write test:": "テストの作成方法については、以下のガイドを参照してください。",
+  "Related Documentation": "",
+  "Unit Testing": "ユニットテスト",
+  "Unit testing with Jest": "Jestによるユニットテスト",
+  "E2E Testing": "E2Eテスト",
+  "End-to-end testing setup": "",
+  "Debugging Guide": "デバッグガイド",
+  "Debug test failures": "テスト失敗のデバッグ",
+  "Common Issues": "よくある問題",
+  "Testing-related issues": "テスト関連の問題"
 }
