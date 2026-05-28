@@ -129,5 +129,12 @@
   "See Also": "See Also",
   "[Architecture Overview](/docs/architecture) - System architecture explanation": "[Architecture Overview](/docs/architecture) - System architecture explanation",
   "[CQRS Flow](/docs/architecture/cqrs-flow) - Detailed CQRS implementation": "[CQRS Flow](/docs/architecture/cqrs-flow) - Detailed CQRS implementation",
-  "[Key Patterns](/docs/key-patterns) - PK/SK design patterns": "[Key Patterns](/docs/key-patterns) - PK/SK design patterns"
+  "[Key Patterns](/docs/key-patterns) - PK/SK design patterns": "[Key Patterns](/docs/key-patterns) - PK/SK design patterns",
+  "Related Documentation": "Related Documentation",
+  "Architecture": "Architecture",
+  "System architecture overview": "System architecture overview",
+  "CQRS Flow": "CQRS Flow",
+  "Detailed CQRS implementation": "Detailed CQRS implementation",
+  "Getting Started": "Getting Started",
+  "Introduction to key concepts": "Introduction to key concepts"
 }

@@ -346,3 +346,10 @@ I'm getting ConditionalCheckFailedException errors
 
 - [{{CLI Tool}}](/docs/cli) - {{CLI tool for code generation}}
 - [{{API Reference}}](/docs/api-reference) - {{Detailed API documentation}}
+
+
+## {{Related Documentation}}
+
+- [{{AI Integration}}](/docs/ai-integration) - {{Overview of AI tool support}}
+- [{{AI Prompts Library}}](/docs/ai-prompts) - {{Optimized prompts for common tasks}}
+- [{{CLI}}](/docs/cli) - {{MBC CLI code generation tool}}

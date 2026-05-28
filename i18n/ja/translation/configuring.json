@@ -58,5 +58,12 @@
   "See Also": "関連情報",
   "[Environment Variables](/docs/environment-variables) - Environment configuration": "[環境変数](/docs/environment-variables) - 環境設定",
   "[Absolute Imports](/docs/absolute_imports_and_module_path_aliases) - Path aliases": "[絶対インポート](/docs/absolute_imports_and_module_path_aliases) - パスエイリアス",
-  "[Deployment Guide](/docs/deployment-guide) - Deployment configuration": "[デプロイガイド](/docs/deployment-guide) - デプロイ設定"
+  "[Deployment Guide](/docs/deployment-guide) - Deployment configuration": "[デプロイガイド](/docs/deployment-guide) - デプロイ設定",
+  "Related Documentation": "",
+  "Environment Variables": "",
+  "All available environment variables": "利用可能な全環境変数",
+  "Modules": "",
+  "Module configuration and registration": "モジュールの設定と登録",
+  "Deployment Guide": "",
+  "Configure for production": "本番環境の設定"
 }

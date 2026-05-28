@@ -29,8 +29,10 @@
   "Creates a new task for Step Functions processing. The input array will be processed as subtasks.": "Creates a new task for Step Functions processing. The input array will be processed as subtasks.",
   "Retrieves a task by its primary key.": "Retrieves a task by its primary key.",
   "Lists tasks by tenant code and type.": "Lists tasks by tenant code and type.",
+  "For pagination": "For pagination",
   "List all tasks for a tenant": "List all tasks for a tenant",
   "List Step Function tasks": "List Step Function tasks",
+  "Paginate through results": "Paginate through results",
   "Creates subtasks from a parent task's input array. Each item in the input array becomes a separate subtask.": "Creates subtasks from a parent task's input array. Each item in the input array becomes a separate subtask.",
   "Typically called within a TaskQueueEvent handler": "Typically called within a TaskQueueEvent handler",
   "Returns array of TaskEntity for each input item": "Returns array of TaskEntity for each input item",
@@ -75,8 +77,6 @@
   "Task finished successfully": "Task finished successfully",
   "Task encountered an error during execution": "Task encountered an error during execution",
   "Task failed with an error": "Task failed with an error",
-  "For pagination": "For pagination",
-  "Paginate through results": "Paginate through results",
   "CreateTaskDto": "CreateTaskDto",
   "The `CreateTaskDto` class defines the structure for creating a new task:": "The `CreateTaskDto` class defines the structure for creating a new task:",
   "Required: Tenant identifier": "Required: Tenant identifier",
@@ -89,5 +89,12 @@
   "The `ITaskQueueEventFactory` interface defines optional methods for transforming task events. You only need to implement the method(s) relevant to your use case:": "The `ITaskQueueEventFactory` interface defines optional methods for transforming task events. You only need to implement the method(s) relevant to your use case:",
   "Optional: For single task processing": "Optional: For single task processing",
   "Optional: For Step Function task processing": "Optional: For Step Function task processing",
-  "Note: Both methods are optional. Implement `transformTask` for single task processing, or `transformStepFunctionTask` for Step Function task processing, or both if your application uses both types.": "Note: Both methods are optional. Implement `transformTask` for single task processing, or `transformStepFunctionTask` for Step Function task processing, or both if your application uses both types."
+  "Note: Both methods are optional. Implement `transformTask` for single task processing, or `transformStepFunctionTask` for Step Function task processing, or both if your application uses both types.": "Note: Both methods are optional. Implement `transformTask` for single task processing, or `transformStepFunctionTask` for Step Function task processing, or both if your application uses both types.",
+  "Related Documentation": "Related Documentation",
+  "Import/Export Patterns": "Import/Export Patterns",
+  "Step Functions integration for imports": "Step Functions integration for imports",
+  "Architecture: Step Functions": "Architecture: Step Functions",
+  "Workflow orchestration": "Workflow orchestration",
+  "Interfaces": "Interfaces",
+  "StepFunctionsEvent interface": "StepFunctionsEvent interface"
 }

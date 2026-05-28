@@ -33,5 +33,12 @@
   "2. Handle version conflict errors gracefully in your application": "2. アプリケーションでバージョン競合エラーを適切に処理する",
   "3. Use appropriate retry strategies for handling conflicts": "3. 競合を処理するための適切なリトライ戦略を使用する",
   "4. Consider implementing exponential backoff for retries": "4. リトライには指数バックオフを実装することを検討する",
-  "5. Document version handling in your API documentation": "5. APIドキュメントにバージョン管理を記載する"
+  "5. Document version handling in your API documentation": "5. APIドキュメントにバージョン管理を記載する",
+  "Related Documentation": "",
+  "Command Service": "",
+  "publishSync with version handling": "バージョン処理を伴うpublishSync",
+  "Error Catalog": "",
+  "Version conflict errors": "バージョン競合エラー",
+  "Service Patterns": "",
+  "Optimistic locking patterns": "楽観的ロックパターン"
 }

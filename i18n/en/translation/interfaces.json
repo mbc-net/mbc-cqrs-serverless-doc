@@ -111,5 +111,14 @@
   "[Command Service](/docs/command-service) - Using commands with these interfaces": "[Command Service](/docs/command-service) - Using commands with these interfaces",
   "[Data Service](/docs/data-service) - Querying data with these interfaces": "[Data Service](/docs/data-service) - Querying data with these interfaces",
   "[Entity Patterns](/docs/entity-patterns) - Designing entities": "[Entity Patterns](/docs/entity-patterns) - Designing entities",
-  "[Error Catalog](/docs/error-catalog) - Error handling": "[Error Catalog](/docs/error-catalog) - Error handling"
+  "[Error Catalog](/docs/error-catalog) - Error handling": "[Error Catalog](/docs/error-catalog) - Error handling",
+  "Related Documentation": "Related Documentation",
+  "Command Service": "Command Service",
+  "Using commands with these interfaces": "Using commands with these interfaces",
+  "Data Service": "Data Service",
+  "Querying data with these interfaces": "Querying data with these interfaces",
+  "Entity Patterns": "Entity Patterns",
+  "Designing entities": "Designing entities",
+  "Error Catalog": "Error Catalog",
+  "Error handling": "Error handling"
 }

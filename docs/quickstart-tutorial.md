@@ -191,3 +191,11 @@ npm run migrate
 ### {{Port conflicts}}
 
 {{If ports 3000, 5432, or 8000 are in use, stop the conflicting services or modify the port configuration in `docker-compose.yml`.}}
+
+
+## {{Related Documentation}}
+
+- [{{Build a Todo App}}](/docs/build-todo-app) - {{More complete CQRS pattern example}}
+- [{{Backend Development}}](/docs/backend-development) - {{Deep dive into backend patterns}}
+- [{{Service Patterns}}](/docs/service-patterns) - {{Complete CRUD service patterns}}
+- [{{Command Service}}](/docs/command-service) - {{CommandService API reference}}

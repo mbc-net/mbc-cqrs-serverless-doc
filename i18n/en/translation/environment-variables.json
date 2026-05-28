@@ -78,5 +78,12 @@
   "First, we have to define:": "First, we have to define:",
   "a class with validation constraints,": "a class with validation constraints,",
   "extend the EnvironmentVariables class.": "extend the EnvironmentVariables class.",
-  "With this in place, you pass the `EnvValidation` class as a configuration argument of the `createHandler` function, as follows:": "With this in place, you pass the `EnvValidation` class as a configuration argument of the `createHandler` function, as follows:"
+  "With this in place, you pass the `EnvValidation` class as a configuration argument of the `createHandler` function, as follows:": "With this in place, you pass the `EnvValidation` class as a configuration argument of the `createHandler` function, as follows:",
+  "Related Documentation": "Related Documentation",
+  "Configuring": "Configuring",
+  "Module-level configuration options": "Module-level configuration options",
+  "Deployment Guide": "Deployment Guide",
+  "Deployment environment setup": "Deployment environment setup",
+  "Installation": "Installation",
+  "Initial environment setup": "Initial environment setup"
 }

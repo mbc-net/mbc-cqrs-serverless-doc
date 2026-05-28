@@ -29,8 +29,10 @@
   "Creates a new task for Step Functions processing. The input array will be processed as subtasks.": "Step Functions処理用の新しいタスクを作成します。入力配列はサブタスクとして処理されます。",
   "Retrieves a task by its primary key.": "プライマリキーでタスクを取得します。",
   "Lists tasks by tenant code and type.": "テナントコードとタイプでタスクを一覧表示します。",
+  "For pagination": "For pagination (ページネーション用)",
   "List all tasks for a tenant": "List all tasks for a tenant (テナントのすべてのタスクを一覧表示)",
   "List Step Function tasks": "List Step Function tasks (Step Functionタスクを一覧表示)",
+  "Paginate through results": "Paginate through results (結果をページネーション)",
   "Creates subtasks from a parent task's input array. Each item in the input array becomes a separate subtask.": "親タスクの入力配列からサブタスクを作成します。入力配列の各項目が個別のサブタスクになります。",
   "Typically called within a TaskQueueEvent handler": "Typically called within a TaskQueueEvent handler (通常、TaskQueueEventハンドラー内で呼び出す)",
   "Returns array of TaskEntity for each input item": "Returns array of TaskEntity for each input item (各入力項目に対するTaskEntityの配列を返す)",
@@ -75,8 +77,6 @@
   "Task finished successfully": "タスクは正常に完了しました",
   "Task encountered an error during execution": "タスクは実行中にエラーが発生しました",
   "Task failed with an error": "タスクはエラーで失敗しました",
-  "For pagination": "For pagination (ページネーション用)",
-  "Paginate through results": "Paginate through results (結果をページネーション)",
   "CreateTaskDto": "CreateTaskDto",
   "The `CreateTaskDto` class defines the structure for creating a new task:": "`CreateTaskDto`クラスは、新しいタスクを作成するための構造を定義します：",
   "Required: Tenant identifier": "Required: Tenant identifier (必須: テナント識別子)",
@@ -89,5 +89,12 @@
   "The `ITaskQueueEventFactory` interface defines optional methods for transforming task events. You only need to implement the method(s) relevant to your use case:": "`ITaskQueueEventFactory`インターフェースは、タスクイベントを変換するためのオプションメソッドを定義します。使用するケースに関連するメソッドのみを実装する必要があります：",
   "Optional: For single task processing": "Optional: For single task processing (オプション: 単一タスク処理用)",
   "Optional: For Step Function task processing": "Optional: For Step Function task processing (オプション: Step Functionタスク処理用)",
-  "Note: Both methods are optional. Implement `transformTask` for single task processing, or `transformStepFunctionTask` for Step Function task processing, or both if your application uses both types.": "注意: 両方のメソッドはオプションです。単一タスク処理には`transformTask`を、Step Functionタスク処理には`transformStepFunctionTask`を実装します。アプリケーションが両方のタイプを使用する場合は両方を実装してください。"
+  "Note: Both methods are optional. Implement `transformTask` for single task processing, or `transformStepFunctionTask` for Step Function task processing, or both if your application uses both types.": "注意: 両方のメソッドはオプションです。単一タスク処理には`transformTask`を、Step Functionタスク処理には`transformStepFunctionTask`を実装します。アプリケーションが両方のタイプを使用する場合は両方を実装してください。",
+  "Related Documentation": "",
+  "Import/Export Patterns": "",
+  "Step Functions integration for imports": "インポートのStep Functions統合",
+  "Architecture: Step Functions": "",
+  "Workflow orchestration": "ワークフローオーケストレーション",
+  "Interfaces": "",
+  "StepFunctionsEvent interface": "StepFunctionsEventインターフェース"
 }

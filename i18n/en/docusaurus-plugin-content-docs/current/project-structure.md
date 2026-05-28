@@ -50,3 +50,11 @@ The following file conventions are used to define new module in src folder.
 | [name].service.ts    | file   | Define business logics.    |
 | [name].controller.ts | file   | Define a controller. |
 | [name].module.ts     | file   | Organizes code relevant for a specific feature, keeping code organized and establishing clear boundaries.     |
+
+
+## Related Documentation
+
+- [Getting Started](/docs/getting-started) - Introduction and prerequisites
+- [Modules](/docs/modules) - Module configuration and usage
+- [Configuring](/docs/configuring) - Configuration options
+- [CLI](/docs/cli) - Generate project with CLI

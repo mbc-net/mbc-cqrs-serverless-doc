@@ -191,3 +191,11 @@ npm run migrate
 ### ポートの競合
 
 ポート3000、5432、または8000が使用中の場合は、競合するサービスを停止するか、`docker-compose.yml`でポート設定を変更してください。
+
+
+## Related Documentation
+
+- [Build a Todo App](/docs/build-todo-app) - より完全なCQRSパターン例
+- [Backend Development](/docs/backend-development) - バックエンドパターンの詳細
+- [Service Patterns](/docs/service-patterns) - Complete CRUD service patterns
+- [Command Service](/docs/command-service) - CommandService API reference

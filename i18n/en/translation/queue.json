@@ -29,5 +29,12 @@
   "Long polling": "Long polling",
   "Deletes a single message from the queue after processing.": "Deletes a single message from the queue after processing.",
   "Process message...": "Process message...",
-  "Deletes up to 10 messages in a single API call.": "Deletes up to 10 messages in a single API call."
+  "Deletes up to 10 messages in a single API call.": "Deletes up to 10 messages in a single API call.",
+  "Related Documentation": "Related Documentation",
+  "Notification Module": "Notification Module",
+  "Real-time notifications with AppSync": "Real-time notifications with AppSync",
+  "Event Handling Patterns": "Event Handling Patterns",
+  "Event-driven architecture": "Event-driven architecture",
+  "Interfaces": "Interfaces",
+  "SQS message interfaces": "SQS message interfaces"
 }

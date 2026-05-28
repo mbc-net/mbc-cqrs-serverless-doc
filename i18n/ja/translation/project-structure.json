@@ -29,5 +29,14 @@
   "Define the data sync handler classes.": "データ同期ハンドラークラスを定義します。",
   "Define business logics.": "ビジネスロジックを定義します。",
   "Define a controller.": "コントローラを定義します。",
-  "Organizes code relevant for a specific feature, keeping code organized and establishing clear boundaries.": "特定の機能に関するコード記述します。整理した状態を保ち明確な境界を確立します。"
+  "Organizes code relevant for a specific feature, keeping code organized and establishing clear boundaries.": "特定の機能に関するコード記述します。整理した状態を保ち明確な境界を確立します。",
+  "Related Documentation": "",
+  "Getting Started": "",
+  "Introduction and prerequisites": "はじめに・前提条件",
+  "Modules": "",
+  "Module configuration and usage": "",
+  "Configuring": "",
+  "Configuration options": "",
+  "CLI": "",
+  "Generate project with CLI": "CLIでプロジェクトを生成"
 }

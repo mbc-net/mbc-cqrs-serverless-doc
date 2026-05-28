@@ -111,5 +111,14 @@
   "[Command Service](/docs/command-service) - Using commands with these interfaces": "[コマンドサービス](/docs/command-service) - これらのインターフェースを使用したコマンド",
   "[Data Service](/docs/data-service) - Querying data with these interfaces": "[データサービス](/docs/data-service) - これらのインターフェースを使用したデータクエリ",
   "[Entity Patterns](/docs/entity-patterns) - Designing entities": "[エンティティパターン](/docs/entity-patterns) - エンティティの設計",
-  "[Error Catalog](/docs/error-catalog) - Error handling": "[エラーカタログ](/docs/error-catalog) - エラーハンドリング"
+  "[Error Catalog](/docs/error-catalog) - Error handling": "[エラーカタログ](/docs/error-catalog) - エラーハンドリング",
+  "Related Documentation": "",
+  "Command Service": "",
+  "Using commands with these interfaces": "",
+  "Data Service": "",
+  "Querying data with these interfaces": "",
+  "Entity Patterns": "",
+  "Designing entities": "",
+  "Error Catalog": "",
+  "Error handling": ""
 }

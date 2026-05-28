@@ -57,5 +57,14 @@
   "Database connection errors": "Database connection errors",
   "Wait a few seconds for PostgreSQL to fully start, then run migrations again:": "Wait a few seconds for PostgreSQL to fully start, then run migrations again:",
   "Port conflicts": "Port conflicts",
-  "If ports 3000, 5432, or 8000 are in use, stop the conflicting services or modify the port configuration in `docker-compose.yml`.": "If ports 3000, 5432, or 8000 are in use, stop the conflicting services or modify the port configuration in `docker-compose.yml`."
+  "If ports 3000, 5432, or 8000 are in use, stop the conflicting services or modify the port configuration in `docker-compose.yml`.": "If ports 3000, 5432, or 8000 are in use, stop the conflicting services or modify the port configuration in `docker-compose.yml`.",
+  "Related Documentation": "Related Documentation",
+  "Build a Todo App": "Build a Todo App",
+  "More complete CQRS pattern example": "More complete CQRS pattern example",
+  "Backend Development": "Backend Development",
+  "Deep dive into backend patterns": "Deep dive into backend patterns",
+  "Service Patterns": "Service Patterns",
+  "Complete CRUD service patterns": "Complete CRUD service patterns",
+  "Command Service": "Command Service",
+  "CommandService API reference": "CommandService API reference"
 }

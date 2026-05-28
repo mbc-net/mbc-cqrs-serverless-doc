@@ -57,5 +57,14 @@
   "Database connection errors": "データベース接続エラー",
   "Wait a few seconds for PostgreSQL to fully start, then run migrations again:": "PostgreSQLが完全に起動するまで数秒待ってから、マイグレーションを再実行してください：",
   "Port conflicts": "ポートの競合",
-  "If ports 3000, 5432, or 8000 are in use, stop the conflicting services or modify the port configuration in `docker-compose.yml`.": "ポート3000、5432、または8000が使用中の場合は、競合するサービスを停止するか、`docker-compose.yml`でポート設定を変更してください。"
+  "If ports 3000, 5432, or 8000 are in use, stop the conflicting services or modify the port configuration in `docker-compose.yml`.": "ポート3000、5432、または8000が使用中の場合は、競合するサービスを停止するか、`docker-compose.yml`でポート設定を変更してください。",
+  "Related Documentation": "",
+  "Build a Todo App": "",
+  "More complete CQRS pattern example": "より完全なCQRSパターン例",
+  "Backend Development": "",
+  "Deep dive into backend patterns": "バックエンドパターンの詳細",
+  "Service Patterns": "",
+  "Complete CRUD service patterns": "",
+  "Command Service": "",
+  "CommandService API reference": ""
 }

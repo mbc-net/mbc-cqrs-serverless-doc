@@ -149,5 +149,13 @@
   "Legacy Upsert Pattern": "Legacy Upsert Pattern",
   "Deprecated Pattern": "Deprecated Pattern",
   "The custom upsert pattern below was required in versions prior to 1.1.2. For new projects, use the [built-in upsert methods](#upsert-pattern) instead.": "The custom upsert pattern below was required in versions prior to 1.1.2. For new projects, use the [built-in upsert methods](#upsert-pattern) instead.",
-  "For versions prior to 1.1.2, implement a custom upsert service that checks for existing records before deciding whether to call create or update. See the [v1.1.1 documentation](https://github.com/mbc-net/mbc-cqrs-serverless/tree/v1.1.1) for the full legacy pattern.": "For versions prior to 1.1.2, implement a custom upsert service that checks for existing records before deciding whether to call create or update. See the [v1.1.1 documentation](https://github.com/mbc-net/mbc-cqrs-serverless/tree/v1.1.1) for the full legacy pattern."
+  "For versions prior to 1.1.2, implement a custom upsert service that checks for existing records before deciding whether to call create or update. See the [v1.1.1 documentation](https://github.com/mbc-net/mbc-cqrs-serverless/tree/v1.1.1) for the full legacy pattern.": "For versions prior to 1.1.2, implement a custom upsert service that checks for existing records before deciding whether to call create or update. See the [v1.1.1 documentation](https://github.com/mbc-net/mbc-cqrs-serverless/tree/v1.1.1) for the full legacy pattern.",
+  "Related Documentation": "Related Documentation",
+  "Tenant management": "Tenant management",
+  "Configuring": "Configuring",
+  "Sequence rotation settings": "Sequence rotation settings",
+  "Service Patterns": "Service Patterns",
+  "Master data service patterns": "Master data service patterns",
+  "Master Web": "Master Web",
+  "Frontend master data management": "Frontend master data management"
 }

@@ -546,3 +546,10 @@ interface ITaskQueueEventFactory<TEvent extends IEvent = any> {
 ```
 
 {{Note: Both methods are optional. Implement `transformTask` for single task processing, or `transformStepFunctionTask` for Step Function task processing, or both if your application uses both types.}}
+
+
+## {{Related Documentation}}
+
+- [{{Import/Export Patterns}}](/docs/import-export-patterns) - {{Step Functions integration for imports}}
+- [{{Architecture: Step Functions}}](/docs/architecture/step-functions) - {{Workflow orchestration}}
+- [{{Interfaces}}](/docs/interfaces) - {{StepFunctionsEvent interface}}

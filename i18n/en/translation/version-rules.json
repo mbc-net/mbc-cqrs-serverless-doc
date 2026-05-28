@@ -33,5 +33,12 @@
   "2. Handle version conflict errors gracefully in your application": "2. Handle version conflict errors gracefully in your application",
   "3. Use appropriate retry strategies for handling conflicts": "3. Use appropriate retry strategies for handling conflicts",
   "4. Consider implementing exponential backoff for retries": "4. Consider implementing exponential backoff for retries",
-  "5. Document version handling in your API documentation": "5. Document version handling in your API documentation"
+  "5. Document version handling in your API documentation": "5. Document version handling in your API documentation",
+  "Related Documentation": "Related Documentation",
+  "Command Service": "Command Service",
+  "publishSync with version handling": "publishSync with version handling",
+  "Error Catalog": "Error Catalog",
+  "Version conflict errors": "Version conflict errors",
+  "Service Patterns": "Service Patterns",
+  "Optimistic locking patterns": "Optimistic locking patterns"
 }

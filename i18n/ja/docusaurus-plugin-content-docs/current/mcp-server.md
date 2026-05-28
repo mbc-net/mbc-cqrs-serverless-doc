@@ -346,3 +346,10 @@ I'm getting ConditionalCheckFailedException errors
 
 - [CLIツール](/docs/cli) - コード生成用CLIツール
 - [APIリファレンス](/docs/api-reference) - 詳細なAPIドキュメント
+
+
+## Related Documentation
+
+- [AI Integration](/docs/ai-integration) - AIツールサポートの概要
+- [AI Prompts Library](/docs/ai-prompts) - よく使うタスクに最適化されたプロンプト
+- [CLI](/docs/cli) - MBC CLIコード生成ツール

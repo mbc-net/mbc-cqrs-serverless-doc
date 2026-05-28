@@ -260,3 +260,11 @@ import { ITenantService } from "@mbc-cqrs-serverless/tenant";
 
 - [{{Multi-Tenant Patterns}}](/docs/multi-tenant-patterns) - {{Advanced multi-tenant implementation patterns}}
 - [{{Command Service}}](/docs/command-service) - {{Command operations used by TenantService}}
+
+
+## {{Related Documentation}}
+
+- [{{Multi-Tenant Patterns}}](/docs/multi-tenant-patterns) - {{Tenant isolation patterns}}
+- [{{Authentication}}](/docs/authentication) - {{Tenant-based authentication}}
+- [{{Key Patterns}}](/docs/key-patterns) - {{Tenant key design}}
+- [{{Interfaces}}](/docs/interfaces) - {{TenantModule interfaces}}

@@ -346,3 +346,11 @@ sudo npm install -g @mbc-cqrs-serverless/cli
 npm config set prefix ~/.npm-global
 npm install -g @mbc-cqrs-serverless/cli
 ```
+
+
+## {{Related Documentation}}
+
+- [{{Getting Started}}](/docs/getting-started) - {{Introduction and first steps}}
+- [{{Installation}}](/docs/installation) - {{Install CLI and setup}}
+- [{{MCP Server}}](/docs/mcp-server) - {{AI development tool integration}}
+- [{{Project Structure}}](/docs/project-structure) - {{Generated project layout}}

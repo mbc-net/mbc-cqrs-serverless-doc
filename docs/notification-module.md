@@ -554,3 +554,11 @@ await this.emailService.sendEmail(email);
 
 - [{{Event Handling Patterns}}](/docs/event-handling-patterns) - {{How notifications integrate with events}}
 - [{{Environment Variables}}](/docs/environment-variables) - {{Configuration reference}}
+
+
+## {{Related Documentation}}
+
+- [{{Email Service}}](/docs/email-service) - {{SES email sending}}
+- [{{Event Handling Patterns}}](/docs/event-handling-patterns) - {{How notifications integrate with events}}
+- [{{Environment Variables}}](/docs/environment-variables) - {{AppSync and SES configuration}}
+- [{{Queue}}](/docs/queue) - {{SQS for notification queuing}}

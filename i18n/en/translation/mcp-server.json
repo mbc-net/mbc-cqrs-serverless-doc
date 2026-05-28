@@ -191,5 +191,12 @@
   "CLI Tool": "CLI Tool",
   "CLI tool for code generation": "CLI tool for code generation",
   "API Reference": "API Reference",
-  "Detailed API documentation": "Detailed API documentation"
+  "Detailed API documentation": "Detailed API documentation",
+  "Related Documentation": "Related Documentation",
+  "AI Integration": "AI Integration",
+  "Overview of AI tool support": "Overview of AI tool support",
+  "AI Prompts Library": "AI Prompts Library",
+  "Optimized prompts for common tasks": "Optimized prompts for common tasks",
+  "CLI": "CLI",
+  "MBC CLI code generation tool": "MBC CLI code generation tool"
 }

@@ -29,5 +29,14 @@
   "Define the data sync handler classes.": "Define the data sync handler classes.",
   "Define business logics.": "Define business logics.",
   "Define a controller.": "Define a controller.",
-  "Organizes code relevant for a specific feature, keeping code organized and establishing clear boundaries.": "Organizes code relevant for a specific feature, keeping code organized and establishing clear boundaries."
+  "Organizes code relevant for a specific feature, keeping code organized and establishing clear boundaries.": "Organizes code relevant for a specific feature, keeping code organized and establishing clear boundaries.",
+  "Related Documentation": "Related Documentation",
+  "Getting Started": "Getting Started",
+  "Introduction and prerequisites": "Introduction and prerequisites",
+  "Modules": "Modules",
+  "Module configuration and usage": "Module configuration and usage",
+  "Configuring": "Configuring",
+  "Configuration options": "Configuration options",
+  "CLI": "CLI",
+  "Generate project with CLI": "Generate project with CLI"
 }
