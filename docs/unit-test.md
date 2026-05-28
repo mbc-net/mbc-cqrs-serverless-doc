@@ -1,5 +1,5 @@
 ---
-description: {{Learn how to write unit test}}
+description: {{Learn how to write unit tests for MBC CQRS Serverless services, handlers, and commands using Jest and mocking patterns.}}
 ---
 
 # {{Unit test}}

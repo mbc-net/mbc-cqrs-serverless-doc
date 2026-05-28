@@ -1,5 +1,5 @@
 ---
-description: テスト
+description: ユニットテスト、統合テスト、E2Eテスト戦略を含む、MBC CQRS Serverlessアプリケーションの包括的なテストガイド。
 ---
 
 # テスト

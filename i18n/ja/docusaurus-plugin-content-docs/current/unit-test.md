@@ -1,5 +1,5 @@
 ---
-description: 単体テストの書き方を学びます
+description: Jestとモッキングパターンを使用して、MBC CQRS Serverlessサービス、ハンドラー、コマンドのユニットテストを書く方法を学びます。
 ---
 
 # 単体テスト

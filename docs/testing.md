@@ -1,5 +1,5 @@
 ---
-description: {{Testing}}
+description: {{Comprehensive testing guide for MBC CQRS Serverless applications, covering unit testing, integration testing, and E2E testing strategies.}}
 ---
 
 # {{Testing}}

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-description: バージョン管理ルールと楽観的ロックについて学びます
+description: MBC CQRS Serverlessでの並行コマンド処理と競合解決のためのバージョン番号を使用した楽観的ロック戦略を理解します。
 ---
 
 # バージョン管理ルール

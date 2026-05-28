@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-description: Learn about versioning rules and optimistic locking
+description: Understand the optimistic locking strategy using version numbers for concurrent command processing and conflict resolution in MBC CQRS Serverless.
 ---
 
 # Versioning Rules
