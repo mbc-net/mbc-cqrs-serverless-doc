@@ -239,7 +239,7 @@ export class UserContext {
 ```typescript
 import { getUserContext, IInvoke } from '@mbc-cqrs-serverless/core';
 
-// Extract user context from IInvoke or ExecutionContext
+// IInvokeまたはExecutionContextからユーザーコンテキストを抽出
 const userContext = getUserContext(invokeContext);
 console.log(userContext.userId);      // '92ca4f68-9ac6-4080-9ae2-2f02a86206a4'
 console.log(userContext.tenantCode);  // 'tenant001'
@@ -365,7 +365,7 @@ const result = await dataService.listItemsByPk('ORDER#tenant001', {
 
 // Pagination
 if (result.lastSk) {
-  // More items available - use result.lastSk for next page
+  // 追加アイテムあり - 次ページにresult.lastSkを使用
 }
 ```
 
@@ -419,7 +419,7 @@ export class OrderRdsSyncHandler implements IDataSyncHandler {
   }
 
   async down(cmd: CommandModel): Promise<void> {
-    // Rollback logic - restore previous state
+    // ロールバックロジック - 前の状態を復元
     await this.prisma.order.delete({
       where: { id: cmd.id },
     });
@@ -552,15 +552,15 @@ export interface StepFunctionsEvent<TInput> {
 ### 共通型ヘルパー
 
 ```ts
-// Partial type that requires specific keys
+// 特定のキーを必須とする部分型
 type RequiredPick<T, K extends keyof T> = Partial<T> & Pick<T, K>;
 
-// Deep partial type
+// ディープパーシャル型
 type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
 };
 
-// Entity without audit fields
+// 監査フィールドなしのエンティティ
 type EntityInput<T> = Omit<T, 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'>;
 ```
 

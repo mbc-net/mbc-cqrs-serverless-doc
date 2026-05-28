@@ -91,7 +91,7 @@ description: {{Comprehensive error catalog with causes, solutions, and recovery 
 
 **{{Solution}}**:
 ```typescript
-// Option 1: Fetch latest version before update
+// {{Option 1: Fetch latest version before update}}
 const latest = await dataService.getItem({ pk, sk });
 await commandService.publishPartialUpdateSync({
   pk,
@@ -100,7 +100,7 @@ await commandService.publishPartialUpdateSync({
   name: 'Updated Name',
 }, options);
 
-// Option 2: Use version: -1 for auto-fetch (async mode only)
+// {{Option 2: Use version: -1 for auto-fetch (async mode only)}}
 await commandService.publishPartialUpdateAsync({
   pk,
   sk,
@@ -108,7 +108,7 @@ await commandService.publishPartialUpdateAsync({
   name: 'Updated Name',
 }, options);
 
-// Option 3: Implement retry logic
+// {{Option 3: Implement retry logic}}
 async function updateWithRetry(data, maxRetries = 3) {
   for (let i = 0; i < maxRetries; i++) {
     try {
@@ -138,13 +138,13 @@ async function updateWithRetry(data, maxRetries = 3) {
 
 **{{Solution}}**:
 ```typescript
-// Check if item exists first
+// {{Check if item exists first}}
 const existing = await dataService.getItem({ pk, sk });
 if (!existing) {
-  // Create new item
+  // {{Create new item}}
   await commandService.publishAsync(newItem, options);
 } else {
-  // Update existing item
+  // {{Update existing item}}
   await commandService.publishPartialUpdateAsync({
     pk,
     sk,
@@ -176,12 +176,12 @@ if (!existing) {
 
 **{{Solution}}**:
 ```typescript
-// Verify tenant exists
+// {{Verify tenant exists}}
 try {
   const tenant = await tenantService.getTenant(tenantCode);
 } catch (error) {
   if (error.message === 'Tenant not found') {
-    // List available tenants
+    // {{List available tenants}}
     const tenants = await tenantService.listTenants();
     console.log('Available tenants:', tenants.items.map(t => t.code));
   }
@@ -198,7 +198,7 @@ try {
 
 **{{Solution}}**:
 ```typescript
-// Check if tenant exists before creating
+// {{Check if tenant exists before creating}}
 const existing = await tenantService.getTenant(tenantCode).catch(() => null);
 if (existing) {
   console.log('Tenant already exists, using existing tenant');
@@ -229,7 +229,7 @@ try {
     { invokeContext },
   );
 } catch (error) {
-  // If error persists, check DynamoDB table permissions
+  // {{If error persists, check DynamoDB table permissions}}
 }
 ```
 
@@ -245,7 +245,7 @@ try {
 
 **{{Solution}}**:
 ```typescript
-// Verify task status before operations
+// {{Verify task status before operations}}
 const task = await taskService.getTask({ pk, sk });
 if (!task) {
   throw new NotFoundException('Task not found');
@@ -267,7 +267,7 @@ if (task.status === 'completed') {
 
 **{{Common Validation Errors}}**:
 ```typescript
-// Example DTO with validation
+// {{Example DTO with validation}}
 export class CreateOrderDto {
   @IsNotEmpty({ message: 'Name is required' })
   @IsString()
@@ -284,7 +284,7 @@ export class CreateOrderDto {
   amount?: number;
 }
 
-// Common validation errors and fixes:
+// {{Common validation errors and fixes:}}
 // - "name must be a string" -> Ensure name is string type
 // - "code should not be empty" -> Provide code value
 // - "amount must not be less than 0" -> Use positive number
@@ -292,7 +292,7 @@ export class CreateOrderDto {
 
 **{{Solution}}**:
 ```typescript
-// Validate before sending
+// {{Validate before sending}}
 import { validate } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 
@@ -315,7 +315,7 @@ if (errors.length > 0) {
 
 **{{Solution}}**:
 ```typescript
-// Implement exponential backoff retry
+// {{Implement exponential backoff retry}}
 async function withRetry<T>(
   fn: () => Promise<T>,
   maxRetries = 5,
@@ -353,12 +353,12 @@ async function withRetry<T>(
 
 **{{Solution}}**:
 ```typescript
-// Handle conditional check failure
+// {{Handle conditional check failure}}
 try {
   await commandService.publishSync(item, options);
 } catch (error) {
   if (error.name === 'ConditionalCheckFailedException') {
-    // Refresh and retry
+    // {{Refresh and retry}}
     const latest = await dataService.getItem({ pk, sk });
     await commandService.publishSync({
       ...item,
@@ -395,14 +395,14 @@ echo $DYNAMODB_TABLE_NAME
 
 **{{Solution}}**:
 ```typescript
-// Avoid empty strings
+// {{Avoid empty strings}}
 const item = {
   pk: 'ORDER#tenant001',
   sk: 'ORDER#ORD001',
   name: value || null,  // Use null instead of empty string
 };
 
-// Use expression attribute names for reserved words
+// {{Use expression attribute names for reserved words}}
 const params = {
   ExpressionAttributeNames: {
     '#name': 'name',
@@ -423,12 +423,12 @@ const params = {
 
 **{{Solution}}**:
 ```typescript
-// Frontend: Refresh token
+// {{Frontend: Refresh token}}
 try {
   await Auth.currentSession();  // Auto-refreshes if needed
 } catch (error) {
   if (error.name === 'NotAuthorizedException') {
-    // Redirect to login
+    // {{Redirect to login}}
     await Auth.signOut();
     window.location.href = '/login';
   }
@@ -445,12 +445,12 @@ try {
 
 **{{Solution}}**:
 ```typescript
-// Check user exists before operations
+// {{Check user exists before operations}}
 try {
   const user = await adminGetUser({ Username: email });
 } catch (error) {
   if (error.name === 'UserNotFoundException') {
-    // Create new user or show registration form
+    // {{Create new user or show registration form}}
   }
 }
 ```
@@ -469,9 +469,9 @@ try {
   await Auth.signIn(email, password);
 } catch (error) {
   if (error.name === 'UserNotConfirmedException') {
-    // Resend confirmation code
+    // {{Resend confirmation code}}
     await Auth.resendSignUp(email);
-    // Redirect to confirmation page
+    // {{Redirect to confirmation page}}
   }
 }
 ```
@@ -496,7 +496,7 @@ try {
 {{The handler now properly sends `SendTaskFailureCommand` when import jobs fail:}}
 
 ```typescript
-// Internal behavior (automatic, no user action needed):
+// {{Internal behavior (automatic, no user action needed):}}
 // - COMPLETED status → SendTaskSuccessCommand
 // - FAILED status → SendTaskFailureCommand
 ```
@@ -564,13 +564,13 @@ ImportModule.register({
 
 **{{Solution}}**:
 ```typescript
-// Increase Lambda timeout in serverless.yml
+// {{Increase Lambda timeout in serverless.yml}}
 functions:
   processTask:
     handler: handler.process
     timeout: 900  # 15 minutes max
 
-// Or break into smaller chunks
+// {{Or break into smaller chunks}}
 async function processInChunks(items, chunkSize = 100) {
   for (let i = 0; i < items.length; i += chunkSize) {
     const chunk = items.slice(i, i + chunkSize);
@@ -589,18 +589,18 @@ async function processInChunks(items, chunkSize = 100) {
 
 **{{Solution}}**:
 ```typescript
-// Proper error handling with Step Functions
+// {{Proper error handling with Step Functions}}
 export async function handler(event: StepFunctionEvent) {
   try {
     const result = await processTask(event.input);
 
-    // Send success callback
+    // {{Send success callback}}
     await sfn.sendTaskSuccess({
       taskToken: event.taskToken,
       output: JSON.stringify(result),
     }).promise();
   } catch (error) {
-    // Send failure callback
+    // {{Send failure callback}}
     await sfn.sendTaskFailure({
       taskToken: event.taskToken,
       error: error.name,
@@ -622,7 +622,7 @@ export async function handler(event: StepFunctionEvent) {
 
 **{{Solution}}**:
 ```typescript
-// Check if object exists before downloading
+// {{Check if object exists before downloading}}
 try {
   await s3.headObject({ Bucket: bucket, Key: key }).promise();
   const data = await s3.getObject({ Bucket: bucket, Key: key }).promise();
@@ -671,14 +671,14 @@ provider:
 
 **{{Solution}}**:
 ```typescript
-// Process messages within visibility timeout
+// {{Process messages within visibility timeout}}
 export async function handler(event: SQSEvent) {
   for (const record of event.Records) {
     try {
       await processMessage(record);
-      // Message auto-deleted on successful return
+      // {{Message auto-deleted on successful return}}
     } catch (error) {
-      // Throw to keep message in queue for retry
+      // {{Throw to keep message in queue for retry}}
       throw error;
     }
   }
@@ -710,7 +710,7 @@ export async function handler(event: SQSEvent) {
 ### {{1. Centralized Error Handler}}
 
 ```typescript
-// Create a global exception filter
+// {{Create a global exception filter}}
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
@@ -726,7 +726,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       ? exception.message
       : 'Internal server error';
 
-    // Log error with context
+    // {{Log error with context}}
     console.error({
       timestamp: new Date().toISOString(),
       path: request.url,

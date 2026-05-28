@@ -329,7 +329,7 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
    * Sync command to RDS (upsert)
    */
   async up(cmd: CommandModel): Promise<any> {
-    // Remove version suffix from SK
+    // SKからバージョンサフィックスを削除
     const sk = removeSortKeyVersion(cmd.sk);
     const attrs = cmd.attributes as ProductAttributes;
 
@@ -344,12 +344,12 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
           version: cmd.version,
           tenantCode: cmd.tenantCode,
           isDeleted: cmd.isDeleted ?? false,
-          // Map attributes to columns
+          // 属性をカラムにマッピング
           category: attrs?.category,
           price: attrs?.price,
           description: attrs?.description,
           specification: attrs?.specification,
-          // Audit fields
+          // 監査フィールド
           createdAt: cmd.createdAt,
           createdBy: cmd.createdBy ?? '',
           createdIp: cmd.createdIp ?? '',
@@ -392,7 +392,7 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
    * Handle rollback or delete
    */
   async down(cmd: CommandModel): Promise<any> {
-    // Soft delete implementation
+    // ソフトデリートの実装
     await this.prismaService.product.update({
       where: { id: cmd.id },
       data: { isDeleted: true },
@@ -410,27 +410,27 @@ CQRSフィールドを含むPrismaモデルを定義します：
 ```prisma
 // prisma/schema.prisma
 model Product {
-  // CQRS composite keys
+  // CQRSの複合キー
   id     String @id            // PK#SK without version
   cpk    String                // Command PK
   csk    String                // Command SK with version
   pk     String                // Data PK
   sk     String                // Data SK without version
 
-  // Domain fields
+  // ドメインフィールド
   code   String
   name   String
 
-  // Domain-specific
+  // ドメイン固有
   category     String?
   price        Decimal?
   description  String?
   specification Json?
 
-  // Multi-tenant
+  // マルチテナント
   tenantCode String
 
-  // Audit fields
+  // 監査フィールド
   version   Int
   isDeleted Boolean  @default(false)
   createdBy String   @default("")
@@ -480,7 +480,7 @@ try {
 } catch (error) {
   this.logger.error(`Failed to process item ${item.id}:`, error);
 
-  // Send alarm for critical errors
+  // 重大エラーのアラームを送信
   if (this.isCriticalError(error)) {
     await this.snsService.publish({
       topicArn: this.alarmTopicArn,

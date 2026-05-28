@@ -91,7 +91,7 @@ description: MBC CQRS Serverlessの原因、解決策、復旧戦略を含む包
 
 **解決策**:
 ```typescript
-// Option 1: Fetch latest version before update
+// オプション1: 更新前に最新バージョンを取得
 const latest = await dataService.getItem({ pk, sk });
 await commandService.publishPartialUpdateSync({
   pk,
@@ -100,7 +100,7 @@ await commandService.publishPartialUpdateSync({
   name: 'Updated Name',
 }, options);
 
-// Option 2: Use version: -1 for auto-fetch (async mode only)
+// オプション2: version: -1を使用して自動取得（非同期モードのみ）
 await commandService.publishPartialUpdateAsync({
   pk,
   sk,
@@ -108,7 +108,7 @@ await commandService.publishPartialUpdateAsync({
   name: 'Updated Name',
 }, options);
 
-// Option 3: Implement retry logic
+// オプション3: リトライロジックを実装
 async function updateWithRetry(data, maxRetries = 3) {
   for (let i = 0; i < maxRetries; i++) {
     try {
@@ -138,13 +138,13 @@ async function updateWithRetry(data, maxRetries = 3) {
 
 **解決策**:
 ```typescript
-// Check if item exists first
+// まずアイテムが存在するか確認
 const existing = await dataService.getItem({ pk, sk });
 if (!existing) {
-  // Create new item
+  // 新しいアイテムを作成
   await commandService.publishAsync(newItem, options);
 } else {
-  // Update existing item
+  // 既存のアイテムを更新
   await commandService.publishPartialUpdateAsync({
     pk,
     sk,
@@ -176,12 +176,12 @@ if (!existing) {
 
 **解決策**:
 ```typescript
-// Verify tenant exists
+// テナントが存在することを確認
 try {
   const tenant = await tenantService.getTenant(tenantCode);
 } catch (error) {
   if (error.message === 'Tenant not found') {
-    // List available tenants
+    // 利用可能なテナントを一覧表示
     const tenants = await tenantService.listTenants();
     console.log('Available tenants:', tenants.items.map(t => t.code));
   }
@@ -198,7 +198,7 @@ try {
 
 **解決策**:
 ```typescript
-// Check if tenant exists before creating
+// 作成前にテナントが存在するか確認
 const existing = await tenantService.getTenant(tenantCode).catch(() => null);
 if (existing) {
   console.log('Tenant already exists, using existing tenant');
@@ -229,7 +229,7 @@ try {
     { invokeContext },
   );
 } catch (error) {
-  // If error persists, check DynamoDB table permissions
+  // エラーが続く場合はDynamoDBテーブルの権限を確認
 }
 ```
 
@@ -245,7 +245,7 @@ try {
 
 **解決策**:
 ```typescript
-// Verify task status before operations
+// 操作前にタスクステータスを確認
 const task = await taskService.getTask({ pk, sk });
 if (!task) {
   throw new NotFoundException('Task not found');
@@ -267,7 +267,7 @@ if (task.status === 'completed') {
 
 **一般的なバリデーションエラー**:
 ```typescript
-// Example DTO with validation
+// 検証付きDTOの例
 export class CreateOrderDto {
   @IsNotEmpty({ message: 'Name is required' })
   @IsString()
@@ -284,7 +284,7 @@ export class CreateOrderDto {
   amount?: number;
 }
 
-// Common validation errors and fixes:
+// よくある検証エラーと修正方法:
 // - "name must be a string" -> Ensure name is string type
 // - "code should not be empty" -> Provide code value
 // - "amount must not be less than 0" -> Use positive number
@@ -315,7 +315,7 @@ if (errors.length > 0) {
 
 **解決策**:
 ```typescript
-// Implement exponential backoff retry
+// 指数バックオフリトライを実装
 async function withRetry<T>(
   fn: () => Promise<T>,
   maxRetries = 5,
@@ -358,7 +358,7 @@ try {
   await commandService.publishSync(item, options);
 } catch (error) {
   if (error.name === 'ConditionalCheckFailedException') {
-    // Refresh and retry
+    // 更新して再試行
     const latest = await dataService.getItem({ pk, sk });
     await commandService.publishSync({
       ...item,
@@ -469,7 +469,7 @@ try {
   await Auth.signIn(email, password);
 } catch (error) {
   if (error.name === 'UserNotConfirmedException') {
-    // Resend confirmation code
+    // 確認コードを再送信
     await Auth.resendSignUp(email);
     // Redirect to confirmation page
   }

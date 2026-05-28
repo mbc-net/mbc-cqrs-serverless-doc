@@ -58,7 +58,7 @@ export class ProductService {
     private readonly prismaService: PrismaService,
   ) {}
 
-  // CRUD methods will be implemented below
+  // CRUDメソッドは以下で実装
 }
 ```
 
@@ -75,15 +75,15 @@ async create(
   createDto: CreateProductDto,
   opts: { invokeContext: IInvoke },
 ): Promise<ProductDataEntity> {
-  // Get tenant context from the invoke context
+  // 呼び出しコンテキストからテナントコンテキストを取得
   const { tenantCode } = getUserContext(opts.invokeContext);
 
-  // Generate PK and SK
+  // PKとSKを生成
   const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
   const sk = ulid(); // Use ULID for sortable unique ID
   const id = generateId(pk, sk);
 
-  // Create command DTO
+  // コマンドDTOを作成
   const command = new ProductCommandDto({
     pk,
     sk,
@@ -101,7 +101,7 @@ async create(
     },
   });
 
-  // Publish command (async - returns immediately)
+  // コマンドを発行（非同期 - 即座に返す）
   const item = await this.commandService.publishAsync(command, {
     invokeContext: opts.invokeContext,
   });
@@ -151,7 +151,7 @@ async findAll(
   const limit = searchDto.limit ?? 20;
   const skip = (page - 1) * limit;
 
-  // Build where clause
+  // WHERE句を構築
   const where: any = {
     tenantCode: searchDto.tenantCode,
     isDeleted: false,
@@ -165,7 +165,7 @@ async findAll(
     where.inStock = searchDto.inStock;
   }
 
-  // Execute parallel queries for count and data
+  // カウントとデータの並列クエリを実行
   const [total, items] = await Promise.all([
     this.prismaService.product.count({ where }),
     this.prismaService.product.findMany({
@@ -205,20 +205,20 @@ async update(
   updateDto: UpdateProductDto,
   opts: { invokeContext: IInvoke },
 ): Promise<ProductDataEntity> {
-  // First, get the existing item
+  // まず既存のアイテムを取得
   const existing = await this.dataService.getItem(detailDto);
 
   if (!existing) {
     throw new NotFoundException("Product not found");
   }
 
-  // Merge existing attributes with updates
+  // 既存の属性と更新をマージ
   const updatedAttributes = {
     ...existing.attributes,
     ...updateDto.attributes,
   };
 
-  // Create partial update command
+  // 部分更新コマンドを作成
   const command: CommandPartialInputModel = {
     pk: existing.pk,
     sk: existing.sk,
@@ -227,7 +227,7 @@ async update(
     attributes: updatedAttributes,
   };
 
-  // Publish partial update
+  // 部分更新を発行
   const item = await this.commandService.publishPartialUpdateAsync(command, {
     invokeContext: opts.invokeContext,
   });
@@ -266,14 +266,14 @@ async remove(
   detailDto: { pk: string; sk: string },
   opts: { invokeContext: IInvoke },
 ): Promise<ProductDataEntity> {
-  // Get existing item
+  // 既存のアイテムを取得
   const existing = await this.dataService.getItem(detailDto);
 
   if (!existing) {
     throw new NotFoundException("Product not found");
   }
 
-  // Create soft delete command
+  // ソフトデリートコマンドを作成
   const command: CommandPartialInputModel = {
     pk: existing.pk,
     sk: existing.sk,

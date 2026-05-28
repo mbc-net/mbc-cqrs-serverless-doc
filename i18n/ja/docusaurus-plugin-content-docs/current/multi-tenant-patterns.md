@@ -143,7 +143,7 @@ export class TenantGuard implements CanActivate {
     const invokeContext = request.invokeContext;
     const userContext = getCustomUserContext(invokeContext);
 
-    // Get target tenant from path or body
+    // パスまたはボディからターゲットテナントを取得
     const targetTenant = request.params.tenantCode ||
                         request.body?.tenantCode ||
                         this.extractTenantFromPk(request.body?.pk);
@@ -184,11 +184,11 @@ function generateProductPk(tenantCode: string): string {
   return `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
 }
 
-// Example keys:
+// キー例:
 // PK: PRODUCT#tenant-a
 // SK: 01HX7MBJK3V9WQBZ7XNDK5ZT2M
 
-// Query all products for a tenant
+// テナントの全商品を取得
 async function listProductsByTenant(tenantCode: string) {
   const pk = generateProductPk(tenantCode);
   return dataService.listItemsByPk(pk);
@@ -204,13 +204,13 @@ async function listProductsByTenant(tenantCode: string) {
 
 const COMMON_TENANT = 'common';
 
-// System-wide settings
+// システム全体の設定
 const settingsPk = `SETTINGS${KEY_SEPARATOR}${COMMON_TENANT}`;
 
-// User data (users can belong to multiple tenants)
+// ユーザーデータ（ユーザーは複数テナントに属せる）
 const userPk = `USER${KEY_SEPARATOR}${COMMON_TENANT}`;
 
-// Example: Get system-wide email templates
+// 例: システム全体のメールテンプレートを取得
 async function getEmailTemplates() {
   return dataService.listItemsByPk(`TEMPLATE${KEY_SEPARATOR}${COMMON_TENANT}`);
 }
@@ -240,7 +240,7 @@ export class UserService {
   async getUserTenants(userCode: string): Promise<UserTenantAssociation[]> {
     const pk = `USER_TENANT${KEY_SEPARATOR}${COMMON_TENANT}`;
 
-    // Query with SK prefix to find all tenant associations
+    // SKプレフィックスで全テナント関連を検索
     const result = await this.dataService.listItemsByPk(pk, {
       skPrefix: '', // Get all, then filter
     });
@@ -287,7 +287,7 @@ export class UserService {
     newTenantCode: string,
     invokeContext: IInvoke,
   ): Promise<{ token: string }> {
-    // Verify user belongs to tenant
+    // ユーザーがテナントに属することを確認
     const associations = await this.getUserTenants(userCode);
     const association = associations.find(a =>
       a.attributes.tenantCode === newTenantCode,
@@ -299,7 +299,7 @@ export class UserService {
       );
     }
 
-    // Generate new token with updated tenant context
+    // 更新されたテナントコンテキストで新しいトークンを生成
     return this.authService.generateToken({
       userCode,
       tenantCode: newTenantCode,
@@ -361,7 +361,7 @@ export class TenantSyncService {
     targetTenantCode: string,
     invokeContext: IInvoke,
   ): Promise<void> {
-    // Create new keys for target tenant
+    // ターゲットテナント用の新しいキーを作成
     const pkParts = sourceItem.pk.split(KEY_SEPARATOR);
     const entityType = pkParts[0];
     const targetPk = `${entityType}${KEY_SEPARATOR}${targetTenantCode}`;
@@ -376,7 +376,7 @@ export class TenantSyncService {
       name: sourceItem.name,
       type: sourceItem.type,
       attributes: sourceItem.attributes,
-      // Mark as synced from source
+      // ソースから同期済みとしてマーク
       metadata: {
         syncedFrom: sourceItem.id,
         syncedAt: new Date().toISOString(),

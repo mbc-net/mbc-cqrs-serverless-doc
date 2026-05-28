@@ -199,7 +199,7 @@ const noTenant = getTenantCode("PRODUCT");
 {{When to use: Standalone entities without parent-child relationships.}}
 
 ```ts
-// Key Structure
+// {{Key Structure}}
 PK: PRODUCT#<tenantCode>
 SK: <ulid>
 
@@ -224,11 +224,11 @@ const id = generateId(pk, sk);
 {{Solution: Share PK between parent and children, use SK prefix to distinguish item types.}}
 
 ```ts
-// Order Key Structure
+// {{Order Key Structure}}
 PK: ORDER#<tenantCode>
 SK: ORDER#<orderId>
 
-// Order Item Key Structure (same PK, different SK prefix)
+// {{Order Item Key Structure (same PK, different SK prefix)}}
 PK: ORDER#<tenantCode>
 SK: ORDER_ITEM#<orderId>#<itemId>
 
@@ -265,7 +265,7 @@ const itemSk = `${ORDER_ITEM_SK_PREFIX}${KEY_SEPARATOR}${orderId}${KEY_SEPARATOR
 {{Solution: Same PK for all user records, SK prefix indicates authentication provider.}}
 
 ```ts
-// Key Structure
+// {{Key Structure}}
 PK: USER#<tenantCode>
 SK: <provider>#<userId>
 
@@ -298,7 +298,7 @@ const sk = generateUserSk("sso", cognitoSubId);
 {{Solution: Use a common tenant with SK that combines tenant and user codes.}}
 
 ```ts
-// Key Structure
+// {{Key Structure}}
 PK: USER_TENANT#<commonTenant>
 SK: <tenantCode>#<userCode>
 
@@ -322,11 +322,11 @@ const sk = `${tenantCode}${KEY_SEPARATOR}${userCode}`;
 {{Solution: Use type prefix (SETTING, DATA) in SK to organize different configuration types.}}
 
 ```ts
-// Key Structure
+// {{Key Structure}}
 PK: MASTER#<tenantCode>
 SK: <type>#<category>#<code>
 
-// Types: SETTING, DATA, COPY
+// {{Types: SETTING, DATA, COPY}}
 // Examples
 PK: MASTER#tenant001
 SK: SETTING#notification#email_template
@@ -356,7 +356,7 @@ const sk = generateMasterSk(DATA_PREFIX, "product_category", "electronics");
 {{Solution: Include date in PK for time-based partitioning, timestamp in SK for sorting.}}
 
 ```ts
-// Key Structure
+// {{Key Structure}}
 PK: LOG#<tenantCode>#<year-month>
 SK: <timestamp>#<eventId>
 
@@ -384,7 +384,7 @@ function generateLogKeys(tenantCode: string, timestamp: Date, eventId: string) {
 import { KEY_SEPARATOR, generateId } from "@mbc-cqrs-serverless/core";
 import { ulid } from "ulid";
 
-// Entity prefixes
+// {{Entity prefixes}}
 export const PRODUCT_PK_PREFIX = "PRODUCT";
 export const ORDER_PK_PREFIX = "ORDER";
 export const ORDER_SK_PREFIX = "ORDER";
@@ -393,7 +393,7 @@ export const USER_PK_PREFIX = "USER";
 export const MASTER_PK_PREFIX = "MASTER";
 export const NOTIFICATION_PK_PREFIX = "NOTIFICATION";
 
-// Key generators
+// {{Key generators}}
 export function generateProductPk(tenantCode: string): string {
   return `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
 }
@@ -411,7 +411,7 @@ export function generateOrderItemSk(orderId: string, itemId: string): string {
   return `${ORDER_ITEM_SK_PREFIX}${KEY_SEPARATOR}${orderId}${KEY_SEPARATOR}${itemId}`;
 }
 
-// Key parsers
+// {{Key parsers}}
 export function parseOrderSk(sk: string): { prefix: string; orderId: string } {
   const parts = sk.split(KEY_SEPARATOR);
   return {
@@ -433,7 +433,7 @@ export function parseOrderItemSk(sk: string): {
   };
 }
 
-// ID generator with entity type
+// {{ID generator with entity type}}
 export function generateEntityId(
   prefix: string,
   tenantCode: string,
@@ -451,16 +451,16 @@ export function generateEntityId(
 {{The framework uses versioning for optimistic locking:}}
 
 ```ts
-// DynamoDB Tables
-// Command table: Stores all versions with @version suffix
-// Data table: Stores latest version only (no version suffix)
+// {{DynamoDB Tables}}
+// {{Command table: Stores all versions with @version suffix}}
+// {{Data table: Stores latest version only (no version suffix)}}
 
-// Version in SK (Command table)
+// {{Version in SK (Command table)}}
 SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M@1  // Version 1
 SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M@2  // Version 2
 SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M@3  // Version 3
 
-// Data table SK (no version suffix)
+// {{Data table SK (no version suffix)}}
 SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M
 ```
 
@@ -472,7 +472,7 @@ import {
   removeSortKeyVersion,
 } from "@mbc-cqrs-serverless/core";
 
-// Creating first version
+// {{Creating first version}}
 const command = new OrderCommandDto({
   pk,
   sk,
@@ -480,14 +480,14 @@ const command = new OrderCommandDto({
   // ...
 });
 
-// Reading specific version from history
+// {{Reading specific version from history}}
 const skWithVersion = addSortKeyVersion(baseSk, 2);
 const historicalItem = await historyService.getItem({ pk, sk: skWithVersion });
 
-// In Data Sync Handler - always remove version for RDS storage
+// {{In Data Sync Handler - always remove version for RDS storage}}
 async up(cmd: CommandModel): Promise<any> {
   const sk = removeSortKeyVersion(cmd.sk);
-  // Store sk without version in RDS
+  // {{Store sk without version in RDS}}
 }
 ```
 
@@ -496,7 +496,7 @@ async up(cmd: CommandModel): Promise<any> {
 ### {{Query by PK}}
 
 ```ts
-// Get all products for a tenant
+// {{Get all products for a tenant}}
 const items = await dataService.listItemsByPk(
   `PRODUCT${KEY_SEPARATOR}${tenantCode}`,
 );
@@ -505,7 +505,7 @@ const items = await dataService.listItemsByPk(
 ### {{Query with SK Prefix}}
 
 ```ts
-// Get all order items for a specific order
+// {{Get all order items for a specific order}}
 const items = await dataService.listItemsByPk(
   `ORDER${KEY_SEPARATOR}${tenantCode}`,
   {
@@ -520,7 +520,7 @@ const items = await dataService.listItemsByPk(
 ### {{Query with SK Range}}
 
 ```ts
-// Get orders within a date range (if using timestamp in SK)
+// {{Get orders within a date range (if using timestamp in SK)}}
 const items = await dataService.listItemsByPk(
   `ORDER${KEY_SEPARATOR}${tenantCode}`,
   {
@@ -556,7 +556,7 @@ import { ulid } from "ulid";
 
 const sk = ulid();
 // Result: "01HX7MBJK3V9WQBZ7XNDK5ZT2M"
-// Sortable by creation time
+// {{Sortable by creation time}}
 ```
 
 ### {{3. Design for Query Patterns}}
@@ -564,12 +564,12 @@ const sk = ulid();
 {{Structure keys based on how you'll query data:}}
 
 ```ts
-// If you need to query all items for an order:
+// {{If you need to query all items for an order:}}
 PK: ORDER#tenant001
 SK: ORDER_ITEM#orderId#itemId  // Query by SK prefix
 
-// If you need to query items by product across orders:
-// Consider a GSI or separate table
+// {{If you need to query items by product across orders:}}
+// {{Consider a GSI or separate table}}
 ```
 
 ### {{4. Keep PK Cardinality Manageable}}
@@ -577,10 +577,10 @@ SK: ORDER_ITEM#orderId#itemId  // Query by SK prefix
 {{Avoid too many unique PKs to prevent hot partitions:}}
 
 ```ts
-// Good - bounded by tenants
+// {{Good - bounded by tenants}}
 PK: PRODUCT#tenant001
 
-// Avoid - unbounded by users
+// {{Avoid - unbounded by users}}
 PK: USER_ACTIVITY#user123  // Could create millions of partitions
 ```
 
@@ -621,11 +621,11 @@ PK: PRODUCT#my_tenant
 {{Use a common tenant code for data shared across tenants:}}
 
 ```ts
-// User data (shared across tenants)
+// {{User data (shared across tenants)}}
 PK: USER#common
 SK: sso#userId
 
-// User-tenant association
+// {{User-tenant association}}
 PK: USER_TENANT#common
 SK: tenant001#userId
 ```
@@ -635,10 +635,10 @@ SK: tenant001#userId
 ### {{1. Embedding Too Much in Keys}}
 
 ```ts
-// Avoid - too complex
+// {{Avoid - too complex}}
 SK: ORDER#2024-01-15#electronics#high-priority#01HX7M...
 
-// Better - use attributes for filtering
+// {{Better - use attributes for filtering}}
 SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M
 attributes: {
   date: "2024-01-15",
@@ -650,10 +650,10 @@ attributes: {
 ### {{2. Using Mutable Data in Keys}}
 
 ```ts
-// Avoid - status changes
+// {{Avoid - status changes}}
 SK: ORDER#pending#01HX7M...  // What happens when status changes?
 
-// Better - use attributes
+// {{Better - use attributes}}
 SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M
 attributes: { status: "pending" }
 ```

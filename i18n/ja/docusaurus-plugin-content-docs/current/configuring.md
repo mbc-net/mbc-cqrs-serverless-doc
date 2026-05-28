@@ -82,13 +82,13 @@ import { CommandModule } from '@mbc-cqrs-serverless/core';
 
 @Module({
   imports: [
-    // Load environment variables
+    // 環境変数をロード
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['.env.local', '.env'],
     }),
 
-    // Configure Command Module
+    // Commandモジュールを設定
     CommandModule.register({
       tableName: process.env.DYNAMODB_TABLE_NAME,
       dataSyncHandlers: [],
@@ -186,16 +186,16 @@ import { CommandModule } from '@mbc-cqrs-serverless/core';
 @Module({
   imports: [
     CommandModule.register({
-      // Required: DynamoDB table name
+      // 必須: DynamoDBテーブル名
       tableName: 'order',
 
-      // Optional: Data sync handlers for RDS synchronization
+      // オプション: RDS同期用データ同期ハンドラー
       dataSyncHandlers: [OrderRdsSyncHandler],
 
-      // Optional: Reserved for future use (not yet implemented)
+      // オプション: 将来使用予定（未実装）
       skipError: false,
 
-      // Optional: Disable default DynamoDB data sync handler
+      // オプション: デフォルトDynamoDBデータ同期ハンドラーを無効化
       disableDefaultHandler: false,
     }),
   ],
@@ -214,7 +214,7 @@ import { SequenceModule } from '@mbc-cqrs-serverless/sequence';
 @Module({
   imports: [
     SequenceModule.register({
-      // Optional: Enable or disable default sequence controller
+      // オプション: デフォルトシーケンスコントローラーを有効/無効化
       enableController: true,
     }),
   ],
@@ -235,10 +235,10 @@ import { TenantModule } from '@mbc-cqrs-serverless/tenant';
 @Module({
   imports: [
     TenantModule.register({
-      // Optional: Enable or disable default tenant controller
+      // オプション: デフォルトテナントコントローラーを有効/無効化
       enableController: true,
 
-      // Optional: Data sync handlers for RDS synchronization
+      // オプション: RDS同期用データ同期ハンドラー
       dataSyncHandlers: [TenantRdsSyncHandler],
     }),
   ],
@@ -256,7 +256,7 @@ import { NotificationModule } from '@mbc-cqrs-serverless/core';
 
 @Module({
   imports: [
-    // NotificationModule is a global module - just import it
+    // NotificationModuleはグローバルモジュール - インポートするだけで使用可能
     NotificationModule,
   ],
 })
@@ -285,19 +285,19 @@ SES_REGION=ap-northeast-1
 ```typescript
 import { Logger } from '@nestjs/common';
 
-// Configure log level based on environment
+// 環境に基づいてログレベルを設定
 const LOG_LEVELS = {
   production: ['error', 'warn', 'log'],
   development: ['error', 'warn', 'log', 'debug', 'verbose'],
   test: ['error', 'warn'],
 };
 
-// In main.ts or bootstrap
+// main.tsまたはbootstrapで設定
 const app = await NestFactory.create(AppModule, {
   logger: LOG_LEVELS[process.env.NODE_ENV] || LOG_LEVELS.development,
 });
 
-// Structured logging in services
+// サービス内の構造化ログ
 @Injectable()
 export class OrderService {
   private readonly logger = new Logger(OrderService.name);
@@ -323,10 +323,10 @@ export class OrderService {
 ```typescript
 import { ValidationPipe } from '@nestjs/common';
 
-// In main.ts or bootstrap
+// main.tsまたはbootstrapで設定
 app.useGlobalPipes(
   new ValidationPipe({
-    // Transform payloads to DTO instances
+    // ペイロードをDTOインスタンスに変換
     transform: true,
 
     // Strip properties not in DTO

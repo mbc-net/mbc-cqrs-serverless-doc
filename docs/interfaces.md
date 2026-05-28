@@ -239,7 +239,7 @@ export class UserContext {
 ```typescript
 import { getUserContext, IInvoke } from '@mbc-cqrs-serverless/core';
 
-// Extract user context from IInvoke or ExecutionContext
+// {{Extract user context from IInvoke or ExecutionContext}}
 const userContext = getUserContext(invokeContext);
 console.log(userContext.userId);      // '92ca4f68-9ac6-4080-9ae2-2f02a86206a4'
 console.log(userContext.tenantCode);  // 'tenant001'
@@ -365,7 +365,7 @@ const result = await dataService.listItemsByPk('ORDER#tenant001', {
 
 // Pagination
 if (result.lastSk) {
-  // More items available - use result.lastSk for next page
+  // {{More items available - use result.lastSk for next page}}
 }
 ```
 
@@ -419,7 +419,7 @@ export class OrderRdsSyncHandler implements IDataSyncHandler {
   }
 
   async down(cmd: CommandModel): Promise<void> {
-    // Rollback logic - restore previous state
+    // {{Rollback logic - restore previous state}}
     await this.prisma.order.delete({
       where: { id: cmd.id },
     });
@@ -552,15 +552,15 @@ export interface StepFunctionsEvent<TInput> {
 ### {{Common Type Helpers}}
 
 ```ts
-// Partial type that requires specific keys
+// {{Partial type that requires specific keys}}
 type RequiredPick<T, K extends keyof T> = Partial<T> & Pick<T, K>;
 
-// Deep partial type
+// {{Deep partial type}}
 type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
 };
 
-// Entity without audit fields
+// {{Entity without audit fields}}
 type EntityInput<T> = Omit<T, 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'>;
 ```
 

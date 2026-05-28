@@ -98,7 +98,7 @@ export class CommentDto {
 ファイルタイプ、サイズを制限し、マルウェアをスキャンします。
 
 ```typescript
-// Validate file type and size
+// ファイルタイプとサイズを検証
 const ALLOWED_MIME_TYPES = [
   'image/jpeg',
   'image/png',
@@ -108,17 +108,17 @@ const ALLOWED_MIME_TYPES = [
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
 async function validateUpload(file: Express.Multer.File): Promise<void> {
-  // Check MIME type
+  // MIMEタイプを確認
   if (!ALLOWED_MIME_TYPES.includes(file.mimetype)) {
     throw new BadRequestException('File type not allowed');
   }
 
-  // Check file size
+  // ファイルサイズを確認
   if (file.size > MAX_FILE_SIZE) {
     throw new BadRequestException('File too large');
   }
 
-  // Verify file signature (magic bytes)
+  // ファイルシグネチャ（マジックバイト）を確認
   const fileType = await FileType.fromBuffer(file.buffer);
   if (!fileType || !ALLOWED_MIME_TYPES.includes(fileType.mime)) {
     throw new BadRequestException('Invalid file content');
@@ -133,7 +133,7 @@ async function validateUpload(file: Express.Multer.File): Promise<void> {
 強力なパスワードポリシーとMFAを使用します。
 
 ```typescript
-// CDK configuration for Cognito User Pool
+// Cognito User Pool用CDK設定
 const userPool = new cognito.UserPool(this, 'UserPool', {
   selfSignUpEnabled: false,  // Disable self-registration if not needed
   signInAliases: {
@@ -214,14 +214,14 @@ export class JwtAuthGuard implements CanActivate {
 クライアントにリフレッシュトークンを保存せずに、安全なトークンリフレッシュを実装します。
 
 ```typescript
-// Frontend token refresh
+// フロントエンドトークンリフレッシュ
 async function refreshTokenIfNeeded(): Promise<string> {
   try {
     const session = await Auth.currentSession();
     return session.getAccessToken().getJwtToken();
   } catch (error) {
     if (error.name === 'NotAuthorizedException') {
-      // Redirect to login
+      // ログインにリダイレクト
       await Auth.signOut();
       throw new Error('Session expired');
     }
@@ -263,14 +263,14 @@ export class RolesGuard implements CanActivate {
   }
 }
 
-// Usage in controller
+// コントローラーでの使用
 @Controller('admin')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class AdminController {
   @Get('users')
   @Roles('admin', 'super-admin')
   findAllUsers() {
-    // Only admin or super-admin can access
+    // 管理者またはスーパー管理者のみアクセス可能
   }
 }
 ```
@@ -301,15 +301,15 @@ export class TenantGuard implements CanActivate {
   }
 }
 
-// Always include tenant in queries
+// 常にクエリにテナントを含める
 async function getOrdersByTenant(tenantCode: string, userId: string) {
-  // Verify user has access to tenant first
+  // まずユーザーがテナントへのアクセス権があることを確認
   const user = await this.userService.getUser(userId);
   if (!user.tenantCodes.includes(tenantCode)) {
     throw new ForbiddenException('Access denied');
   }
 
-  // Tenant is always part of the partition key
+  // テナントは常にパーティションキーの一部
   return this.dataService.listItemsByPk(`ORDER#${tenantCode}`);
 }
 ```
@@ -330,7 +330,7 @@ async function updateOrder(
     throw new NotFoundException('Order not found');
   }
 
-  // Check ownership
+  // 所有権を確認
   if (order.createdBy !== userId && !this.isAdmin(userId)) {
     throw new ForbiddenException('Not authorized to update this order');
   }
@@ -620,7 +620,7 @@ resources:
 監査のためにすべてのAPI呼び出しをログに記録します。
 
 ```typescript
-// CDK configuration
+// CDK設定
 const trail = new cloudtrail.Trail(this, 'AuditTrail', {
   bucket: auditBucket,
   sendToCloudWatchLogs: true,

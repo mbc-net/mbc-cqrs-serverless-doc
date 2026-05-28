@@ -199,7 +199,7 @@ const noTenant = getTenantCode("PRODUCT");
 使用タイミング: 親子関係のないスタンドアロンエンティティ。
 
 ```ts
-// Key Structure
+// キー構造
 PK: PRODUCT#<tenantCode>
 SK: <ulid>
 
@@ -224,11 +224,11 @@ const id = generateId(pk, sk);
 解決策: 親と子の間でPKを共有し、SKプレフィックスでアイテムタイプを区別します。
 
 ```ts
-// Order Key Structure
+// 注文キー構造
 PK: ORDER#<tenantCode>
 SK: ORDER#<orderId>
 
-// Order Item Key Structure (same PK, different SK prefix)
+// 注文アイテムキー構造（同じPK、異なるSKプレフィックス）
 PK: ORDER#<tenantCode>
 SK: ORDER_ITEM#<orderId>#<itemId>
 
@@ -265,7 +265,7 @@ const itemSk = `${ORDER_ITEM_SK_PREFIX}${KEY_SEPARATOR}${orderId}${KEY_SEPARATOR
 解決策: すべてのユーザーレコードに同じPKを使用し、SKプレフィックスで認証プロバイダーを示します。
 
 ```ts
-// Key Structure
+// キー構造
 PK: USER#<tenantCode>
 SK: <provider>#<userId>
 
@@ -298,7 +298,7 @@ const sk = generateUserSk("sso", cognitoSubId);
 解決策: テナントコードとユーザーコードを組み合わせたSKを持つ共通テナントを使用します。
 
 ```ts
-// Key Structure
+// キー構造
 PK: USER_TENANT#<commonTenant>
 SK: <tenantCode>#<userCode>
 
@@ -322,11 +322,11 @@ const sk = `${tenantCode}${KEY_SEPARATOR}${userCode}`;
 解決策: SKにタイププレフィックス（SETTING、DATA）を使用して、異なる設定タイプを整理します。
 
 ```ts
-// Key Structure
+// キー構造
 PK: MASTER#<tenantCode>
 SK: <type>#<category>#<code>
 
-// Types: SETTING, DATA, COPY
+// タイプ: SETTING、DATA、COPY
 // Examples
 PK: MASTER#tenant001
 SK: SETTING#notification#email_template
@@ -356,7 +356,7 @@ const sk = generateMasterSk(DATA_PREFIX, "product_category", "electronics");
 解決策: 時間ベースのパーティショニングのためにPKに日付を含め、ソートのためにSKにタイムスタンプを含めます。
 
 ```ts
-// Key Structure
+// キー構造
 PK: LOG#<tenantCode>#<year-month>
 SK: <timestamp>#<eventId>
 
@@ -384,7 +384,7 @@ function generateLogKeys(tenantCode: string, timestamp: Date, eventId: string) {
 import { KEY_SEPARATOR, generateId } from "@mbc-cqrs-serverless/core";
 import { ulid } from "ulid";
 
-// Entity prefixes
+// エンティティプレフィックス
 export const PRODUCT_PK_PREFIX = "PRODUCT";
 export const ORDER_PK_PREFIX = "ORDER";
 export const ORDER_SK_PREFIX = "ORDER";
@@ -393,7 +393,7 @@ export const USER_PK_PREFIX = "USER";
 export const MASTER_PK_PREFIX = "MASTER";
 export const NOTIFICATION_PK_PREFIX = "NOTIFICATION";
 
-// Key generators
+// キージェネレーター
 export function generateProductPk(tenantCode: string): string {
   return `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
 }
@@ -411,7 +411,7 @@ export function generateOrderItemSk(orderId: string, itemId: string): string {
   return `${ORDER_ITEM_SK_PREFIX}${KEY_SEPARATOR}${orderId}${KEY_SEPARATOR}${itemId}`;
 }
 
-// Key parsers
+// キーパーサー
 export function parseOrderSk(sk: string): { prefix: string; orderId: string } {
   const parts = sk.split(KEY_SEPARATOR);
   return {
@@ -433,7 +433,7 @@ export function parseOrderItemSk(sk: string): {
   };
 }
 
-// ID generator with entity type
+// エンティティタイプ付きIDジェネレーター
 export function generateEntityId(
   prefix: string,
   tenantCode: string,
@@ -451,16 +451,16 @@ export function generateEntityId(
 フレームワークは楽観的ロックのためにバージョニングを使用します：
 
 ```ts
-// DynamoDB Tables
-// Command table: Stores all versions with @version suffix
-// Data table: Stores latest version only (no version suffix)
+// DynamoDBテーブル
+// コマンドテーブル: @バージョンサフィックス付きで全バージョンを保存
+// データテーブル: 最新バージョンのみ保存（バージョンサフィックスなし）
 
-// Version in SK (Command table)
+// SKのバージョン（コマンドテーブル）
 SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M@1  // Version 1
 SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M@2  // Version 2
 SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M@3  // Version 3
 
-// Data table SK (no version suffix)
+// データテーブルSK（バージョンサフィックスなし）
 SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M
 ```
 

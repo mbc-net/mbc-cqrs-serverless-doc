@@ -143,7 +143,7 @@ export class TenantGuard implements CanActivate {
     const invokeContext = request.invokeContext;
     const userContext = getCustomUserContext(invokeContext);
 
-    // Get target tenant from path or body
+    // {{Get target tenant from path or body}}
     const targetTenant = request.params.tenantCode ||
                         request.body?.tenantCode ||
                         this.extractTenantFromPk(request.body?.pk);
@@ -184,11 +184,11 @@ function generateProductPk(tenantCode: string): string {
   return `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
 }
 
-// Example keys:
-// PK: PRODUCT#tenant-a
-// SK: 01HX7MBJK3V9WQBZ7XNDK5ZT2M
+// {{Example keys:}}
+// {{PK: PRODUCT#tenant-a}}
+// {{SK: 01HX7MBJK3V9WQBZ7XNDK5ZT2M}}
 
-// Query all products for a tenant
+// {{Query all products for a tenant}}
 async function listProductsByTenant(tenantCode: string) {
   const pk = generateProductPk(tenantCode);
   return dataService.listItemsByPk(pk);
@@ -204,13 +204,13 @@ async function listProductsByTenant(tenantCode: string) {
 
 const COMMON_TENANT = 'common';
 
-// System-wide settings
+// {{System-wide settings}}
 const settingsPk = `SETTINGS${KEY_SEPARATOR}${COMMON_TENANT}`;
 
-// User data (users can belong to multiple tenants)
+// {{User data (users can belong to multiple tenants)}}
 const userPk = `USER${KEY_SEPARATOR}${COMMON_TENANT}`;
 
-// Example: Get system-wide email templates
+// {{Example: Get system-wide email templates}}
 async function getEmailTemplates() {
   return dataService.listItemsByPk(`TEMPLATE${KEY_SEPARATOR}${COMMON_TENANT}`);
 }
@@ -240,7 +240,7 @@ export class UserService {
   async getUserTenants(userCode: string): Promise<UserTenantAssociation[]> {
     const pk = `USER_TENANT${KEY_SEPARATOR}${COMMON_TENANT}`;
 
-    // Query with SK prefix to find all tenant associations
+    // {{Query with SK prefix to find all tenant associations}}
     const result = await this.dataService.listItemsByPk(pk, {
       skPrefix: '', // Get all, then filter
     });
@@ -287,7 +287,7 @@ export class UserService {
     newTenantCode: string,
     invokeContext: IInvoke,
   ): Promise<{ token: string }> {
-    // Verify user belongs to tenant
+    // {{Verify user belongs to tenant}}
     const associations = await this.getUserTenants(userCode);
     const association = associations.find(a =>
       a.attributes.tenantCode === newTenantCode,
@@ -299,7 +299,7 @@ export class UserService {
       );
     }
 
-    // Generate new token with updated tenant context
+    // {{Generate new token with updated tenant context}}
     return this.authService.generateToken({
       userCode,
       tenantCode: newTenantCode,
@@ -361,7 +361,7 @@ export class TenantSyncService {
     targetTenantCode: string,
     invokeContext: IInvoke,
   ): Promise<void> {
-    // Create new keys for target tenant
+    // {{Create new keys for target tenant}}
     const pkParts = sourceItem.pk.split(KEY_SEPARATOR);
     const entityType = pkParts[0];
     const targetPk = `${entityType}${KEY_SEPARATOR}${targetTenantCode}`;
@@ -376,7 +376,7 @@ export class TenantSyncService {
       name: sourceItem.name,
       type: sourceItem.type,
       attributes: sourceItem.attributes,
-      // Mark as synced from source
+      // {{Mark as synced from source}}
       metadata: {
         syncedFrom: sourceItem.id,
         syncedAt: new Date().toISOString(),
@@ -401,19 +401,19 @@ export class CrossTenantReportService {
    */
   async getSystemMetrics(): Promise<SystemMetrics> {
     const [totalProducts, productsByTenant, recentOrders] = await Promise.all([
-      // Total count across all tenants
+      // {{Total count across all tenants}}
       this.prismaService.product.count({
         where: { isDeleted: false },
       }),
 
-      // Count by tenant
+      // {{Count by tenant}}
       this.prismaService.product.groupBy({
         by: ['tenantCode'],
         _count: { id: true },
         where: { isDeleted: false },
       }),
 
-      // Recent orders across all tenants (admin only)
+      // {{Recent orders across all tenants (admin only)}}
       this.prismaService.order.findMany({
         where: { isDeleted: false },
         orderBy: { createdAt: 'desc' },
@@ -471,7 +471,7 @@ export class TenantSettingsService {
    * {{Get tenant settings with caching}}
    */
   async getSettings(tenantCode: string): Promise<TenantSettings> {
-    // Check cache first
+    // {{Check cache first}}
     if (this.settingsCache.has(tenantCode)) {
       return this.settingsCache.get(tenantCode)!;
     }
@@ -484,7 +484,7 @@ export class TenantSettingsService {
       this.settingsCache.set(tenantCode, settings.attributes);
       return settings.attributes;
     } catch (error) {
-      // Return default settings if not found
+      // {{Return default settings if not found}}
       return this.getDefaultSettings();
     }
   }
@@ -514,7 +514,7 @@ export class TenantSettingsService {
       attributes: mergedSettings,
     }, { invokeContext });
 
-    // Invalidate cache
+    // {{Invalidate cache}}
     this.settingsCache.delete(tenantCode);
 
     return mergedSettings;
@@ -643,7 +643,7 @@ async updateProduct(
 ): Promise<ProductDataEntity> {
   const { tenantCode } = getCustomUserContext(invokeContext);
 
-  // Verify product belongs to user's tenant
+  // {{Verify product belongs to user's tenant}}
   const existing = await this.prismaService.product.findUnique({
     where: { id: productId },
   });
@@ -652,7 +652,7 @@ async updateProduct(
     throw new ForbiddenException('Access denied');
   }
 
-  // Proceed with update
+  // {{Proceed with update}}
   return this.publishCommand(updateDto, invokeContext);
 }
 ```
@@ -677,13 +677,13 @@ this.logger.log({
 @Controller('api/admin/tenants')
 @UseGuards(SystemAdminGuard)
 export class TenantAdminController {
-  // System admin operations across tenants
+  // {{System admin operations across tenants}}
 }
 
 @Controller('api/products')
 @UseGuards(TenantGuard)
 export class ProductController {
-  // Tenant-scoped operations
+  // {{Tenant-scoped operations}}
 }
 ```
 

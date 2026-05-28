@@ -82,13 +82,13 @@ import { CommandModule } from '@mbc-cqrs-serverless/core';
 
 @Module({
   imports: [
-    // Load environment variables
+    // {{Load environment variables}}
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['.env.local', '.env'],
     }),
 
-    // Configure Command Module
+    // {{Configure Command Module}}
     CommandModule.register({
       tableName: process.env.DYNAMODB_TABLE_NAME,
       dataSyncHandlers: [],
@@ -186,16 +186,16 @@ import { CommandModule } from '@mbc-cqrs-serverless/core';
 @Module({
   imports: [
     CommandModule.register({
-      // Required: DynamoDB table name
+      // {{Required: DynamoDB table name}}
       tableName: 'order',
 
-      // Optional: Data sync handlers for RDS synchronization
+      // {{Optional: Data sync handlers for RDS synchronization}}
       dataSyncHandlers: [OrderRdsSyncHandler],
 
-      // Optional: Reserved for future use (not yet implemented)
+      // {{Optional: Reserved for future use (not yet implemented)}}
       skipError: false,
 
-      // Optional: Disable default DynamoDB data sync handler
+      // {{Optional: Disable default DynamoDB data sync handler}}
       disableDefaultHandler: false,
     }),
   ],
@@ -214,7 +214,7 @@ import { SequenceModule } from '@mbc-cqrs-serverless/sequence';
 @Module({
   imports: [
     SequenceModule.register({
-      // Optional: Enable or disable default sequence controller
+      // {{Optional: Enable or disable default sequence controller}}
       enableController: true,
     }),
   ],
@@ -235,10 +235,10 @@ import { TenantModule } from '@mbc-cqrs-serverless/tenant';
 @Module({
   imports: [
     TenantModule.register({
-      // Optional: Enable or disable default tenant controller
+      // {{Optional: Enable or disable default tenant controller}}
       enableController: true,
 
-      // Optional: Data sync handlers for RDS synchronization
+      // {{Optional: Data sync handlers for RDS synchronization}}
       dataSyncHandlers: [TenantRdsSyncHandler],
     }),
   ],
@@ -256,7 +256,7 @@ import { NotificationModule } from '@mbc-cqrs-serverless/core';
 
 @Module({
   imports: [
-    // NotificationModule is a global module - just import it
+    // {{NotificationModule is a global module - just import it}}
     NotificationModule,
   ],
 })
@@ -285,19 +285,19 @@ SES_REGION=ap-northeast-1
 ```typescript
 import { Logger } from '@nestjs/common';
 
-// Configure log level based on environment
+// {{Configure log level based on environment}}
 const LOG_LEVELS = {
   production: ['error', 'warn', 'log'],
   development: ['error', 'warn', 'log', 'debug', 'verbose'],
   test: ['error', 'warn'],
 };
 
-// In main.ts or bootstrap
+// {{In main.ts or bootstrap}}
 const app = await NestFactory.create(AppModule, {
   logger: LOG_LEVELS[process.env.NODE_ENV] || LOG_LEVELS.development,
 });
 
-// Structured logging in services
+// {{Structured logging in services}}
 @Injectable()
 export class OrderService {
   private readonly logger = new Logger(OrderService.name);
@@ -323,24 +323,24 @@ export class OrderService {
 ```typescript
 import { ValidationPipe } from '@nestjs/common';
 
-// In main.ts or bootstrap
+// {{In main.ts or bootstrap}}
 app.useGlobalPipes(
   new ValidationPipe({
-    // Transform payloads to DTO instances
+    // {{Transform payloads to DTO instances}}
     transform: true,
 
-    // Strip properties not in DTO
+    // {{Strip properties not in DTO}}
     whitelist: true,
 
-    // Throw error for extra properties
+    // {{Throw error for extra properties}}
     forbidNonWhitelisted: true,
 
-    // Transform primitive types
+    // {{Transform primitive types}}
     transformOptions: {
       enableImplicitConversion: true,
     },
 
-    // Custom error messages
+    // {{Custom error messages}}
     exceptionFactory: (errors) => {
       const messages = errors.map(error => ({
         field: error.property,
