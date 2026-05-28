@@ -79,6 +79,7 @@
   "Attempting to create a tenant with an existing code.": "Attempting to create a tenant with an existing code.",
   "Sequence Errors": "Sequence Errors",
   "The requested sequence key does not exist.": "The requested sequence key does not exist.",
+  "Generate sequence - auto-initializes on first use": "Generate sequence - auto-initializes on first use",
   "Task Errors": "Task Errors",
   "The specified task does not exist or has been completed/deleted.": "The specified task does not exist or has been completed/deleted.",
   "The request DTO failed class-validator validation.": "The request DTO failed class-validator validation.",

@@ -340,7 +340,7 @@ subsegment?.close();
 {{For complex applications, aggregate logs:}}
 
 ```typescript
-// Create a centralized log group
+// {{Create a centralized log group}}
 const centralLogGroup = new logs.LogGroup(this, 'CentralLogs', {
   logGroupName: `/app/${props.appName}/central`,
   retention: logs.RetentionDays.THREE_MONTHS,

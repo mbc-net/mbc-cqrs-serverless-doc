@@ -141,15 +141,15 @@ import { ulid } from "ulid";
 ```ts
 const PRODUCT_PK_PREFIX = "PRODUCT";
 
-// Generate PK
+// {{Generate PK}}
 const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
 // Result: "PRODUCT#tenant001"
 
-// Generate SK (using ULID for uniqueness and sortability)
+// {{Generate SK (using ULID for uniqueness and sortability)}}
 const sk = ulid();
 // Result: "01HX7MBJK3V9WQBZ7XNDK5ZT2M"
 
-// Generate ID (combination of PK and SK)
+// {{Generate ID (combination of PK and SK)}}
 const id = generateId(pk, sk);
 // Result: "PRODUCT#tenant001#01HX7MBJK3V9WQBZ7XNDK5ZT2M"
 ```
@@ -247,12 +247,12 @@ Order Items:
 const ORDER_SK_PREFIX = "ORDER";
 const ORDER_ITEM_SK_PREFIX = "ORDER_ITEM";
 
-// Create order
+// {{Create order}}
 const orderPk = `ORDER${KEY_SEPARATOR}${tenantCode}`;
 const orderId = ulid();
 const orderSk = `${ORDER_SK_PREFIX}${KEY_SEPARATOR}${orderId}`;
 
-// Create order item
+// {{Create order item}}
 const itemSk = `${ORDER_ITEM_SK_PREFIX}${KEY_SEPARATOR}${orderId}${KEY_SEPARATOR}${itemId}`;
 ```
 

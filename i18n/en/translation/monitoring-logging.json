@@ -96,6 +96,7 @@
   "Centralized logging is not included in the default template. The following patterns show how to aggregate logs for complex applications.": "Centralized logging is not included in the default template. The following patterns show how to aggregate logs for complex applications.",
   "Log Aggregation Pattern": "Log Aggregation Pattern",
   "For complex applications, aggregate logs:": "For complex applications, aggregate logs:",
+  "Create a centralized log group": "Create a centralized log group",
   "Log Insights Queries": "Log Insights Queries",
   "Useful CloudWatch Logs Insights queries:": "Useful CloudWatch Logs Insights queries:",
   "Application Performance Monitoring": "Application Performance Monitoring",

@@ -219,7 +219,7 @@ if (existing) {
 
 **{{Solution}}**:
 ```typescript
-// Generate sequence - auto-initializes on first use
+// {{Generate sequence - auto-initializes on first use}}
 try {
   const result = await sequencesService.generateSequenceItem(
     {

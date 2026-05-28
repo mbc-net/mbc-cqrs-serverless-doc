@@ -340,7 +340,7 @@ subsegment?.close();
 複雑なアプリケーションでは、ログを集約：
 
 ```typescript
-// Create a centralized log group
+// 集中ロググループを作成
 const centralLogGroup = new logs.LogGroup(this, 'CentralLogs', {
   logGroupName: `/app/${props.appName}/central`,
   retention: logs.RetentionDays.THREE_MONTHS,

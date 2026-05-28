@@ -401,7 +401,7 @@ const sensitiveData = {
 {{Never log sensitive information.}}
 
 ```typescript
-// Create a logger that masks sensitive fields
+// {{Create a logger that masks sensitive fields}}
 const SENSITIVE_FIELDS = ['password', 'token', 'ssn', 'creditCard', 'secret'];
 
 function maskSensitiveData(obj: any): any {

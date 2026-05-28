@@ -141,15 +141,15 @@ import { ulid } from "ulid";
 ```ts
 const PRODUCT_PK_PREFIX = "PRODUCT";
 
-// Generate PK
+// PKを生成
 const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
 // Result: "PRODUCT#tenant001"
 
-// Generate SK (using ULID for uniqueness and sortability)
+// SKを生成（一意性とソート可能性のためにULIDを使用）
 const sk = ulid();
 // Result: "01HX7MBJK3V9WQBZ7XNDK5ZT2M"
 
-// Generate ID (combination of PK and SK)
+// IDを生成（PKとSKの組み合わせ）
 const id = generateId(pk, sk);
 // Result: "PRODUCT#tenant001#01HX7MBJK3V9WQBZ7XNDK5ZT2M"
 ```
@@ -247,12 +247,12 @@ Order Items:
 const ORDER_SK_PREFIX = "ORDER";
 const ORDER_ITEM_SK_PREFIX = "ORDER_ITEM";
 
-// Create order
+// 注文を作成
 const orderPk = `ORDER${KEY_SEPARATOR}${tenantCode}`;
 const orderId = ulid();
 const orderSk = `${ORDER_SK_PREFIX}${KEY_SEPARATOR}${orderId}`;
 
-// Create order item
+// 注文アイテムを作成
 const itemSk = `${ORDER_ITEM_SK_PREFIX}${KEY_SEPARATOR}${orderId}${KEY_SEPARATOR}${itemId}`;
 ```
 
