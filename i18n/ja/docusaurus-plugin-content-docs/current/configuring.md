@@ -222,7 +222,7 @@ import { SequenceModule } from '@mbc-cqrs-serverless/sequence';
 export class AppModule {}
 ```
 
-Note: Rotation strategy (day, month, year, fiscal_yearly, none) is configured through master data settings, not module options. See the [Sequence documentation](/docs/sequence) for details.
+注: ローテーション戦略（day、month、year、fiscal_yearly、none）はマスターデータ設定で設定され、モジュールオプションではありません。詳細は[シーケンスドキュメント](/docs/sequence)を参照してください。
 
 ### TenantModuleオプション
 
@@ -428,6 +428,6 @@ import DocCardList from '@theme/DocCardList';
 <DocCardList />
 ```
 
-- [Environment Variables](/docs/environment-variables) - Environment configuration
-- [Absolute Imports](/docs/absolute_imports_and_module_path_aliases) - Path aliases
-- [Deployment Guide](/docs/deployment-guide) - Deployment configuration
+- [環境変数](/docs/environment-variables) - 環境設定
+- [絶対インポート](/docs/absolute_imports_and_module_path_aliases) - パスエイリアス
+- [デプロイガイド](/docs/deployment-guide) - デプロイ設定

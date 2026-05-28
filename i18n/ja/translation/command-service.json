@@ -19,7 +19,7 @@
   "In the example for the method below, assume you import the `CommandModule` into your module as follows:": "以下のメソッドの例では、次のように `CommandModule` をモジュールにインポートすると仮定します。",
   "Then, the `CommandService` and `DataService` will be ready for injection into other services for your use.": "これで、`CommandService` と `DataService` を他のサービスに挿入して使用できるようになります。",
   "For Implementation Patterns": "実装パターンについて",
-  "For complete CRUD implementation patterns using CommandService, see [Service Patterns](/docs/service-patterns).": "",
+  "For complete CRUD implementation patterns using CommandService, see [Service Patterns](/docs/service-patterns).": "CommandServiceを使用した完全なCRUD実装パターンについては、[Service実装パターン](/docs/service-patterns)を参照してください。",
   "Methods": "メソッド",
   "*async* `publishAsync(input: CommandInputModel, options: ICommandOptions): Promise<CommandModel | null>`": "*async* `publishAsync(input: CommandInputModel, options: ICommandOptions): Promise<CommandModel | null>`",
   "Utilize this method to publish a full command, as it will insert the command data into the **command** table.": "このメソッドを使用すると、コマンド データが **command** テーブルに挿入されるため、完全なコマンドを公開できます。",

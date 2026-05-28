@@ -141,7 +141,7 @@ Claude Codeに以下のように依頼できます:
 ## コード分析ツール {#code-analysis-tools}
 
 :::info バージョン情報
-Code analysis tools (`mbc_check_anti_patterns`, `mbc_health_check`, `mbc_explain_code`) were added in [version 1.0.22](/docs/changelog#v1022).
+コード分析ツール（`mbc_check_anti_patterns`、`mbc_health_check`、`mbc_explain_code`）は[バージョン1.0.22](/docs/changelog#v1022)で追加されました。
 :::
 
 ### アンチパターン検出

@@ -17,9 +17,9 @@ description: DynamoDBのパーティションキー（PK）とソートキー（
 - 楽観的ロック用のバージョニングを処理する
 
 :::tip 関連ドキュメント
-- [Entity Definition Patterns](/docs/entity-patterns) - How to define entities that use these key patterns
-- [Multi-Tenant Patterns](/docs/multi-tenant-patterns) - Tenant isolation and cross-tenant operations
-- [Backend Development Guide](/docs/backend-development) - Complete module implementation patterns
+- [エンティティ定義パターン](/docs/entity-patterns) - これらのキーパターンを使用するエンティティの定義方法
+- [マルチテナントパターン](/docs/multi-tenant-patterns) - テナント分離とクロステナント操作
+- [バックエンド開発ガイド](/docs/backend-development) - 完全なモジュール実装パターン
 :::
 
 ## このパターンが解決する問題

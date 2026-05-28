@@ -178,8 +178,8 @@
   "Save progress for resumable migrations:": "再開可能な移行のために進捗を保存します：",
   "Resume from checkpoint if migration was interrupted": "Resume from checkpoint if migration was interrupted (移行が中断された場合はチェックポイントから再開)",
   "Related Documentation": "関連ドキュメント",
-  "[Import/Export Patterns](/docs/import-export-patterns) - Bulk data operations": "",
-  "[Multi-Tenant Patterns](/docs/multi-tenant-patterns) - Tenant isolation strategies": "",
-  "[Data Sync Handler Examples](/docs/data-sync-handler-examples) - Sync handler patterns": "",
-  "[Version Conflict Guide](/docs/version-conflict-guide) - Handling version conflicts": ""
+  "[Import/Export Patterns](/docs/import-export-patterns) - Bulk data operations": "[インポート/エクスポートパターン](/docs/import-export-patterns) - 一括データ操作",
+  "[Multi-Tenant Patterns](/docs/multi-tenant-patterns) - Tenant isolation strategies": "[マルチテナントパターン](/docs/multi-tenant-patterns) - テナント分離戦略",
+  "[Data Sync Handler Examples](/docs/data-sync-handler-examples) - Sync handler patterns": "[データ同期ハンドラー例](/docs/data-sync-handler-examples) - 同期ハンドラーパターン",
+  "[Version Conflict Guide](/docs/version-conflict-guide) - Handling version conflicts": "[バージョンコンフリクトガイド](/docs/version-conflict-guide) - バージョンコンフリクトの処理"
 }

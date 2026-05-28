@@ -14,14 +14,14 @@ description: インストール
 
 ## 自動インストール
 
-To get started, you can scaffold the project with the [mbc-cqrs-serverless CLI](/docs/cli). To scaffold the project with the mbc-cqrs-serverless CLI, run the following commands. This will create a new project directory, and populate the directory with the initial core mbc-cqrs-serverless files and supporting modules, creating a conventional base structure for your project.
+まず、[mbc-cqrs-serverless CLI](/docs/cli) を使用してプロジェクトをスキャフォールディングします。 mbc-cqrs-serverless CLI を使用してプロジェクトをスキャフォールディングするには、次のコマンドを実行します。これにより、新しいプロジェクト ディレクトリが作成され、そのディレクトリに初期コアの mbc-cqrs-serverless ファイルとサポート モジュールが追加され、プロジェクトの従来の基本構造が作成されます。
 
 ```bash
 npm i -g @mbc-cqrs-serverless/cli
 mbc new project-name
 ```
 
-If you're new to mbc-cqrs-serverless, see the [project structure](/docs/project-structure) docs for an overview of all the possible files and folders in your application.
+mbc-cqrs-serverless を使用して新しいプロジェクトを作成した際は、[プロジェクト構造](/docs/project-structure) のドキュメントを参照してアプリケーションないで使用出来る全てのファイルとフォルダーの概要を確認して下さい。
 
 ## 開発用サーバの実行
 

@@ -1428,7 +1428,7 @@ Step Functionsワークフロー（例：ZIPインポート）の一部として
 これにより、Step Functionsワークフローが無限に待機することなく、成功と失敗の両方のケースを適切に処理できます。
 
 :::info Version Note
-The `sendTaskFailure()` method was added in [version 1.0.18](/docs/changelog#v1018) to fix an issue where Step Functions would wait indefinitely when import jobs failed. See also [Import Module Errors](/docs/error-catalog#import-module-errors) for troubleshooting.
+`sendTaskFailure()`メソッドは[バージョン1.0.18](/docs/changelog#v1018)で追加され、インポートジョブが失敗した際にStep Functionsが無限に待機する問題を修正しました。トラブルシューティングについては[インポートモジュールエラー](/docs/error-catalog#import-module-errors)も参照してください。
 :::
 
 ### ImportQueueEventHandlerエラーハンドリング {#import-error-handling}
@@ -1492,7 +1492,7 @@ SendTaskFailure/SendTaskSuccess
 :::
 
 :::info Version Note
-Prior to v1.0.19, errors in child jobs would crash the Lambda and leave the master job in `PROCESSING` status indefinitely. The fixes in [version 1.0.19](/docs/changelog#v1019) ensure proper error propagation and status updates.
+v1.0.19より前は、子ジョブのエラーによりLambdaがクラッシュし、マスタージョブが`PROCESSING`ステータスのまま無限に残っていました。[バージョン1.0.19](/docs/changelog#v1019)の修正により、適切なエラー伝播とステータス更新が保証されます。
 :::
 
 ### CsvImportSfnEventHandler {#csvimportsfneventhandler}
@@ -1681,7 +1681,7 @@ export class ZipImportSfnEvent implements IEvent {
 
 ## 関連ドキュメント
 
-- [Backend Development Guide](/docs/backend-development) - Core backend patterns
-- [Service Patterns](/docs/service-patterns) - Service implementation
-- [Step Functions](/docs/architecture/step-functions) - Workflow orchestration
-- [Data Sync Handler Examples](/docs/data-sync-handler-examples) - Sync handler patterns
+- [バックエンド開発ガイド](/docs/backend-development) - コアバックエンドパターン
+- [サービスパターン](/docs/service-patterns) - サービス実装
+- [Step Functions](/docs/architecture/step-functions) - ワークフローオーケストレーション
+- [データ同期ハンドラー例](/docs/data-sync-handler-examples) - 同期ハンドラーパターン

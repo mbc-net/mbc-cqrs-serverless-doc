@@ -481,7 +481,7 @@ try {
 ## インポートモジュールエラー {#import-module-errors}
 
 :::tip Related Documentation
-For API details and usage patterns, see [ImportStatusHandler API](/docs/import-export-patterns#importstatushandler-api). For version history, see [Changelog v1.0.18](/docs/changelog#v1018).
+APIの詳細と使用パターンについては[ImportStatusHandler API](/docs/import-export-patterns#importstatushandler-api)を参照してください。バージョン履歴については[変更履歴 v1.0.18](/docs/changelog#v1018)を参照してください。
 :::
 
 ### Step Functionsタイムアウト（インポートジョブ）
@@ -876,6 +876,6 @@ class CircuitBreaker {
 
 ## 関連情報
 
-- [Debugging Guide](/docs/debugging-guide) - Detailed debugging procedures
-- [Common Issues](/docs/common-issues) - Frequently encountered problems
-- [Monitoring and Logging](/docs/monitoring-logging) - Production monitoring setup
+- [デバッグガイド](/docs/debugging-guide) - 詳細なデバッグ手順
+- [よくある問題](/docs/common-issues) - よく発生する問題
+- [監視とログ](/docs/monitoring-logging) - 本番監視の設定

@@ -95,7 +95,7 @@
   "Invalid credentials or token expired.": "無効な認証情報またはトークンの有効期限切れ。",
   "User does not exist in the user pool.": "ユーザープールにユーザーが存在しません。",
   "User has not confirmed their email/phone.": "ユーザーがメール/電話を確認していません。",
-  "For API details and usage patterns, see [ImportStatusHandler API](/docs/import-export-patterns#importstatushandler-api). For version history, see [Changelog v1.0.18](/docs/changelog#v1018).": "",
+  "For API details and usage patterns, see [ImportStatusHandler API](/docs/import-export-patterns#importstatushandler-api). For version history, see [Changelog v1.0.18](/docs/changelog#v1018).": "APIの詳細と使用パターンについては[ImportStatusHandler API](/docs/import-export-patterns#importstatushandler-api)を参照してください。バージョン履歴については[変更履歴 v1.0.18](/docs/changelog#v1018)を参照してください。",
   "Step Functions Timeout (Import Job)": "Step Functionsタイムアウト（インポートジョブ）",
   "Symptom": "症状",
   "Step Functions execution stays in `RUNNING` state indefinitely for import jobs.": "インポートジョブでStep Functions実行が無期限に`RUNNING`状態のまま。",
@@ -156,7 +156,7 @@
   "Verify environment variables": "環境変数を確認",
   "Test locally with serverless-offline": "serverless-offlineでローカルテスト",
   "See Also": "関連情報",
-  "[Debugging Guide](/docs/debugging-guide) - Detailed debugging procedures": "",
-  "[Common Issues](/docs/common-issues) - Frequently encountered problems": "",
-  "[Monitoring and Logging](/docs/monitoring-logging) - Production monitoring setup": ""
+  "[Debugging Guide](/docs/debugging-guide) - Detailed debugging procedures": "[デバッグガイド](/docs/debugging-guide) - 詳細なデバッグ手順",
+  "[Common Issues](/docs/common-issues) - Frequently encountered problems": "[よくある問題](/docs/common-issues) - よく発生する問題",
+  "[Monitoring and Logging](/docs/monitoring-logging) - Production monitoring setup": "[監視とログ](/docs/monitoring-logging) - 本番監視の設定"
 }

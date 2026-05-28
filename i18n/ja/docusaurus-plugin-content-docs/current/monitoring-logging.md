@@ -485,6 +485,6 @@ export class HealthController {
 
 ## 次のステップ
 
-- [Deployment Guide](/docs/deployment-guide) - Deploy with monitoring enabled
-- [CI/CD with CodePipeline](/docs/codepipeline-cicd) - Automate deployments
-- [Troubleshooting](/docs/common-issues) - Debug issues
+- [デプロイメントガイド](/docs/deployment-guide) - モニタリングを有効にしてデプロイ
+- [CodePipelineによるCI/CD](/docs/codepipeline-cicd) - デプロイを自動化
+- [トラブルシューティング](/docs/common-issues) - 問題のデバッグ

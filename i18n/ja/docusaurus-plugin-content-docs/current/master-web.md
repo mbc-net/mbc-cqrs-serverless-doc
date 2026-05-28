@@ -289,7 +289,7 @@ export default function EditMasterDataPage({ params }: { params: { id: string } 
 JSON経由でマスター設定とマスターデータを一括インポートするためのJSONエディタコンポーネント。このコンポーネントは`EditMasterSettings`のJSONインポートタブで内部的に使用されます。
 
 :::warning デフォルトでは新規作成のみ
-`AddJsonData` uses hardcoded API URLs (`/master-setting/bulk` for settings, `/master-data/bulk` for data) which call the framework's `createBulk` method. This means re-importing JSON data for existing records will fail with a `BadRequestException`. To support upsert behavior, use an Axios interceptor to rewrite these URLs to custom upsert endpoints. See [Master - Upsert Pattern](/docs/master#upsert-pattern) for details.
+`AddJsonData`はハードコードされたAPI URL（設定用の`/master-setting/bulk`、データ用の`/master-data/bulk`）を使用し、フレームワークの`createBulk`メソッドを呼び出します。そのため、既存レコードのJSONデータを再インポートすると`BadRequestException`で失敗します。upsert動作をサポートするには、AxiosインターセプターでこれらのURLをカスタムupsertエンドポイントに書き換えてください。詳細は[Master - Upsertパターン](/docs/master#upsert-pattern)を参照してください。
 :::
 
 ## プロバイダーのセットアップ

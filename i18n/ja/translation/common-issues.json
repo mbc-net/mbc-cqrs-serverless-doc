@@ -132,7 +132,7 @@
   "Use reserved concurrency to limit scaling": "予約済み同時実行でスケーリングを制限",
   "Getting Help": "ヘルプを得る",
   "If you can't find a solution here:": "ここで解決策が見つからない場合：",
-  "Check the [Debugging Guide](/docs/debugging-guide) for investigation techniques": "",
+  "Check the [Debugging Guide](/docs/debugging-guide) for investigation techniques": "[デバッグガイド](/docs/debugging-guide)で調査テクニックを確認",
   "Search existing issues on GitHub": "GitHubで既存のIssueを検索",
   "Create a new issue with:": "以下を含む新しいIssueを作成：",
   "Clear description of the problem": "問題の明確な説明",

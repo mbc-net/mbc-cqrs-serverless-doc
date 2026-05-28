@@ -11,7 +11,7 @@
   "Optional: Sequence numbers for todos": "オプション：Todoのシーケンス番号",
   "Optional: Async task processing": "オプション：非同期タスク処理",
   "Prerequisites": "前提条件",
-  "Completed the [Quickstart Tutorial](/docs/quickstart-tutorial)": "",
+  "Completed the [Quickstart Tutorial](/docs/quickstart-tutorial)": "[クイックスタートチュートリアル](/docs/quickstart-tutorial)を完了していること",
   "Basic understanding of NestJS": "NestJSの基本的な理解",
   "Docker running for local development": "ローカル開発用にDockerが実行中であること",
   "Running the Samples": "サンプルの実行",
@@ -160,7 +160,7 @@
   "Full basic implementation": "完全な基本実装",
   "With async task processing": "非同期タスク処理付き",
   "Next Steps": "次のステップ",
-  "[Deployment Guide](/docs/deployment-guide) - Deploy to AWS": "",
-  "[Testing](/docs/testing) - Write unit and e2e tests": "",
-  "[Monitoring](/docs/monitoring-logging) - Add observability": ""
+  "[Deployment Guide](/docs/deployment-guide) - Deploy to AWS": "[デプロイメントガイド](/docs/deployment-guide) - AWSにデプロイ",
+  "[Testing](/docs/testing) - Write unit and e2e tests": "[テスト](/docs/testing) - ユニットテストとE2Eテストを記述",
+  "[Monitoring](/docs/monitoring-logging) - Add observability": "[モニタリング](/docs/monitoring-logging) - 可観測性を追加"
 }

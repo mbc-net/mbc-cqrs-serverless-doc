@@ -136,7 +136,7 @@
   "To query data from RDS, you must implement a Data Sync Handler that synchronizes data from DynamoDB to RDS.": "RDSからデータをクエリするには、DynamoDBからRDSにデータを同期するData Sync Handlerを実装する必要があります。",
   "Map attributes to RDS columns": "Map attributes to RDS columns (属性をRDSカラムにマッピング)",
   "Handle rollback if needed": "Handle rollback if needed (必要に応じてロールバックを処理)",
-  "See [Data Sync Handler Examples](/docs/data-sync-handler-examples) for more detailed examples.": "",
+  "See [Data Sync Handler Examples](/docs/data-sync-handler-examples) for more detailed examples.": "詳細な例については[Data Sync Handlerの実装例](/docs/data-sync-handler-examples)を参照してください。",
   "Summary": "まとめ",
   "Use Case": "ユースケース",
   "Database": "データベース",
@@ -149,9 +149,9 @@
   "Aggregations": "集計",
   "Pagination with count": "件数付きページネーション",
   "Related Documentation": "関連ドキュメント",
-  "[DynamoDB](/docs/dynamodb): DynamoDB table design and management": "",
-  "[Prisma](/docs/prisma): Prisma ORM setup and conventions": "",
-  "[DataService](/docs/data-service): DynamoDB query methods": "",
-  "[Data Sync Handler Examples](/docs/data-sync-handler-examples): RDS synchronization patterns": "",
-  "[Service Implementation Patterns](/docs/service-patterns): Complete service layer examples": ""
+  "[DynamoDB](/docs/dynamodb): DynamoDB table design and management": "[DynamoDB](/docs/dynamodb): DynamoDBテーブル設計と管理",
+  "[Prisma](/docs/prisma): Prisma ORM setup and conventions": "[Prisma](/docs/prisma): Prisma ORMのセットアップと規約",
+  "[DataService](/docs/data-service): DynamoDB query methods": "[DataService](/docs/data-service): DynamoDBクエリメソッド",
+  "[Data Sync Handler Examples](/docs/data-sync-handler-examples): RDS synchronization patterns": "[Data Sync Handlerの実装例](/docs/data-sync-handler-examples): RDS同期パターン",
+  "[Service Implementation Patterns](/docs/service-patterns): Complete service layer examples": "[サービス実装パターン](/docs/service-patterns): 完全なサービスレイヤー例"
 }
