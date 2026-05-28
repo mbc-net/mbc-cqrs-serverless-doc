@@ -497,7 +497,7 @@ async createBatch(
   const { tenantCode } = getUserContext(opts.invokeContext);
   const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
 
-  // Create all commands
+  // 全コマンドを作成
   const commands = items.map((item) => {
     const sk = ulid();
     return new ProductCommandDto({
@@ -518,7 +518,7 @@ async createBatch(
     });
   });
 
-  // Publish all commands in parallel
+  // 全コマンドを並列で発行
   const results = await Promise.all(
     commands.map((command) =>
       this.commandService.publishAsync(command, {
@@ -610,19 +610,19 @@ async copy(
   targetTenantCode: string,
   opts: { invokeContext: IInvoke },
 ): Promise<ProductDataEntity> {
-  // Get source item
+  // ソースアイテムを取得
   const source = await this.dataService.getItem(sourceKey);
 
   if (!source) {
     throw new NotFoundException("Source product not found");
   }
 
-  // Create new keys for target tenant
+  // ターゲットテナント用の新しいキーを作成
   const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${targetTenantCode}`;
   const sk = ulid();
   const id = generateId(pk, sk);
 
-  // Create command with source data
+  // ソースデータでコマンドを作成
   const command = new ProductCommandDto({
     pk,
     sk,
@@ -676,16 +676,16 @@ export class ProductService {
     detailDto: { pk: string; sk: string },
     version: number,
   ): Promise<ProductDataEntity> {
-    // Add version to SK
+    // SKにバージョンを追加
     const skWithVersion = addSortKeyVersion(detailDto.sk, version);
 
-    // Try to get from history
+    // 履歴から取得を試みる
     let item = await this.historyService.getItem({
       pk: detailDto.pk,
       sk: skWithVersion,
     });
 
-    // Fallback to latest if not in history
+    // 履歴にない場合は最新にフォールバック
     if (!item) {
       item = await this.dataService.getItem(detailDto);
     }
@@ -729,10 +729,10 @@ const command: CommandPartialInputModel = {
 レスポンシブ性向上のために非同期メソッドを使用します：
 
 ```ts
-// Recommended: Returns immediately
+// 推奨: 即座に返す
 await this.commandService.publishAsync(command, opts);
 
-// Use only when you need to wait for processing
+// 処理を待つ必要がある場合のみ使用
 await this.commandService.publishSync(command, opts);
 ```
 
@@ -741,10 +741,10 @@ await this.commandService.publishSync(command, opts);
 単一アイテムの読み取りにはDynamoDB、複雑なクエリにはRDSを使用します：
 
 ```ts
-// Single item: Use DataService (DynamoDB)
+// 単一アイテム: DataService（DynamoDB）を使用
 const item = await this.dataService.getItem({ pk, sk });
 
-// Complex query: Use Prisma (RDS)
+// 複雑なクエリ: Prisma（RDS）を使用
 const items = await this.prismaService.product.findMany({
   where: { category: "electronics", inStock: true },
   orderBy: { price: "asc" },

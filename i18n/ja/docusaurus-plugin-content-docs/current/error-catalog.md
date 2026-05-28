@@ -292,7 +292,7 @@ export class CreateOrderDto {
 
 **解決策**:
 ```typescript
-// Validate before sending
+// 送信前に検証
 import { validate } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 
@@ -353,7 +353,7 @@ async function withRetry<T>(
 
 **解決策**:
 ```typescript
-// Handle conditional check failure
+// 条件チェック失敗を処理
 try {
   await commandService.publishSync(item, options);
 } catch (error) {
@@ -395,14 +395,14 @@ echo $DYNAMODB_TABLE_NAME
 
 **解決策**:
 ```typescript
-// Avoid empty strings
+// 空文字列を避ける
 const item = {
   pk: 'ORDER#tenant001',
   sk: 'ORDER#ORD001',
   name: value || null,  // Use null instead of empty string
 };
 
-// Use expression attribute names for reserved words
+// 予約語には式属性名を使用
 const params = {
   ExpressionAttributeNames: {
     '#name': 'name',
@@ -423,12 +423,12 @@ const params = {
 
 **解決策**:
 ```typescript
-// Frontend: Refresh token
+// フロントエンド: トークンをリフレッシュ
 try {
   await Auth.currentSession();  // Auto-refreshes if needed
 } catch (error) {
   if (error.name === 'NotAuthorizedException') {
-    // Redirect to login
+    // ログインにリダイレクト
     await Auth.signOut();
     window.location.href = '/login';
   }
@@ -445,12 +445,12 @@ try {
 
 **解決策**:
 ```typescript
-// Check user exists before operations
+// 操作前にユーザーが存在することを確認
 try {
   const user = await adminGetUser({ Username: email });
 } catch (error) {
   if (error.name === 'UserNotFoundException') {
-    // Create new user or show registration form
+    // 新しいユーザーを作成するか登録フォームを表示
   }
 }
 ```
@@ -471,7 +471,7 @@ try {
   if (error.name === 'UserNotConfirmedException') {
     // 確認コードを再送信
     await Auth.resendSignUp(email);
-    // Redirect to confirmation page
+    // 確認ページにリダイレクト
   }
 }
 ```
@@ -496,7 +496,7 @@ APIの詳細と使用パターンについては[ImportStatusHandler API](/docs/
 ハンドラーはインポートジョブが失敗した場合に適切に`SendTaskFailureCommand`を送信するようになりました：
 
 ```typescript
-// Internal behavior (automatic, no user action needed):
+// 内部動作（自動、ユーザー操作不要）:
 // - COMPLETED status → SendTaskSuccessCommand
 // - FAILED status → SendTaskFailureCommand
 ```
@@ -564,13 +564,13 @@ ImportModule.register({
 
 **解決策**:
 ```typescript
-// Increase Lambda timeout in serverless.yml
+// serverless.ymlでLambdaタイムアウトを増加
 functions:
   processTask:
     handler: handler.process
     timeout: 900  # 15 minutes max
 
-// Or break into smaller chunks
+// またはより小さなチャンクに分割
 async function processInChunks(items, chunkSize = 100) {
   for (let i = 0; i < items.length; i += chunkSize) {
     const chunk = items.slice(i, i + chunkSize);
@@ -589,18 +589,18 @@ async function processInChunks(items, chunkSize = 100) {
 
 **解決策**:
 ```typescript
-// Proper error handling with Step Functions
+// Step Functionsを使った適切なエラー処理
 export async function handler(event: StepFunctionEvent) {
   try {
     const result = await processTask(event.input);
 
-    // Send success callback
+    // 成功コールバックを送信
     await sfn.sendTaskSuccess({
       taskToken: event.taskToken,
       output: JSON.stringify(result),
     }).promise();
   } catch (error) {
-    // Send failure callback
+    // 失敗コールバックを送信
     await sfn.sendTaskFailure({
       taskToken: event.taskToken,
       error: error.name,
@@ -622,7 +622,7 @@ export async function handler(event: StepFunctionEvent) {
 
 **解決策**:
 ```typescript
-// Check if object exists before downloading
+// ダウンロード前にオブジェクトが存在するか確認
 try {
   await s3.headObject({ Bucket: bucket, Key: key }).promise();
   const data = await s3.getObject({ Bucket: bucket, Key: key }).promise();
@@ -671,14 +671,14 @@ provider:
 
 **解決策**:
 ```typescript
-// Process messages within visibility timeout
+// 可視性タイムアウト内にメッセージを処理
 export async function handler(event: SQSEvent) {
   for (const record of event.Records) {
     try {
       await processMessage(record);
-      // Message auto-deleted on successful return
+      // 正常終了時にメッセージを自動削除
     } catch (error) {
-      // Throw to keep message in queue for retry
+      // リトライのためにメッセージをキューに保持するためスロー
       throw error;
     }
   }
@@ -710,7 +710,7 @@ export async function handler(event: SQSEvent) {
 ### 1. 集中エラーハンドラー
 
 ```typescript
-// Create a global exception filter
+// グローバル例外フィルターを作成
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
@@ -726,7 +726,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       ? exception.message
       : 'Internal server error';
 
-    // Log error with context
+    // コンテキスト付きでエラーをログ記録
     console.error({
       timestamp: new Date().toISOString(),
       path: request.url,

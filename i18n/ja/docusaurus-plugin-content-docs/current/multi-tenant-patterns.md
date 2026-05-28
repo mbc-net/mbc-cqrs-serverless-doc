@@ -401,19 +401,19 @@ export class CrossTenantReportService {
    */
   async getSystemMetrics(): Promise<SystemMetrics> {
     const [totalProducts, productsByTenant, recentOrders] = await Promise.all([
-      // Total count across all tenants
+      // 全テナントの合計カウント
       this.prismaService.product.count({
         where: { isDeleted: false },
       }),
 
-      // Count by tenant
+      // テナント別カウント
       this.prismaService.product.groupBy({
         by: ['tenantCode'],
         _count: { id: true },
         where: { isDeleted: false },
       }),
 
-      // Recent orders across all tenants (admin only)
+      // 全テナントの最近の注文（管理者のみ）
       this.prismaService.order.findMany({
         where: { isDeleted: false },
         orderBy: { createdAt: 'desc' },
@@ -471,7 +471,7 @@ export class TenantSettingsService {
    * Get tenant settings with caching (キャッシュ付きでテナント設定を取得)
    */
   async getSettings(tenantCode: string): Promise<TenantSettings> {
-    // Check cache first
+    // まずキャッシュを確認
     if (this.settingsCache.has(tenantCode)) {
       return this.settingsCache.get(tenantCode)!;
     }
@@ -484,7 +484,7 @@ export class TenantSettingsService {
       this.settingsCache.set(tenantCode, settings.attributes);
       return settings.attributes;
     } catch (error) {
-      // Return default settings if not found
+      // 見つからない場合はデフォルト設定を返す
       return this.getDefaultSettings();
     }
   }
@@ -514,7 +514,7 @@ export class TenantSettingsService {
       attributes: mergedSettings,
     }, { invokeContext });
 
-    // Invalidate cache
+    // キャッシュを無効化
     this.settingsCache.delete(tenantCode);
 
     return mergedSettings;
@@ -643,7 +643,7 @@ async updateProduct(
 ): Promise<ProductDataEntity> {
   const { tenantCode } = getCustomUserContext(invokeContext);
 
-  // Verify product belongs to user's tenant
+  // 商品がユーザーのテナントに属することを確認
   const existing = await this.prismaService.product.findUnique({
     where: { id: productId },
   });
@@ -652,7 +652,7 @@ async updateProduct(
     throw new ForbiddenException('Access denied');
   }
 
-  // Proceed with update
+  // 更新を続行
   return this.publishCommand(updateDto, invokeContext);
 }
 ```
@@ -677,13 +677,13 @@ this.logger.log({
 @Controller('api/admin/tenants')
 @UseGuards(SystemAdminGuard)
 export class TenantAdminController {
-  // System admin operations across tenants
+  // 全テナントにわたるシステム管理者操作
 }
 
 @Controller('api/products')
 @UseGuards(TenantGuard)
 export class ProductController {
-  // Tenant-scoped operations
+  // テナントスコープの操作
 }
 ```
 

@@ -98,19 +98,19 @@ npm run migrate
 ### エンティティキーの例
 
 ```typescript
-// Order entity
+// 注文エンティティ
 const orderKey = {
   pk: `ORDER#${tenantCode}`,
   sk: `ORDER#${orderId}`,
 };
 
-// User entity
+// ユーザーエンティティ
 const userKey = {
   pk: `USER#${tenantCode}`,
   sk: `USER#${userId}`,
 };
 
-// Hierarchical data (e.g., organization)
+// 階層データ（例: 組織）
 const departmentKey = {
   pk: `ORG#${tenantCode}`,
   sk: `DEPT#${parentId}#${deptId}`,
@@ -180,7 +180,7 @@ GSI定義の例（テーブル設定に追加）：
 カスタムGSIの使用例：
 
 ```typescript
-// Find entity by code (requires code-index GSI)
+// コードでエンティティを検索（code-index GSIが必要）
 const params = {
   TableName: 'entity-data',
   IndexName: 'code-index',

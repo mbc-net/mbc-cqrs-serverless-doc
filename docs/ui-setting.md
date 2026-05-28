@@ -78,33 +78,33 @@ export class MyService {
   constructor(private readonly settingService: SettingService) {}
 
   async example() {
-    // List all settings for a tenant
+    // {{List all settings for a tenant}}
     const settings = await this.settingService.list(tenantCode);
 
-    // Get a specific setting
+    // {{Get a specific setting}}
     const setting = await this.settingService.get({ pk, sk });
 
-    // Create a new setting
+    // {{Create a new setting}}
     const newSetting = await this.settingService.create(
       tenantCode,
       createDto,
       { invokeContext }
     );
 
-    // Update a setting
+    // {{Update a setting}}
     const updated = await this.settingService.update(
       { pk, sk },
       updateDto,
       { invokeContext }
     );
 
-    // Delete a setting
+    // {{Delete a setting}}
     const deleted = await this.settingService.delete(
       { pk, sk },
       { invokeContext }
     );
 
-    // Check if a setting code exists
+    // {{Check if a setting code exists}}
     const exists = await this.settingService.checkExistSettingCode(
       tenantCode,
       code
@@ -186,36 +186,36 @@ export class MyService {
   constructor(private readonly dataSettingService: DataSettingService) {}
 
   async example() {
-    // List data settings (optionally filter by setting code)
+    // {{List data settings (optionally filter by setting code)}}
     const dataList = await this.dataSettingService.list(
       tenantCode,
       { settingCode: 'user-preferences' }
     );
 
-    // Get a specific data setting
+    // {{Get a specific data setting}}
     const data = await this.dataSettingService.get({ pk, sk });
 
-    // Create a new data setting
+    // {{Create a new data setting}}
     const newData = await this.dataSettingService.create(
       tenantCode,
       createDto,
       { invokeContext }
     );
 
-    // Update a data setting
+    // {{Update a data setting}}
     const updated = await this.dataSettingService.update(
       { pk, sk },
       updateDto,
       { invokeContext }
     );
 
-    // Delete a data setting
+    // {{Delete a data setting}}
     const deleted = await this.dataSettingService.delete(
       { pk, sk },
       { invokeContext }
     );
 
-    // Check if a data code exists
+    // {{Check if a data code exists}}
     const exists = await this.dataSettingService.checkExistCode(
       tenantCode,
       settingCode,

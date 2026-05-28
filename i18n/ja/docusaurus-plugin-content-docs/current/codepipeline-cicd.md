@@ -52,13 +52,13 @@ export class PipelineStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: PipelineStackProps) {
     super(scope, id, props);
 
-    // Source artifact
+    // ソースアーティファクト
     const sourceOutput = new codepipeline.Artifact();
 
-    // Build artifact
+    // ビルドアーティファクト
     const buildOutput = new codepipeline.Artifact();
 
-    // CodeBuild project
+    // CodeBuildプロジェクト
     const buildProject = new codebuild.PipelineProject(this, 'BuildProject', {
       environment: {
         buildImage: codebuild.LinuxBuildImage.STANDARD_7_0,
@@ -197,13 +197,13 @@ artifacts:
 ```typescript
 const pipeline = new codepipeline.Pipeline(this, 'Pipeline', {
   stages: [
-    // Source stage
+    // ソースステージ
     { stageName: 'Source', actions: [sourceAction] },
 
-    // Build stage
+    // ビルドステージ
     { stageName: 'Build', actions: [buildAction] },
 
-    // Deploy to Development
+    // 開発環境にデプロイ
     {
       stageName: 'Deploy_Dev',
       actions: [
@@ -216,7 +216,7 @@ const pipeline = new codepipeline.Pipeline(this, 'Pipeline', {
       ],
     },
 
-    // Manual Approval for Production
+    // 本番環境への手動承認
     {
       stageName: 'Approval',
       actions: [
@@ -227,7 +227,7 @@ const pipeline = new codepipeline.Pipeline(this, 'Pipeline', {
       ],
     },
 
-    // Deploy to Production
+    // 本番環境にデプロイ
     {
       stageName: 'Deploy_Prod',
       actions: [
@@ -285,7 +285,7 @@ new codepipeline_actions.CodeStarConnectionsSourceAction({
 ### ブランチ対応のCDKパイプライン
 
 ```typescript
-// Development pipeline (auto-deploy)
+// 開発パイプライン（自動デプロイ）
 new PipelineStack(app, 'DevPipeline', {
   repositoryName: 'your-app',
   branchName: 'develop',
@@ -293,7 +293,7 @@ new PipelineStack(app, 'DevPipeline', {
   autoApprove: true,
 });
 
-// Production pipeline (manual approval)
+// 本番パイプライン（手動承認）
 new PipelineStack(app, 'ProdPipeline', {
   repositoryName: 'your-app',
   branchName: 'main',

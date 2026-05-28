@@ -159,12 +159,12 @@ export class ProductService {
 import { client } from '@/services/sdk/client';
 import { fetchAuthSession } from 'aws-amplify/auth';
 
-// Configure the base URL
+// ベースURLを設定
 client.setConfig({
   baseUrl: process.env.NEXT_PUBLIC_API_URL,
 });
 
-// Add authentication interceptor
+// 認証インターセプターを追加
 client.interceptors.request.use(async (request) => {
   try {
     const session = await fetchAuthSession();
@@ -180,7 +180,7 @@ client.interceptors.request.use(async (request) => {
   return request;
 });
 
-// Add tenant header interceptor
+// テナントヘッダーインターセプターを追加
 client.interceptors.request.use((request) => {
   const tenantCode = getTenantFromStore(); // Get from Zustand store
   if (tenantCode) {
@@ -189,12 +189,12 @@ client.interceptors.request.use((request) => {
   return request;
 });
 
-// Add error handling interceptor
+// エラー処理インターセプターを追加
 client.interceptors.response.use((response) => {
   if (!response.ok) {
-    // Handle specific error codes
+    // 特定のエラーコードを処理
     if (response.status === 401) {
-      // Redirect to login
+      // ログインにリダイレクト
       window.location.href = '/login';
     }
   }
@@ -478,7 +478,7 @@ export function handleApiError(error: unknown): never {
   throw new ApiException(500, 'An unexpected error occurred');
 }
 
-// Usage in API wrapper
+// APIラッパーでの使用
 export const productApi = {
   async list(filters: ProductFilters = {}): Promise<ProductListResponse> {
     try {
@@ -717,7 +717,7 @@ function useUpdateProductWithVersion() {
   return {
     ...updateProduct,
     mutateAsync: async ({ pk, sk, dto }: UpdateParams) => {
-      // Get current version from cache
+      // キャッシュから現在のバージョンを取得
       const cached = queryClient.getQueryData<Product>(
         productKeys.detail(pk, sk)
       );
@@ -751,7 +751,7 @@ export const queryClient = new QueryClient({
     queries: {
       staleTime: 60 * 1000,
       retry: (failureCount, error) => {
-        // Don't retry on 4xx errors
+        // 4xxエラーではリトライしない
         if (error instanceof ApiException && error.statusCode < 500) {
           return false;
         }

@@ -365,7 +365,7 @@ import { Providers } from './providers';
 import { configureAmplify } from '@/lib/auth/amplify';
 import './globals.css';
 
-// Configure Amplify on the server
+// {{Configure Amplify on the server}}
 configureAmplify();
 
 export default function RootLayout({
@@ -436,7 +436,7 @@ export const config = {
 {{Solution: Mark components using hooks or browser APIs with 'use client'.}}
 
 ```typescript
-// Server Component (default)
+// {{Server Component (default)}}
 // src/app/(main)/products/page.tsx
 import { ProductList } from '@/containers/products/ProductList';
 
@@ -444,7 +444,7 @@ export default function ProductsPage() {
   return <ProductList />;
 }
 
-// Client Component
+// {{Client Component}}
 // src/containers/products/ProductList.tsx
 'use client';
 

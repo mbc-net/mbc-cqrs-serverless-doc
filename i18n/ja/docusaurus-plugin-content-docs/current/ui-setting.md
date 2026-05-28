@@ -78,33 +78,33 @@ export class MyService {
   constructor(private readonly settingService: SettingService) {}
 
   async example() {
-    // List all settings for a tenant
+    // テナントの全設定を一覧表示
     const settings = await this.settingService.list(tenantCode);
 
-    // Get a specific setting
+    // 特定の設定を取得
     const setting = await this.settingService.get({ pk, sk });
 
-    // Create a new setting
+    // 新しい設定を作成
     const newSetting = await this.settingService.create(
       tenantCode,
       createDto,
       { invokeContext }
     );
 
-    // Update a setting
+    // 設定を更新
     const updated = await this.settingService.update(
       { pk, sk },
       updateDto,
       { invokeContext }
     );
 
-    // Delete a setting
+    // 設定を削除
     const deleted = await this.settingService.delete(
       { pk, sk },
       { invokeContext }
     );
 
-    // Check if a setting code exists
+    // 設定コードの存在確認
     const exists = await this.settingService.checkExistSettingCode(
       tenantCode,
       code
@@ -186,36 +186,36 @@ export class MyService {
   constructor(private readonly dataSettingService: DataSettingService) {}
 
   async example() {
-    // List data settings (optionally filter by setting code)
+    // データ設定を一覧表示（オプションで設定コードでフィルタリング）
     const dataList = await this.dataSettingService.list(
       tenantCode,
       { settingCode: 'user-preferences' }
     );
 
-    // Get a specific data setting
+    // 特定のデータ設定を取得
     const data = await this.dataSettingService.get({ pk, sk });
 
-    // Create a new data setting
+    // 新しいデータ設定を作成
     const newData = await this.dataSettingService.create(
       tenantCode,
       createDto,
       { invokeContext }
     );
 
-    // Update a data setting
+    // データ設定を更新
     const updated = await this.dataSettingService.update(
       { pk, sk },
       updateDto,
       { invokeContext }
     );
 
-    // Delete a data setting
+    // データ設定を削除
     const deleted = await this.dataSettingService.delete(
       { pk, sk },
       { invokeContext }
     );
 
-    // Check if a data code exists
+    // データコードが存在するか確認
     const exists = await this.dataSettingService.checkExistCode(
       tenantCode,
       settingCode,

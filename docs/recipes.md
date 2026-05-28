@@ -21,7 +21,7 @@ description: {{Practical examples and implementation guides for common use cases
 ### {{1. Entity Design}}
 
 ```typescript
-// Define your entity with proper key structure
+// {{Define your entity with proper key structure}}
 export class OrderEntity extends BaseEntity {
   pk: string;           // TENANT#tenantCode
   sk: string;           // ORDER#orderId
@@ -63,7 +63,7 @@ async createOrder(dto: CreateOrderDto, context: IInvoke) {
 ### {{3. Query Pattern}}
 
 ```typescript
-// Query data with proper filtering
+// {{Query data with proper filtering}}
 async listOrders(tenantCode: string, options: ListOptions) {
   return this.dataService.listItemsByPk(
     `${tenantCode}#ORDER`,
@@ -78,11 +78,11 @@ async listOrders(tenantCode: string, options: ListOptions) {
 ### {{4. Event Handler}}
 
 ```typescript
-// Handle data sync events
+// {{Handle data sync events}}
 @EventHandler(OrderDataSyncEvent)
 export class OrderDataSyncHandler implements IEventHandler<OrderDataSyncEvent> {
   async execute(event: OrderDataSyncEvent): Promise<void> {
-    // Sync to read model (RDS, OpenSearch, etc.)
+    // {{Sync to read model (RDS, OpenSearch, etc.)}}
     await this.syncToReadModel(event.data);
   }
 }
@@ -106,7 +106,7 @@ try {
   await this.commandService.publishAsync(command, options);
 } catch (error) {
   if (error instanceof ConditionalCheckFailedException) {
-    // Handle optimistic locking conflict (version mismatch)
+    // {{Handle optimistic locking conflict (version mismatch)}}
     throw new ConflictException('Item was modified by another process');
   }
   throw error;

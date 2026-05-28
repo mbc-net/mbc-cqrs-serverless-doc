@@ -562,8 +562,8 @@ export class MasterDataSyncRdsHandler implements IDataSyncHandler {
     const sk = removeSortKeyVersion(cmd.sk);
     const attrs = cmd.attributes as MasterAttributes;
 
-    // Parse SK to extract type and code
-    // SK format: "SETTING#category#code" or "DATA#category#code"
+    // SKを解析してタイプとコードを抽出
+    // SKフォーマット: "SETTING#category#code" または "DATA#category#code"
     const skParts = sk.split(KEY_SEPARATOR);
 
     let masterType: string;
@@ -579,7 +579,7 @@ export class MasterDataSyncRdsHandler implements IDataSyncHandler {
       masterCategory = skParts[1] ?? "";
       masterCode = skParts[2] ?? "";
     } else {
-      // Skip unknown types
+      // 未知のタイプをスキップ
       return;
     }
 

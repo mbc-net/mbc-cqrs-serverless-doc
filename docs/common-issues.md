@@ -91,7 +91,7 @@ docker ps | grep dynamodb
 
 2. {{Check the endpoint URL in your configuration:}}
 ```typescript
-// Should be http://localhost:8000 for local development
+// {{Should be http://localhost:8000 for local development}}
 dynamodbEndpoint: 'http://localhost:8000'
 ```
 
@@ -227,7 +227,7 @@ npm run migrate
 - {{For production: Increase provisioned capacity or enable auto-scaling}}
 
 ```typescript
-// CDK configuration for on-demand
+// {{CDK configuration for on-demand}}
 const table = new dynamodb.Table(this, 'Table', {
   billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
 });
@@ -273,7 +273,7 @@ const handler = new lambda.Function(this, 'Handler', {
 
 1. {{Check bundling configuration:}}
 ```typescript
-// Ensure dependencies are bundled
+// {{Ensure dependencies are bundled}}
 const handler = new lambda_nodejs.NodejsFunction(this, 'Handler', {
   bundling: {
     externalModules: [], // Don't exclude anything
@@ -293,7 +293,7 @@ const handler = new lambda_nodejs.NodejsFunction(this, 'Handler', {
 
 1. {{Verify Cognito configuration:}}
 ```typescript
-// Check USER_POOL_ID and CLIENT_ID match
+// {{Check USER_POOL_ID and CLIENT_ID match}}
 COGNITO_USER_POOL_ID=ap-northeast-1_xxxxxx
 COGNITO_CLIENT_ID=xxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
@@ -344,7 +344,7 @@ aws lambda list-event-source-mappings --function-name your-function
 @EventHandler(YourEvent)
 export class YourEventHandler implements IEventHandler<YourEvent> {
   async execute(event: YourEvent): Promise<void> {
-    // Handler implementation
+    // {{Handler implementation}}
   }
 }
 ```
@@ -384,7 +384,7 @@ if (await this.isProcessed(idempotencyKey)) {
 
 2. {{Add error handling:}}
 ```typescript
-// Add retry and catch in state machine definition
+// {{Add retry and catch in state machine definition}}
 {
   "Retry": [
     {
