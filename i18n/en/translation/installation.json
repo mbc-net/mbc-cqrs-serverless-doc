@@ -63,5 +63,14 @@
   "Run `npm run offline:docker` to restart Docker services": "Run `npm run offline:docker` to restart Docker services",
   "Run `npm run offline:sls` to restart Serverless Offline": "Run `npm run offline:sls` to restart Serverless Offline",
   "The port configuration is automatically applied to all related services including Docker Compose, Serverless Offline, and the DynamoDB stream trigger script. You only need to set the environment variables once in your `.env` file.": "The port configuration is automatically applied to all related services including Docker Compose, Serverless Offline, and the DynamoDB stream trigger script. You only need to set the environment variables once in your `.env` file.",
-  "In the local environment, if you have trouble with the `npm run migrate` command or cannot log in with local Cognito, you will need to add more permissions to files and folders using the command below:": "In the local environment, if you have trouble with the `npm run migrate` command or cannot log in with local Cognito, you will need to add more permissions to files and folders using the command below:"
+  "In the local environment, if you have trouble with the `npm run migrate` command or cannot log in with local Cognito, you will need to add more permissions to files and folders using the command below:": "In the local environment, if you have trouble with the `npm run migrate` command or cannot log in with local Cognito, you will need to add more permissions to files and folders using the command below:",
+  "Related Documentation": "Related Documentation",
+  "Getting Started": "Getting Started",
+  "Introduction to MBC CQRS Serverless": "Introduction to MBC CQRS Serverless",
+  "Project Structure": "Project Structure",
+  "Understanding the generated project layout": "Understanding the generated project layout",
+  "Configuring": "Configuring",
+  "Configure modules for your application": "Configure modules for your application",
+  "CLI": "CLI",
+  "CLI commands for scaffolding": "CLI commands for scaffolding"
 }

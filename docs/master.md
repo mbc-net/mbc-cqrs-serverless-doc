@@ -696,3 +696,11 @@ const requestBody = {
 :::
 
 {{For versions prior to 1.1.2, implement a custom upsert service that checks for existing records before deciding whether to call create or update. See the [v1.1.1 documentation](https://github.com/mbc-net/mbc-cqrs-serverless/tree/v1.1.1) for the full legacy pattern.}}
+
+
+## {{Related Documentation}}
+
+- [{{Tenant}}](/docs/tenant) - {{Tenant management}}
+- [{{Configuring}}](/docs/configuring) - {{Sequence rotation settings}}
+- [{{Service Patterns}}](/docs/service-patterns) - {{Master data service patterns}}
+- [{{Master Web}}](/docs/master-web) - {{Frontend master data management}}

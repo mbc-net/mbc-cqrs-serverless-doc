@@ -155,3 +155,10 @@ describe('Independent Versioning', () => {
 3. 競合を処理するための適切なリトライ戦略を使用する
 4. リトライには指数バックオフを実装することを検討する
 5. APIドキュメントにバージョン管理を記載する
+
+
+## Related Documentation
+
+- [Command Service](/docs/command-service) - バージョン処理を伴うpublishSync
+- [Error Catalog](/docs/error-catalog) - バージョン競合エラー
+- [Service Patterns](/docs/service-patterns) - 楽観的ロックパターン

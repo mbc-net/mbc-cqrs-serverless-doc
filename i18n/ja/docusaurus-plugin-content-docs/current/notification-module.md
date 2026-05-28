@@ -554,3 +554,11 @@ await this.emailService.sendEmail(email);
 
 - [イベントハンドリングパターン](/docs/event-handling-patterns) - 通知がイベントとどのように統合されるか
 - [環境変数](/docs/environment-variables) - 設定リファレンス
+
+
+## Related Documentation
+
+- [Email Service](/docs/email-service) - SESメール送信
+- [イベントハンドリングパターン](/docs/event-handling-patterns) - 通知がイベントとどのように統合されるか
+- [環境変数](/docs/environment-variables) - AppSyncとSESの設定
+- [Queue](/docs/queue) - 通知キューイングのSQS

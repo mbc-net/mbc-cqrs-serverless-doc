@@ -144,5 +144,12 @@
   "Clear description of the problem": "問題の明確な説明",
   "Steps to reproduce": "再現手順",
   "Error messages and logs": "エラーメッセージとログ",
-  "Environment details (Node version, OS, etc.)": "環境の詳細（Nodeバージョン、OSなど）"
+  "Environment details (Node version, OS, etc.)": "環境の詳細（Nodeバージョン、OSなど）",
+  "Related Documentation": "",
+  "Debugging Guide": "",
+  "Detailed debugging procedures": "詳細なデバッグ手順",
+  "Error Catalog": "",
+  "Error codes and solutions": "",
+  "Monitoring and Logging": "",
+  "Production monitoring setup": "本番監視の設定"
 }

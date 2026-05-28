@@ -78,5 +78,12 @@
   "First, we have to define:": "まずはじめに定義しなければいけないもの",
   "a class with validation constraints,": "検証制約のあるクラス",
   "extend the EnvironmentVariables class.": "EnvironmentVariables 拡張クラス",
-  "With this in place, you pass the `EnvValidation` class as a configuration argument of the `createHandler` function, as follows:": "これを配置したら、次のように `EnvValidation` クラスを `createHandler` 関数の構成引数として渡します。"
+  "With this in place, you pass the `EnvValidation` class as a configuration argument of the `createHandler` function, as follows:": "これを配置したら、次のように `EnvValidation` クラスを `createHandler` 関数の構成引数として渡します。",
+  "Related Documentation": "",
+  "Configuring": "",
+  "Module-level configuration options": "モジュールレベルの設定オプション",
+  "Deployment Guide": "",
+  "Deployment environment setup": "",
+  "Installation": "",
+  "Initial environment setup": ""
 }

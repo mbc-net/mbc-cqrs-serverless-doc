@@ -182,5 +182,11 @@
   "Event Handling Patterns": "Event Handling Patterns",
   "How notifications integrate with events": "How notifications integrate with events",
   "Environment Variables": "Environment Variables",
-  "Configuration reference": "Configuration reference"
+  "Configuration reference": "Configuration reference",
+  "Related Documentation": "Related Documentation",
+  "Email Service": "Email Service",
+  "SES email sending": "SES email sending",
+  "AppSync and SES configuration": "AppSync and SES configuration",
+  "Queue": "Queue",
+  "SQS for notification queuing": "SQS for notification queuing"
 }

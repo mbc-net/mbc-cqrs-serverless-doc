@@ -144,5 +144,12 @@
   "Clear description of the problem": "Clear description of the problem",
   "Steps to reproduce": "Steps to reproduce",
   "Error messages and logs": "Error messages and logs",
-  "Environment details (Node version, OS, etc.)": "Environment details (Node version, OS, etc.)"
+  "Environment details (Node version, OS, etc.)": "Environment details (Node version, OS, etc.)",
+  "Related Documentation": "Related Documentation",
+  "Debugging Guide": "Debugging Guide",
+  "Detailed debugging procedures": "Detailed debugging procedures",
+  "Error Catalog": "Error Catalog",
+  "Error codes and solutions": "Error codes and solutions",
+  "Monitoring and Logging": "Monitoring and Logging",
+  "Production monitoring setup": "Production monitoring setup"
 }

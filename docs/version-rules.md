@@ -155,3 +155,10 @@ describe('Independent Versioning', () => {
 {{3. Use appropriate retry strategies for handling conflicts}}
 {{4. Consider implementing exponential backoff for retries}}
 {{5. Document version handling in your API documentation}}
+
+
+## {{Related Documentation}}
+
+- [{{Command Service}}](/docs/command-service) - {{publishSync with version handling}}
+- [{{Error Catalog}}](/docs/error-catalog) - {{Version conflict errors}}
+- [{{Service Patterns}}](/docs/service-patterns) - {{Optimistic locking patterns}}

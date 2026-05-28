@@ -191,5 +191,12 @@
   "CLI Tool": "CLIツール",
   "CLI tool for code generation": "コード生成用CLIツール",
   "API Reference": "APIリファレンス",
-  "Detailed API documentation": "詳細なAPIドキュメント"
+  "Detailed API documentation": "詳細なAPIドキュメント",
+  "Related Documentation": "",
+  "AI Integration": "",
+  "Overview of AI tool support": "AIツールサポートの概要",
+  "AI Prompts Library": "",
+  "Optimized prompts for common tasks": "よく使うタスクに最適化されたプロンプト",
+  "CLI": "",
+  "MBC CLI code generation tool": "MBC CLIコード生成ツール"
 }

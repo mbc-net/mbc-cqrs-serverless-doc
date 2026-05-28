@@ -119,3 +119,10 @@ await this.sqsService.deleteMessageBatch(queueUrl, [
   { Id: '2', ReceiptHandle: messages[1].ReceiptHandle! },
 ])
 ```
+
+
+## {{Related Documentation}}
+
+- [{{Notification Module}}](/docs/notification-module) - {{Real-time notifications with AppSync}}
+- [{{Event Handling Patterns}}](/docs/event-handling-patterns) - {{Event-driven architecture}}
+- [{{Interfaces}}](/docs/interfaces) - {{SQS message interfaces}}

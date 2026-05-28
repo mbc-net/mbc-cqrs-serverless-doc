@@ -65,5 +65,14 @@
   "Custom logic for tenant override permission": "Custom logic for tenant override permission",
   "Allow specific users to override tenant": "Allow specific users to override tenant",
   "Regional managers can only access tenants in their region": "Regional managers can only access tenants in their region",
-  "Custom logic to verify regional access": "Custom logic to verify regional access"
+  "Custom logic to verify regional access": "Custom logic to verify regional access",
+  "Related Documentation": "Related Documentation",
+  "Security Best Practices": "Security Best Practices",
+  "Security implementation guidelines": "Security implementation guidelines",
+  "Multi-Tenant Patterns": "Multi-Tenant Patterns",
+  "Tenant-based access control": "Tenant-based access control",
+  "Controllers": "Controllers",
+  "Authentication decorators for controllers": "Authentication decorators for controllers",
+  "Environment Variables": "Environment Variables",
+  "Cognito configuration variables": "Cognito configuration variables"
 }

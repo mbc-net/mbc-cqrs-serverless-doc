@@ -696,3 +696,11 @@ upsertメソッドは以下のルールに従います：
 :::
 
 バージョン1.1.2より前では、既存レコードを確認してから create か update かを決定するカスタム upsert サービスを実装する必要がありました。完全なレガシーパターンは [v1.1.1 ドキュメント](https://github.com/mbc-net/mbc-cqrs-serverless/tree/v1.1.1)を参照してください。
+
+
+## Related Documentation
+
+- [テナント](/docs/tenant) - テナント管理
+- [Configuring](/docs/configuring) - シーケンスローテーション設定
+- [Service Patterns](/docs/service-patterns) - マスターデータサービスパターン
+- [Master Web](/docs/master-web) - フロントエンドのマスターデータ管理

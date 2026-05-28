@@ -29,5 +29,12 @@
   "Long polling": "ロングポーリング",
   "Deletes a single message from the queue after processing.": "処理後にキューから単一メッセージを削除します。",
   "Process message...": "メッセージを処理...",
-  "Deletes up to 10 messages in a single API call.": "1回のAPIコールで最大10件のメッセージを削除します。"
+  "Deletes up to 10 messages in a single API call.": "1回のAPIコールで最大10件のメッセージを削除します。",
+  "Related Documentation": "",
+  "Notification Module": "",
+  "Real-time notifications with AppSync": "",
+  "Event Handling Patterns": "",
+  "Event-driven architecture": "",
+  "Interfaces": "",
+  "SQS message interfaces": "SQSメッセージインターフェース"
 }

@@ -58,5 +58,12 @@
   "See Also": "See Also",
   "[Environment Variables](/docs/environment-variables) - Environment configuration": "[Environment Variables](/docs/environment-variables) - Environment configuration",
   "[Absolute Imports](/docs/absolute_imports_and_module_path_aliases) - Path aliases": "[Absolute Imports](/docs/absolute_imports_and_module_path_aliases) - Path aliases",
-  "[Deployment Guide](/docs/deployment-guide) - Deployment configuration": "[Deployment Guide](/docs/deployment-guide) - Deployment configuration"
+  "[Deployment Guide](/docs/deployment-guide) - Deployment configuration": "[Deployment Guide](/docs/deployment-guide) - Deployment configuration",
+  "Related Documentation": "Related Documentation",
+  "Environment Variables": "Environment Variables",
+  "All available environment variables": "All available environment variables",
+  "Modules": "Modules",
+  "Module configuration and registration": "Module configuration and registration",
+  "Deployment Guide": "Deployment Guide",
+  "Configure for production": "Configure for production"
 }
