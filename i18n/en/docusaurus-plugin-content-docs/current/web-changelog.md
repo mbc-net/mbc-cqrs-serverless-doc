@@ -281,6 +281,13 @@ For backend framework changes, see [Changelog](/docs/changelog).
 
 ---
 
+
+## Related Documentation
+
+- [Master Web](/docs/master-web) - Master data frontend documentation
+- [Survey Web](/docs/survey-web) - Survey frontend documentation
+- [Frontend Project Structure](/docs/frontend-project-structure) - Frontend project organization
+
 ## Related Links
 
 - [GitHub Repository](https://github.com/mbc-net/mbc-cqrs-serverless-web)

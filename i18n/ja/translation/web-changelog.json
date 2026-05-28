@@ -79,6 +79,13 @@
   "Resolve dependency conflicts in package-lock.json": "package-lock.jsonの依存関係の競合を解消",
   "Resolve picomatch dependency conflicts using npm overrides": "npm overridesを使用してpicomatchの依存関係の競合を解消",
   "Correct version numbering and improve Lerna workflow": "バージョン番号の修正とLernaワークフローの改善",
+  "Related Documentation": "関連ドキュメント",
+  "Master Web": "マスターWeb",
+  "Master data frontend documentation": "マスターデータのフロントエンドドキュメント",
+  "Survey Web": "アンケートWeb",
+  "Survey frontend documentation": "アンケートのフロントエンドドキュメント",
+  "Frontend Project Structure": "フロントエンドプロジェクト構成",
+  "Frontend project organization": "フロントエンドプロジェクトの構成",
   "Related Links": "関連リンク",
   "Master Web Documentation": "マスターWebドキュメント",
   "Survey Web Documentation": "サーベイWebドキュメント"
