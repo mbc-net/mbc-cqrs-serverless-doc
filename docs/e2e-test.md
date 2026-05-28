@@ -227,9 +227,9 @@ export { retry, sleep, syncDataFinished };
 
 3. {{Docker Container Health Checks}}:
 
-{{Docker コンテナのヘルスチェックは、コンテナの状態を監視するために重要です。ヘルスチェックの設定には、以下の2つのコンテキストを考慮する必要があります：}}
+{{Docker container health checks are important for monitoring container status. When configuring health checks, consider the following two contexts:}}
 
-a) {{Docker コンテナ内部からのヘルスチェック}}:
+a) {{Health check from inside Docker container}}:
 ```yaml
 services:
   dynamodb-local:
@@ -241,7 +241,7 @@ services:
       start_period: 15s
 ```
 
-b) {{GitHub Actions ワークフローからのヘルスチェック}}:
+b) {{Health check from GitHub Actions workflow}}:
 ```yaml
 steps:
   - name: Wait for DynamoDB
@@ -263,15 +263,15 @@ steps:
       done
 ```
 
-{{注意:}}
-- {{Docker コンテナ内部では、サービス名（例：dynamodb-local）を使用してサービスにアクセスします}}
-- {{GitHub Actions のワークフローステップでは localhost を使用します（ポートフォワーディングにより）}}
-- {{より堅牢なヘルスチェックのために、単純な接続チェック（nc コマンド）ではなく、実際の API コールを使用することを推奨します}}
-- {{ネットワークの問題が発生した場合は、以下を確認してください：}}
-  - {{Docker Compose のネットワーク設定}}
-  - {{ポートマッピングの設定}}
-  - {{コンテナ間の名前解決}}
-  - {{GitHub Actions ランナーの環境変数}}
+{{Notes:}}
+- {{Inside Docker containers, use service names (e.g., dynamodb-local) to access services}}
+- {{In GitHub Actions workflow steps, use localhost (via port forwarding)}}
+- {{For more robust health checks, use actual API calls instead of simple connection checks (nc command)}}
+- {{If network issues occur, check the following:}}
+  - {{Docker Compose network settings}}
+  - {{Port mapping configuration}}
+  - {{Container name resolution}}
+  - {{GitHub Actions runner environment variables}}
 
 ### {{Service Configuration}}
 
