@@ -1,19 +1,29 @@
 {
   "latest": {
-    "version": "1.2.6",
-    "date": "2026-05-06",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.6",
+    "version": "1.3.0",
+    "date": "2026-05-21",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.0",
     "features": [
-      "Repository Read-Your-Writes (RYW) improvements — proactively purge stale RYW sessions when the data table catches up to or surpasses the session version, eliminating \"stale override\" reads",
-      "Add AP021 anti-pattern detector — `Event Emit Directly After publishAsync in CommandService` (Severity: High)",
-      "Add cross-reference table mapping detector AP codes (`analyze.ts`) to skill-doc AP codes (`skills/mbc-review/SKILL.md`) — the two systems use independent numbering and only AP016–AP019 and AP021 share codes"
+      "Add `AppSyncEventsService` — opt-in HTTP pub/sub transport for real-time notifications via AWS AppSync Events API",
+      "CDK infra template: add `appsyncEvents` and `notificationTransports` to `Config` type — provisions `EventApi` + `ChannelNamespace`, injects `NOTIFICATION_TRANSPORTS`, `APPSYNC_EVENTS_ENDPOINT`, and `APPSYNC_EVENTS_NAMESPACE` into Lambda and ECS, and grants `appsync:EventPublish` IAM permission via `grantPublish()` automatically",
+      "Update skills and analyzer for v1.3.0"
     ],
-    "bugFixes": [
-      "`server.ts` was hardcoding the package version, which silently drifted on every `lerna version` bump. Now read at runtime from `package.json`"
-    ],
+    "bugFixes": [],
     "security": []
   },
   "recent": [
+    {
+      "version": "1.3.0",
+      "date": "2026-05-21",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.0",
+      "features": [
+        "Add `AppSyncEventsService` — opt-in HTTP pub/sub transport for real-time notifications via AWS AppSync Events API",
+        "CDK infra template: add `appsyncEvents` and `notificationTransports` to `Config` type — provisions `EventApi` + `ChannelNamespace`, injects `NOTIFICATION_TRANSPORTS`, `APPSYNC_EVENTS_ENDPOINT`, and `APPSYNC_EVENTS_NAMESPACE` into Lambda and ECS, and grants `appsync:EventPublish` IAM permission via `grantPublish()` automatically",
+        "Update skills and analyzer for v1.3.0"
+      ],
+      "bugFixes": [],
+      "security": []
+    },
     {
       "version": "1.2.6",
       "date": "2026-05-06",
@@ -50,18 +60,7 @@
         "Fix `ImportQueueEventHandler` passing raw SQS payload instead of parsed `importEvent` to `SingleImportProcessor`"
       ],
       "security": []
-    },
-    {
-      "version": "1.2.1",
-      "date": "2026-04-06",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.1",
-      "features": [
-        "Add `SqsService` and `SqsClientFactory` for SQS message operations",
-        "Refactor `SnsClientFactory` to use a singleton `SNSClient` instance"
-      ],
-      "bugFixes": [],
-      "security": []
     }
   ],
-  "generated": "2026-05-06T06:00:31.004Z"
+  "generated": "2026-05-29T14:36:11.975Z"
 }
