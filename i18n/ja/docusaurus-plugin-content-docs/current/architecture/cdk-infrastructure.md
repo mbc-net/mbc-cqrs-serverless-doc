@@ -158,7 +158,7 @@ flowchart LR
 ```typescript
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 
-// Create User Pool
+// ユーザープールを作成
 const userPool = new cognito.UserPool(this, 'UserPool', {
   userPoolName: `${env}-${appName}-user-pool`,
   selfSignUpEnabled: false,
@@ -184,7 +184,7 @@ const userPool = new cognito.UserPool(this, 'UserPool', {
   },
 });
 
-// Create User Pool Client
+// ユーザープールクライアントを作成
 const userPoolClient = userPool.addClient('UserPoolClient', {
   authFlows: {
     userPassword: true,
@@ -223,7 +223,7 @@ import * as apigatewayv2 from 'aws-cdk-lib/aws-apigatewayv2';
 import * as apigatewayv2Integrations from 'aws-cdk-lib/aws-apigatewayv2-integrations';
 import * as apigatewayv2Authorizers from 'aws-cdk-lib/aws-apigatewayv2-authorizers';
 
-// Create HTTP API
+// HTTP APIを作成
 const httpApi = new apigatewayv2.HttpApi(this, 'HttpApi', {
   apiName: `${env}-${appName}-api`,
   corsPreflight: {
@@ -234,27 +234,27 @@ const httpApi = new apigatewayv2.HttpApi(this, 'HttpApi', {
   },
 });
 
-// Lambda integration
+// Lambda統合
 const lambdaIntegration = new apigatewayv2Integrations.HttpLambdaIntegration(
   'LambdaIntegration',
   lambdaFunction
 );
 
-// Cognito authorizer
+// Cognitoオーソライザー
 const cognitoAuthorizer = new apigatewayv2Authorizers.HttpUserPoolAuthorizer(
   'CognitoAuthorizer',
   userPool,
   { userPoolClients: [userPoolClient] }
 );
 
-// Public health check route
+// パブリックヘルスチェックルート
 httpApi.addRoutes({
   path: '/',
   methods: [apigatewayv2.HttpMethod.GET],
   integration: lambdaIntegration,
 });
 
-// Protected API routes
+// 保護されたAPIルート
 httpApi.addRoutes({
   path: '/{proxy+}',
   methods: [
@@ -278,7 +278,7 @@ httpApi.addRoutes({
 ```typescript
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 
-// Create Lambda Layer for dependencies
+// 依存関係用のLambdaレイヤーを作成
 const lambdaLayer = new lambda.LayerVersion(this, 'MainLayer', {
   layerVersionName: `${env}-${appName}-main-layer`,
   code: lambda.Code.fromAsset('dist_layer'),
@@ -286,7 +286,7 @@ const lambdaLayer = new lambda.LayerVersion(this, 'MainLayer', {
   compatibleArchitectures: [lambda.Architecture.ARM_64],
 });
 
-// Create Lambda Function
+// Lambda関数を作成
 const lambdaFunction = new lambda.Function(this, 'LambdaApi', {
   functionName: `${env}-${appName}-lambda-api`,
   runtime: lambda.Runtime.NODEJS_20_X,
@@ -352,7 +352,7 @@ import * as sns from 'aws-cdk-lib/aws-sns';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
 import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions';
 
-// Create SNS Topics
+// SNSトピックを作成
 const mainSnsTopic = new sns.Topic(this, 'MainSnsTopic', {
   topicName: `${env}-${appName}-main-sns`,
 });
@@ -361,12 +361,12 @@ const alarmSnsTopic = new sns.Topic(this, 'AlarmSnsTopic', {
   topicName: `${env}-${appName}-alarm-sns`,
 });
 
-// Create Dead Letter Queue
+// デッドレターキューを作成
 const taskDlq = new sqs.Queue(this, 'TaskDLQ', {
   queueName: `${env}-${appName}-task-dead-letter-queue`,
 });
 
-// Create Task Queue with DLQ
+// DLQ付きタスクキューを作成
 const taskQueue = new sqs.Queue(this, 'TaskQueue', {
   queueName: `${env}-${appName}-task-action-queue`,
   deadLetterQueue: {
@@ -375,17 +375,17 @@ const taskQueue = new sqs.Queue(this, 'TaskQueue', {
   },
 });
 
-// Create Notification Queue
+// 通知キューを作成
 const notificationQueue = new sqs.Queue(this, 'NotificationQueue', {
   queueName: `${env}-${appName}-notification-queue`,
 });
 
-// Create Import Queue
+// インポートキューを作成
 const importQueue = new sqs.Queue(this, 'ImportQueue', {
   queueName: `${env}-${appName}-import-action-queue`,
 });
 
-// Subscribe queues with message filtering
+// メッセージフィルタリングでキューをサブスクライブ
 mainSnsTopic.addSubscription(
   new subscriptions.SqsSubscription(taskQueue, {
     filterPolicy: {
@@ -427,7 +427,7 @@ mainSnsTopic.addSubscription(
 ```typescript
 import * as s3 from 'aws-cdk-lib/aws-s3';
 
-// DynamoDB attributes bucket
+// DynamoDB属性バケット
 const ddbBucket = new s3.Bucket(this, 'DdbAttributesBucket', {
   bucketName: `${env}-${appName}-ddb-attributes`,
   versioned: false,
@@ -447,7 +447,7 @@ const ddbBucket = new s3.Bucket(this, 'DdbAttributesBucket', {
   ],
 });
 
-// Public assets bucket
+// パブリックアセットバケット
 const publicBucket = new s3.Bucket(this, 'PublicBucket', {
   bucketName: `${env}-${appName}-public`,
   versioned: false,
@@ -455,7 +455,7 @@ const publicBucket = new s3.Bucket(this, 'PublicBucket', {
   removalPolicy: cdk.RemovalPolicy.DESTROY,
 });
 
-// Grant Lambda access
+// Lambdaアクセスを付与
 ddbBucket.grantReadWrite(lambdaFunction);
 publicBucket.grantReadWrite(lambdaFunction);
 ```
@@ -470,11 +470,11 @@ publicBucket.grantReadWrite(lambdaFunction);
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 
-// Origin Access Identity for S3
+// S3用オリジンアクセスアイデンティティ
 const oai = new cloudfront.OriginAccessIdentity(this, 'OAI');
 publicBucket.grantRead(oai);
 
-// Static assets distribution
+// 静的アセットディストリビューション
 const staticDistribution = new cloudfront.Distribution(this, 'StaticDistribution', {
   defaultBehavior: {
     origin: new origins.S3Origin(publicBucket, {
@@ -488,7 +488,7 @@ const staticDistribution = new cloudfront.Distribution(this, 'StaticDistribution
   geoRestriction: cloudfront.GeoRestriction.allowlist('JP', 'VN'),
 });
 
-// API distribution
+// APIディストリビューション
 const apiDistribution = new cloudfront.Distribution(this, 'ApiDistribution', {
   defaultBehavior: {
     origin: new origins.HttpOrigin(httpApiDomain, {
@@ -516,7 +516,7 @@ const apiDistribution = new cloudfront.Distribution(this, 'ApiDistribution', {
 ```typescript
 import * as appsync from 'aws-cdk-lib/aws-appsync';
 
-// Create AppSync API
+// AppSync APIを作成
 const graphqlApi = new appsync.GraphqlApi(this, 'GraphqlApi', {
   name: `${env}-${appName}-realtime`,
   definition: appsync.Definition.fromFile('asset/schema.graphql'),
@@ -538,10 +538,10 @@ const graphqlApi = new appsync.GraphqlApi(this, 'GraphqlApi', {
   xrayEnabled: true,
 });
 
-// None data source for local resolvers
+// ローカルリゾルバー用Noneデータソース
 const noneDataSource = graphqlApi.addNoneDataSource('NoneDataSource');
 
-// Mutation resolver
+// ミューテーションリゾルバー
 noneDataSource.createResolver('SendMessageResolver', {
   typeName: 'Mutation',
   fieldName: 'sendMessage',
@@ -595,7 +595,7 @@ flowchart TB
 import * as sfn from 'aws-cdk-lib/aws-stepfunctions';
 import * as tasks from 'aws-cdk-lib/aws-stepfunctions-tasks';
 
-// Helper function to create Lambda invoke tasks
+// Lambda呼び出しタスクを作成するヘルパー関数
 const createLambdaTask = (
   stateName: string,
   integrationPattern: sfn.IntegrationPattern = sfn.IntegrationPattern.REQUEST_RESPONSE
@@ -620,7 +620,7 @@ const createLambdaTask = (
   });
 };
 
-// Define states
+// ステートを定義
 const fail = new sfn.Fail(this, 'fail', {
   stateName: 'fail',
   causePath: '$.cause',
@@ -633,7 +633,7 @@ const success = new sfn.Succeed(this, 'success', {
 
 const finish = createLambdaTask('finish').next(success);
 
-// Map state for parallel data sync
+// 並列データ同期のマップステート
 const syncData = createLambdaTask('sync_data');
 const syncDataAll = new sfn.Map(this, 'sync_data_all', {
   stateName: 'sync_data_all',
@@ -647,13 +647,13 @@ const transformData = createLambdaTask('transform_data').next(syncDataAll);
 const historyCopy = createLambdaTask('history_copy').next(transformData);
 const setTtlCommand = createLambdaTask('set_ttl_command').next(historyCopy);
 
-// Callback pattern for async waiting
+// 非同期待機のコールバックパターン
 const waitPrevCommand = createLambdaTask(
   'wait_prev_command',
   sfn.IntegrationPattern.WAIT_FOR_TASK_TOKEN
 ).next(setTtlCommand);
 
-// Version check choice
+// バージョンチェックの選択
 const checkVersionResult = new sfn.Choice(this, 'check_version_result')
   .when(sfn.Condition.numberEquals('$.result', 0), setTtlCommand)
   .when(sfn.Condition.numberEquals('$.result', 1), waitPrevCommand)
@@ -662,14 +662,14 @@ const checkVersionResult = new sfn.Choice(this, 'check_version_result')
 
 const checkVersion = createLambdaTask('check_version').next(checkVersionResult);
 
-// Create log group
+// ロググループを作成
 const commandSfnLogGroup = new logs.LogGroup(this, 'CommandSfnLogGroup', {
   logGroupName: `/aws/vendedlogs/states/${prefix}-command-handler-logs`,
   removalPolicy: cdk.RemovalPolicy.DESTROY,
   retention: logs.RetentionDays.SIX_MONTHS,
 });
 
-// Create state machine
+// ステートマシンを作成
 const commandStateMachine = new sfn.StateMachine(this, 'CommandStateMachine', {
   stateMachineName: `${prefix}command-handler`,
   definitionBody: sfn.DefinitionBody.fromChainable(checkVersion),
@@ -690,11 +690,11 @@ DynamoDB StreamsをLambdaトリガーとして設定：
 ```typescript
 import * as lambdaEventSources from 'aws-cdk-lib/aws-lambda-event-sources';
 
-// Tables to monitor for changes
+// 変更を監視するテーブル
 const tableNames = ['tasks', 'sample-command', 'import_tmp'];
 
 for (const tableName of tableNames) {
-  // Lookup existing table
+  // 既存テーブルを検索
   const tableDesc = new cdk.custom_resources.AwsCustomResource(
     this,
     `${tableName}-desc`,
@@ -718,7 +718,7 @@ for (const tableName of tableNames) {
     tableStreamArn: tableDesc.getResponseField('Table.LatestStreamArn'),
   });
 
-  // Add event source with INSERT filter
+  // INSERTフィルターでイベントソースを追加
   lambdaFunction.addEventSource(
     new lambdaEventSources.DynamoEventSource(table, {
       startingPosition: lambda.StartingPosition.TRIM_HORIZON,
@@ -861,7 +861,7 @@ flowchart TB
 **CDK実装:**
 
 ```typescript
-// Cognito permissions
+// Cognito権限
 lambdaFunction.addToRolePolicy(
   new iam.PolicyStatement({
     actions: [
@@ -879,7 +879,7 @@ lambdaFunction.addToRolePolicy(
   })
 );
 
-// DynamoDB permissions
+// DynamoDB権限
 lambdaFunction.addToRolePolicy(
   new iam.PolicyStatement({
     actions: [
@@ -892,7 +892,7 @@ lambdaFunction.addToRolePolicy(
   })
 );
 
-// Step Functions permissions
+// Step Functions権限
 lambdaFunction.addToRolePolicy(
   new iam.PolicyStatement({
     actions: [
@@ -904,7 +904,7 @@ lambdaFunction.addToRolePolicy(
   })
 );
 
-// SES permissions
+// SES権限
 lambdaFunction.addToRolePolicy(
   new iam.PolicyStatement({
     actions: ['ses:SendEmail'],
@@ -912,7 +912,7 @@ lambdaFunction.addToRolePolicy(
   })
 );
 
-// Grant S3, SNS, SQS access
+// S3、SNS、SQSアクセスを付与
 ddbBucket.grantReadWrite(lambdaFunction);
 publicBucket.grantReadWrite(lambdaFunction);
 mainSnsTopic.grantPublish(lambdaFunction);
