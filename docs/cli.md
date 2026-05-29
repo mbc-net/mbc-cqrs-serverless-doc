@@ -42,19 +42,28 @@ mbc -h
 {{The output should look like this:}}
 
 ```bash
-Usage: mbc [options] [command]
+Usage: mbc <command> [options]
 
 Options:
-  -V, --version           output the version number
-  -h, --help              display help for command
+  -v, --version                            Output the current version.
+  -h, --help                               Output usage information.
 
 Commands:
-  new|n [name]            Generate a new CQRS application using the MBC CQRS
-                          serverless framework
-  generate|g <schematic>  Generate a MBC-cqrs-serverless element
-  start|s                 Start application with serverless framework
-  ui-common|ui [options]  add mbc-cqrs-ui-common components to your project
-  help [command]          display help for command
+  new|n [name]                             Generate a new CQRS application using the MBC CQRS serverless framework
+  start|s                                  Start application with serverless framework
+  ui-common|ui [options]                   Add mbc-cqrs-ui-common components to your project.
+  generate|g [options] <schematic> [name]  Generate a MBC-cqrs-serverless element.
+    Schematics available on the collection:
+      ┌────────────┬───────┬──────────────────────┐
+      │ name       │ alias │ description          │
+      │ module     │ mo    │ Create a module.     │
+      │ controller │ co    │ Create a controller. │
+      │ service    │ se    │ Create a service.    │
+      │ entity     │ en    │ Create an entity.    │
+      │ dto        │ dto   │ Create a DTO.        │
+      └────────────┴───────┴──────────────────────┘
+  install-skills|skills [options]          Install Claude Code skills for MBC CQRS Serverless development
+  help [command]                           display help for command
 ```
 
 ## {{new Command}}
