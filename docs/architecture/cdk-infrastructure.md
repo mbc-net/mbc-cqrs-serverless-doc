@@ -158,7 +158,7 @@ flowchart LR
 ```typescript
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 
-// Create User Pool
+// {{Create User Pool}}
 const userPool = new cognito.UserPool(this, 'UserPool', {
   userPoolName: `${env}-${appName}-user-pool`,
   selfSignUpEnabled: false,
@@ -184,7 +184,7 @@ const userPool = new cognito.UserPool(this, 'UserPool', {
   },
 });
 
-// Create User Pool Client
+// {{Create User Pool Client}}
 const userPoolClient = userPool.addClient('UserPoolClient', {
   authFlows: {
     userPassword: true,
@@ -223,7 +223,7 @@ import * as apigatewayv2 from 'aws-cdk-lib/aws-apigatewayv2';
 import * as apigatewayv2Integrations from 'aws-cdk-lib/aws-apigatewayv2-integrations';
 import * as apigatewayv2Authorizers from 'aws-cdk-lib/aws-apigatewayv2-authorizers';
 
-// Create HTTP API
+// {{Create HTTP API}}
 const httpApi = new apigatewayv2.HttpApi(this, 'HttpApi', {
   apiName: `${env}-${appName}-api`,
   corsPreflight: {
@@ -234,27 +234,27 @@ const httpApi = new apigatewayv2.HttpApi(this, 'HttpApi', {
   },
 });
 
-// Lambda integration
+// {{Lambda integration}}
 const lambdaIntegration = new apigatewayv2Integrations.HttpLambdaIntegration(
   'LambdaIntegration',
   lambdaFunction
 );
 
-// Cognito authorizer
+// {{Cognito authorizer}}
 const cognitoAuthorizer = new apigatewayv2Authorizers.HttpUserPoolAuthorizer(
   'CognitoAuthorizer',
   userPool,
   { userPoolClients: [userPoolClient] }
 );
 
-// Public health check route
+// {{Public health check route}}
 httpApi.addRoutes({
   path: '/',
   methods: [apigatewayv2.HttpMethod.GET],
   integration: lambdaIntegration,
 });
 
-// Protected API routes
+// {{Protected API routes}}
 httpApi.addRoutes({
   path: '/{proxy+}',
   methods: [
@@ -278,7 +278,7 @@ httpApi.addRoutes({
 ```typescript
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 
-// Create Lambda Layer for dependencies
+// {{Create Lambda Layer for dependencies}}
 const lambdaLayer = new lambda.LayerVersion(this, 'MainLayer', {
   layerVersionName: `${env}-${appName}-main-layer`,
   code: lambda.Code.fromAsset('dist_layer'),
@@ -286,7 +286,7 @@ const lambdaLayer = new lambda.LayerVersion(this, 'MainLayer', {
   compatibleArchitectures: [lambda.Architecture.ARM_64],
 });
 
-// Create Lambda Function
+// {{Create Lambda Function}}
 const lambdaFunction = new lambda.Function(this, 'LambdaApi', {
   functionName: `${env}-${appName}-lambda-api`,
   runtime: lambda.Runtime.NODEJS_20_X,
@@ -352,7 +352,7 @@ import * as sns from 'aws-cdk-lib/aws-sns';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
 import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions';
 
-// Create SNS Topics
+// {{Create SNS Topics}}
 const mainSnsTopic = new sns.Topic(this, 'MainSnsTopic', {
   topicName: `${env}-${appName}-main-sns`,
 });
@@ -361,12 +361,12 @@ const alarmSnsTopic = new sns.Topic(this, 'AlarmSnsTopic', {
   topicName: `${env}-${appName}-alarm-sns`,
 });
 
-// Create Dead Letter Queue
+// {{Create Dead Letter Queue}}
 const taskDlq = new sqs.Queue(this, 'TaskDLQ', {
   queueName: `${env}-${appName}-task-dead-letter-queue`,
 });
 
-// Create Task Queue with DLQ
+// {{Create Task Queue with DLQ}}
 const taskQueue = new sqs.Queue(this, 'TaskQueue', {
   queueName: `${env}-${appName}-task-action-queue`,
   deadLetterQueue: {
@@ -375,17 +375,17 @@ const taskQueue = new sqs.Queue(this, 'TaskQueue', {
   },
 });
 
-// Create Notification Queue
+// {{Create Notification Queue}}
 const notificationQueue = new sqs.Queue(this, 'NotificationQueue', {
   queueName: `${env}-${appName}-notification-queue`,
 });
 
-// Create Import Queue
+// {{Create Import Queue}}
 const importQueue = new sqs.Queue(this, 'ImportQueue', {
   queueName: `${env}-${appName}-import-action-queue`,
 });
 
-// Subscribe queues with message filtering
+// {{Subscribe queues with message filtering}}
 mainSnsTopic.addSubscription(
   new subscriptions.SqsSubscription(taskQueue, {
     filterPolicy: {
@@ -427,7 +427,7 @@ mainSnsTopic.addSubscription(
 ```typescript
 import * as s3 from 'aws-cdk-lib/aws-s3';
 
-// DynamoDB attributes bucket
+// {{DynamoDB attributes bucket}}
 const ddbBucket = new s3.Bucket(this, 'DdbAttributesBucket', {
   bucketName: `${env}-${appName}-ddb-attributes`,
   versioned: false,
@@ -447,7 +447,7 @@ const ddbBucket = new s3.Bucket(this, 'DdbAttributesBucket', {
   ],
 });
 
-// Public assets bucket
+// {{Public assets bucket}}
 const publicBucket = new s3.Bucket(this, 'PublicBucket', {
   bucketName: `${env}-${appName}-public`,
   versioned: false,
@@ -455,7 +455,7 @@ const publicBucket = new s3.Bucket(this, 'PublicBucket', {
   removalPolicy: cdk.RemovalPolicy.DESTROY,
 });
 
-// Grant Lambda access
+// {{Grant Lambda access}}
 ddbBucket.grantReadWrite(lambdaFunction);
 publicBucket.grantReadWrite(lambdaFunction);
 ```
@@ -470,11 +470,11 @@ publicBucket.grantReadWrite(lambdaFunction);
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 
-// Origin Access Identity for S3
+// {{Origin Access Identity for S3}}
 const oai = new cloudfront.OriginAccessIdentity(this, 'OAI');
 publicBucket.grantRead(oai);
 
-// Static assets distribution
+// {{Static assets distribution}}
 const staticDistribution = new cloudfront.Distribution(this, 'StaticDistribution', {
   defaultBehavior: {
     origin: new origins.S3Origin(publicBucket, {
@@ -488,7 +488,7 @@ const staticDistribution = new cloudfront.Distribution(this, 'StaticDistribution
   geoRestriction: cloudfront.GeoRestriction.allowlist('JP', 'VN'),
 });
 
-// API distribution
+// {{API distribution}}
 const apiDistribution = new cloudfront.Distribution(this, 'ApiDistribution', {
   defaultBehavior: {
     origin: new origins.HttpOrigin(httpApiDomain, {
@@ -516,7 +516,7 @@ const apiDistribution = new cloudfront.Distribution(this, 'ApiDistribution', {
 ```typescript
 import * as appsync from 'aws-cdk-lib/aws-appsync';
 
-// Create AppSync API
+// {{Create AppSync API}}
 const graphqlApi = new appsync.GraphqlApi(this, 'GraphqlApi', {
   name: `${env}-${appName}-realtime`,
   definition: appsync.Definition.fromFile('asset/schema.graphql'),
@@ -538,10 +538,10 @@ const graphqlApi = new appsync.GraphqlApi(this, 'GraphqlApi', {
   xrayEnabled: true,
 });
 
-// None data source for local resolvers
+// {{None data source for local resolvers}}
 const noneDataSource = graphqlApi.addNoneDataSource('NoneDataSource');
 
-// Mutation resolver
+// {{Mutation resolver}}
 noneDataSource.createResolver('SendMessageResolver', {
   typeName: 'Mutation',
   fieldName: 'sendMessage',
@@ -595,7 +595,7 @@ flowchart TB
 import * as sfn from 'aws-cdk-lib/aws-stepfunctions';
 import * as tasks from 'aws-cdk-lib/aws-stepfunctions-tasks';
 
-// Helper function to create Lambda invoke tasks
+// {{Helper function to create Lambda invoke tasks}}
 const createLambdaTask = (
   stateName: string,
   integrationPattern: sfn.IntegrationPattern = sfn.IntegrationPattern.REQUEST_RESPONSE
@@ -620,7 +620,7 @@ const createLambdaTask = (
   });
 };
 
-// Define states
+// {{Define states}}
 const fail = new sfn.Fail(this, 'fail', {
   stateName: 'fail',
   causePath: '$.cause',
@@ -633,7 +633,7 @@ const success = new sfn.Succeed(this, 'success', {
 
 const finish = createLambdaTask('finish').next(success);
 
-// Map state for parallel data sync
+// {{Map state for parallel data sync}}
 const syncData = createLambdaTask('sync_data');
 const syncDataAll = new sfn.Map(this, 'sync_data_all', {
   stateName: 'sync_data_all',
@@ -647,13 +647,13 @@ const transformData = createLambdaTask('transform_data').next(syncDataAll);
 const historyCopy = createLambdaTask('history_copy').next(transformData);
 const setTtlCommand = createLambdaTask('set_ttl_command').next(historyCopy);
 
-// Callback pattern for async waiting
+// {{Callback pattern for async waiting}}
 const waitPrevCommand = createLambdaTask(
   'wait_prev_command',
   sfn.IntegrationPattern.WAIT_FOR_TASK_TOKEN
 ).next(setTtlCommand);
 
-// Version check choice
+// {{Version check choice}}
 const checkVersionResult = new sfn.Choice(this, 'check_version_result')
   .when(sfn.Condition.numberEquals('$.result', 0), setTtlCommand)
   .when(sfn.Condition.numberEquals('$.result', 1), waitPrevCommand)
@@ -662,14 +662,14 @@ const checkVersionResult = new sfn.Choice(this, 'check_version_result')
 
 const checkVersion = createLambdaTask('check_version').next(checkVersionResult);
 
-// Create log group
+// {{Create log group}}
 const commandSfnLogGroup = new logs.LogGroup(this, 'CommandSfnLogGroup', {
   logGroupName: `/aws/vendedlogs/states/${prefix}-command-handler-logs`,
   removalPolicy: cdk.RemovalPolicy.DESTROY,
   retention: logs.RetentionDays.SIX_MONTHS,
 });
 
-// Create state machine
+// {{Create state machine}}
 const commandStateMachine = new sfn.StateMachine(this, 'CommandStateMachine', {
   stateMachineName: `${prefix}command-handler`,
   definitionBody: sfn.DefinitionBody.fromChainable(checkVersion),
@@ -690,11 +690,11 @@ const commandStateMachine = new sfn.StateMachine(this, 'CommandStateMachine', {
 ```typescript
 import * as lambdaEventSources from 'aws-cdk-lib/aws-lambda-event-sources';
 
-// Tables to monitor for changes
+// {{Tables to monitor for changes}}
 const tableNames = ['tasks', 'sample-command', 'import_tmp'];
 
 for (const tableName of tableNames) {
-  // Lookup existing table
+  // {{Lookup existing table}}
   const tableDesc = new cdk.custom_resources.AwsCustomResource(
     this,
     `${tableName}-desc`,
@@ -718,7 +718,7 @@ for (const tableName of tableNames) {
     tableStreamArn: tableDesc.getResponseField('Table.LatestStreamArn'),
   });
 
-  // Add event source with INSERT filter
+  // {{Add event source with INSERT filter}}
   lambdaFunction.addEventSource(
     new lambdaEventSources.DynamoEventSource(table, {
       startingPosition: lambda.StartingPosition.TRIM_HORIZON,
@@ -861,7 +861,7 @@ flowchart TB
 **{{CDK Implementation}}:**
 
 ```typescript
-// Cognito permissions
+// {{Cognito permissions}}
 lambdaFunction.addToRolePolicy(
   new iam.PolicyStatement({
     actions: [
@@ -879,7 +879,7 @@ lambdaFunction.addToRolePolicy(
   })
 );
 
-// DynamoDB permissions
+// {{DynamoDB permissions}}
 lambdaFunction.addToRolePolicy(
   new iam.PolicyStatement({
     actions: [
@@ -892,7 +892,7 @@ lambdaFunction.addToRolePolicy(
   })
 );
 
-// Step Functions permissions
+// {{Step Functions permissions}}
 lambdaFunction.addToRolePolicy(
   new iam.PolicyStatement({
     actions: [
@@ -904,7 +904,7 @@ lambdaFunction.addToRolePolicy(
   })
 );
 
-// SES permissions
+// {{SES permissions}}
 lambdaFunction.addToRolePolicy(
   new iam.PolicyStatement({
     actions: ['ses:SendEmail'],
@@ -912,7 +912,7 @@ lambdaFunction.addToRolePolicy(
   })
 );
 
-// Grant S3, SNS, SQS access
+// {{Grant S3, SNS, SQS access}}
 ddbBucket.grantReadWrite(lambdaFunction);
 publicBucket.grantReadWrite(lambdaFunction);
 mainSnsTopic.grantPublish(lambdaFunction);
