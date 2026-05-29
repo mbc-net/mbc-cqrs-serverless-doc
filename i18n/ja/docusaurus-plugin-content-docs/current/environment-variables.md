@@ -33,6 +33,19 @@ MBC CQRS サーバーレスフレームワークには、環境変数を `.env*`
 | `EVENT_SOURCE_DISABLED` | API Gateway統合用のイベントソースルートを無効にする | はい | - | `false` |
 | `REQUEST_BODY_SIZE_LIMIT` | JSONおよびURLエンコードデータのリクエストボディサイズ制限 | いいえ | `100kb` | `100kb` |
 
+### マルチテナント設定
+
+| 変数 | 説明 | 必須 | デフォルト | 例 |
+|-------------|-----------------|--------------|-------------|-------------|
+| `COMMON_TENANT_CODES` | テナント間で共通／共有として扱うテナントコードのカンマ区切りリスト | いいえ | `common` | `common,shared,public` |
+| `CROSS_TENANT_ROLES` | テナント横断アクセスを許可するロールのカンマ区切りリスト | いいえ | `system_admin` | `system_admin,general_manager` |
+
+### Read-Your-Writes（RYW）設定
+
+| 変数 | 説明 | 必須 | デフォルト | 例 |
+|-------------|-----------------|--------------|-------------|-------------|
+| `RYW_SESSION_TTL_MINUTES` | Read-Your-Writes セッションレコードの有効期間（分）。未設定または0以下の値にすると RYW セッション書き込みが無効になります | いいえ | - | `15` |
+
 ### AWS 認証情報
 
 | 変数 | 説明 | 必須 | 例 |
@@ -73,6 +86,13 @@ MBC CQRS サーバーレスフレームワークには、環境変数を `.env*`
 | `SNS_REGION` | SNSリージョン | いいえ | `ap-northeast-1` |
 | `SNS_TOPIC_ARN` | イベント通知用のデフォルトSNSトピックARN | はい | `arn:aws:sns:ap-northeast-1:101010101010:CqrsSnsTopic` |
 | `SNS_ALARM_TOPIC_ARN` | アラーム通知用のSNSトピックARN（エラーアラート） | いいえ | `arn:aws:sns:ap-northeast-1:101010101010:AlarmSnsTopic` |
+
+### SQS 設定
+
+| 変数 | 説明 | 必須 | 例 |
+|-------------|-----------------|--------------|-------------|
+| `SQS_ENDPOINT` | ローカル開発用のSQSエンドポイントURL | いいえ | `http://localhost:9324` |
+| `SQS_REGION` | SQSリージョン | いいえ | `ap-northeast-1` |
 
 ### Cognito 設定
 
@@ -132,6 +152,13 @@ LOG_LEVEL=verbose
 EVENT_SOURCE_DISABLED=false
 REQUEST_BODY_SIZE_LIMIT=100kb
 
+# マルチテナント設定
+# COMMON_TENANT_CODES=common
+# CROSS_TENANT_ROLES=system_admin
+
+# Read-Your-Writes（RYW）設定
+# RYW_SESSION_TTL_MINUTES=15
+
 # DynamoDB 設定
 DYNAMODB_ENDPOINT=http://localhost:8000
 DYNAMODB_REGION=ap-northeast-1
@@ -152,6 +179,10 @@ SNS_ENDPOINT=http://localhost:4002
 SNS_REGION=ap-northeast-1
 SNS_TOPIC_ARN=arn:aws:sns:ap-northeast-1:101010101010:CqrsSnsTopic
 SNS_ALARM_TOPIC_ARN=arn:aws:sns:ap-northeast-1:101010101010:AlarmSnsTopic
+
+# SQS 設定
+SQS_ENDPOINT=http://localhost:9324
+SQS_REGION=ap-northeast-1
 
 # Cognito 設定
 COGNITO_URL=http://localhost:9229
