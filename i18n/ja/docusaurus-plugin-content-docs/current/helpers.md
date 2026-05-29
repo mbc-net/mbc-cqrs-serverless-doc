@@ -57,6 +57,28 @@ const id = generateId('TENANT#mbc', 'CAT#001@3');
 // 結果: 'TENANT#mbc#CAT#001'
 ```
 
+### `sortKeyBaseFromId(pk: string, itemId: string): string | undefined`
+
+`generateId` の逆操作: 複合IDからベースとなるソートキーを抽出します。IDが指定したパーティションキーで始まらない場合は `undefined` を返します。
+
+```ts
+import { sortKeyBaseFromId } from '@mbc-cqrs-serverless/core';
+
+const skBase = sortKeyBaseFromId('TENANT#mbc', 'TENANT#mbc#CAT#001');
+// 結果: 'CAT#001'
+```
+
+### `parseTwoSegmentPkSkFromId(itemId: string): { pk: string; skBase: string } | undefined`
+
+複合IDをパーティションキーとベースソートキーに分割します。パーティションキーが2セグメント（タイプとテナントコード）であることを前提とします。IDのセグメントが3つ未満の場合は `undefined` を返します。
+
+```ts
+import { parseTwoSegmentPkSkFromId } from '@mbc-cqrs-serverless/core';
+
+const result = parseTwoSegmentPkSkFromId('TENANT#mbc#CAT#001');
+// result.pk は 'TENANT#mbc'、result.skBase は 'CAT#001' になります
+```
+
 ### `getTenantCode(pk: string): string | undefined`
 
 パーティションキーからテナントコードを抽出します。
