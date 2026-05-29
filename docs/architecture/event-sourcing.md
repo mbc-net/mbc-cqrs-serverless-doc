@@ -104,13 +104,13 @@ sequenceDiagram
 ### {{Version Control Implementation}}
 
 ```typescript
-// Command Service automatically handles versioning
+// {{Command Service automatically handles versioning}}
 await this.commandService.publishAsync(entity, {
   invokeContext: context,
 });
 
-// DynamoDB ConditionExpression ensures optimistic locking
-// ConditionExpression: 'attribute_not_exists(pk) OR version = :currentVersion'
+// {{DynamoDB ConditionExpression ensures optimistic locking}}
+// {{ConditionExpression: 'attribute_not_exists(pk) OR version = :currentVersion'}}
 ```
 
 ## {{Event Processing Pipeline}}
@@ -167,10 +167,10 @@ export class OrderCreatedHandler implements IEventHandler<OrderCreatedEvent> {
   ) {}
 
   async execute(event: OrderCreatedEvent): Promise<void> {
-    // Update read model
+    // {{Update read model}}
     await this.readModelService.updateOrderSummary(event);
 
-    // Send notification
+    // {{Send notification}}
     await this.notificationService.sendOrderConfirmation(event);
   }
 }

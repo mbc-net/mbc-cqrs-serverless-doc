@@ -104,12 +104,12 @@ sequenceDiagram
 ### バージョン管理の実装
 
 ```typescript
-// Command Service automatically handles versioning
+// コマンドサービスがバージョニングを自動的に処理
 await this.commandService.publishAsync(entity, {
   invokeContext: context,
 });
 
-// DynamoDB ConditionExpression ensures optimistic locking
+// DynamoDBのConditionExpressionが楽観的ロックを確保
 // ConditionExpression: 'attribute_not_exists(pk) OR version = :currentVersion'
 ```
 
@@ -167,10 +167,10 @@ export class OrderCreatedHandler implements IEventHandler<OrderCreatedEvent> {
   ) {}
 
   async execute(event: OrderCreatedEvent): Promise<void> {
-    // Update read model
+    // リードモデルを更新
     await this.readModelService.updateOrderSummary(event);
 
-    // Send notification
+    // 通知を送信
     await this.notificationService.sendOrderConfirmation(event);
   }
 }
