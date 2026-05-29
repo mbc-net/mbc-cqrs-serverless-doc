@@ -24,7 +24,6 @@ import { Role } from "@/auth/role.enum";
 
 ```json
 # tsconfig.json
-TODO:
 {
   "compilerOptions": {
     "baseUrl": "."
@@ -41,7 +40,6 @@ TODO:
 
 ```json
 # tsconfig.json
- TODO:
 {
   "compilerOptions": {
     "baseUrl": ".",
