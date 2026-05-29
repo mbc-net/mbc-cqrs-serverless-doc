@@ -57,6 +57,28 @@ const id = generateId('TENANT#mbc', 'CAT#001@3');
 // {{Result: 'TENANT#mbc#CAT#001'}}
 ```
 
+### `sortKeyBaseFromId(pk: string, itemId: string): string | undefined`
+
+{{The inverse of `generateId`: extracts the base sort key from a composite ID. Returns `undefined` if the ID does not start with the given partition key.}}
+
+```ts
+import { sortKeyBaseFromId } from '@mbc-cqrs-serverless/core';
+
+const skBase = sortKeyBaseFromId('TENANT#mbc', 'TENANT#mbc#CAT#001');
+// {{Result: 'CAT#001'}}
+```
+
+### `parseTwoSegmentPkSkFromId(itemId: string): { pk: string; skBase: string } | undefined`
+
+{{Splits a composite ID back into its partition key and base sort key, assuming the partition key has two segments (type and tenant code). Returns `undefined` if the ID has fewer than three segments.}}
+
+```ts
+import { parseTwoSegmentPkSkFromId } from '@mbc-cqrs-serverless/core';
+
+const result = parseTwoSegmentPkSkFromId('TENANT#mbc#CAT#001');
+// {{result.pk is 'TENANT#mbc' and result.skBase is 'CAT#001'}}
+```
+
 ### `getTenantCode(pk: string): string | undefined`
 
 {{Extracts the tenant code from a partition key.}}
