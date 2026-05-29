@@ -256,7 +256,7 @@ export class CommandStateMachineConstruct extends Construct {
 
     const { lambdaFunction } = props;
 
-    // Helper function to create Lambda invoke tasks
+    // Lambda呼び出しタスクを作成するヘルパー関数
     const createLambdaTask = (
       stateName: string,
       integrationPattern: sfn.IntegrationPattern = sfn.IntegrationPattern.REQUEST_RESPONSE
@@ -267,7 +267,7 @@ export class CommandStateMachineConstruct extends Construct {
         'input.$': '$',
       };
 
-      // Add task token for callback pattern
+      // コールバックパターン用タスクトークンを追加
       if (integrationPattern === sfn.IntegrationPattern.WAIT_FOR_TASK_TOKEN) {
         payload['taskToken'] = sfn.JsonPath.taskToken;
       }
@@ -282,7 +282,7 @@ export class CommandStateMachineConstruct extends Construct {
       });
     };
 
-    // Define states
+    // ステートを定義
     const fail = new sfn.Fail(this, 'fail', {
       stateName: 'fail',
       causePath: '$.cause',
@@ -293,12 +293,12 @@ export class CommandStateMachineConstruct extends Construct {
       stateName: 'success',
     });
 
-    // Create task states
+    // タスクステートを作成
     const finish = createLambdaTask('finish').next(success);
 
     const syncData = createLambdaTask('sync_data');
 
-    // Map state for parallel data sync
+    // 並列データ同期のマップステート
     const syncDataAll = new sfn.Map(this, 'sync_data_all', {
       stateName: 'sync_data_all',
       maxConcurrency: 0, // Unlimited concurrency
@@ -311,13 +311,13 @@ export class CommandStateMachineConstruct extends Construct {
     const historyCopy = createLambdaTask('history_copy').next(transformData);
     const setTtlCommand = createLambdaTask('set_ttl_command').next(historyCopy);
 
-    // Callback pattern for waiting on previous command
+    // 前のコマンド待機のコールバックパターン
     const waitPrevCommand = createLambdaTask(
       'wait_prev_command',
       sfn.IntegrationPattern.WAIT_FOR_TASK_TOKEN
     ).next(setTtlCommand);
 
-    // Choice state for version checking
+    // バージョンチェックの選択ステート
     const checkVersionResult = new sfn.Choice(this, 'check_version_result', {
       stateName: 'check_version_result',
     })
@@ -328,14 +328,14 @@ export class CommandStateMachineConstruct extends Construct {
 
     const checkVersion = createLambdaTask('check_version').next(checkVersionResult);
 
-    // Create log group
+    // ロググループを作成
     const logGroup = new logs.LogGroup(this, 'StateMachineLogGroup', {
       logGroupName: '/aws/vendedlogs/states/command-handler-logs',
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       retention: logs.RetentionDays.SIX_MONTHS,
     });
 
-    // Create state machine
+    // ステートマシンを作成
     this.stateMachine = new sfn.StateMachine(this, 'CommandHandlerStateMachine', {
       stateMachineName: 'command-handler',
       comment: 'Handles command stream processing with version control',
@@ -361,7 +361,7 @@ export class TaskStateMachineConstruct extends Construct {
 
     const { lambdaFunction } = props;
 
-    // Iterator task for each item
+    // 各アイテムのイテレータータスク
     const iteratorTask = new tasks.LambdaInvoke(this, 'iterator', {
       lambdaFunction,
       payload: sfn.TaskInput.fromObject({
@@ -373,7 +373,7 @@ export class TaskStateMachineConstruct extends Construct {
       outputPath: '$.Payload[0][0]',
     });
 
-    // Map state with concurrency limit
+    // 同時実行制限付きマップステート
     const mapState = new sfn.Map(this, 'TaskMapState', {
       stateName: 'map_state',
       maxConcurrency: 2, // Process 2 items at a time
@@ -381,14 +381,14 @@ export class TaskStateMachineConstruct extends Construct {
       itemsPath: sfn.JsonPath.stringAt('$'),
     }).itemProcessor(iteratorTask);
 
-    // Create log group
+    // ロググループを作成
     const logGroup = new logs.LogGroup(this, 'TaskLogGroup', {
       logGroupName: '/aws/vendedlogs/states/task-handler-logs',
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       retention: logs.RetentionDays.SIX_MONTHS,
     });
 
-    // Create state machine
+    // ステートマシンを作成
     this.stateMachine = new sfn.StateMachine(this, 'TaskHandlerStateMachine', {
       stateMachineName: 'task-handler',
       comment: 'Handles parallel task execution with concurrency control',
@@ -411,7 +411,7 @@ export class TaskStateMachineConstruct extends Construct {
 ```typescript
 import { Map as SfnMap, ProcessorMode, ProcessorConfig, IChainable, JsonPath } from 'aws-cdk-lib/aws-stepfunctions';
 
-// Custom Distributed Map class for S3 CSV processing
+// S3 CSV処理用カスタム分散マップクラス
 export class DistributedMap extends SfnMap {
   public itemReader?: DistributedMapItemReader;
   public itemBatcher?: DistributedMapItemBatcher;
@@ -451,7 +451,7 @@ export class DistributedMap extends SfnMap {
   }
 }
 
-// Usage in your stack
+// スタックでの使用法
 const csvRowsHandler = new tasks.LambdaInvoke(this, 'csv_rows_handler', {
   lambdaFunction,
   payload: sfn.TaskInput.fromObject({
@@ -500,7 +500,7 @@ const importCsvStateMachine = new sfn.StateMachine(this, 'ImportCsvStateMachine'
 DynamoDB StreamsとSQSを設定してStep Functionsをトリガーします：
 
 ```typescript
-// DynamoDB Stream event source
+// DynamoDBストリームイベントソース
 const tableNames = ['tasks', 'commands', 'import_tmp'];
 
 for (const tableName of tableNames) {
@@ -522,7 +522,7 @@ for (const tableName of tableNames) {
   );
 }
 
-// SQS event sources
+// SQSイベントソース
 const queues = ['task-action-queue', 'notification-queue', 'import-action-queue'];
 
 for (const queueName of queues) {
@@ -547,7 +547,7 @@ for (const queueName of queues) {
 フレームワークはAWS CDKを使用してStep Functionsインフラストラクチャを自動的にプロビジョニングします。主要なリソースは以下の通りです：
 
 ```typescript
-// State machine definition in CDK
+// CDKでのステートマシン定義
 const commandStateMachine = new sfn.StateMachine(this, 'CommandHandler', {
   stateMachineName: 'command',
   definitionBody: sfn.DefinitionBody.fromChainable(definition),
@@ -604,17 +604,17 @@ export class CustomWorkflowHandler implements IEventHandler<CustomWorkflowEvent>
   }
 
   private async handleInitialize(event: CustomWorkflowEvent) {
-    // Initialization logic
+    // 初期化ロジック
     return { status: 'initialized', data: event.input };
   }
 
   private async handleProcess(event: CustomWorkflowEvent) {
-    // Processing logic
+    // 処理ロジック
     return { status: 'processed' };
   }
 
   private async handleFinalize(event: CustomWorkflowEvent) {
-    // Finalization logic
+    // 終了ロジック
     return { status: 'completed' };
   }
 }
@@ -674,8 +674,8 @@ export class WorkflowService {
 **シナリオ**: コマンドが作成されると、データを複数のリードモデルに同期します。
 
 ```typescript
-// Trigger: DynamoDB Stream INSERT event
-// Flow: check_version -> set_ttl -> history_copy -> transform -> sync_all -> finish
+// トリガー: DynamoDBストリームINSERTイベント
+// フロー: check_version -> set_ttl -> history_copy -> transform -> sync_all -> finish
 
 await this.commandService.publishAsync(
   {
@@ -691,7 +691,7 @@ await this.commandService.publishAsync(
   },
   { invokeContext },
 );
-// This triggers the command state machine automatically
+// これにより自動的にコマンドステートマシンがトリガーされる
 ```
 
 ### ユースケース2：バッチタスク処理
@@ -701,7 +701,7 @@ await this.commandService.publishAsync(
 **シナリオ**: ステータス追跡を伴うバッチジョブで複数のアイテムを処理します。
 
 ```typescript
-// Create tasks that will be processed by the task state machine
+// タスクステートマシンで処理されるタスクを作成
 const items = [
   { itemId: 'item1', action: 'process' },
   { itemId: 'item2', action: 'process' },
@@ -722,7 +722,7 @@ await this.taskService.createStepFunctionTask({
 **シナリオ**: バリデーションと変換を伴うS3からの大規模CSVファイルのインポート。
 
 ```typescript
-// Trigger CSV import via API or direct invocation
+// APIまたは直接呼び出しでCSVインポートをトリガー
 await this.importService.createCsvImport({
   s3Bucket: 'my-bucket',
   s3Key: 'imports/data.csv',
@@ -730,7 +730,7 @@ await this.importService.createCsvImport({
   processingMode: ProcessingMode.STEP_FUNCTION,
 });
 
-// The import-csv state machine will:
+// import-csvステートマシンが行うこと:
 // 1. Read CSV from S3
 // 2. Batch rows (default: 10 per batch)
 // 3. Process up to 50 batches concurrently
@@ -745,7 +745,7 @@ await this.importService.createCsvImport({
 **シナリオ**: ワークフローを続行する前に承認を待機します。
 
 ```typescript
-// In your state machine definition
+// ステートマシン定義で
 {
   "WaitForApproval": {
     "Type": "Task",
@@ -761,7 +761,7 @@ await this.importService.createCsvImport({
   }
 }
 
-// In your handler, store the task token
+// ハンドラーでタスクトークンを保存
 async handleWaitForApproval(event: ApprovalEvent) {
   await this.approvalService.createApprovalRequest({
     requestId: event.input.requestId,
@@ -769,7 +769,7 @@ async handleWaitForApproval(event: ApprovalEvent) {
   });
 }
 
-// When approval is received, resume the workflow
+// 承認を受け取ったらワークフローを再開
 async approveRequest(requestId: string) {
   const request = await this.approvalService.getRequest(requestId);
 

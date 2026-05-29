@@ -256,7 +256,7 @@ export class CommandStateMachineConstruct extends Construct {
 
     const { lambdaFunction } = props;
 
-    // Helper function to create Lambda invoke tasks
+    // {{Helper function to create Lambda invoke tasks}}
     const createLambdaTask = (
       stateName: string,
       integrationPattern: sfn.IntegrationPattern = sfn.IntegrationPattern.REQUEST_RESPONSE
@@ -267,7 +267,7 @@ export class CommandStateMachineConstruct extends Construct {
         'input.$': '$',
       };
 
-      // Add task token for callback pattern
+      // {{Add task token for callback pattern}}
       if (integrationPattern === sfn.IntegrationPattern.WAIT_FOR_TASK_TOKEN) {
         payload['taskToken'] = sfn.JsonPath.taskToken;
       }
@@ -282,7 +282,7 @@ export class CommandStateMachineConstruct extends Construct {
       });
     };
 
-    // Define states
+    // {{Define states}}
     const fail = new sfn.Fail(this, 'fail', {
       stateName: 'fail',
       causePath: '$.cause',
@@ -293,12 +293,12 @@ export class CommandStateMachineConstruct extends Construct {
       stateName: 'success',
     });
 
-    // Create task states
+    // {{Create task states}}
     const finish = createLambdaTask('finish').next(success);
 
     const syncData = createLambdaTask('sync_data');
 
-    // Map state for parallel data sync
+    // {{Map state for parallel data sync}}
     const syncDataAll = new sfn.Map(this, 'sync_data_all', {
       stateName: 'sync_data_all',
       maxConcurrency: 0, // Unlimited concurrency
@@ -311,13 +311,13 @@ export class CommandStateMachineConstruct extends Construct {
     const historyCopy = createLambdaTask('history_copy').next(transformData);
     const setTtlCommand = createLambdaTask('set_ttl_command').next(historyCopy);
 
-    // Callback pattern for waiting on previous command
+    // {{Callback pattern for waiting on previous command}}
     const waitPrevCommand = createLambdaTask(
       'wait_prev_command',
       sfn.IntegrationPattern.WAIT_FOR_TASK_TOKEN
     ).next(setTtlCommand);
 
-    // Choice state for version checking
+    // {{Choice state for version checking}}
     const checkVersionResult = new sfn.Choice(this, 'check_version_result', {
       stateName: 'check_version_result',
     })
@@ -328,14 +328,14 @@ export class CommandStateMachineConstruct extends Construct {
 
     const checkVersion = createLambdaTask('check_version').next(checkVersionResult);
 
-    // Create log group
+    // {{Create log group}}
     const logGroup = new logs.LogGroup(this, 'StateMachineLogGroup', {
       logGroupName: '/aws/vendedlogs/states/command-handler-logs',
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       retention: logs.RetentionDays.SIX_MONTHS,
     });
 
-    // Create state machine
+    // {{Create state machine}}
     this.stateMachine = new sfn.StateMachine(this, 'CommandHandlerStateMachine', {
       stateMachineName: 'command-handler',
       comment: 'Handles command stream processing with version control',
@@ -361,7 +361,7 @@ export class TaskStateMachineConstruct extends Construct {
 
     const { lambdaFunction } = props;
 
-    // Iterator task for each item
+    // {{Iterator task for each item}}
     const iteratorTask = new tasks.LambdaInvoke(this, 'iterator', {
       lambdaFunction,
       payload: sfn.TaskInput.fromObject({
@@ -373,7 +373,7 @@ export class TaskStateMachineConstruct extends Construct {
       outputPath: '$.Payload[0][0]',
     });
 
-    // Map state with concurrency limit
+    // {{Map state with concurrency limit}}
     const mapState = new sfn.Map(this, 'TaskMapState', {
       stateName: 'map_state',
       maxConcurrency: 2, // Process 2 items at a time
@@ -381,14 +381,14 @@ export class TaskStateMachineConstruct extends Construct {
       itemsPath: sfn.JsonPath.stringAt('$'),
     }).itemProcessor(iteratorTask);
 
-    // Create log group
+    // {{Create log group}}
     const logGroup = new logs.LogGroup(this, 'TaskLogGroup', {
       logGroupName: '/aws/vendedlogs/states/task-handler-logs',
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       retention: logs.RetentionDays.SIX_MONTHS,
     });
 
-    // Create state machine
+    // {{Create state machine}}
     this.stateMachine = new sfn.StateMachine(this, 'TaskHandlerStateMachine', {
       stateMachineName: 'task-handler',
       comment: 'Handles parallel task execution with concurrency control',
@@ -411,7 +411,7 @@ export class TaskStateMachineConstruct extends Construct {
 ```typescript
 import { Map as SfnMap, ProcessorMode, ProcessorConfig, IChainable, JsonPath } from 'aws-cdk-lib/aws-stepfunctions';
 
-// Custom Distributed Map class for S3 CSV processing
+// {{Custom Distributed Map class for S3 CSV processing}}
 export class DistributedMap extends SfnMap {
   public itemReader?: DistributedMapItemReader;
   public itemBatcher?: DistributedMapItemBatcher;
@@ -451,7 +451,7 @@ export class DistributedMap extends SfnMap {
   }
 }
 
-// Usage in your stack
+// {{Usage in your stack}}
 const csvRowsHandler = new tasks.LambdaInvoke(this, 'csv_rows_handler', {
   lambdaFunction,
   payload: sfn.TaskInput.fromObject({
@@ -500,7 +500,7 @@ const importCsvStateMachine = new sfn.StateMachine(this, 'ImportCsvStateMachine'
 {{Configure DynamoDB Streams and SQS to trigger Step Functions:}}
 
 ```typescript
-// DynamoDB Stream event source
+// {{DynamoDB Stream event source}}
 const tableNames = ['tasks', 'commands', 'import_tmp'];
 
 for (const tableName of tableNames) {
@@ -522,7 +522,7 @@ for (const tableName of tableNames) {
   );
 }
 
-// SQS event sources
+// {{SQS event sources}}
 const queues = ['task-action-queue', 'notification-queue', 'import-action-queue'];
 
 for (const queueName of queues) {
@@ -547,7 +547,7 @@ for (const queueName of queues) {
 {{The framework automatically provisions Step Functions infrastructure using AWS CDK. Key resources include:}}
 
 ```typescript
-// State machine definition in CDK
+// {{State machine definition in CDK}}
 const commandStateMachine = new sfn.StateMachine(this, 'CommandHandler', {
   stateMachineName: 'command',
   definitionBody: sfn.DefinitionBody.fromChainable(definition),
@@ -604,17 +604,17 @@ export class CustomWorkflowHandler implements IEventHandler<CustomWorkflowEvent>
   }
 
   private async handleInitialize(event: CustomWorkflowEvent) {
-    // Initialization logic
+    // {{Initialization logic}}
     return { status: 'initialized', data: event.input };
   }
 
   private async handleProcess(event: CustomWorkflowEvent) {
-    // Processing logic
+    // {{Processing logic}}
     return { status: 'processed' };
   }
 
   private async handleFinalize(event: CustomWorkflowEvent) {
-    // Finalization logic
+    // {{Finalization logic}}
     return { status: 'completed' };
   }
 }
@@ -674,8 +674,8 @@ export class WorkflowService {
 **{{Scenario}}**: {{When a command is created, sync the data to multiple read models.}}
 
 ```typescript
-// Trigger: DynamoDB Stream INSERT event
-// Flow: check_version -> set_ttl -> history_copy -> transform -> sync_all -> finish
+// {{Trigger: DynamoDB Stream INSERT event}}
+// {{Flow: check_version -> set_ttl -> history_copy -> transform -> sync_all -> finish}}
 
 await this.commandService.publishAsync(
   {
@@ -691,7 +691,7 @@ await this.commandService.publishAsync(
   },
   { invokeContext },
 );
-// This triggers the command state machine automatically
+// {{This triggers the command state machine automatically}}
 ```
 
 ### {{Use Case 2: Batch Task Processing}}
@@ -701,7 +701,7 @@ await this.commandService.publishAsync(
 **{{Scenario}}**: {{Process multiple items in a batch job with status tracking.}}
 
 ```typescript
-// Create tasks that will be processed by the task state machine
+// {{Create tasks that will be processed by the task state machine}}
 const items = [
   { itemId: 'item1', action: 'process' },
   { itemId: 'item2', action: 'process' },
@@ -722,7 +722,7 @@ await this.taskService.createStepFunctionTask({
 **{{Scenario}}**: {{Import a large CSV file from S3 with validation and transformation.}}
 
 ```typescript
-// Trigger CSV import via API or direct invocation
+// {{Trigger CSV import via API or direct invocation}}
 await this.importService.createCsvImport({
   s3Bucket: 'my-bucket',
   s3Key: 'imports/data.csv',
@@ -730,7 +730,7 @@ await this.importService.createCsvImport({
   processingMode: ProcessingMode.STEP_FUNCTION,
 });
 
-// The import-csv state machine will:
+// {{The import-csv state machine will:}}
 // 1. Read CSV from S3
 // 2. Batch rows (default: 10 per batch)
 // 3. Process up to 50 batches concurrently
@@ -745,7 +745,7 @@ await this.importService.createCsvImport({
 **{{Scenario}}**: {{Wait for approval before proceeding with a workflow.}}
 
 ```typescript
-// In your state machine definition
+// {{In your state machine definition}}
 {
   "WaitForApproval": {
     "Type": "Task",
@@ -761,7 +761,7 @@ await this.importService.createCsvImport({
   }
 }
 
-// In your handler, store the task token
+// {{In your handler, store the task token}}
 async handleWaitForApproval(event: ApprovalEvent) {
   await this.approvalService.createApprovalRequest({
     requestId: event.input.requestId,
@@ -769,7 +769,7 @@ async handleWaitForApproval(event: ApprovalEvent) {
   });
 }
 
-// When approval is received, resume the workflow
+// {{When approval is received, resume the workflow}}
 async approveRequest(requestId: string) {
   const request = await this.approvalService.getRequest(requestId);
 
