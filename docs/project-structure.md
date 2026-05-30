@@ -6,7 +6,7 @@ description: {{Overview of the MBC CQRS Serverless project file and folder struc
 
 ## {{MBC CQRS serverless Project Structure}}
 
-{{This page provides an overview of the project structure of a mbc-cqrs-serverless application. It covers top-level files and folders, configuration files.}}
+{{This page provides an overview of the project structure of an mbc-cqrs-serverless application. It covers top-level files and folders, configuration files.}}
 
 ### {{Top-level folders}}
 
@@ -15,7 +15,7 @@ description: {{Overview of the MBC CQRS Serverless project file and folder struc
 | <!-- -->    | <!-- -->                    |
 | ----------- | --------------------------- |
 | infra-local | {{Infrastructure runs in a local environment}} |
-| prisma      | {{Configuration for your Prisma ORM and dynamoDB table}}      |
+| prisma      | {{Configuration for your Prisma ORM and DynamoDB table}}      |
 | src         | {{Application source folder}}         |
 | test        | {{Configuration for e2e Jest testing and manual API tests}}        |
 
@@ -34,20 +34,20 @@ description: {{Overview of the MBC CQRS Serverless project file and folder struc
 | nest-cli.json       | {{Nest.js plugins configuration}}       |
 | package-lock.json   | {{Lockfile that holds information on the dependencies installed}}   |
 | package.json        | {{Project dependencies and scripts}}        |
-| README.md           | {{Information about a project, including its description, installation instruction, and usage guidelines}}         |
-| tsconfig.build.json | {{Configuration TypeScript compiler options}} |
+| README.md           | {{Information about a project, including its description, installation instructions, and usage guidelines}}         |
+| tsconfig.build.json | {{Configuration for TypeScript compiler options}} |
 | tsconfig.json       | {{Configuration file for TypeScript}}       |
 
 ## {{Application module conventions}}
 
-{{The following file conventions are used to define new module in src folder.}}
+{{The following file conventions are used to define a new module in the src folder.}}
 
 | <!-- -->             | folder | <!-- -->                        |
 | -------------------- | ------ | ------------------------------- |
 | dto                  | folder | {{Define the DTO (Data Transfer Object) schema. A DTO is an object that defines how the data will be sent over the network.}}      |
 | entities             | folder | {{Define the business object.}} |
 | handler              | folder | {{Define the data sync handler classes.}}  |
-| [name].service.ts    | file   | {{Define business logics.}}    |
+| [name].service.ts    | file   | {{Define business logic.}}    |
 | [name].controller.ts | file   | {{Define a controller.}} |
 | [name].module.ts     | file   | {{Organizes code relevant for a specific feature, keeping code organized and establishing clear boundaries.}}     |
 
