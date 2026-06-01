@@ -4,7 +4,7 @@ description: Build scalable serverless applications with MBC CQRS Serverless fra
 
 # Building your application
 
-MBC CQRS serverless provides the core functionalities to create backend application. This guides explain how to use these features and how to customize your application's behavior.
+MBC CQRS serverless provides the core functionalities to create backend applications. These guides explain how to use these features and how to customize your application's behavior.
 
 ```mdx-code-block
 import DocCardList from '@theme/DocCardList';

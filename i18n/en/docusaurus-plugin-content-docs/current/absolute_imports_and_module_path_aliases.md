@@ -24,7 +24,6 @@ An example of this configuration:
 
 ```json
 # tsconfig.json
-TODO:
 {
   "compilerOptions": {
     "baseUrl": "."
@@ -41,7 +40,6 @@ For example, the following configuration maps `@/auth/*` to `auth/*`:
 
 ```json
 # tsconfig.json
- TODO:
 {
   "compilerOptions": {
     "baseUrl": ".",

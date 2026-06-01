@@ -33,6 +33,19 @@ The "Required" column indicates the general expectation for typical applications
 | `EVENT_SOURCE_DISABLED` | Disable event source route for API Gateway integration | Yes | - | `false` |
 | `REQUEST_BODY_SIZE_LIMIT` | Request body size limit for JSON and URL-encoded data | No | `100kb` | `100kb` |
 
+### Multi-Tenancy Configuration
+
+| Variable | Description | Required | Default | Example |
+|-------------|-----------------|--------------|-------------|-------------|
+| `COMMON_TENANT_CODES` | Comma-separated list of tenant codes treated as common/shared across tenants | No | `common` | `common,shared,public` |
+| `CROSS_TENANT_ROLES` | Comma-separated list of roles granted cross-tenant access | No | `system_admin` | `system_admin,general_manager` |
+
+### Read-Your-Writes (RYW) Configuration
+
+| Variable | Description | Required | Default | Example |
+|-------------|-----------------|--------------|-------------|-------------|
+| `RYW_SESSION_TTL_MINUTES` | Time-to-live in minutes for Read-Your-Writes session records. Leave unset or set to a non-positive value to disable RYW session writes | No | - | `15` |
+
 ### AWS Credentials
 
 | Variable | Description | Required | Example |
@@ -73,6 +86,13 @@ The "Required" column indicates the general expectation for typical applications
 | `SNS_REGION` | SNS region | No | `ap-northeast-1` |
 | `SNS_TOPIC_ARN` | Default SNS topic ARN for event notifications | Yes | `arn:aws:sns:ap-northeast-1:101010101010:CqrsSnsTopic` |
 | `SNS_ALARM_TOPIC_ARN` | SNS topic ARN for alarm notifications (error alerts) | No | `arn:aws:sns:ap-northeast-1:101010101010:AlarmSnsTopic` |
+
+### SQS Configuration
+
+| Variable | Description | Required | Example |
+|-------------|-----------------|--------------|-------------|
+| `SQS_ENDPOINT` | SQS endpoint URL for local development | No | `http://localhost:9324` |
+| `SQS_REGION` | SQS region | No | `ap-northeast-1` |
 
 ### Cognito Configuration
 
@@ -132,6 +152,13 @@ LOG_LEVEL=verbose
 EVENT_SOURCE_DISABLED=false
 REQUEST_BODY_SIZE_LIMIT=100kb
 
+# Multi-Tenancy Configuration
+# COMMON_TENANT_CODES=common
+# CROSS_TENANT_ROLES=system_admin
+
+# Read-Your-Writes (RYW) Configuration
+# RYW_SESSION_TTL_MINUTES=15
+
 # DynamoDB Configuration
 DYNAMODB_ENDPOINT=http://localhost:8000
 DYNAMODB_REGION=ap-northeast-1
@@ -152,6 +179,10 @@ SNS_ENDPOINT=http://localhost:4002
 SNS_REGION=ap-northeast-1
 SNS_TOPIC_ARN=arn:aws:sns:ap-northeast-1:101010101010:CqrsSnsTopic
 SNS_ALARM_TOPIC_ARN=arn:aws:sns:ap-northeast-1:101010101010:AlarmSnsTopic
+
+# SQS Configuration
+SQS_ENDPOINT=http://localhost:9324
+SQS_REGION=ap-northeast-1
 
 # Cognito Configuration
 COGNITO_URL=http://localhost:9229

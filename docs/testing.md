@@ -13,7 +13,7 @@ description: {{Comprehensive testing guide for MBC CQRS Serverless applications,
 - {{makes the Nest dependency injection system available in the testing environment for easily mocking components}}
 - {{effortlessly mock AWS services}}
 
-{{See the guides below to learn how to write test:}}
+{{See the guides below to learn how to write tests:}}
 
 ```mdx-code-block
 import DocCardList from '@theme/DocCardList';
