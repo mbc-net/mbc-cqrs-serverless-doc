@@ -1,17 +1,31 @@
 {
   "latest": {
-    "version": "1.3.0",
-    "date": "2026-05-21",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.0",
+    "version": "1.3.1",
+    "date": "2026-06-02",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.1",
     "features": [
-      "Add `AppSyncEventsService` — opt-in HTTP pub/sub transport for real-time notifications via AWS AppSync Events API",
-      "CDK infra template: add `appsyncEvents` and `notificationTransports` to `Config` type — provisions `EventApi` + `ChannelNamespace`, injects `NOTIFICATION_TRANSPORTS`, `APPSYNC_EVENTS_ENDPOINT`, and `APPSYNC_EVENTS_NAMESPACE` into Lambda and ECS, and grants `appsync:EventPublish` IAM permission via `grantPublish()` automatically",
-      "Update skills and analyzer for v1.3.0"
+      "Add group-based role authorization — `RolesGuard` checks direct roles from `custom:roles` first, then roles derived from the user's groups in the new `custom:groups` claim",
+      "Update skills and analyzer for v1.3.1"
     ],
-    "bugFixes": [],
+    "bugFixes": [
+      "Tolerate a malformed `custom:groups` claim (fail-closed to no group roles) instead of throwing, so a bad token degrades to direct-role-only checks rather than crashing the request"
+    ],
     "security": []
   },
   "recent": [
+    {
+      "version": "1.3.1",
+      "date": "2026-06-02",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.1",
+      "features": [
+        "Add group-based role authorization — `RolesGuard` checks direct roles from `custom:roles` first, then roles derived from the user's groups in the new `custom:groups` claim",
+        "Update skills and analyzer for v1.3.1"
+      ],
+      "bugFixes": [
+        "Tolerate a malformed `custom:groups` claim (fail-closed to no group roles) instead of throwing, so a bad token degrades to direct-role-only checks rather than crashing the request"
+      ],
+      "security": []
+    },
     {
       "version": "1.3.0",
       "date": "2026-05-21",
@@ -49,18 +63,7 @@
       ],
       "bugFixes": [],
       "security": []
-    },
-    {
-      "version": "1.2.2",
-      "date": "2026-04-08",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.2",
-      "features": [],
-      "bugFixes": [
-        "Fix Head-of-Line Blocking (Poison Pill) in `CsvBatchProcessor` by implementing Smart Retry pattern",
-        "Fix `ImportQueueEventHandler` passing raw SQS payload instead of parsed `importEvent` to `SingleImportProcessor`"
-      ],
-      "security": []
     }
   ],
-  "generated": "2026-05-29T14:36:11.975Z"
+  "generated": "2026-06-01T16:48:17.255Z"
 }

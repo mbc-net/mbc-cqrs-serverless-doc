@@ -18,6 +18,27 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ## {{Stable Releases (1.x)}}
 
+## [1.3.1](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.1) (2026-06-02) {#v131}
+
+### {{Features}}
+
+- **core:** {{Add group-based role authorization — `RolesGuard` checks direct roles from `custom:roles` first, then roles derived from the user's groups in the new `custom:groups` claim}} ([{{See Details}}](/docs/authentication#group-based-roles)) ([PR #440](https://github.com/mbc-net/mbc-cqrs-serverless/pull/440))
+  - {{New `@GroupRoleResolver()` decorator and `IGroupRoleResolver` interface — implement exactly one resolver per app to map group IDs to roles (loaded from DynamoDB/RDS/config); the mapping is not stored in the JWT}}
+  - {{`UserContext` gains `tenantRoles` (direct roles array) and `tenantGroupIds` (group IDs for the active tenant); `tenantRole` (singular) is kept for backward compatibility}}
+  - {{Opt-in: existing `@Roles()` checks keep working with no code changes}}
+  - {{A resolver failure propagates as a 5xx (not a silent 403), so a backend outage is distinguishable from a genuine access denial}}
+- **mcp-server:** {{Update skills and analyzer for v1.3.1}}
+  - {{AP027 anti-pattern detector added: a `@GroupRoleResolver()` class must not also be annotated with `@Injectable()`}}
+  - {{`mbc-migrate` skill: v1.3.1 migration guide added}}
+  - {{`mbc-generate` skill: group role resolver code generation template added}}
+  - {{`mbc-review` skill: AP022 (group role resolver) added to checklist}}
+
+### {{Bug Fixes}}
+
+- **core:** {{Tolerate a malformed `custom:groups` claim (fail-closed to no group roles) instead of throwing, so a bad token degrades to direct-role-only checks rather than crashing the request}}
+
+---
+
 ## [1.3.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.0) (2026-05-21) {#v130}
 
 ### {{Features}}

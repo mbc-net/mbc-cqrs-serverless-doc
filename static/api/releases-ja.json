@@ -1,17 +1,31 @@
 {
   "latest": {
-    "version": "1.3.0",
-    "date": "2026-05-21",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.0",
+    "version": "1.3.1",
+    "date": "2026-06-02",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.1",
     "features": [
-      "`AppSyncEventsService` を追加 — AWS AppSync Events API によるリアルタイム通知のオプトイン HTTP pub/sub トランスポート",
-      "CDK インフラテンプレート: `Config` 型に `appsyncEvents` と `notificationTransports` を追加 — `EventApi` + `ChannelNamespace` をプロビジョニングし、Lambda/ECS に `NOTIFICATION_TRANSPORTS`、`APPSYNC_EVENTS_ENDPOINT`、`APPSYNC_EVENTS_NAMESPACE` を注入、`grantPublish()` で `appsync:EventPublish` IAM 権限を自動付与",
-      "v1.3.0 向けスキルとアナライザーを更新"
+      "グループベースのロール認可を追加 — `RolesGuard` はまず `custom:roles` の直接ロールを確認し、次に新しい `custom:groups` クレームに含まれるユーザーのグループから導出されたロールを確認します",
+      "v1.3.1 向けにスキルとアナライザを更新"
     ],
-    "bugFixes": [],
+    "bugFixes": [
+      "不正な `custom:groups` クレームを例外ではなく許容（グループロールなしにフェイルクローズ）するようにし、不正なトークンでもリクエストをクラッシュさせず直接ロールのみのチェックに縮退します"
+    ],
     "security": []
   },
   "recent": [
+    {
+      "version": "1.3.1",
+      "date": "2026-06-02",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.1",
+      "features": [
+        "グループベースのロール認可を追加 — `RolesGuard` はまず `custom:roles` の直接ロールを確認し、次に新しい `custom:groups` クレームに含まれるユーザーのグループから導出されたロールを確認します",
+        "v1.3.1 向けにスキルとアナライザを更新"
+      ],
+      "bugFixes": [
+        "不正な `custom:groups` クレームを例外ではなく許容（グループロールなしにフェイルクローズ）するようにし、不正なトークンでもリクエストをクラッシュさせず直接ロールのみのチェックに縮退します"
+      ],
+      "security": []
+    },
     {
       "version": "1.3.0",
       "date": "2026-05-21",
@@ -49,18 +63,7 @@
       ],
       "bugFixes": [],
       "security": []
-    },
-    {
-      "version": "1.2.2",
-      "date": "2026-04-08",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.2",
-      "features": [],
-      "bugFixes": [
-        "`CsvBatchProcessor`にSmart Retryパターンを実装してHead-of-Line Blocking（Poison Pill）を修正",
-        "`ImportQueueEventHandler`が`SingleImportProcessor`に生のSQSペイロードを渡していた問題を修正"
-      ],
-      "security": []
     }
   ],
-  "generated": "2026-05-29T14:36:11.977Z"
+  "generated": "2026-06-01T16:48:17.257Z"
 }
