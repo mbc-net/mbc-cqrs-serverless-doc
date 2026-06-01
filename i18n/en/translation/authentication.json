@@ -74,5 +74,21 @@
   "Controllers": "Controllers",
   "Authentication decorators for controllers": "Authentication decorators for controllers",
   "Environment Variables": "Environment Variables",
-  "Cognito configuration variables": "Cognito configuration variables"
+  "Cognito configuration variables": "Cognito configuration variables",
+  "Group-Based Roles": "Group-Based Roles",
+  "Group-based role authorization (`@GroupRoleResolver`, the `custom:groups` claim, and `UserContext.tenantRoles` / `tenantGroupIds`) was added in [version 1.3.1](/docs/changelog#v131).": "Group-based role authorization (`@GroupRoleResolver`, the `custom:groups` claim, and `UserContext.tenantRoles` / `tenantGroupIds`) was added in [version 1.3.1](/docs/changelog#v131).",
+  "`RolesGuard` resolves a user's effective roles in two steps:": "`RolesGuard` resolves a user's effective roles in two steps:",
+  "**Direct roles** — read from the JWT `custom:roles` claim for the active tenant.": "**Direct roles** — read from the JWT `custom:roles` claim for the active tenant.",
+  "**Group-derived roles** — if the direct roles do not satisfy the required roles, the guard resolves roles from the user's groups listed in the `custom:groups` claim (tenant-scoped).": "**Group-derived roles** — if the direct roles do not satisfy the required roles, the guard resolves roles from the user's groups listed in the `custom:groups` claim (tenant-scoped).",
+  "The mapping from a group to its roles is **not** stored in the JWT. Your application provides it by implementing a resolver.": "The mapping from a group to its roles is **not** stored in the JWT. Your application provides it by implementing a resolver.",
+  "JWT Claims": "JWT Claims",
+  "`getUserContext()` exposes these as `tenantRoles` (the direct roles array) and `tenantGroupIds` (the group IDs for the active tenant). The singular `tenantRole` is kept for backward compatibility.": "`getUserContext()` exposes these as `tenantRoles` (the direct roles array) and `tenantGroupIds` (the group IDs for the active tenant). The singular `tenantRole` is kept for backward compatibility.",
+  "Implementing a Resolver": "Implementing a Resolver",
+  "Implement exactly **one** resolver per application and register it in your module `providers`. `AuthModule` is imported automatically via `AppModule.forRoot()`.": "Implement exactly **one** resolver per application and register it in your module `providers`. `AuthModule` is imported automatically via `AppModule.forRoot()`.",
+  "Do not add @Injectable() — @GroupRoleResolver() already registers a singleton provider": "Do not add @Injectable() — @GroupRoleResolver() already registers a singleton provider",
+  "Map the user's group IDs to roles for this tenant (DynamoDB/RDS/config)": "Map the user's group IDs to roles for this tenant (DynamoDB/RDS/config)",
+  "Resolver Guidelines": "Resolver Guidelines",
+  "**Singleton only** — the resolver is resolved once at bootstrap; do not use `REQUEST`/`TRANSIENT` scope. Adding `@Injectable()` on the same class can override the scope and break bootstrap.": "**Singleton only** — the resolver is resolved once at bootstrap; do not use `REQUEST`/`TRANSIENT` scope. Adding `@Injectable()` on the same class can override the scope and break bootstrap.",
+  "**Let failures propagate** — a resolver error surfaces as a 5xx, not a silent 403, so a backend outage is distinguishable from a genuine access denial. Do not catch-and-grant.": "**Let failures propagate** — a resolver error surfaces as a 5xx, not a silent 403, so a backend outage is distinguishable from a genuine access denial. Do not catch-and-grant.",
+  "**Case-sensitive roles** — keep the role casing in `custom:roles` consistent with your `@Roles(...)` values.": "**Case-sensitive roles** — keep the role casing in `custom:roles` consistent with your `@Roles(...)` values."
 }

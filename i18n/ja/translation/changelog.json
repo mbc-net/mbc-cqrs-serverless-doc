@@ -359,5 +359,16 @@
   "Breaking changes migration guide": "破壊的変更のマイグレーションガイド",
   "Version Conflict Guide": "バージョン競合ガイド",
   "Handling version conflicts in upgrades": "アップグレード時のバージョン競合処理",
-  "Related Links": "関連リンク"
+  "Related Links": "関連リンク",
+  "Add group-based role authorization — `RolesGuard` checks direct roles from `custom:roles` first, then roles derived from the user's groups in the new `custom:groups` claim": "グループベースのロール認可を追加 — `RolesGuard` はまず `custom:roles` の直接ロールを確認し、次に新しい `custom:groups` クレームに含まれるユーザーのグループから導出されたロールを確認します",
+  "New `@GroupRoleResolver()` decorator and `IGroupRoleResolver` interface — implement exactly one resolver per app to map group IDs to roles (loaded from DynamoDB/RDS/config); the mapping is not stored in the JWT": "新しい `@GroupRoleResolver()` デコレータと `IGroupRoleResolver` インターフェース — アプリごとに 1 つだけリゾルバを実装し、グループ ID をロールにマッピングします（DynamoDB/RDS/設定から読み込み）。マッピングは JWT には保存されません",
+  "`UserContext` gains `tenantRoles` (direct roles array) and `tenantGroupIds` (group IDs for the active tenant); `tenantRole` (singular) is kept for backward compatibility": "`UserContext` に `tenantRoles`（直接ロールの配列）と `tenantGroupIds`（アクティブテナントのグループ ID）が追加されました。`tenantRole`（単数）は後方互換性のため維持されます",
+  "Opt-in: existing `@Roles()` checks keep working with no code changes": "オプトイン: 既存の `@Roles()` チェックはコード変更なしで動作し続けます",
+  "A resolver failure propagates as a 5xx (not a silent 403), so a backend outage is distinguishable from a genuine access denial": "リゾルバの失敗は（暗黙の 403 ではなく）5xx として伝播するため、バックエンド障害を本来のアクセス拒否と区別できます",
+  "Update skills and analyzer for v1.3.1": "v1.3.1 向けにスキルとアナライザを更新",
+  "AP027 anti-pattern detector added: a `@GroupRoleResolver()` class must not also be annotated with `@Injectable()`": "AP027 アンチパターン検出を追加: `@GroupRoleResolver()` クラスに `@Injectable()` を併用してはいけません",
+  "`mbc-migrate` skill: v1.3.1 migration guide added": "`mbc-migrate` スキル: v1.3.1 のマイグレーションガイドを追加",
+  "`mbc-generate` skill: group role resolver code generation template added": "`mbc-generate` スキル: グループロールリゾルバのコード生成テンプレートを追加",
+  "`mbc-review` skill: AP022 (group role resolver) added to checklist": "`mbc-review` スキル: AP022（グループロールリゾルバ）をチェックリストに追加",
+  "Tolerate a malformed `custom:groups` claim (fail-closed to no group roles) instead of throwing, so a bad token degrades to direct-role-only checks rather than crashing the request": "不正な `custom:groups` クレームを例外ではなく許容（グループロールなしにフェイルクローズ）するようにし、不正なトークンでもリクエストをクラッシュさせず直接ロールのみのチェックに縮退します"
 }

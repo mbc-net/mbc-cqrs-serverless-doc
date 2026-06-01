@@ -74,5 +74,21 @@
   "Controllers": "コントローラー",
   "Authentication decorators for controllers": "コントローラーの認証デコレーター",
   "Environment Variables": "環境変数",
-  "Cognito configuration variables": "Cognito設定変数"
+  "Cognito configuration variables": "Cognito設定変数",
+  "Group-Based Roles": "グループベースのロール",
+  "Group-based role authorization (`@GroupRoleResolver`, the `custom:groups` claim, and `UserContext.tenantRoles` / `tenantGroupIds`) was added in [version 1.3.1](/docs/changelog#v131).": "グループベースのロール認可（`@GroupRoleResolver`、`custom:groups` クレーム、`UserContext.tenantRoles` / `tenantGroupIds`）は [バージョン 1.3.1](/docs/changelog#v131) で追加されました。",
+  "`RolesGuard` resolves a user's effective roles in two steps:": "`RolesGuard` はユーザーの実効ロールを 2 段階で解決します:",
+  "**Direct roles** — read from the JWT `custom:roles` claim for the active tenant.": "**直接ロール** — アクティブテナントに対する JWT の `custom:roles` クレームから読み取ります。",
+  "**Group-derived roles** — if the direct roles do not satisfy the required roles, the guard resolves roles from the user's groups listed in the `custom:groups` claim (tenant-scoped).": "**グループ由来ロール** — 直接ロールが必要なロールを満たさない場合、ガードは `custom:groups` クレーム（テナントスコープ）に列挙されたユーザーのグループからロールを解決します。",
+  "The mapping from a group to its roles is **not** stored in the JWT. Your application provides it by implementing a resolver.": "グループからロールへのマッピングは JWT には保存され**ません**。アプリケーション側がリゾルバを実装して提供します。",
+  "JWT Claims": "JWT クレーム",
+  "`getUserContext()` exposes these as `tenantRoles` (the direct roles array) and `tenantGroupIds` (the group IDs for the active tenant). The singular `tenantRole` is kept for backward compatibility.": "`getUserContext()` はこれらを `tenantRoles`（直接ロールの配列）と `tenantGroupIds`（アクティブテナントのグループ ID）として公開します。単数の `tenantRole` は後方互換性のため維持されます。",
+  "Implementing a Resolver": "リゾルバの実装",
+  "Implement exactly **one** resolver per application and register it in your module `providers`. `AuthModule` is imported automatically via `AppModule.forRoot()`.": "アプリケーションごとに**1 つだけ**リゾルバを実装し、モジュールの `providers` に登録します。`AuthModule` は `AppModule.forRoot()` 経由で自動的にインポートされます。",
+  "Do not add @Injectable() — @GroupRoleResolver() already registers a singleton provider": "@Injectable() を付けないでください — @GroupRoleResolver() が既にシングルトンプロバイダとして登録します",
+  "Map the user's group IDs to roles for this tenant (DynamoDB/RDS/config)": "このテナントについて、ユーザーのグループ ID をロールにマッピングします（DynamoDB/RDS/設定）",
+  "Resolver Guidelines": "リゾルバのガイドライン",
+  "**Singleton only** — the resolver is resolved once at bootstrap; do not use `REQUEST`/`TRANSIENT` scope. Adding `@Injectable()` on the same class can override the scope and break bootstrap.": "**シングルトンのみ** — リゾルバはブートストラップ時に一度だけ解決されます。`REQUEST`/`TRANSIENT` スコープは使用しないでください。同じクラスに `@Injectable()` を付与するとスコープが上書きされブートストラップが壊れることがあります。",
+  "**Let failures propagate** — a resolver error surfaces as a 5xx, not a silent 403, so a backend outage is distinguishable from a genuine access denial. Do not catch-and-grant.": "**失敗は伝播させる** — リゾルバのエラーは暗黙の 403 ではなく 5xx として表面化するため、バックエンド障害を本来のアクセス拒否と区別できます。例外を握りつぶして許可しないでください。",
+  "**Case-sensitive roles** — keep the role casing in `custom:roles` consistent with your `@Roles(...)` values.": "**ロール名は大文字小文字を区別** — `custom:roles` のロール名の大文字小文字を `@Roles(...)` の値と一致させてください。"
 }

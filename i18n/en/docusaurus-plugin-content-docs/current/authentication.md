@@ -213,6 +213,61 @@ export class CustomRoleGuard extends RolesGuard {
 }
 ```
 
+## Group-Based Roles {#group-based-roles}
+
+:::info Version Note
+Group-based role authorization (`@GroupRoleResolver`, the `custom:groups` claim, and `UserContext.tenantRoles` / `tenantGroupIds`) was added in [version 1.3.1](/docs/changelog#v131).
+:::
+
+`RolesGuard` resolves a user's effective roles in two steps:
+
+1. **Direct roles** — read from the JWT `custom:roles` claim for the active tenant.
+2. **Group-derived roles** — if the direct roles do not satisfy the required roles, the guard resolves roles from the user's groups listed in the `custom:groups` claim (tenant-scoped).
+
+The mapping from a group to its roles is **not** stored in the JWT. Your application provides it by implementing a resolver.
+
+### JWT Claims
+
+```json
+{
+  "custom:roles": "[{\"tenant\":\"tenant-a\",\"role\":\"admin\"}]",
+  "custom:groups": "[{\"tenant\":\"tenant-a\",\"groups\":[\"sales-team\"]}]"
+}
+```
+
+`getUserContext()` exposes these as `tenantRoles` (the direct roles array) and `tenantGroupIds` (the group IDs for the active tenant). The singular `tenantRole` is kept for backward compatibility.
+
+### Implementing a Resolver
+
+Implement exactly **one** resolver per application and register it in your module `providers`. `AuthModule` is imported automatically via `AppModule.forRoot()`.
+
+```typescript
+import {
+  GroupRoleResolver,
+  IGroupRoleResolver,
+  ResolveGroupRolesInput,
+} from "@mbc-cqrs-serverless/core";
+
+// Do not add @Injectable() — @GroupRoleResolver() already registers a singleton provider
+@GroupRoleResolver()
+export class AppGroupRoleResolver implements IGroupRoleResolver {
+  async resolveRoles({
+    tenantCode,
+    groupIds,
+    claims,
+  }: ResolveGroupRolesInput): Promise<string[]> {
+    // Map the user's group IDs to roles for this tenant (DynamoDB/RDS/config)
+    return [];
+  }
+}
+```
+
+:::warning Resolver Guidelines
+- **Singleton only** — the resolver is resolved once at bootstrap; do not use `REQUEST`/`TRANSIENT` scope. Adding `@Injectable()` on the same class can override the scope and break bootstrap.
+- **Let failures propagate** — a resolver error surfaces as a 5xx, not a silent 403, so a backend outage is distinguishable from a genuine access denial. Do not catch-and-grant.
+- **Case-sensitive roles** — keep the role casing in `custom:roles` consistent with your `@Roles(...)` values.
+:::
+
 ## Tenant Verification {#tenant-verification}
 
 The `RolesGuard` includes extensible methods for tenant verification, allowing you to customize cross-tenant access behavior.

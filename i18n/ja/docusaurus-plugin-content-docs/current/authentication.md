@@ -213,6 +213,61 @@ export class CustomRoleGuard extends RolesGuard {
 }
 ```
 
+## グループベースのロール {#group-based-roles}
+
+:::info バージョン情報
+グループベースのロール認可（`@GroupRoleResolver`、`custom:groups` クレーム、`UserContext.tenantRoles` / `tenantGroupIds`）は [バージョン 1.3.1](/docs/changelog#v131) で追加されました。
+:::
+
+`RolesGuard` はユーザーの実効ロールを 2 段階で解決します:
+
+1. **直接ロール** — アクティブテナントに対する JWT の `custom:roles` クレームから読み取ります。
+2. **グループ由来ロール** — 直接ロールが必要なロールを満たさない場合、ガードは `custom:groups` クレーム（テナントスコープ）に列挙されたユーザーのグループからロールを解決します。
+
+グループからロールへのマッピングは JWT には保存され**ません**。アプリケーション側がリゾルバを実装して提供します。
+
+### JWT クレーム
+
+```json
+{
+  "custom:roles": "[{\"tenant\":\"tenant-a\",\"role\":\"admin\"}]",
+  "custom:groups": "[{\"tenant\":\"tenant-a\",\"groups\":[\"sales-team\"]}]"
+}
+```
+
+`getUserContext()` はこれらを `tenantRoles`（直接ロールの配列）と `tenantGroupIds`（アクティブテナントのグループ ID）として公開します。単数の `tenantRole` は後方互換性のため維持されます。
+
+### リゾルバの実装
+
+アプリケーションごとに**1 つだけ**リゾルバを実装し、モジュールの `providers` に登録します。`AuthModule` は `AppModule.forRoot()` 経由で自動的にインポートされます。
+
+```typescript
+import {
+  GroupRoleResolver,
+  IGroupRoleResolver,
+  ResolveGroupRolesInput,
+} from "@mbc-cqrs-serverless/core";
+
+// @Injectable() を付けないでください — @GroupRoleResolver() が既にシングルトンプロバイダとして登録します
+@GroupRoleResolver()
+export class AppGroupRoleResolver implements IGroupRoleResolver {
+  async resolveRoles({
+    tenantCode,
+    groupIds,
+    claims,
+  }: ResolveGroupRolesInput): Promise<string[]> {
+    // このテナントについて、ユーザーのグループ ID をロールにマッピングします（DynamoDB/RDS/設定）
+    return [];
+  }
+}
+```
+
+:::warning リゾルバのガイドライン
+- **シングルトンのみ** — リゾルバはブートストラップ時に一度だけ解決されます。`REQUEST`/`TRANSIENT` スコープは使用しないでください。同じクラスに `@Injectable()` を付与するとスコープが上書きされブートストラップが壊れることがあります。
+- **失敗は伝播させる** — リゾルバのエラーは暗黙の 403 ではなく 5xx として表面化するため、バックエンド障害を本来のアクセス拒否と区別できます。例外を握りつぶして許可しないでください。
+- **ロール名は大文字小文字を区別** — `custom:roles` のロール名の大文字小文字を `@Roles(...)` の値と一致させてください。
+:::
+
 ## テナント検証 {#tenant-verification}
 
 `RolesGuard`にはテナント検証用の拡張可能なメソッドが含まれており、クロステナントアクセスの動作をカスタマイズできます。
