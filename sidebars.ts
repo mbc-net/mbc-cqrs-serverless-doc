@@ -64,13 +64,13 @@ const sidebars: SidebarsConfig = {
         "build-your-application",
         "controllers",
         "modules",
+        "service-patterns",
         "event-handling-patterns",
         "data-sync-handler-examples",
-        "service-patterns",
-        "multi-tenant-patterns",
-        "import-export-patterns",
         "api-integration-guide",
+        "multi-tenant-patterns",
         "data-migration-patterns",
+        "import-export-patterns",
       ],
     },
 
@@ -130,9 +130,20 @@ const sidebars: SidebarsConfig = {
       ],
     },
 
+    // 7. Testing - テストガイド（開発ガイドの直後）
+    {
+      type: "category",
+      label: "Testing",
+      link: {
+        type: "doc",
+        id: "testing",
+      },
+      items: ["unit-test", "e2e-test"],
+    },
+
     // === 共通基盤 ===
 
-    // 7. Infrastructure - インフラストラクチャ設定
+    // 8. Infrastructure - インフラストラクチャ設定
     {
       type: "category",
       label: "Infrastructure",
@@ -145,14 +156,14 @@ const sidebars: SidebarsConfig = {
       ],
     },
 
-    // 8. Security - セキュリティガイド
+    // 9. Security - セキュリティガイド
     {
       type: "category",
       label: "Security",
       items: ["security-best-practices", "authentication"],
     },
 
-    // 9. Configuration - 設定ガイド
+    // 10. Configuration - 設定ガイド
     {
       type: "category",
       label: "Configuration",
@@ -164,17 +175,6 @@ const sidebars: SidebarsConfig = {
         "environment-variables",
         "absolute_imports_and_module_path_aliases",
       ],
-    },
-
-    // 10. Testing - テストガイド
-    {
-      type: "category",
-      label: "Testing",
-      link: {
-        type: "doc",
-        id: "testing",
-      },
-      items: ["unit-test", "e2e-test"],
     },
 
     // === 運用 ===

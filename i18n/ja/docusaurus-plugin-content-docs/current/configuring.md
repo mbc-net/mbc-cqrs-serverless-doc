@@ -39,7 +39,7 @@ provider:
     NODE_ENV: ${self:provider.stage}
     APP_NAME: ${self:service}
     COGNITO_USER_POOL_ID: ${env:COGNITO_USER_POOL_ID}
-    COGNITO_CLIENT_ID: ${env:COGNITO_CLIENT_ID}
+    COGNITO_USER_POOL_CLIENT_ID: ${env:COGNITO_USER_POOL_CLIENT_ID}
 
   iam:
     role:
@@ -398,7 +398,7 @@ export default () => ({
 
   auth: {
     userPoolId: process.env.COGNITO_USER_POOL_ID,
-    clientId: process.env.COGNITO_CLIENT_ID,
+    clientId: process.env.COGNITO_USER_POOL_CLIENT_ID,
   },
 
   features: {
