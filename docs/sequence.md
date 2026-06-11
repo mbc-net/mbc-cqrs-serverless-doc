@@ -95,11 +95,11 @@ export class SeqModule {}
 - {{`rotateBy?: RotateByEnum`}}
   - {{Default: NONE.}}
   - {{Options}}
-    - {{FISCAL_YEARLY}}
-    - {{YEARLY}}
-    - {{MONTHLY}}
-    - {{DAILY}}
-    - {{NONE}}
+    - {{FISCAL_YEARLY}} (`'fiscal_yearly'`)
+    - {{YEARLY}} (`'yearly'`)
+    - {{MONTHLY}} (`'monthly'`)
+    - {{DAILY}} (`'daily'`)
+    - {{NONE}} (`'none'`)
   - {{Description: Determines the rotation type for the sequence.}}
 
 - {{`tenantCode: string`}}

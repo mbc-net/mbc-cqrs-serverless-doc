@@ -95,11 +95,11 @@ GenerateFormattedSequenceDto オブジェクトで提供されたパラメータ
 - `rotateBy?: RotateByEnum`
   - デフォルト: NONE。
   - オプション
-    - FISCAL_YEARLY（会計年度）
-    - YEARLY（年次）
-    - MONTHLY（月次）
-    - DAILY（日次）
-    - NONE（採番なし）
+    - FISCAL_YEARLY（会計年度） (`'fiscal_yearly'`)
+    - YEARLY（年次） (`'yearly'`)
+    - MONTHLY（月次） (`'monthly'`)
+    - DAILY（日次） (`'daily'`)
+    - NONE（採番なし） (`'none'`)
   - 説明: シーケンスの回転タイプを決定します。
 
 - `tenantCode: string`
