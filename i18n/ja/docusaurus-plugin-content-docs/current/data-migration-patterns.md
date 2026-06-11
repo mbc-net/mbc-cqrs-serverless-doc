@@ -676,7 +676,7 @@ export class SchemaTransformationStrategy
    * Map old schema to new schema (旧スキーマを新スキーマにマッピング)
    */
   async map(
-    status: ComparisonStatus,
+    status: Exclude<ComparisonStatus, ComparisonStatus.EQUAL>,
     dto: NewProductAttributes,
     tenantCode: string,
     existingData?: DataModel,
@@ -938,7 +938,7 @@ export class MigrationProcessStrategy
    * Map migration data to command payload (移行データをコマンドペイロードにマッピング)
    */
   async map(
-    status: ComparisonStatus,
+    status: Exclude<ComparisonStatus, ComparisonStatus.EQUAL>,
     dto: MigrationDto,
     tenantCode: string,
     existingData?: DataModel,
@@ -1099,6 +1099,8 @@ export class RollbackService {
 
 ```typescript
 // migration/safe-migration.service.ts
+import { parseTwoSegmentPkSkFromId } from '@mbc-cqrs-serverless/core';
+
 @Injectable()
 export class SafeMigrationService {
   /**
@@ -1160,7 +1162,9 @@ export class SafeMigrationService {
   ): Promise<void> {
     // Restore original records (元のレコードを復元)
     for (const id of originalIds) {
-      const item = await this.dataService.getItemById(id);
+      const parsed = parseTwoSegmentPkSkFromId(id);
+      if (!parsed) continue;
+      const item = await this.dataService.getItem({ pk: parsed.pk, sk: parsed.skBase });
       if (item?.isDeleted) {
         await this.commandService.publishPartialUpdateSync({
           pk: item.pk,
@@ -1179,7 +1183,9 @@ export class SafeMigrationService {
 
     // Hard delete migrated records (移行されたレコードをハード削除)
     for (const id of migratedIds) {
-      const item = await this.dataService.getItemById(id);
+      const parsed = parseTwoSegmentPkSkFromId(id);
+      if (!parsed) continue;
+      const item = await this.dataService.getItem({ pk: parsed.pk, sk: parsed.skBase });
       if (item) {
         await this.commandService.publishPartialUpdateSync({
           pk: item.pk,
