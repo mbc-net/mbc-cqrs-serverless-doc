@@ -234,80 +234,43 @@ async function refreshTokenIfNeeded(): Promise<string> {
 
 ### {{Implement Role-Based Access Control}}
 
-{{Use Cognito groups for role-based authorization.}}
+{{Use the framework's `@Auth` decorator, which applies `RolesGuard` and checks the roles carried in the `custom:roles` JWT claim (and group-derived roles from `custom:groups`). See [Authentication](/docs/authentication) for the full role model.}}
 
 ```typescript
-import { SetMetadata, CanActivate, ExecutionContext } from '@nestjs/common';
-
-export const ROLES_KEY = 'roles';
-export const Roles = (...roles: string[]) => SetMetadata(ROLES_KEY, roles);
-
-@Injectable()
-export class RolesGuard implements CanActivate {
-  constructor(private reflector: Reflector) {}
-
-  canActivate(context: ExecutionContext): boolean {
-    const requiredRoles = this.reflector.getAllAndOverride<string[]>(
-      ROLES_KEY,
-      [context.getHandler(), context.getClass()],
-    );
-
-    if (!requiredRoles) {
-      return true;
-    }
-
-    const { user } = context.switchToHttp().getRequest();
-    const userGroups = user['cognito:groups'] || [];
-
-    return requiredRoles.some(role => userGroups.includes(role));
-  }
-}
+import { Auth, ROLE_SYSTEM_ADMIN } from '@mbc-cqrs-serverless/core';
 
 // {{Usage in controller}}
 @Controller('admin')
-@UseGuards(JwtAuthGuard, RolesGuard)
 export class AdminController {
   @Get('users')
-  @Roles('admin', 'super-admin')
+  @Auth(ROLE_SYSTEM_ADMIN)
   findAllUsers() {
-    // {{Only admin or super-admin can access}}
+    // {{Only users holding the required role can access}}
   }
 }
 ```
 
 ### {{Enforce Tenant Isolation}}
 
-{{Always verify tenant access in multi-tenant applications.}}
+{{Always derive the tenant code from the verified JWT via `getUserContext()` — never from request parameters or the request body. The framework's `RolesGuard` verifies tenant access (including the `x-tenant-code` header override for common tenants).}}
 
 ```typescript
-@Injectable()
-export class TenantGuard implements CanActivate {
-  canActivate(context: ExecutionContext): boolean {
-    const request = context.switchToHttp().getRequest();
-    const user = request.user;
-    const requestedTenant = request.params.tenantCode || request.body?.tenantCode;
+import {
+  getUserContext,
+  IInvoke,
+  INVOKE_CONTEXT,
+} from '@mbc-cqrs-serverless/core';
 
-    if (!requestedTenant) {
-      return true;  // No tenant context required
-    }
-
-    const userTenants = user['custom:tenantCodes']?.split(',') || [];
-
-    if (!userTenants.includes(requestedTenant)) {
-      throw new ForbiddenException('Access denied to this tenant');
-    }
-
-    return true;
-  }
+@Get('orders')
+async listOrders(@INVOKE_CONTEXT() invokeContext: IInvoke) {
+  // {{The tenant code comes from the verified token, not from user input}}
+  const { tenantCode } = getUserContext(invokeContext);
+  return this.orderService.listOrders(tenantCode);
 }
 
 // {{Always include tenant in queries}}
-async function getOrdersByTenant(tenantCode: string, userId: string) {
-  // {{Verify user has access to tenant first}}
-  const user = await this.userService.getUser(userId);
-  if (!user.tenantCodes.includes(tenantCode)) {
-    throw new ForbiddenException('Access denied');
-  }
+async function getOrdersByTenant(invokeContext: IInvoke) {
+  const { tenantCode } = getUserContext(invokeContext);
 
   // {{Tenant is always part of the partition key}}
   return this.dataService.listItemsByPk(`ORDER#${tenantCode}`);

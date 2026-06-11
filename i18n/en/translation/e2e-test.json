@@ -10,7 +10,7 @@
   "Test Execution Order": "Test Execution Order",
   "E2E tests that share database state should run sequentially to avoid race conditions. Use the `--runInBand` flag to disable parallel execution:": "E2E tests that share database state should run sequentially to avoid race conditions. Use the `--runInBand` flag to disable parallel execution:",
   "Run E2E tests sequentially": "Run E2E tests sequentially",
-  "Or in package.json": "Or in package.json",
+  "Update the test:e2e script in package.json (the generated default does not include --runInBand)": "Update the test:e2e script in package.json (the generated default does not include --runInBand)",
   "Without `--runInBand`, Jest runs tests in parallel across multiple workers, which can cause:": "Without `--runInBand`, Jest runs tests in parallel across multiple workers, which can cause:",
   "Data conflicts when tests modify the same records": "Data conflicts when tests modify the same records",
   "Flaky tests due to timing issues": "Flaky tests due to timing issues",

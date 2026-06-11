@@ -20,7 +20,7 @@ E2E tests that share database state should run sequentially to avoid race condit
 # Run E2E tests sequentially
 jest --runInBand test/e2e
 
-# Or in package.json
+# Update the test:e2e script in package.json (the generated default does not include --runInBand)
 "test:e2e": "jest --runInBand --config ./test/jest-e2e.json"
 ```
 
