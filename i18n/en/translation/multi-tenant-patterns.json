@@ -49,7 +49,7 @@
   "Pattern 3: User-Tenant Association": "Pattern 3: User-Tenant Association",
   "Handle users belonging to multiple tenants:": "Handle users belonging to multiple tenants:",
   "Get all tenants a user belongs to": "Get all tenants a user belongs to",
-  "Query with SK prefix to find all tenant associations": "Query with SK prefix to find all tenant associations",
+  "List all items under the PK, then filter by user code": "List all items under the PK, then filter by user code",
   "Add user to tenant": "Add user to tenant",
   "Switch user's active tenant": "Switch user's active tenant",
   "Verify user belongs to tenant": "Verify user belongs to tenant",

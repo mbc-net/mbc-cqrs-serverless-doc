@@ -205,6 +205,7 @@ export interface JwtClaims {
   name: string                       // User's display name
   'custom:tenant'?: string           // Custom claim for tenant code
   'custom:roles'?: string            // Custom claim for roles JSON array
+  'custom:groups'?: string           // Custom claim for tenant group memberships JSON array
   exp: number                        // Token expiration timestamp
   email: string
   email_verified?: boolean
@@ -227,9 +228,11 @@ User context class extracted from authentication token.
 
 ```ts
 export class UserContext {
-  userId: string      // Cognito user ID (from JWT sub claim)
-  tenantRole: string  // User's role within the tenant
-  tenantCode: string  // Current tenant code
+  userId: string             // Cognito user ID (from JWT sub claim)
+  tenantRole: string         // User's role within the tenant
+  tenantCode: string         // Current tenant code
+  tenantRoles: string[]      // Direct roles for the active tenant (excludes group-derived roles)
+  tenantGroupIds: string[]   // Group IDs from custom:groups for the active tenant
 
   constructor(partial: Partial<UserContext>)  // Initialize with partial properties
 }
@@ -266,6 +269,7 @@ export interface CommandModel extends CommandInputModel {
   createdIp?: string    // IP address of the creator
   updatedIp?: string    // IP address of the last updater
   taskToken?: string    // Step Functions task token for async workflows
+  syncMode?: CommandSyncMode  // 'SYNC' when the command was applied via synchronous publish
 }
 ```
 

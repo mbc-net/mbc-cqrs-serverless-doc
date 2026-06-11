@@ -110,5 +110,6 @@
   "Data Service": "Data Service",
   "DataService query methods": "DataService query methods",
   "Database Selection Guide": "Database Selection Guide",
-  "DynamoDB vs RDS": "DynamoDB vs RDS"
+  "DynamoDB vs RDS": "DynamoDB vs RDS",
+  "publishAsync returns null when the command is not dirty (no-op)": "publishAsync returns null when the command is not dirty (no-op)"
 }

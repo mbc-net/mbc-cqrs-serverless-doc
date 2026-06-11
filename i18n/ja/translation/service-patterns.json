@@ -110,5 +110,6 @@
   "Data Service": "データサービス",
   "DataService query methods": "DataServiceクエリメソッド",
   "Database Selection Guide": "データベース選択ガイド",
-  "DynamoDB vs RDS": "DynamoDB対RDSの比較"
+  "DynamoDB vs RDS": "DynamoDB対RDSの比較",
+  "publishAsync returns null when the command is not dirty (no-op)": "publishAsync returns null when the command is not dirty (変更がない場合 publishAsync は null を返す)"
 }

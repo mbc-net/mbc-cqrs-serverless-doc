@@ -14,7 +14,6 @@
   "Generates a unique ID by combining partition key and sort key (without version).": "Generates a unique ID by combining partition key and sort key (without version).",
   "Result: 'TENANT#mbc#CAT#001'": "Result: 'TENANT#mbc#CAT#001'",
   "The inverse of `generateId`: extracts the base sort key from a composite ID. Returns `undefined` if the ID does not start with the given partition key.": "The inverse of `generateId`: extracts the base sort key from a composite ID. Returns `undefined` if the ID does not start with the given partition key.",
-  "Result: 'CAT#001'": "Result: 'CAT#001'",
   "Splits a composite ID back into its partition key and base sort key, assuming the partition key has two segments (type and tenant code). Returns `undefined` if the ID has fewer than three segments.": "Splits a composite ID back into its partition key and base sort key, assuming the partition key has two segments (type and tenant code). Returns `undefined` if the ID has fewer than three segments.",
   "result.pk is 'TENANT#mbc' and result.skBase is 'CAT#001'": "result.pk is 'TENANT#mbc' and result.skBase is 'CAT#001'",
   "Extracts the tenant code from a partition key.": "Extracts the tenant code from a partition key.",
@@ -119,5 +118,7 @@
   "Command Service": "Command Service",
   "Using key helpers": "Using key helpers",
   "Interfaces": "Interfaces",
-  "UserContext and IInvoke interfaces": "UserContext and IInvoke interfaces"
+  "UserContext and IInvoke interfaces": "UserContext and IInvoke interfaces",
+  "Direct roles for the active tenant (excludes group-derived roles)": "Direct roles for the active tenant (excludes group-derived roles)",
+  "Group IDs from custom:groups for the active tenant": "Group IDs from custom:groups for the active tenant"
 }

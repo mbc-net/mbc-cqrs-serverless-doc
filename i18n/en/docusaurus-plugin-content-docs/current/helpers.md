@@ -210,9 +210,11 @@ const claims = getAuthorizerClaims(invokeContext);
 
 ```ts
 class UserContext {
-  userId: string;      // User's unique identifier (sub claim)
-  tenantCode: string;  // Current tenant code
-  tenantRole: string;  // User's role in the current tenant
+  userId: string;            // User's unique identifier (sub claim)
+  tenantCode: string;        // Current tenant code
+  tenantRole: string;        // User's role in the current tenant
+  tenantRoles: string[];     // Direct roles for the active tenant (excludes group-derived roles)
+  tenantGroupIds: string[];  // Group IDs from custom:groups for the active tenant
 
   constructor(partial: Partial<UserContext>);
 }

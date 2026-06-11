@@ -49,7 +49,7 @@
   "Pattern 3: User-Tenant Association": "パターン3: ユーザー・テナント関連付け",
   "Handle users belonging to multiple tenants:": "複数のテナントに所属するユーザーを処理します：",
   "Get all tenants a user belongs to": "Get all tenants a user belongs to (ユーザーが所属する全テナントを取得)",
-  "Query with SK prefix to find all tenant associations": "SKプレフィックスで全テナント関連を検索",
+  "List all items under the PK, then filter by user code": "List all items under the PK, then filter by user code (PK配下の全アイテムを取得し、ユーザーコードで絞り込み)",
   "Add user to tenant": "Add user to tenant (ユーザーをテナントに追加)",
   "Switch user's active tenant": "Switch user's active tenant (ユーザーのアクティブテナントを切り替え)",
   "Verify user belongs to tenant": "ユーザーがテナントに属することを確認",
