@@ -91,7 +91,8 @@ ID = PK#SK (without version)
 | `VER_SEPARATOR` | `@` | ソートキーとバージョン番号を区切る |
 | `VERSION_FIRST` | `0` | 新しいエンティティの初期バージョン |
 | `VERSION_LATEST` | `-1` | 最新バージョンのクエリを示す |
-| `TENANT_COMMON` | `common` | 共有/クロステナントデータ用のテナントコード |
+| `TENANT_COMMON` | `common` | 共有・テナント横断データ用のテナントコード（非推奨 — DEFAULT_COMMON_TENANT_CODES を使用） |
+| `DEFAULT_COMMON_TENANT_CODES` | `['common']` | 共通テナントコードのリスト（環境変数 COMMON_TENANT_CODES で設定可能） |
 | `DEFAULT_TENANT_CODE` | `single` | シングルテナントモードのデフォルトテナント |
 
 :::tip 一貫したテナントコード形式

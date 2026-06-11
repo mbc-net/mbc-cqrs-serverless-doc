@@ -71,7 +71,7 @@
   "Separates sort key from version number": "ソートキーとバージョン番号を区切る",
   "Initial version for new entities": "新しいエンティティの初期バージョン",
   "Indicates query for latest version": "最新バージョンのクエリを示す",
-  "Tenant code for shared/cross-tenant data": "共有/クロステナントデータ用のテナントコード",
+  "Tenant code for shared/cross-tenant data (deprecated — use DEFAULT_COMMON_TENANT_CODES)": "共有・テナント横断データ用のテナントコード（非推奨 — DEFAULT_COMMON_TENANT_CODES を使用）",
   "Default tenant for single-tenant mode": "シングルテナントモードのデフォルトテナント",
   "Consistent Tenant Code Format": "一貫したテナントコード形式",
   "The `@mbc-cqrs-serverless/master` and `@mbc-cqrs-serverless/tenant` packages use `SettingTypeEnum.TENANT_COMMON = 'common'` (lowercase), which is consistent with the tenant code normalization in `getUserContext()`. This ensures that data saved by `createCommonTenantSetting()` or `createCommonTenant()` methods can be correctly queried.": "`@mbc-cqrs-serverless/master`と`@mbc-cqrs-serverless/tenant`パッケージは`SettingTypeEnum.TENANT_COMMON = 'common'`（小文字）を使用しており、`getUserContext()`のテナントコード正規化と一貫しています。これにより、`createCommonTenantSetting()`や`createCommonTenant()`メソッドで保存されたデータを正しくクエリできます。",
@@ -210,5 +210,6 @@
   "Use when creating new entities": "新しいエンティティ作成時に使用",
   "Returned when SK has no version": "SKにバージョンがない場合に返される",
   "Use for cross-tenant shared data": "クロステナント共有データに使用",
-  "Default for single-tenant mode": "シングルテナントモードのデフォルト"
+  "Default for single-tenant mode": "シングルテナントモードのデフォルト",
+  "Common tenant codes list, configurable via COMMON_TENANT_CODES env var": "共通テナントコードのリスト（環境変数 COMMON_TENANT_CODES で設定可能）"
 }

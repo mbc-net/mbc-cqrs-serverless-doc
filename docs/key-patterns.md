@@ -91,7 +91,8 @@ ID = PK#SK (without version)
 | `VER_SEPARATOR` | `@` | {{Separates sort key from version number}} |
 | `VERSION_FIRST` | `0` | {{Initial version for new entities}} |
 | `VERSION_LATEST` | `-1` | {{Indicates query for latest version}} |
-| `TENANT_COMMON` | `common` | {{Tenant code for shared/cross-tenant data}} |
+| `TENANT_COMMON` | `common` | {{Tenant code for shared/cross-tenant data (deprecated — use DEFAULT_COMMON_TENANT_CODES)}} |
+| `DEFAULT_COMMON_TENANT_CODES` | `['common']` | {{Common tenant codes list, configurable via COMMON_TENANT_CODES env var}} |
 | `DEFAULT_TENANT_CODE` | `single` | {{Default tenant for single-tenant mode}} |
 
 :::tip {{Consistent Tenant Code Format}}

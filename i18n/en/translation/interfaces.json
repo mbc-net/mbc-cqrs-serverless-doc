@@ -115,5 +115,9 @@
   "Entity Patterns": "Entity Patterns",
   "Designing entities": "Designing entities",
   "Error Catalog": "Error Catalog",
-  "Error handling": "Error handling"
+  "Error handling": "Error handling",
+  "Custom claim for tenant group memberships JSON array": "Custom claim for tenant group memberships JSON array",
+  "Direct roles for the active tenant (excludes group-derived roles)": "Direct roles for the active tenant (excludes group-derived roles)",
+  "Group IDs from custom:groups for the active tenant": "Group IDs from custom:groups for the active tenant",
+  "'SYNC' when the command was applied via synchronous publish": "'SYNC' when the command was applied via synchronous publish"
 }

@@ -205,6 +205,7 @@ export interface JwtClaims {
   name: string                       // User's display name (ユーザー表示名)
   'custom:tenant'?: string           // Custom claim for tenant code (テナントコード用カスタムクレーム)
   'custom:roles'?: string            // Custom claim for roles JSON array (ロールJSON配列用カスタムクレーム)
+  'custom:groups'?: string           // Custom claim for tenant group memberships JSON array (テナントグループ所属のJSON配列カスタムクレーム)
   exp: number                        // Token expiration timestamp (トークン有効期限タイムスタンプ)
   email: string
   email_verified?: boolean
@@ -227,9 +228,11 @@ export interface JwtClaims {
 
 ```ts
 export class UserContext {
-  userId: string      // Cognito user ID (from JWT sub claim)
-  tenantRole: string  // User's role within the tenant
-  tenantCode: string  // Current tenant code
+  userId: string             // Cognito user ID (from JWT sub claim)
+  tenantRole: string         // User's role within the tenant
+  tenantCode: string         // Current tenant code
+  tenantRoles: string[]      // Direct roles for the active tenant (アクティブテナントの直接ロール、グループ由来ロールを除く)
+  tenantGroupIds: string[]   // Group IDs from custom:groups for the active tenant (custom:groups由来のグループID)
 
   constructor(partial: Partial<UserContext>)  // Initialize with partial properties (部分的なプロパティで初期化)
 }
@@ -266,6 +269,7 @@ export interface CommandModel extends CommandInputModel {
   createdIp?: string    // IP address of the creator (作成者のIPアドレス)
   updatedIp?: string    // IP address of the last updater (最終更新者のIPアドレス)
   taskToken?: string    // Step Functions task token for async workflows (非同期ワークフロー用のStep Functionsタスクトークン)
+  syncMode?: CommandSyncMode  // 'SYNC' when the command was applied via synchronous publish (同期publishで適用されたコマンドは'SYNC')
 }
 ```
 

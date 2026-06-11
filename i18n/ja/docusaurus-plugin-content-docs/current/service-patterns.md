@@ -360,7 +360,8 @@ export class ProductService {
       invokeContext: opts.invokeContext,
     });
 
-    return new ProductDataEntity(item);
+    // publishAsync returns null when the command is not dirty (変更がない場合 publishAsync は null を返す)
+    return item ? new ProductDataEntity(item) : null;
   }
 
   /**

@@ -71,7 +71,7 @@
   "Separates sort key from version number": "Separates sort key from version number",
   "Initial version for new entities": "Initial version for new entities",
   "Indicates query for latest version": "Indicates query for latest version",
-  "Tenant code for shared/cross-tenant data": "Tenant code for shared/cross-tenant data",
+  "Tenant code for shared/cross-tenant data (deprecated — use DEFAULT_COMMON_TENANT_CODES)": "Tenant code for shared/cross-tenant data (deprecated — use DEFAULT_COMMON_TENANT_CODES)",
   "Default tenant for single-tenant mode": "Default tenant for single-tenant mode",
   "Consistent Tenant Code Format": "Consistent Tenant Code Format",
   "The `@mbc-cqrs-serverless/master` and `@mbc-cqrs-serverless/tenant` packages use `SettingTypeEnum.TENANT_COMMON = 'common'` (lowercase), which is consistent with the tenant code normalization in `getUserContext()`. This ensures that data saved by `createCommonTenantSetting()` or `createCommonTenant()` methods can be correctly queried.": "The `@mbc-cqrs-serverless/master` and `@mbc-cqrs-serverless/tenant` packages use `SettingTypeEnum.TENANT_COMMON = 'common'` (lowercase), which is consistent with the tenant code normalization in `getUserContext()`. This ensures that data saved by `createCommonTenantSetting()` or `createCommonTenant()` methods can be correctly queried.",
@@ -210,5 +210,6 @@
   "Use when creating new entities": "Use when creating new entities",
   "Returned when SK has no version": "Returned when SK has no version",
   "Use for cross-tenant shared data": "Use for cross-tenant shared data",
-  "Default for single-tenant mode": "Default for single-tenant mode"
+  "Default for single-tenant mode": "Default for single-tenant mode",
+  "Common tenant codes list, configurable via COMMON_TENANT_CODES env var": "Common tenant codes list, configurable via COMMON_TENANT_CODES env var"
 }

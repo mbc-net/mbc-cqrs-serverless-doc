@@ -240,10 +240,8 @@ export class UserService {
   async getUserTenants(userCode: string): Promise<UserTenantAssociation[]> {
     const pk = `USER_TENANT${KEY_SEPARATOR}${COMMON_TENANT}`;
 
-    // Query with SK prefix to find all tenant associations
-    const result = await this.dataService.listItemsByPk(pk, {
-      skPrefix: '', // Get all, then filter
-    });
+    // List all items under the PK, then filter by user code
+    const result = await this.dataService.listItemsByPk(pk);
 
     return result.items.filter(item =>
       item.sk.endsWith(`${KEY_SEPARATOR}${userCode}`),
