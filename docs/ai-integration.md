@@ -73,7 +73,10 @@ claude mcp add context7 -- npx -y @upstash/context7-mcp@latest
   "mcpServers": {
     "mbc-cqrs-serverless": {
       "command": "npx",
-      "args": ["@mbc-cqrs-serverless/mcp-server"]
+      "args": ["@mbc-cqrs-serverless/mcp-server"],
+      "env": {
+        "MBC_PROJECT_PATH": "/path/to/your/project"
+      }
     }
   }
 }

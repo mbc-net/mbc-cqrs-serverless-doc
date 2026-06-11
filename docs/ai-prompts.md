@@ -157,7 +157,7 @@ Write integration tests for [FEATURE]:
 ### {{Diagnose Version Conflict}}
 
 ```
-I'm getting a "version not match" error when updating [ENTITY].
+I'm getting an "Invalid input: item not found or version mismatch" error when updating [ENTITY].
 Please help me:
 1. Understand why this error occurs in CQRS/Event Sourcing
 2. Check if I'm using the correct version in my update

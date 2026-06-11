@@ -73,7 +73,10 @@ Claude Codeまたは他のMCP互換ツールに追加：
   "mcpServers": {
     "mbc-cqrs-serverless": {
       "command": "npx",
-      "args": ["@mbc-cqrs-serverless/mcp-server"]
+      "args": ["@mbc-cqrs-serverless/mcp-server"],
+      "env": {
+        "MBC_PROJECT_PATH": "/path/to/your/project"
+      }
     }
   }
 }
