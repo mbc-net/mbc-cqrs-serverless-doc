@@ -25,7 +25,7 @@ If you're new to mbc-cqrs-serverless, see the [project structure](/docs/project-
 
 ## Run the Development Server
 
-1. Run `npm run build` to the build project using development mode.
+1. Run `npm run build` to build the project in watch mode.
 2. Open in other terminal session and run `npm run offline:docker`
 3. Open in other terminal session and run `npm run migrate` to migrate RDS and dynamoDB table
 4. Finally, run `npm run offline:sls` to start serverless offline mode.

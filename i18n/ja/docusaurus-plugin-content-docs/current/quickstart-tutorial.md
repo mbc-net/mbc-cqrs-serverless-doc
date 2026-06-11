@@ -58,7 +58,7 @@ npm run offline:docker
 以下のサービスが起動します：
 
 - DynamoDB Local（ポート8000）
-- PostgreSQL（ポート5432）
+- MySQL（ポート3306）
 - AWSサービス用のLocalStack
 
 ## ステップ4: データベースの初期化
@@ -182,7 +182,7 @@ docker-compose -f infra-local/docker-compose.yml up -d
 
 ### データベース接続エラー
 
-PostgreSQLが完全に起動するまで数秒待ってから、マイグレーションを再実行してください：
+MySQLが完全に起動するまで数秒待ってから、再度マイグレーションを実行してください：
 
 ```bash
 npm run migrate
@@ -190,7 +190,7 @@ npm run migrate
 
 ### ポートの競合
 
-ポート3000、5432、または8000が使用中の場合は、競合するサービスを停止するか、`docker-compose.yml`でポート設定を変更してください。
+ポート3000、3306、8000が使用中の場合は、競合するサービスを停止するか、`docker-compose.yml`でポート設定を変更してください。
 
 
 ## 関連ドキュメント
