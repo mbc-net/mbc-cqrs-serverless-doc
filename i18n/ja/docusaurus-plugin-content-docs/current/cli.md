@@ -179,15 +179,23 @@ mbc g mo order --dry-run
 
 ## startコマンド
 
-### ユースケース: ローカル開発サーバーを実行する
-
-シナリオ: AWSにデプロイする前に、APIエンドポイントをローカルでテストしたい場合。
-
 ```bash
 mbc start
 # or
 mbc s
 ```
+
+:::warning 未実装
+`mbc start` コマンドは現在プレースホルダーであり、ローカル開発サーバーはまだ起動しません。アプリケーションをローカルで実行するには、代わりに生成されたプロジェクトに含まれる npm スクリプトを使用してください：
+
+```bash
+npm run build          # Build the application in watch mode (ウォッチモードでアプリケーションをビルド)
+npm run offline:docker # Start local Docker services (ローカルDockerサービスを起動: DynamoDB、Cognito等)
+npm run offline:sls    # Start the serverless offline server (serverless offlineサーバーを起動)
+```
+
+ローカル開発環境の完全なセットアップ手順は[インストール](/docs/installation)を参照してください。
+:::
 
 ## ui-commonコマンド
 
@@ -212,7 +220,7 @@ mbc ui [options]
 | `--auth <string>` | 認証方法: SSH または HTTPS - Token（デフォルト: SSH） |
 | `--token <string>` | HTTPS認証用トークン、形式: tokenId:tokenPassword |
 | `-c, --component <string>` | インストールするコンポーネント: all, appsync, または component（デフォルト: all） |
-| `--alias` | tsconfig.jsonにcommon-ui用のエイリアス設定を追加 |
+| `--alias` | 現在は効果がありません — `@ms/*` パスエイリアスはこのフラグに関係なく常に tsconfig.json に追加されます |
 
 ### 使用例
 
