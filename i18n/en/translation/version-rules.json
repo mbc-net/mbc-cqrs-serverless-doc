@@ -4,7 +4,7 @@
   "The MBC CQRS Serverless Framework implements optimistic locking using version numbers to ensure data consistency in distributed systems. This guide explains the versioning rules and provides examples of their implementation.": "The MBC CQRS Serverless Framework implements optimistic locking using version numbers to ensure data consistency in distributed systems. This guide explains the versioning rules and provides examples of their implementation.",
   "Basic Rules": "Basic Rules",
   "1. Sequential Versioning for Same PK/SK": "1. Sequential Versioning for Same PK/SK",
-  "Items with the same pk/sk combination must have versions set sequentially starting from 1": "Items with the same pk/sk combination must have versions set sequentially starting from 1",
+  "The first command for a pk/sk is sent with version 0 (`VERSION_FIRST`); the stored item then becomes version 1, and later versions increase sequentially": "The first command for a pk/sk is sent with version 0 (`VERSION_FIRST`); the stored item then becomes version 1, and later versions increase sequentially",
   "Each update increments the version number by 1": "Each update increments the version number by 1",
   "Only the first request with a given version will succeed": "Only the first request with a given version will succeed",
   "Subsequent requests with the same version will fail with a conflict error": "Subsequent requests with the same version will fail with a conflict error",

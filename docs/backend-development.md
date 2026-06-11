@@ -498,10 +498,12 @@ try {
 {{Use dirty checking to avoid unnecessary syncs:}}
 
 ```typescript
-import { isNotCommandDirty } from '@mbc-cqrs-serverless/core';
+import { CommandService } from '@mbc-cqrs-serverless/core';
+
+constructor(private readonly commandService: CommandService) {}
 
 async syncData(newData: any, existingData: any): Promise<void> {
-  if (isNotCommandDirty(existingData, newData)) {
+  if (this.commandService.isNotCommandDirty(existingData, newData)) {
     this.logger.debug('Data unchanged, skipping sync');
     return;
   }

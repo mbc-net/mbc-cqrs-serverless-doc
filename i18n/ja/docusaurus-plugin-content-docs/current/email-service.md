@@ -21,7 +21,7 @@ const email = "cat@example.com";
 const subject = "Welcome to MBC CQRS serverless framework!";
 const body = "<p>Enjoy</p>";
 
-await this.mailService.sendEmail({
+await this.emailService.sendEmail({
   toAddrs: [email],
   subject,
   body,
@@ -31,7 +31,7 @@ await this.mailService.sendEmail({
 #### CCとBCCを使用
 
 ```ts
-await this.mailService.sendEmail({
+await this.emailService.sendEmail({
   toAddrs: ["recipient@example.com"],
   ccAddrs: ["cc@example.com"],
   bccAddrs: ["bcc@example.com"],
@@ -45,7 +45,7 @@ await this.mailService.sendEmail({
 添付ファイルオブジェクトの配列を指定することで、メールにファイルを添付できます：
 
 ```ts
-await this.mailService.sendEmail({
+await this.emailService.sendEmail({
   toAddrs: ["recipient@example.com"],
   subject: "Report Attached",
   body: "<p>Please find the attached report.</p>",
@@ -62,7 +62,7 @@ await this.mailService.sendEmail({
 #### 複数の添付ファイル
 
 ```ts
-await this.mailService.sendEmail({
+await this.emailService.sendEmail({
   toAddrs: ["recipient@example.com"],
   subject: "Documents",
   body: "<p>Please find the attached documents.</p>",

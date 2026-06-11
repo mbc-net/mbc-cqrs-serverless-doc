@@ -10,7 +10,7 @@ description: {{Understand the optimistic locking strategy using version numbers 
 ## {{Basic Rules}}
 
 {{1. Sequential Versioning for Same PK/SK}}   
-   - {{Items with the same pk/sk combination must have versions set sequentially starting from 1}}
+   - {{The first command for a pk/sk is sent with version 0 (`VERSION_FIRST`); the stored item then becomes version 1, and later versions increase sequentially}}
    - {{Each update increments the version number by 1}}
    - {{Only the first request with a given version will succeed}}
    - {{Subsequent requests with the same version will fail with a conflict error}}
