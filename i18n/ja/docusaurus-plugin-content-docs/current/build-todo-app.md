@@ -457,7 +457,8 @@ DynamoDBから単一アイテムを取得するメソッドを追加します。
 `todo.service.ts`に`findOne`メソッドを追加：
 
 ```typescript
-import { DataService, NotFoundException } from '@mbc-cqrs-serverless/core'
+import { DataService } from '@mbc-cqrs-serverless/core'
+import { NotFoundException } from '@nestjs/common'
 
 @Injectable()
 export class TodoService {
