@@ -234,80 +234,43 @@ async function refreshTokenIfNeeded(): Promise<string> {
 
 ### ロールベースアクセス制御の実装
 
-ロールベースの認可にCognitoグループを使用します。
+フレームワークの `@Auth` デコレータを使用してください。`RolesGuard` が適用され、`custom:roles` JWT クレームのロール（および `custom:groups` 由来のグループロール）が検証されます。ロールモデルの全体像は[認証](/docs/authentication)を参照してください。
 
 ```typescript
-import { SetMetadata, CanActivate, ExecutionContext } from '@nestjs/common';
-
-export const ROLES_KEY = 'roles';
-export const Roles = (...roles: string[]) => SetMetadata(ROLES_KEY, roles);
-
-@Injectable()
-export class RolesGuard implements CanActivate {
-  constructor(private reflector: Reflector) {}
-
-  canActivate(context: ExecutionContext): boolean {
-    const requiredRoles = this.reflector.getAllAndOverride<string[]>(
-      ROLES_KEY,
-      [context.getHandler(), context.getClass()],
-    );
-
-    if (!requiredRoles) {
-      return true;
-    }
-
-    const { user } = context.switchToHttp().getRequest();
-    const userGroups = user['cognito:groups'] || [];
-
-    return requiredRoles.some(role => userGroups.includes(role));
-  }
-}
+import { Auth, ROLE_SYSTEM_ADMIN } from '@mbc-cqrs-serverless/core';
 
 // コントローラーでの使用
 @Controller('admin')
-@UseGuards(JwtAuthGuard, RolesGuard)
 export class AdminController {
   @Get('users')
-  @Roles('admin', 'super-admin')
+  @Auth(ROLE_SYSTEM_ADMIN)
   findAllUsers() {
-    // 管理者またはスーパー管理者のみアクセス可能
+    // Only users holding the required role can access (必要なロールを持つユーザーのみアクセス可能)
   }
 }
 ```
 
 ### テナント分離の強制
 
-マルチテナントアプリケーションでは常にテナントアクセスを検証します。
+テナントコードは必ず `getUserContext()` で検証済み JWT から取得してください — リクエストパラメータやリクエストボディから取得してはいけません。フレームワークの `RolesGuard` がテナントアクセスを検証します（共通テナント向けの `x-tenant-code` ヘッダーオーバーライドを含む）。
 
 ```typescript
-@Injectable()
-export class TenantGuard implements CanActivate {
-  canActivate(context: ExecutionContext): boolean {
-    const request = context.switchToHttp().getRequest();
-    const user = request.user;
-    const requestedTenant = request.params.tenantCode || request.body?.tenantCode;
+import {
+  getUserContext,
+  IInvoke,
+  INVOKE_CONTEXT,
+} from '@mbc-cqrs-serverless/core';
 
-    if (!requestedTenant) {
-      return true;  // No tenant context required
-    }
-
-    const userTenants = user['custom:tenantCodes']?.split(',') || [];
-
-    if (!userTenants.includes(requestedTenant)) {
-      throw new ForbiddenException('Access denied to this tenant');
-    }
-
-    return true;
-  }
+@Get('orders')
+async listOrders(@INVOKE_CONTEXT() invokeContext: IInvoke) {
+  // The tenant code comes from the verified token, not from user input (テナントコードはユーザー入力ではなく検証済みトークンから取得)
+  const { tenantCode } = getUserContext(invokeContext);
+  return this.orderService.listOrders(tenantCode);
 }
 
 // 常にクエリにテナントを含める
-async function getOrdersByTenant(tenantCode: string, userId: string) {
-  // まずユーザーがテナントへのアクセス権があることを確認
-  const user = await this.userService.getUser(userId);
-  if (!user.tenantCodes.includes(tenantCode)) {
-    throw new ForbiddenException('Access denied');
-  }
+async function getOrdersByTenant(invokeContext: IInvoke) {
+  const { tenantCode } = getUserContext(invokeContext);
 
   // テナントは常にパーティションキーの一部
   return this.dataService.listItemsByPk(`ORDER#${tenantCode}`);
