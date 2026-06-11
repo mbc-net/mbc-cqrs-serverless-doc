@@ -457,7 +457,8 @@ Add methods to retrieve single items from DynamoDB.
 Add `findOne` method to `todo.service.ts`:
 
 ```typescript
-import { DataService, NotFoundException } from '@mbc-cqrs-serverless/core'
+import { DataService } from '@mbc-cqrs-serverless/core'
+import { NotFoundException } from '@nestjs/common'
 
 @Injectable()
 export class TodoService {

@@ -168,17 +168,18 @@ See the [Read-Your-Writes implementation guide](/docs/command-service#read-your-
 ### Command Handler
 
 ```typescript
-@CommandHandler(CreateResourceCommand)
-export class CreateResourceHandler
-  implements ICommandHandler<CreateResourceCommand> {
-
+@Injectable()
+export class ResourceService {
   constructor(private readonly commandService: CommandService) {}
 
-  async execute(command: CreateResourceCommand): Promise<DataEntity> {
+  async create(
+    dto: CreateResourceDto,
+    invokeContext: IInvoke,
+  ): Promise<CommandModel | null> {
     // 1. Validate business rules
-    // 2. Create entity
+    // 2. Build the command input (pk, sk, attributes, ...)
     // 3. Persist and publish event
-    return this.commandService.publishAsync(entity, { invokeContext });
+    return this.commandService.publishAsync(input, { invokeContext });
   }
 }
 ```
@@ -186,17 +187,12 @@ export class CreateResourceHandler
 ### Query Handler
 
 ```typescript
-@QueryHandler(GetResourceQuery)
-export class GetResourceHandler
-  implements IQueryHandler<GetResourceQuery> {
-
+@Injectable()
+export class ResourceQueryService {
   constructor(private readonly dataService: DataService) {}
 
-  async execute(query: GetResourceQuery): Promise<DataEntity> {
-    return this.dataService.getItem({
-      pk: query.pk,
-      sk: query.sk,
-    });
+  async findOne(pk: string, sk: string): Promise<DataModel> {
+    return this.dataService.getItem({ pk, sk });
   }
 }
 ```
