@@ -510,7 +510,7 @@ const items = await dataService.listItemsByPk(
   `ORDER${KEY_SEPARATOR}${tenantCode}`,
   {
     sk: {
-      skExpession: 'begins_with(sk, :skPrefix)',
+      skExpression: 'begins_with(sk, :skPrefix)',
       skAttributeValues: { ':skPrefix': `ORDER_ITEM${KEY_SEPARATOR}${orderId}` },
     },
   },
@@ -525,7 +525,7 @@ const items = await dataService.listItemsByPk(
   `ORDER${KEY_SEPARATOR}${tenantCode}`,
   {
     sk: {
-      skExpession: 'sk BETWEEN :start AND :end',
+      skExpression: 'sk BETWEEN :start AND :end',
       skAttributeValues: { ':start': startDate, ':end': endDate },
     },
   },

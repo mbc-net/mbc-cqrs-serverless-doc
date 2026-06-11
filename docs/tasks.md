@@ -346,7 +346,7 @@ const task = await this.taskService.getTask({
 ```ts
 interface ListTaskOptions {
   sk?: {
-    skExpession: string;
+    skExpression: string;
     skAttributeValues: Record<string, string>;
     skAttributeNames?: Record<string, string>;
   };

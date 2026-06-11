@@ -346,7 +346,7 @@ Lists tasks by tenant code and type.
 ```ts
 interface ListTaskOptions {
   sk?: {
-    skExpession: string;
+    skExpression: string;
     skAttributeValues: Record<string, string>;
     skAttributeNames?: Record<string, string>;
   };

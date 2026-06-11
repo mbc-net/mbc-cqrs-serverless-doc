@@ -665,7 +665,7 @@ async function getCommandHistory(pk: string, baseSk: string) {
     commandTableName,
     pk,
     {
-      skExpession: 'begins_with(sk, :sk)',
+      skExpression: 'begins_with(sk, :sk)',
       skAttributeValues: { ':sk': `${baseSk}@` },
     },
     undefined,
