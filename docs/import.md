@@ -297,7 +297,7 @@ interface IProcessStrategy<TEntity, TAttributesDto> {
   ): Promise<ComparisonResult<TEntity>>;
 
   map(
-    status: ComparisonStatus,
+    status: Exclude<ComparisonStatus, ComparisonStatus.EQUAL>,
     importAttributes: TAttributesDto,
     tenantCode: string,
     existingData?: TEntity
