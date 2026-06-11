@@ -217,8 +217,9 @@ export default function MasterSettingsPage() {
 ```tsx
 import { EditMasterSettings } from "@mbc-cqrs-serverless/master-web";
 
-export default function EditMasterSettingsPage({ params }: { params: { id: string } }) {
-  return <EditMasterSettings id={params.id} />;
+// The component takes no props (このコンポーネントは props を受け取らず、useParams() で URL から pk と sk を読み取るため、[pk]/[sk] のようなルート配下に配置してください)
+export default function EditMasterSettingsPage() {
+  return <EditMasterSettings />;
 }
 ```
 
@@ -229,8 +230,9 @@ export default function EditMasterSettingsPage({ params }: { params: { id: strin
 ```tsx
 import { CopyMasterSettings } from "@mbc-cqrs-serverless/master-web";
 
-export default function CopyMasterSettingsPage({ params }: { params: { id: string } }) {
-  return <CopyMasterSettings id={params.id} />;
+// The component takes no props (このコンポーネントは props を受け取らず、useParams() で URL から pk と sk を読み取るため、[pk]/[sk] のようなルート配下に配置してください)
+export default function CopyMasterSettingsPage() {
+  return <CopyMasterSettings />;
 }
 ```
 
@@ -241,8 +243,9 @@ export default function CopyMasterSettingsPage({ params }: { params: { id: strin
 ```tsx
 import { NewCopyMasterSettings } from "@mbc-cqrs-serverless/master-web";
 
-export default function NewCopyMasterSettingsPage({ params }: { params: { id: string } }) {
-  return <NewCopyMasterSettings id={params.id} />;
+// The component takes no props (このコンポーネントは props を受け取らず、useParams() で URL から pk と sk を読み取るため、[pk]/[sk] のようなルート配下に配置してください)
+export default function NewCopyMasterSettingsPage() {
+  return <NewCopyMasterSettings />;
 }
 ```
 
@@ -253,8 +256,9 @@ export default function NewCopyMasterSettingsPage({ params }: { params: { id: st
 ```tsx
 import { DetailCopy } from "@mbc-cqrs-serverless/master-web";
 
-export default function DetailCopyPage({ params }: { params: { id: string } }) {
-  return <DetailCopy id={params.id} />;
+// The component takes no props (このコンポーネントは props を受け取らず、useParams() で URL から pk と sk を読み取るため、[pk]/[sk] のようなルート配下に配置してください)
+export default function DetailCopyPage() {
+  return <DetailCopy />;
 }
 ```
 
@@ -279,8 +283,9 @@ export default function MasterDataPage() {
 ```tsx
 import { EditMasterData } from "@mbc-cqrs-serverless/master-web";
 
-export default function EditMasterDataPage({ params }: { params: { id: string } }) {
-  return <EditMasterData id={params.id} />;
+// The component takes no props (このコンポーネントは props を受け取らず、useParams() で URL から pk と sk を読み取るため、[pk]/[sk] のようなルート配下に配置してください)
+export default function EditMasterDataPage() {
+  return <EditMasterData />;
 }
 ```
 
