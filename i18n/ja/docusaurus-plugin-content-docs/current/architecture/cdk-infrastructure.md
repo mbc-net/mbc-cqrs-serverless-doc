@@ -380,6 +380,11 @@ const notificationQueue = new sqs.Queue(this, 'NotificationQueue', {
   queueName: `${env}-${appName}-notification-queue`,
 });
 
+// Create Sub-task Status Queue (サブタスクステータスキューを作成)
+const subTaskStatusQueue = new sqs.Queue(this, 'SubTaskStatusQueue', {
+  queueName: `${env}-${appName}-sub-task-status-queue`,
+});
+
 // インポートキューを作成
 const importQueue = new sqs.Queue(this, 'ImportQueue', {
   queueName: `${env}-${appName}-import-action-queue`,
@@ -393,6 +398,7 @@ mainSnsTopic.addSubscription(
         allowlist: ['task-execute'],
       }),
     },
+    rawMessageDelivery: true,
   })
 );
 
@@ -408,12 +414,24 @@ mainSnsTopic.addSubscription(
 );
 
 mainSnsTopic.addSubscription(
+  new subscriptions.SqsSubscription(subTaskStatusQueue, {
+    filterPolicy: {
+      action: sns.SubscriptionFilter.stringFilter({
+        allowlist: ['sub-task-status'],
+      }),
+    },
+    rawMessageDelivery: true,
+  })
+);
+
+mainSnsTopic.addSubscription(
   new subscriptions.SqsSubscription(importQueue, {
     filterPolicy: {
       action: sns.SubscriptionFilter.stringFilter({
         allowlist: ['import-execute'],
       }),
     },
+    rawMessageDelivery: true,
   })
 );
 ```
