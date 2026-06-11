@@ -56,9 +56,13 @@ interface INotification {
 
 {{The `AppSyncService` sends real-time notifications to AppSync for WebSocket delivery.}}
 
-#### {{Method: `sendMessage(msg: INotification): Promise<any>`}}
+#### {{Method: `sendMessage(msg: INotification): Promise<void>`}}
 
 {{Sends a notification to AppSync via GraphQL mutation. The notification is delivered to all subscribed WebSocket clients.}}
+
+:::info {{Version Note}}
+{{The return type of `sendMessage` changed from `Promise<any>` to `void | Promise<void>` in [version 1.3.0](/docs/changelog#v130). If your tests mock this method with `mockResolvedValue(null)`, update them to `mockResolvedValue(undefined)`. See the [v1.3.0 migration guide](/docs/migration/v1.3.0) for details.}}
+:::
 
 ```ts
 await this.appSyncService.sendMessage({

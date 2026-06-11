@@ -56,9 +56,13 @@ interface INotification {
 
 `AppSyncService`はリアルタイム通知をAppSyncに送信し、WebSocket経由で配信します。
 
-#### メソッド: `sendMessage(msg: INotification): Promise<any>`
+#### メソッド: `sendMessage(msg: INotification): Promise<void>`
 
 GraphQLミューテーション経由でAppSyncに通知を送信します。通知はすべての購読中のWebSocketクライアントに配信されます。
+
+:::info バージョン情報
+`sendMessage` の戻り値型は[バージョン1.3.0](/docs/changelog#v130)で `Promise<any>` から `void | Promise<void>` に変更されました。テストでこのメソッドを `mockResolvedValue(null)` でモックしている場合は `mockResolvedValue(undefined)` に更新してください。詳細は[v1.3.0移行ガイド](/docs/migration/v1.3.0)を参照してください。
+:::
 
 ```ts
 await this.appSyncService.sendMessage({
