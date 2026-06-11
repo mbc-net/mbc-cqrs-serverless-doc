@@ -121,10 +121,10 @@ AWS_ACCOUNT_ID=123456789012
 
 # Application Configuration
 APP_NAME=your-app
-ENVIRONMENT=dev
+NODE_ENV=dev
 
 # Database
-DATABASE_URL=postgresql://user:password@host:5432/dbname
+DATABASE_URL=mysql://user:password@host:3306/dbname
 
 # Cognito
 COGNITO_USER_POOL_ID=ap-northeast-1_xxxxxxx
@@ -183,7 +183,7 @@ npx prisma generate  # postinstallスクリプトを手動で実行
 Invalid S3 bucket name (value: cdk-hnb659fds-assets--)
 ```
 
-`infra/bin/infra.ts` で環境変数を使用していることを確認してください：
+生成された `infra/bin/infra.ts` ではデフォルトで `account` と `region` が空になっています。明示的に設定するか、CDK 標準の環境変数を使用してください：
 
 ```typescript
 const cdkEnv: cdk.Environment = {

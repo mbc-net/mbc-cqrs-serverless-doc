@@ -17,7 +17,7 @@ For local development, please make sure to set the correct `DATABASE_URL` enviro
 
 ```bash
 # Example
-DATABASE_URL="postgresql://root:RootCqrs@localhost:5432/cqrs?schema=public"
+DATABASE_URL="mysql://root:RootCqrs@localhost:3306/cqrs?schema=public&connection_limit=1"
 ```
 
 :::

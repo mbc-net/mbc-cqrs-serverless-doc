@@ -92,7 +92,7 @@
   "Built-in Feature": "組み込み機能",
   "X-Ray tracing is enabled by default in the MBC CQRS Serverless CDK template for Lambda functions and Step Functions.": "X-RayトレーシングはMBC CQRS Serverless CDKテンプレートでLambda関数とStep Functionsに対してデフォルトで有効になっています。",
   "Enable X-Ray": "X-Rayの有効化",
-  "X-Ray tracing is already enabled in the default CDK template:": "X-Rayトレーシングはデフォルトのcdkテンプレートで既に有効になっています：",
+  "Lambda and Step Functions tracing is already enabled in the default CDK template. API Gateway stage tracing is not part of the default template — add it yourself if needed:": "Lambda と Step Functions のトレーシングはデフォルトの CDK テンプレートで有効化済みです。API Gateway ステージのトレーシングはデフォルトテンプレートには含まれていないため、必要な場合は以下のように追加してください：",
   "Enable X-Ray for API Gateway": "API GatewayのX-Rayを有効化",
   "Instrument Application": "アプリケーションのインストルメント",
   "Optional Enhancement": "オプションの拡張",

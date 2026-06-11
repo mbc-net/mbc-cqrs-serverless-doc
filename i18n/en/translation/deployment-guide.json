@@ -61,7 +61,7 @@
   "Run postinstall script manually": "Run postinstall script manually",
   "CDK Environment Configuration": "CDK Environment Configuration",
   "The default `infra/bin/infra.ts` template may have empty account/region values, causing errors like:": "The default `infra/bin/infra.ts` template may have empty account/region values, causing errors like:",
-  "Ensure your `infra/bin/infra.ts` uses environment variables:": "Ensure your `infra/bin/infra.ts` uses environment variables:",
+  "The generated `infra/bin/infra.ts` leaves `account` and `region` empty by default — set them explicitly or use the standard CDK environment variables:": "The generated `infra/bin/infra.ts` leaves `account` and `region` empty by default — set them explicitly or use the standard CDK environment variables:",
   "When running CDK commands, the AWS profile automatically provides these values:": "When running CDK commands, the AWS profile automatically provides these values:",
   "Deploying with CDK": "Deploying with CDK",
   "Configure Target Environments": "Configure Target Environments",
