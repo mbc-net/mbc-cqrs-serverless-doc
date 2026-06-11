@@ -203,17 +203,17 @@ import { CommandModule } from '@mbc-cqrs-serverless/core';
 export class OrderModule {}
 ```
 
-### SequenceModuleオプション
+### SequencesModuleオプション
 
 自動インクリメントシーケンスを設定します。
 
 ```typescript
 import { Module } from '@nestjs/common';
-import { SequenceModule } from '@mbc-cqrs-serverless/sequence';
+import { SequencesModule } from '@mbc-cqrs-serverless/sequence';
 
 @Module({
   imports: [
-    SequenceModule.register({
+    SequencesModule.register({
       // オプション: デフォルトシーケンスコントローラーを有効/無効化
       enableController: true,
     }),

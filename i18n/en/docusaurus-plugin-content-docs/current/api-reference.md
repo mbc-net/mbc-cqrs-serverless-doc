@@ -12,7 +12,7 @@ The MBC CQRS Serverless framework provides a comprehensive set of modules for bu
 graph TB
     subgraph "Core Modules"
         A["CommandModule"]
-        B["SequenceModule"]
+        B["SequencesModule"]
         C["TenantModule"]
     end
 

@@ -22,7 +22,7 @@ Each example follows consistent patterns:
 
 ```typescript
 // Define your entity with proper key structure
-export class OrderEntity extends BaseEntity {
+export class OrderEntity extends DataEntity {
   pk: string;           // TENANT#tenantCode
   sk: string;           // ORDER#orderId
   id: string;
@@ -38,10 +38,13 @@ export class OrderEntity extends BaseEntity {
 ```typescript
 // Create commands for state changes
 async createOrder(dto: CreateOrderDto, context: IInvoke) {
-  const orderId = await this.sequencesService.generateSequenceItem({
-    tenantCode: dto.tenantCode,
-    typeCode: 'ORDER',
-  });
+  const orderId = await this.sequencesService.generateSequenceItem(
+    {
+      tenantCode: dto.tenantCode,
+      typeCode: 'ORDER',
+    },
+    { invokeContext: context },
+  );
 
   return this.commandService.publishAsync(
     {

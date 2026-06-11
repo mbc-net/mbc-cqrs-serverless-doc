@@ -782,10 +782,7 @@ async function getCommandHistory(pk: string, baseSk: string) {
 
 1. ハンドラーが正しくデコレートされているか確認：
    ```typescript
-   @DataSyncHandler({
-     tableName: 'sample',
-     type: 'custom-sync',
-   })
+   @DataSyncHandler('sample')
    export class CustomSyncHandler implements IDataSyncHandler {
      // ...
    }

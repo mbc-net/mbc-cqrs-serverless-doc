@@ -88,5 +88,9 @@
   "Multi-Tenant Patterns": "Multi-Tenant Patterns",
   "Tenant isolation": "Tenant isolation",
   "Authentication": "Authentication",
-  "Subscription authentication": "Subscription authentication"
+  "Subscription authentication": "Subscription authentication",
+  "Example helper: per-tenant partition key": "Example helper: per-tenant partition key",
+  "Version 1 means a newly created item": "Version 1 means a newly created item",
+  "Later versions are updates such as status changes": "Later versions are updates such as status changes",
+  "Optional rollback logic when a sync step fails": "Optional rollback logic when a sync step fails"
 }

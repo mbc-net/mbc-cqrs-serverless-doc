@@ -24,7 +24,7 @@
   "Optional: Data sync handlers for RDS synchronization": "オプション: RDS同期用データ同期ハンドラー",
   "Optional: Reserved for future use (not yet implemented)": "オプション: 将来使用予定（未実装）",
   "Optional: Disable default DynamoDB data sync handler": "オプション: デフォルトDynamoDBデータ同期ハンドラーを無効化",
-  "SequenceModule Options": "SequenceModuleオプション",
+  "SequencesModule Options": "SequencesModuleオプション",
   "Configure auto-incrementing sequences.": "自動インクリメントシーケンスを設定します。",
   "Optional: Enable or disable default sequence controller": "オプション: デフォルトシーケンスコントローラーを有効/無効化",
   "Note: Rotation strategy (day, month, year, fiscal_yearly, none) is configured through master data settings, not module options. See the [Sequence documentation](/docs/sequence) for details.": "注: ローテーション戦略（day、month、year、fiscal_yearly、none）はマスターデータ設定で設定され、モジュールオプションではありません。詳細は[シーケンスドキュメント](/docs/sequence)を参照してください。",
