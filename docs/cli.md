@@ -179,15 +179,23 @@ mbc g mo order --dry-run
 
 ## {{start Command}}
 
-### {{Use Case: Run Local Development Server}}
-
-{{Scenario: You want to test API endpoints locally before deploying to AWS.}}
-
 ```bash
 mbc start
 # or
 mbc s
 ```
+
+:::warning {{Not Yet Implemented}}
+{{The `mbc start` command is currently a placeholder and does not start a local development server yet. To run your application locally, use the npm scripts included in generated projects instead:}}
+
+```bash
+npm run build          # {{Build the application in watch mode}}
+npm run offline:docker # {{Start local Docker services (DynamoDB, Cognito, etc.)}}
+npm run offline:sls    # {{Start the serverless offline server}}
+```
+
+{{See [Installation](/docs/installation) for the full local development setup.}}
+:::
 
 ## {{ui-common Command}}
 
@@ -212,7 +220,7 @@ mbc ui [options]
 | `--auth <string>` | {{The authentication method: SSH or HTTPS - Token (default: SSH)}} |
 | `--token <string>` | {{The token for HTTPS authentication, format: tokenId:tokenPassword}} |
 | `-c, --component <string>` | {{Component to install: all, appsync, or component (default: all)}} |
-| `--alias` | {{Add alias configuration for common-ui in tsconfig.json}} |
+| `--alias` | {{Currently has no effect — the `@ms/*` path alias is always added to tsconfig.json regardless of this flag}} |
 
 ### {{Examples}}
 
