@@ -286,7 +286,7 @@ const result = await this.sequencesService.generateSequenceItemWithProvideSettin
   },
   { invokeContext },
 );
-// {{Returns: { formattedNo: 'INV-00001', no: 1, ... }}}
+// Returns: { formattedNo: 'INV-00001', no: 1, ... }
 ```
 
 {{Use this method when you need dynamic sequence settings that vary per request rather than fixed master data configuration.}}
@@ -307,7 +307,7 @@ const result = await this.sequencesService.generateSequenceItemWithProvideSettin
   },
   { invokeContext },
 );
-// {{Returns: { formattedNo: 'ORD-2024-0001-DRAFT', no: 1, ... }}}
+// Returns: { formattedNo: 'ORD-2024-0001-DRAFT', no: 1, ... }
 ```
 
 ### {{*async* `getCurrentSequence(key: DetailKey): Promise<DataEntity>` <span class="badge badge--warning">deprecated</span>}}
