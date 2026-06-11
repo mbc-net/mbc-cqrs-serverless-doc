@@ -193,5 +193,7 @@
   "Related Documentation": "Related Documentation",
   "[Debugging Guide](/docs/debugging-guide) - Detailed debugging procedures": "[Debugging Guide](/docs/debugging-guide) - Detailed debugging procedures",
   "[Common Issues](/docs/common-issues) - Frequently encountered problems": "[Common Issues](/docs/common-issues) - Frequently encountered problems",
-  "[Monitoring and Logging](/docs/monitoring-logging) - Production monitoring setup": "[Monitoring and Logging](/docs/monitoring-logging) - Production monitoring setup"
+  "[Monitoring and Logging](/docs/monitoring-logging) - Production monitoring setup": "[Monitoring and Logging](/docs/monitoring-logging) - Production monitoring setup",
+  "Version Note": "Version Note",
+  "In versions prior to v1.0.25, this exception used the message \"The input is not a valid, item not found or version not match\". The wording was corrected in v1.0.25; the cause and solution are the same.": "In versions prior to v1.0.25, this exception used the message \"The input is not a valid, item not found or version not match\". The wording was corrected in v1.0.25; the cause and solution are the same."
 }

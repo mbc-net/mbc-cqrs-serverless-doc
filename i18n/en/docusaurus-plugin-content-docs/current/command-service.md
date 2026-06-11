@@ -221,7 +221,7 @@ Since [v1.2.0](/docs/changelog#v120), this method returns `null` when the comman
 :::
 
 :::warning Version Matching
-This method requires the `version` field in the input to match the current version of the existing item. If the item is not found or the version does not match, a `BadRequestException` is thrown with the message "The input is not a valid, item not found or version not match".
+This method requires the `version` field in the input to match the current version of the existing item. If the item is not found or the version does not match, a `BadRequestException` is thrown with the message "Invalid input: item not found or version mismatch" (prior to v1.0.25, the message was "The input is not a valid, item not found or version not match").
 :::
 
 For example, you want to update cat's name:

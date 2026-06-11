@@ -221,7 +221,7 @@ const item = await this.commandService.publishSync(catCommand, {
 :::
 
 :::warning バージョンマッチング
-このメソッドでは、入力の `version` フィールドが既存アイテムの現在のバージョンと一致する必要があります。アイテムが見つからないかバージョンが一致しない場合、「The input is not a valid, item not found or version not match」というメッセージで `BadRequestException` がスローされます。
+このメソッドでは、入力の `version` フィールドが既存アイテムの現在のバージョンと一致する必要があります。アイテムが見つからないかバージョンが一致しない場合、「Invalid input: item not found or version mismatch」というメッセージで `BadRequestException` がスローされます（v1.0.25 より前のバージョンではメッセージは「The input is not a valid, item not found or version not match」でした）。
 :::
 
 たとえば、猫の名前を更新したいとします。

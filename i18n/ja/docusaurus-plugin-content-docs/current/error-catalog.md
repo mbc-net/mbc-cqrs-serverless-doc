@@ -83,11 +83,15 @@ description: MBC CQRS Serverlessの原因、解決策、復旧戦略を含む包
 
 ## コマンドサービスエラー
 
-### BadRequestException: "The input is not a valid, item not found or version not match"
+### BadRequestException: "Invalid input: item not found or version mismatch"
 
 **場所**: `packages/core/src/commands/command.service.ts`
 
 **原因**: 楽観的ロックの失敗。リクエストのバージョン番号がデータベースの現在のバージョンと一致しません。
+
+:::info バージョンに関する注記
+v1.0.25 より前のバージョンでは、この例外のメッセージは「The input is not a valid, item not found or version not match」でした。v1.0.25 で文言が修正されましたが、原因と解決策は同じです。
+:::
 
 **解決策**:
 ```typescript

@@ -83,11 +83,15 @@ Use this table to quickly identify errors and jump to solutions.
 
 ## Command Service Errors
 
-### BadRequestException: "The input is not a valid, item not found or version not match"
+### BadRequestException: "Invalid input: item not found or version mismatch"
 
 **Location**: `packages/core/src/commands/command.service.ts`
 
 **Cause**: Optimistic locking failure. The version number in the request does not match the current version in the database.
+
+:::info Version Note
+In versions prior to v1.0.25, this exception used the message "The input is not a valid, item not found or version not match". The wording was corrected in v1.0.25; the cause and solution are the same.
+:::
 
 **Solution**:
 ```typescript
