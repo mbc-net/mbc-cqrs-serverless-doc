@@ -121,10 +121,10 @@ AWS_ACCOUNT_ID=123456789012
 
 # Application Configuration
 APP_NAME=your-app
-ENVIRONMENT=dev
+NODE_ENV=dev
 
 # Database
-DATABASE_URL=postgresql://user:password@host:5432/dbname
+DATABASE_URL=mysql://user:password@host:3306/dbname
 
 # Cognito
 COGNITO_USER_POOL_ID=ap-northeast-1_xxxxxxx
@@ -183,7 +183,7 @@ npx prisma generate  # {{Run postinstall script manually}}
 Invalid S3 bucket name (value: cdk-hnb659fds-assets--)
 ```
 
-{{Ensure your `infra/bin/infra.ts` uses environment variables:}}
+{{The generated `infra/bin/infra.ts` leaves `account` and `region` empty by default — set them explicitly or use the standard CDK environment variables:}}
 
 ```typescript
 const cdkEnv: cdk.Environment = {

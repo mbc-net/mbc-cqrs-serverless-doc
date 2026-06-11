@@ -287,7 +287,7 @@ throttleAlarm.addAlarmAction(new actions.SnsAction(alertTopic));
 
 ### {{Enable X-Ray}}
 
-{{X-Ray tracing is already enabled in the default CDK template:}}
+{{Lambda and Step Functions tracing is already enabled in the default CDK template. API Gateway stage tracing is not part of the default template — add it yourself if needed:}}
 
 ```typescript
 const handler = new lambda.Function(this, 'Handler', {

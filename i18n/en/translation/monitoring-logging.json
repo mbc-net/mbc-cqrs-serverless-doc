@@ -92,7 +92,7 @@
   "Built-in Feature": "Built-in Feature",
   "X-Ray tracing is enabled by default in the MBC CQRS Serverless CDK template for Lambda functions and Step Functions.": "X-Ray tracing is enabled by default in the MBC CQRS Serverless CDK template for Lambda functions and Step Functions.",
   "Enable X-Ray": "Enable X-Ray",
-  "X-Ray tracing is already enabled in the default CDK template:": "X-Ray tracing is already enabled in the default CDK template:",
+  "Lambda and Step Functions tracing is already enabled in the default CDK template. API Gateway stage tracing is not part of the default template — add it yourself if needed:": "Lambda and Step Functions tracing is already enabled in the default CDK template. API Gateway stage tracing is not part of the default template — add it yourself if needed:",
   "Enable X-Ray for API Gateway": "Enable X-Ray for API Gateway",
   "Instrument Application": "Instrument Application",
   "Optional Enhancement": "Optional Enhancement",

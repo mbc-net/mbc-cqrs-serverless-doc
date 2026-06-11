@@ -33,7 +33,7 @@
   "Step 2: Run Migration": "ステップ2: マイグレーションを実行",
   "For local development:": "ローカル開発用：",
   "System Table Definitions": "システムテーブル定義",
-  "System tables (`tasks`, `sequences`, `import_tmp`) have their own JSON definition files in the `prisma/dynamodbs/` folder. These are automatically created during migration:": "システムテーブル（`tasks`、`sequences`、`import_tmp`）は`prisma/dynamodbs/`フォルダに独自のJSON定義ファイルがあります。マイグレーション時に自動的に作成されます：",
+  "System tables (`tasks`, `sequences`, `import_tmp`, `session`) have their own JSON definition files in the `prisma/dynamodbs/` folder. These are automatically created during migration:": "システムテーブル（`tasks`、`sequences`、`import_tmp`、`session`）は `prisma/dynamodbs/` フォルダに専用の JSON 定義ファイルを持ちます。これらはマイグレーション時に自動的に作成されます：",
   "File": "ファイル",
   "Task management with DynamoDB Streams": "DynamoDB Streamsによるタスク管理",
   "Sequence ID generation": "シーケンスID生成",
@@ -112,5 +112,9 @@
   "[Key Patterns](/docs/key-patterns): Detailed key design strategies": "[Key Patterns](/docs/key-patterns): 詳細なキー設計戦略",
   "[Entity Patterns](/docs/entity-patterns): Entity modeling guidelines": "[Entity Patterns](/docs/entity-patterns): エンティティモデリングガイドライン",
   "[Sequence](/docs/sequence): Sequence ID generation": "[Sequence](/docs/sequence): シーケンスID生成",
-  "[CommandService](/docs/command-service): Command handling and data sync": "[CommandService](/docs/command-service): コマンド処理とデータ同期"
+  "[CommandService](/docs/command-service): Command handling and data sync": "[CommandService](/docs/command-service): コマンド処理とデータ同期",
+  "Deployed Table Names": "デプロイ時のテーブル名",
+  "The actual table names are prefixed with the environment and application name: `{NODE_ENV}-{APP_NAME}-{entity}-{type}` (for example `dev-myapp-order-command`). The names above are the logical suffixes used by `CommandModule.register({ tableName })`.": "実際のテーブル名には環境名とアプリケーション名のプレフィックスが付きます: `{NODE_ENV}-{APP_NAME}-{エンティティ}-{種別}`（例: `dev-myapp-order-command`）。上記の名前は `CommandModule.register({ tableName })` で使用される論理サフィックスです。",
+  "Tracks Read-Your-Writes sessions (v1.2.0+)": "Read-Your-Writes セッションの追跡（v1.2.0以降）",
+  "Read-Your-Writes session tracking (v1.2.0+), see [Command Service](/docs/command-service#read-your-writes)": "Read-Your-Writes セッションの追跡（v1.2.0以降）。[コマンドサービス](/docs/command-service#read-your-writes)を参照"
 }
