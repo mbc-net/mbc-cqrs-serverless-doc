@@ -88,5 +88,9 @@
   "Multi-Tenant Patterns": "マルチテナントパターン",
   "Tenant isolation": "テナント分離",
   "Authentication": "認証",
-  "Subscription authentication": "サブスクリプション認証"
+  "Subscription authentication": "サブスクリプション認証",
+  "Example helper: per-tenant partition key": "Example helper: per-tenant partition key (テナントごとのパーティションキーを生成する例)",
+  "Version 1 means a newly created item": "Version 1 means a newly created item (バージョン1は新規作成を意味する)",
+  "Later versions are updates such as status changes": "Later versions are updates such as status changes (バージョン2以降はステータス変更などの更新)",
+  "Optional rollback logic when a sync step fails": "Optional rollback logic when a sync step fails (同期ステップ失敗時のロールバック処理・任意)"
 }

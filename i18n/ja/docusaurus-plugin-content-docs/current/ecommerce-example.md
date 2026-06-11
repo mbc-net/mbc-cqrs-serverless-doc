@@ -83,15 +83,22 @@ export interface InventoryAttributes {
 ```typescript
 // order.module.ts
 import { Module } from '@nestjs/common';
-import { CommandModule, SequenceModule } from '@mbc-cqrs-serverless/core';
+import { CommandModule } from '@mbc-cqrs-serverless/core';
+import { SequencesModule } from '@mbc-cqrs-serverless/sequence';
 import { OrderController } from './order.controller';
 import { OrderService } from './order.service';
 import { OrderDataSyncHandler } from './order-data-sync.handler';
 
 @Module({
-  imports: [CommandModule, SequenceModule],
+  imports: [
+    CommandModule.register({
+      tableName: 'order',
+      dataSyncHandlers: [OrderDataSyncHandler],
+    }),
+    SequencesModule,
+  ],
   controllers: [OrderController],
-  providers: [OrderService, OrderDataSyncHandler],
+  providers: [OrderService],
   exports: [OrderService],
 })
 export class OrderModule {}
@@ -105,18 +112,23 @@ import { Injectable } from '@nestjs/common';
 import {
   CommandService,
   DataService,
-  SequenceService,
   IInvoke,
+  KEY_SEPARATOR,
   getUserContext,
-  generatePk,
 } from '@mbc-cqrs-serverless/core';
+import { SequencesService } from '@mbc-cqrs-serverless/sequence';
+
+// Example helper: per-tenant partition key (テナントごとのパーティションキーを生成する例)
+const generatePk = (tenantCode: string): string =>
+  `TENANT${KEY_SEPARATOR}${tenantCode}`;
+
 
 @Injectable()
 export class OrderService {
   constructor(
     private readonly commandService: CommandService,
     private readonly dataService: DataService,
-    private readonly sequenceService: SequenceService,
+    private readonly sequencesService: SequencesService,
   ) {}
 
   // Create a new order (新規注文を作成)
@@ -124,8 +136,11 @@ export class OrderService {
     const { tenantCode } = getUserContext(context);
 
     // Generate unique order number (一意の注文番号を生成)
-    const sequence = await this.sequenceService.next('ORDER', context);
-    const orderCode = `ORD-${String(sequence.value).padStart(6, '0')}`;
+    const sequence = await this.sequencesService.generateSequenceItem(
+      { tenantCode, typeCode: 'ORDER' },
+      { invokeContext: context },
+    );
+    const orderCode = sequence.formattedNo;
 
     // Calculate totals (合計を計算)
     const subtotal = dto.items.reduce(
@@ -196,10 +211,12 @@ export class OrderService {
     const { tenantCode } = getUserContext(context);
 
     return this.dataService.listItemsByPk(generatePk(tenantCode), {
-      sk: { $beginsWith: 'ORDER#' },
+      sk: {
+        skExpression: 'begins_with(sk, :prefix)',
+        skAttributeValues: { ':prefix': 'ORDER#' },
+      },
       limit: options.limit || 20,
-      exclusiveStartKey: options.cursor,
-      filter: options.status ? { 'attributes.status': options.status } : undefined,
+      startFromSk: options.cursor,
     });
   }
 
@@ -396,11 +413,15 @@ export class InventoryService {
 ```typescript
 // order-data-sync.handler.ts
 import { Injectable, Logger } from '@nestjs/common';
-import { DataSyncHandler, IDataSyncHandler } from '@mbc-cqrs-serverless/core';
+import {
+  CommandModel,
+  DataSyncHandler,
+  IDataSyncHandler,
+} from '@mbc-cqrs-serverless/core';
 import { InventoryService } from '../inventory/inventory.service';
 import { NotificationService } from '../notification/notification.service';
 
-@DataSyncHandler({ tableName: 'data-table' })
+@DataSyncHandler('order')
 @Injectable()
 export class OrderDataSyncHandler implements IDataSyncHandler {
   private readonly logger = new Logger(OrderDataSyncHandler.name);
@@ -410,44 +431,31 @@ export class OrderDataSyncHandler implements IDataSyncHandler {
     private readonly notificationService: NotificationService,
   ) {}
 
-  async handleSync(event: DataSyncEvent): Promise<void> {
+  async up(cmd: CommandModel): Promise<any> {
     // Filter for order events only (注文イベントのみフィルター)
-    if (!event.sk.startsWith('ORDER#')) {
+    if (!cmd.sk.startsWith('ORDER#')) {
       return;
     }
 
-    const order = event.new;
-    const previousOrder = event.old;
-
-    // New order created (新規注文作成)
-    if (!previousOrder && order) {
-      this.logger.log(`New order created: ${order.code}`);
-      await this.handleNewOrder(order, event.context);
+    // Version 1 means a newly created item (バージョン1は新規作成を意味する)
+    if (cmd.version === 1) {
+      this.logger.log(`New order created: ${cmd.code}`);
+      await this.handleNewOrder(cmd);
       return;
     }
 
-    // Order status changed (注文ステータス変更)
-    if (
-      previousOrder &&
-      order &&
-      previousOrder.attributes.status !== order.attributes.status
-    ) {
-      await this.handleStatusChange(
-        order,
-        previousOrder.attributes.status,
-        order.attributes.status,
-        event.context,
-      );
-    }
+    // Later versions are updates such as status changes (バージョン2以降はステータス変更などの更新)
+    await this.handleStatusChange(cmd);
   }
 
-  private async handleNewOrder(order: any, context: IInvoke) {
+  async down(cmd: CommandModel): Promise<any> {
+    // Optional rollback logic when a sync step fails (同期ステップ失敗時のロールバック処理・任意)
+  }
+
+  private async handleNewOrder(order: CommandModel) {
     // Reserve inventory (在庫を予約)
     try {
-      await this.inventoryService.reserveInventory(
-        order.attributes.items,
-        context,
-      );
+      await this.inventoryService.reserveInventory(order.attributes.items);
     } catch (error) {
       this.logger.error(`Failed to reserve inventory: ${error.message}`);
       // Send notification to operations team (運用チームに通知を送信)
@@ -462,32 +470,20 @@ export class OrderDataSyncHandler implements IDataSyncHandler {
     await this.notificationService.sendOrderConfirmation(order);
   }
 
-  private async handleStatusChange(
-    order: any,
-    previousStatus: string,
-    newStatus: string,
-    context: IInvoke,
-  ) {
-    this.logger.log(
-      `Order ${order.code} status: ${previousStatus} -> ${newStatus}`
-    );
+  private async handleStatusChange(order: CommandModel) {
+    const status = order.attributes.status;
+    this.logger.log(`Order ${order.code} status changed to: ${status}`);
 
-    switch (newStatus) {
+    switch (status) {
       case 'cancelled':
         // Release reserved inventory (予約済み在庫を解放)
-        await this.inventoryService.releaseInventory(
-          order.attributes.items,
-          context,
-        );
+        await this.inventoryService.releaseInventory(order.attributes.items);
         await this.notificationService.sendCancellationNotice(order);
         break;
 
       case 'shipped':
         // Deduct from inventory (在庫から減少)
-        await this.inventoryService.deductInventory(
-          order.attributes.items,
-          context,
-        );
+        await this.inventoryService.deductInventory(order.attributes.items);
         await this.notificationService.sendShippingNotification(order);
         break;
 

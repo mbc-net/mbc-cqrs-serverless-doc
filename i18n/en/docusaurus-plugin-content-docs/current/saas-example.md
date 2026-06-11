@@ -88,8 +88,14 @@ export interface UsageAttributes {
 ```typescript
 // tenant-setup.service.ts
 import { Injectable } from '@nestjs/common';
-import { TenantService, IInvoke } from '@mbc-cqrs-serverless/core';
+import { IInvoke, KEY_SEPARATOR } from '@mbc-cqrs-serverless/core';
+import { TenantService } from '@mbc-cqrs-serverless/tenant';
 import { SubscriptionService } from './subscription.service';
+
+// Example helper: per-tenant partition key
+const generatePk = (tenantCode: string): string =>
+  `TENANT${KEY_SEPARATOR}${tenantCode}`;
+
 
 @Injectable()
 export class TenantSetupService {
@@ -111,7 +117,7 @@ export class TenantSetupService {
           timezone: dto.timezone,
         },
       },
-      context,
+      { invokeContext: context },
     );
 
     // Step 2: Create trial subscription
@@ -170,18 +176,22 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import {
   CommandService,
   DataService,
-  MasterService,
   IInvoke,
+  KEY_SEPARATOR,
   getUserContext,
-  generatePk,
 } from '@mbc-cqrs-serverless/core';
+import { MasterDataService } from '@mbc-cqrs-serverless/master';
+
+// Example helper: per-tenant partition key
+const generatePk = (tenantCode: string): string =>
+  `TENANT${KEY_SEPARATOR}${tenantCode}`;
 
 @Injectable()
 export class SubscriptionService {
   constructor(
     private readonly commandService: CommandService,
     private readonly dataService: DataService,
-    private readonly masterService: MasterService,
+    private readonly masterDataService: MasterDataService,
   ) {}
 
   // Create trial subscription
@@ -190,7 +200,10 @@ export class SubscriptionService {
     planCode: string,
     context: IInvoke,
   ) {
-    const plan = await this.masterService.getByCode('PLAN', planCode);
+    const plan = await this.masterDataService.get({
+      pk: `MASTER${KEY_SEPARATOR}${tenantCode}`,
+      sk: `PLAN${KEY_SEPARATOR}${planCode}`,
+    });
     if (!plan) {
       throw new BadRequestException(`Plan ${planCode} not found`);
     }
@@ -235,7 +248,10 @@ export class SubscriptionService {
     }
 
     // Validate plan exists
-    const newPlan = await this.masterService.getByCode('PLAN', newPlanCode);
+    const newPlan = await this.masterDataService.get({
+      pk: `MASTER${KEY_SEPARATOR}${tenantCode}`,
+      sk: `PLAN${KEY_SEPARATOR}${newPlanCode}`,
+    });
     if (!newPlan) {
       throw new BadRequestException(`Plan ${newPlanCode} not found`);
     }
@@ -321,11 +337,15 @@ import { Injectable, Logger } from '@nestjs/common';
 import {
   CommandService,
   DataService,
-  MasterService,
   IInvoke,
+  KEY_SEPARATOR,
   getUserContext,
-  generatePk,
 } from '@mbc-cqrs-serverless/core';
+import { MasterDataService } from '@mbc-cqrs-serverless/master';
+
+// Example helper: per-tenant partition key
+const generatePk = (tenantCode: string): string =>
+  `TENANT${KEY_SEPARATOR}${tenantCode}`;
 
 @Injectable()
 export class UsageService {
@@ -334,7 +354,7 @@ export class UsageService {
   constructor(
     private readonly commandService: CommandService,
     private readonly dataService: DataService,
-    private readonly masterService: MasterService,
+    private readonly masterDataService: MasterDataService,
   ) {}
 
   // Track API call
@@ -362,10 +382,10 @@ export class UsageService {
       this.getActiveSubscription(tenantCode),
     ]);
 
-    const plan = await this.masterService.getByCode(
-      'PLAN',
-      subscription.attributes.planCode
-    );
+    const plan = await this.masterDataService.get({
+      pk: `MASTER${KEY_SEPARATOR}${tenantCode}`,
+      sk: `PLAN${KEY_SEPARATOR}${subscription.attributes.planCode}`,
+    });
 
     const limit = this.getLimit(plan, metric);
     const current = usage.attributes[metric] as number;
@@ -476,7 +496,7 @@ export class UsageService {
 import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { UsageService } from './usage.service';
-import { getInvokeContext } from '@mbc-cqrs-serverless/core';
+import { extractInvokeContext } from '@mbc-cqrs-serverless/core';
 
 @Injectable()
 export class QuotaGuard implements CanActivate {
@@ -491,7 +511,7 @@ export class QuotaGuard implements CanActivate {
       return true;
     }
 
-    const ctx = getInvokeContext(context);
+    const ctx = extractInvokeContext(context);
     const quota = await this.usageService.checkQuota(metric, ctx);
 
     if (quota.isExceeded) {
@@ -524,82 +544,86 @@ export class ProjectController {
 ```typescript
 // billing-event.handler.ts
 import { Injectable, Logger } from '@nestjs/common';
-import { DataSyncHandler, IDataSyncHandler } from '@mbc-cqrs-serverless/core';
+import {
+  CommandModel,
+  DataSyncHandler,
+  IDataSyncHandler,
+  KEY_SEPARATOR,
+} from '@mbc-cqrs-serverless/core';
+import { MasterDataService } from '@mbc-cqrs-serverless/master';
 
-@DataSyncHandler({ tableName: 'data-table' })
+@DataSyncHandler('subscription')
 @Injectable()
 export class BillingEventHandler implements IDataSyncHandler {
   private readonly logger = new Logger(BillingEventHandler.name);
 
-  constructor(private readonly billingService: BillingService) {}
+  constructor(
+    private readonly billingService: BillingService,
+    private readonly masterDataService: MasterDataService,
+  ) {}
 
-  async handleSync(event: DataSyncEvent): Promise<void> {
+  async up(cmd: CommandModel): Promise<any> {
     // Handle subscription changes
-    if (event.sk.startsWith('SUBSCRIPTION#')) {
-      await this.handleSubscriptionChange(event);
+    if (cmd.sk.startsWith('SUBSCRIPTION#')) {
+      await this.handleSubscriptionChange(cmd);
       return;
     }
 
     // Handle usage updates
-    if (event.sk.startsWith('USAGE#')) {
-      await this.handleUsageChange(event);
+    if (cmd.sk.startsWith('USAGE#')) {
+      await this.handleUsageChange(cmd);
       return;
     }
   }
 
-  private async handleSubscriptionChange(event: DataSyncEvent) {
-    const { old: prev, new: current } = event;
+  async down(cmd: CommandModel): Promise<any> {
+    // Optional rollback logic when a sync step fails
+  }
+
+  private async handleSubscriptionChange(cmd: CommandModel) {
+    const attrs = cmd.attributes;
 
     // New subscription
-    if (!prev && current) {
-      this.logger.log(`New subscription: ${current.code}`);
+    if (cmd.version === 1) {
+      this.logger.log(`New subscription: ${cmd.code}`);
 
-      if (current.attributes.status === 'active') {
+      if (attrs.status === 'active') {
         await this.billingService.createBillingCycle({
-          tenantCode: current.tenantCode,
-          subscriptionCode: current.code,
-          planCode: current.attributes.planCode,
-          billingCycle: current.attributes.billingCycle,
-          startDate: current.attributes.startDate,
+          tenantCode: cmd.tenantCode,
+          subscriptionCode: cmd.code,
+          planCode: attrs.planCode,
+          billingCycle: attrs.billingCycle,
+          startDate: attrs.startDate,
         });
       }
       return;
     }
 
     // Subscription cancelled
-    if (
-      prev?.attributes.status !== 'cancelled' &&
-      current?.attributes.status === 'cancelled'
-    ) {
-      this.logger.log(`Subscription cancelled: ${current.code}`);
-      await this.billingService.cancelBillingCycle(current.code);
+    if (attrs.status === 'cancelled') {
+      this.logger.log(`Subscription cancelled: ${cmd.code}`);
+      await this.billingService.cancelBillingCycle(cmd.code);
       return;
     }
 
     // Plan changed
-    if (prev?.attributes.planCode !== current?.attributes.planCode) {
-      this.logger.log(
-        `Plan changed: ${prev.attributes.planCode} -> ${current.attributes.planCode}`
-      );
+    if (attrs.planChangedAt) {
+      this.logger.log(`Plan changed for ${cmd.code}: now ${attrs.planCode}`);
       await this.billingService.prorate({
-        subscriptionCode: current.code,
-        oldPlanCode: prev.attributes.planCode,
-        newPlanCode: current.attributes.planCode,
-        changeDate: current.attributes.planChangedAt,
+        subscriptionCode: cmd.code,
+        newPlanCode: attrs.planCode,
+        changeDate: attrs.planChangedAt,
       });
     }
   }
 
-  private async handleUsageChange(event: DataSyncEvent) {
-    const usage = event.new;
-    if (!usage) return;
-
+  private async handleUsageChange(usage: CommandModel) {
     // Check for overage
     const subscription = await this.getActiveSubscription(usage.tenantCode);
-    const plan = await this.masterService.getByCode(
-      'PLAN',
-      subscription.attributes.planCode
-    );
+    const plan = await this.masterDataService.get({
+      pk: `MASTER${KEY_SEPARATOR}${usage.tenantCode}`,
+      sk: `PLAN${KEY_SEPARATOR}${subscription.attributes.planCode}`,
+    });
 
     const overages = this.calculateOverages(usage.attributes, plan.attributes.limits);
 
@@ -654,9 +678,13 @@ import {
   CommandService,
   DataService,
   IInvoke,
+  KEY_SEPARATOR,
   getUserContext,
-  generatePk,
 } from '@mbc-cqrs-serverless/core';
+
+// Example helper: per-tenant partition key
+const generatePk = (tenantCode: string): string =>
+  `TENANT${KEY_SEPARATOR}${tenantCode}`;
 
 @Injectable()
 export class ApiKeyService {
@@ -746,7 +774,10 @@ export class ApiKeyService {
 
     // Find key by prefix
     const keys = await this.dataService.listItemsByPk(pk, {
-      sk: { $beginsWith: 'APIKEY#' },
+      sk: {
+        skExpression: 'begins_with(sk, :prefix)',
+        skAttributeValues: { ':prefix': 'APIKEY#' },
+      },
     });
 
     const apiKey = keys.items.find(
@@ -825,7 +856,7 @@ Use event handlers for billing, not synchronous calls:
 
 ```typescript
 // Good: Event-driven billing
-@DataSyncHandler({ tableName: 'data-table' })
+@DataSyncHandler('subscription')
 export class BillingEventHandler {
   // Async, decoupled, reliable
 }

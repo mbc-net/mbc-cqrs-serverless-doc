@@ -288,10 +288,10 @@ Don't let unhandled exceptions escape from DataSyncHandler.
 
 ```typescript
 // ❌ Anti-Pattern: Unhandled exception
-@DataSyncHandler({ tableName: 'data-table' })
+@DataSyncHandler('sample')
 export class MyDataSyncHandler implements IDataSyncHandler {
-  async handleSync(event: SyncEvent): Promise<void> {
-    const result = await this.externalApi.call(event.data);
+  async up(cmd: CommandModel): Promise<any> {
+    const result = await this.externalApi.call(cmd.attributes);
     // If API fails, entire batch fails and retries!
   }
 }
@@ -299,14 +299,14 @@ export class MyDataSyncHandler implements IDataSyncHandler {
 
 ```typescript
 // ✅ Correct: Handle errors gracefully
-@DataSyncHandler({ tableName: 'data-table' })
+@DataSyncHandler('sample')
 export class MyDataSyncHandler implements IDataSyncHandler {
-  async handleSync(event: SyncEvent): Promise<void> {
+  async up(cmd: CommandModel): Promise<any> {
     try {
-      const result = await this.externalApi.call(event.data);
+      const result = await this.externalApi.call(cmd.attributes);
     } catch (error) {
-      this.logger.error('Sync failed', { event, error });
-      await this.deadLetterQueue.send(event); // DLQ for later processing
+      this.logger.error('Sync failed', { cmd, error });
+      await this.deadLetterQueue.send(cmd); // DLQ for later processing
       // Don't rethrow - mark as processed
     }
   }
@@ -328,10 +328,10 @@ Avoid long-running operations in sync handlers.
 
 ```typescript
 // ❌ Anti-Pattern: Heavy processing in handler
-@DataSyncHandler({ tableName: 'data-table' })
+@DataSyncHandler('sample')
 export class MyDataSyncHandler implements IDataSyncHandler {
-  async handleSync(event: SyncEvent): Promise<void> {
-    await this.generatePdfReport(event.data); // Takes 30+ seconds
+  async up(cmd: CommandModel): Promise<any> {
+    await this.generatePdfReport(cmd.attributes); // Takes 30+ seconds
     await this.sendEmailWithAttachment(report);
   }
 }
@@ -339,12 +339,12 @@ export class MyDataSyncHandler implements IDataSyncHandler {
 
 ```typescript
 // ✅ Correct: Delegate to async processing
-@DataSyncHandler({ tableName: 'data-table' })
+@DataSyncHandler('sample')
 export class MyDataSyncHandler implements IDataSyncHandler {
-  async handleSync(event: SyncEvent): Promise<void> {
+  async up(cmd: CommandModel): Promise<any> {
     // Quick enqueue, process asynchronously
     await this.taskService.publish('GenerateReport', {
-      itemId: event.data.id,
+      itemId: cmd.id,
       type: 'pdf'
     });
   }

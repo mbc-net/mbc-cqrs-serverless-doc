@@ -203,17 +203,17 @@ import { CommandModule } from '@mbc-cqrs-serverless/core';
 export class OrderModule {}
 ```
 
-### SequenceModule Options
+### SequencesModule Options
 
 Configure auto-incrementing sequences.
 
 ```typescript
 import { Module } from '@nestjs/common';
-import { SequenceModule } from '@mbc-cqrs-serverless/sequence';
+import { SequencesModule } from '@mbc-cqrs-serverless/sequence';
 
 @Module({
   imports: [
-    SequenceModule.register({
+    SequencesModule.register({
       // Optional: Enable or disable default sequence controller
       enableController: true,
     }),

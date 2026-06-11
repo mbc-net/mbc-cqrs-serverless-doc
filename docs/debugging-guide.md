@@ -782,10 +782,7 @@ async function getCommandHistory(pk: string, baseSk: string) {
 
 1. {{Verify handler is decorated correctly:}}
    ```typescript
-   @DataSyncHandler({
-     tableName: 'sample',
-     type: 'custom-sync',
-   })
+   @DataSyncHandler('sample')
    export class CustomSyncHandler implements IDataSyncHandler {
      // ...
    }

@@ -782,10 +782,7 @@ Debugging steps:
 
 1. Verify handler is decorated correctly:
    ```typescript
-   @DataSyncHandler({
-     tableName: 'sample',
-     type: 'custom-sync',
-   })
+   @DataSyncHandler('sample')
    export class CustomSyncHandler implements IDataSyncHandler {
      // ...
    }

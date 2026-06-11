@@ -74,5 +74,9 @@
   "Service Patterns": "Service Patterns",
   "CRUD patterns used": "CRUD patterns used",
   "Multi-Tenant Patterns": "Multi-Tenant Patterns",
-  "Multi-tenant design": "Multi-tenant design"
+  "Multi-tenant design": "Multi-tenant design",
+  "Example helper: per-tenant partition key": "Example helper: per-tenant partition key",
+  "Version 1 means a newly created item": "Version 1 means a newly created item",
+  "Later versions are updates such as status changes": "Later versions are updates such as status changes",
+  "Optional rollback logic when a sync step fails": "Optional rollback logic when a sync step fails"
 }

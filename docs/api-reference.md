@@ -12,7 +12,7 @@ description: {{Comprehensive API reference for MBC CQRS Serverless framework mod
 graph TB
     subgraph "{{Core Modules}}"
         A["{{CommandModule}}"]
-        B["{{SequenceModule}}"]
+        B["{{SequencesModule}}"]
         C["{{TenantModule}}"]
     end
 

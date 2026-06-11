@@ -149,7 +149,7 @@ import {
 import { Injectable } from "@nestjs/common";
 
 // Custom data sync handler example (カスタムデータ同期ハンドラーの例)
-@DataSyncHandler()
+@DataSyncHandler('your-command-table-name')
 @Injectable()
 export class CustomDataSyncHandler implements IDataSyncHandler {
   constructor(private readonly dataService: DataService) {}
