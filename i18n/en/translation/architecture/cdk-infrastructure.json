@@ -77,6 +77,7 @@
   "Create Dead Letter Queue": "Create Dead Letter Queue",
   "Create Task Queue with DLQ": "Create Task Queue with DLQ",
   "Create Notification Queue": "Create Notification Queue",
+  "Create Sub-task Status Queue": "Create Sub-task Status Queue",
   "Create Import Queue": "Create Import Queue",
   "Subscribe queues with message filtering": "Subscribe queues with message filtering",
   "DynamoDB attributes bucket": "DynamoDB attributes bucket",
