@@ -21,7 +21,7 @@ DataServiceを使用する前に、[CommandServiceセクション](/docs/command
 
 ## メソッド
 
-### *async* `getItem(key: DetailKey): Promise<DataModel>`
+### *async* `getItem(key: DetailKey): Promise<DataModel | undefined>`
 
 `getItem`メソッドは、指定された詳細キー/主キーを持つアイテムの属性セットを返します。一致するアイテムがない場合、`getItem`は`undefined`を返します。
 

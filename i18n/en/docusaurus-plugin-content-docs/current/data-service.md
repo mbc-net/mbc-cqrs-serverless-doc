@@ -21,7 +21,7 @@ Before using the DataService, you need to set up the CommandModule as described 
 
 ## Methods
 
-### *async* `getItem(key: DetailKey): Promise<DataModel>`
+### *async* `getItem(key: DetailKey): Promise<DataModel | undefined>`
 
 The `getItem` method returns a set of attributes for the item with the given detail/primary key. If there is no matching item, `getItem` returns `undefined`.
 

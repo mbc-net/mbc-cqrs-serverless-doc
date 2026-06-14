@@ -37,6 +37,7 @@
   "Tenant is always part of the partition key": "Tenant is always part of the partition key",
   "Resource-Level Authorization": "Resource-Level Authorization",
   "Check ownership before allowing operations.": "Check ownership before allowing operations.",
+  "Derive user identity from verified JWT — never from request parameters": "Derive user identity from verified JWT — never from request parameters",
   "Check ownership": "Check ownership",
   "Data Protection": "Data Protection",
   "Encrypt Sensitive Data": "Encrypt Sensitive Data",
