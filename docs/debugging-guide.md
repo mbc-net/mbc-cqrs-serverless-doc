@@ -316,7 +316,8 @@ npm install aws-xray-sdk
 ```typescript
 // {{Optional: Instrument AWS SDK for detailed tracing}}
 import * as AWSXRay from 'aws-xray-sdk';
-const AWS = AWSXRay.captureAWS(require('aws-sdk'));
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+const dynamoClient = AWSXRay.captureAWSv3Client(new DynamoDBClient({}));
 ```
 
 ### {{Add Custom Segments}}
@@ -488,7 +489,7 @@ aws logs get-log-events \
 # {{Filter for errors in the last hour}}
 aws logs filter-log-events \
   --log-group-name /aws/lambda/prod-myapp-handler \
-  --start-time $(date -d '1 hour ago' +%s000) \
+  --start-time $(( $(date +%s) - 3600 ))000 \
   --filter-pattern "ERROR"
 ```
 
@@ -829,8 +830,9 @@ async function getCommandHistory(pk: string, baseSk: string) {
 3. {{For SDK instrumentation, verify setup:}}
    ```typescript
    import * as AWSXRay from 'aws-xray-sdk';
-   // {{Must be called before any AWS SDK usage}}
-   const AWS = AWSXRay.captureAWS(require('aws-sdk'));
+   import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+   // {{Wrap each AWS SDK v3 client with X-Ray for instrumentation}}
+   const dynamoClient = AWSXRay.captureAWSv3Client(new DynamoDBClient({}));
    ```
 
 ## {{Next Steps}}

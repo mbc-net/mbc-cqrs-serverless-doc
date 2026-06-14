@@ -481,6 +481,40 @@ const source = getCommandSource('CatalogModule', 'CatalogController', 'create');
 
 ## Constants
 
+### `VERSION_FIRST: number`
+
+A constant equal to `0`. Use as the `version` field when creating a new entity for the first time.
+
+```ts
+import { VERSION_FIRST } from '@mbc-cqrs-serverless/core';
+
+const command = {
+  pk,
+  sk,
+  name: dto.name,
+  version: VERSION_FIRST, // New entity: version starts at 0
+};
+```
+
+### `VERSION_LATEST: number`
+
+A constant equal to `-1`. Use as the `version` field to bypass optimistic locking (always overwrites). Returned by `getSortKeyVersion()` when no version suffix is present.
+
+```ts
+import { VERSION_LATEST } from '@mbc-cqrs-serverless/core';
+
+const command = {
+  pk,
+  sk,
+  name: dto.name,
+  version: VERSION_LATEST, // Bypass optimistic locking
+};
+```
+
+:::caution
+Using `VERSION_LATEST` skips conflict detection. Only use it when concurrent writes to the same entity are not a concern.
+:::
+
 ### `IS_LAMBDA_RUNNING: boolean`
 
 A constant that indicates whether the code is running in an AWS Lambda environment.

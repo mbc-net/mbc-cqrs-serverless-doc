@@ -154,7 +154,25 @@ const getItem = async (tableName: string, key: { pk: string; sk: string }) => {
   return Item ? unmarshall(Item) : undefined;
 };
 
-export { getItem, getTableName, TableType, dynamoClient };
+const putItem = async (tableName: string, item: Record<string, unknown>) => {
+  await dynamoClient.send(
+    new PutItemCommand({
+      TableName: tableName,
+      Item: marshall(item),
+    })
+  );
+};
+
+const deleteItem = async (tableName: string, key: { pk: string; sk: string }) => {
+  await dynamoClient.send(
+    new DeleteItemCommand({
+      TableName: tableName,
+      Key: marshall(key),
+    })
+  );
+};
+
+export { getItem, putItem, deleteItem, getTableName, TableType, dynamoClient };
 ```
 
 #### utils.ts - テストユーティリティ
@@ -319,9 +337,8 @@ on:
 
 jobs:
   e2e-tests:
-    # Configure runs-on based on your environment requirements
-    # runs-on: self-hosted  # Adjust according to your infrastructure setup
-    
+    runs-on: ubuntu-latest # プライベートVPCリソースへのアクセスが必要な場合はself-hostedに変更してください
+
     steps:
       - uses: actions/checkout@v4
       

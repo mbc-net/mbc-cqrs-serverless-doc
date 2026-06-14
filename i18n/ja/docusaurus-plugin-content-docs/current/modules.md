@@ -117,9 +117,31 @@ CommandModule.register({
 
 ```typescript
 SequencesModule.register({
-  enableController: true,
+  enableController: true, // 組み込みシーケンスRESTエンドポイントを有効化
 })
 ```
+
+| オプション | 型 | デフォルト | 説明 |
+|--------|------|---------|-------------|
+| `enableController` | `boolean` | `false` | 組み込みシーケンス生成エンドポイントを有効化 |
+
+### TenantModule
+
+TenantModuleはマルチテナント管理を提供します。テナントとそのグループ設定の作成・更新のためのRESTエンドポイントを公開できます。
+
+```typescript
+import { TenantModule } from '@mbc-cqrs-serverless/tenant';
+
+TenantModule.register({
+  enableController: true, // 組み込みテナントRESTエンドポイントを有効化
+})
+```
+
+| オプション | 型 | デフォルト | 説明 |
+|--------|------|---------|-------------|
+| `enableController` | `boolean` | `false` | 組み込みTenantControllerエンドポイントを有効化 |
+
+詳細は [テナント](/docs/tenant) のAPIリファレンスを参照してください。
 
 ### MasterModule
 

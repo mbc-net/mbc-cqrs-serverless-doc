@@ -248,10 +248,9 @@ export function ProductForm({
 
         <Button
           type="submit"
-          loading={form.formState.isSubmitting || isLoading}
           disabled={form.formState.isSubmitting || isLoading}
         >
-          Save
+          {form.formState.isSubmitting || isLoading ? '保存中...' : '保存'}
         </Button>
       </form>
     </Form>

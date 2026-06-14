@@ -328,21 +328,20 @@ function ProductList() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(false)
 
-  const fetchProducts = async () => {
-    setLoading(true)
-    try {
-      const response = await httpClient.get('/products')
-      setProducts(response.data)
-    } catch (error) {
-      console.error('Failed to fetch products:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
   useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true)
+      try {
+        const response = await httpClient.get('/products')
+        setProducts(response.data)
+      } catch (error) {
+        console.error('Failed to fetch products:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
     fetchProducts()
-  }, [])
+  }, [httpClient])
 
   return (
     <div>

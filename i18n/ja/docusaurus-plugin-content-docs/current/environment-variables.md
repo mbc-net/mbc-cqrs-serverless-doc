@@ -84,7 +84,7 @@ MBC CQRS サーバーレスフレームワークには、環境変数を `.env*`
 |-------------|-----------------|--------------|-------------|
 | `SNS_ENDPOINT` | ローカル開発用のSNSエンドポイントURL | いいえ | `http://localhost:4002` |
 | `SNS_REGION` | SNSリージョン | いいえ | `ap-northeast-1` |
-| `SNS_TOPIC_ARN` | イベント通知用のデフォルトSNSトピックARN | はい | `arn:aws:sns:ap-northeast-1:101010101010:CqrsSnsTopic` |
+| `SNS_TOPIC_ARN` | イベント通知用のデフォルトSNSトピックARN | いいえ | `arn:aws:sns:ap-northeast-1:101010101010:CqrsSnsTopic` |
 | `SNS_ALARM_TOPIC_ARN` | アラーム通知用のSNSトピックARN（エラーアラート） | いいえ | `arn:aws:sns:ap-northeast-1:101010101010:AlarmSnsTopic` |
 
 ### SQS 設定

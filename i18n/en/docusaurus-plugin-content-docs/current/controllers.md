@@ -21,6 +21,8 @@ To get the invoke context, you can provide the following argument in the control
 In the following example we'll use the `@Controller()` decorator, which is required to define a basic controller; `@Auth(ROLE_SYSTEM_ADMIN)` decorator, which is specified for authorization purpose; and `@ApiTags('cat')` to attach a controller to a specific tag.
 
 ```ts
+import { Controller, Post, Body } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ROLE_SYSTEM_ADMIN, INVOKE_CONTEXT, IInvoke, Auth } from '@mbc-cqrs-serverless/core';
 
 @Auth(ROLE_SYSTEM_ADMIN)
@@ -104,8 +106,9 @@ The decorator adds the following header to Swagger:
 Method decorator factory that applies standardized error response documentation. Use with Swagger response decorators to document error responses.
 
 ```ts
-import { SwaggerResponse } from '@mbc-cqrs-serverless/core';
+import { Controller, Get, Param } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiNotFoundResponse } from '@nestjs/swagger';
+import { SwaggerResponse } from '@mbc-cqrs-serverless/core';
 
 @Controller('items')
 export class ItemController {

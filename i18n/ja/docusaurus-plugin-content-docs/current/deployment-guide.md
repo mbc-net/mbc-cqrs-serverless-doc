@@ -342,13 +342,6 @@ cdk destroy dev-your-app-pipeline-stack
 - 削除保護が設定されたRDSインスタンス
 - S3バケット（先に空にする必要があります）
 
-## 次のステップ
-
-- [CodePipelineによるCI/CD](/docs/codepipeline-cicd) - デプロイを自動化する
-- [モニタリングとロギング](/docs/monitoring-logging) - 可観測性をセットアップする
-- [トラブルシューティング](/docs/common-issues) - よくあるデプロイの問題
-
-
 ## 関連ドキュメント
 
 - [CodePipelineによるCI/CD](/docs/codepipeline-cicd) - CodePipelineでデプロイを自動化
