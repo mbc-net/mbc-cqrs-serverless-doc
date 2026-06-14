@@ -102,5 +102,6 @@
   "Related Documentation": "Related Documentation",
   "[Backend Development Guide](/docs/backend-development) - Core patterns": "[Backend Development Guide](/docs/backend-development) - Core patterns",
   "[Step Functions](/docs/architecture/step-functions) - Workflow orchestration": "[Step Functions](/docs/architecture/step-functions) - Workflow orchestration",
-  "[Data Sync Handler Examples](/docs/data-sync-handler-examples) - Comprehensive sync examples": "[Data Sync Handler Examples](/docs/data-sync-handler-examples) - Comprehensive sync examples"
+  "[Data Sync Handler Examples](/docs/data-sync-handler-examples) - Comprehensive sync examples": "[Data Sync Handler Examples](/docs/data-sync-handler-examples) - Comprehensive sync examples",
+  "Strip @version suffix from command sk": "Strip @version suffix from command sk"
 }

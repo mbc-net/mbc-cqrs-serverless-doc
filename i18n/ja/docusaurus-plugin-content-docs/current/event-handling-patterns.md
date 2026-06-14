@@ -800,7 +800,7 @@ async execute(event: BatchEvent): Promise<BatchProcessingResult> {
 慣例として、`IDataSyncHandler`を実装するクラスを作成し、upとdownメソッドをオーバーライドします：
 
 ```typescript
-import { CommandModel, IDataSyncHandler } from "@mbc-cqrs-serverless/core";
+import { CommandModel, IDataSyncHandler, removeSortKeyVersion } from "@mbc-cqrs-serverless/core";
 import { Injectable, Logger } from "@nestjs/common";
 import { PrismaService } from "src/prisma";
 
@@ -816,7 +816,8 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler<void, void> {
   async up(cmd: CommandModel): Promise<void> {
     this.logger.debug('Syncing to RDS:', cmd.pk, cmd.sk);
 
-    const { pk, sk, id, code, name, tenantCode, attributes } = cmd;
+    const { pk, id, code, name, tenantCode, attributes } = cmd;
+    const sk = removeSortKeyVersion(cmd.sk); // Strip @version suffix from command sk (コマンドのskから@versionサフィックスを除去)
 
     await this.prismaService.product.upsert({
       where: { id },
