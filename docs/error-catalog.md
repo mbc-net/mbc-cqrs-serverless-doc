@@ -593,23 +593,27 @@ async function processInChunks(items, chunkSize = 100) {
 
 **{{Solution}}**:
 ```typescript
+import { SFNClient, SendTaskSuccessCommand, SendTaskFailureCommand } from '@aws-sdk/client-sfn';
+
+const sfnClient = new SFNClient({});
+
 // {{Proper error handling with Step Functions}}
 export async function handler(event: StepFunctionEvent) {
   try {
     const result = await processTask(event.input);
 
     // {{Send success callback}}
-    await sfn.sendTaskSuccess({
+    await sfnClient.send(new SendTaskSuccessCommand({
       taskToken: event.taskToken,
       output: JSON.stringify(result),
-    }).promise();
+    }));
   } catch (error) {
     // {{Send failure callback}}
-    await sfn.sendTaskFailure({
+    await sfnClient.send(new SendTaskFailureCommand({
       taskToken: event.taskToken,
       error: error.name,
       cause: error.message,
-    }).promise();
+    }));
   }
 }
 ```
@@ -626,12 +630,16 @@ export async function handler(event: StepFunctionEvent) {
 
 **{{Solution}}**:
 ```typescript
+import { S3Client, HeadObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
+
+const s3Client = new S3Client({});
+
 // {{Check if object exists before downloading}}
 try {
-  await s3.headObject({ Bucket: bucket, Key: key }).promise();
-  const data = await s3.getObject({ Bucket: bucket, Key: key }).promise();
+  await s3Client.send(new HeadObjectCommand({ Bucket: bucket, Key: key }));
+  const data = await s3Client.send(new GetObjectCommand({ Bucket: bucket, Key: key }));
 } catch (error) {
-  if (error.code === 'NoSuchKey' || error.code === 'NotFound') {
+  if (error.name === 'NoSuchKey' || error.name === 'NotFound') {
     console.log('File does not exist:', key);
     return null;
   }

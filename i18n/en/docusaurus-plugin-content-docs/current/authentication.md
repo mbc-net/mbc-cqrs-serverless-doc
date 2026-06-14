@@ -199,12 +199,6 @@ import { getUserContext } from "./user.context";
 
 @Injectable()
 export class CustomRoleGuard extends RolesGuard {
-  protected async getUserRole(context: ExecutionContext): Promise<string> {
-    const userContext = getUserContext(context);
-
-    return userContext.tenantRole;
-  }
-
   protected async verifyTenant(context: ExecutionContext): Promise<boolean> {
     const userContext = getUserContext(context);
 
@@ -282,7 +276,7 @@ The following protected methods can be overridden to customize tenant verificati
 
 | Method | Description | Default Behavior |
 |------------|-----------------|----------------------|
-| `isHeaderOverride()` | Detect if tenant code comes from header | Returns true if x-tenant-code header differs from Cognito custom:tenant |
+| `isHeaderOverride()` | Detect if tenant code comes from header | Returns true when `custom:tenant` is absent from the JWT and a tenant code is present |
 | `canOverrideTenant()` | Check if user can override tenant | Returns true for system_admin role |
 | `getCommonTenantCodes()` | Get list of common tenant codes | Returns common or value from COMMON_TENANT_CODES env var |
 | `getCrossTenantRoles()` | Get roles that can access cross-tenant | Returns system_admin or value from CROSS_TENANT_ROLES env var |
@@ -293,8 +287,7 @@ By default, only users with the `system_admin` role can override the tenant code
 
 ```ts
 // Default behavior in RolesGuard
-protected canOverrideTenant(context: ExecutionContext): boolean {
-  const userContext = getUserContext(context);
+protected canOverrideTenant(context: ExecutionContext, userContext: UserContext): boolean {
   const crossTenantRoles = this.getCrossTenantRoles();
   return crossTenantRoles.includes(userContext.tenantRole);
 }
@@ -337,16 +330,14 @@ export class CustomRolesGuard extends RolesGuard {
   }
 
   // Custom logic for tenant override permission
-  protected canOverrideTenant(context: ExecutionContext): boolean {
-    const userContext = getUserContext(context);
-
+  protected canOverrideTenant(context: ExecutionContext, userContext: UserContext): boolean {
     // Allow specific users to override tenant
     if (userContext.tenantRole === 'regional_manager') {
       // Regional managers can only access tenants in their region
       return this.isRegionalManagerForTenant(userContext, context);
     }
 
-    return super.canOverrideTenant(context);
+    return super.canOverrideTenant(context, userContext);
   }
 
   private isRegionalManagerForTenant(userContext: UserContext, context: ExecutionContext): boolean {

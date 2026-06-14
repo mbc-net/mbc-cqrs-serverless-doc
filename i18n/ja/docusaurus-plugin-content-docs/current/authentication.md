@@ -199,12 +199,6 @@ import { getUserContext } from "./user.context";
 
 @Injectable()
 export class CustomRoleGuard extends RolesGuard {
-  protected async getUserRole(context: ExecutionContext): Promise<string> {
-    const userContext = getUserContext(context);
-
-    return userContext.tenantRole;
-  }
-
   protected async verifyTenant(context: ExecutionContext): Promise<boolean> {
     const userContext = getUserContext(context);
 
@@ -282,7 +276,7 @@ export class AppGroupRoleResolver implements IGroupRoleResolver {
 
 | メソッド | 説明 | デフォルト動作 |
 |------------|-----------------|----------------------|
-| `isHeaderOverride()` | テナントコードがヘッダーからのものかを検出 | x-tenant-codeヘッダーがCognitoのcustom:tenantと異なる場合trueを返す |
+| `isHeaderOverride()` | テナントコードがヘッダーからのものかを検出 | JWTに`custom:tenant`クレームが存在せず、テナントコードが指定されている場合にtrueを返す |
 | `canOverrideTenant()` | ユーザーがテナントをオーバーライドできるかチェック | system_adminロールの場合trueを返す |
 | `getCommonTenantCodes()` | 共通テナントコードのリストを取得 | commonまたはCOMMON_TENANT_CODES環境変数の値を返す |
 | `getCrossTenantRoles()` | クロステナントアクセス可能なロールを取得 | system_adminまたはCROSS_TENANT_ROLES環境変数の値を返す |
@@ -293,8 +287,7 @@ export class AppGroupRoleResolver implements IGroupRoleResolver {
 
 ```ts
 // Default behavior in RolesGuard (RolesGuardのデフォルト動作)
-protected canOverrideTenant(context: ExecutionContext): boolean {
-  const userContext = getUserContext(context);
+protected canOverrideTenant(context: ExecutionContext, userContext: UserContext): boolean {
   const crossTenantRoles = this.getCrossTenantRoles();
   return crossTenantRoles.includes(userContext.tenantRole);
 }
@@ -337,16 +330,14 @@ export class CustomRolesGuard extends RolesGuard {
   }
 
   // Custom logic for tenant override permission (テナントオーバーライド権限のカスタムロジック)
-  protected canOverrideTenant(context: ExecutionContext): boolean {
-    const userContext = getUserContext(context);
-
+  protected canOverrideTenant(context: ExecutionContext, userContext: UserContext): boolean {
     // Allow specific users to override tenant (特定ユーザーにテナントオーバーライドを許可)
     if (userContext.tenantRole === 'regional_manager') {
       // Regional managers can only access tenants in their region (リージョナルマネージャーは自リージョンのテナントのみアクセス可能)
       return this.isRegionalManagerForTenant(userContext, context);
     }
 
-    return super.canOverrideTenant(context);
+    return super.canOverrideTenant(context, userContext);
   }
 
   private isRegionalManagerForTenant(userContext: UserContext, context: ExecutionContext): boolean {
