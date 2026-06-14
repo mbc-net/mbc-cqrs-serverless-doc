@@ -166,6 +166,7 @@ version: 0.2
 env:
   variables:
     NODE_ENV: production
+    ENVIRONMENT: production
   parameter-store:
     DATABASE_URL: /your-app/database-url
   secrets-manager:
