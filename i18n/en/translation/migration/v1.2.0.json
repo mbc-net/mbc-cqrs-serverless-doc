@@ -1,7 +1,9 @@
 {
   "Migration guide for upgrading to MBC CQRS Serverless v1.2.0, including publishSync null return and genNewSequence removal.": "Migration guide for upgrading to MBC CQRS Serverless v1.2.0, including publishSync null return and genNewSequence removal.",
+  "Migration guide for upgrading to MBC CQRS Serverless v1.2.0, including publishSync null return behavior.": "Migration guide for upgrading to MBC CQRS Serverless v1.2.0, including publishSync null return behavior.",
   "Migration Guide: v1.2.0": "Migration Guide: v1.2.0",
   "This guide helps you upgrade from v1.1.x to v1.2.0. Version 1.2.0 includes two breaking changes that require code updates.": "This guide helps you upgrade from v1.1.x to v1.2.0. Version 1.2.0 includes two breaking changes that require code updates.",
+  "This guide helps you upgrade from v1.1.x to v1.2.0. Version 1.2.0 includes one breaking change that requires code updates.": "This guide helps you upgrade from v1.1.x to v1.2.0. Version 1.2.0 includes one breaking change that requires code updates.",
   "Release Date": "Release Date",
   "2026-04-02": "2026-04-02",
   "Breaking Changes Summary": "Breaking Changes Summary",

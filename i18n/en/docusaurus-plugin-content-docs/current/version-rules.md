@@ -72,24 +72,37 @@ describe('Version Handling', () => {
 ```typescript
 describe('Version Conflicts', () => {
   it('should handle concurrent updates correctly', async () => {
-    const payload = {
+    const createPayload = {
       pk: 'test#version',
       sk: 'conflict#1',
       id: 'test#version#conflict#1',
       name: 'Conflict Test',
-      version: 1,
+      version: 0,
       type: 'test',
     }
 
-    // First update succeeds
-    const res1 = await request(config.apiBaseUrl)
-      .put(`/items/${payload.id}`)
-      .send(payload)
+    // First create the item
+    const createRes = await request(config.apiBaseUrl)
+      .post('/items')
+      .send(createPayload)
 
-    // Second update with same version fails
+    expect(createRes.statusCode).toBe(201)
+
+    const updatePayload = {
+      ...createPayload,
+      version: 1,
+      name: 'Updated Name',
+    }
+
+    // First update with version 1 succeeds
+    const res1 = await request(config.apiBaseUrl)
+      .put(`/items/${createPayload.id}`)
+      .send(updatePayload)
+
+    // Second update with same version 1 fails
     const res2 = await request(config.apiBaseUrl)
-      .put(`/items/${payload.id}`)
-      .send(payload)
+      .put(`/items/${createPayload.id}`)
+      .send(updatePayload)
 
     expect(res1.statusCode).toBe(200)
     expect(res2.statusCode).toBe(409) // Conflict
