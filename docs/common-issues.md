@@ -106,21 +106,13 @@ aws dynamodb list-tables --endpoint-url http://localhost:8000
 
 **{{Solution}}**:
 
-1. {{Verify the database container is running (the scaffolded project uses MySQL by default):}}
+1. {{Verify the database container is running (the scaffolded project uses PostgreSQL by default):}}
 ```bash
-# {{MySQL (default for scaffolded projects)}}
-docker ps | grep mysql
-
-# {{PostgreSQL (if you configured your project for PostgreSQL)}}
 docker ps | grep postgres
 ```
 
-2. {{Check DATABASE_URL in .env matches your database. The scaffolded project default uses MySQL:}}
+2. {{Check DATABASE_URL in .env matches your database:}}
 ```bash
-# {{MySQL (default)}}
-DATABASE_URL="mysql://root:root@localhost:3306/myapp"
-
-# {{PostgreSQL (alternative)}}
 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/myapp?schema=public"
 ```
 
@@ -224,6 +216,61 @@ npm run migrate
 ```
 
 {{The migration script will automatically create the table and add the `LOCAL_DDB_IMPORT_TMP_STREAM` entry to your `.env` file.}}
+
+### {{Version conflict (HTTP 409)}} {#version-conflict}
+
+**{{Symptom}}**: {{API returns HTTP 409 Conflict when updating an item.}}
+
+**{{Cause}}**: {{Two concurrent requests attempted to update the same item with the same version. The framework uses DynamoDB conditional writes (optimistic locking) — when two updates race, the second fails with `ConditionalCheckFailedException`, which the framework converts to HTTP 409.}}
+
+**{{Solution}}**:
+
+1. {{Retry the update after fetching the latest version:}}
+```typescript
+import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
+import { CommandService, DataService, IInvoke } from '@mbc-cqrs-serverless/core';
+
+async function updateWithRetry(
+  commandService: CommandService,
+  dataService: DataService,
+  pk: string,
+  sk: string,
+  updateData: object,
+  invokeContext: IInvoke,
+  maxRetries = 3,
+) {
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      const current = await dataService.getItem({ pk, sk });
+      return await commandService.publishAsync(
+        { pk, sk, ...updateData, version: current?.version },
+        { invokeContext },
+      );
+    } catch (error) {
+      if (
+        error instanceof ConditionalCheckFailedException ||
+        (error as Error).name === 'ConditionalCheckFailedException'
+      ) {
+        continue;
+      }
+      throw error;
+    }
+  }
+  throw new Error('Max retries exceeded due to version conflicts');
+}
+```
+
+2. {{Or use `VERSION_LATEST = -1` to skip version checking (last writer wins):}}
+```typescript
+import { VERSION_LATEST } from '@mbc-cqrs-serverless/core';
+
+await commandService.publishAsync(
+  { pk, sk, ...updateData, version: VERSION_LATEST },
+  { invokeContext },
+);
+```
+
+{{See also: [Version Conflict Guide](/docs/version-conflict-guide)}}
 
 ### {{DynamoDB throughput exceeded}}
 

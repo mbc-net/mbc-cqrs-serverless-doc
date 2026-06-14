@@ -52,7 +52,7 @@ MBC CQRS サーバーレスフレームワークには、環境変数を `.env*`
 |-------------|-----------------|--------------|-------------|
 | `AWS_ACCESS_KEY_ID` | ローカル開発用のAWSアクセスキーID | いいえ | `local` |
 | `AWS_SECRET_ACCESS_KEY` | ローカル開発用のAWSシークレットアクセスキー | いいえ | `local` |
-| `AWS_DEFAULT_REGION` | デフォルトのAWSリージョン | いいえ | `ap-northeast-1` |
+| `AWS_REGION` | デフォルトのAWSリージョン | いいえ | `ap-northeast-1` |
 
 ### DynamoDB 設定
 
@@ -134,7 +134,7 @@ MBC CQRS サーバーレスフレームワークには、環境変数を `.env*`
 
 | 変数 | 説明 | 必須 | 例 |
 |-------------|-----------------|--------------|-------------|
-| `DATABASE_URL` | Prisma ORM用のデータベース接続URL | いいえ | `mysql://root:RootCqrs@localhost:3306/cqrs?connection_limit=1` |
+| `DATABASE_URL` | Prisma ORM用のデータベース接続URL | いいえ | `postgresql://root:RootCqrs@localhost:5432/cqrs?schema=public` |
 
 ### .env ファイルの例
 
@@ -142,7 +142,7 @@ MBC CQRS サーバーレスフレームワークには、環境変数を `.env*`
 # AWS 認証情報
 AWS_ACCESS_KEY_ID=local
 AWS_SECRET_ACCESS_KEY=local
-AWS_DEFAULT_REGION=ap-northeast-1
+AWS_REGION=ap-northeast-1
 
 # コア設定
 NODE_ENV=local
@@ -204,7 +204,7 @@ SES_REGION=ap-northeast-1
 SES_FROM_EMAIL=email@example.com
 
 # データベース設定
-DATABASE_URL="mysql://root:RootCqrs@localhost:3306/cqrs?connection_limit=1"
+DATABASE_URL="postgresql://root:RootCqrs@localhost:5432/cqrs?schema=public"
 ```
 
 ## 環境変数の検証

@@ -211,5 +211,6 @@
   "Returned when SK has no version": "SKにバージョンがない場合に返される",
   "Use for cross-tenant shared data": "クロステナント共有データに使用",
   "Default for single-tenant mode": "シングルテナントモードのデフォルト",
-  "Common tenant codes list, configurable via COMMON_TENANT_CODES env var": "共通テナントコードのリスト（環境変数 COMMON_TENANT_CODES で設定可能）"
+  "Common tenant codes list, configurable via COMMON_TENANT_CODES env var": "共通テナントコードのリスト（環境変数 COMMON_TENANT_CODES で設定可能）",
+  "Master data is shared across all tenants under the COMMON partition": "マスターデータはCOMMONパーティションの下で全テナント間で共有されます"
 }

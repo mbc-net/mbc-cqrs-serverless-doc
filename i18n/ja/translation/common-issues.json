@@ -155,5 +155,13 @@
   "Error Catalog": "エラーカタログ",
   "Error codes and solutions": "エラーコードと解決策",
   "Monitoring and Logging": "監視とログ",
-  "Production monitoring setup": "本番監視の設定"
+  "Production monitoring setup": "本番監視の設定",
+  "Version conflict (HTTP 409)": "バージョン競合 (HTTP 409)",
+  "API returns HTTP 409 Conflict when updating an item.": "アイテムの更新時にHTTP 409 Conflictが返される。",
+  "Two concurrent requests attempted to update the same item with the same version. The framework uses DynamoDB conditional writes (optimistic locking) — when two updates race, the second fails with `ConditionalCheckFailedException`, which the framework converts to HTTP 409.": "2つの同時リクエストが同じバージョンで同じアイテムを更新しようとしました。フレームワークはDynamoDBの条件付き書き込み（楽観的ロック）を使用しており、2つの更新が競合した場合、2番目の更新は`ConditionalCheckFailedException`で失敗し、フレームワークがHTTP 409に変換します。",
+  "Retry the update after fetching the latest version:": "最新バージョンを取得した後、更新を再試行する：",
+  "Or use `VERSION_LATEST = -1` to skip version checking (last writer wins):": "または`VERSION_LATEST = -1`を使用してバージョンチェックをスキップする（最後の書き込みが優先）：",
+  "See also: [Version Conflict Guide](/docs/version-conflict-guide)": "参照: [バージョン競合ガイド](/docs/version-conflict-guide)",
+  "Verify the database container is running (the scaffolded project uses PostgreSQL by default):": "データベースコンテナが起動していることを確認します（スキャフォールドされたプロジェクトはデフォルトでPostgreSQLを使用します）：",
+  "Check DATABASE_URL in .env matches your database:": ".envのDATABASE_URLがデータベースと一致していることを確認します："
 }

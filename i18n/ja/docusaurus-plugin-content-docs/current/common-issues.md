@@ -106,21 +106,13 @@ aws dynamodb list-tables --endpoint-url http://localhost:8000
 
 **解決策**:
 
-1. データベースコンテナが起動していることを確認します（スキャフォールドされたプロジェクトはデフォルトでMySQLを使用します）：
+1. データベースコンテナが起動していることを確認します（スキャフォールドされたプロジェクトはデフォルトでPostgreSQLを使用します）：
 ```bash
-# MySQL（スキャフォールドされたプロジェクトのデフォルト）
-docker ps | grep mysql
-
-# PostgreSQL（プロジェクトをPostgreSQLで設定した場合）
 docker ps | grep postgres
 ```
 
-2. .envのDATABASE_URLがデータベースと一致していることを確認します。スキャフォールドされたプロジェクトのデフォルトはMySQLです：
+2. .envのDATABASE_URLがデータベースと一致していることを確認します：
 ```bash
-# MySQL（デフォルト）
-DATABASE_URL="mysql://root:root@localhost:3306/myapp"
-
-# PostgreSQL（代替）
 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/myapp?schema=public"
 ```
 
@@ -224,6 +216,61 @@ npm run migrate
 ```
 
 マイグレーションスクリプトが自動的にテーブルを作成し、`LOCAL_DDB_IMPORT_TMP_STREAM`エントリを`.env`ファイルに追加します。
+
+### バージョン競合 (HTTP 409) {#version-conflict}
+
+**症状**: アイテムの更新時にHTTP 409 Conflictが返される。
+
+**原因**: 2つの同時リクエストが同じバージョンで同じアイテムを更新しようとしました。フレームワークはDynamoDBの条件付き書き込み（楽観的ロック）を使用しており、2つの更新が競合した場合、2番目の更新は`ConditionalCheckFailedException`で失敗し、フレームワークがHTTP 409に変換します。
+
+**解決策**:
+
+1. 最新バージョンを取得した後、更新を再試行する：
+```typescript
+import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
+import { CommandService, DataService, IInvoke } from '@mbc-cqrs-serverless/core';
+
+async function updateWithRetry(
+  commandService: CommandService,
+  dataService: DataService,
+  pk: string,
+  sk: string,
+  updateData: object,
+  invokeContext: IInvoke,
+  maxRetries = 3,
+) {
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      const current = await dataService.getItem({ pk, sk });
+      return await commandService.publishAsync(
+        { pk, sk, ...updateData, version: current?.version },
+        { invokeContext },
+      );
+    } catch (error) {
+      if (
+        error instanceof ConditionalCheckFailedException ||
+        (error as Error).name === 'ConditionalCheckFailedException'
+      ) {
+        continue;
+      }
+      throw error;
+    }
+  }
+  throw new Error('Max retries exceeded due to version conflicts');
+}
+```
+
+2. または`VERSION_LATEST = -1`を使用してバージョンチェックをスキップする（最後の書き込みが優先）：
+```typescript
+import { VERSION_LATEST } from '@mbc-cqrs-serverless/core';
+
+await commandService.publishAsync(
+  { pk, sk, ...updateData, version: VERSION_LATEST },
+  { invokeContext },
+);
+```
+
+参照: [バージョン競合ガイド](/docs/version-conflict-guide)
 
 ### DynamoDBスループット超過
 

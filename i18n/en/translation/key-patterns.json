@@ -211,5 +211,6 @@
   "Returned when SK has no version": "Returned when SK has no version",
   "Use for cross-tenant shared data": "Use for cross-tenant shared data",
   "Default for single-tenant mode": "Default for single-tenant mode",
-  "Common tenant codes list, configurable via COMMON_TENANT_CODES env var": "Common tenant codes list, configurable via COMMON_TENANT_CODES env var"
+  "Common tenant codes list, configurable via COMMON_TENANT_CODES env var": "Common tenant codes list, configurable via COMMON_TENANT_CODES env var",
+  "Master data is shared across all tenants under the COMMON partition": "Master data is shared across all tenants under the COMMON partition"
 }

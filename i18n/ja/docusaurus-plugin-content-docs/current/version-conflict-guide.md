@@ -237,7 +237,7 @@ export class CatController {
     try {
       return await this.catService.update(id, updateDto, invokeContext);
     } catch (error) {
-      if (error.statusCode === 409) {
+      if ((error as Error).name === 'ConditionalCheckFailedException') {
         throw new HttpException(
           {
             statusCode: HttpStatus.CONFLICT,

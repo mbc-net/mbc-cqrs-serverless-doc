@@ -324,12 +324,13 @@ const sk = `${tenantCode}${KEY_SEPARATOR}${userCode}`;
 
 ```ts
 // {{Key Structure}}
-PK: MASTER#<tenantCode>
+PK: MASTER#COMMON
 SK: <type>#<category>#<code>
 
 // {{Types: SETTING, DATA, COPY}}
+// {{Master data is shared across all tenants under the COMMON partition}}
 // Examples
-PK: MASTER#tenant001
+PK: MASTER#COMMON
 SK: SETTING#notification#email_template
 SK: DATA#product_category#electronics
 SK: DATA#product_category#clothing
@@ -344,7 +345,7 @@ function generateMasterSk(type: string, category: string, code: string): string 
   return `${type}${KEY_SEPARATOR}${category}${KEY_SEPARATOR}${code}`;
 }
 
-const pk = `MASTER${KEY_SEPARATOR}${tenantCode}`;
+const pk = `MASTER${KEY_SEPARATOR}COMMON`;
 const sk = generateMasterSk(DATA_PREFIX, "product_category", "electronics");
 ```
 

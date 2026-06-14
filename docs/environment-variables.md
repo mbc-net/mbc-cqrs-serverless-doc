@@ -52,7 +52,7 @@ description: {{Learn how to add and validate your environment variables in your 
 |-------------|-----------------|--------------|-------------|
 | `AWS_ACCESS_KEY_ID` | {{AWS access key ID for local development}} | {{No}} | `local` |
 | `AWS_SECRET_ACCESS_KEY` | {{AWS secret access key for local development}} | {{No}} | `local` |
-| `AWS_DEFAULT_REGION` | {{Default AWS region}} | {{No}} | `ap-northeast-1` |
+| `AWS_REGION` | {{Default AWS region}} | {{No}} | `ap-northeast-1` |
 
 ### {{DynamoDB Configuration}}
 
@@ -134,7 +134,7 @@ description: {{Learn how to add and validate your environment variables in your 
 
 | {{Variable}} | {{Description}} | {{Required}} | {{Example}} |
 |-------------|-----------------|--------------|-------------|
-| `DATABASE_URL` | {{Database connection URL for Prisma ORM}} | {{No}} | `mysql://root:RootCqrs@localhost:3306/cqrs?connection_limit=1` |
+| `DATABASE_URL` | {{Database connection URL for Prisma ORM}} | {{No}} | `postgresql://root:RootCqrs@localhost:5432/cqrs?schema=public` |
 
 ### {{Example .env file}}
 
@@ -142,7 +142,7 @@ description: {{Learn how to add and validate your environment variables in your 
 # {{AWS Credentials}}
 AWS_ACCESS_KEY_ID=local
 AWS_SECRET_ACCESS_KEY=local
-AWS_DEFAULT_REGION=ap-northeast-1
+AWS_REGION=ap-northeast-1
 
 # {{Core Configuration}}
 NODE_ENV=local
@@ -204,7 +204,7 @@ SES_REGION=ap-northeast-1
 SES_FROM_EMAIL=email@example.com
 
 # {{Database Configuration}}
-DATABASE_URL="mysql://root:RootCqrs@localhost:3306/cqrs?connection_limit=1"
+DATABASE_URL="postgresql://root:RootCqrs@localhost:5432/cqrs?schema=public"
 ```
 
 ## {{Validate Environment Variables}}
