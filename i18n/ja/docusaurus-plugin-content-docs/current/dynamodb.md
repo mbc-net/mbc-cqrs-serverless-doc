@@ -94,12 +94,16 @@ npm run migrate
 
 ### 標準キー構造
 
-すべてのテーブルは以下で構成される複合主キーを使用します：
+すべてのエンティティテーブルは複合主キーを使用します。DATAテーブルとCOMMANDテーブルは同じ`pk`形式を使用しますが、`sk`が異なります：
 
-| キー | 形式 | 例 |
-|-----|--------|---------|
-| `pk` | `TYPE#tenantCode` | `ORDER#ACME` |
-| `sk` | `TYPE#code` | `ORDER#ORD-000001` |
+| テーブル | キー | 形式 | 例 |
+|-------|-----|--------|---------|
+| DATA / HISTORY | `pk` | `TYPE#tenantCode` | `ORDER#ACME` |
+| DATA / HISTORY | `sk` | `TYPE#code` | `ORDER#ORD-000001` |
+| COMMAND | `pk` | `TYPE#tenantCode` | `ORDER#ACME` |
+| COMMAND | `sk` | `TYPE#code@version` | `ORDER#ORD-000001@1` |
+
+COMMANDテーブルのソートキーにはフレームワークが付加する`@{version}`サフィックスが含まれます。DATAテーブルを照会する際は`removeSortKeyVersion(sk)`を使用して削除してください。
 
 ### エンティティキーの例
 
@@ -133,7 +137,7 @@ const departmentKey = {
 |-----------|------|-------------|
 | `pk` | String | パーティションキー |
 | `sk` | String | ソートキー |
-| `id` | String | 一意識別子（pk#skハッシュ） |
+| `id` | String | 一意識別子（`pk#sk`、skから@versionを除去） |
 | `code` | String | ビジネスコード |
 | `name` | String | 表示名 |
 | `tenantCode` | String | テナント識別子 |

@@ -94,12 +94,16 @@ The `import_tmp.json` template was added in [version 1.1.1](/docs/changelog#v111
 
 ### Standard Key Structure
 
-All tables use a composite primary key consisting of:
+All entity tables use a composite primary key. The DATA table and COMMAND table use the same `pk` format but differ in `sk`:
 
-| Key | Format | Example |
-|-----|--------|---------|
-| `pk` | `TYPE#tenantCode` | `ORDER#ACME` |
-| `sk` | `TYPE#code` | `ORDER#ORD-000001` |
+| Table | Key | Format | Example |
+|-------|-----|--------|---------|
+| DATA / HISTORY | `pk` | `TYPE#tenantCode` | `ORDER#ACME` |
+| DATA / HISTORY | `sk` | `TYPE#code` | `ORDER#ORD-000001` |
+| COMMAND | `pk` | `TYPE#tenantCode` | `ORDER#ACME` |
+| COMMAND | `sk` | `TYPE#code@version` | `ORDER#ORD-000001@1` |
+
+The COMMAND table sort key includes an `@{version}` suffix appended by the framework. Use `removeSortKeyVersion(sk)` to strip it when querying the DATA table.
 
 ### Entity Key Examples
 
@@ -133,7 +137,7 @@ All entity tables share these common attributes:
 |-----------|------|-------------|
 | `pk` | String | Partition key |
 | `sk` | String | Sort key |
-| `id` | String | Unique identifier (pk#sk hash) |
+| `id` | String | Unique identifier (`pk#sk`, @version stripped from sk) |
 | `code` | String | Business code |
 | `name` | String | Display name |
 | `tenantCode` | String | Tenant identifier |
