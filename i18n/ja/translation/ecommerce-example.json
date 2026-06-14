@@ -19,6 +19,7 @@
   "Module Implementation": "モジュール実装",
   "Order Module": "注文モジュール",
   "Order Service": "注文サービス",
+  "Example helper: per-tenant partition key": "Example helper: per-tenant partition key (テナントごとのパーティションキーを生成する例)",
   "Create a new order": "Create a new order (新規注文を作成)",
   "Generate unique order number": "Generate unique order number (一意の注文番号を生成)",
   "Calculate totals": "Calculate totals (合計を計算)",
@@ -40,8 +41,9 @@
   "Event-Driven Processing": "イベント駆動処理",
   "Order Data Sync Handler": "注文データ同期ハンドラー",
   "Filter for order events only": "Filter for order events only (注文イベントのみフィルター)",
-  "New order created": "New order created (新規注文作成)",
-  "Order status changed": "Order status changed (注文ステータス変更)",
+  "Version 1 means a newly created item": "Version 1 means a newly created item (バージョン1は新規作成を意味する)",
+  "Later versions are updates such as status changes": "Later versions are updates such as status changes (バージョン2以降はステータス変更などの更新)",
+  "Optional rollback logic when a sync step fails": "Optional rollback logic when a sync step fails (同期ステップ失敗時のロールバック処理・任意)",
   "Reserve inventory": "Reserve inventory (在庫を予約)",
   "Send notification to operations team": "Send notification to operations team (運用チームに通知を送信)",
   "Send order confirmation email": "Send order confirmation email (注文確認メールを送信)",
@@ -74,9 +76,5 @@
   "Service Patterns": "サービスパターン",
   "CRUD patterns used": "使用されるCRUDパターン",
   "Multi-Tenant Patterns": "マルチテナントパターン",
-  "Multi-tenant design": "マルチテナント設計",
-  "Example helper: per-tenant partition key": "Example helper: per-tenant partition key (テナントごとのパーティションキーを生成する例)",
-  "Version 1 means a newly created item": "Version 1 means a newly created item (バージョン1は新規作成を意味する)",
-  "Later versions are updates such as status changes": "Later versions are updates such as status changes (バージョン2以降はステータス変更などの更新)",
-  "Optional rollback logic when a sync step fails": "Optional rollback logic when a sync step fails (同期ステップ失敗時のロールバック処理・任意)"
+  "Multi-tenant design": "マルチテナント設計"
 }
