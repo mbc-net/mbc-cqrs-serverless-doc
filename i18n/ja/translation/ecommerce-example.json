@@ -19,7 +19,7 @@
   "Module Implementation": "モジュール実装",
   "Order Module": "注文モジュール",
   "Order Service": "注文サービス",
-  "Example helper: per-tenant partition key": "Example helper: per-tenant partition key (テナントごとのパーティションキーを生成する例)",
+  "Order PK helper: tenantCode#ORDER": "Order PK helper: tenantCode#ORDER (テナントコード#ORDERのパーティションキーを生成)",
   "Create a new order": "Create a new order (新規注文を作成)",
   "Generate unique order number": "Generate unique order number (一意の注文番号を生成)",
   "Calculate totals": "Calculate totals (合計を計算)",

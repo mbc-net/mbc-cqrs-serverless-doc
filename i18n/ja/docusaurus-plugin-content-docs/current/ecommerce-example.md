@@ -22,11 +22,11 @@ Eコマースの例では以下をカバーします：
 ```
 パーティションキー (pk)           ソートキー (sk)
 ──────────────────────────────────────────────────
-TENANT#shop-a                    ORDER#ORD-000001
-TENANT#shop-a                    ORDER#ORD-000002
-TENANT#shop-a                    PRODUCT#PRD-001
-TENANT#shop-a                    INVENTORY#PRD-001
-TENANT#shop-b                    ORDER#ORD-000001
+shop-a#ORDER                     ORDER#ORD-000001
+shop-a#ORDER                     ORDER#ORD-000002
+shop-a#PRODUCT                   PRODUCT#PRD-001
+shop-a#INVENTORY                 INVENTORY#PRD-001
+shop-b#ORDER                     ORDER#ORD-000001
 ```
 
 ### エンティティ定義
@@ -119,9 +119,9 @@ import {
 } from '@mbc-cqrs-serverless/core';
 import { SequencesService } from '@mbc-cqrs-serverless/sequence';
 
-// Example helper: per-tenant partition key (テナントごとのパーティションキーを生成する例)
-const generatePk = (tenantCode: string): string =>
-  `TENANT${KEY_SEPARATOR}${tenantCode}`;
+// Order PK helper: tenantCode#ORDER (テナントコード#ORDERのパーティションキーを生成)
+const generateOrderPk = (tenantCode: string): string =>
+  `${tenantCode}${KEY_SEPARATOR}ORDER`;
 
 
 @Injectable()
@@ -152,7 +152,7 @@ export class OrderService {
     const total = subtotal + tax;
 
     const command = {
-      pk: generatePk(tenantCode),
+      pk: generateOrderPk(tenantCode),
       sk: `ORDER#${orderCode}`,
       version: VERSION_FIRST,
       code: orderCode,
@@ -181,7 +181,7 @@ export class OrderService {
     context: IInvoke,
   ) {
     const { tenantCode } = getUserContext(context);
-    const pk = generatePk(tenantCode);
+    const pk = generateOrderPk(tenantCode);
     const sk = `ORDER#${orderCode}`;
 
     // Fetch current order (現在の注文を取得)
@@ -212,11 +212,7 @@ export class OrderService {
   async listOrders(options: ListOrdersDto, context: IInvoke) {
     const { tenantCode } = getUserContext(context);
 
-    return this.dataService.listItemsByPk(generatePk(tenantCode), {
-      sk: {
-        skExpression: 'begins_with(sk, :prefix)',
-        skAttributeValues: { ':prefix': 'ORDER#' },
-      },
+    return this.dataService.listItemsByPk(generateOrderPk(tenantCode), {
       limit: options.limit || 20,
       startFromSk: options.cursor,
     });
@@ -290,8 +286,8 @@ import { Injectable, ConflictException, NotFoundException } from '@nestjs/common
 import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
 import { CommandService, DataService, IInvoke, getUserContext, KEY_SEPARATOR } from '@mbc-cqrs-serverless/core';
 
-const generatePk = (tenantCode: string): string =>
-  `TENANT${KEY_SEPARATOR}${tenantCode}`;
+const generateInventoryPk = (tenantCode: string): string =>
+  `${tenantCode}${KEY_SEPARATOR}INVENTORY`;
 
 @Injectable()
 export class InventoryService {
@@ -306,7 +302,7 @@ export class InventoryService {
     context: IInvoke,
   ): Promise<void> {
     const { tenantCode } = getUserContext(context);
-    const pk = generatePk(tenantCode);
+    const pk = generateInventoryPk(tenantCode);
 
     for (const item of items) {
       const sk = `INVENTORY#${item.productCode}`;
@@ -357,7 +353,7 @@ export class InventoryService {
     context: IInvoke,
   ): Promise<void> {
     const { tenantCode } = getUserContext(context);
-    const pk = generatePk(tenantCode);
+    const pk = generateInventoryPk(tenantCode);
 
     for (const item of items) {
       const sk = `INVENTORY#${item.productCode}`;
@@ -387,7 +383,7 @@ export class InventoryService {
     context: IInvoke,
   ): Promise<void> {
     const { tenantCode } = getUserContext(context);
-    const pk = generatePk(tenantCode);
+    const pk = generateInventoryPk(tenantCode);
 
     for (const item of items) {
       const sk = `INVENTORY#${item.productCode}`;

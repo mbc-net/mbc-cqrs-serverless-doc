@@ -19,7 +19,7 @@
   "Module Implementation": "Module Implementation",
   "Order Module": "Order Module",
   "Order Service": "Order Service",
-  "Example helper: per-tenant partition key": "Example helper: per-tenant partition key",
+  "Order PK helper: tenantCode#ORDER": "Order PK helper: tenantCode#ORDER",
   "Create a new order": "Create a new order",
   "Generate unique order number": "Generate unique order number",
   "Calculate totals": "Calculate totals",

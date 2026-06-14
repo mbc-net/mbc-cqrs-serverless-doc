@@ -59,11 +59,11 @@ description: {{Comprehensive glossary of terms used in MBC CQRS Serverless frame
 
 ### {{Partition Key (PK)}}
 
-{{The primary key component in DynamoDB that determines data distribution across partitions. In MBC CQRS Serverless, typically formatted as `TYPE#tenantCode` (e.g., `ORDER#tenant001`).}}
+{{The primary key component in DynamoDB that determines data distribution across partitions. In MBC CQRS Serverless, typically formatted as `tenantCode#TYPE` (e.g., `tenant001#ORDER`).}}
 
 ### {{Sort Key (SK)}}
 
-{{The secondary key component in DynamoDB that enables range queries within a partition. In MBC CQRS Serverless, typically formatted as `TYPE#code` for data tables or `TYPE#code#vN` for command tables.}}
+{{The secondary key component in DynamoDB that enables range queries within a partition. In MBC CQRS Serverless, typically formatted as `TYPE#code` for data tables or `TYPE#code@N` for command tables.}}
 
 ### {{Tenant}}
 
