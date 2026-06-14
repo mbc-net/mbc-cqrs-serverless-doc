@@ -49,8 +49,9 @@ sequenceDiagram
     Cmd->>Agg: Execute Command
     Agg->>Agg: Validate Business Rules
     Agg->>Agg: Apply State Change
-    Agg->>ES: Store Event
-    ES->>SNS: Publish Event
+    Agg->>ES: Store Event (COMMAND table)
+    Note over ES,SQS: Async: DynamoDB Streams → DataSyncHandler → DATA table
+    ES->>SNS: Publish Event (via DataSyncHandler)
     SNS->>SQS: Fan-out
     SQS->>EH: Trigger Handler
     EH->>RM: Update Projection
@@ -63,14 +64,14 @@ sequenceDiagram
 {{The DynamoDB key structure for event storage:}}
 
 - **PK (Partition Key)**: `{TENANT}#{ENTITY_TYPE}` ({{Example}}: `TENANT001#ORDER`)
-- **SK (Sort Key)**: `{ENTITY_TYPE}#{ID}` ({{Example}}: `ORDER#20240101-001`)
+- **SK (Sort Key)**: `{ENTITY_TYPE}#{ID}@{version}` ({{Example}}: `ORDER#20240101-001@1`)
 
 ### {{Event Record Example}}
 
 ```json
 {
   "pk": "TENANT001#ORDER",
-  "sk": "ORDER#20240101-001",
+  "sk": "ORDER#20240101-001@1",
   "version": 3,
   "type": "OrderCreated",
   "data": {

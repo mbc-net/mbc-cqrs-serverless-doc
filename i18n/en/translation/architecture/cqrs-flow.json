@@ -16,7 +16,7 @@
   "Persistence": "Persistence",
   "Command service persists to DynamoDB with optimistic locking": "Command service persists to DynamoDB with optimistic locking",
   "Event Publishing": "Event Publishing",
-  "Domain events are published to SNS": "Domain events are published to SNS",
+  "Domain events are published to SNS asynchronously via DynamoDB Streams and DataSyncHandler": "Domain events are published to SNS asynchronously via DynamoDB Streams and DataSyncHandler",
   "Response": "Response",
   "Success response returned to client": "Success response returned to client",
   "Query Flow - Read Path": "Query Flow - Read Path",

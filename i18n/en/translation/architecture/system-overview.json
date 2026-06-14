@@ -31,7 +31,7 @@
   "Command Execution": "Command Execution",
   "Lambda processes command and persists to DynamoDB": "Lambda processes command and persists to DynamoDB",
   "Event Publishing": "Event Publishing",
-  "Events are published to SNS": "Events are published to SNS",
+  "DynamoDB Streams triggers DataSyncHandler, which syncs to the DATA table and publishes events to SNS": "DynamoDB Streams triggers DataSyncHandler, which syncs to the DATA table and publishes events to SNS",
   "Event Processing": "Event Processing",
   "SQS queues trigger Lambda handlers for async processing": "SQS queues trigger Lambda handlers for async processing",
   "Read Model Update": "Read Model Update",

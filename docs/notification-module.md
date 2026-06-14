@@ -159,7 +159,7 @@ import { NotificationEventHandler, NotificationEvent } from "@mbc-cqrs-serverles
 
 @EventHandler(NotificationEvent)
 export class NotificationEventHandler implements IEventHandler<NotificationEvent> {
-  async execute(event: NotificationEvent): Promise<any> {
+  async execute(event: NotificationEvent): Promise<void> {
     // {{Parses the notification from event body}}
     // {{Sends to AppSync via sendMessage()}}
   }

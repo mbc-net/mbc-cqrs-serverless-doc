@@ -16,7 +16,7 @@
   "Persistence": "永続化",
   "Command service persists to DynamoDB with optimistic locking": "コマンドサービスが楽観的ロックでDynamoDBに永続化",
   "Event Publishing": "イベント発行",
-  "Domain events are published to SNS": "ドメインイベントがSNSに発行される",
+  "Domain events are published to SNS asynchronously via DynamoDB Streams and DataSyncHandler": "ドメインイベントがDynamoDB StreamsとDataSyncHandlerを経由してSNSに非同期で発行される",
   "Response": "レスポンス",
   "Success response returned to client": "成功レスポンスをクライアントに返却",
   "Query Flow - Read Path": "クエリフロー - 読み取りパス",
