@@ -30,7 +30,7 @@ Top-level files are used to configure your application, manage dependencies, and
 | .eslintrc.js        | Configuration file for ESLint       |
 | .gitignore          | Specifies files and directories that Git should ignore      |
 | .prettierrc         | Configure Prettier's code formatting rules     |
-| jest.config.js      | Configuration for Jest testing    |
+| jest.config.json    | Configuration for Jest testing    |
 | nest-cli.json       | Nest.js plugins configuration       |
 | package-lock.json   | Lockfile that holds information on the dependencies installed   |
 | package.json        | Project dependencies and scripts        |
@@ -45,7 +45,7 @@ The following file conventions are used to define a new module in the src folder
 | <!-- -->             | folder | <!-- -->                        |
 | -------------------- | ------ | ------------------------------- |
 | dto                  | folder | Define the DTO (Data Transfer Object) schema. A DTO is an object that defines how the data will be sent over the network.      |
-| entities             | folder | Define the business object. |
+| entity               | folder | Define the business object. |
 | handler              | folder | Define the data sync handler classes.  |
 | [name].service.ts    | file   | Define business logic.    |
 | [name].controller.ts | file   | Define a controller. |
