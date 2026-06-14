@@ -284,8 +284,9 @@ export class OrderController {
 
 ```typescript
 // inventory.service.ts
-import { Injectable, ConflictException } from '@nestjs/common';
-import { CommandService, DataService, IInvoke, getUserContext } from '@mbc-cqrs-serverless/core';
+import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
+import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
+import { CommandService, DataService, IInvoke, getUserContext, generatePk } from '@mbc-cqrs-serverless/core';
 
 @Injectable()
 export class InventoryService {
@@ -334,7 +335,7 @@ export class InventoryService {
       try {
         await this.commandService.publishAsync(command, { invokeContext: context });
       } catch (error) {
-        if (error.name === 'VersionMismatchError') {
+        if (error instanceof ConditionalCheckFailedException) {
           // {{Retry on concurrent modification}}
           throw new ConflictException(
             'Inventory was modified, please retry'
