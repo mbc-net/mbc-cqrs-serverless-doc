@@ -188,7 +188,7 @@ await this.importService.updateStatus(
 );
 ```
 
-#### `getImportByKey(key: DetailKey): Promise<ImportEntity>`
+#### `getImportByKey(key: DetailKey): Promise<ImportEntity | null>`
 
 Retrieves an import entity by its key.
 

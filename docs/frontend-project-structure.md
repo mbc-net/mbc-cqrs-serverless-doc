@@ -290,8 +290,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
 import { useProducts } from '@/hooks/useProducts';
 import { ProductTable } from '@/components/products/ProductTable';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { ErrorMessage } from '@/components/ui/error-message';
 
 export function ProductList() {
   const router = useRouter();
