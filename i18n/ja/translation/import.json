@@ -133,5 +133,7 @@
   "Data Migration Patterns": "データ移行パターン",
   "Migration strategies": "移行戦略",
   "Tasks": "タスク",
-  "Step Functions task management": "Step Functionsタスク管理"
+  "Step Functions task management": "Step Functionsタスク管理",
+  "Prerequisite: `import_tmp` DynamoDB Table": "前提条件: `import_tmp` DynamoDBテーブル",
+  "The import module requires an `import_tmp` DynamoDB table with a DynamoDB Stream. Run `npm run migrate` after scaffolding to create this table automatically. If `npm run offline:sls` fails with a `LOCAL_DDB_IMPORT_TMP_STREAM` error, see [Serverless Offline fails with missing import_tmp stream](/docs/common-issues#missing-import-tmp-table) for the fix.": "importモジュールはDynamoDB Streamを持つ`import_tmp` DynamoDBテーブルが必要です。スキャフォールド後に`npm run migrate`を実行するとこのテーブルが自動的に作成されます。`npm run offline:sls`が`LOCAL_DDB_IMPORT_TMP_STREAM`エラーで失敗する場合は、[Serverless Offlineでimport_tmpストリームが見つからない](/docs/common-issues#missing-import-tmp-table)を参照してください。"
 }

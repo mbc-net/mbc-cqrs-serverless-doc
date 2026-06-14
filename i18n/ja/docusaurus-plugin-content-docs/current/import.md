@@ -38,6 +38,10 @@ graph TB
 npm install @mbc-cqrs-serverless/import
 ```
 
+:::info 前提条件: `import_tmp` DynamoDBテーブル
+importモジュールはDynamoDB Streamを持つ`import_tmp` DynamoDBテーブルが必要です。スキャフォールド後に`npm run migrate`を実行するとこのテーブルが自動的に作成されます。`npm run offline:sls`が`LOCAL_DDB_IMPORT_TMP_STREAM`エラーで失敗する場合は、[Serverless Offlineでimport_tmpストリームが見つからない](/docs/common-issues#missing-import-tmp-table)を参照してください。
+:::
+
 ## モジュール登録
 
 ```ts

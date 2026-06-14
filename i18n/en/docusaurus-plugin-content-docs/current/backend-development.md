@@ -285,6 +285,8 @@ export class ProductService {
       invokeContext: opts.invokeContext,
     });
 
+    // publishAsync returns null when command is a no-op (no changes detected)
+    if (!item) return null;
     return new ProductDataEntity(item);
   }
 

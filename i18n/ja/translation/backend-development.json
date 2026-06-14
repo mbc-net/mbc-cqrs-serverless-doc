@@ -61,5 +61,6 @@
   "Multi-Tenant Patterns": "マルチテナントパターン",
   "Multi-tenant implementation": "マルチテナント実装",
   "Import/Export Patterns": "インポート/エクスポートパターン",
-  "Batch data processing": "バッチデータ処理"
+  "Batch data processing": "バッチデータ処理",
+  "publishAsync returns null when command is a no-op (no changes detected)": "publishAsync は変更がない場合（no-op）null を返す"
 }
