@@ -360,6 +360,8 @@ export class MyDataSyncHandler implements IDataSyncHandler {
 
 ## {{Quick Reference Card}}
 
+{{The MCP server currently detects the following anti-patterns automatically. For full details on each code, see [MCP Server Anti-Pattern Detection](/docs/mcp-server#anti-pattern-detection).}}
+
 | {{Code}} | {{Anti-Pattern}} | {{Severity}} |
 |----------|------------------|--------------|
 | AP001 | {{Direct database writes}} | {{Critical}} |
@@ -372,25 +374,21 @@ export class MyDataSyncHandler implements IDataSyncHandler {
 | AP008 | {{Missing tenant validation}} | {{Critical}} |
 | AP009 | {{Throwing in sync handlers}} | {{High}} |
 | AP010 | {{Long-running sync handlers}} | {{Medium}} |
-
----
-
-## {{Planned Detection (Future Releases)}}
-
-:::info {{Note}}
-{{The following anti-patterns are documented for reference but automated detection is not yet implemented in the MCP server. Detection for these patterns is planned for future releases.}}
-:::
-
-| {{Code}} | {{Anti-Pattern}} | {{Severity}} | {{Status}} |
-|----------|------------------|--------------|------------|
-| AP011 | {{No sequence exhaustion handling}} | {{Low}} | {{Planned}} |
-| AP012 | {{Sequences for non-sequential IDs}} | {{Low}} | {{Planned}} |
-| AP013 | {{Secrets in code}} | {{Critical}} | {{Planned}} |
-| AP014 | {{Unvalidated JWT claims}} | {{Critical}} | {{Planned}} |
-| AP015 | {{Testing against production}} | {{Critical}} | {{Planned}} |
-| AP016 | {{Real AWS calls in tests}} | {{Medium}} | {{Planned}} |
-| AP017 | {{Cold start amplification}} | {{Medium}} | {{Planned}} |
-| AP018 | {{Unbounded batch operations}} | {{High}} | {{Planned}} |
+| AP011 | {{Deprecated `publish()` method}} | {{High}} |
+| AP012 | {{Uppercase COMMON tenant key (pre-v1.1.0)}} | {{Critical}} |
+| AP013 | {{`publishSync` null return unchecked (v1.2.0+)}} | {{High}} |
+| AP014 | {{Deprecated `genNewSequence` (v1.2.0)}} | {{High}} |
+| AP015 | {{Duplicate `TaskModule.register()`}} | {{High}} |
+| AP016 | {{Missing error logging before rethrow}} | {{High}} |
+| AP017 | {{Incorrect attribute merging on partial update}} | {{High}} |
+| AP018 | {{Missing Swagger documentation}} | {{Low}} |
+| AP019 | {{Missing pagination in list queries}} | {{High}} |
+| AP020 | {{Missing `getCommandSource` for tracing}} | {{Low}} |
+| AP021 | {{Event emit directly after publishAsync}} | {{High}} |
+| AP022 | {{Use of `eval()` or `Function()` constructor}} | {{Critical}} |
+| AP023 | {{Shell command built from string concatenation}} | {{Critical}} |
+| AP024 | {{HTTP request without timeout}} | {{Medium}} |
+| AP025 | {{Logging `process.env` or full request object}} | {{High}} |
 
 ## {{Related Documentation}}
 
