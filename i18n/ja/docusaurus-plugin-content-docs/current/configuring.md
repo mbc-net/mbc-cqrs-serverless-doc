@@ -53,8 +53,7 @@ provider:
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
           Resource:
-            - !GetAtt CommandTable.Arn
-            - !GetAtt DataTable.Arn
+            - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.stage}-${self:service}-*"
 
 custom:
   serverless-offline:
