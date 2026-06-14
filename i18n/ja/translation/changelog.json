@@ -370,5 +370,11 @@
   "`mbc-migrate` skill: v1.3.1 migration guide added": "`mbc-migrate` スキル: v1.3.1 のマイグレーションガイドを追加",
   "`mbc-generate` skill: group role resolver code generation template added": "`mbc-generate` スキル: グループロールリゾルバのコード生成テンプレートを追加",
   "`mbc-review` skill: AP022 (group role resolver) added to checklist": "`mbc-review` スキル: AP022（グループロールリゾルバ）をチェックリストに追加",
-  "Tolerate a malformed `custom:groups` claim (fail-closed to no group roles) instead of throwing, so a bad token degrades to direct-role-only checks rather than crashing the request": "不正な `custom:groups` クレームを例外ではなく許容（グループロールなしにフェイルクローズ）するようにし、不正なトークンでもリクエストをクラッシュさせず直接ロールのみのチェックに縮退します"
+  "Tolerate a malformed `custom:groups` claim (fail-closed to no group roles) instead of throwing, so a bad token degrades to direct-role-only checks rather than crashing the request": "不正な `custom:groups` クレームを例外ではなく許容（グループロールなしにフェイルクローズ）するようにし、不正なトークンでもリクエストをクラッシュさせず直接ロールのみのチェックに縮退します",
+  "See [Migration Guide v1.2.0](/docs/migration/v1.2.0) for detailed upgrade instructions for both breaking changes.": "両方の破壊的変更の詳細なアップグレード手順については、[マイグレーションガイド v1.2.0](/docs/migration/v1.2.0)を参照してください。",
+  "Migration Guide v1.3.0": "マイグレーションガイド v1.3.0",
+  "Migration Guide v1.2.0": "マイグレーションガイド v1.2.0",
+  "Upgrade guide for v1.3.0 (nodemailer v8)": "v1.3.0アップグレードガイド（nodemailer v8）",
+  "Upgrade guide for v1.2.0 (publishSync null, genNewSequence removal)": "v1.2.0アップグレードガイド（publishSyncのnull返却、genNewSequenceの削除）",
+  "Upgrade guide for v1.1.0 (TENANT_COMMON, tenant code normalization)": "v1.1.0アップグレードガイド（TENANT_COMMON、テナントコードの正規化）"
 }

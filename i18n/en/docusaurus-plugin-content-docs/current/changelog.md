@@ -161,6 +161,7 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
   - AP013: detects `publishSync`/`publishPartialUpdateSync` result used without null check
   - AP014: detects deprecated `genNewSequence()` usage
   - `migration_guide` prompt updated with v1.2.0 sections
+- See [Migration Guide v1.2.0](/docs/migration/v1.2.0) for detailed upgrade instructions for both breaking changes.
 
 ### Bug Fixes
 
@@ -870,7 +871,9 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ## Related Documentation
 
-- [Migration Guide v1.1.0](/docs/migration/v1.1.0) - Breaking changes migration guide
+- [Migration Guide v1.3.0](/docs/migration/v1.3.0) - Upgrade guide for v1.3.0 (nodemailer v8)
+- [Migration Guide v1.2.0](/docs/migration/v1.2.0) - Upgrade guide for v1.2.0 (publishSync null, genNewSequence removal)
+- [Migration Guide v1.1.0](/docs/migration/v1.1.0) - Upgrade guide for v1.1.0 (TENANT_COMMON, tenant code normalization)
 - [Version Conflict Guide](/docs/version-conflict-guide) - Handling version conflicts in upgrades
 
 ## Related Links
