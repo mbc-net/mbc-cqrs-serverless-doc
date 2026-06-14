@@ -328,7 +328,7 @@ const masterData = await this.masterDataService.list({
 const masterData = await this.masterDataService.get(
   {
     pk:"MASTER#abc", 
-    sk:"MASTER_DATA#service#01"
+    sk:"service#01"
   }
 );
 ```
@@ -361,7 +361,7 @@ const masterData = await this.masterDataService.create(
 const masterData = await this.masterDataService.update(
   {
     pk: "MASTER#abc",
-    sk: "MASTER_DATA#service#01"
+    sk: "service#01"
   },
   {
     name: 'Example Master Data',
@@ -381,7 +381,7 @@ const masterData = await this.masterDataService.update(
 const masterData = await this.masterDataService.delete(
   {
     pk: "MASTER#abc",
-    sk: "MASTER_DATA#service#01"
+    sk: "service#01"
   },
   { invokeContext }
 );
@@ -403,7 +403,7 @@ if (exists) {
 ```ts
 const masterData = await this.masterDataService.getDetail({
   pk: "MASTER#mbc",
-  sk: "MASTER_DATA#service#01"
+  sk: "service#01"
 });
 ```
 
@@ -468,7 +468,7 @@ const masterDataList = await this.masterDataService.createBulk(
 const masterData = await this.masterDataService.updateSetting(
   {
     pk: "MASTER#mbc",
-    sk: "MASTER_DATA#service#01"
+    sk: "service#01"
   },
   {
     name: 'Updated Master Data',
@@ -487,7 +487,7 @@ const masterData = await this.masterDataService.updateSetting(
 const result = await this.masterDataService.deleteSetting(
   {
     pk: "MASTER#mbc",
-    sk: "MASTER_DATA#service#01"
+    sk: "service#01"
   },
   invokeContext
 );

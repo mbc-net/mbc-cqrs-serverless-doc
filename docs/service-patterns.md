@@ -79,7 +79,7 @@ async create(
   const { tenantCode } = getUserContext(opts.invokeContext);
 
   // {{Generate PK and SK}}
-  const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
+  const pk = `${tenantCode}${KEY_SEPARATOR}${PRODUCT_PK_PREFIX}`;
   const sk = ulid(); // Use ULID for sortable unique ID
   const id = generateId(pk, sk);
 
@@ -341,7 +341,7 @@ export class ProductService {
   ): Promise<ProductDataEntity> {
     const { tenantCode } = getUserContext(opts.invokeContext);
 
-    const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
+    const pk = `${tenantCode}${KEY_SEPARATOR}${PRODUCT_PK_PREFIX}`;
     const sk = ulid();
     const id = generateId(pk, sk);
 
@@ -506,7 +506,7 @@ async createBatch(
   opts: { invokeContext: IInvoke },
 ): Promise<ProductDataEntity[]> {
   const { tenantCode } = getUserContext(opts.invokeContext);
-  const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
+  const pk = `${tenantCode}${KEY_SEPARATOR}${PRODUCT_PK_PREFIX}`;
 
   // {{Create all commands}}
   const commands = items.map((item) => {
@@ -559,7 +559,7 @@ async createLargeBatch(
   opts: { invokeContext: IInvoke },
 ): Promise<ProductDataEntity[]> {
   const { tenantCode } = getUserContext(opts.invokeContext);
-  const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
+  const pk = `${tenantCode}${KEY_SEPARATOR}${PRODUCT_PK_PREFIX}`;
 
   const chunkSize = 100;
   const results: ProductDataEntity[] = [];
@@ -630,7 +630,7 @@ async copy(
   }
 
   // {{Create new keys for target tenant}}
-  const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${targetTenantCode}`;
+  const pk = `${targetTenantCode}${KEY_SEPARATOR}${PRODUCT_PK_PREFIX}`;
   const sk = ulid();
   const id = generateId(pk, sk);
 

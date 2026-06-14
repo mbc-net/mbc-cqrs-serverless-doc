@@ -328,7 +328,7 @@ Get a master data by pk and sk.
 const masterData = await this.masterDataService.get(
   {
     pk:"MASTER#abc", 
-    sk:"MASTER_DATA#service#01"
+    sk:"service#01"
   }
 );
 ```
@@ -361,7 +361,7 @@ Updates existing master data.
 const masterData = await this.masterDataService.update(
   {
     pk: "MASTER#abc",
-    sk: "MASTER_DATA#service#01"
+    sk: "service#01"
   },
   {
     name: 'Example Master Data',
@@ -381,7 +381,7 @@ Deletes specific master data based on the provided key.
 const masterData = await this.masterDataService.delete(
   {
     pk: "MASTER#abc",
-    sk: "MASTER_DATA#service#01"
+    sk: "service#01"
   },
   { invokeContext }
 );
@@ -403,7 +403,7 @@ Retrieves detailed master data including related information. Throws NotFoundExc
 ```ts
 const masterData = await this.masterDataService.getDetail({
   pk: "MASTER#mbc",
-  sk: "MASTER_DATA#service#01"
+  sk: "service#01"
 });
 ```
 
@@ -468,7 +468,7 @@ Updates an existing master data entity.
 const masterData = await this.masterDataService.updateSetting(
   {
     pk: "MASTER#mbc",
-    sk: "MASTER_DATA#service#01"
+    sk: "service#01"
   },
   {
     name: 'Updated Master Data',
@@ -487,7 +487,7 @@ Deletes a master data entity by key.
 const result = await this.masterDataService.deleteSetting(
   {
     pk: "MASTER#mbc",
-    sk: "MASTER_DATA#service#01"
+    sk: "service#01"
   },
   invokeContext
 );
