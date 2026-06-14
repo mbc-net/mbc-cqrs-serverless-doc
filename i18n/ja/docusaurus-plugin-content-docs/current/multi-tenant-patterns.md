@@ -226,10 +226,13 @@ async function getEmailTemplates() {
 export interface UserTenantAssociation {
   pk: string;           // USER_TENANT#common
   sk: string;           // {tenantCode}#{userCode}
-  tenantCode: string;
-  userCode: string;
-  role: string;         // Role within this tenant
-  isDefault: boolean;   // Default tenant for user
+  tenantCode: string;   // Owner tenant (COMMON_TENANT)
+  attributes: {
+    userCode: string;
+    tenantCode: string; // Associated tenant code
+    role: string;       // Role within this tenant
+    isDefault: boolean; // Default tenant for user
+  };
 }
 
 // user/user.service.ts

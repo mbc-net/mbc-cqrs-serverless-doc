@@ -12,6 +12,7 @@
   "Use the MBC CQRS CLI to scaffold a new project:": "MBC CQRS CLIを使用して新しいプロジェクトをスキャフォールドします：",
   "The CLI will create a project with the following structure:": "CLIは以下の構造でプロジェクトを作成します：",
   "Step 2: Install Dependencies": "ステップ2: 依存関係のインストール",
+  "Build the TypeScript application (required before starting the server):": "TypeScriptアプリケーションをビルドします（サーバー起動前に必要）：",
   "Step 3: Start Local Infrastructure": "ステップ3: ローカルインフラの起動",
   "Start the local development environment using Docker Compose:": "Docker Composeを使用してローカル開発環境を起動します：",
   "This starts the following services:": "以下のサービスが起動します：",

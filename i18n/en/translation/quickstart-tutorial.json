@@ -12,6 +12,7 @@
   "Use the MBC CQRS CLI to scaffold a new project:": "Use the MBC CQRS CLI to scaffold a new project:",
   "The CLI will create a project with the following structure:": "The CLI will create a project with the following structure:",
   "Step 2: Install Dependencies": "Step 2: Install Dependencies",
+  "Build the TypeScript application (required before starting the server):": "Build the TypeScript application (required before starting the server):",
   "Step 3: Start Local Infrastructure": "Step 3: Start Local Infrastructure",
   "Start the local development environment using Docker Compose:": "Start the local development environment using Docker Compose:",
   "This starts the following services:": "This starts the following services:",
