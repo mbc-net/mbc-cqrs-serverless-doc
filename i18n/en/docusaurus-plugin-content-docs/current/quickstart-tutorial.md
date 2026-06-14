@@ -47,6 +47,12 @@ my-app/
 npm install
 ```
 
+Build the TypeScript application (required before starting the server):
+
+```bash
+npm run build
+```
+
 ## Step 3: Start Local Infrastructure
 
 Start the local development environment using Docker Compose:

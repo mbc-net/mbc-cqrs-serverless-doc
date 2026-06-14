@@ -47,6 +47,12 @@ my-app/
 npm install
 ```
 
+TypeScriptアプリケーションをビルドします（サーバー起動前に必要）：
+
+```bash
+npm run build
+```
+
 ## ステップ3: ローカルインフラの起動
 
 Docker Composeを使用してローカル開発環境を起動します：

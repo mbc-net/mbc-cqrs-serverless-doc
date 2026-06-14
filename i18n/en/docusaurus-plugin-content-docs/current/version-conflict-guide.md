@@ -152,7 +152,7 @@ async function updateWithRetry(
   updateData: Partial<CommandInputModel>,
   invokeContext: IInvoke,
   maxRetries = 3,
-): Promise<CommandModel> {
+): Promise<CommandModel | null> {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       // Get latest version
@@ -166,12 +166,12 @@ async function updateWithRetry(
       };
 
       return await commandService.publishPartialUpdateAsync(command, {
-        source: 'updateWithRetry',
         invokeContext,
       });
     } catch (error) {
       if (
         error instanceof ConditionalCheckFailedException ||
+        error.name === 'ConditionalCheckFailedException' ||
         error.statusCode === 409
       ) {
         if (attempt === maxRetries) {
