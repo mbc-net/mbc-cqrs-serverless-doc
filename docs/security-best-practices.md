@@ -285,8 +285,10 @@ async function getOrdersByTenant(invokeContext: IInvoke) {
 async function updateOrder(
   orderId: string,
   updates: UpdateOrderDto,
-  userId: string,
-): Promise<Order> {
+  invokeContext: IInvoke,
+): Promise<CommandModel | null> {
+  // {{Derive user identity from verified JWT — never from request parameters}}
+  const { userId } = getUserContext(invokeContext);
   const order = await this.dataService.getItem({ pk, sk });
 
   if (!order) {
@@ -303,7 +305,7 @@ async function updateOrder(
     sk: order.sk,
     version: order.version,
     ...updates,
-  }, options);
+  }, { invokeContext });
 }
 ```
 

@@ -9,7 +9,7 @@
   "Query Results": "Query Results",
   "Before using the DataService, you need to set up the CommandModule as described in [the CommandService section](/docs/command-service).": "Before using the DataService, you need to set up the CommandModule as described in [the CommandService section](/docs/command-service).",
   "Methods": "Methods",
-  "*async* `getItem(key: DetailKey): Promise<DataModel>`": "*async* `getItem(key: DetailKey): Promise<DataModel>`",
+  "*async* `getItem(key: DetailKey): Promise<DataModel | undefined>`": "*async* `getItem(key: DetailKey): Promise<DataModel | undefined>`",
   "The `getItem` method returns a set of attributes for the item with the given detail/primary key. If there is no matching item, `getItem` returns `undefined`.": "The `getItem` method returns a set of attributes for the item with the given detail/primary key. If there is no matching item, `getItem` returns `undefined`.",
   "Example:": "Example:",
   "*async* `listItemsByPk(pk: string, opts?: ListItemsOptions): Promise<DataListEntity>`": "*async* `listItemsByPk(pk: string, opts?: ListItemsOptions): Promise<DataListEntity>`",
