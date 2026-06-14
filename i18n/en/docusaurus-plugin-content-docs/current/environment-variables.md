@@ -40,7 +40,7 @@ The "Required" column indicates the general expectation for typical applications
 | `COMMON_TENANT_CODES` | Comma-separated list of tenant codes treated as common/shared across tenants | No | `common` | `common,shared,public` |
 | `CROSS_TENANT_ROLES` | Comma-separated list of roles granted cross-tenant access | No | `system_admin` | `system_admin,general_manager` |
 
-### Read-Your-Writes (RYW) Configuration
+### Read-Your-Writes (RYW) Configuration {#ryw-session-configuration}
 
 | Variable | Description | Required | Default | Example |
 |-------------|-----------------|--------------|-------------|-------------|

@@ -653,7 +653,7 @@ await repository.listItems(
 
 #### Step 1: Set the environment variable
 
-Set `RYW_SESSION_TTL_MINUTES` to a positive integer. A value of `5` (minutes) is a safe default — it covers any Stream sync delay while keeping the session table small.
+Set [`RYW_SESSION_TTL_MINUTES`](/docs/environment-variables#ryw-session-configuration) to a positive integer. A value of `5` (minutes) is a safe default — it covers any Stream sync delay while keeping the session table small.
 
 ```bash
 RYW_SESSION_TTL_MINUTES=5

@@ -653,7 +653,7 @@ await repository.listItems(
 
 #### ステップ1: 環境変数を設定する
 
-`RYW_SESSION_TTL_MINUTES`を正の整数に設定します。`5`（分）が安全なデフォルト値です — Streamの同期遅延をカバーしつつセッションテーブルを小さく保てます。
+[`RYW_SESSION_TTL_MINUTES`](/docs/environment-variables#ryw-session-configuration)を正の整数に設定します。`5`（分）が安全なデフォルト値です — Streamの同期遅延をカバーしつつセッションテーブルを小さく保てます。
 
 ```bash
 RYW_SESSION_TTL_MINUTES=5

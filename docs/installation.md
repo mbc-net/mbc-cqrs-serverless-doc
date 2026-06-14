@@ -6,7 +6,7 @@ description: {{Install and set up MBC CQRS Serverless framework with system requ
 
 {{System Requirements}}:
 
-- {{[Node.js](https://nodejs.org/en/download/package-manager)}}
+- {{[Node.js](https://nodejs.org/en/download/package-manager)}} (18.x or later)
 - {{[JQ cli](https://jqlang.github.io/jq/download/)}}
 - {{[AWS cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)}}
 - {{[Docker](https://docs.docker.com/engine/install/)}}
@@ -26,9 +26,18 @@ mbc new project-name
 ## {{Run the Development Server}}
 
 1. {{Run `npm run build` to build the project in watch mode.}}
-2. {{Open in other terminal session and run `npm run offline:docker`}}
-3. {{Open in other terminal session and run `npm run migrate` to migrate RDS and dynamoDB table}}
+2. {{Open in other terminal session and run `npm run offline:docker` to start Docker services (DynamoDB Local, MySQL, LocalStack).}}
+3. {{Wait ~30 seconds for MySQL to fully start, then open another terminal and run `npm run migrate` to migrate RDS and DynamoDB tables.}}
 4. {{Finally, run `npm run offline:sls` to start serverless offline mode.}}
+
+:::info {{AWS Credentials for Local Development}}
+{{Local development uses LocalStack to emulate AWS services. You do not need real AWS credentials — set dummy values in your `.env` file:}}
+
+```bash
+AWS_ACCESS_KEY_ID=local
+AWS_SECRET_ACCESS_KEY=local
+```
+:::
 
 {{After the server runs successfully, you can see:}}
 

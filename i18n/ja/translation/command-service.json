@@ -150,7 +150,7 @@
   "**Note:** `getVersion` only short-circuits the **update path** (when the session's `itemId` matches an existing RDS row). Create-new items (session present but not yet reflected in RDS) still fetch the command as before — there is no existing row to derive a version from.": "**注意:** `getVersion` がショートサーキットするのは **update パス**（セッションの `itemId` が既存のRDS行とマッチする場合）のみです。create-new アイテム（セッションがあるがまだRDSに未反映）は従来通りコマンドを取得します — バージョンを取得できる既存行が存在しないためです。",
   "Enabling RYW": "RYWの有効化",
   "Step 1: Set the environment variable": "ステップ1: 環境変数を設定する",
-  "Set `RYW_SESSION_TTL_MINUTES` to a positive integer. A value of `5` (minutes) is a safe default — it covers any Stream sync delay while keeping the session table small.": "`RYW_SESSION_TTL_MINUTES`を正の整数に設定します。`5`（分）が安全なデフォルト値です — Streamの同期遅延をカバーしつつセッションテーブルを小さく保てます。",
+  "Set [`RYW_SESSION_TTL_MINUTES`](/docs/environment-variables#ryw-session-configuration) to a positive integer. A value of `5` (minutes) is a safe default — it covers any Stream sync delay while keeping the session table small.": "[`RYW_SESSION_TTL_MINUTES`](/docs/environment-variables#ryw-session-configuration)を正の整数に設定します。`5`（分）が安全なデフォルト値です — Streamの同期遅延をカバーしつつセッションテーブルを小さく保てます。",
   "If unset (or set to 0 or a non-number), the feature is completely disabled: session writes are skipped and `Repository` behaves identically to `DataService`.": "未設定（または0や非数値に設定）の場合、機能は完全に無効になります：セッション書き込みはスキップされ、`Repository`は`DataService`と同じ動作をします。",
   "Step 2: Create the session DynamoDB table": "ステップ2: セッションDynamoDBテーブルを作成する",
   "Add `dynamodbs/session.json` to your project (same location as your other table definitions):": "`dynamodbs/session.json`をプロジェクトに追加します（他のテーブル定義と同じ場所）：",
