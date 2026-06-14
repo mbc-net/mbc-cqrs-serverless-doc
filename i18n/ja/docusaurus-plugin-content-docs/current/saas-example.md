@@ -88,7 +88,7 @@ export interface UsageAttributes {
 ```typescript
 // tenant-setup.service.ts
 import { Injectable } from '@nestjs/common';
-import { IInvoke, KEY_SEPARATOR } from '@mbc-cqrs-serverless/core';
+import { CommandService, IInvoke, KEY_SEPARATOR } from '@mbc-cqrs-serverless/core';
 import { TenantService } from '@mbc-cqrs-serverless/tenant';
 import { SubscriptionService } from './subscription.service';
 
@@ -102,6 +102,7 @@ export class TenantSetupService {
   constructor(
     private readonly tenantService: TenantService,
     private readonly subscriptionService: SubscriptionService,
+    private readonly commandService: CommandService,
   ) {}
 
   // Create tenant with initial subscription (初期サブスクリプション付きでテナントを作成)
@@ -551,6 +552,7 @@ import {
   KEY_SEPARATOR,
 } from '@mbc-cqrs-serverless/core';
 import { MasterDataService } from '@mbc-cqrs-serverless/master';
+import { BillingService } from './billing.service';
 
 @DataSyncHandler('subscription')
 @Injectable()

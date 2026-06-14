@@ -84,7 +84,7 @@ await this.commandService.publishPartialUpdateAsync(updateCommand, {
 When you want to always update the latest version without worrying about the exact version number:
 
 ```typescript
-import { VERSION_LATEST, CommandInputModel } from '@mbc-cqrs-serverless/core';
+import { VERSION_LATEST, CommandInputModel, generateId } from '@mbc-cqrs-serverless/core';
 
 const command: CommandInputModel = {
   pk: catPk,
@@ -108,7 +108,7 @@ await this.commandService.publishAsync(command, {
 When creating new items, use VERSION_FIRST (0) to indicate this is the first version:
 
 ```typescript
-import { VERSION_FIRST, CommandDto } from '@mbc-cqrs-serverless/core';
+import { VERSION_FIRST, CommandDto, generateId } from '@mbc-cqrs-serverless/core';
 
 const newCatCommand = new CatCommandDto({
   pk: catPk,
@@ -135,6 +135,14 @@ Implement retry logic to handle transient conflicts:
 
 ```typescript
 import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
+import {
+  CommandService,
+  DataService,
+  IInvoke,
+  VERSION_FIRST,
+  CommandInputModel,
+  CommandPartialInputModel,
+} from '@mbc-cqrs-serverless/core';
 
 async function updateWithRetry(
   commandService: CommandService,
