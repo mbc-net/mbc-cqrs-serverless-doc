@@ -133,5 +133,6 @@
   "Common Issues": "よくある問題",
   "Troubleshooting guide": "トラブルシューティングガイド",
   "MCP Server": "MCPサーバー",
-  "Anti-pattern detection tools": "アンチパターン検出ツール"
+  "Anti-pattern detection tools": "アンチパターン検出ツール",
+  "Build PK: tenantCode#entityType": "PKを構築: tenantCode#entityType"
 }

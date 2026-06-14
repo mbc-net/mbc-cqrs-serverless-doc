@@ -127,6 +127,9 @@ async findOne(
   detailDto: { pk: string; sk: string },
 ): Promise<ProductDataEntity> {
   const item = await this.dataService.getItem(detailDto);
+  if (!item) {
+    throw new NotFoundException('Product not found');
+  }
   return new ProductDataEntity(item);
 }
 ```
@@ -234,6 +237,7 @@ async update(
     invokeContext: opts.invokeContext,
   });
 
+  if (!item) return null;
   return new ProductDataEntity(item);
 }
 ```

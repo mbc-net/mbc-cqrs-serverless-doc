@@ -97,6 +97,7 @@ v1.0.25 より前のバージョンでは、この例外のメッセージは「
 ```typescript
 // オプション1: 更新前に最新バージョンを取得
 const latest = await dataService.getItem({ pk, sk });
+if (!latest) throw new NotFoundException('Item not found');
 await commandService.publishPartialUpdateSync({
   pk,
   sk,
@@ -117,6 +118,7 @@ async function updateWithRetry(data, maxRetries = 3) {
   for (let i = 0; i < maxRetries; i++) {
     try {
       const latest = await dataService.getItem({ pk: data.pk, sk: data.sk });
+      if (!latest) throw new NotFoundException('Item not found');
       return await commandService.publishPartialUpdateSync({
         ...data,
         version: latest.version,
@@ -364,6 +366,7 @@ try {
   if (error.name === 'ConditionalCheckFailedException') {
     // 更新して再試行
     const latest = await dataService.getItem({ pk, sk });
+    if (!latest) throw new NotFoundException('Item not found');
     await commandService.publishSync({
       ...item,
       version: latest.version,

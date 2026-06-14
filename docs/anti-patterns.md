@@ -237,7 +237,7 @@ const items = await this.dataService.listItems({ pk });
 ```typescript
 // ✅ {{Correct: Use context-provided tenant}}
 const { tenantCode } = getUserContext(context);
-const pk = generatePk(tenantCode);
+const pk = `${tenantCode}#PRODUCT`; // {{Build PK: tenantCode#entityType}}
 const items = await this.dataService.listItems({ pk });
 ```
 
@@ -271,7 +271,7 @@ async create(
   @Req() request: IInvoke
 ) {
   const { tenantCode } = getUserContext(request);
-  const pk = generatePk(tenantCode); // {{From authenticated context}}
+  const pk = `${tenantCode}#PRODUCT`; // {{From authenticated context}}
   // ...
 }
 ```

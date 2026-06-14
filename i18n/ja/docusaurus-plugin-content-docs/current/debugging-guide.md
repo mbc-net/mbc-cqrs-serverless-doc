@@ -105,6 +105,7 @@ export class TodoService {
 
     try {
       const result = await this.commandService.publishAsync(entity, { invokeContext });
+      if (!result) throw new Error('Command publish returned null (no-op)');
       this.logger.log(`Todo created: ${result.id}`);
       return result;
     } catch (error) {

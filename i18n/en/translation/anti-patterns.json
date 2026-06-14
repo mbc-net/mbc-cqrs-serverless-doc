@@ -133,5 +133,6 @@
   "Common Issues": "Common Issues",
   "Troubleshooting guide": "Troubleshooting guide",
   "MCP Server": "MCP Server",
-  "Anti-pattern detection tools": "Anti-pattern detection tools"
+  "Anti-pattern detection tools": "Anti-pattern detection tools",
+  "Build PK: tenantCode#entityType": "Build PK: tenantCode#entityType"
 }
