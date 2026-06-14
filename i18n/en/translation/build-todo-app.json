@@ -171,5 +171,10 @@
   "Service Patterns": "Service Patterns",
   "Advanced CRUD patterns": "Advanced CRUD patterns",
   "Testing": "Testing",
-  "Write tests for your application": "Write tests for your application"
+  "Write tests for your application": "Write tests for your application",
+  "New entities (VERSION_FIRST) always publish successfully and return a non-null result": "New entities (VERSION_FIRST) always publish successfully and return a non-null result",
+  "publishAsync null return (v1.2.0+)": "publishAsync null return (v1.2.0+)",
+  "Since v1.2.0, `publishAsync()` and `publishPartialUpdateAsync()` return `null` when the command produces no changes (no-op). New entities created with `VERSION_FIRST` (0) are always dirty and never return `null`. For update operations where the payload may be unchanged, null-check the result before using it. See the [v1.2.0 migration guide](/docs/migration/v1.2.0) for details.": "Since v1.2.0, `publishAsync()` and `publishPartialUpdateAsync()` return `null` when the command produces no changes (no-op). New entities created with `VERSION_FIRST` (0) are always dirty and never return `null`. For update operations where the payload may be unchanged, null-check the result before using it. See the [v1.2.0 migration guide](/docs/migration/v1.2.0) for details.",
+  "null means no fields changed — treat as NotFoundException since caller verified it exists": "null means no fields changed — treat as NotFoundException since caller verified it exists",
+  "null means already deleted (isDeleted was already true)": "null means already deleted (isDeleted was already true)"
 }

@@ -235,11 +235,15 @@ export class TodoService {
 
     // Publish command to DynamoDB
     const item = await this.commandService.publishAsync(todo, opts)
-
+    // New entities (VERSION_FIRST) always publish successfully and return a non-null result
     return new TodoDataEntity(item as TodoDataEntity)
   }
 }
 ```
+
+:::info publishAsync null return (v1.2.0+)
+Since v1.2.0, `publishAsync()` and `publishPartialUpdateAsync()` return `null` when the command produces no changes (no-op). New entities created with `VERSION_FIRST` (0) are always dirty and never return `null`. For update operations where the payload may be unchanged, null-check the result before using it. See the [v1.2.0 migration guide](/docs/migration/v1.2.0) for details.
+:::
 
 ### Step 5: Create the Controller
 
@@ -706,6 +710,8 @@ async update(
 
   // Publish partial update command
   const item = await this.commandService.publishPartialUpdateAsync(partialUpdate, opts)
+  // null means no fields changed — treat as NotFoundException since caller verified it exists
+  if (!item) throw new NotFoundException(`Todo not found or no changes: pk=${pk}, sk=${sk}`)
 
   return new TodoDataEntity(item as TodoDataEntity)
 }
@@ -734,6 +740,8 @@ async remove(
     },
     opts,
   )
+  // null means already deleted (isDeleted was already true)
+  if (!item) throw new NotFoundException(`Todo not found or already deleted: pk=${pk}, sk=${sk}`)
 
   return new TodoDataEntity(item as TodoDataEntity)
 }
@@ -843,6 +851,7 @@ export class TodoService {
     this.logger.debug('Creating todo with sequence:', todo)
 
     const item = await this.commandService.publishAsync(todo, opts)
+    // New entities (VERSION_FIRST) always publish successfully and return a non-null result
     return new TodoDataEntity(item as TodoDataEntity)
   }
 }
