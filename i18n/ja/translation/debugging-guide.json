@@ -190,7 +190,7 @@
   "Should be ACTIVE": "Should be ACTIVE (ACTIVEであるべき)",
   "Check IAM permissions include X-Ray:": "IAM権限にX-Rayが含まれているか確認：",
   "For SDK instrumentation, verify setup:": "SDKインストルメンテーションの場合、セットアップを確認：",
-  "Must be called before any AWS SDK usage": "Must be called before any AWS SDK usage (AWS SDK使用前に呼び出す必要がある)",
+  "Wrap each AWS SDK v3 client with X-Ray for instrumentation": "Wrap each AWS SDK v3 client with X-Ray for instrumentation (各AWS SDK v3クライアントをX-Rayでラップしてインストルメント)",
   "Next Steps": "次のステップ",
   "[Common Issues](/docs/common-issues) - Known issues and solutions": "[よくある問題](/docs/common-issues) - 既知の問題と解決策",
   "[Monitoring and Logging](/docs/monitoring-logging) - Set up comprehensive monitoring": "[モニタリングとロギング](/docs/monitoring-logging) - 包括的なモニタリングをセットアップ",

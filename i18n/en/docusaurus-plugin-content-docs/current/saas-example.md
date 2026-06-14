@@ -172,7 +172,7 @@ export class TenantSetupService {
 
 ```typescript
 // subscription.service.ts
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import {
   CommandService,
   DataService,

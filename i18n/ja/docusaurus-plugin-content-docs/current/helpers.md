@@ -481,6 +481,40 @@ const source = getCommandSource('CatalogModule', 'CatalogController', 'create');
 
 ## 定数
 
+### `VERSION_FIRST: number`
+
+`0` に等しい定数。新規エンティティを初めて作成する際の `version` フィールドに使用します。
+
+```ts
+import { VERSION_FIRST } from '@mbc-cqrs-serverless/core';
+
+const command = {
+  pk,
+  sk,
+  name: dto.name,
+  version: VERSION_FIRST, // New entity: version starts at 0 (新規エンティティ: バージョンは0から開始)
+};
+```
+
+### `VERSION_LATEST: number`
+
+`-1` に等しい定数。楽観的ロックをバイパスする（常に上書き）際の `version` フィールドに使用します。バージョンサフィックスがない場合に `getSortKeyVersion()` が返す値です。
+
+```ts
+import { VERSION_LATEST } from '@mbc-cqrs-serverless/core';
+
+const command = {
+  pk,
+  sk,
+  name: dto.name,
+  version: VERSION_LATEST, // Bypass optimistic locking (楽観的ロックをバイパス)
+};
+```
+
+:::caution
+`VERSION_LATEST` を使用すると競合検出がスキップされます。同一エンティティへの並行書き込みが問題にならない場合にのみ使用してください。
+:::
+
 ### `IS_LAMBDA_RUNNING: boolean`
 
 コードがAWS Lambda環境で実行されているかどうかを示す定数。

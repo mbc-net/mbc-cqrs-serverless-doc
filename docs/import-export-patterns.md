@@ -579,6 +579,8 @@ export class ExcelImportService {
 
 ```typescript
 // import/base-import.strategy.ts
+import { BadRequestException } from '@nestjs/common';
+import { validate, ValidationError } from 'class-validator';
 import { IInvoke } from '@mbc-cqrs-serverless/core';
 
 /**

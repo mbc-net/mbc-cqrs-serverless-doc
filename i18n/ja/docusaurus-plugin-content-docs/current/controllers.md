@@ -21,6 +21,8 @@ MBC サーバーレス フレームワークでのコントローラーの定義
 次の例では、基本的なコントローラーを定義するために必要な `@Controller()` デコレーターを使用します。 基本コントローラに `@Auth(ROLE_SYSTEM_ADMIN)` デコレータを認可の目的で指定します。そして `@ApiTags('cat')` を使用してコントローラーを特定のタグにアタッチします。
 
 ```ts
+import { Controller, Post, Body } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ROLE_SYSTEM_ADMIN, INVOKE_CONTEXT, IInvoke, Auth } from '@mbc-cqrs-serverless/core';
 
 @Auth(ROLE_SYSTEM_ADMIN)
@@ -104,8 +106,9 @@ export class ItemController {
 標準化されたエラーレスポンスドキュメントを適用するメソッドデコレーターファクトリー。Swaggerレスポンスデコレーターと一緒に使用してエラーレスポンスを文書化します。
 
 ```ts
-import { SwaggerResponse } from '@mbc-cqrs-serverless/core';
+import { Controller, Get, Param } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiNotFoundResponse } from '@nestjs/swagger';
+import { SwaggerResponse } from '@mbc-cqrs-serverless/core';
 
 @Controller('items')
 export class ItemController {

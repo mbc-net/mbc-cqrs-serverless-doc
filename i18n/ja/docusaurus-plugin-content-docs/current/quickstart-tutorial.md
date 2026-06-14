@@ -81,13 +81,13 @@ APIは `http://localhost:3000` で実行されています。
 
 ## ステップ6: APIのテスト
 
-ヘルスエンドポイントをテストします：
+ブラウザでSwagger UIを開いてAPIを確認・テストしてください：
 
-```bash
-curl http://localhost:3000/health
+```
+http://localhost:3000/swagger-ui/
 ```
 
-サービスが正常であることを示すレスポンスが表示されます。
+Swagger UIが表示され、利用可能なエンドポイントが一覧表示されます。
 
 ## 最初のエンドポイントの作成
 

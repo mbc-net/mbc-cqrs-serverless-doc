@@ -76,7 +76,7 @@ export class SeqModule {}
 
 コントローラーのほかに、`SequencesService` を直接使用してサービスを注入することでシーケンスを生成できます。
 
-`SequencesService` には4つのパブリックメソッドがあります（2つの現行メソッドと2つの非推奨メソッド）:
+`SequencesService`には4つのパブリックメソッドがあります（現行2つ、非推奨1つ、v1.2.0で削除1つ）：
 
 ### *async* `generateSequenceItem( dto: GenerateFormattedSequenceDto, options?: {invokeContext:IInvoke}):  Promise<SequenceEntity>` {#generate-sequence-item}
 

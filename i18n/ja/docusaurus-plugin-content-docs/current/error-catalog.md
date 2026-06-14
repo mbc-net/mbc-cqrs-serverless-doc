@@ -15,7 +15,7 @@ description: MBC CQRS Serverlessの原因、解決策、復旧戦略を含む包
 
 | コード | エラーメッセージ | 重大度 | クイックフィックス |
 |----------|-------------------|--------------|---------------|
-| MBC-CMD-001 | バージョン不一致 | 高 | 最新バージョンを取得するか`version: -1`を使用 |
+| MBC-CMD-001 | 入力が無効: アイテムが見つからないかバージョン不一致 | 高 | 最新バージョンを取得するか`version: -1`を使用 |
 | MBC-CMD-002 | アイテムが見つからない | 中 | 更新前にアイテムが存在するか確認 |
 | MBC-CMD-003 | 無効な入力バージョン | 中 | getItem()から最新バージョンを使用 |
 
@@ -122,7 +122,7 @@ async function updateWithRetry(data, maxRetries = 3) {
         version: latest.version,
       }, options);
     } catch (error) {
-      if (error.message.includes('version not match') && i < maxRetries - 1) {
+      if (error.message.includes('version mismatch') && i < maxRetries - 1) {
         await new Promise(r => setTimeout(r, 100 * (i + 1)));
         continue;
       }

@@ -316,7 +316,8 @@ npm install aws-xray-sdk
 ```typescript
 // Optional: Instrument AWS SDK for detailed tracing (オプション: 詳細トレーシング用にAWS SDKをインストルメント)
 import * as AWSXRay from 'aws-xray-sdk';
-const AWS = AWSXRay.captureAWS(require('aws-sdk'));
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+const dynamoClient = AWSXRay.captureAWSv3Client(new DynamoDBClient({}));
 ```
 
 ### カスタムセグメントの追加
@@ -488,7 +489,7 @@ aws logs get-log-events \
 # Filter for errors in the last hour (過去1時間のエラーをフィルタリング)
 aws logs filter-log-events \
   --log-group-name /aws/lambda/prod-myapp-handler \
-  --start-time $(date -d '1 hour ago' +%s000) \
+  --start-time $(( $(date +%s) - 3600 ))000 \
   --filter-pattern "ERROR"
 ```
 
@@ -829,8 +830,9 @@ async function getCommandHistory(pk: string, baseSk: string) {
 3. SDKインストルメンテーションの場合、セットアップを確認：
    ```typescript
    import * as AWSXRay from 'aws-xray-sdk';
-   // Must be called before any AWS SDK usage (AWS SDK使用前に呼び出す必要がある)
-   const AWS = AWSXRay.captureAWS(require('aws-sdk'));
+   import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+   // Wrap each AWS SDK v3 client with X-Ray for instrumentation (各AWS SDK v3クライアントをX-Rayでラップしてインストルメント)
+   const dynamoClient = AWSXRay.captureAWSv3Client(new DynamoDBClient({}));
    ```
 
 ## 次のステップ

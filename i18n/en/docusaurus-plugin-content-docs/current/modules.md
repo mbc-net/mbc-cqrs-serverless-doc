@@ -117,9 +117,31 @@ CommandModule.register({
 
 ```typescript
 SequencesModule.register({
-  enableController: true,
+  enableController: true, // Enable built-in sequence REST endpoints
 })
 ```
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enableController` | `boolean` | `false` | Enable the built-in sequence generation endpoints |
+
+### TenantModule
+
+The TenantModule provides multi-tenant management. It can expose REST endpoints for creating and updating tenants and their group configurations.
+
+```typescript
+import { TenantModule } from '@mbc-cqrs-serverless/tenant';
+
+TenantModule.register({
+  enableController: true, // Enable built-in tenant REST endpoints
+})
+```
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enableController` | `boolean` | `false` | Enable the built-in TenantController endpoints |
+
+See [Tenant](/docs/tenant) for the full API reference.
 
 ### MasterModule
 
