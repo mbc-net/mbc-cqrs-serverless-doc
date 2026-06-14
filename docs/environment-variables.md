@@ -84,7 +84,7 @@ description: {{Learn how to add and validate your environment variables in your 
 |-------------|-----------------|--------------|-------------|
 | `SNS_ENDPOINT` | {{SNS endpoint URL for local development}} | {{No}} | `http://localhost:4002` |
 | `SNS_REGION` | {{SNS region}} | {{No}} | `ap-northeast-1` |
-| `SNS_TOPIC_ARN` | {{Default SNS topic ARN for event notifications}} | {{Yes}} | `arn:aws:sns:ap-northeast-1:101010101010:CqrsSnsTopic` |
+| `SNS_TOPIC_ARN` | {{Default SNS topic ARN for event notifications}} | {{No}} | `arn:aws:sns:ap-northeast-1:101010101010:CqrsSnsTopic` |
 | `SNS_ALARM_TOPIC_ARN` | {{SNS topic ARN for alarm notifications (error alerts)}} | {{No}} | `arn:aws:sns:ap-northeast-1:101010101010:AlarmSnsTopic` |
 
 ### {{SQS Configuration}}
