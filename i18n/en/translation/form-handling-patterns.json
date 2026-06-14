@@ -112,6 +112,8 @@
   "Scenario: Server returns field-level validation errors.": "Scenario: Server returns field-level validation errors.",
   "Solution: Use setError to display server errors on specific fields.": "Solution: Use setError to display server errors on specific fields.",
   "Set field-level errors from server": "Set field-level errors from server",
+  "Saving...": "Saving...",
+  "Save": "Save",
   "Related Documentation": "Related Documentation",
   "API Integration Patterns": "API Integration Patterns",
   "API calls from forms": "API calls from forms",
