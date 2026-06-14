@@ -102,5 +102,6 @@
   "Related Documentation": "関連ドキュメント",
   "[Backend Development Guide](/docs/backend-development) - Core patterns": "[バックエンド開発ガイド](/docs/backend-development) - コアパターン",
   "[Step Functions](/docs/architecture/step-functions) - Workflow orchestration": "[Step Functions](/docs/architecture/step-functions) - ワークフローオーケストレーション",
-  "[Data Sync Handler Examples](/docs/data-sync-handler-examples) - Comprehensive sync examples": "[データ同期ハンドラーの例](/docs/data-sync-handler-examples) - 包括的な同期の例"
+  "[Data Sync Handler Examples](/docs/data-sync-handler-examples) - Comprehensive sync examples": "[データ同期ハンドラーの例](/docs/data-sync-handler-examples) - 包括的な同期の例",
+  "Strip @version suffix from command sk": "Strip @version suffix from command sk (コマンドのskから@versionサフィックスを除去)"
 }
