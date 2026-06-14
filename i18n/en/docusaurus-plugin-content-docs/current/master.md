@@ -251,7 +251,7 @@ const settings = await this.masterSettingService.createBulk(
 );
 ```
 
-#### `update(key: DetailDto, updateDto: MasterSettingUpdateDto, invokeContext: IInvoke): Promise<CommandModel>`
+#### `update(key: DetailDto, updateDto: MasterSettingUpdateDto, invokeContext: IInvoke): Promise<CommandModel | null>`
 Updates a master setting.
 ```ts
 const result = await this.masterSettingService.update(
@@ -264,7 +264,7 @@ const result = await this.masterSettingService.update(
 );
 ```
 
-#### `delete(key: DetailDto, invokeContext: IInvoke): Promise<CommandModel>`
+#### `delete(key: DetailDto, invokeContext: IInvoke): Promise<CommandModel | null>`
 Deletes a master setting. Wrapper for deleteSetting.
 ```ts
 await this.masterSettingService.delete(
