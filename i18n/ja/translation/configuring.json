@@ -11,6 +11,7 @@
   "Configure NestJS modules in your application.": "アプリケーションでNestJSモジュールを設定します。",
   "Load environment variables": "環境変数をロード",
   "Configure Command Module": "Commandモジュールを設定",
+  "Logical name; actual table: {NODE_ENV}-{APP_NAME}-order-command": "論理名。実際のテーブル名: {NODE_ENV}-{APP_NAME}-order-command",
   "TypeScript Configuration": "TypeScript設定",
   "tsconfig.json": "tsconfig.json",
   "Recommended TypeScript configuration for MBC CQRS Serverless projects.": "MBC CQRS Serverlessプロジェクト向けの推奨TypeScript設定。",

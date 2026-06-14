@@ -89,7 +89,7 @@ import { CommandModule } from '@mbc-cqrs-serverless/core';
 
     // Configure Command Module
     CommandModule.register({
-      tableName: process.env.DYNAMODB_TABLE_NAME,
+      tableName: 'order', // Logical name; actual table: {NODE_ENV}-{APP_NAME}-order-command
       dataSyncHandlers: [],
     }),
   ],
