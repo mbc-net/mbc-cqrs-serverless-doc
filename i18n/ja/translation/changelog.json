@@ -371,6 +371,7 @@
   "Upgrade guide for v1.3.0 (nodemailer v8)": "v1.3.0アップグレードガイド（nodemailer v8）",
   "Migration Guide v1.2.0": "マイグレーションガイド v1.2.0",
   "Upgrade guide for v1.2.0 (publishSync null, genNewSequence removal)": "v1.2.0アップグレードガイド（publishSyncのnull返却、genNewSequenceの削除）",
+  "Upgrade guide for v1.2.0 (publishSync null return value)": "v1.2.0アップグレードガイド（publishSyncのnull返却）",
   "Migration Guide v1.1.0": "マイグレーションガイド v1.1.0",
   "Upgrade guide for v1.1.0 (TENANT_COMMON, tenant code normalization)": "v1.1.0アップグレードガイド（TENANT_COMMON、テナントコードの正規化）",
   "Version Conflict Guide": "バージョン競合ガイド",
