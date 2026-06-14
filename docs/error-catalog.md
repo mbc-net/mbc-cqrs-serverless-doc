@@ -15,7 +15,7 @@ description: {{Comprehensive error catalog with causes, solutions, and recovery 
 
 | {{Code}} | {{Error Message}} | {{Severity}} | {{Quick Fix}} |
 |----------|-------------------|--------------|---------------|
-| MBC-CMD-001 | {{version not match}} | {{High}} | {{Fetch latest version or use `version: -1`}} |
+| MBC-CMD-001 | {{Invalid input: item not found or version mismatch}} | {{High}} | {{Fetch latest version or use `version: -1`}} |
 | MBC-CMD-002 | {{item not found}} | {{Medium}} | {{Check if item exists before update}} |
 | MBC-CMD-003 | {{Invalid input version}} | {{Medium}} | {{Use latest version from getItem()}} |
 
@@ -122,7 +122,7 @@ async function updateWithRetry(data, maxRetries = 3) {
         version: latest.version,
       }, options);
     } catch (error) {
-      if (error.message.includes('version not match') && i < maxRetries - 1) {
+      if (error.message.includes('version mismatch') && i < maxRetries - 1) {
         await new Promise(r => setTimeout(r, 100 * (i + 1)));
         continue;
       }
