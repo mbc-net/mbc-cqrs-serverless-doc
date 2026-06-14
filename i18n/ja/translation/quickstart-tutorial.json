@@ -24,8 +24,6 @@
   "In a new terminal, start the Serverless Offline server:": "新しいターミナルで、Serverless Offlineサーバーを起動します：",
   "Your API is now running at `http://localhost:3000`.": "APIは `http://localhost:3000` で実行されています。",
   "Step 6: Test Your API": "ステップ6: APIのテスト",
-  "Test the health endpoint:": "ヘルスエンドポイントをテストします：",
-  "You should see a response indicating the service is healthy.": "サービスが正常であることを示すレスポンスが表示されます。",
   "Creating Your First Endpoint": "最初のエンドポイントの作成",
   "Let's create a simple \"Hello World\" endpoint.": "シンプルな「Hello World」エンドポイントを作成しましょう。",
   "Create a Controller": "コントローラーの作成",
@@ -66,5 +64,7 @@
   "Service Patterns": "サービスパターン",
   "Complete CRUD service patterns": "完全なCRUDサービスパターン",
   "Command Service": "コマンドサービス",
-  "CommandService API reference": "CommandService APIリファレンス"
+  "CommandService API reference": "CommandService APIリファレンス",
+  "Open the Swagger UI in your browser to explore and test your API:": "ブラウザでSwagger UIを開いてAPIを確認・テストしてください：",
+  "You should see the Swagger UI with all available endpoints listed.": "Swagger UIが表示され、利用可能なエンドポイントが一覧表示されます。"
 }

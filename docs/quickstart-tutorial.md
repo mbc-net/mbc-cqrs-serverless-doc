@@ -81,13 +81,13 @@ npm run offline:sls
 
 ## {{Step 6: Test Your API}}
 
-{{Test the health endpoint:}}
+{{Open the Swagger UI in your browser to explore and test your API:}}
 
-```bash
-curl http://localhost:3000/health
+```
+http://localhost:3000/swagger-ui/
 ```
 
-{{You should see a response indicating the service is healthy.}}
+{{You should see the Swagger UI with all available endpoints listed.}}
 
 ## {{Creating Your First Endpoint}}
 
