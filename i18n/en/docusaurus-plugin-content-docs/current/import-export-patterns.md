@@ -1283,7 +1283,7 @@ export class PolicyProcessStrategy
   ): Promise<ComparisonResult<PolicyDataEntity>> {
     const existing = await this.dataService.getItem({ pk: dto.pk, sk: dto.sk });
     if (!existing) return { status: ComparisonStatus.NOT_EXIST };
-    return { status: ComparisonStatus.EQUAL, existingData: existing as PolicyDataEntity };
+    return { status: ComparisonStatus.CHANGED, existingData: existing as PolicyDataEntity };
   }
 
   async map(
