@@ -22,7 +22,7 @@
   "2. Command Pattern": "2. Command Pattern",
   "Create commands for state changes": "Create commands for state changes",
   "Required: unique identifier": "Required: unique identifier",
-  "Required: initial version for new entities": "Required: initial version for new entities",
+  "Required: VERSION_FIRST (0) for new entities": "Required: VERSION_FIRST (0) for new entities",
   "Required: entity type": "Required: entity type",
   "3. Query Pattern": "3. Query Pattern",
   "Query data with proper filtering": "Query data with proper filtering",

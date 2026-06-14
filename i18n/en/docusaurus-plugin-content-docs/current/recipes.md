@@ -37,6 +37,8 @@ export class OrderEntity extends DataEntity {
 
 ```typescript
 // Create commands for state changes
+import { VERSION_FIRST } from '@mbc-cqrs-serverless/core';
+
 async createOrder(dto: CreateOrderDto, context: IInvoke) {
   const orderId = await this.sequencesService.generateSequenceItem(
     {
@@ -53,7 +55,7 @@ async createOrder(dto: CreateOrderDto, context: IInvoke) {
       id: orderId.formattedNo,           // Required: unique identifier
       code: orderId.formattedNo,
       name: dto.name,
-      version: 1,                        // Required: initial version for new entities
+      version: VERSION_FIRST,            // Required: VERSION_FIRST (0) for new entities
       tenantCode: dto.tenantCode,
       type: 'ORDER',                     // Required: entity type
       attributes: dto.attributes,
