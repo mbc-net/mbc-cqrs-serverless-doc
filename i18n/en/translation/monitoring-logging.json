@@ -97,7 +97,7 @@
   "Instrument Application": "Instrument Application",
   "Optional Enhancement": "Optional Enhancement",
   "For deeper tracing of AWS SDK calls and HTTP requests, you can optionally add the aws-xray-sdk package to your application.": "For deeper tracing of AWS SDK calls and HTTP requests, you can optionally add the aws-xray-sdk package to your application.",
-  "Instrument AWS SDK": "Instrument AWS SDK",
+  "Instrument AWS SDK v3 clients individually": "Instrument AWS SDK v3 clients individually",
   "Instrument HTTP calls": "Instrument HTTP calls",
   "Add custom annotations": "Add custom annotations",
   "Centralized Logging": "Centralized Logging",
