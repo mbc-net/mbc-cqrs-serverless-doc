@@ -167,7 +167,7 @@ The default implementation uses `minLength: 6` for development convenience. For 
 Always validate JWT tokens on the server side.
 
 ```typescript
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { CognitoJwtVerifier } from 'aws-jwt-verify';
 
 @Injectable()
