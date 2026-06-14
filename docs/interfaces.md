@@ -18,7 +18,7 @@ description: {{Complete reference of TypeScript interfaces used in MBC CQRS Serv
 ```ts
 export interface CommandInputModel {
   pk: string              // Partition key (e.g., "ORDER#tenant001")
-  sk: string              // Sort key with version (e.g., "ORDER#ORD001@1")
+  sk: string              // Sort key (e.g., "ORDER#ORD001") — no version suffix needed
   id: string              // Unique identifier (e.g., UUID)
   code: string            // Business code (e.g., "ORD001")
   name: string            // Display name
@@ -36,11 +36,11 @@ export interface CommandInputModel {
 ```typescript
 const orderInput: CommandInputModel = {
   pk: 'ORDER#tenant001',
-  sk: 'ORDER#ORD001@1',
+  sk: 'ORDER#ORD001',         // No @version suffix — version is the separate field
   id: crypto.randomUUID(),
   code: 'ORD001',
   name: 'Customer Order',
-  version: 1,
+  version: 0,                   // VERSION_FIRST for new entities
   tenantCode: 'tenant001',
   type: 'ORDER',
   attributes: {
