@@ -25,11 +25,12 @@ await dynamodb.send(new PutItemCommand({
 
 ```typescript
 // ✅ Correct: Use CommandService
-await this.commandService.publishAsync(new ItemCommand({
-  pk: { S: 'TENANT#mbc' },
-  sk: { S: 'ITEM#001' },
-  ...
-}), context);
+await this.commandService.publishAsync({
+  pk: 'TENANT#mbc',
+  sk: 'ITEM#001',
+  version: 0,
+  // ...
+}, { invokeContext });
 ```
 
 **Why this is problematic:**
