@@ -42,6 +42,7 @@
   "Description": "説明",
   "Yes": "はい",
   "Partition key. Format: `{tenantCode}#{entityType}`": "パーティションキー。形式: `{tenantCode}#{entityType}`",
+  "Partition key. Format: `{entityType}#{tenantCode}`": "パーティションキー。形式: `{entityType}#{tenantCode}`",
   "Sort key. Format: `{entityType}#{entityId}`": "ソートキー。形式: `{entityType}#{entityId}`",
   "Unique entity identifier": "エンティティの一意識別子",
   "Business code": "ビジネスコード",

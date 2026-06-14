@@ -38,6 +38,7 @@
   "Context Helpers": "コンテキストヘルパー",
   "Functions for working with invocation context and user information.": "呼び出しコンテキストとユーザー情報を操作するための関数。",
   "Extracts user context from the invocation context. Returns userId, tenantCode, and tenantRole.": "呼び出しコンテキストからユーザーコンテキストを抽出します。userId、tenantCode、tenantRoleを返します。",
+  "Extracts user context from the invocation context. Returns userId, tenantCode, tenantRole, tenantRoles, and tenantGroupIds.": "呼び出しコンテキストからユーザーコンテキストを抽出します。userId、tenantCode、tenantRole、tenantRoles、tenantGroupIdsを返します。",
   "Returns:": "戻り値:",
   "Extracts the invocation context from a NestJS execution context. Supports both Lambda and local development environments.": "NestJS実行コンテキストから呼び出しコンテキストを抽出します。Lambdaとローカル開発環境の両方をサポートします。",
   "Use ctx for further operations": "ctxを後続の操作に使用",

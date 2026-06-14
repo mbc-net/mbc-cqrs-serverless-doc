@@ -172,13 +172,13 @@ const { bucket, key } = parseS3AttributeKey('s3://my-bucket/path/to/file.pdf');
 
 ### `getUserContext(ctx: IInvoke | ExecutionContext): UserContext`
 
-{{Extracts user context from the invocation context. Returns userId, tenantCode, and tenantRole.}}
+{{Extracts user context from the invocation context. Returns userId, tenantCode, tenantRole, tenantRoles, and tenantGroupIds.}}
 
 ```ts
 import { getUserContext } from '@mbc-cqrs-serverless/core';
 
 const userContext = getUserContext(invokeContext);
-// {{Returns:}} { userId: '...', tenantCode: 'mbc', tenantRole: 'admin' }
+// {{Returns:}} { userId: '...', tenantCode: 'mbc', tenantRole: 'admin', tenantRoles: ['admin'], tenantGroupIds: [] }
 ```
 
 ### `extractInvokeContext(ctx?: ExecutionContext): IInvoke`
