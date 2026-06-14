@@ -106,6 +106,8 @@ async create(
     invokeContext: opts.invokeContext,
   });
 
+  // publishAsync は変更がない場合（no-op）null を返す
+  if (!item) return null;
   return new ProductDataEntity(item);
 }
 ```
@@ -450,6 +452,8 @@ export class ProductService {
       invokeContext: opts.invokeContext,
     });
 
+    // publishPartialUpdateAsync は変更がない場合（no-op）null を返す
+    if (!item) return null;
     return new ProductDataEntity(item);
   }
 
@@ -528,7 +532,8 @@ async createBatch(
     ),
   );
 
-  return results.map((item) => new ProductDataEntity(item));
+  // エンティティへのマッピング前にnull結果（no-opコマンド）を除外
+  return results.filter(Boolean).map((item) => new ProductDataEntity(item!));
 }
 ```
 

@@ -111,5 +111,8 @@
   "DataService query methods": "DataService query methods",
   "Database Selection Guide": "Database Selection Guide",
   "DynamoDB vs RDS": "DynamoDB vs RDS",
-  "publishAsync returns null when the command is not dirty (no-op)": "publishAsync returns null when the command is not dirty (no-op)"
+  "publishAsync returns null when the command is not dirty (no-op)": "publishAsync returns null when the command is not dirty (no-op)",
+  "publishAsync returns null when command is a no-op (no changes detected)": "publishAsync returns null when command is a no-op (no changes detected)",
+  "publishPartialUpdateAsync returns null when command is a no-op (no changes detected)": "publishPartialUpdateAsync returns null when command is a no-op (no changes detected)",
+  "Filter out null results (no-op commands) before mapping to entities": "Filter out null results (no-op commands) before mapping to entities"
 }
