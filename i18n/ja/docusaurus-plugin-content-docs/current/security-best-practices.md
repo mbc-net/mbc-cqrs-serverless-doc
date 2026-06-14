@@ -167,7 +167,7 @@ const userPool = new cognito.UserPool(this, 'UserPool', {
 サーバー側で常にJWTトークンをバリデーションします。
 
 ```typescript
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { CognitoJwtVerifier } from 'aws-jwt-verify';
 
 @Injectable()

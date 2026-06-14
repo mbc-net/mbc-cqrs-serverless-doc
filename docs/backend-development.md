@@ -263,7 +263,7 @@ export class ProductService {
   async create(
     createDto: { name: string; description?: string },
     opts: { invokeContext: IInvoke },
-  ): Promise<ProductDataEntity> {
+  ): Promise<ProductDataEntity | null> {
     const { tenantCode } = getUserContext(opts.invokeContext);
 
     const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;

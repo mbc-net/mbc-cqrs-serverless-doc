@@ -214,6 +214,9 @@ async deleteTemplate(
 テンプレートはinvokeコンテキストを通じてテナントごとに自動的に分離されます：
 
 ```typescript
+import { Controller, Get, Query } from '@nestjs/common';
+import { getUserContext, IInvoke, INVOKE_CONTEXT } from '@mbc-cqrs-serverless/core';
+
 @Controller('api/survey-template')
 export class SurveyTemplateController {
   constructor(

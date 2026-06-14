@@ -214,6 +214,9 @@ async deleteTemplate(
 {{Templates are automatically isolated by tenant through the invoke context:}}
 
 ```typescript
+import { Controller, Get, Query } from '@nestjs/common';
+import { getUserContext, IInvoke, INVOKE_CONTEXT } from '@mbc-cqrs-serverless/core';
+
 @Controller('api/survey-template')
 export class SurveyTemplateController {
   constructor(
