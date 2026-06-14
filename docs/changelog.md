@@ -527,7 +527,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ---
 
-## [1.0.16](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.16) (2025-12-31)
+## [1.0.16](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.16) (2025-12-31) {#v1016}
 
 ### {{Bug Fixes}}
 
@@ -542,7 +542,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ---
 
-## [1.0.15](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.15) (2025-12-31)
+## [1.0.15](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.15) (2025-12-31) {#v1015}
 
 ### {{Bug Fixes}}
 
@@ -551,7 +551,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ---
 
-## [1.0.14](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.14) (2025-12-29)
+## [1.0.14](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.14) (2025-12-29) {#v1014}
 
 ### {{Features}}
 
@@ -566,7 +566,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ---
 
-## [1.0.13](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.13) (2025-12-26)
+## [1.0.13](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.13) (2025-12-26) {#v1013}
 
 ### {{Features}}
 
@@ -574,7 +574,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ---
 
-## [1.0.12](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.12) (2025-12-23)
+## [1.0.12](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.12) (2025-12-23) {#v1012}
 
 ### {{Bug Fixes}}
 
@@ -582,7 +582,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ---
 
-## [1.0.11](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.11) (2025-12-22)
+## [1.0.11](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.11) (2025-12-22) {#v1011}
 
 ### {{Bug Fixes}}
 
@@ -590,7 +590,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ---
 
-## [1.0.10](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.10) (2025-11-28)
+## [1.0.10](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.10) (2025-11-28) {#v1010}
 
 ### {{Bug Fixes}}
 
@@ -598,7 +598,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ---
 
-## [1.0.9](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.9) (2025-11-26)
+## [1.0.9](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.9) (2025-11-26) {#v109}
 
 ### {{Bug Fixes}}
 
@@ -606,7 +606,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ---
 
-## [1.0.8](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.8) (2025-11-17)
+## [1.0.8](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.8) (2025-11-17) {#v108}
 
 ### {{Security}}
 
@@ -614,7 +614,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ---
 
-## [1.0.7](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.7) (2025-11-07)
+## [1.0.7](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.0.7) (2025-11-07) {#v107}
 
 ### {{Security}}
 
