@@ -25,7 +25,6 @@
   "Updated by": "Updated by",
   "Updated IP, supports IPv6": "Updated IP, supports IPv6",
   "Updated at": "Updated at",
-  "properties": "properties",
   "relations": "relations",
   "index": "index",
   "Related Documentation": "Related Documentation",
@@ -36,5 +35,6 @@
   "Environment Variables": "Environment Variables",
   "Database connection configuration": "Database connection configuration",
   "Deployment Guide": "Deployment Guide",
-  "Database migration in deployment": "Database migration in deployment"
+  "Database migration in deployment": "Database migration in deployment",
+  "domain-specific properties": "domain-specific properties"
 }
