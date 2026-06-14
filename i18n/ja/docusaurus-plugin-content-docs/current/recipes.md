@@ -37,6 +37,8 @@ export class OrderEntity extends DataEntity {
 
 ```typescript
 // Create commands for state changes (状態変更用のコマンドを作成)
+import { VERSION_FIRST } from '@mbc-cqrs-serverless/core';
+
 async createOrder(dto: CreateOrderDto, context: IInvoke) {
   const orderId = await this.sequencesService.generateSequenceItem(
     {
@@ -53,7 +55,7 @@ async createOrder(dto: CreateOrderDto, context: IInvoke) {
       id: orderId.formattedNo,           // Required: unique identifier (必須: 一意識別子)
       code: orderId.formattedNo,
       name: dto.name,
-      version: 1,                        // Required: initial version for new entities (必須: 新規エンティティの初期バージョン)
+      version: VERSION_FIRST,            // Required: VERSION_FIRST (0) for new entities (必須: 新規エンティティにはVERSION_FIRST (0) を使用)
       tenantCode: dto.tenantCode,
       type: 'ORDER',                     // Required: entity type (必須: エンティティタイプ)
       attributes: dto.attributes,

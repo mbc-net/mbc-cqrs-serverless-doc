@@ -584,7 +584,7 @@ async createLargeBatch(
       ),
     );
 
-    results.push(...chunkResults.map((item) => new ProductDataEntity(item)));
+    results.push(...chunkResults.filter(Boolean).map((item) => new ProductDataEntity(item!)));
   }
 
   return results;

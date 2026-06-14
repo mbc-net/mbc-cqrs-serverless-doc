@@ -57,16 +57,19 @@ export class YourService {
 
 ```typescript
 import { Logger, Injectable } from '@nestjs/common';
+import { getUserContext, IInvoke } from '@mbc-cqrs-serverless/core';
 
 @Injectable()
 export class TodoService {
   private readonly logger = new Logger(TodoService.name);
 
-  async create(dto: CreateTodoDto): Promise<Todo> {
+  async create(dto: CreateTodoDto, opts: { invokeContext: IInvoke }): Promise<Todo> {
+    const { userId } = getUserContext(opts.invokeContext);
+    const startTime = Date.now();
     this.logger.log({
       action: 'create_todo',
       input: dto,
-      userId: context.userId,
+      userId,
     });
 
     try {
