@@ -18,6 +18,7 @@
   "Usage Entity": "Usage Entity (使用量エンティティ)",
   "Tenant Management": "テナント管理",
   "Tenant Service Extension": "テナントサービス拡張",
+  "Example helper: per-tenant partition key": "Example helper: per-tenant partition key (テナントごとのパーティションキーを生成する例)",
   "Create tenant with initial subscription": "Create tenant with initial subscription (初期サブスクリプション付きでテナントを作成)",
   "Step 1: Create tenant": "Step 1: Create tenant (ステップ1: テナントを作成)",
   "Step 2: Create trial subscription": "Step 2: Create trial subscription (ステップ2: トライアルサブスクリプションを作成)",
@@ -44,6 +45,7 @@
   "Billing Event Handler": "課金イベントハンドラー",
   "Handle subscription changes": "Handle subscription changes (サブスクリプション変更を処理)",
   "Handle usage updates": "Handle usage updates (使用量更新を処理)",
+  "Optional rollback logic when a sync step fails": "Optional rollback logic when a sync step fails (同期ステップ失敗時のロールバック処理・任意)",
   "New subscription": "New subscription (新規サブスクリプション)",
   "Subscription cancelled": "Subscription cancelled (サブスクリプションキャンセル)",
   "Plan changed": "Plan changed (プラン変更)",
@@ -88,9 +90,5 @@
   "Multi-Tenant Patterns": "マルチテナントパターン",
   "Tenant isolation": "テナント分離",
   "Authentication": "認証",
-  "Subscription authentication": "サブスクリプション認証",
-  "Example helper: per-tenant partition key": "Example helper: per-tenant partition key (テナントごとのパーティションキーを生成する例)",
-  "Version 1 means a newly created item": "Version 1 means a newly created item (バージョン1は新規作成を意味する)",
-  "Later versions are updates such as status changes": "Later versions are updates such as status changes (バージョン2以降はステータス変更などの更新)",
-  "Optional rollback logic when a sync step fails": "Optional rollback logic when a sync step fails (同期ステップ失敗時のロールバック処理・任意)"
+  "Subscription authentication": "サブスクリプション認証"
 }

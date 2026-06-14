@@ -18,6 +18,7 @@
   "Usage Entity": "Usage Entity",
   "Tenant Management": "Tenant Management",
   "Tenant Service Extension": "Tenant Service Extension",
+  "Example helper: per-tenant partition key": "Example helper: per-tenant partition key",
   "Create tenant with initial subscription": "Create tenant with initial subscription",
   "Step 1: Create tenant": "Step 1: Create tenant",
   "Step 2: Create trial subscription": "Step 2: Create trial subscription",
@@ -44,6 +45,7 @@
   "Billing Event Handler": "Billing Event Handler",
   "Handle subscription changes": "Handle subscription changes",
   "Handle usage updates": "Handle usage updates",
+  "Optional rollback logic when a sync step fails": "Optional rollback logic when a sync step fails",
   "New subscription": "New subscription",
   "Subscription cancelled": "Subscription cancelled",
   "Plan changed": "Plan changed",
@@ -88,9 +90,5 @@
   "Multi-Tenant Patterns": "Multi-Tenant Patterns",
   "Tenant isolation": "Tenant isolation",
   "Authentication": "Authentication",
-  "Subscription authentication": "Subscription authentication",
-  "Example helper: per-tenant partition key": "Example helper: per-tenant partition key",
-  "Version 1 means a newly created item": "Version 1 means a newly created item",
-  "Later versions are updates such as status changes": "Later versions are updates such as status changes",
-  "Optional rollback logic when a sync step fails": "Optional rollback logic when a sync step fails"
+  "Subscription authentication": "Subscription authentication"
 }

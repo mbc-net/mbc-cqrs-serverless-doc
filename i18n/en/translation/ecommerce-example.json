@@ -19,6 +19,7 @@
   "Module Implementation": "Module Implementation",
   "Order Module": "Order Module",
   "Order Service": "Order Service",
+  "Example helper: per-tenant partition key": "Example helper: per-tenant partition key",
   "Create a new order": "Create a new order",
   "Generate unique order number": "Generate unique order number",
   "Calculate totals": "Calculate totals",
@@ -40,8 +41,9 @@
   "Event-Driven Processing": "Event-Driven Processing",
   "Order Data Sync Handler": "Order Data Sync Handler",
   "Filter for order events only": "Filter for order events only",
-  "New order created": "New order created",
-  "Order status changed": "Order status changed",
+  "Version 1 means a newly created item": "Version 1 means a newly created item",
+  "Later versions are updates such as status changes": "Later versions are updates such as status changes",
+  "Optional rollback logic when a sync step fails": "Optional rollback logic when a sync step fails",
   "Reserve inventory": "Reserve inventory",
   "Send notification to operations team": "Send notification to operations team",
   "Send order confirmation email": "Send order confirmation email",
@@ -74,9 +76,5 @@
   "Service Patterns": "Service Patterns",
   "CRUD patterns used": "CRUD patterns used",
   "Multi-Tenant Patterns": "Multi-Tenant Patterns",
-  "Multi-tenant design": "Multi-tenant design",
-  "Example helper: per-tenant partition key": "Example helper: per-tenant partition key",
-  "Version 1 means a newly created item": "Version 1 means a newly created item",
-  "Later versions are updates such as status changes": "Later versions are updates such as status changes",
-  "Optional rollback logic when a sync step fails": "Optional rollback logic when a sync step fails"
+  "Multi-tenant design": "Multi-tenant design"
 }

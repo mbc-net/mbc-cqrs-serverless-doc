@@ -46,7 +46,7 @@
   "Step 3: Run Tests": "Step 3: テストを実行",
   "New Features in v1.3.0": "v1.3.0 の新機能",
   "nodemailer v8 (improved TLS security, OAuth2 support, SMTP command injection protection)": "nodemailer v8（TLSセキュリティの強化、OAuth2サポート、SMTPコマンドインジェクション対策）",
-  "No new framework APIs": "フレームワークAPIへの新規追加なし",
+  "`AppSyncEventsService` — opt-in real-time notification transport using the AWS AppSync Events HTTP API (set `NOTIFICATION_TRANSPORTS=appsync-event` to enable). See [Notification Module](/docs/notification-module#appsync-events-service) for setup details.": "`AppSyncEventsService` — AWS AppSync Events HTTP APIを使用したオプトインのリアルタイム通知トランスポート（有効化するには`NOTIFICATION_TRANSPORTS=appsync-event`を設定）。セットアップの詳細は[通知モジュール](/docs/notification-module#appsync-events-service)を参照。",
   "Support": "サポート",
   "If you encounter issues during migration:": "移行中に問題が発生した場合：",
   "Documentation": "ドキュメント",
