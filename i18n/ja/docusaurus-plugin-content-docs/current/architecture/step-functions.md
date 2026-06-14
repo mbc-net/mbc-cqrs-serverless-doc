@@ -392,7 +392,7 @@ export class TaskStateMachineConstruct extends Construct {
     this.stateMachine = new sfn.StateMachine(this, 'TaskHandlerStateMachine', {
       stateMachineName: 'task-handler',
       comment: 'Handles parallel task execution with concurrency control',
-      definition: mapState,
+      definitionBody: sfn.DefinitionBody.fromChainable(mapState),
       timeout: cdk.Duration.minutes(15),
       tracingEnabled: true,
       logs: {
@@ -989,7 +989,7 @@ private async triggerSingleCsvJob(event: ZipImportSfnEvent) {
 ```typescript
 const taskStateMachine = new sfn.StateMachine(this, 'task-handler', {
   stateMachineName: 'task-handler',
-  definition: sfnTaskMapState,
+  definitionBody: sfn.DefinitionBody.fromChainable(sfnTaskMapState),
   timeout: cdk.Duration.minutes(15), // Overall workflow timeout (全体のワークフロータイムアウト)
   tracingEnabled: true,
   logs: {
