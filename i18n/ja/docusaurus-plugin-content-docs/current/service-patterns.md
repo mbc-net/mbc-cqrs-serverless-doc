@@ -481,6 +481,8 @@ export class ProductService {
       invokeContext: opts.invokeContext,
     });
 
+    // publishPartialUpdateAsync は変更がない場合（no-op）null を返す
+    if (!item) return null;
     return new ProductDataEntity(item);
   }
 }
@@ -645,7 +647,8 @@ async copy(
     invokeContext: opts.invokeContext,
   });
 
-  return new ProductDataEntity(item);
+  // VERSION_FIRST を使用した新しいアイテムは常に正常に公開されます — 結果は null になりません
+  return new ProductDataEntity(item!);
 }
 ```
 
