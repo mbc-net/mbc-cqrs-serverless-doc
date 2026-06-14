@@ -5,6 +5,7 @@
   "This page provides an overview of the project structure of an mbc-cqrs-serverless application. It covers top-level files and folders, configuration files.": "このページでは MBC CQRS サーバーレスフレームワークのプロジェクトの構造を説明します。プロジェクトルートディレクトリのファイルとディレクトリ、構成ファイルについて説明します。",
   "Top-level folders": "プロジェクトルートのディレクトリ",
   "Top-level folders are used to organize your application's code, infrastructure for local development, data migration, and testing.": "最上位のディレクトリはローカル開発、データマイグレーション、テスト用のディレクトリから構成されています。",
+  "AWS CDK infrastructure code for cloud deployment": "クラウドデプロイ用のAWS CDKインフラコード",
   "Infrastructure runs in a local environment": "ローカル開発のためのインフラ実行基盤",
   "Configuration for your Prisma ORM and DynamoDB table": "Prisma ORM、DynamoDBテーブルの設定",
   "Application source folder": "アプリケーションソースフォルダ",

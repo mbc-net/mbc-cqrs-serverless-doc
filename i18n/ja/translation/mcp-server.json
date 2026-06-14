@@ -44,6 +44,7 @@
   "Configuration": "設定",
   "Claude Code": "Claude Code",
   "Add the following configuration to": "以下の設定を追加してください",
+  "in your project root": "プロジェクトルートに",
   "Cursor": "Cursor",
   "Add to Cursor MCP configuration": "CursorのMCP設定に追加",
   "Environment Variables": "環境変数",

@@ -50,6 +50,7 @@
   "Enable the built-in sequence generation endpoints": "Enable the built-in sequence generation endpoints",
   "The TenantModule provides multi-tenant management. It can expose REST endpoints for creating and updating tenants and their group configurations.": "The TenantModule provides multi-tenant management. It can expose REST endpoints for creating and updating tenants and their group configurations.",
   "Enable built-in tenant REST endpoints": "Enable built-in tenant REST endpoints",
+  "Optional: Data sync handlers for RDS synchronization": "Optional: Data sync handlers for RDS synchronization",
   "Enable the built-in TenantController endpoints": "Enable the built-in TenantController endpoints",
   "See": "See",
   "for the full API reference.": "for the full API reference.",

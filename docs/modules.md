@@ -134,6 +134,7 @@ import { TenantModule } from '@mbc-cqrs-serverless/tenant';
 
 TenantModule.register({
   enableController: true, // {{Enable built-in tenant REST endpoints}}
+  dataSyncHandlers: [TenantRdsSyncHandler], // {{Optional: Data sync handlers for RDS synchronization}}
 })
 ```
 

@@ -5,6 +5,7 @@
   "This page provides an overview of the project structure of an mbc-cqrs-serverless application. It covers top-level files and folders, configuration files.": "This page provides an overview of the project structure of an mbc-cqrs-serverless application. It covers top-level files and folders, configuration files.",
   "Top-level folders": "Top-level folders",
   "Top-level folders are used to organize your application's code, infrastructure for local development, data migration, and testing.": "Top-level folders are used to organize your application's code, infrastructure for local development, data migration, and testing.",
+  "AWS CDK infrastructure code for cloud deployment": "AWS CDK infrastructure code for cloud deployment",
   "Infrastructure runs in a local environment": "Infrastructure runs in a local environment",
   "Configuration for your Prisma ORM and DynamoDB table": "Configuration for your Prisma ORM and DynamoDB table",
   "Application source folder": "Application source folder",

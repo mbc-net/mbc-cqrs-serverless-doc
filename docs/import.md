@@ -327,7 +327,7 @@ import {
   ComparisonResult,
   ComparisonStatus,
 } from "@mbc-cqrs-serverless/import";
-import { CommandService, DataService } from "@mbc-cqrs-serverless/core";
+import { CommandService, DataService, VERSION_FIRST } from "@mbc-cqrs-serverless/core";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
@@ -379,6 +379,7 @@ export class ProductProcessStrategy extends BaseProcessStrategy<
       return {
         pk,
         sk,
+        version: VERSION_FIRST,
         code: importAttributes.code,
         name: importAttributes.name,
         tenantCode,

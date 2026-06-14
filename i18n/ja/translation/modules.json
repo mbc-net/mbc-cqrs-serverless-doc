@@ -50,6 +50,7 @@
   "Enable the built-in sequence generation endpoints": "組み込みシーケンス生成エンドポイントを有効化",
   "The TenantModule provides multi-tenant management. It can expose REST endpoints for creating and updating tenants and their group configurations.": "TenantModuleはマルチテナント管理を提供します。テナントとそのグループ設定の作成・更新のためのRESTエンドポイントを公開できます。",
   "Enable built-in tenant REST endpoints": "組み込みテナントRESTエンドポイントを有効化",
+  "Optional: Data sync handlers for RDS synchronization": "オプション: RDS同期用データ同期ハンドラー",
   "Enable the built-in TenantController endpoints": "組み込みTenantControllerエンドポイントを有効化",
   "See": "詳細は",
   "for the full API reference.": "のAPIリファレンスを参照してください。",

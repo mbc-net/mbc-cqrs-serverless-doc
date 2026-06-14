@@ -21,7 +21,7 @@
   "Define your entity with proper key structure": "適切なキー構造でエンティティを定義",
   "2. Command Pattern": "2. コマンドパターン",
   "Create commands for state changes": "Create commands for state changes (状態変更用のコマンドを作成)",
-  "Required: unique identifier": "Required: unique identifier (必須: 一意識別子)",
+  "Required: unique identifier (pk#sk)": "Required: unique identifier (pk#sk) (必須: 一意識別子)",
   "Required: VERSION_FIRST (0) for new entities": "Required: VERSION_FIRST (0) for new entities (必須: 新規エンティティにはVERSION_FIRST (0) を使用)",
   "Required: entity type": "Required: entity type (必須: エンティティタイプ)",
   "3. Query Pattern": "3. クエリパターン",
