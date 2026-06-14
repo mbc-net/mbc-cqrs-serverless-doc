@@ -118,11 +118,13 @@ const item = await this.commandService.publishAsync(catCommand, {
 });
 ```
 
-### *async* `publishPartialUpdateAsync( input: CommandPartialInputModel, options: ICommandOptions): Promise<CommandModel>` {#publishpartialupdateasync}
+### *async* `publishPartialUpdateAsync( input: CommandPartialInputModel, options: ICommandOptions): Promise<CommandModel | null>` {#publishpartialupdateasync}
 
 This method allows you to create new command data based on the previous command with the same `pk` and `sk` (primary key) values.
 
 As same as the `publishAsync` method, the method immediately returns the updated command data without waiting for the command to be processed.
+
+**Return Value:** Returns `Promise<CommandModel>` on success, or `Promise<null>` when the command is not dirty (no changes detected compared to the existing partial command).
 
 For example, you want to update cat's name:
 
