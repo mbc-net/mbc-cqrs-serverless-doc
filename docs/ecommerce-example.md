@@ -286,7 +286,10 @@ export class OrderController {
 // inventory.service.ts
 import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
 import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
-import { CommandService, DataService, IInvoke, getUserContext, generatePk } from '@mbc-cqrs-serverless/core';
+import { CommandService, DataService, IInvoke, getUserContext, KEY_SEPARATOR } from '@mbc-cqrs-serverless/core';
+
+const generatePk = (tenantCode: string): string =>
+  `TENANT${KEY_SEPARATOR}${tenantCode}`;
 
 @Injectable()
 export class InventoryService {

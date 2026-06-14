@@ -84,7 +84,7 @@ await this.commandService.publishPartialUpdateAsync(updateCommand, {
 正確なバージョン番号を気にせずに常に最新バージョンを更新したい場合：
 
 ```typescript
-import { VERSION_LATEST, CommandInputModel } from '@mbc-cqrs-serverless/core';
+import { VERSION_LATEST, CommandInputModel, generateId } from '@mbc-cqrs-serverless/core';
 
 const command: CommandInputModel = {
   pk: catPk,
@@ -108,7 +108,7 @@ await this.commandService.publishAsync(command, {
 新規アイテムを作成する際は、VERSION_FIRST（0）を使用して最初のバージョンであることを示します：
 
 ```typescript
-import { VERSION_FIRST, CommandDto } from '@mbc-cqrs-serverless/core';
+import { VERSION_FIRST, CommandDto, generateId } from '@mbc-cqrs-serverless/core';
 
 const newCatCommand = new CatCommandDto({
   pk: catPk,
@@ -135,6 +135,14 @@ await this.commandService.publishAsync(newCatCommand, {
 
 ```typescript
 import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
+import {
+  CommandService,
+  DataService,
+  IInvoke,
+  VERSION_FIRST,
+  CommandInputModel,
+  CommandPartialInputModel,
+} from '@mbc-cqrs-serverless/core';
 
 async function updateWithRetry(
   commandService: CommandService,
