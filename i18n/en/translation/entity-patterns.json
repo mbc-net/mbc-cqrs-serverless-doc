@@ -42,6 +42,7 @@
   "Description": "Description",
   "Yes": "Yes",
   "Partition key. Format: `{tenantCode}#{entityType}`": "Partition key. Format: `{tenantCode}#{entityType}`",
+  "Partition key. Format: `{entityType}#{tenantCode}`": "Partition key. Format: `{entityType}#{tenantCode}`",
   "Sort key. Format: `{entityType}#{entityId}`": "Sort key. Format: `{entityType}#{entityId}`",
   "Unique entity identifier": "Unique entity identifier",
   "Business code": "Business code",

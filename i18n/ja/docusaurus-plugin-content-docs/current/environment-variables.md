@@ -134,7 +134,7 @@ MBC CQRS サーバーレスフレームワークには、環境変数を `.env*`
 
 | 変数 | 説明 | 必須 | 例 |
 |-------------|-----------------|--------------|-------------|
-| `DATABASE_URL` | Prisma ORM用のデータベース接続URL | いいえ | `mysql://root:RootCqrs@localhost:3306/cqrs?schema=public&connection_limit=1` |
+| `DATABASE_URL` | Prisma ORM用のデータベース接続URL | いいえ | `mysql://root:RootCqrs@localhost:3306/cqrs?connection_limit=1` |
 
 ### .env ファイルの例
 
@@ -204,7 +204,7 @@ SES_REGION=ap-northeast-1
 SES_FROM_EMAIL=email@example.com
 
 # データベース設定
-DATABASE_URL="mysql://root:RootCqrs@localhost:3306/cqrs?schema=public&connection_limit=1"
+DATABASE_URL="mysql://root:RootCqrs@localhost:3306/cqrs?connection_limit=1"
 ```
 
 ## 環境変数の検証

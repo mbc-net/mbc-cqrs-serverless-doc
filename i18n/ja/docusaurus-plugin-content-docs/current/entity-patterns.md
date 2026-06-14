@@ -69,7 +69,7 @@ export class ProductDataEntity extends DataEntity {
 
 | プロパティ | 型 | 必須 | 説明 |
 |--------------|----------|--------------|-----------------|
-| `pk` | `string` | はい | パーティションキー。形式: `{tenantCode}#{entityType}` |
+| `pk` | `string` | はい | パーティションキー。形式: `{entityType}#{tenantCode}` |
 | `sk` | `string` | はい | ソートキー。形式: `{entityType}#{entityId}` |
 | `id` | `string` | はい | エンティティの一意識別子 |
 | `code` | `string` | はい | ビジネスコード |
@@ -129,7 +129,7 @@ export class ProductCommandEntity extends CommandEntity {
 
 | プロパティ | 型 | 必須 | 説明 |
 |--------------|----------|--------------|-----------------|
-| `pk` | `string` | はい | パーティションキー。形式: `{tenantCode}#{entityType}` |
+| `pk` | `string` | はい | パーティションキー。形式: `{entityType}#{tenantCode}` |
 | `sk` | `string` | はい | ソートキー。形式: `{entityType}#{entityId}@{version}` |
 | `id` | `string` | はい | エンティティの一意識別子 |
 | `code` | `string` | はい | ビジネスコード |

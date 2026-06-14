@@ -69,7 +69,7 @@ The `DataEntity` base class includes:
 
 | Property | Type | Required | Description |
 |--------------|----------|--------------|-----------------|
-| `pk` | `string` | Yes | Partition key. Format: `{tenantCode}#{entityType}` |
+| `pk` | `string` | Yes | Partition key. Format: `{entityType}#{tenantCode}` |
 | `sk` | `string` | Yes | Sort key. Format: `{entityType}#{entityId}` |
 | `id` | `string` | Yes | Unique entity identifier |
 | `code` | `string` | Yes | Business code |
@@ -129,7 +129,7 @@ The `CommandEntity` base class includes:
 
 | Property | Type | Required | Description |
 |--------------|----------|--------------|-----------------|
-| `pk` | `string` | Yes | Partition key. Format: `{tenantCode}#{entityType}` |
+| `pk` | `string` | Yes | Partition key. Format: `{entityType}#{tenantCode}` |
 | `sk` | `string` | Yes | Sort key. Format: `{entityType}#{entityId}@{version}` |
 | `id` | `string` | Yes | Unique entity identifier |
 | `code` | `string` | Yes | Business code |

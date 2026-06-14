@@ -134,7 +134,7 @@ Set `NOTIFICATION_TRANSPORTS=appsync-event` (or `appsync-graphql,appsync-event` 
 
 | Variable | Description | Required | Example |
 |-------------|-----------------|--------------|-------------|
-| `DATABASE_URL` | Database connection URL for Prisma ORM | No | `mysql://root:RootCqrs@localhost:3306/cqrs?schema=public&connection_limit=1` |
+| `DATABASE_URL` | Database connection URL for Prisma ORM | No | `mysql://root:RootCqrs@localhost:3306/cqrs?connection_limit=1` |
 
 ### Example .env file
 
@@ -204,7 +204,7 @@ SES_REGION=ap-northeast-1
 SES_FROM_EMAIL=email@example.com
 
 # Database Configuration
-DATABASE_URL="mysql://root:RootCqrs@localhost:3306/cqrs?schema=public&connection_limit=1"
+DATABASE_URL="mysql://root:RootCqrs@localhost:3306/cqrs?connection_limit=1"
 ```
 
 ## Validate Environment Variables
