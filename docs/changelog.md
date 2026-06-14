@@ -146,9 +146,6 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
   - {{Return type changes from `Promise<CommandModel>` to `Promise<CommandModel | null>`}}
   - {{Matches the existing behavior of `publishAsync()` and `publishPartialUpdateAsync()`}}
   - {{Migration: add a null check before accessing any property on the result}}
-- **sequence:** {{`SequenceService.genNewSequence()` has been removed}} ([{{See Details}}](/docs/sequence#gen-new-sequence-removed)) ([PR #375](https://github.com/mbc-net/mbc-cqrs-serverless/pull/375))
-  - {{Use `generateSequenceItem()` or `generateSequenceItemWithProvideSetting()` instead}}
-
 ### {{Features}}
 
 - **core:** {{Add Read-Your-Writes (RYW) consistency via `SessionService` and `Repository`}} ([{{See Details}}](/docs/command-service#read-your-writes)) ([PR #375](https://github.com/mbc-net/mbc-cqrs-serverless/pull/375))
@@ -872,7 +869,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 ## {{Related Documentation}}
 
 - [{{Migration Guide v1.3.0}}](/docs/migration/v1.3.0) - {{Upgrade guide for v1.3.0 (nodemailer v8)}}
-- [{{Migration Guide v1.2.0}}](/docs/migration/v1.2.0) - {{Upgrade guide for v1.2.0 (publishSync null, genNewSequence removal)}}
+- [{{Migration Guide v1.2.0}}](/docs/migration/v1.2.0) - {{Upgrade guide for v1.2.0 (publishSync null return value)}}
 - [{{Migration Guide v1.1.0}}](/docs/migration/v1.1.0) - {{Upgrade guide for v1.1.0 (TENANT_COMMON, tenant code normalization)}}
 - [{{Version Conflict Guide}}](/docs/version-conflict-guide) - {{Handling version conflicts in upgrades}}
 
