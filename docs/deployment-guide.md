@@ -342,13 +342,6 @@ cdk destroy dev-your-app-pipeline-stack
 - {{RDS instances with deletion protection}}
 - {{S3 buckets (must be emptied first)}}
 
-## {{Next Steps}}
-
-- {{[CI/CD with CodePipeline](/docs/codepipeline-cicd) - Automate your deployments}}
-- {{[Monitoring and Logging](/docs/monitoring-logging) - Set up observability}}
-- {{[Troubleshooting](/docs/common-issues) - Common deployment issues}}
-
-
 ## {{Related Documentation}}
 
 - [{{CI/CD with CodePipeline}}](/docs/codepipeline-cicd) - {{Automate deployments with CodePipeline}}
