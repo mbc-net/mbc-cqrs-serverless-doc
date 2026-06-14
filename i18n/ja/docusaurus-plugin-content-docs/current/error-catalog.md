@@ -593,23 +593,27 @@ async function processInChunks(items, chunkSize = 100) {
 
 **解決策**:
 ```typescript
+import { SFNClient, SendTaskSuccessCommand, SendTaskFailureCommand } from '@aws-sdk/client-sfn';
+
+const sfnClient = new SFNClient({});
+
 // Step Functionsを使った適切なエラー処理
 export async function handler(event: StepFunctionEvent) {
   try {
     const result = await processTask(event.input);
 
     // 成功コールバックを送信
-    await sfn.sendTaskSuccess({
+    await sfnClient.send(new SendTaskSuccessCommand({
       taskToken: event.taskToken,
       output: JSON.stringify(result),
-    }).promise();
+    }));
   } catch (error) {
     // 失敗コールバックを送信
-    await sfn.sendTaskFailure({
+    await sfnClient.send(new SendTaskFailureCommand({
       taskToken: event.taskToken,
       error: error.name,
       cause: error.message,
-    }).promise();
+    }));
   }
 }
 ```
@@ -626,12 +630,16 @@ export async function handler(event: StepFunctionEvent) {
 
 **解決策**:
 ```typescript
+import { S3Client, HeadObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
+
+const s3Client = new S3Client({});
+
 // ダウンロード前にオブジェクトが存在するか確認
 try {
-  await s3.headObject({ Bucket: bucket, Key: key }).promise();
-  const data = await s3.getObject({ Bucket: bucket, Key: key }).promise();
+  await s3Client.send(new HeadObjectCommand({ Bucket: bucket, Key: key }));
+  const data = await s3Client.send(new GetObjectCommand({ Bucket: bucket, Key: key }));
 } catch (error) {
-  if (error.code === 'NoSuchKey' || error.code === 'NotFound') {
+  if (error.name === 'NoSuchKey' || error.name === 'NotFound') {
     console.log('File does not exist:', key);
     return null;
   }

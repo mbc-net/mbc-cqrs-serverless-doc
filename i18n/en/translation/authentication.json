@@ -42,7 +42,7 @@
   "Description": "Description",
   "Default Behavior": "Default Behavior",
   "Detect if tenant code comes from header": "Detect if tenant code comes from header",
-  "Returns true if x-tenant-code header differs from Cognito custom:tenant": "Returns true if x-tenant-code header differs from Cognito custom:tenant",
+  "Returns true when `custom:tenant` is absent from the JWT and a tenant code is present": "Returns true when `custom:tenant` is absent from the JWT and a tenant code is present",
   "Check if user can override tenant": "Check if user can override tenant",
   "Returns true for system_admin role": "Returns true for system_admin role",
   "Get list of common tenant codes": "Get list of common tenant codes",

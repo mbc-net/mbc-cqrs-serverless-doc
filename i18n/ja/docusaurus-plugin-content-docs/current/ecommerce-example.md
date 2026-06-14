@@ -114,6 +114,7 @@ import {
   DataService,
   IInvoke,
   KEY_SEPARATOR,
+  VERSION_FIRST,
   getUserContext,
 } from '@mbc-cqrs-serverless/core';
 import { SequencesService } from '@mbc-cqrs-serverless/sequence';
@@ -153,6 +154,7 @@ export class OrderService {
     const command = {
       pk: generatePk(tenantCode),
       sk: `ORDER#${orderCode}`,
+      version: VERSION_FIRST,
       code: orderCode,
       name: `Order ${orderCode}`,
       tenantCode,
@@ -540,7 +542,7 @@ export class OrderDataSyncHandler implements IDataSyncHandler {
 // レスポンス
 {
   "pk": "TENANT#shop-a",
-  "sk": "ORDER#ORD-000001",
+  "sk": "ORDER#ORD-000001@1",
   "code": "ORD-000001",
   "name": "Order ORD-000001",
   "version": 1,

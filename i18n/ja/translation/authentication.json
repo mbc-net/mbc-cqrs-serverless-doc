@@ -42,7 +42,7 @@
   "Description": "説明",
   "Default Behavior": "デフォルト動作",
   "Detect if tenant code comes from header": "テナントコードがヘッダーからのものかを検出",
-  "Returns true if x-tenant-code header differs from Cognito custom:tenant": "x-tenant-codeヘッダーがCognitoのcustom:tenantと異なる場合trueを返す",
+  "Returns true when `custom:tenant` is absent from the JWT and a tenant code is present": "JWTに`custom:tenant`クレームが存在せず、テナントコードが指定されている場合にtrueを返す",
   "Check if user can override tenant": "ユーザーがテナントをオーバーライドできるかチェック",
   "Returns true for system_admin role": "system_adminロールの場合trueを返す",
   "Get list of common tenant codes": "共通テナントコードのリストを取得",
