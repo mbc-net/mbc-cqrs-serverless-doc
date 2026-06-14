@@ -12,7 +12,7 @@ Before you begin, ensure you have the following installed:
 
 - Node.js 18.x or later
 - Docker and Docker Compose
-- AWS CLI (configured with credentials)
+- AWS CLI (real credentials are not required for local development — set `AWS_ACCESS_KEY_ID=local` and `AWS_SECRET_ACCESS_KEY=local` in your `.env` file)
 - Git
 
 ## Step 1: Create a New Project

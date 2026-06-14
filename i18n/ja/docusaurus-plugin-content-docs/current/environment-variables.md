@@ -40,7 +40,7 @@ MBC CQRS サーバーレスフレームワークには、環境変数を `.env*`
 | `COMMON_TENANT_CODES` | テナント間で共通／共有として扱うテナントコードのカンマ区切りリスト | いいえ | `common` | `common,shared,public` |
 | `CROSS_TENANT_ROLES` | テナント横断アクセスを許可するロールのカンマ区切りリスト | いいえ | `system_admin` | `system_admin,general_manager` |
 
-### Read-Your-Writes（RYW）設定
+### Read-Your-Writes（RYW）設定 {#ryw-session-configuration}
 
 | 変数 | 説明 | 必須 | デフォルト | 例 |
 |-------------|-----------------|--------------|-------------|-------------|

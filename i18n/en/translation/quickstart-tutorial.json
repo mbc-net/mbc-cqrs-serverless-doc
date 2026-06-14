@@ -6,7 +6,7 @@
   "Before you begin, ensure you have the following installed:": "Before you begin, ensure you have the following installed:",
   "Node.js 18.x or later": "Node.js 18.x or later",
   "Docker and Docker Compose": "Docker and Docker Compose",
-  "AWS CLI (configured with credentials)": "AWS CLI (configured with credentials)",
+  "AWS CLI (real credentials are not required for local development — set `AWS_ACCESS_KEY_ID=local` and `AWS_SECRET_ACCESS_KEY=local` in your `.env` file)": "AWS CLI (real credentials are not required for local development — set `AWS_ACCESS_KEY_ID=local` and `AWS_SECRET_ACCESS_KEY=local` in your `.env` file)",
   "Git": "Git",
   "Step 1: Create a New Project": "Step 1: Create a New Project",
   "Use the MBC CQRS CLI to scaffold a new project:": "Use the MBC CQRS CLI to scaffold a new project:",

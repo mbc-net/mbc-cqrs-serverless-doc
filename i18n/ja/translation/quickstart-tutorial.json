@@ -6,7 +6,7 @@
   "Before you begin, ensure you have the following installed:": "開始する前に、以下がインストールされていることを確認してください：",
   "Node.js 18.x or later": "Node.js 18.x 以降",
   "Docker and Docker Compose": "Docker と Docker Compose",
-  "AWS CLI (configured with credentials)": "AWS CLI（認証情報設定済み）",
+  "AWS CLI (real credentials are not required for local development — set `AWS_ACCESS_KEY_ID=local` and `AWS_SECRET_ACCESS_KEY=local` in your `.env` file)": "AWS CLI（ローカル開発では実際のクレデンシャルは不要です — `.env`ファイルに`AWS_ACCESS_KEY_ID=local`と`AWS_SECRET_ACCESS_KEY=local`を設定してください）",
   "Git": "Git",
   "Step 1: Create a New Project": "ステップ1: 新規プロジェクトの作成",
   "Use the MBC CQRS CLI to scaffold a new project:": "MBC CQRS CLIを使用して新しいプロジェクトをスキャフォールドします：",
