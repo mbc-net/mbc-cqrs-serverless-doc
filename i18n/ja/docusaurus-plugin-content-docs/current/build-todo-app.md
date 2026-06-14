@@ -235,11 +235,15 @@ export class TodoService {
 
     // Publish command to DynamoDB（DynamoDBにコマンドを発行）
     const item = await this.commandService.publishAsync(todo, opts)
-
+    // New entities (VERSION_FIRST) always publish successfully and return a non-null result (新規エンティティ(VERSION_FIRST)は常に正常にパブリッシュされ、非nullの結果を返す)
     return new TodoDataEntity(item as TodoDataEntity)
   }
 }
 ```
+
+:::info publishAsync の null 戻り値（v1.2.0以降）
+v1.2.0以降、`publishAsync()`と`publishPartialUpdateAsync()`はコマンドが変更を生じない場合（no-op）に`null`を返します。`VERSION_FIRST`（0）で作成された新規エンティティは常に変更があるため`null`を返しません。ペイロードが変更されない可能性のある更新操作では、使用前に戻り値のnullチェックを行ってください。詳細は[v1.2.0マイグレーションガイド](/docs/migration/v1.2.0)を参照してください。
+:::
 
 ### ステップ5：コントローラーの作成
 
@@ -706,6 +710,8 @@ async update(
 
   // Publish partial update command（部分更新コマンドを発行）
   const item = await this.commandService.publishPartialUpdateAsync(partialUpdate, opts)
+  // null means no fields changed — treat as NotFoundException since caller verified it exists (nullはフィールドに変更がないことを意味する — 呼び出し元で存在確認済みのためNotFoundExceptionとして扱う)
+  if (!item) throw new NotFoundException(`Todo not found or no changes: pk=${pk}, sk=${sk}`)
 
   return new TodoDataEntity(item as TodoDataEntity)
 }
@@ -734,6 +740,8 @@ async remove(
     },
     opts,
   )
+  // null means already deleted (isDeleted was already true) (nullはすでに削除済みを意味する（isDeletedがすでにtrueだった）)
+  if (!item) throw new NotFoundException(`Todo not found or already deleted: pk=${pk}, sk=${sk}`)
 
   return new TodoDataEntity(item as TodoDataEntity)
 }
@@ -843,6 +851,7 @@ export class TodoService {
     this.logger.debug('Creating todo with sequence:', todo)
 
     const item = await this.commandService.publishAsync(todo, opts)
+    // New entities (VERSION_FIRST) always publish successfully and return a non-null result (新規エンティティ(VERSION_FIRST)は常に正常にパブリッシュされ、非nullの結果を返す)
     return new TodoDataEntity(item as TodoDataEntity)
   }
 }

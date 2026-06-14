@@ -171,5 +171,10 @@
   "Service Patterns": "サービスパターン",
   "Advanced CRUD patterns": "高度なCRUDパターン",
   "Testing": "テスト",
-  "Write tests for your application": "アプリケーションのテスト作成"
+  "Write tests for your application": "アプリケーションのテスト作成",
+  "New entities (VERSION_FIRST) always publish successfully and return a non-null result": "New entities (VERSION_FIRST) always publish successfully and return a non-null result (新規エンティティ(VERSION_FIRST)は常に正常にパブリッシュされ、非nullの結果を返す)",
+  "publishAsync null return (v1.2.0+)": "publishAsync の null 戻り値（v1.2.0以降）",
+  "Since v1.2.0, `publishAsync()` and `publishPartialUpdateAsync()` return `null` when the command produces no changes (no-op). New entities created with `VERSION_FIRST` (0) are always dirty and never return `null`. For update operations where the payload may be unchanged, null-check the result before using it. See the [v1.2.0 migration guide](/docs/migration/v1.2.0) for details.": "v1.2.0以降、`publishAsync()`と`publishPartialUpdateAsync()`はコマンドが変更を生じない場合（no-op）に`null`を返します。`VERSION_FIRST`（0）で作成された新規エンティティは常に変更があるため`null`を返しません。ペイロードが変更されない可能性のある更新操作では、使用前に戻り値のnullチェックを行ってください。詳細は[v1.2.0マイグレーションガイド](/docs/migration/v1.2.0)を参照してください。",
+  "null means no fields changed — treat as NotFoundException since caller verified it exists": "null means no fields changed — treat as NotFoundException since caller verified it exists (nullはフィールドに変更がないことを意味する — 呼び出し元で存在確認済みのためNotFoundExceptionとして扱う)",
+  "null means already deleted (isDeleted was already true)": "null means already deleted (isDeleted was already true) (nullはすでに削除済みを意味する（isDeletedがすでにtrueだった）)"
 }
