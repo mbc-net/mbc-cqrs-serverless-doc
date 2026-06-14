@@ -100,7 +100,7 @@ export class TodoService {
 import * as logs from 'aws-cdk-lib/aws-logs';
 
 const logGroup = new logs.LogGroup(this, 'AppLogGroup', {
-  logGroupName: `/aws/lambda/${props.appName}-${props.envName}`,
+  logGroupName: `/aws/lambda/${props.envName}-${props.appName}`,
   retention: logs.RetentionDays.ONE_MONTH,
   removalPolicy: cdk.RemovalPolicy.DESTROY,
 });

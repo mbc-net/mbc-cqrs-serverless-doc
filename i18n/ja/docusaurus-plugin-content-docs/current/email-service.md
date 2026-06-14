@@ -98,6 +98,7 @@ await this.emailService.sendEmail({
 | `body` | `string` | はい | HTMLとしてのメール本文 |
 | `replyToAddrs` | `string[]` | いいえ | 返信先アドレス |
 | `attachments` | `Attachment[]` | いいえ | 添付ファイル |
+| `emailTags` | `EmailTag[]` | いいえ | 分類とフィルタリングのためのAWS SESタグ |
 
 ## Attachmentインターフェース
 

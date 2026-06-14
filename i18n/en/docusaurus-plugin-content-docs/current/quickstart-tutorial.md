@@ -10,7 +10,7 @@ This tutorial will guide you through creating your first MBC CQRS Serverless app
 
 Before you begin, ensure you have the following installed:
 
-- Node.js 18.x or later
+- Node.js 20.x or later
 - Docker and Docker Compose
 - AWS CLI (real credentials are not required for local development — set `AWS_ACCESS_KEY_ID=local` and `AWS_SECRET_ACCESS_KEY=local` in your `.env` file)
 - Git
@@ -64,7 +64,7 @@ npm run offline:docker
 This starts the following services:
 
 - DynamoDB Local (port 8000)
-- MySQL (port 3306)
+- PostgreSQL (port 5432)
 - LocalStack for AWS services
 
 ## Step 4: Initialize the Database
@@ -188,7 +188,7 @@ docker-compose -f infra-local/docker-compose.yml up -d
 
 ### Database connection errors
 
-Wait a few seconds for MySQL to fully start, then run migrations again:
+Wait a few seconds for PostgreSQL to fully start, then run migrations again:
 
 ```bash
 npm run migrate

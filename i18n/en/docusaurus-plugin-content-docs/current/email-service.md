@@ -98,6 +98,7 @@ await this.emailService.sendEmail({
 | `body` | `string` | Yes | Email body as HTML |
 | `replyToAddrs` | `string[]` | No | Reply-to addresses |
 | `attachments` | `Attachment[]` | No | File attachments |
+| `emailTags` | `EmailTag[]` | No | AWS SES tags for categorization and filtering |
 
 ## Attachment Interface
 

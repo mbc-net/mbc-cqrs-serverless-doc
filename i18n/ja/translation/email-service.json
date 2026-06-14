@@ -25,6 +25,7 @@
   "Email body as HTML": "HTMLとしてのメール本文",
   "Reply-to addresses": "返信先アドレス",
   "File attachments": "添付ファイル",
+  "AWS SES tags for categorization and filtering": "分類とフィルタリングのためのAWS SESタグ",
   "Attachment Interface": "Attachmentインターフェース",
   "Filename shown to recipient": "受信者に表示されるファイル名",
   "File content as Buffer": "Bufferとしてのファイル内容",

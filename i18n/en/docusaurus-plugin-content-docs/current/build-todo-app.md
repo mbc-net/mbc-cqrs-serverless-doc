@@ -58,7 +58,7 @@ import { ulid } from 'ulid'
 export const TODO_PK_PREFIX = 'TODO'
 
 export function generateTodoPk(tenantCode: string): string {
-  return `${TODO_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`
+  return `${tenantCode}${KEY_SEPARATOR}${TODO_PK_PREFIX}`
 }
 
 export function generateTodoSk(): string {
@@ -69,7 +69,7 @@ export function parsePk(pk: string): { type: string; tenantCode: string } {
   if (pk.split(KEY_SEPARATOR).length !== 2) {
     throw new Error('Invalid PK')
   }
-  const [type, tenantCode] = pk.split(KEY_SEPARATOR)
+  const [tenantCode, type] = pk.split(KEY_SEPARATOR)
   return { type, tenantCode }
 }
 ```
@@ -316,12 +316,12 @@ enum TodoStatus {
   CANCELED
 }
 
-// Todo model for RDS (MySQL) - synchronized from DynamoDB
+// Todo model for RDS (PostgreSQL) - synchronized from DynamoDB
 model Todo {
   id         String   @id                        // Unique ID (generated from pk#sk)
   cpk        String                              // Command partition key
   csk        String                              // Command sort key (with version)
-  pk         String                              // Data partition key: TODO#tenantCode
+  pk         String                              // Data partition key: tenantCode#TODO
   sk         String                              // Data sort key: ULID
   tenantCode String   @map("tenant_code")        // Tenant code for multi-tenancy
   seq        Int      @default(0)                // Sequence number (for ordering)
@@ -442,7 +442,7 @@ import { TodoService } from './todo.service'
   imports: [
     CommandModule.register({
       tableName: 'todo',
-      // Register RDS sync handler to synchronize DynamoDB data to MySQL
+      // Register RDS sync handler to synchronize DynamoDB data to PostgreSQL
       dataSyncHandlers: [TodoDataSyncRdsHandler],
     }),
   ],

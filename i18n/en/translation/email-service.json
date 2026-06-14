@@ -25,6 +25,7 @@
   "Email body as HTML": "Email body as HTML",
   "Reply-to addresses": "Reply-to addresses",
   "File attachments": "File attachments",
+  "AWS SES tags for categorization and filtering": "AWS SES tags for categorization and filtering",
   "Attachment Interface": "Attachment Interface",
   "Filename shown to recipient": "Filename shown to recipient",
   "File content as Buffer": "File content as Buffer",
