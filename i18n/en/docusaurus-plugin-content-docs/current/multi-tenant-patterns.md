@@ -50,7 +50,7 @@ Create a helper to extract tenant information from invoke context:
 
 ```typescript
 // helpers/context.ts
-import { IInvoke, getUserContext } from '@mbc-cqrs-serverless/core';
+import { IInvoke, getUserContext, getAuthorizerClaims } from '@mbc-cqrs-serverless/core';
 
 export interface CustomUserContext {
   tenantCode: string;
@@ -65,13 +65,14 @@ export interface CustomUserContext {
  */
 export function getCustomUserContext(invokeContext: IInvoke): CustomUserContext {
   const userContext = getUserContext(invokeContext);
+  const claims = getAuthorizerClaims(invokeContext);
 
   return {
     tenantCode: userContext.tenantCode || DEFAULT_TENANT_CODE,
-    userCode: userContext.userCode || '',
+    userCode: claims['custom:userCode'] || userContext.userId || '',
     userId: userContext.userId || '',
-    email: userContext.email,
-    role: userContext['custom:role'],
+    email: claims.email,
+    role: claims['custom:role'],
   };
 }
 

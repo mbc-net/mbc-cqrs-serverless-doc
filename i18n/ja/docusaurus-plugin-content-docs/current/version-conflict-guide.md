@@ -352,3 +352,4 @@ async function updateItem(item, changes) {
 - [バージョン管理ルール](/docs/version-rules)
 - [CommandService](/docs/command-service)
 - [エラーカタログ](/docs/error-catalog)
+- [マイグレーションガイド v1.2.0](/docs/migration/v1.2.0) - v1.2.0 での `publishSync` 戻り値型の破壊的変更（`CommandModel | null` に変更）

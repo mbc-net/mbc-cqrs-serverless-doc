@@ -352,3 +352,4 @@ async function updateItem(item, changes) {
 - [Versioning Rules](/docs/version-rules)
 - [CommandService](/docs/command-service)
 - [Error Catalog](/docs/error-catalog)
+- [Migration Guide v1.2.0](/docs/migration/v1.2.0) - Breaking changes to `publishSync` return type (now `CommandModel | null`) in v1.2.0
