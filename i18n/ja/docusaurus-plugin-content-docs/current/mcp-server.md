@@ -74,7 +74,7 @@ npx @mbc-cqrs-serverless/mcp-server
 
 ### Claude Code
 
-以下の設定を追加してください `~/.claude/claude_desktop_config.json`:
+以下の設定を追加してください `.mcp.json` プロジェクトルートに:
 
 ```json
 {

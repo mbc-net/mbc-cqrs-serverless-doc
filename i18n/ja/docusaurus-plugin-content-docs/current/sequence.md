@@ -76,7 +76,7 @@ export class SeqModule {}
 
 コントローラーのほかに、`SequencesService` を直接使用してサービスを注入することでシーケンスを生成できます。
 
-`SequencesService`には4つのパブリックメソッドがあります（現行2つ、非推奨1つ、v1.2.0で削除1つ）：
+`SequencesService`には4つのパブリックメソッドがあります（現行2つ、非推奨1つ、v1.1.0で削除1つ）：
 
 ### *async* `generateSequenceItem( dto: GenerateFormattedSequenceDto, options?: {invokeContext:IInvoke}):  Promise<SequenceEntity>` {#generate-sequence-item}
 
@@ -320,9 +320,9 @@ const result = await this.sequencesService.generateSequenceItemWithProvideSettin
 
 ### *async* `genNewSequence( dto: GenerateSequenceDto, options: {invokeContext: IInvoke}): Promise<DataEntity>` <span class="badge badge--danger">削除済み</span> {#gen-new-sequence-removed}
 
-:::danger v1.2.0で削除
+:::danger v1.1.0で削除
 
-このメソッドは[v1.2.0](/docs/changelog#v120)で削除されました。代わりに[`generateSequenceItem`](#generate-sequence-item)または[`generateSequenceItemWithProvideSetting`](#generate-sequence-item-with-provide-setting)を使用してください。
+このメソッドは[v1.1.0](/docs/changelog#v110)で削除されました。代わりに[`generateSequenceItem`](#generate-sequence-item)または[`generateSequenceItemWithProvideSetting`](#generate-sequence-item-with-provide-setting)を使用してください。
 
 :::
 

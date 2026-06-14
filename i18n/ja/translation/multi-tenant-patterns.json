@@ -37,7 +37,7 @@
   "Include tenant code in the partition key for complete isolation:": "完全な分離のためにパーティションキーにテナントコードを含めます：",
   "Standard tenant isolation pattern": "Standard tenant isolation pattern (標準的なテナント分離パターン)",
   "Example keys:": "キー例:",
-  "PK: PRODUCT#tenant-a": "PK: PRODUCT#tenant-a",
+  "PK: tenant-a#PRODUCT": "PK: tenant-a#PRODUCT",
   "SK: 01HX7MBJK3V9WQBZ7XNDK5ZT2M": "SK: 01HX7MBJK3V9WQBZ7XNDK5ZT2M",
   "Query all products for a tenant": "テナントの全商品を取得",
   "Pattern 2: Common Tenant for Shared Data": "パターン2: 共有データ用の共通テナント",

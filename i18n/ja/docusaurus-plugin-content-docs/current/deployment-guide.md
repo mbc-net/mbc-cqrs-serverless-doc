@@ -11,7 +11,7 @@ description: MBC CQRS ServerlessアプリケーションをAWSにデプロイす
 デプロイ前に、以下が準備されていることを確認してください：
 
 - AWS CLIがインストールされ、適切な認証情報で設定されている
-- Node.js 18.x 以降
+- Node.js 20.x 以降
 - AWS CDK CLIがインストールされている（`npm install -g aws-cdk`）
 - 必要な権限を持つAWSアカウント
 
@@ -124,7 +124,7 @@ APP_NAME=your-app
 NODE_ENV=dev
 
 # Database
-DATABASE_URL=mysql://user:password@host:3306/dbname
+DATABASE_URL=postgresql://user:password@host:5432/dbname?schema=public
 
 # Cognito
 COGNITO_USER_POOL_ID=ap-northeast-1_xxxxxxx
@@ -289,13 +289,13 @@ curl https://your-api-endpoint.execute-api.ap-northeast-1.amazonaws.com/health
 リソースには一貫した命名を使用します：
 
 ```
-{app-name}-{environment}-{resource-type}
+{environment}-{app-name}-{resource-type}
 ```
 
 例：
-- `myapp-dev-api`
-- `myapp-dev-dynamodb-command`
-- `myapp-prod-lambda-handler`
+- `dev-myapp-api`
+- `dev-myapp-dynamodb-command`
+- `prod-myapp-lambda-handler`
 
 ## ロールバック
 

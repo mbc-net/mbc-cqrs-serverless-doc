@@ -11,7 +11,7 @@ This guide covers deploying your MBC CQRS Serverless application to AWS using AW
 Before deploying, ensure you have:
 
 - AWS CLI installed and configured with appropriate credentials
-- Node.js 18.x or later
+- Node.js 20.x or later
 - AWS CDK CLI installed (`npm install -g aws-cdk`)
 - An AWS account with necessary permissions
 
@@ -124,7 +124,7 @@ APP_NAME=your-app
 NODE_ENV=dev
 
 # Database
-DATABASE_URL=mysql://user:password@host:3306/dbname
+DATABASE_URL=postgresql://user:password@host:5432/dbname?schema=public
 
 # Cognito
 COGNITO_USER_POOL_ID=ap-northeast-1_xxxxxxx
@@ -289,13 +289,13 @@ Best practices for managing multiple environments:
 Use consistent naming for resources:
 
 ```
-{app-name}-{environment}-{resource-type}
+{environment}-{app-name}-{resource-type}
 ```
 
 Example:
-- `myapp-dev-api`
-- `myapp-dev-dynamodb-command`
-- `myapp-prod-lambda-handler`
+- `dev-myapp-api`
+- `dev-myapp-dynamodb-command`
+- `prod-myapp-lambda-handler`
 
 ## Rollback
 

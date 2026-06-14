@@ -98,9 +98,9 @@ npm run migrate
 
 | テーブル | キー | 形式 | 例 |
 |-------|-----|--------|---------|
-| DATA / HISTORY | `pk` | `TYPE#tenantCode` | `ORDER#ACME` |
+| DATA / HISTORY | `pk` | `tenantCode#TYPE` | `ACME#ORDER` |
 | DATA / HISTORY | `sk` | `TYPE#code` | `ORDER#ORD-000001` |
-| COMMAND | `pk` | `TYPE#tenantCode` | `ORDER#ACME` |
+| COMMAND | `pk` | `tenantCode#TYPE` | `ACME#ORDER` |
 | COMMAND | `sk` | `TYPE#code@version` | `ORDER#ORD-000001@1` |
 
 COMMANDテーブルのソートキーにはフレームワークが付加する`@{version}`サフィックスが含まれます。DATAテーブルを照会する際は`removeSortKeyVersion(sk)`を使用して削除してください。
@@ -110,19 +110,19 @@ COMMANDテーブルのソートキーにはフレームワークが付加する`
 ```typescript
 // 注文エンティティ
 const orderKey = {
-  pk: `ORDER#${tenantCode}`,
+  pk: `${tenantCode}#ORDER`,
   sk: `ORDER#${orderId}`,
 };
 
 // ユーザーエンティティ
 const userKey = {
-  pk: `USER#${tenantCode}`,
+  pk: `${tenantCode}#USER`,
   sk: `USER#${userId}`,
 };
 
 // 階層データ（例: 組織）
 const departmentKey = {
-  pk: `ORG#${tenantCode}`,
+  pk: `${tenantCode}#ORG`,
   sk: `DEPT#${parentId}#${deptId}`,
 };
 ```

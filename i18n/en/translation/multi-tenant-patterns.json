@@ -37,7 +37,7 @@
   "Include tenant code in the partition key for complete isolation:": "Include tenant code in the partition key for complete isolation:",
   "Standard tenant isolation pattern": "Standard tenant isolation pattern",
   "Example keys:": "Example keys:",
-  "PK: PRODUCT#tenant-a": "PK: PRODUCT#tenant-a",
+  "PK: tenant-a#PRODUCT": "PK: tenant-a#PRODUCT",
   "SK: 01HX7MBJK3V9WQBZ7XNDK5ZT2M": "SK: 01HX7MBJK3V9WQBZ7XNDK5ZT2M",
   "Query all products for a tenant": "Query all products for a tenant",
   "Pattern 2: Common Tenant for Shared Data": "Pattern 2: Common Tenant for Shared Data",

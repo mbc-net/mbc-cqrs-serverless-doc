@@ -122,7 +122,7 @@ flowchart TB
 1. **クライアントリクエスト**: クライアントがAPI Gateway、AppSync、またはWebSocket経由でリクエストを送信
 2. **認証**: CognitoがJWTトークンを検証
 3. **コマンド実行**: Lambdaがコマンドを処理しDynamoDBに永続化
-4. **イベント発行**: イベントがSNSに発行される
+4. **イベント発行**: DynamoDB StreamsがDataSyncHandlerをトリガーし、DATAテーブルに同期してSNSにイベントを発行する
 5. **イベント処理**: SQSキューが非同期処理用のLambdaハンドラーをトリガー
 6. **リードモデル更新**: プロジェクションが複雑なクエリ用にRDSを更新
 

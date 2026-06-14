@@ -430,6 +430,7 @@ import {
   KEY_SEPARATOR,
   generateId,
   IInvoke,
+  VERSION_FIRST,
 } from '@mbc-cqrs-serverless/core';
 
 @Injectable()
@@ -466,6 +467,7 @@ export class TenantMigrationService {
           pk: targetPk,
           sk: item.sk,
           id: targetId,
+          version: VERSION_FIRST,
           tenantCode: targetTenantCode,
           code: item.code,
           name: item.name,
@@ -1099,7 +1101,7 @@ export class RollbackService {
 
 ```typescript
 // migration/safe-migration.service.ts
-import { parseTwoSegmentPkSkFromId } from '@mbc-cqrs-serverless/core';
+import { parseTwoSegmentPkSkFromId, VERSION_FIRST } from '@mbc-cqrs-serverless/core';
 
 @Injectable()
 export class SafeMigrationService {
@@ -1123,6 +1125,7 @@ export class SafeMigrationService {
         pk: targetPk,
         sk: item.sk,
         id: targetId,
+        version: VERSION_FIRST,
         tenantCode: this.extractTenant(targetPk),
         code: item.code,
         name: item.name,

@@ -32,7 +32,7 @@ Use this guide when you need to:
 │          ▼                 ▼                  ▼                  │
 │   ┌─────────────────────────────────────────────────────────┐   │
 │   │                    DynamoDB Table                        │   │
-│   │  PK: ENTITY#tenantCode  |  SK: identifier                │   │
+│   │  PK: tenantCode#ENTITY  |  SK: identifier                │   │
 │   └─────────────────────────────────────────────────────────┘   │
 │                                                                  │
 └─────────────────────────────────────────────────────────────────┘
@@ -165,7 +165,7 @@ export class TenantGuard implements CanActivate {
   private extractTenantFromPk(pk: string | undefined): string | undefined {
     if (!pk) return undefined;
     const parts = pk.split('#');
-    return parts.length >= 2 ? parts[1] : undefined;
+    return parts.length >= 2 ? parts[0] : undefined;
   }
 }
 ```
@@ -182,11 +182,11 @@ Include tenant code in the partition key for complete isolation:
 const PRODUCT_PK_PREFIX = 'PRODUCT';
 
 function generateProductPk(tenantCode: string): string {
-  return `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
+  return `${tenantCode}${KEY_SEPARATOR}${PRODUCT_PK_PREFIX}`;
 }
 
 // Example keys:
-// PK: PRODUCT#tenant-a
+// PK: tenant-a#PRODUCT
 // SK: 01HX7MBJK3V9WQBZ7XNDK5ZT2M
 
 // Query all products for a tenant
@@ -206,14 +206,14 @@ Use a common tenant code for data shared across all tenants:
 const COMMON_TENANT = 'common';
 
 // System-wide settings
-const settingsPk = `SETTINGS${KEY_SEPARATOR}${COMMON_TENANT}`;
+const settingsPk = `${COMMON_TENANT}${KEY_SEPARATOR}SETTINGS`;
 
 // User data (users can belong to multiple tenants)
-const userPk = `USER${KEY_SEPARATOR}${COMMON_TENANT}`;
+const userPk = `${COMMON_TENANT}${KEY_SEPARATOR}USER`;
 
 // Example: Get system-wide email templates
 async function getEmailTemplates() {
-  return dataService.listItemsByPk(`TEMPLATE${KEY_SEPARATOR}${COMMON_TENANT}`);
+  return dataService.listItemsByPk(`${COMMON_TENANT}${KEY_SEPARATOR}TEMPLATE`);
 }
 ```
 
@@ -371,8 +371,8 @@ export class TenantSyncService {
   ): Promise<void> {
     // Create new keys for target tenant
     const pkParts = sourceItem.pk.split(KEY_SEPARATOR);
-    const entityType = pkParts[0];
-    const targetPk = `${entityType}${KEY_SEPARATOR}${targetTenantCode}`;
+    const entityType = pkParts[1];
+    const targetPk = `${targetTenantCode}${KEY_SEPARATOR}${entityType}`;
     const targetId = generateId(targetPk, sourceItem.sk);
 
     await this.commandService.publishSync({
@@ -487,17 +487,16 @@ export class TenantSettingsService {
       return this.settingsCache.get(tenantCode)!;
     }
 
-    const pk = `SETTINGS${KEY_SEPARATOR}${tenantCode}`;
+    const pk = `${tenantCode}${KEY_SEPARATOR}SETTINGS`;
     const sk = 'config';
 
-    try {
-      const settings = await this.dataService.getItem({ pk, sk });
-      this.settingsCache.set(tenantCode, settings.attributes);
-      return settings.attributes;
-    } catch (error) {
+    const settings = await this.dataService.getItem({ pk, sk });
+    if (!settings) {
       // Return default settings if not found
       return this.getDefaultSettings();
     }
+    this.settingsCache.set(tenantCode, settings.attributes);
+    return settings.attributes;
   }
 
   /**

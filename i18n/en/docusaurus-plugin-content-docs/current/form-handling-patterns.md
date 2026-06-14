@@ -97,7 +97,7 @@ export type CreateProductInput = z.infer<typeof createProductSchema>;
 
 // Update schema with optional fields and version
 export const updateProductSchema = createProductSchema.partial().extend({
-  version: z.number().int().positive(),
+  version: z.number().int().min(0),
 });
 
 export type UpdateProductInput = z.infer<typeof updateProductSchema>;

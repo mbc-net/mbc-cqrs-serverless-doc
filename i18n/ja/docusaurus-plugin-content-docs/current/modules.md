@@ -134,6 +134,7 @@ import { TenantModule } from '@mbc-cqrs-serverless/tenant';
 
 TenantModule.register({
   enableController: true, // 組み込みテナントRESTエンドポイントを有効化
+  dataSyncHandlers: [TenantRdsSyncHandler], // オプション: RDS同期用データ同期ハンドラー
 })
 ```
 

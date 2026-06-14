@@ -188,12 +188,12 @@ The method:
 Find an item by its unique code within a tenant:
 
 ```ts
-async findByCode(tenantCode: string, code: string): Promise<CatDataEntity | null> {
+async findByCode(tenantCode: string, code: string): Promise<CatDataEntity | undefined> {
   const pk = `${tenantCode}#CAT`;
   const sk = `CAT#${code}`;
 
   const item = await this.dataService.getItem({ pk, sk });
-  return item ? new CatDataEntity(item) : null;
+  return item ? new CatDataEntity(item) : undefined;
 }
 ```
 

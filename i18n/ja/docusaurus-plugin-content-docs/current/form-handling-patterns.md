@@ -97,7 +97,7 @@ export type CreateProductInput = z.infer<typeof createProductSchema>;
 
 // オプションフィールドとバージョンを含む更新スキーマ
 export const updateProductSchema = createProductSchema.partial().extend({
-  version: z.number().int().positive(),
+  version: z.number().int().min(0),
 });
 
 export type UpdateProductInput = z.infer<typeof updateProductSchema>;

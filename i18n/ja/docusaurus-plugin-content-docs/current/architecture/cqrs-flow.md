@@ -60,11 +60,10 @@ sequenceDiagram
     Controller->>Handler: Command
     Handler->>Handler: Validate
     Handler->>Service: publish
-    Service->>DynamoDB: PutItem
+    Service->>DynamoDB: PutItem (COMMAND table)
     DynamoDB-->>Service: OK
-    Service->>SNS: Event
-    SNS-->>Service: OK
-    Service-->>Handler: Entity
+    Service-->>Handler: CommandModel | null
+    Note over DynamoDB,SNS: Async: DynamoDB Streams → DataSyncHandler → DATA table → SNS
     Handler-->>Controller: Result
     Controller-->>Gateway: 201
     Gateway-->>Client: Response
@@ -77,7 +76,7 @@ sequenceDiagram
 3. **コマンドディスパッチ**: コントローラーがコマンドを作成してディスパッチ
 4. **ビジネスロジック**: コマンドハンドラーがビジネスルールを実行
 5. **永続化**: コマンドサービスが楽観的ロックでDynamoDBに永続化
-6. **イベント発行**: ドメインイベントがSNSに発行される
+6. **イベント発行**: ドメインイベントがDynamoDB StreamsとDataSyncHandlerを経由してSNSに非同期で発行される
 7. **レスポンス**: 成功レスポンスをクライアントに返却
 
 ## クエリフロー - 読み取りパス

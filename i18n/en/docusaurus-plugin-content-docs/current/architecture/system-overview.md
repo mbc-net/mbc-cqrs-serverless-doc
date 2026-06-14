@@ -122,7 +122,7 @@ How requests flow through the system.
 1. **Client Request**: Client sends request via API Gateway, AppSync, or WebSocket
 2. **Authentication**: Cognito validates JWT tokens
 3. **Command Execution**: Lambda processes command and persists to DynamoDB
-4. **Event Publishing**: Events are published to SNS
+4. **Event Publishing**: DynamoDB Streams triggers DataSyncHandler, which syncs to the DATA table and publishes events to SNS
 5. **Event Processing**: SQS queues trigger Lambda handlers for async processing
 6. **Read Model Update**: Projections update RDS for complex queries
 

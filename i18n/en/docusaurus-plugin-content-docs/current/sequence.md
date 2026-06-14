@@ -76,7 +76,7 @@ export class SeqModule {}
 
 Beside controller, we can directly use `SequencesService` to generating sequence by injecting service.
 
-The `SequencesService` has four public methods (two current, one deprecated, one removed in v1.2.0):
+The `SequencesService` has four public methods (two current, one deprecated, one removed in v1.1.0):
 
 ### *async* `generateSequenceItem( dto: GenerateFormattedSequenceDto, options?: {invokeContext:IInvoke}):  Promise<SequenceEntity>` {#generate-sequence-item}
 
@@ -320,9 +320,9 @@ Deprecated, for removal: This API element is subject to removal in a future vers
 
 ### *async* `genNewSequence( dto: GenerateSequenceDto, options: {invokeContext: IInvoke}): Promise<DataEntity>` <span class="badge badge--danger">removed</span> {#gen-new-sequence-removed}
 
-:::danger Removed in v1.2.0
+:::danger Removed in v1.1.0
 
-This method was removed in [v1.2.0](/docs/changelog#v120). Use [`generateSequenceItem`](#generate-sequence-item) or [`generateSequenceItemWithProvideSetting`](#generate-sequence-item-with-provide-setting) instead.
+This method was removed in [v1.1.0](/docs/changelog#v110). Use [`generateSequenceItem`](#generate-sequence-item) or [`generateSequenceItemWithProvideSetting`](#generate-sequence-item-with-provide-setting) instead.
 
 :::
 

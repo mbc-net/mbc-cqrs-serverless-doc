@@ -188,12 +188,12 @@ export class CustomDataSyncHandler implements IDataSyncHandler {
 テナント内でユニークなコードでアイテムを検索：
 
 ```ts
-async findByCode(tenantCode: string, code: string): Promise<CatDataEntity | null> {
+async findByCode(tenantCode: string, code: string): Promise<CatDataEntity | undefined> {
   const pk = `${tenantCode}#CAT`;
   const sk = `CAT#${code}`;
 
   const item = await this.dataService.getItem({ pk, sk });
-  return item ? new CatDataEntity(item) : null;
+  return item ? new CatDataEntity(item) : undefined;
 }
 ```
 

@@ -260,12 +260,12 @@ dynamoMock.on(GetItemCommand).callsFake((input) => {
 モックをrejectさせてエラーハンドリングをテストします：
 
 ```ts
-it('should handle DynamoDB errors gracefully', async () => {
-  dynamoMock.on(PutItemCommand).rejects(
-    new Error('ConditionalCheckFailedException')
-  )
+it('should handle ConditionalCheckFailedException as 409 conflict', async () => {
+  const error = new Error('The conditional request failed')
+  error.name = 'ConditionalCheckFailedException'
+  dynamoMock.on(PutItemCommand).rejects(error)
 
-  await expect(myService.saveItem(data)).rejects.toThrow('ConditionalCheckFailedException')
+  await expect(myService.saveItem(data)).rejects.toThrow(ConflictException)
 })
 ```
 

@@ -175,11 +175,8 @@ export class SfnTaskEvent extends StepFunctionTaskEvent {}
 import {
   EventHandler,
   IEventHandler,
-  StepFunctionService,
 } from "@mbc-cqrs-serverless/core";
-import { TaskService } from "@mbc-cqrs-serverless/task";
 import { Logger } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
 
 import { SfnTaskEvent } from "./sfn-task.event";
 

@@ -98,9 +98,9 @@ npm run migrate
 
 | {{Table}} | {{Key}} | {{Format}} | {{Example}} |
 |-------|-----|--------|---------|
-| {{DATA / HISTORY}} | `pk` | `TYPE#tenantCode` | `ORDER#ACME` |
+| {{DATA / HISTORY}} | `pk` | `tenantCode#TYPE` | `ACME#ORDER` |
 | {{DATA / HISTORY}} | `sk` | `TYPE#code` | `ORDER#ORD-000001` |
-| {{COMMAND}} | `pk` | `TYPE#tenantCode` | `ORDER#ACME` |
+| {{COMMAND}} | `pk` | `tenantCode#TYPE` | `ACME#ORDER` |
 | {{COMMAND}} | `sk` | `TYPE#code@version` | `ORDER#ORD-000001@1` |
 
 {{The COMMAND table sort key includes an `@{version}` suffix appended by the framework. Use `removeSortKeyVersion(sk)` to strip it when querying the DATA table.}}
@@ -110,19 +110,19 @@ npm run migrate
 ```typescript
 // {{Order entity}}
 const orderKey = {
-  pk: `ORDER#${tenantCode}`,
+  pk: `${tenantCode}#ORDER`,
   sk: `ORDER#${orderId}`,
 };
 
 // {{User entity}}
 const userKey = {
-  pk: `USER#${tenantCode}`,
+  pk: `${tenantCode}#USER`,
   sk: `USER#${userId}`,
 };
 
 // {{Hierarchical data (e.g., organization)}}
 const departmentKey = {
-  pk: `ORG#${tenantCode}`,
+  pk: `${tenantCode}#ORG`,
   sk: `DEPT#${parentId}#${deptId}`,
 };
 ```

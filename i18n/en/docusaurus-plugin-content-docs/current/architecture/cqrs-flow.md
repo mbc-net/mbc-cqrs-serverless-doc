@@ -60,11 +60,10 @@ sequenceDiagram
     Controller->>Handler: Command
     Handler->>Handler: Validate
     Handler->>Service: publish
-    Service->>DynamoDB: PutItem
+    Service->>DynamoDB: PutItem (COMMAND table)
     DynamoDB-->>Service: OK
-    Service->>SNS: Event
-    SNS-->>Service: OK
-    Service-->>Handler: Entity
+    Service-->>Handler: CommandModel | null
+    Note over DynamoDB,SNS: Async: DynamoDB Streams → DataSyncHandler → DATA table → SNS
     Handler-->>Controller: Result
     Controller-->>Gateway: 201
     Gateway-->>Client: Response
@@ -77,7 +76,7 @@ sequenceDiagram
 3. **Command Dispatch**: Controller creates and dispatches command
 4. **Business Logic**: Command handler executes business rules
 5. **Persistence**: Command service persists to DynamoDB with optimistic locking
-6. **Event Publishing**: Domain events are published to SNS
+6. **Event Publishing**: Domain events are published to SNS asynchronously via DynamoDB Streams and DataSyncHandler
 7. **Response**: Success response returned to client
 
 ## Query Flow - Read Path

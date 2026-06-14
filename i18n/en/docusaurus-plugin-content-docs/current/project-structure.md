@@ -14,6 +14,7 @@ Top-level folders are used to organize your application's code, infrastructure f
 
 | <!-- -->    | <!-- -->                    |
 | ----------- | --------------------------- |
+| infra       | AWS CDK infrastructure code for cloud deployment |
 | infra-local | Infrastructure runs in a local environment |
 | prisma      | Configuration for your Prisma ORM and DynamoDB table      |
 | src         | Application source folder         |

@@ -39,12 +39,12 @@ description: {{Learn about partition key (PK) and sort key (SK) design patterns 
 
 | {{Requirement}} | {{Recommended Pattern}} | {{PK Structure}} | {{SK Structure}} |
 |-----------------|------------------------|------------------|------------------|
-| {{Simple CRUD with tenant isolation}} | [{{Simple Entity}}](#pattern-1-simple-entity) | `ENTITY#tenantCode` | `ulid()` |
-| {{Parent with multiple children}} | [{{Hierarchical}}](#pattern-2-hierarchical-entity) | `PARENT#tenantCode` | `TYPE#parentId[#childId]` |
-| {{Multiple entity variants}} | [{{Composite SK}}](#pattern-3-user-with-multiple-auth-providers) | `ENTITY#tenantCode` | `variant#identifier` |
-| {{Cross-tenant shared data}} | [{{Common Tenant}}](#pattern-4-multi-tenant-association) | `ENTITY#common` | `tenantCode#identifier` |
+| {{Simple CRUD with tenant isolation}} | [{{Simple Entity}}](#pattern-1-simple-entity) | `tenantCode#ENTITY` | `ulid()` |
+| {{Parent with multiple children}} | [{{Hierarchical}}](#pattern-2-hierarchical-entity) | `tenantCode#PARENT` | `TYPE#parentId[#childId]` |
+| {{Multiple entity variants}} | [{{Composite SK}}](#pattern-3-user-with-multiple-auth-providers) | `tenantCode#ENTITY` | `variant#identifier` |
+| {{Cross-tenant shared data}} | [{{Common Tenant}}](#pattern-4-multi-tenant-association) | `common#ENTITY` | `tenantCode#identifier` |
 | {{Categorized configurations}} | [{{Master Data}}](#pattern-5-master-data-with-categories) | `MASTER#tenantCode` | `TYPE#category#code` |
-| {{Time-based queries}} | [{{Time-Series}}](#pattern-6-time-series-data) | `LOG#tenantCode#YYYY-MM` | `timestamp#eventId` |
+| {{Time-based queries}} | [{{Time-Series}}](#pattern-6-time-series-data) | `tenantCode#LOG#YYYY-MM` | `timestamp#eventId` |
 
 ### {{Decision Tree}}
 
@@ -74,7 +74,7 @@ description: {{Learn about partition key (PK) and sort key (SK) design patterns 
 {{The framework uses a consistent key structure:}}
 
 ```
-PK = PREFIX#TENANT_CODE
+PK = TENANT_CODE#PREFIX
 SK = IDENTIFIER[@VERSION]
 ID = PK#SK (without version)
 ```
@@ -143,8 +143,8 @@ import { ulid } from "ulid";
 const PRODUCT_PK_PREFIX = "PRODUCT";
 
 // {{Generate PK}}
-const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
-// Result: "PRODUCT#tenant001"
+const pk = `${tenantCode}${KEY_SEPARATOR}${PRODUCT_PK_PREFIX}`;
+// Result: "tenant001#PRODUCT"
 
 // {{Generate SK (using ULID for uniqueness and sortability)}}
 const sk = ulid();
@@ -152,7 +152,7 @@ const sk = ulid();
 
 // {{Generate ID (combination of PK and SK)}}
 const id = generateId(pk, sk);
-// Result: "PRODUCT#tenant001#01HX7MBJK3V9WQBZ7XNDK5ZT2M"
+// Result: "tenant001#PRODUCT#01HX7MBJK3V9WQBZ7XNDK5ZT2M"
 ```
 
 ### {{Version Handling}}
@@ -181,7 +181,7 @@ const latestVersion = getSortKeyVersion(sk);
 import { getTenantCode } from "@mbc-cqrs-serverless/core";
 
 // {{Extract tenant code from PK}}
-const tenantCode = getTenantCode("PRODUCT#tenant001");
+const tenantCode = getTenantCode("tenant001#PRODUCT");
 // Result: "tenant001"
 
 // {{Returns undefined if no separator found}}
@@ -201,17 +201,17 @@ const noTenant = getTenantCode("PRODUCT");
 
 ```ts
 // {{Key Structure}}
-PK: PRODUCT#<tenantCode>
+PK: <tenantCode>#PRODUCT
 SK: <ulid>
 
 // Example
-PK: PRODUCT#tenant001
+PK: tenant001#PRODUCT
 SK: 01HX7MBJK3V9WQBZ7XNDK5ZT2M
-ID: PRODUCT#tenant001#01HX7MBJK3V9WQBZ7XNDK5ZT2M
+ID: tenant001#PRODUCT#01HX7MBJK3V9WQBZ7XNDK5ZT2M
 ```
 
 ```ts
-const pk = `PRODUCT${KEY_SEPARATOR}${tenantCode}`;
+const pk = `${tenantCode}${KEY_SEPARATOR}PRODUCT`;
 const sk = ulid();
 const id = generateId(pk, sk);
 ```
@@ -226,20 +226,20 @@ const id = generateId(pk, sk);
 
 ```ts
 // {{Order Key Structure}}
-PK: ORDER#<tenantCode>
+PK: <tenantCode>#ORDER
 SK: ORDER#<orderId>
 
 // {{Order Item Key Structure (same PK, different SK prefix)}}
-PK: ORDER#<tenantCode>
+PK: <tenantCode>#ORDER
 SK: ORDER_ITEM#<orderId>#<itemId>
 
 // Example
 Order:
-  PK: ORDER#tenant001
+  PK: tenant001#ORDER
   SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M
 
 Order Items:
-  PK: ORDER#tenant001
+  PK: tenant001#ORDER
   SK: ORDER_ITEM#01HX7MBJK3V9WQBZ7XNDK5ZT2M#001
   SK: ORDER_ITEM#01HX7MBJK3V9WQBZ7XNDK5ZT2M#002
 ```
@@ -249,7 +249,7 @@ const ORDER_SK_PREFIX = "ORDER";
 const ORDER_ITEM_SK_PREFIX = "ORDER_ITEM";
 
 // {{Create order}}
-const orderPk = `ORDER${KEY_SEPARATOR}${tenantCode}`;
+const orderPk = `${tenantCode}${KEY_SEPARATOR}ORDER`;
 const orderId = ulid();
 const orderSk = `${ORDER_SK_PREFIX}${KEY_SEPARATOR}${orderId}`;
 
@@ -267,11 +267,11 @@ const itemSk = `${ORDER_ITEM_SK_PREFIX}${KEY_SEPARATOR}${orderId}${KEY_SEPARATOR
 
 ```ts
 // {{Key Structure}}
-PK: USER#<tenantCode>
+PK: <tenantCode>#USER
 SK: <provider>#<userId>
 
 // Examples
-PK: USER#common
+PK: common#USER
 SK: local#user123           // Local authentication
 SK: sso#abc123def456        // SSO provider
 SK: oauth#google789         // OAuth provider
@@ -286,7 +286,7 @@ function generateUserSk(provider: AuthProvider, userId: string): string {
   return `${provider}${KEY_SEPARATOR}${userId}`;
 }
 
-const pk = `USER${KEY_SEPARATOR}common`;
+const pk = `common${KEY_SEPARATOR}USER`;
 const sk = generateUserSk("sso", cognitoSubId);
 ```
 
@@ -300,17 +300,17 @@ const sk = generateUserSk("sso", cognitoSubId);
 
 ```ts
 // {{Key Structure}}
-PK: USER_TENANT#<commonTenant>
+PK: <commonTenant>#USER_TENANT
 SK: <tenantCode>#<userCode>
 
 // Example
-PK: USER_TENANT#common
+PK: common#USER_TENANT
 SK: tenant001#user123
 SK: tenant002#user123   // Same user in different tenant
 ```
 
 ```ts
-const pk = `USER_TENANT${KEY_SEPARATOR}common`;
+const pk = `common${KEY_SEPARATOR}USER_TENANT`;
 const sk = `${tenantCode}${KEY_SEPARATOR}${userCode}`;
 ```
 
@@ -359,11 +359,11 @@ const sk = generateMasterSk(DATA_PREFIX, "product_category", "electronics");
 
 ```ts
 // {{Key Structure}}
-PK: LOG#<tenantCode>#<year-month>
+PK: <tenantCode>#LOG#<year-month>
 SK: <timestamp>#<eventId>
 
 // Example
-PK: LOG#tenant001#2024-01
+PK: tenant001#LOG#2024-01
 SK: 2024-01-15T10:30:00Z#evt001
 SK: 2024-01-15T10:31:00Z#evt002
 ```
@@ -371,7 +371,7 @@ SK: 2024-01-15T10:31:00Z#evt002
 ```ts
 function generateLogKeys(tenantCode: string, timestamp: Date, eventId: string) {
   const yearMonth = timestamp.toISOString().slice(0, 7); // "2024-01"
-  const pk = `LOG${KEY_SEPARATOR}${tenantCode}${KEY_SEPARATOR}${yearMonth}`;
+  const pk = `${tenantCode}${KEY_SEPARATOR}LOG${KEY_SEPARATOR}${yearMonth}`;
   const sk = `${timestamp.toISOString()}${KEY_SEPARATOR}${eventId}`;
   return { pk, sk };
 }
@@ -397,11 +397,11 @@ export const NOTIFICATION_PK_PREFIX = "NOTIFICATION";
 
 // {{Key generators}}
 export function generateProductPk(tenantCode: string): string {
-  return `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
+  return `${tenantCode}${KEY_SEPARATOR}${PRODUCT_PK_PREFIX}`;
 }
 
 export function generateOrderPk(tenantCode: string): string {
-  return `${ORDER_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
+  return `${tenantCode}${KEY_SEPARATOR}${ORDER_PK_PREFIX}`;
 }
 
 export function generateOrderSk(orderId?: string): string {
@@ -437,11 +437,11 @@ export function parseOrderItemSk(sk: string): {
 
 // {{ID generator with entity type}}
 export function generateEntityId(
-  prefix: string,
   tenantCode: string,
+  prefix: string,
   sk?: string,
 ): { pk: string; sk: string; id: string } {
-  const pk = `${prefix}${KEY_SEPARATOR}${tenantCode}`;
+  const pk = `${tenantCode}${KEY_SEPARATOR}${prefix}`;
   const finalSk = sk ?? ulid();
   const id = generateId(pk, finalSk);
   return { pk, sk: finalSk, id };
@@ -500,7 +500,7 @@ async up(cmd: CommandModel): Promise<any> {
 ```ts
 // {{Get all products for a tenant}}
 const items = await dataService.listItemsByPk(
-  `PRODUCT${KEY_SEPARATOR}${tenantCode}`,
+  `${tenantCode}${KEY_SEPARATOR}PRODUCT`,
 );
 ```
 
@@ -509,7 +509,7 @@ const items = await dataService.listItemsByPk(
 ```ts
 // {{Get all order items for a specific order}}
 const items = await dataService.listItemsByPk(
-  `ORDER${KEY_SEPARATOR}${tenantCode}`,
+  `${tenantCode}${KEY_SEPARATOR}ORDER`,
   {
     sk: {
       skExpression: 'begins_with(sk, :skPrefix)',
@@ -524,7 +524,7 @@ const items = await dataService.listItemsByPk(
 ```ts
 // {{Get orders within a date range (if using timestamp in SK)}}
 const items = await dataService.listItemsByPk(
-  `ORDER${KEY_SEPARATOR}${tenantCode}`,
+  `${tenantCode}${KEY_SEPARATOR}ORDER`,
   {
     sk: {
       skExpression: 'sk BETWEEN :start AND :end',
@@ -543,10 +543,10 @@ const items = await dataService.listItemsByPk(
 ```ts
 // Good
 export const PRODUCT_PK_PREFIX = "PRODUCT";
-const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
+const pk = `${tenantCode}${KEY_SEPARATOR}${PRODUCT_PK_PREFIX}`;
 
 // Avoid
-const pk = `PRODUCT#${tenantCode}`; // Magic string
+const pk = `${tenantCode}#PRODUCT`; // Magic string
 ```
 
 ### {{2. Use ULID for Sortable IDs}}
@@ -567,7 +567,7 @@ const sk = ulid();
 
 ```ts
 // {{If you need to query all items for an order:}}
-PK: ORDER#tenant001
+PK: tenant001#ORDER
 SK: ORDER_ITEM#orderId#itemId  // Query by SK prefix
 
 // {{If you need to query items by product across orders:}}
@@ -580,7 +580,7 @@ SK: ORDER_ITEM#orderId#itemId  // Query by SK prefix
 
 ```ts
 // {{Good - bounded by tenants}}
-PK: PRODUCT#tenant001
+PK: tenant001#PRODUCT
 
 // {{Avoid - unbounded by users}}
 PK: USER_ACTIVITY#user123  // Could create millions of partitions
@@ -592,7 +592,7 @@ PK: USER_ACTIVITY#user123  // Could create millions of partitions
 
 ```ts
 // Good
-PK: PRODUCT#tenant001
+PK: tenant001#PRODUCT
 
 // Avoid
 PK: PRODUCT  // No tenant isolation
@@ -610,10 +610,10 @@ custom:tenant = "MY_TENANT"
 tenantCode = "my_tenant"
 
 // {{Generated PK uses lowercase}}
-PK: PRODUCT#my_tenant
+PK: my_tenant#PRODUCT
 ```
 
-{{**Impact on existing data:** If your existing data was saved with uppercase tenant codes in PK (e.g., `PRODUCT#MY_TENANT`), queries using normalized tenant codes will NOT find that data.}}
+{{**Impact on existing data:** If your existing data was saved with uppercase tenant codes in PK (e.g., `MY_TENANT#PRODUCT`), queries using normalized tenant codes will NOT find that data.}}
 
 {{**Migration required:** See [Tenant Code Normalization Migration](/docs/data-migration-patterns#tenant-code-normalization-migration) for migration strategies, or the [v1.1.0 Migration Guide](/docs/migration/v1.1.0) for complete upgrade instructions.}}
 :::
@@ -624,11 +624,11 @@ PK: PRODUCT#my_tenant
 
 ```ts
 // {{User data (shared across tenants)}}
-PK: USER#common
+PK: common#USER
 SK: sso#userId
 
 // {{User-tenant association}}
-PK: USER_TENANT#common
+PK: common#USER_TENANT
 SK: tenant001#userId
 ```
 
@@ -675,7 +675,7 @@ SK: ORDER#01HX7M#ITEM#001
 ```ts
 // {{Avoid - including version in data table SK}}
 await dataService.getItem({
-  pk: "PRODUCT#tenant001",
+  pk: "tenant001#PRODUCT",
   sk: "01HX7MBJK3V9WQBZ7XNDK5ZT2M@3"  // {{Version should not be here}}
 });
 

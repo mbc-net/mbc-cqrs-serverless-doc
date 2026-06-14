@@ -129,11 +129,7 @@ export interface LoadingState {
 import React, { createContext, useState, useMemo, ReactNode } from 'react'
 import { LoadingState } from '..'
 
-export const LoadingContext = createContext<LoadingState>({
-  isLoading: true,
-  setLoading: () => console.warn('LoadingProvider not found'),
-  closeLoading: () => console.warn('LoadingProvider not found'),
-})
+export const LoadingContext = createContext<LoadingState | null>(null)
 
 LoadingContext.displayName = 'LoadingContext'
 
@@ -168,7 +164,7 @@ import { LoadingContext } from '../provider'
 export function useLoadingStore() {
   const context = useContext(LoadingContext)
   // Safeguard: throw error if hook used outside provider (セーフガード: プロバイダー外でフックが使用された場合はエラーをスロー)
-  if (context === undefined) {
+  if (context === null) {
     throw new Error('useLoading must be used within a LoadingProvider')
   }
   return context
@@ -279,19 +275,19 @@ export class AppClient {
         timeout: 0,
         headers: { ...headers },
       })
+      // Add interceptor to inject auth token (認証トークンを注入するインターセプターを追加)
+      AppClient.instance.interceptors.request.use(
+        async (config) => {
+          let tokenString = ''
+          if (token) {
+            tokenString = typeof token === 'string' ? token : await token()
+          }
+          config.headers.Authorization = `Bearer ${tokenString}`
+          return config
+        },
+        (error) => Promise.reject(error)
+      )
     }
-    // Add interceptor to inject auth token (認証トークンを注入するインターセプターを追加)
-    AppClient.instance.interceptors.request.use(
-      async (config) => {
-        let tokenString = ''
-        if (token) {
-          tokenString = typeof token === 'string' ? token : await token()
-        }
-        config.headers.Authorization = `Bearer ${tokenString}`
-        return config
-      },
-      (error) => Promise.reject(error)
-    )
     return AppClient.instance
   }
 }
