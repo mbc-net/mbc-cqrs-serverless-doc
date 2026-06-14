@@ -61,5 +61,6 @@
   "Multi-Tenant Patterns": "Multi-Tenant Patterns",
   "Multi-tenant implementation": "Multi-tenant implementation",
   "Import/Export Patterns": "Import/Export Patterns",
-  "Batch data processing": "Batch data processing"
+  "Batch data processing": "Batch data processing",
+  "publishAsync returns null when command is a no-op (no changes detected)": "publishAsync returns null when command is a no-op (no changes detected)"
 }

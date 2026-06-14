@@ -285,6 +285,8 @@ export class ProductService {
       invokeContext: opts.invokeContext,
     });
 
+    // publishAsync は変更がない場合（no-op）null を返す
+    if (!item) return null;
     return new ProductDataEntity(item);
   }
 

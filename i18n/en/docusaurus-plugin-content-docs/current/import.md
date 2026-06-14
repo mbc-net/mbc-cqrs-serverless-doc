@@ -38,6 +38,10 @@ Since [v1.2.5](/docs/changelog#v125), ZIP import jobs are processed directly wit
 npm install @mbc-cqrs-serverless/import
 ```
 
+:::info Prerequisite: `import_tmp` DynamoDB Table
+The import module requires an `import_tmp` DynamoDB table with a DynamoDB Stream. Run `npm run migrate` after scaffolding to create this table automatically. If `npm run offline:sls` fails with a `LOCAL_DDB_IMPORT_TMP_STREAM` error, see [Serverless Offline fails with missing import_tmp stream](/docs/common-issues#missing-import-tmp-table) for the fix.
+:::
+
 ## Module Registration
 
 ```ts
