@@ -73,6 +73,30 @@ description: {{Comprehensive glossary of terms used in MBC CQRS Serverless frame
 
 {{A number that tracks the revision history of an entity. Incremented on each update. Used for optimistic locking to prevent concurrent update conflicts.}}
 
+### {{CommandModel}}
+
+{{The TypeScript type returned by `publishAsync`, `publishSync`, and related methods. Encapsulates the result of a command operation including metadata such as `pk`, `sk`, `version`, `tenantCode`, and `attributes`. Methods may return `null` when the command produces no change (no-op).}}
+
+### {{DataEntity}}
+
+{{The base class for entities stored in data (read-side) tables. Extends the raw DynamoDB item with typed accessors and helper methods. Used as the return type of `DataService.getItem()` and `DataService.listItemsByPk()`.}}
+
+### {{CommandEntity}}
+
+{{The base class for entities stored in command tables. Tracks full command history including version, tenant, and attribute changes. Typically used in data sync handlers to read command-side state.}}
+
+### {{DetailKey}}
+
+{{A key object containing `pk` (partition key) and `sk` (sort key) used to identify a specific item in DynamoDB. Passed to methods like `getItem({ pk, sk })` and `getLatestItem({ pk, sk })`.}}
+
+### {{VERSION_FIRST}}
+
+{{A constant with value `0` used as the version when creating a new entity that does not yet exist. The framework sets version `1` on the first successful write. Import from `@mbc-cqrs-serverless/core`.}}
+
+### {{VERSION_LATEST}}
+
+{{A constant with value `-1` used to instruct the framework to auto-resolve to the latest version of an entity, bypassing optimistic locking. Use only when "last writer wins" semantics are intentional. Import from `@mbc-cqrs-serverless/core`.}}
+
 ## {{AWS Services}}
 
 ### {{Amazon DynamoDB}}

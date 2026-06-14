@@ -106,6 +106,8 @@ async create(
     invokeContext: opts.invokeContext,
   });
 
+  // {{publishAsync returns null when command is a no-op (no changes detected)}}
+  if (!item) return null;
   return new ProductDataEntity(item);
 }
 ```
@@ -450,6 +452,8 @@ export class ProductService {
       invokeContext: opts.invokeContext,
     });
 
+    // {{publishPartialUpdateAsync returns null when command is a no-op (no changes detected)}}
+    if (!item) return null;
     return new ProductDataEntity(item);
   }
 
@@ -528,7 +532,8 @@ async createBatch(
     ),
   );
 
-  return results.map((item) => new ProductDataEntity(item));
+  // {{Filter out null results (no-op commands) before mapping to entities}}
+  return results.filter(Boolean).map((item) => new ProductDataEntity(item!));
 }
 ```
 
