@@ -95,7 +95,9 @@
   "Deprecated, for removal: This API element is subject to removal in a future version.": "非推奨、削除予定: この API 要素は将来のバージョンで削除される可能性があります",
   "*async* `genNewSequence( dto: GenerateSequenceDto, options: {invokeContext: IInvoke}): Promise<DataEntity>` <span class=\"badge badge--danger\">removed</span>": "*async* `genNewSequence( dto: GenerateSequenceDto, options: {invokeContext: IInvoke}): Promise<DataEntity>` <span class=\"badge badge--danger\">削除済み</span>",
   "Removed in v1.2.0": "v1.2.0で削除",
+  "Removed in v1.1.0": "v1.1.0で削除",
   "This method was removed in [v1.2.0](/docs/changelog#v120). Use [`generateSequenceItem`](#generate-sequence-item) or [`generateSequenceItemWithProvideSetting`](#generate-sequence-item-with-provide-setting) instead.": "このメソッドは[v1.2.0](/docs/changelog#v120)で削除されました。代わりに[`generateSequenceItem`](#generate-sequence-item)または[`generateSequenceItemWithProvideSetting`](#generate-sequence-item-with-provide-setting)を使用してください。",
+  "This method was removed in [v1.1.0](/docs/changelog#v110). Use [`generateSequenceItem`](#generate-sequence-item) or [`generateSequenceItemWithProvideSetting`](#generate-sequence-item-with-provide-setting) instead.": "このメソッドは[v1.1.0](/docs/changelog#v110)で削除されました。代わりに[`generateSequenceItem`](#generate-sequence-item)または[`generateSequenceItemWithProvideSetting`](#generate-sequence-item-with-provide-setting)を使用してください。",
   "Related Documentation": "関連ドキュメント",
   "Configuring": "設定",
   "SequencesModule configuration options": "SequencesModuleの設定オプション",
@@ -105,5 +107,6 @@
   "Practical example using sequences": "シーケンスを使った実践的な例",
   "Interfaces": "インターフェース",
   "SequencesModuleOptions interface": "SequencesModuleOptionsインターフェース",
-  "The `SequencesService` has four public methods (two current, one deprecated, one removed in v1.2.0):": "`SequencesService`には4つのパブリックメソッドがあります（現行2つ、非推奨1つ、v1.2.0で削除1つ）："
+  "The `SequencesService` has four public methods (two current, one deprecated, one removed in v1.2.0):": "`SequencesService`には4つのパブリックメソッドがあります（現行2つ、非推奨1つ、v1.2.0で削除1つ）：",
+  "The `SequencesService` has four public methods (two current, one deprecated, one removed in v1.1.0):": "`SequencesService`には4つのパブリックメソッドがあります（現行2つ、非推奨1つ、v1.1.0で削除1つ）："
 }

@@ -95,7 +95,9 @@
   "Deprecated, for removal: This API element is subject to removal in a future version.": "Deprecated, for removal: This API element is subject to removal in a future version.",
   "*async* `genNewSequence( dto: GenerateSequenceDto, options: {invokeContext: IInvoke}): Promise<DataEntity>` <span class=\"badge badge--danger\">removed</span>": "*async* `genNewSequence( dto: GenerateSequenceDto, options: {invokeContext: IInvoke}): Promise<DataEntity>` <span class=\"badge badge--danger\">removed</span>",
   "Removed in v1.2.0": "Removed in v1.2.0",
+  "Removed in v1.1.0": "Removed in v1.1.0",
   "This method was removed in [v1.2.0](/docs/changelog#v120). Use [`generateSequenceItem`](#generate-sequence-item) or [`generateSequenceItemWithProvideSetting`](#generate-sequence-item-with-provide-setting) instead.": "This method was removed in [v1.2.0](/docs/changelog#v120). Use [`generateSequenceItem`](#generate-sequence-item) or [`generateSequenceItemWithProvideSetting`](#generate-sequence-item-with-provide-setting) instead.",
+  "This method was removed in [v1.1.0](/docs/changelog#v110). Use [`generateSequenceItem`](#generate-sequence-item) or [`generateSequenceItemWithProvideSetting`](#generate-sequence-item-with-provide-setting) instead.": "This method was removed in [v1.1.0](/docs/changelog#v110). Use [`generateSequenceItem`](#generate-sequence-item) or [`generateSequenceItemWithProvideSetting`](#generate-sequence-item-with-provide-setting) instead.",
   "Related Documentation": "Related Documentation",
   "Configuring": "Configuring",
   "SequencesModule configuration options": "SequencesModule configuration options",
@@ -105,5 +107,6 @@
   "Practical example using sequences": "Practical example using sequences",
   "Interfaces": "Interfaces",
   "SequencesModuleOptions interface": "SequencesModuleOptions interface",
-  "The `SequencesService` has four public methods (two current, one deprecated, one removed in v1.2.0):": "The `SequencesService` has four public methods (two current, one deprecated, one removed in v1.2.0):"
+  "The `SequencesService` has four public methods (two current, one deprecated, one removed in v1.2.0):": "The `SequencesService` has four public methods (two current, one deprecated, one removed in v1.2.0):",
+  "The `SequencesService` has four public methods (two current, one deprecated, one removed in v1.1.0):": "The `SequencesService` has four public methods (two current, one deprecated, one removed in v1.1.0):"
 }
