@@ -19,14 +19,14 @@ Never write directly to DynamoDB tables bypassing the CommandService.
 const dynamodb = new DynamoDBClient({});
 await dynamodb.send(new PutItemCommand({
   TableName: 'my-table',
-  Item: { pk: { S: 'TENANT#mbc' }, sk: { S: 'ITEM#001' }, ... }
+  Item: { pk: { S: 'mbc#ITEM' }, sk: { S: 'ITEM#001' }, ... }
 }));
 ```
 
 ```typescript
 // ✅ Correct: Use CommandService
 await this.commandService.publishAsync({
-  pk: 'TENANT#mbc',
+  pk: 'mbc#ITEM',
   sk: 'ITEM#001',
   version: 0,
   // ...
@@ -230,7 +230,7 @@ Never hardcode tenant codes in application logic.
 
 ```typescript
 // ❌ Anti-Pattern: Hardcoded tenant
-const pk = 'TENANT#default';
+const pk = 'default#PRODUCT';
 const items = await this.dataService.listItems({ pk });
 ```
 
@@ -258,7 +258,7 @@ Never trust client-provided tenant codes without validation.
 // ❌ Anti-Pattern: Trusting client input
 @Post()
 async create(@Body() dto: CreateDto) {
-  const pk = `TENANT#${dto.tenantCode}`; // Client controls tenant!
+  const pk = `${dto.tenantCode}#PRODUCT`; // Client controls tenant!
   // ...
 }
 ```
