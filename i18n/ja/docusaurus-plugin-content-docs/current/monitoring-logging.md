@@ -136,16 +136,16 @@ interface LogEntry {
 アプリケーションからカスタムメトリクスを発行：
 
 ```typescript
-import { CloudWatch } from 'aws-sdk';
+import { CloudWatchClient, PutMetricDataCommand } from '@aws-sdk/client-cloudwatch';
 
-const cloudwatch = new CloudWatch();
+const cloudwatch = new CloudWatchClient({});
 
 async function publishMetric(
   metricName: string,
   value: number,
   unit: string = 'Count',
 ): Promise<void> {
-  await cloudwatch.putMetricData({
+  await cloudwatch.send(new PutMetricDataCommand({
     Namespace: 'YourApp/Custom',
     MetricData: [
       {
@@ -157,7 +157,7 @@ async function publishMetric(
         ],
       },
     ],
-  }).promise();
+  }));
 }
 
 // Usage
@@ -311,10 +311,11 @@ AWS SDK呼び出しとHTTPリクエストのより深いトレーシングのた
 :::
 
 ```typescript
-import * as AWSXRay from 'aws-xray-sdk';
+import * as AWSXRay from 'aws-xray-sdk-core';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 
-// AWS SDKをインストルメント
-const AWS = AWSXRay.captureAWS(require('aws-sdk'));
+// AWS SDK v3クライアントをインストルメント
+const dynamoClient = AWSXRay.captureAWSv3Client(new DynamoDBClient({}));
 
 // HTTPコールをインストルメント
 AWSXRay.captureHTTPsGlobal(require('http'));

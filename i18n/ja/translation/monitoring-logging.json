@@ -97,7 +97,7 @@
   "Instrument Application": "アプリケーションのインストルメント",
   "Optional Enhancement": "オプションの拡張",
   "For deeper tracing of AWS SDK calls and HTTP requests, you can optionally add the aws-xray-sdk package to your application.": "AWS SDK呼び出しとHTTPリクエストのより深いトレーシングのために、オプションでaws-xray-sdkパッケージをアプリケーションに追加できます。",
-  "Instrument AWS SDK": "AWS SDKをインストルメント",
+  "Instrument AWS SDK v3 clients individually": "AWS SDK v3クライアントをインストルメント",
   "Instrument HTTP calls": "HTTPコールをインストルメント",
   "Add custom annotations": "カスタムアノテーションを追加",
   "Centralized Logging": "集中ロギング",
