@@ -251,7 +251,6 @@ When controllers are enabled, the following endpoints are available:
 | GET | `/api/master-setting` | List all settings |
 | GET | `/api/master-setting/:pk/:sk` | Get a specific setting |
 | POST | `/api/master-setting` | Create a new setting |
-| POST | `/api/master-setting/bulk` | Create or upsert multiple settings |
 | PUT | `/api/master-setting/:pk/:sk` | Update a setting |
 | DELETE | `/api/master-setting/:pk/:sk` | Delete a setting |
 | POST | `/api/master-setting/check-exist/:code` | Check if a setting code exists |
@@ -263,7 +262,6 @@ When controllers are enabled, the following endpoints are available:
 | GET | `/api/master-data` | List all data settings |
 | GET | `/api/master-data/:pk/:sk` | Get a specific data setting |
 | POST | `/api/master-data` | Create a new data setting |
-| POST | `/api/master-data/bulk` | Create or upsert multiple data settings |
 | PUT | `/api/master-data/:pk/:sk` | Update a data setting |
 | DELETE | `/api/master-data/:pk/:sk` | Delete a data setting |
 | POST | `/api/master-data/check-exist/:settingCode/:code` | Check if a data setting code exists |

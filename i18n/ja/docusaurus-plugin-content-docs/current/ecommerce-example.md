@@ -537,7 +537,7 @@ export class OrderDataSyncHandler implements IDataSyncHandler {
 
 // レスポンス
 {
-  "pk": "TENANT#shop-a",
+  "pk": "shop-a#ORDER",
   "sk": "ORDER#ORD-000001@1",
   "code": "ORD-000001",
   "name": "Order ORD-000001",

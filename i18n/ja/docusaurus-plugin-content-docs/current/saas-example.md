@@ -22,10 +22,10 @@ SaaSの例では以下をカバーします：
 ```
 パーティションキー (pk)           ソートキー (sk)
 ──────────────────────────────────────────────────
-TENANT#acme-corp                 SUBSCRIPTION#SUB-001
-TENANT#acme-corp                 USAGE#2024-01
-TENANT#acme-corp                 USER#usr-001
-TENANT#acme-corp                 APIKEY#key-001
+acme-corp#SUBSCRIPTION           SUBSCRIPTION#SUB-001
+acme-corp#USAGE                  USAGE#2024-01
+acme-corp#USER                   USER#usr-001
+acme-corp#APIKEY                 APIKEY#key-001
 MASTER#COMMON                    PLAN#starter
 MASTER#COMMON                    PLAN#professional
 MASTER#COMMON                    PLAN#enterprise
@@ -92,9 +92,9 @@ import { CommandService, IInvoke, KEY_SEPARATOR } from '@mbc-cqrs-serverless/cor
 import { TenantService } from '@mbc-cqrs-serverless/tenant';
 import { SubscriptionService } from './subscription.service';
 
-// Example helper: per-tenant partition key (テナントごとのパーティションキーを生成する例)
-const generatePk = (tenantCode: string): string =>
-  `TENANT${KEY_SEPARATOR}${tenantCode}`;
+// Usage PK helper: tenantCode#USAGE (使用量PK: テナントコード#USAGE)
+const generateUsagePk = (tenantCode: string): string =>
+  `${tenantCode}${KEY_SEPARATOR}USAGE`;
 
 
 @Injectable()
@@ -142,7 +142,7 @@ export class TenantSetupService {
 
     await this.commandService.publishAsync(
       {
-        pk: generatePk(tenantCode),
+        pk: generateUsagePk(tenantCode),
         sk: `USAGE#${currentPeriod}`,
         code: currentPeriod,
         name: `Usage for ${currentPeriod}`,
@@ -183,9 +183,9 @@ import {
 } from '@mbc-cqrs-serverless/core';
 import { MasterDataService } from '@mbc-cqrs-serverless/master';
 
-// Example helper: per-tenant partition key (テナントごとのパーティションキーを生成する例)
-const generatePk = (tenantCode: string): string =>
-  `TENANT${KEY_SEPARATOR}${tenantCode}`;
+// Subscription PK helper: tenantCode#SUBSCRIPTION (サブスクリプションPK: テナントコード#SUBSCRIPTION)
+const generateSubscriptionPk = (tenantCode: string): string =>
+  `${tenantCode}${KEY_SEPARATOR}SUBSCRIPTION`;
 
 @Injectable()
 export class SubscriptionService {
@@ -202,7 +202,7 @@ export class SubscriptionService {
     context: IInvoke,
   ) {
     const plan = await this.masterDataService.get({
-      pk: `MASTER${KEY_SEPARATOR}${tenantCode}`,
+      pk: `MASTER${KEY_SEPARATOR}COMMON`,
       sk: `PLAN${KEY_SEPARATOR}${planCode}`,
     });
     if (!plan) {
@@ -215,7 +215,7 @@ export class SubscriptionService {
     endDate.setDate(endDate.getDate() + trialDays);
 
     const command = {
-      pk: generatePk(tenantCode),
+      pk: generateSubscriptionPk(tenantCode),
       sk: `SUBSCRIPTION#SUB-${Date.now()}`,
       code: `SUB-${Date.now()}`,
       name: `${plan.name} Subscription`,
@@ -240,7 +240,7 @@ export class SubscriptionService {
     context: IInvoke,
   ) {
     const { tenantCode } = getUserContext(context);
-    const pk = generatePk(tenantCode);
+    const pk = generateSubscriptionPk(tenantCode);
     const sk = `SUBSCRIPTION#${subscriptionCode}`;
 
     const current = await this.dataService.getItem({ pk, sk });
@@ -250,7 +250,7 @@ export class SubscriptionService {
 
     // Validate plan exists (プランの存在を検証)
     const newPlan = await this.masterDataService.get({
-      pk: `MASTER${KEY_SEPARATOR}${tenantCode}`,
+      pk: `MASTER${KEY_SEPARATOR}COMMON`,
       sk: `PLAN${KEY_SEPARATOR}${newPlanCode}`,
     });
     if (!newPlan) {
@@ -280,7 +280,7 @@ export class SubscriptionService {
     context: IInvoke,
   ) {
     const { tenantCode } = getUserContext(context);
-    const pk = generatePk(tenantCode);
+    const pk = generateSubscriptionPk(tenantCode);
     const sk = `SUBSCRIPTION#${subscriptionCode}`;
 
     const current = await this.dataService.getItem({ pk, sk });
@@ -344,9 +344,9 @@ import {
 } from '@mbc-cqrs-serverless/core';
 import { MasterDataService } from '@mbc-cqrs-serverless/master';
 
-// Example helper: per-tenant partition key (テナントごとのパーティションキーを生成する例)
-const generatePk = (tenantCode: string): string =>
-  `TENANT${KEY_SEPARATOR}${tenantCode}`;
+// Usage PK helper: tenantCode#USAGE (使用量PK: テナントコード#USAGE)
+const generateUsagePk = (tenantCode: string): string =>
+  `${tenantCode}${KEY_SEPARATOR}USAGE`;
 
 @Injectable()
 export class UsageService {
@@ -384,7 +384,7 @@ export class UsageService {
     ]);
 
     const plan = await this.masterDataService.get({
-      pk: `MASTER${KEY_SEPARATOR}${tenantCode}`,
+      pk: `MASTER${KEY_SEPARATOR}COMMON`,
       sk: `PLAN${KEY_SEPARATOR}${subscription.attributes.planCode}`,
     });
 
@@ -407,7 +407,7 @@ export class UsageService {
     tenantCode: string,
     period: string,
   ): Promise<UsageSummary> {
-    const pk = generatePk(tenantCode);
+    const pk = generateUsagePk(tenantCode);
     const sk = `USAGE#${period}`;
 
     const usage = await this.dataService.getItem({ pk, sk });
@@ -431,7 +431,7 @@ export class UsageService {
   ): Promise<void> {
     const { tenantCode } = getUserContext(context);
     const period = this.getCurrentPeriod();
-    const pk = generatePk(tenantCode);
+    const pk = generateUsagePk(tenantCode);
     const sk = `USAGE#${period}`;
 
     const current = await this.dataService.getItem({ pk, sk });
@@ -623,7 +623,7 @@ export class BillingEventHandler implements IDataSyncHandler {
     // Check for overage (超過を確認)
     const subscription = await this.getActiveSubscription(usage.tenantCode);
     const plan = await this.masterDataService.get({
-      pk: `MASTER${KEY_SEPARATOR}${usage.tenantCode}`,
+      pk: `MASTER${KEY_SEPARATOR}COMMON`,
       sk: `PLAN${KEY_SEPARATOR}${subscription.attributes.planCode}`,
     });
 
@@ -684,9 +684,9 @@ import {
   getUserContext,
 } from '@mbc-cqrs-serverless/core';
 
-// Example helper: per-tenant partition key (テナントごとのパーティションキーを生成する例)
-const generatePk = (tenantCode: string): string =>
-  `TENANT${KEY_SEPARATOR}${tenantCode}`;
+// API Key PK helper: tenantCode#APIKEY (APIキーPK: テナントコード#APIKEY)
+const generateApiKeyPk = (tenantCode: string): string =>
+  `${tenantCode}${KEY_SEPARATOR}APIKEY`;
 
 @Injectable()
 export class ApiKeyService {
@@ -705,7 +705,7 @@ export class ApiKeyService {
     const keyPrefix = rawKey.substring(0, 11); // Show first 11 chars (最初の11文字を表示)
 
     const command = {
-      pk: generatePk(tenantCode),
+      pk: generateApiKeyPk(tenantCode),
       sk: `APIKEY#${keyHash}`,
       code: keyHash,
       name: dto.name,
@@ -772,7 +772,7 @@ export class ApiKeyService {
   // Revoke API key (APIキーを失効)
   async revokeApiKey(keyPrefix: string, context: IInvoke) {
     const { tenantCode } = getUserContext(context);
-    const pk = generatePk(tenantCode);
+    const pk = generateApiKeyPk(tenantCode);
 
     // Find key by prefix (プレフィックスでキーを検索)
     const keys = await this.dataService.listItemsByPk(pk, {
@@ -830,7 +830,7 @@ export class ApiKeyService {
 
 ```typescript
 const { tenantCode } = getUserContext(context);
-const pk = generatePk(tenantCode);
+const pk = `${tenantCode}${KEY_SEPARATOR}ENTITY_TYPE`;
 ```
 
 ### 2. 使用量追跡

@@ -251,7 +251,6 @@ const createDto: CreateDataSettingDto = {
 | GET | `/api/master-setting` | すべての設定を一覧表示 |
 | GET | `/api/master-setting/:pk/:sk` | 特定の設定を取得 |
 | POST | `/api/master-setting` | 新しい設定を作成 |
-| POST | `/api/master-setting/bulk` | 複数の設定を作成またはupsert |
 | PUT | `/api/master-setting/:pk/:sk` | 設定を更新 |
 | DELETE | `/api/master-setting/:pk/:sk` | 設定を削除 |
 | POST | `/api/master-setting/check-exist/:code` | 設定コードの存在確認 |
@@ -263,7 +262,6 @@ const createDto: CreateDataSettingDto = {
 | GET | `/api/master-data` | すべてのデータ設定を一覧表示 |
 | GET | `/api/master-data/:pk/:sk` | 特定のデータ設定を取得 |
 | POST | `/api/master-data` | 新しいデータ設定を作成 |
-| POST | `/api/master-data/bulk` | 複数のデータ設定を作成またはupsert |
 | PUT | `/api/master-data/:pk/:sk` | データ設定を更新 |
 | DELETE | `/api/master-data/:pk/:sk` | データ設定を削除 |
 | POST | `/api/master-data/check-exist/:settingCode/:code` | データ設定コードの存在確認 |
