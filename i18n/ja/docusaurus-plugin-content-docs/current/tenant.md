@@ -121,7 +121,7 @@ const tenant = await this.tenantService.createTenant(
 
 ```ts
 const updatedTenant = await this.tenantService.updateTenant(
-  { pk: "SYSTEM#tenant001", sk: "TENANT" },
+  { pk: "TENANT#tenant001", sk: "MASTER" },
   {
     name: "Updated Tenant Name",
     attributes: {
@@ -138,7 +138,7 @@ isDeletedをtrueに設定してテナントを論理削除します。
 
 ```ts
 const deletedTenant = await this.tenantService.deleteTenant(
-  { pk: "SYSTEM#tenant001", sk: "TENANT" },
+  { pk: "TENANT#tenant001", sk: "MASTER" },
   { invokeContext }
 );
 ```

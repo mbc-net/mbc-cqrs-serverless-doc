@@ -68,7 +68,7 @@ interface INotification {
 await this.appSyncService.sendMessage({
   id: "unique-id",
   table: "my-table",
-  pk: "ITEM#tenant1",
+  pk: "tenant1#ITEM",
   sk: "ITEM#001",
   tenantCode: "tenant1",
   action: "MODIFY",
@@ -98,7 +98,7 @@ export class MyService {
     const notification: INotification = {
       id: "notification-123",
       table: "my-table",
-      pk: "ITEM#tenant1",
+      pk: "tenant1#ITEM",
       sk: "ITEM#item001",
       tenantCode: "tenant1",
       action: "MODIFY",

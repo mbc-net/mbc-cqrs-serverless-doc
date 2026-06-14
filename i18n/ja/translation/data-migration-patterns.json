@@ -32,7 +32,7 @@
   "Before: Cognito stores uppercase": "Before: Cognito stores uppercase (変更前：Cognitoには大文字で保存)",
   "After: getUserContext() returns lowercase": "After: getUserContext() returns lowercase (変更後：getUserContext()は小文字を返す)",
   "Partition key generation uses lowercase": "Partition key generation uses lowercase (パーティションキー生成は小文字を使用)",
-  "**The problem:** If your existing DynamoDB data has partition keys with uppercase tenant codes (e.g., `PRODUCT#MY_TENANT`), queries using the normalized lowercase tenant code will not find that data.": "**問題:** 既存のDynamoDBデータに大文字のテナントコードを持つパーティションキー（例：`PRODUCT#MY_TENANT`）がある場合、正規化された小文字のテナントコードを使用したクエリではそのデータを見つけることができません。",
+  "**The problem:** If your existing DynamoDB data has partition keys with uppercase tenant codes (e.g., `MY_TENANT#PRODUCT`), queries using the normalized lowercase tenant code will not find that data.": "**問題:** 既存のDynamoDBデータに大文字のテナントコードを持つパーティションキー（例：`MY_TENANT#PRODUCT`）がある場合、正規化された小文字のテナントコードを使用したクエリではそのデータを見つけることができません。",
   "Migration Strategy 1: Update DynamoDB Data": "マイグレーション戦略1：DynamoDBデータの更新",
   "Migrate existing DynamoDB data to use lowercase tenant codes in partition keys.": "既存のDynamoDBデータを移行して、パーティションキーで小文字のテナントコードを使用するようにします。",
   "Migrate all entities of a type to lowercase tenant codes": "Migrate all entities of a type to lowercase tenant codes (タイプのすべてのエンティティを小文字のテナントコードに移行)",

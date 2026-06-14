@@ -121,7 +121,7 @@ Updates an existing tenant's information.
 
 ```ts
 const updatedTenant = await this.tenantService.updateTenant(
-  { pk: "SYSTEM#tenant001", sk: "TENANT" },
+  { pk: "TENANT#tenant001", sk: "MASTER" },
   {
     name: "Updated Tenant Name",
     attributes: {
@@ -138,7 +138,7 @@ Soft deletes a tenant by setting isDeleted to true.
 
 ```ts
 const deletedTenant = await this.tenantService.deleteTenant(
-  { pk: "SYSTEM#tenant001", sk: "TENANT" },
+  { pk: "TENANT#tenant001", sk: "MASTER" },
   { invokeContext }
 );
 ```
