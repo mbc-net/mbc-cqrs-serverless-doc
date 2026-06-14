@@ -202,7 +202,7 @@ export class SubscriptionService {
     context: IInvoke,
   ) {
     const plan = await this.masterDataService.get({
-      pk: `MASTER${KEY_SEPARATOR}${tenantCode}`,
+      pk: `MASTER${KEY_SEPARATOR}COMMON`,
       sk: `PLAN${KEY_SEPARATOR}${planCode}`,
     });
     if (!plan) {
@@ -250,7 +250,7 @@ export class SubscriptionService {
 
     // {{Validate plan exists}}
     const newPlan = await this.masterDataService.get({
-      pk: `MASTER${KEY_SEPARATOR}${tenantCode}`,
+      pk: `MASTER${KEY_SEPARATOR}COMMON`,
       sk: `PLAN${KEY_SEPARATOR}${newPlanCode}`,
     });
     if (!newPlan) {
@@ -384,7 +384,7 @@ export class UsageService {
     ]);
 
     const plan = await this.masterDataService.get({
-      pk: `MASTER${KEY_SEPARATOR}${tenantCode}`,
+      pk: `MASTER${KEY_SEPARATOR}COMMON`,
       sk: `PLAN${KEY_SEPARATOR}${subscription.attributes.planCode}`,
     });
 
@@ -623,7 +623,7 @@ export class BillingEventHandler implements IDataSyncHandler {
     // {{Check for overage}}
     const subscription = await this.getActiveSubscription(usage.tenantCode);
     const plan = await this.masterDataService.get({
-      pk: `MASTER${KEY_SEPARATOR}${usage.tenantCode}`,
+      pk: `MASTER${KEY_SEPARATOR}COMMON`,
       sk: `PLAN${KEY_SEPARATOR}${subscription.attributes.planCode}`,
     });
 

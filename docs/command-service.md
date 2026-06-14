@@ -147,7 +147,6 @@ const commandSource = getCommandSource(
 );
 
 const item = await this.commandService.publishPartialUpdateAsync(catCommand, {
-  source: commandSource,
   invokeContext,
 });
 ```
