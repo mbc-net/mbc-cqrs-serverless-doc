@@ -28,34 +28,36 @@ DATABASE_URL="mysql://root:RootCqrs@localhost:3306/cqrs?schema=public&connection
 
 {{When creating an RDS table that maps to a DynamoDB table, ensure you add the necessary fields and indexes to the RDS table accordingly.}}
 
-```ts
-id         String   @id
-cpk        String // {{Command PK}}
-csk        String // {{Command SK}}
-pk         String // {{Data PK}}
-sk         String // {{Data SK}}
-tenantCode String   @map("tenant_code") // {{Tenant code}}
-seq        Int      @default(0) // {{Sort order, uses sequence feature}}
-code       String // {{Record code}}
-name       String // {{Record name}}
-version    Int // {{Version}}
-isDeleted  Boolean  @default(false) @map("is_deleted") // {{Deleted flag}}
-createdBy  String   @default("") @map("created_by") // {{Created by}}
-createdIp  String   @default("") @map("created_ip") // {{Created IP, supports IPv6}}
-createdAt  DateTime @default(now()) @map("created_at") @db.Timestamp(0) // {{Created at}}
-updatedBy  String   @default("") @map("updated_by") // {{Updated by}}
-updatedIp  String   @default("") @map("updated_ip") // {{Updated IP, supports IPv6}}
-updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamp(0) // {{Updated at}}
+```prisma
+model YourEntity {
+  id         String   @id
+  cpk        String // {{Command PK}}
+  csk        String // {{Command SK}}
+  pk         String // {{Data PK}}
+  sk         String // {{Data SK}}
+  tenantCode String   @map("tenant_code") // {{Tenant code}}
+  seq        Int      @default(0) // {{Sort order, uses sequence feature}}
+  code       String // {{Record code}}
+  name       String // {{Record name}}
+  version    Int // {{Version}}
+  isDeleted  Boolean  @default(false) @map("is_deleted") // {{Deleted flag}}
+  createdBy  String   @default("") @map("created_by") // {{Created by}}
+  createdIp  String   @default("") @map("created_ip") // {{Created IP, supports IPv6}}
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamp(0) // {{Created at}}
+  updatedBy  String   @default("") @map("updated_by") // {{Updated by}}
+  updatedIp  String   @default("") @map("updated_ip") // {{Updated IP, supports IPv6}}
+  updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamp(0) // {{Updated at}}
 
-// {{properties}}
+  // {{domain-specific properties}}
 
-// {{relations}}
+  // {{relations}}
 
-// {{index}}
-@@unique([cpk, csk])
-@@unique([pk, sk])
-@@unique([tenantCode, code])
-@@index([tenantCode, name])
+  // {{index}}
+  @@unique([cpk, csk])
+  @@unique([pk, sk])
+  @@unique([tenantCode, code])
+  @@index([tenantCode, name])
+}
 ```
 
 

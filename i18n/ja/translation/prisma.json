@@ -25,7 +25,6 @@
   "Updated by": "Updated by (更新者)",
   "Updated IP, supports IPv6": "Updated IP, supports IPv6 (更新IP、IPv6対応)",
   "Updated at": "Updated at (更新日時)",
-  "properties": "properties (プロパティ)",
   "relations": "relations (リレーション)",
   "index": "index (インデックス)",
   "Related Documentation": "関連ドキュメント",
@@ -36,5 +35,6 @@
   "Environment Variables": "環境変数",
   "Database connection configuration": "データベース接続設定",
   "Deployment Guide": "デプロイガイド",
-  "Database migration in deployment": "デプロイ時のデータベース移行"
+  "Database migration in deployment": "デプロイ時のデータベース移行",
+  "domain-specific properties": "ドメイン固有のプロパティ"
 }
