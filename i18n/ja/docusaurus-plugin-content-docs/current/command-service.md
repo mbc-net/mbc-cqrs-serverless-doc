@@ -118,11 +118,13 @@ const item = await this.commandService.publishAsync(catCommand, {
 });
 ```
 
-### *async* `publishPartialUpdateAsync( input: CommandPartialInputModel, options: ICommandOptions): Promise<CommandModel>` {#publishpartialupdateasync}
+### *async* `publishPartialUpdateAsync( input: CommandPartialInputModel, options: ICommandOptions): Promise<CommandModel | null>` {#publishpartialupdateasync}
 
 この方法を使用すると、同じ `pk` および `sk` (主キー) 値を持つ前のコマンドに基づいて新しいコマンド データを作成できます。
 
 `publishAsync` メソッドと同様に、このメソッドはコマンドの処理を待たずに、更新されたコマンド データをすぐに返します。
+
+**戻り値:** 成功時は`Promise<CommandModel>`を返します。コマンドがdirtyでない場合（既存の部分コマンドと比較して変更が検出されない場合）は`Promise<null>`を返します。
 
 たとえば、猫の名前を更新したいとします。
 
