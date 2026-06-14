@@ -1,7 +1,9 @@
 {
   "Migration guide for upgrading to MBC CQRS Serverless v1.2.0, including publishSync null return and genNewSequence removal.": "MBC CQRS Serverless v1.2.0へのアップグレードガイド。publishSyncのnull戻り値とgenNewSequenceの削除を含む。",
+  "Migration guide for upgrading to MBC CQRS Serverless v1.2.0, including publishSync null return behavior.": "MBC CQRS Serverless v1.2.0へのアップグレードガイド。publishSyncのnull戻り値の動作を含む。",
   "Migration Guide: v1.2.0": "マイグレーションガイド: v1.2.0",
   "This guide helps you upgrade from v1.1.x to v1.2.0. Version 1.2.0 includes two breaking changes that require code updates.": "このガイドはv1.1.xからv1.2.0へのアップグレードを支援します。v1.2.0にはコード更新が必要な2つの破壊的変更が含まれています。",
+  "This guide helps you upgrade from v1.1.x to v1.2.0. Version 1.2.0 includes one breaking change that requires code updates.": "このガイドはv1.1.xからv1.2.0へのアップグレードを支援します。v1.2.0にはコード更新が必要な1つの破壊的変更が含まれています。",
   "Release Date": "リリース日",
   "2026-04-02": "2026-04-02",
   "Breaking Changes Summary": "破壊的変更の概要",

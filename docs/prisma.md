@@ -17,7 +17,7 @@ description: {{Integrate Prisma ORM with MBC CQRS Serverless for RDS database ac
 
 ```bash
 # Example
-DATABASE_URL="mysql://root:RootCqrs@localhost:3306/cqrs?schema=public&connection_limit=1"
+DATABASE_URL="mysql://root:RootCqrs@localhost:3306/cqrs?connection_limit=1"
 ```
 
 :::
