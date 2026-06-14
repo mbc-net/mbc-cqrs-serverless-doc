@@ -144,7 +144,7 @@ Claude Codeに以下のように依頼できます:
 コード分析ツール（`mbc_check_anti_patterns`、`mbc_health_check`、`mbc_explain_code`）は[バージョン1.0.22](/docs/changelog#v1022)で追加されました。
 :::
 
-### アンチパターン検出
+### アンチパターン検出 {#anti-pattern-detection}
 
 :::info バージョン情報
 AP011〜AP015 は [v1.2.x](/docs/changelog#v120)（publishSync の null チェック、非推奨API、TaskModule 重複）で追加されました。AP016〜AP020 は [v1.2.5](/docs/changelog#v125) で追加。AP021（publishAsync 後のイベント発行）は [v1.2.6](/docs/changelog#v126) で追加。AP022〜AP025（eval、シェルインジェクション、HTTPタイムアウト、機密情報ロギング）は v1.2.7 で追加されました。

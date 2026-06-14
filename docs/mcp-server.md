@@ -144,7 +144,7 @@ npx @mbc-cqrs-serverless/mcp-server
 {{Code analysis tools (`mbc_check_anti_patterns`, `mbc_health_check`, `mbc_explain_code`) were added in [version 1.0.22](/docs/changelog#v1022).}}
 :::
 
-### {{Anti-Pattern Detection}}
+### {{Anti-Pattern Detection}} {#anti-pattern-detection}
 
 :::info {{Version Note}}
 {{AP011–AP015 were added in [v1.2.x](/docs/changelog#v120) (publishSync null check, deprecated APIs, TaskModule duplication). AP016–AP020 were added in [v1.2.5](/docs/changelog#v125). AP021 (event emit after publishAsync) was added in [v1.2.6](/docs/changelog#v126). AP022–AP025 (eval, shell injection, HTTP timeout, sensitive logging) were added in v1.2.7.}}
