@@ -81,7 +81,7 @@ Utilize this method to publish a full command, as it will insert the command dat
 
 The method provides immediate feedback by returning the command data right away, allowing you to proceed without waiting for the command to be processed. Subsequently, the command is handled asynchronously in the background, ensuring that your application remains responsive while the processing occurs.
 
-**Return Value:** Returns `Promise<CommandModel>` on success, or `Promise<null>` when the command is not dirty (no changes detected compared to the existing command).
+**Return Value:** Returns `Promise<CommandModel | null>` — the CommandModel on success, or `null` when the command is not dirty (no changes detected compared to the existing command).
 
 For example, you can publish a new cat command as bellow:
 
@@ -124,7 +124,7 @@ This method allows you to create new command data based on the previous command 
 
 As same as the `publishAsync` method, the method immediately returns the updated command data without waiting for the command to be processed.
 
-**Return Value:** Returns `Promise<CommandModel>` on success, or `Promise<null>` when the command is not dirty (no changes detected compared to the existing partial command).
+**Return Value:** Returns `Promise<CommandModel | null>` — the CommandModel on success, or `null` when the command is not dirty (no changes detected compared to the existing partial command).
 
 For example, you want to update cat's name:
 

@@ -114,5 +114,6 @@
   "publishAsync returns null when the command is not dirty (no-op)": "publishAsync returns null when the command is not dirty (変更がない場合 publishAsync は null を返す)",
   "publishAsync returns null when command is a no-op (no changes detected)": "publishAsync は変更がない場合（no-op）null を返す",
   "publishPartialUpdateAsync returns null when command is a no-op (no changes detected)": "publishPartialUpdateAsync は変更がない場合（no-op）null を返す",
-  "Filter out null results (no-op commands) before mapping to entities": "エンティティへのマッピング前にnull結果（no-opコマンド）を除外"
+  "Filter out null results (no-op commands) before mapping to entities": "エンティティへのマッピング前にnull結果（no-opコマンド）を除外",
+  "New items with VERSION_FIRST always publish successfully — result is never null": "VERSION_FIRST を使用した新しいアイテムは常に正常に公開されます — 結果は null になりません"
 }

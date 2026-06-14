@@ -81,7 +81,7 @@ CommandServiceを使用した完全なCRUD実装パターンについては、[S
 
 このメソッドはコマンド データをすぐに返すことによって即時フィードバックを提供するため、コマンドの処理を待たずに続行できます。その後、コマンドはバックグラウンドで非同期に処理され、処理中もアプリケーションの応答性が維持されます。
 
-**戻り値:** 成功時は`Promise<CommandModel>`を返します。コマンドがdirtyでない場合（既存のコマンドと比較して変更が検出されない場合）は`Promise<null>`を返します。
+**戻り値:** `Promise<CommandModel | null>` を返します — 成功時はCommandModel、コマンドがdirtyでない場合（既存のコマンドと比較して変更が検出されない場合）は`null`を返します。
 
 たとえば、次のように新しい cat コマンドを発行できます。
 
@@ -124,7 +124,7 @@ const item = await this.commandService.publishAsync(catCommand, {
 
 `publishAsync` メソッドと同様に、このメソッドはコマンドの処理を待たずに、更新されたコマンド データをすぐに返します。
 
-**戻り値:** 成功時は`Promise<CommandModel>`を返します。コマンドがdirtyでない場合（既存の部分コマンドと比較して変更が検出されない場合）は`Promise<null>`を返します。
+**戻り値:** `Promise<CommandModel | null>` を返します — 成功時はCommandModel、コマンドがdirtyでない場合（既存の部分コマンドと比較して変更が検出されない場合）は`null`を返します。
 
 たとえば、猫の名前を更新したいとします。
 

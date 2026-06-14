@@ -481,6 +481,8 @@ export class ProductService {
       invokeContext: opts.invokeContext,
     });
 
+    // {{publishPartialUpdateAsync returns null when command is a no-op (no changes detected)}}
+    if (!item) return null;
     return new ProductDataEntity(item);
   }
 }
@@ -645,7 +647,8 @@ async copy(
     invokeContext: opts.invokeContext,
   });
 
-  return new ProductDataEntity(item);
+  // {{New items with VERSION_FIRST always publish successfully — result is never null}}
+  return new ProductDataEntity(item!);
 }
 ```
 

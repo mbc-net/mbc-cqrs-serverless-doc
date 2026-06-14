@@ -114,5 +114,6 @@
   "publishAsync returns null when the command is not dirty (no-op)": "publishAsync returns null when the command is not dirty (no-op)",
   "publishAsync returns null when command is a no-op (no changes detected)": "publishAsync returns null when command is a no-op (no changes detected)",
   "publishPartialUpdateAsync returns null when command is a no-op (no changes detected)": "publishPartialUpdateAsync returns null when command is a no-op (no changes detected)",
-  "Filter out null results (no-op commands) before mapping to entities": "Filter out null results (no-op commands) before mapping to entities"
+  "Filter out null results (no-op commands) before mapping to entities": "Filter out null results (no-op commands) before mapping to entities",
+  "New items with VERSION_FIRST always publish successfully — result is never null": "New items with VERSION_FIRST always publish successfully — result is never null"
 }
