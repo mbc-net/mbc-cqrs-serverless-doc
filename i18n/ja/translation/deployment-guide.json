@@ -5,7 +5,7 @@
   "Prerequisites": "前提条件",
   "Before deploying, ensure you have:": "デプロイ前に、以下が準備されていることを確認してください：",
   "AWS CLI installed and configured with appropriate credentials": "AWS CLIがインストールされ、適切な認証情報で設定されている",
-  "Node.js 18.x or later": "Node.js 18.x 以降",
+  "Node.js 20.x or later": "Node.js 20.x 以降",
   "AWS CDK CLI installed (`npm install -g aws-cdk`)": "AWS CDK CLIがインストールされている（`npm install -g aws-cdk`）",
   "An AWS account with necessary permissions": "必要な権限を持つAWSアカウント",
   "AWS Account Preparation": "AWSアカウントの準備",
