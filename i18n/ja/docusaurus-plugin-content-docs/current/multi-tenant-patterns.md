@@ -233,6 +233,9 @@ export interface UserTenantAssociation {
 }
 
 // user/user.service.ts
+import { Injectable, ForbiddenException } from '@nestjs/common';
+import { CommandService, DataService, IInvoke, KEY_SEPARATOR, generateId } from '@mbc-cqrs-serverless/core';
+
 @Injectable()
 export class UserService {
   /**
@@ -316,6 +319,9 @@ export class UserService {
 
 ```typescript
 // sync/tenant-sync.service.ts
+import { Injectable, Logger } from '@nestjs/common';
+import { CommandService, DataService, IInvoke, KEY_SEPARATOR, generateId } from '@mbc-cqrs-serverless/core';
+
 @Injectable()
 export class TenantSyncService {
   private readonly logger = new Logger(TenantSyncService.name);
@@ -457,6 +463,9 @@ export class CrossTenantReportService {
 
 ```typescript
 // tenant/tenant-settings.service.ts
+import { Injectable } from '@nestjs/common';
+import { CommandService, DataService, IInvoke, KEY_SEPARATOR, generateId } from '@mbc-cqrs-serverless/core';
+
 @Injectable()
 export class TenantSettingsService {
   private readonly settingsCache = new Map<string, TenantSettings>();

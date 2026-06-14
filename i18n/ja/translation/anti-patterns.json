@@ -14,7 +14,7 @@
   "No audit trail in command table": "コマンドテーブルに監査証跡が残らない",
   "Breaks CQRS pattern consistency": "CQRSパターンの一貫性を壊す",
   "AP002: Ignoring Version Mismatch Errors": "AP002: バージョン不一致エラーの無視",
-  "Never catch and ignore VersionMismatchError without proper handling.": "適切な処理なしにVersionMismatchErrorをキャッチして無視することは絶対にしないでください。",
+  "Never catch and ignore ConditionalCheckFailedException without proper handling.": "適切な処理なしにConditionalCheckFailedExceptionをキャッチして無視することは絶対にしないでください。",
   "Anti-Pattern: Silently ignoring version mismatch": "Anti-Pattern: Silently ignoring version mismatch (アンチパターン: バージョン不一致を黙って無視)",
   "Silent failure!": "Silent failure! (サイレント失敗！)",
   "Correct: Implement retry with fresh data": "Correct: Implement retry with fresh data (正解: 最新データでリトライを実装)",

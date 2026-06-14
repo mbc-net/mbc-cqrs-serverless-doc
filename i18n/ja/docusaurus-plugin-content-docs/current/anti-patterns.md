@@ -44,15 +44,17 @@ await this.commandService.publishAsync({
 ### AP002: バージョン不一致エラーの無視
 
 :::danger アンチパターン
-適切な処理なしにVersionMismatchErrorをキャッチして無視することは絶対にしないでください。
+適切な処理なしにConditionalCheckFailedExceptionをキャッチして無視することは絶対にしないでください。
 :::
 
 ```typescript
 // ❌ Anti-Pattern: Silently ignoring version mismatch (アンチパターン: バージョン不一致を黙って無視)
+import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
+
 try {
   await this.commandService.publishAsync(command, context);
 } catch (error) {
-  if (error.name === 'VersionMismatchError') {
+  if (error instanceof ConditionalCheckFailedException) {
     console.log('Version mismatch, skipping...'); // Silent failure! (サイレント失敗！)
   }
 }
@@ -60,6 +62,8 @@ try {
 
 ```typescript
 // ✅ Correct: Implement retry with fresh data (正解: 最新データでリトライを実装)
+import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
+
 const MAX_RETRIES = 3;
 for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
   try {
@@ -68,7 +72,7 @@ for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
     await this.commandService.publishAsync(command, context);
     break;
   } catch (error) {
-    if (error.name === 'VersionMismatchError' && attempt < MAX_RETRIES - 1) {
+    if (error instanceof ConditionalCheckFailedException && attempt < MAX_RETRIES - 1) {
       continue; // Retry with fresh data (最新データでリトライ)
     }
     throw error;

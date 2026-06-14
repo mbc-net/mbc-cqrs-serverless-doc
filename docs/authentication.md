@@ -321,7 +321,7 @@ CROSS_TENANT_ROLES=system_admin,general_manager
 {{To implement custom cross-tenant access logic, extend `RolesGuard` and override the relevant methods:}}
 
 ```ts
-import { RolesGuard, getUserContext } from "@mbc-cqrs-serverless/core";
+import { RolesGuard, getUserContext, UserContext } from "@mbc-cqrs-serverless/core";
 import { ExecutionContext, Injectable } from "@nestjs/common";
 
 @Injectable()
