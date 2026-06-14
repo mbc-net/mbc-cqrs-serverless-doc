@@ -92,11 +92,8 @@ export interface ICommandOptions {
 ```typescript
 const options: ICommandOptions = {
   source: 'order-service',
-  requestId: context.awsRequestId,
-  invokeContext: {
-    userContext: getUserContext(event),
-    tenantCode: 'tenant001',
-  },
+  requestId: invokeContext.context.awsRequestId,
+  invokeContext, // {{Injected via @INVOKE_CONTEXT() decorator}}
 };
 ```
 

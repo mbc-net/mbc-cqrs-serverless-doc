@@ -8,6 +8,7 @@
   "Usage Example": "Usage Example",
   "Used for partial updates. Only pk, sk, and version are required.": "Used for partial updates. Only pk, sk, and version are required.",
   "Options passed to command publishing methods.": "Options passed to command publishing methods.",
+  "Injected via @INVOKE_CONTEXT() decorator": "Injected via @INVOKE_CONTEXT() decorator",
   "Key Interfaces": "Key Interfaces",
   "Represents the primary key for DynamoDB items.": "Represents the primary key for DynamoDB items.",
   "Context Interfaces": "Context Interfaces",

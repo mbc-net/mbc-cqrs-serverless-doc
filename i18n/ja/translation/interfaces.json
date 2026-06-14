@@ -8,6 +8,7 @@
   "Usage Example": "使用例",
   "Used for partial updates. Only pk, sk, and version are required.": "部分更新に使用します。pk、sk、versionのみが必須です。",
   "Options passed to command publishing methods.": "コマンド発行メソッドに渡されるオプション。",
+  "Injected via @INVOKE_CONTEXT() decorator": "Injected via @INVOKE_CONTEXT() decorator (@INVOKE_CONTEXT()デコレーターで注入)",
   "Key Interfaces": "キーインターフェース",
   "Represents the primary key for DynamoDB items.": "DynamoDBアイテムのプライマリキーを表します。",
   "Context Interfaces": "コンテキストインターフェース",
