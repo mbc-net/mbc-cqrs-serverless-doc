@@ -321,7 +321,7 @@ CROSS_TENANT_ROLES=system_admin,general_manager
 カスタムクロステナントアクセスロジックを実装するには、`RolesGuard`を拡張して関連メソッドをオーバーライドします：
 
 ```ts
-import { RolesGuard, getUserContext } from "@mbc-cqrs-serverless/core";
+import { RolesGuard, getUserContext, UserContext } from "@mbc-cqrs-serverless/core";
 import { ExecutionContext, Injectable } from "@nestjs/common";
 
 @Injectable()

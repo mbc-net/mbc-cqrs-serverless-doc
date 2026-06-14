@@ -14,7 +14,7 @@
   "No audit trail in command table": "No audit trail in command table",
   "Breaks CQRS pattern consistency": "Breaks CQRS pattern consistency",
   "AP002: Ignoring Version Mismatch Errors": "AP002: Ignoring Version Mismatch Errors",
-  "Never catch and ignore VersionMismatchError without proper handling.": "Never catch and ignore VersionMismatchError without proper handling.",
+  "Never catch and ignore ConditionalCheckFailedException without proper handling.": "Never catch and ignore ConditionalCheckFailedException without proper handling.",
   "Anti-Pattern: Silently ignoring version mismatch": "Anti-Pattern: Silently ignoring version mismatch",
   "Silent failure!": "Silent failure!",
   "Correct: Implement retry with fresh data": "Correct: Implement retry with fresh data",

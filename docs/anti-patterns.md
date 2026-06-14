@@ -44,15 +44,17 @@ await this.commandService.publishAsync({
 ### {{AP002: Ignoring Version Mismatch Errors}}
 
 :::danger {{Anti-Pattern}}
-{{Never catch and ignore VersionMismatchError without proper handling.}}
+{{Never catch and ignore ConditionalCheckFailedException without proper handling.}}
 :::
 
 ```typescript
 // ❌ {{Anti-Pattern: Silently ignoring version mismatch}}
+import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
+
 try {
   await this.commandService.publishAsync(command, context);
 } catch (error) {
-  if (error.name === 'VersionMismatchError') {
+  if (error instanceof ConditionalCheckFailedException) {
     console.log('Version mismatch, skipping...'); // {{Silent failure!}}
   }
 }
@@ -60,6 +62,8 @@ try {
 
 ```typescript
 // ✅ {{Correct: Implement retry with fresh data}}
+import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
+
 const MAX_RETRIES = 3;
 for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
   try {
@@ -68,7 +72,7 @@ for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
     await this.commandService.publishAsync(command, context);
     break;
   } catch (error) {
-    if (error.name === 'VersionMismatchError' && attempt < MAX_RETRIES - 1) {
+    if (error instanceof ConditionalCheckFailedException && attempt < MAX_RETRIES - 1) {
       continue; // {{Retry with fresh data}}
     }
     throw error;
