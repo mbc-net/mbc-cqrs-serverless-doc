@@ -158,6 +158,7 @@ export class ProductService {
 // src/lib/api/client.ts
 import { client } from '@/services/sdk/client';
 import { fetchAuthSession } from 'aws-amplify/auth';
+import { getTenantCode as getTenantFromStore } from '@/store/tenant';
 
 // {{Configure the base URL}}
 client.setConfig({
