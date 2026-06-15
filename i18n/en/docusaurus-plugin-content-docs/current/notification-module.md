@@ -519,6 +519,7 @@ Variable names exceeding 255 characters will not be replaced and will remain as 
 | `template` | `InlineTemplateContent` | Yes | Template with subject, HTML, and optional text |
 | `data` | `Record<string, any>` | Yes | Data object for template variable substitution |
 | `configurationSetName` | `string` | No | SES configuration set name for tracking |
+| `emailTags` | `EmailTag[]` | No | Tags for email categorization (SES Email Tags) |
 
 #### InlineTemplateContent Interface
 

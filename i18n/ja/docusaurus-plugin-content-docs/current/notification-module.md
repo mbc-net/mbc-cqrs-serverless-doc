@@ -519,6 +519,7 @@ template: {
 | `template` | `InlineTemplateContent` | はい | 件名、HTML、オプションのテキストを含むテンプレート |
 | `data` | `Record<string, any>` | はい | テンプレート変数置換用のデータオブジェクト |
 | `configurationSetName` | `string` | いいえ | トラッキング用のSES設定セット名 |
+| `emailTags` | `EmailTag[]` | いいえ | メール分類用のタグ（SES Email Tags） |
 
 #### InlineTemplateContentインターフェース
 
