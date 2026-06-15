@@ -10,11 +10,11 @@ System Requirements:
 - [JQ cli](https://jqlang.github.io/jq/download/)
 - [AWS cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 - [Docker](https://docs.docker.com/engine/install/)
-- windows, macOS and Linux are supported.
+- Windows, macOS and Linux are supported.
 
 ## Automatic Installation
 
-To get started, you can scaffold the project with the [mbc-cqrs-serverless CLI](/docs/cli). To scaffold the project with the mbc-cqrs-serverless CLI, run the following commands. This will create a new project directory, and populate the directory with the initial core mbc-cqrs-serverless files and supporting modules, creating a conventional base structure for your project.
+To get started, scaffold the project with the [mbc-cqrs-serverless CLI](/docs/cli). Run the following commands. This will create a new project directory, and populate the directory with the initial core mbc-cqrs-serverless files and supporting modules, creating a conventional base structure for your project.
 
 ```bash
 npm i -g @mbc-cqrs-serverless/cli
@@ -75,7 +75,7 @@ You can also use several endpoints:
 - API gateway: http://localhost:3000
 - Offline Lambda Server: http://localhost:4000
 - HTTP for lambda: http://localhost:3002
-- Step functions: http://localhost:8083
+- Step Functions: http://localhost:8083
 - DynamoDB: http://localhost:8000
 - DynamoDB admin: http://localhost:8001
 - SNS: http://localhost:4002
