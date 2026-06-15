@@ -47,7 +47,7 @@ async createOrder(dto: CreateOrderDto, context: IInvoke) {
     },
     { invokeContext: context },
   );
-  const pk = `${dto.tenantCode}#ORDER`;
+  const pk = `ORDER#${dto.tenantCode}`;
   const sk = `ORDER#${orderId.formattedNo}`;
   return this.commandService.publishAsync(
     {
@@ -72,7 +72,7 @@ async createOrder(dto: CreateOrderDto, context: IInvoke) {
 // Query data with proper filtering
 async listOrders(tenantCode: string, options: ListOptions) {
   return this.dataService.listItemsByPk(
-    `${tenantCode}#ORDER`,
+    `ORDER#${tenantCode}`,
     {
       limit: options.limit,
       startFromSk: options.lastSk,

@@ -293,9 +293,9 @@ export class ProductService {
   /**
    * Get product by key (キーで商品を取得)
    */
-  async findOne(pk: string, sk: string): Promise<ProductDataEntity | null> {
+  async findOne(pk: string, sk: string): Promise<ProductDataEntity | undefined> {
     const item = await this.dataService.getItem({ pk, sk });
-    if (!item) return null;
+    if (!item) return undefined;
     return new ProductDataEntity(item);
   }
 }

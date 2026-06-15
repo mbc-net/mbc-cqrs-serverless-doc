@@ -106,7 +106,7 @@ Most operations require tenant context for data isolation:
 ```typescript
 async createItem(tenantCode: string, data: CreateDto, invokeContext: IInvoke) {
   return this.commandService.publishAsync({
-    pk: `${tenantCode}#ITEM`,
+    pk: `ITEM#${tenantCode}`,
     sk: data.id,
     tenantCode,
     // ... other fields

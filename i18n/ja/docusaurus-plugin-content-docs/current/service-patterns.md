@@ -125,8 +125,9 @@ async create(
 ```ts
 async findOne(
   detailDto: { pk: string; sk: string },
-): Promise<ProductDataEntity> {
+): Promise<ProductDataEntity | undefined> {
   const item = await this.dataService.getItem(detailDto);
+  if (!item) return undefined;
   return new ProductDataEntity(item);
 }
 ```
@@ -430,7 +431,7 @@ export class ProductService {
     detailDto: DetailDto,
     updateDto: UpdateProductDto,
     opts: { invokeContext: IInvoke },
-  ): Promise<ProductDataEntity> {
+  ): Promise<ProductDataEntity | null> {
     const existing = await this.dataService.getItem(detailDto);
 
     if (!existing) {
@@ -463,7 +464,7 @@ export class ProductService {
   async remove(
     detailDto: DetailDto,
     opts: { invokeContext: IInvoke },
-  ): Promise<ProductDataEntity> {
+  ): Promise<ProductDataEntity | null> {
     const existing = await this.dataService.getItem(detailDto);
 
     if (!existing) {
