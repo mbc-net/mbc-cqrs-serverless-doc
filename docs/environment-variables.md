@@ -135,7 +135,7 @@ description: {{Learn how to add and validate your environment variables in your 
 
 | {{Variable}} | {{Description}} | {{Required}} | {{Example}} |
 |-------------|-----------------|--------------|-------------|
-| `DATABASE_URL` | {{Database connection URL for Prisma ORM}} | {{No}} | `postgresql://root:RootCqrs@localhost:5432/cqrs?schema=public` |
+| `DATABASE_URL` | {{Database connection URL for Prisma ORM}} | {{No}} | `mysql://root:RootCqrs@localhost:3306/cqrs` |
 
 ### {{Example .env file}}
 
@@ -205,7 +205,7 @@ SES_REGION=ap-northeast-1
 SES_FROM_EMAIL=email@example.com
 
 # {{Database Configuration}}
-DATABASE_URL="postgresql://root:RootCqrs@localhost:5432/cqrs?schema=public"
+DATABASE_URL="mysql://root:RootCqrs@localhost:3306/cqrs"
 ```
 
 ## {{Validate Environment Variables}} {#validate-env-vars}
