@@ -72,7 +72,7 @@
   "First, synthesize the CloudFormation template to verify your configuration:": "First, synthesize the CloudFormation template to verify your configuration:",
   "Deploy Stacks": "Deploy Stacks",
   "Deploy all configured environment stacks:": "Deploy all configured environment stacks:",
-  "Or deploy a specific environment stack:": "Or deploy a specific environment stack:",
+  "Or deploy a specific environment stack (run `cdk ls` first to see all available stack names):": "Or deploy a specific environment stack (run `cdk ls` first to see all available stack names):",
   "Deploy with Approval": "Deploy with Approval",
   "For deployments that require approval:": "For deployments that require approval:",
   "Post-Deployment Verification": "Post-Deployment Verification",

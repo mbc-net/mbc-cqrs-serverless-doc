@@ -72,7 +72,7 @@
   "First, synthesize the CloudFormation template to verify your configuration:": "まず、CloudFormationテンプレートを合成して設定を確認します：",
   "Deploy Stacks": "スタックのデプロイ",
   "Deploy all configured environment stacks:": "設定されたすべての環境スタックをデプロイします：",
-  "Or deploy a specific environment stack:": "または特定の環境スタックをデプロイします：",
+  "Or deploy a specific environment stack (run `cdk ls` first to see all available stack names):": "または特定の環境スタックをデプロイします（利用可能なスタック名を確認するには `cdk ls` を実行してください）：",
   "Deploy with Approval": "承認付きデプロイ",
   "For deployments that require approval:": "承認が必要なデプロイの場合：",
   "Post-Deployment Verification": "デプロイ後の確認",
