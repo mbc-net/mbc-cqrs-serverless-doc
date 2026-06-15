@@ -44,5 +44,13 @@
   "Error Catalog": "エラーカタログ",
   "Version conflict errors": "バージョン競合エラー",
   "Service Patterns": "サービスパターン",
-  "Optimistic locking patterns": "楽観的ロックパターン"
+  "Optimistic locking patterns": "楽観的ロックパターン",
+  "VERSION Constants": "VERSIONの定数",
+  "VERSION_FIRST — New Entity": "VERSION_FIRST — 新規エンティティ",
+  "Use `VERSION_FIRST` (= `0`) as the version when creating a new entity. The framework verifies the item does not yet exist, then stores it at version `1`.": "`VERSION_FIRST`（= `0`）は新規エンティティ作成時にversionとして使用します。フレームワークはアイテムが存在しないことを確認し、バージョン`1`で保存します。",
+  "Create new entity — framework stores at version 1": "Create new entity — framework stores at version 1 (新規エンティティを作成 — フレームワークがバージョン1で保存)",
+  "VERSION_LATEST — Skip Version Check": "VERSION_LATEST — バージョンチェックをスキップ",
+  "Use `VERSION_LATEST` (= `-1`) to instruct the framework to auto-resolve to the latest version, bypassing optimistic locking (\"last writer wins\"). Use only when concurrent conflicts are acceptable and the latest value always wins.": "`VERSION_LATEST`（= `-1`）を使用すると、フレームワークが自動的に最新バージョンに解決し、楽観的ロックをバイパスします（「最後の書き込みが優先」）。並行競合が許容可能で常に最新値が正しい場合にのみ使用してください。",
+  "Update without version check — last writer wins": "Update without version check — last writer wins (バージョンチェックなしで更新 — 最後の書き込みが優先)",
+  "`VERSION_LATEST` bypasses optimistic locking. If two concurrent requests both use `VERSION_LATEST`, the second write silently overwrites the first. Reserve it for idempotent fields (e.g., status flags) where the latest value is always correct.": "`VERSION_LATEST`は楽観的ロックをバイパスします。2つの並行リクエストが両方とも`VERSION_LATEST`を使用すると、2番目の書き込みが最初のものを上書きします。最新値が常に正しいべき等フィールド（例：ステータスフラグ）にのみ使用してください。"
 }

@@ -27,6 +27,50 @@ description: {{Understand the optimistic locking strategy using version numbers 
    - {{Throws ConditionalCheckFailedException for concurrent duplicate key writes (DynamoDB-level)}}
    - {{Ensures data consistency in distributed environments}}
 
+## {{VERSION Constants}} {#version-constants}
+
+### {{VERSION_FIRST — New Entity}}
+
+{{Use `VERSION_FIRST` (= `0`) as the version when creating a new entity. The framework verifies the item does not yet exist, then stores it at version `1`.}}
+
+```typescript
+import { VERSION_FIRST } from '@mbc-cqrs-serverless/core';
+
+await this.commandService.publishAsync(
+  {
+    pk: 'ORDER#tenant001',
+    sk: 'ORD-001',
+    version: VERSION_FIRST, // {{Create new entity — framework stores at version 1}}
+    type: 'ORDER',
+    tenantCode: 'tenant001',
+    attributes: { total: 150 },
+  },
+  { invokeContext },
+);
+```
+
+### {{VERSION_LATEST — Skip Version Check}}
+
+{{Use `VERSION_LATEST` (= `-1`) to instruct the framework to auto-resolve to the latest version, bypassing optimistic locking ("last writer wins"). Use only when concurrent conflicts are acceptable and the latest value always wins.}}
+
+```typescript
+import { VERSION_LATEST } from '@mbc-cqrs-serverless/core';
+
+await this.commandService.publishPartialUpdateAsync(
+  {
+    pk: 'ORDER#tenant001',
+    sk: 'ORD-001',
+    version: VERSION_LATEST, // {{Update without version check — last writer wins}}
+    attributes: { status: 'shipped' },
+  },
+  { invokeContext },
+);
+```
+
+:::warning
+{{`VERSION_LATEST` bypasses optimistic locking. If two concurrent requests both use `VERSION_LATEST`, the second write silently overwrites the first. Reserve it for idempotent fields (e.g., status flags) where the latest value is always correct.}}
+:::
+
 ## {{Implementation Examples}} {#implementation-examples}
 
 ### {{Basic Version Handling}}
