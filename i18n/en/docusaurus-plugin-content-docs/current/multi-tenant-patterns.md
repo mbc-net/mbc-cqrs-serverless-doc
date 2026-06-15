@@ -237,7 +237,9 @@ export interface UserTenantAssociation {
 
 // user/user.service.ts
 import { Injectable, ForbiddenException } from '@nestjs/common';
-import { CommandService, DataService, IInvoke, KEY_SEPARATOR, generateId } from '@mbc-cqrs-serverless/core';
+import { CommandService, DataService, IInvoke, KEY_SEPARATOR, generateId, VERSION_FIRST } from '@mbc-cqrs-serverless/core';
+import { AuthService } from '../auth/auth.service';
+import { UserTenantAssociation } from './dto/user-tenant.dto';
 
 const COMMON_TENANT = 'common';
 
@@ -332,7 +334,7 @@ Sync data from one tenant to another (e.g., master data distribution):
 ```typescript
 // sync/tenant-sync.service.ts
 import { Injectable, Logger } from '@nestjs/common';
-import { CommandService, DataService, IInvoke, KEY_SEPARATOR, generateId } from '@mbc-cqrs-serverless/core';
+import { CommandService, DataService, IInvoke, KEY_SEPARATOR, generateId, VERSION_FIRST } from '@mbc-cqrs-serverless/core';
 
 @Injectable()
 export class TenantSyncService {
@@ -410,6 +412,20 @@ Aggregate data across tenants for reporting:
 ```typescript
 // reporting/cross-tenant-report.service.ts
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma';
+
+interface SystemMetrics {
+  totalProducts: number;
+  productsByTenant: Array<{ tenantCode: string; count: number }>;
+  recentOrdersCount: number;
+}
+
+interface TenantMetrics {
+  tenantCode: string;
+  products: number;
+  orders: number;
+  users: number;
+}
 
 @Injectable()
 export class CrossTenantReportService {
@@ -478,7 +494,7 @@ export class CrossTenantReportService {
 ```typescript
 // tenant/tenant-settings.service.ts
 import { Injectable } from '@nestjs/common';
-import { CommandService, DataService, IInvoke, KEY_SEPARATOR, generateId } from '@mbc-cqrs-serverless/core';
+import { CommandService, DataService, IInvoke, KEY_SEPARATOR, generateId, VERSION_FIRST } from '@mbc-cqrs-serverless/core';
 
 @Injectable()
 export class TenantSettingsService {
