@@ -1036,7 +1036,7 @@ async handleCsvImport(
   dto: CreateCsvImportDto,
   options: ICommandOptions,
 ): Promise<ImportEntity[] | ImportEntity> {
-  if (dto.processingMode === 'DIRECT') {
+  if (dto.processingMode === ProcessingMode.DIRECT) {
     // {{Process directly in Lambda (for small files)}}
     return this._processCsvDirectly(dto, options);
   } else {

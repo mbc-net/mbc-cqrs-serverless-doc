@@ -181,5 +181,7 @@
   "[Import/Export Patterns](/docs/import-export-patterns) - Bulk data operations": "[インポート/エクスポートパターン](/docs/import-export-patterns) - 一括データ操作",
   "[Multi-Tenant Patterns](/docs/multi-tenant-patterns) - Tenant isolation strategies": "[マルチテナントパターン](/docs/multi-tenant-patterns) - テナント分離戦略",
   "[Data Sync Handler Examples](/docs/data-sync-handler-examples) - Sync handler patterns": "[データ同期ハンドラー例](/docs/data-sync-handler-examples) - 同期ハンドラーパターン",
-  "[Version Conflict Guide](/docs/version-conflict-guide) - Handling version conflicts": "[バージョンコンフリクトガイド](/docs/version-conflict-guide) - バージョンコンフリクトの処理"
+  "[Version Conflict Guide](/docs/version-conflict-guide) - Handling version conflicts": "[バージョンコンフリクトガイド](/docs/version-conflict-guide) - バージョンコンフリクトの処理",
+  "Partition key": "Partition key (パーティションキー)",
+  "Sort key": "Sort key (ソートキー)"
 }
