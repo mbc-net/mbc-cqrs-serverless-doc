@@ -85,11 +85,22 @@ async listOrders(tenantCode: string, options: ListOptions) {
 
 ```typescript
 // {{Handle data sync events}}
+import { EventHandler, IEventHandler } from '@mbc-cqrs-serverless/core';
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma';
+
 @EventHandler(OrderDataSyncEvent)
+@Injectable()
 export class OrderDataSyncHandler implements IEventHandler<OrderDataSyncEvent> {
+  constructor(private readonly prisma: PrismaService) {}
+
   async execute(event: OrderDataSyncEvent): Promise<void> {
     // {{Sync to read model (RDS, OpenSearch, etc.)}}
-    await this.syncToReadModel(event.data);
+    await this.prisma.order.upsert({
+      where: { sk: event.data.sk },
+      create: { sk: event.data.sk, ...event.data.attributes },
+      update: event.data.attributes,
+    });
   }
 }
 ```
