@@ -32,6 +32,20 @@ TENANT#shop-b                    ORDER#ORD-000001
 ### Entity Definitions
 
 ```typescript
+export interface OrderItem {
+  productCode: string;
+  quantity: number;
+  unitPrice: number;
+}
+
+export interface Address {
+  street: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+}
+
 // Order Entity
 export interface OrderAttributes {
   customerId: string;
@@ -289,6 +303,7 @@ export class OrderController {
 import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
 import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
 import { CommandService, DataService, KEY_SEPARATOR } from '@mbc-cqrs-serverless/core';
+import { OrderItem } from './order.service';
 
 const generatePk = (tenantCode: string): string =>
   `TENANT${KEY_SEPARATOR}${tenantCode}`;

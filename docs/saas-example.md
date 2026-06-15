@@ -516,7 +516,8 @@ export class UsageService {
   private async getActiveSubscription(tenantCode: string): Promise<any> {
     const pk = generatePk(tenantCode);
     const items = await this.dataService.listItemsByPk(pk, {
-      skBeginsWith: 'SUBSCRIPTION#',
+      skExpression: 'begins_with(sk, :prefix)',
+      skAttributeValues: { ':prefix': 'SUBSCRIPTION#' },
     });
     const active = items.items.find(
       (item) =>
@@ -715,7 +716,8 @@ export class BillingEventHandler implements IDataSyncHandler {
   private async getActiveSubscription(tenantCode: string): Promise<any> {
     const pk = `TENANT${KEY_SEPARATOR}${tenantCode}`;
     const items = await this.dataService.listItemsByPk(pk, {
-      skBeginsWith: 'SUBSCRIPTION#',
+      skExpression: 'begins_with(sk, :prefix)',
+      skAttributeValues: { ':prefix': 'SUBSCRIPTION#' },
     });
     const active = items.items.find(
       (item) =>
