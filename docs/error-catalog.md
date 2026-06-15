@@ -136,7 +136,7 @@ async function updateWithRetry(data, maxRetries = 3) {
 
 ---
 
-### BadRequestException: "The input key is not a valid, item not found"
+### BadRequestException: "Invalid input key: item not found"
 
 **{{Location}}**: `packages/core/src/commands/command.service.ts`
 
@@ -162,7 +162,7 @@ if (!existing) {
 
 ---
 
-### BadRequestException: "Invalid input version"
+### BadRequestException: "Invalid input version. The input version must be equal to the latest version"
 
 **{{Location}}**: `packages/core/src/commands/command.service.ts`
 
