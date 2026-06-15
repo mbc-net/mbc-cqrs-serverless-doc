@@ -36,5 +36,5 @@
   "Database connection configuration": "データベース接続設定",
   "Deployment Guide": "デプロイガイド",
   "Database migration in deployment": "デプロイ時のデータベース移行",
-  "domain-specific properties": "ドメイン固有のプロパティ"
+  "domain-specific properties": "domain-specific properties (ドメイン固有のプロパティ)"
 }

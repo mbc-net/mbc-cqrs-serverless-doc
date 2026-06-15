@@ -112,10 +112,10 @@
   "Custom Hooks": "カスタムフック",
   "useApolloClient": "useApolloClient",
   "Access the Apollo Client for GraphQL operations.": "GraphQL操作用のApollo Clientにアクセスします。",
-  "Use client for custom GraphQL queries": "カスタムGraphQLクエリにはclientを使用",
+  "Use client for custom GraphQL queries": "Use client for custom GraphQL queries (カスタムGraphQLクエリにはclientを使用)",
   "useHttpClient": "useHttpClient",
   "Access the HTTP client for REST API calls.": "REST API呼び出し用のHTTPクライアントにアクセスします。",
-  "Use httpClient for custom API requests": "カスタムAPIリクエストにはhttpClientを使用",
+  "Use httpClient for custom API requests": "Use httpClient for custom API requests (カスタムAPIリクエストにはhttpClientを使用)",
   "useUserContext": "useUserContext",
   "Access the current user context with tenant information.": "テナント情報を含む現在のユーザーコンテキストにアクセスします。",
   "Access tenant information": "Access tenant information (テナント情報にアクセス)",
@@ -423,5 +423,5 @@
   "Project structure": "プロジェクト構成",
   "API Integration Patterns": "API統合パターン",
   "API patterns": "APIパターン",
-  "The component takes no props — it reads pk and sk from the URL via useParams(), so place it under a route like [pk]/[sk]": "The component takes no props (このコンポーネントは props を受け取らず、useParams() で URL から pk と sk を読み取るため、[pk]/[sk] のようなルート配下に配置してください)"
+  "The component takes no props — it reads pk and sk from the URL via useParams(), so place it under a route like [pk]/[sk]": "The component takes no props — it reads pk and sk from the URL via useParams(), so place it under a route like [pk]/[sk] (The component takes no props (このコンポーネントは props を受け取らず、useParams() で URL から pk と sk を読み取るため、[pk]/[sk] のようなルート配下に配置してください))"
 }
