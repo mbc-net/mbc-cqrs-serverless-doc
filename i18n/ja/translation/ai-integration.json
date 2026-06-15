@@ -63,5 +63,7 @@
   "Architecture": "アーキテクチャ",
   "System architecture overview": "システムアーキテクチャの概要",
   "Related Documentation": "関連ドキュメント",
-  "CLI": "CLI"
+  "CLI": "CLI",
+  "Short version for quick context": "クイックコンテキスト用の短縮版",
+  "Full version for comprehensive context": "包括的なコンテキスト用のフル版"
 }

@@ -29,10 +29,10 @@ description: {{Integrate AI development tools with MBC CQRS Serverless using llm
 {{AI tools can directly fetch these files to build context about the framework:}}
 
 ```bash
-# Short version for quick context
+# {{Short version for quick context}}
 curl https://mbc-cqrs-serverless.mbc-net.com/llms.txt
 
-# Full version for comprehensive context
+# {{Full version for comprehensive context}}
 curl https://mbc-cqrs-serverless.mbc-net.com/llms-full.txt
 ```
 

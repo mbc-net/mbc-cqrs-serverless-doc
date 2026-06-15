@@ -63,5 +63,7 @@
   "Architecture": "Architecture",
   "System architecture overview": "System architecture overview",
   "Related Documentation": "Related Documentation",
-  "CLI": "CLI"
+  "CLI": "CLI",
+  "Short version for quick context": "Short version for quick context",
+  "Full version for comprehensive context": "Full version for comprehensive context"
 }
