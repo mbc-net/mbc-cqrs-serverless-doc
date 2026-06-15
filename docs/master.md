@@ -11,7 +11,7 @@ description: {{Learn about the Master Service for managing master data and setti
 {{The Master Service consists of two main components:}}
 
 
-### Master Setting Service
+### {{Master Setting Service}}
 - {{Implements hierarchical settings management}}
 - {{Supports creation of settings at all levels}}
 - {{Provides update and delete operations for tenant settings}}

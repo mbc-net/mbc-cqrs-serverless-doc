@@ -4,6 +4,7 @@
   "The Master Service provides functionality for managing master data and settings in a multi-tenant environment.": "The Master Service provides functionality for managing master data and settings in a multi-tenant environment.",
   "Overview": "Overview",
   "The Master Service consists of two main components:": "The Master Service consists of two main components:",
+  "Master Setting Service": "Master Setting Service",
   "Implements hierarchical settings management": "Implements hierarchical settings management",
   "Supports creation of settings at all levels": "Supports creation of settings at all levels",
   "Provides update and delete operations for tenant settings": "Provides update and delete operations for tenant settings",

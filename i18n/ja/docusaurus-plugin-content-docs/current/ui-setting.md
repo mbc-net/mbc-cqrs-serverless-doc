@@ -71,6 +71,7 @@ export class AppModule {}
 ### 利用可能なメソッド
 
 ```typescript
+import { Injectable } from '@nestjs/common';
 import { SettingService } from '@mbc-cqrs-serverless/ui-setting';
 
 @Injectable()
@@ -181,6 +182,7 @@ const createDto: CreateSettingDto = {
 ### 利用可能なメソッド
 
 ```typescript
+import { Injectable } from '@nestjs/common';
 import { DataSettingService } from '@mbc-cqrs-serverless/ui-setting';
 
 @Injectable()

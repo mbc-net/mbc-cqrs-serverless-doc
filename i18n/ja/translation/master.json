@@ -4,6 +4,7 @@
   "The Master Service provides functionality for managing master data and settings in a multi-tenant environment.": "マスターサービスは、マルチテナント環境でのマスターデータと設定の管理機能を提供します。",
   "Overview": "概要",
   "The Master Service consists of two main components:": "マスターサービスは2つの主要コンポーネントで構成されています。",
+  "Master Setting Service": "マスター設定サービス",
   "Implements hierarchical settings management": "階層的な設定管理を実装",
   "Supports creation of settings at all levels": "すべてのレベルでの設定作成をサポート",
   "Provides update and delete operations for tenant settings": "テナント設定の更新および削除操作を提供",
