@@ -94,5 +94,7 @@
   "HistoryService": "HistoryService",
   "The `HistoryService` provides access to the history table, which stores all previous versions of commands. Use it when you need to retrieve a specific historical version of an entity for audit trails or rollback scenarios.": "`HistoryService` は履歴テーブルへのアクセスを提供し、コマンドのすべての過去バージョンを保存します。監査証跡やロールバックのシナリオで特定の履歴バージョンを取得する必要がある場合に使用します。",
   "Retrieves a specific versioned item from the history table. The sort key must include the version suffix (use `addSortKeyVersion` to build it). Returns `undefined` if the version does not exist.": "履歴テーブルから特定バージョンのアイテムを取得します。ソートキーにはバージョンサフィックスが必要です（`addSortKeyVersion` を使用して構築してください）。バージョンが存在しない場合は `undefined` を返します。",
-  "The history table uses the same key structure as the data table, but the sort key includes the version suffix: `sk@version`. Always use `addSortKeyVersion(sk, version)` to construct the key.": "履歴テーブルはデータテーブルと同じキー構造を使用しますが、ソートキーにはバージョンサフィックスが含まれます: `sk@version`。キーの構築には常に `addSortKeyVersion(sk, version)` を使用してください。"
+  "The history table uses the same key structure as the data table, but the sort key includes the version suffix: `sk@version`. Always use `addSortKeyVersion(sk, version)` to construct the key.": "履歴テーブルはデータテーブルと同じキー構造を使用しますが、ソートキーにはバージョンサフィックスが含まれます: `sk@version`。キーの構築には常に `addSortKeyVersion(sk, version)` を使用してください。",
+  "Partition key": "パーティションキー",
+  "Sort key": "ソートキー"
 }
