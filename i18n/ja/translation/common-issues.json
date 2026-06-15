@@ -161,5 +161,11 @@
   "Two concurrent requests attempted to update the same item with the same version. The framework uses DynamoDB conditional writes (optimistic locking) — when two updates race, the second fails with `ConditionalCheckFailedException`, which the framework converts to HTTP 409.": "2つの同時リクエストが同じバージョンで同じアイテムを更新しようとしました。フレームワークはDynamoDBの条件付き書き込み（楽観的ロック）を使用しており、2つの更新が競合した場合、2番目の更新は`ConditionalCheckFailedException`で失敗し、フレームワークがHTTP 409に変換します。",
   "Retry the update after fetching the latest version:": "最新バージョンを取得した後、更新を再試行する：",
   "Or use `VERSION_LATEST = -1` to skip version checking (last writer wins):": "または`VERSION_LATEST = -1`を使用してバージョンチェックをスキップする（最後の書き込みが優先）：",
-  "See also: [Version Conflict Guide](/docs/version-conflict-guide)": "参照: [バージョン競合ガイド](/docs/version-conflict-guide)"
+  "See also: [Version Conflict Guide](/docs/version-conflict-guide)": "参照: [バージョン競合ガイド](/docs/version-conflict-guide)",
+  "Install globally": "Install globally (グローバルにインストール)",
+  "Or use npx": "Or use npx (npxで使用)",
+  "Check Docker is running": "Check Docker is running (Dockerが実行中か確認)",
+  "Clean up and restart": "Clean up and restart (クリーンアップして再起動)",
+  "Check logs for specific service": "Check logs for specific service (特定のサービスのログを確認)",
+  "Fix the issue and redeploy": "Fix the issue and redeploy (問題を修正して再デプロイ)"
 }

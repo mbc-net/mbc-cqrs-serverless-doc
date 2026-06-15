@@ -51,10 +51,10 @@ npx prisma generate
 **解決策**:
 
 ```bash
-# Install globally
+# Install globally (グローバルにインストール)
 npm install -g @mbc-cqrs-serverless/cli
 
-# Or use npx
+# Or use npx (npxで使用)
 npx @mbc-cqrs-serverless/cli new my-app
 ```
 
@@ -65,14 +65,14 @@ npx @mbc-cqrs-serverless/cli new my-app
 **解決策**:
 
 ```bash
-# Check Docker is running
+# Check Docker is running (Dockerが実行中か確認)
 docker info
 
-# Clean up and restart
+# Clean up and restart (クリーンアップして再起動)
 docker-compose -f infra-local/docker-compose.yml down -v
 docker-compose -f infra-local/docker-compose.yml up -d
 
-# Check logs for specific service
+# Check logs for specific service (特定のサービスのログを確認)
 docker-compose -f infra-local/docker-compose.yml logs dynamodb-local
 ```
 
@@ -489,7 +489,7 @@ aws cloudformation describe-stack-events --stack-name YourStack
 3. ロールバックして修正：
 ```bash
 aws cloudformation delete-stack --stack-name YourStack
-# Fix the issue and redeploy
+# Fix the issue and redeploy (問題を修正して再デプロイ)
 cdk deploy
 ```
 

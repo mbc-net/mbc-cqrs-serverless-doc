@@ -51,10 +51,10 @@ npx prisma generate
 **{{Solution}}**:
 
 ```bash
-# Install globally
+# {{Install globally}}
 npm install -g @mbc-cqrs-serverless/cli
 
-# Or use npx
+# {{Or use npx}}
 npx @mbc-cqrs-serverless/cli new my-app
 ```
 
@@ -65,14 +65,14 @@ npx @mbc-cqrs-serverless/cli new my-app
 **{{Solution}}**:
 
 ```bash
-# Check Docker is running
+# {{Check Docker is running}}
 docker info
 
-# Clean up and restart
+# {{Clean up and restart}}
 docker-compose -f infra-local/docker-compose.yml down -v
 docker-compose -f infra-local/docker-compose.yml up -d
 
-# Check logs for specific service
+# {{Check logs for specific service}}
 docker-compose -f infra-local/docker-compose.yml logs dynamodb-local
 ```
 
@@ -489,7 +489,7 @@ aws cloudformation describe-stack-events --stack-name YourStack
 3. {{Roll back and fix:}}
 ```bash
 aws cloudformation delete-stack --stack-name YourStack
-# Fix the issue and redeploy
+# {{Fix the issue and redeploy}}
 cdk deploy
 ```
 

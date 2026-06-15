@@ -161,5 +161,11 @@
   "Two concurrent requests attempted to update the same item with the same version. The framework uses DynamoDB conditional writes (optimistic locking) — when two updates race, the second fails with `ConditionalCheckFailedException`, which the framework converts to HTTP 409.": "Two concurrent requests attempted to update the same item with the same version. The framework uses DynamoDB conditional writes (optimistic locking) — when two updates race, the second fails with `ConditionalCheckFailedException`, which the framework converts to HTTP 409.",
   "Retry the update after fetching the latest version:": "Retry the update after fetching the latest version:",
   "Or use `VERSION_LATEST = -1` to skip version checking (last writer wins):": "Or use `VERSION_LATEST = -1` to skip version checking (last writer wins):",
-  "See also: [Version Conflict Guide](/docs/version-conflict-guide)": "See also: [Version Conflict Guide](/docs/version-conflict-guide)"
+  "See also: [Version Conflict Guide](/docs/version-conflict-guide)": "See also: [Version Conflict Guide](/docs/version-conflict-guide)",
+  "Install globally": "Install globally",
+  "Or use npx": "Or use npx",
+  "Check Docker is running": "Check Docker is running",
+  "Clean up and restart": "Clean up and restart",
+  "Check logs for specific service": "Check logs for specific service",
+  "Fix the issue and redeploy": "Fix the issue and redeploy"
 }
