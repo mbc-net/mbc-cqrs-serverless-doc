@@ -7,7 +7,7 @@ description: MBC CQRS Serverlessフレームワークによるバックエンド
 
 このガイドでは、MBC CQRS Serverlessフレームワークを使用したバックエンドアプリケーション構築の包括的なパターンとベストプラクティスを提供します。例は本番プロジェクトから一般化されています。
 
-## モジュール構造
+## モジュール構造 {#module-structure}
 
 ### 標準モジュールレイアウト
 
@@ -132,7 +132,7 @@ export class ProductSpecification {
 }
 ```
 
-## コントローラーパターン
+## コントローラーパターン {#controller-pattern}
 
 ### 標準コントローラー
 
@@ -222,7 +222,7 @@ export class ProductController {
 }
 ```
 
-## サービス実装
+## サービス実装 {#service-implementation}
 
 ### 基本サービスパターン
 
@@ -301,11 +301,15 @@ export class ProductService {
 }
 ```
 
-:::tip 完全なServiceパターンについて
-包括的なCRUD操作、バッチ処理、楽観的ロック、およびその他の高度なパターンについては、[Service実装パターン](/docs/service-patterns)を参照してください。
+:::tip 完全なサービスパターンについて
+CRUD操作、バッチ処理、楽観的ロック、より高度なパターンについては[サービスパターン](/docs/service-patterns)を参照してください。
 :::
 
-## データ同期ハンドラー
+:::info Read-Your-Writes整合性
+`DataService.getItem()`はDynamoDBから読み取りますが、書き込み直後は古いデータを返す場合があります（結果整合性）。ユーザーが自分の書き込みを即座に確認する必要がある場合は、代わりに[RepositoryによるRead-Your-Writesパターン](/docs/command-service#read-your-writes)を使用してください。
+:::
+
+## データ同期ハンドラー {#data-sync-handler}
 
 ### RDS同期ハンドラー
 
@@ -452,7 +456,7 @@ model Product {
 }
 ```
 
-## ベストプラクティス
+## ベストプラクティス {#best-practices}
 
 ### 1. ソース追跡
 
@@ -542,6 +546,8 @@ async searchWithPagination(
 ## 関連ドキュメント
 
 - [サービスパターン](/docs/service-patterns) - 高度なサービス実装パターン
+- [コマンドサービス](/docs/command-service) - コマンドの発行とRead-Your-Writes整合性
+- [データサービス](/docs/data-service) - 読み取りモデルからのデータクエリ
 - [Data Sync Handlerの実装例](/docs/data-sync-handler-examples) - 包括的な同期ハンドラー例
 - [キーパターン](/docs/key-patterns) - PK/SK設計パターン
 - [マルチテナントパターン](/docs/multi-tenant-patterns) - マルチテナント実装

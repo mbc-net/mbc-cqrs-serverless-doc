@@ -34,7 +34,7 @@ description: {{Comprehensive overview of MBC CQRS Serverless framework architect
 
 ## {{Related Documentation}}
 
-- [{{System Overview}}](/docs/architecture/system-overview) - {{AWS infrastructure}}
-- [{{CQRS Flow}}](/docs/architecture/cqrs-flow) - {{Command and query flow}}
-- [{{Event Sourcing}}](/docs/architecture/event-sourcing) - {{Event sourcing details}}
-- [{{Getting Started}}](/docs/getting-started) - {{Start building with these concepts}}
+- [{{Getting Started}}](/docs/getting-started) - {{Introduction to the framework}}
+- [{{Installation}}](/docs/installation) - {{Set up your local environment}}
+- [{{Backend Development}}](/docs/backend-development) - {{Implement features using these patterns}}
+- [{{Key Patterns}}](/docs/key-patterns) - {{PK/SK design in DynamoDB}}

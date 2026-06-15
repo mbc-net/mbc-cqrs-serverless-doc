@@ -18,10 +18,12 @@
   "Serverless": "Serverless",
   "Leveraging AWS Lambda, DynamoDB, and other managed services.": "Leveraging AWS Lambda, DynamoDB, and other managed services.",
   "Related Documentation": "Related Documentation",
-  "AWS infrastructure": "AWS infrastructure",
-  "CQRS Flow": "CQRS Flow",
-  "Command and query flow": "Command and query flow",
-  "Event sourcing details": "Event sourcing details",
   "Getting Started": "Getting Started",
-  "Start building with these concepts": "Start building with these concepts"
+  "Introduction to the framework": "Introduction to the framework",
+  "Installation": "Installation",
+  "Set up your local environment": "Set up your local environment",
+  "Backend Development": "Backend Development",
+  "Implement features using these patterns": "Implement features using these patterns",
+  "Key Patterns": "Key Patterns",
+  "PK/SK design in DynamoDB": "PK/SK design in DynamoDB"
 }

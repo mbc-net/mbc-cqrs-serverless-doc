@@ -7,7 +7,7 @@ description: {{Comprehensive guide for backend development with MBC CQRS Serverl
 
 {{This guide provides comprehensive patterns and best practices for building backend applications with MBC CQRS Serverless framework. Examples are generalized from production projects.}}
 
-## {{Module Structure}}
+## {{Module Structure}} {#module-structure}
 
 ### {{Standard Module Layout}}
 
@@ -132,7 +132,7 @@ export class ProductSpecification {
 }
 ```
 
-## {{Controller Pattern}}
+## {{Controller Pattern}} {#controller-pattern}
 
 ### {{Standard Controller}}
 
@@ -222,7 +222,7 @@ export class ProductController {
 }
 ```
 
-## {{Service Implementation}}
+## {{Service Implementation}} {#service-implementation}
 
 ### {{Basic Service Pattern}}
 
@@ -305,7 +305,11 @@ export class ProductService {
 {{For comprehensive CRUD operations, batch processing, optimistic locking, and more advanced patterns, see [Service Patterns](/docs/service-patterns).}}
 :::
 
-## {{Data Sync Handler}}
+:::info {{Read-Your-Writes Consistency}}
+{{`DataService.getItem()` reads from DynamoDB, which may return stale data immediately after a write (eventual consistency). If users need to see their own writes instantly, use the [Read-Your-Writes pattern with Repository](/docs/command-service#read-your-writes) instead.}}
+:::
+
+## {{Data Sync Handler}} {#data-sync-handler}
 
 ### {{RDS Sync Handler}}
 
@@ -452,7 +456,7 @@ model Product {
 }
 ```
 
-## {{Best Practices}}
+## {{Best Practices}} {#best-practices}
 
 ### {{1. Source Tracking}}
 
@@ -542,6 +546,8 @@ async searchWithPagination(
 ## {{Related Documentation}}
 
 - [{{Service Patterns}}](/docs/service-patterns) - {{Advanced service implementation patterns}}
+- [{{Command Service}}](/docs/command-service) - {{Publishing commands and Read-Your-Writes consistency}}
+- [{{Data Service}}](/docs/data-service) - {{Querying data from the read model}}
 - [{{Data Sync Handler Examples}}](/docs/data-sync-handler-examples) - {{Comprehensive sync handler examples}}
 - [{{Key Patterns}}](/docs/key-patterns) - {{PK/SK design patterns}}
 - [{{Multi-Tenant Patterns}}](/docs/multi-tenant-patterns) - {{Multi-tenant implementation}}

@@ -18,10 +18,12 @@
   "Serverless": "サーバーレス",
   "Leveraging AWS Lambda, DynamoDB, and other managed services.": "AWS Lambda、DynamoDB、その他のマネージドサービスを活用します。",
   "Related Documentation": "関連ドキュメント",
-  "AWS infrastructure": "AWSインフラストラクチャ",
-  "CQRS Flow": "CQRSフロー",
-  "Command and query flow": "コマンドとクエリのフロー",
-  "Event sourcing details": "イベントソーシングの詳細",
   "Getting Started": "はじめに",
-  "Start building with these concepts": "これらの概念で構築を開始"
+  "Introduction to the framework": "フレームワークの紹介",
+  "Installation": "インストール",
+  "Set up your local environment": "ローカル環境をセットアップする",
+  "Backend Development": "バックエンド開発",
+  "Implement features using these patterns": "これらのパターンを使用して機能を実装する",
+  "Key Patterns": "キーパターン",
+  "PK/SK design in DynamoDB": "DynamoDBのPK/SK設計"
 }
