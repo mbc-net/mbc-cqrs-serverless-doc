@@ -41,6 +41,19 @@ graph TB
     end
 ```
 
+## {{Settings Hierarchy Levels}} {#settings-hierarchy}
+
+{{The Master Setting Service implements a four-level hierarchy. Settings cascade from the most specific level toward the most general — `getSetting` returns the first match found:}}
+
+| {{Level}} | {{Scope}} | {{Created with}} | {{Use case}} |
+|-----------|-----------|-----------------|-------------|
+| {{**Common**}} | {{System-wide default}} | `createCommonTenantSetting` | {{Baseline values shared by all tenants}} |
+| {{**Tenant**}} | {{Single tenant}} | `createTenantSetting` | {{Tenant-specific overrides of common defaults}} |
+| {{**Group**}} | {{Tenant group}} | `createGroupSetting` | {{Group-level overrides within a tenant}} |
+| {{**User**}} | {{Individual user}} | `createUserSetting` | {{Personal preferences within a tenant}} |
+
+{{`getSetting` resolves a setting code in this order: **User → Group → Tenant → Common**. If no setting exists at any level, a `NotFoundException` is thrown.}}
+
 ## {{Installation}} {#installation}
 
 ```bash
