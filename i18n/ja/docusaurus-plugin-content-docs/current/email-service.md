@@ -30,7 +30,7 @@ export class NotificationService {
 }
 ```
 
-`AWS_SES_REGION`と任意で`AWS_SES_FROM_ADDR`環境変数を設定してSESを構成してください。詳細は[環境変数](/docs/environment-variables)を参照。
+`SES_REGION`と任意で`SES_FROM_EMAIL`環境変数を設定してSESを構成してください。詳細は[環境変数](/docs/environment-variables)を参照。
 
 ## メソッド {#methods}
 
