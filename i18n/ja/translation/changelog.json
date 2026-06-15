@@ -30,7 +30,7 @@
   "`@NotificationTransport` decorator: pluggable transport registration — custom transports can be added without modifying framework code": "`@NotificationTransport` デコレータ: プラグイン式トランスポート登録 — フレームワークコードを変更せずにカスタムトランスポートを追加可能",
   "CDK infra template: add `appsyncEvents` and `notificationTransports` to `Config` type — provisions `EventApi` + `ChannelNamespace`, injects `NOTIFICATION_TRANSPORTS`, `APPSYNC_EVENTS_ENDPOINT`, and `APPSYNC_EVENTS_NAMESPACE` into Lambda and ECS, and grants `appsync:EventPublish` IAM permission via `grantPublish()` automatically": "CDK インフラテンプレート: `Config` 型に `appsyncEvents` と `notificationTransports` を追加 — `EventApi` + `ChannelNamespace` をプロビジョニングし、Lambda/ECS に `NOTIFICATION_TRANSPORTS`、`APPSYNC_EVENTS_ENDPOINT`、`APPSYNC_EVENTS_NAMESPACE` を注入、`grantPublish()` で `appsync:EventPublish` IAM 権限を自動付与",
   "Update skills and analyzer for v1.3.0": "v1.3.0 向けスキルとアナライザーを更新",
-  "AP026 anti-pattern detector added: `@Injectable` instead of `@NotificationTransport` on `INotificationTransport` implementors": "AP026 アンチパターン検出器を追加: `INotificationTransport` 実装クラスで `@NotificationTransport` の代わりに `@Injectable` を使用するケース",
+  "AP026 anti-pattern detector added: `@NotificationTransport` implementors must not also be annotated with `@Injectable`": "AP026 アンチパターン検出器を追加: `INotificationTransport` 実装クラスに `@NotificationTransport` と `@Injectable` を二重指定するケース",
   "`mbc-migrate` skill: v1.3.0 migration guide and version compatibility table updated": "`mbc-migrate` スキル: v1.3.0 移行ガイドおよびバージョン互換性テーブルを更新",
   "`mbc-generate` skill: custom notification transport code generation template added": "`mbc-generate` スキル: カスタム通知トランスポートのコード生成テンプレートを追加",
   "`mbc-review` skill: AP026 added to checklist": "`mbc-review` スキル: チェックリストに AP026 を追加",

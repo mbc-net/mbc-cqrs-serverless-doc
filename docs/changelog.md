@@ -52,7 +52,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
   - {{`@NotificationTransport` decorator: pluggable transport registration — custom transports can be added without modifying framework code}}
 - **cli:** {{CDK infra template: add `appsyncEvents` and `notificationTransports` to `Config` type — provisions `EventApi` + `ChannelNamespace`, injects `NOTIFICATION_TRANSPORTS`, `APPSYNC_EVENTS_ENDPOINT`, and `APPSYNC_EVENTS_NAMESPACE` into Lambda and ECS, and grants `appsync:EventPublish` IAM permission via `grantPublish()` automatically}}
 - **mcp-server:** {{Update skills and analyzer for v1.3.0}} ([PR #436](https://github.com/mbc-net/mbc-cqrs-serverless/pull/436))
-  - {{AP026 anti-pattern detector added: `@Injectable` instead of `@NotificationTransport` on `INotificationTransport` implementors}}
+  - {{AP026 anti-pattern detector added: `@NotificationTransport` implementors must not also be annotated with `@Injectable`}}
   - {{`mbc-migrate` skill: v1.3.0 migration guide and version compatibility table updated}}
   - {{`mbc-generate` skill: custom notification transport code generation template added}}
   - {{`mbc-review` skill: AP026 added to checklist}}
