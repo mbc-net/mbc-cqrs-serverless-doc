@@ -128,6 +128,10 @@ This decorator automatically includes the standard HttpExceptionResponse schema 
 
 Method/class decorator that specifies which roles can access an endpoint. Used internally by `@Auth()` but can be used directly with custom guards.
 
+:::info Version Note
+Since [v1.3.1](/docs/changelog#v131), `RolesGuard` checks both direct roles (from `custom:roles`) and group-derived roles (from `custom:groups`, when a `@GroupRoleResolver()` is configured). Existing `@Roles()` calls benefit automatically — no code changes required. See [Group-Based Roles](/docs/authentication#group-based-roles).
+:::
+
 ```ts
 import { Roles } from '@mbc-cqrs-serverless/core';
 import { Controller, Get, UseGuards } from '@nestjs/common';

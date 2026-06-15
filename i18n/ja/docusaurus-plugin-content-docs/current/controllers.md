@@ -128,6 +128,10 @@ export class ItemController {
 
 エンドポイントにアクセスできるロールを指定するメソッド/クラスデコレーター。`@Auth()`によって内部的に使用されますが、カスタムガードと直接使用することもできます。
 
+:::info バージョン情報
+[v1.3.1](/docs/changelog#v131) 以降、`RolesGuard` は直接ロール（`custom:roles`）とグループ派生ロール（`custom:groups`、`@GroupRoleResolver()` が設定されている場合）の両方をチェックします。既存の `@Roles()` 呼び出しは自動的に恩恵を受けます — コード変更は不要です。[グループベースロール](/docs/authentication#group-based-roles)を参照してください。
+:::
+
 ```ts
 import { Roles } from '@mbc-cqrs-serverless/core';
 import { Controller, Get, UseGuards } from '@nestjs/common';

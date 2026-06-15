@@ -30,5 +30,7 @@
   "Backend Development": "バックエンド開発",
   "Complete backend development guide": "包括的なバックエンド開発ガイド",
   "Interfaces": "インターフェース",
-  "IInvoke and IInvokeContext interfaces": "IInvokeとIInvokeContextインターフェース"
+  "IInvoke and IInvokeContext interfaces": "IInvokeとIInvokeContextインターフェース",
+  "Since [v1.3.1](/docs/changelog#v131), `RolesGuard` checks both direct roles (from `custom:roles`) and group-derived roles (from `custom:groups`, when a `@GroupRoleResolver()` is configured). Existing `@Roles()` calls benefit automatically — no code changes required. See [Group-Based Roles](/docs/authentication#group-based-roles).": "[v1.3.1](/docs/changelog#v131) 以降、`RolesGuard` は直接ロール（`custom:roles`）とグループ派生ロール（`custom:groups`、`@GroupRoleResolver()` が設定されている場合）の両方をチェックします。既存の `@Roles()` 呼び出しは自動的に恩恵を受けます — コード変更は不要です。[グループベースロール](/docs/authentication#group-based-roles)を参照してください。",
+  "Version Note": "バージョン情報"
 }
