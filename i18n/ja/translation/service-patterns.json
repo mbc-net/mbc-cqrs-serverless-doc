@@ -115,5 +115,8 @@
   "publishAsync returns null when command is a no-op (no changes detected)": "publishAsync returns null when command is a no-op (no changes detected) (変更がない場合（no-op）null を返す)",
   "publishPartialUpdateAsync returns null when command is a no-op (no changes detected)": "publishPartialUpdateAsync returns null when command is a no-op (no changes detected) (変更がない場合（no-op）null を返す)",
   "Filter out null results (no-op commands) before mapping to entities": "Filter out null results (no-op commands) before mapping to entities (エンティティへのマッピング前にnull結果（no-opコマンド）を除外)",
-  "New items with VERSION_FIRST always publish successfully — result is never null": "New items with VERSION_FIRST always publish successfully — result is never null (VERSION_FIRSTを使用した新しいアイテムは常に正常に公開される — 結果はnullにならない)"
+  "New items with VERSION_FIRST always publish successfully — result is never null": "New items with VERSION_FIRST always publish successfully — result is never null (VERSION_FIRSTを使用した新しいアイテムは常に正常に公開される — 結果はnullにならない)",
+  "Use ULID for sortable unique ID": "Use ULID for sortable unique ID (時系列ソート可能なユニークIDにULIDを使用)",
+  "Required for optimistic locking": "Required for optimistic locking (楽観的ロックに必要)",
+  "This enables optimistic locking": "This enables optimistic locking (楽観的ロックを有効にする)"
 }

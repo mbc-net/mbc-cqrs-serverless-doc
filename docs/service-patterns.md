@@ -80,7 +80,7 @@ async create(
 
   // {{Generate PK and SK}}
   const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
-  const sk = ulid(); // Use ULID for sortable unique ID
+  const sk = ulid(); // {{Use ULID for sortable unique ID}}
   const id = generateId(pk, sk);
 
   // {{Create command DTO}}
@@ -225,7 +225,7 @@ async update(
   const command: CommandPartialInputModel = {
     pk: existing.pk,
     sk: existing.sk,
-    version: existing.version, // Required for optimistic locking
+    version: existing.version, // {{Required for optimistic locking}}
     name: updateDto.name ?? existing.name,
     attributes: updatedAttributes,
   };
@@ -731,7 +731,7 @@ await this.commandService.publishAsync(command, {
 const command: CommandPartialInputModel = {
   pk: existing.pk,
   sk: existing.sk,
-  version: existing.version, // This enables optimistic locking
+  version: existing.version, // {{This enables optimistic locking}}
   // ...
 };
 ```
