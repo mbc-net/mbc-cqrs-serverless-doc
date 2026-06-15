@@ -26,9 +26,9 @@ TENANT#acme-corp                 SUBSCRIPTION#SUB-001
 TENANT#acme-corp                 USAGE#2024-01
 TENANT#acme-corp                 USER#usr-001
 TENANT#acme-corp                 APIKEY#key-001
-MASTER#COMMON                    PLAN#starter
-MASTER#COMMON                    PLAN#professional
-MASTER#COMMON                    PLAN#enterprise
+MASTER#common                    PLAN#starter
+MASTER#common                    PLAN#professional
+MASTER#common                    PLAN#enterprise
 ```
 
 ### {{Entity Definitions}}
@@ -202,7 +202,7 @@ export class SubscriptionService {
     context: IInvoke,
   ) {
     const plan = await this.masterDataService.get({
-      pk: `MASTER${KEY_SEPARATOR}COMMON`,
+      pk: `MASTER${KEY_SEPARATOR}common`,
       sk: `PLAN${KEY_SEPARATOR}${planCode}`,
     });
     if (!plan) {
@@ -250,7 +250,7 @@ export class SubscriptionService {
 
     // {{Validate plan exists}}
     const newPlan = await this.masterDataService.get({
-      pk: `MASTER${KEY_SEPARATOR}COMMON`,
+      pk: `MASTER${KEY_SEPARATOR}common`,
       sk: `PLAN${KEY_SEPARATOR}${newPlanCode}`,
     });
     if (!newPlan) {
@@ -399,7 +399,7 @@ export class UsageService {
     ]);
 
     const plan = await this.masterDataService.get({
-      pk: `MASTER${KEY_SEPARATOR}COMMON`,
+      pk: `MASTER${KEY_SEPARATOR}common`,
       sk: `PLAN${KEY_SEPARATOR}${subscription.attributes.planCode}`,
     });
 
@@ -673,7 +673,7 @@ export class BillingEventHandler implements IDataSyncHandler {
     // {{Check for overage}}
     const subscription = await this.getActiveSubscription(usage.tenantCode);
     const plan = await this.masterDataService.get({
-      pk: `MASTER${KEY_SEPARATOR}COMMON`,
+      pk: `MASTER${KEY_SEPARATOR}common`,
       sk: `PLAN${KEY_SEPARATOR}${subscription.attributes.planCode}`,
     });
 
