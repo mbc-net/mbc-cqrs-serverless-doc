@@ -440,6 +440,18 @@ interface SectionHeader {
   };
 }
 
+// Available question types
+type QuestionType =
+  | "short-text"
+  | "long-text"
+  | "single-choice"
+  | "multiple-choice"
+  | "dropdown"
+  | "linear-scale"
+  | "rating"
+  | "date"
+  | "time";
+
 // Question item
 interface Question {
   id: string;
@@ -625,6 +637,14 @@ interface MultipleChoiceValidationRule {
   value: number;
   customError?: string;
 }
+
+// Discriminated union for the validation property on Question
+type ValidationRules =
+  | BaseValidationRules
+  | ShortTextValidationRules
+  | LongTextValidationRules
+  | ChoiceValidationRules
+  | MultipleChoiceValidationRules;
 ```
 
 Example with email validation:

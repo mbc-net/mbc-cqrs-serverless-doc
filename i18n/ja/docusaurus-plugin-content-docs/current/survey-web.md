@@ -440,6 +440,18 @@ interface SectionHeader {
   };
 }
 
+// Available question types (利用可能な質問タイプ)
+type QuestionType =
+  | "short-text"
+  | "long-text"
+  | "single-choice"
+  | "multiple-choice"
+  | "dropdown"
+  | "linear-scale"
+  | "rating"
+  | "date"
+  | "time";
+
 // Question item (質問項目)
 interface Question {
   id: string;
@@ -625,6 +637,14 @@ interface MultipleChoiceValidationRule {
   value: number;
   customError?: string;
 }
+
+// Discriminated union for the validation property on Question (Questionのvalidationプロパティ用の判別共用体)
+type ValidationRules =
+  | BaseValidationRules
+  | ShortTextValidationRules
+  | LongTextValidationRules
+  | ChoiceValidationRules
+  | MultipleChoiceValidationRules;
 ```
 
 メールバリデーションの例：

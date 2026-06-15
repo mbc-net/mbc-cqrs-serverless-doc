@@ -217,5 +217,7 @@
   "Frontend Project Structure": "フロントエンドプロジェクト構成",
   "Project structure": "プロジェクト構成",
   "API Integration Patterns": "API統合パターン",
-  "API patterns": "APIパターン"
+  "API patterns": "APIパターン",
+  "Available question types": "Available question types (利用可能な質問タイプ)",
+  "Discriminated union for the validation property on Question": "Discriminated union for the validation property on Question (Questionのvalidationプロパティ用の判別共用体)"
 }

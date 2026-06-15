@@ -217,5 +217,7 @@
   "Frontend Project Structure": "Frontend Project Structure",
   "Project structure": "Project structure",
   "API Integration Patterns": "API Integration Patterns",
-  "API patterns": "API patterns"
+  "API patterns": "API patterns",
+  "Available question types": "Available question types",
+  "Discriminated union for the validation property on Question": "Discriminated union for the validation property on Question"
 }
