@@ -81,7 +81,7 @@
   "Handle existing code": "Handle existing code (既存コードの処理)",
   "Retrieves detailed master data including related information. Throws NotFoundException if not found.": "関連情報を含む詳細なマスターデータを取得します。見つからない場合はNotFoundExceptionをスローします。",
   "Creates a new master data entity with automatic sequence generation if not provided.": "新しいマスターデータエンティティを作成します。シーケンスが指定されていない場合は自動生成されます。",
-  "`createSetting` throws a `BadRequestException` if the master data already exists (e.g., `\"Master data already exists: {code}\"`). If you need upsert behavior (create or update), see the [Upsert Pattern](#upsert-pattern) section below.": "`createSetting`はマスターデータが既に存在する場合（例: `\"Master data already exists: {code}\"`）、`BadRequestException`をスローします。upsert動作（作成または更新）が必要な場合は、以下の[Upsertパターン](#upsert-pattern)セクションを参照してください。",
+  "`createSetting` throws a `BadRequestException` if the master data already exists (e.g., `\"Master data already exists\"`). If you need upsert behavior (create or update), see the [Upsert Pattern](#upsert-pattern) section below.": "`createSetting`はマスターデータが既に存在する場合（例: `\"Master data already exists\"`）、`BadRequestException`をスローします。upsert動作（作成または更新）が必要な場合は、以下の[Upsertパターン](#upsert-pattern)セクションを参照してください。",
   "Creates multiple master data entities in bulk.": "複数のマスターデータエンティティを一括作成します。",
   "`createBulk` internally calls `createSetting` for each item. It throws a `BadRequestException` if any item already exists. If you need upsert behavior, see the [Upsert Pattern](#upsert-pattern) section below.": "`createBulk`は内部的に各アイテムに対して`createSetting`を呼び出します。既に存在するアイテムがある場合、`BadRequestException`をスローします。upsert動作が必要な場合は、以下の[Upsertパターン](#upsert-pattern)セクションを参照してください。",
   "Updates an existing master data entity.": "既存のマスターデータエンティティを更新します。",

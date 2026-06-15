@@ -411,7 +411,7 @@ const masterData = await this.masterDataService.getDetail({
 {{Creates a new master data entity with automatic sequence generation if not provided.}}
 
 :::warning {{Create-only Operation}}
-{{`createSetting` throws a `BadRequestException` if the master data already exists (e.g., `"Master data already exists: {code}"`). If you need upsert behavior (create or update), see the [Upsert Pattern](#upsert-pattern) section below.}}
+{{`createSetting` throws a `BadRequestException` if the master data already exists (e.g., `"Master data already exists"`). If you need upsert behavior (create or update), see the [Upsert Pattern](#upsert-pattern) section below.}}
 :::
 
 ```ts
