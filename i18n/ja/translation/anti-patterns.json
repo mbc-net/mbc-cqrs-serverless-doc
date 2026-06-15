@@ -93,7 +93,7 @@
   "Blocks DynamoDB Stream processing": "DynamoDB Stream処理をブロック",
   "Higher costs and poor scalability": "高コストと低スケーラビリティ",
   "Quick Reference Card": "クイックリファレンスカード",
-  "The MCP server currently detects the following anti-patterns automatically. For full details on each code, see [MCP Server Anti-Pattern Detection](/docs/mcp-server#anti-pattern-detection).": "MCPサーバーは現在、以下のアンチパターンを自動検出します。各コードの詳細については[MCPサーバーのアンチパターン検出](/docs/mcp-server#anti-pattern-detection)を参照してください。",
+  "AP001–AP010 correspond to the sections above (guide codes). AP011–AP027 are detector codes emitted by the `mbc_check_anti_patterns` tool — the tool uses a separate numbering system, so AP003–AP010 detector codes differ from guide codes. See [Anti-Pattern Detection](/docs/mcp-server#anti-pattern-detection) for the full detector→guide mapping.": "AP001〜AP010 は上記のセクション（ガイドコード）に対応します。AP011〜AP027 は `mbc_check_anti_patterns` ツールが出力する検出器コードで、AP003〜AP010 については検出器コードとガイドコードで番号が異なります。完全なマッピングは[アンチパターン検出](/docs/mcp-server#anti-pattern-detection)を参照してください。",
   "Code": "コード",
   "Severity": "重大度",
   "Direct database writes": "直接データベース書き込み",
@@ -124,6 +124,8 @@
   "Shell command built from string concatenation": "文字列連結によるシェルコマンド構築",
   "HTTP request without timeout": "タイムアウトなしのHTTPリクエスト",
   "Logging `process.env` or full request object": "`process.env` またはリクエストオブジェクト全体のログ出力",
+  "`@Injectable` instead of `@NotificationTransport` on transport class": "トランスポートクラスへの `@NotificationTransport` の代わりに `@Injectable` を使用",
+  "`@GroupRoleResolver` class also annotated with `@Injectable`": "`@GroupRoleResolver` クラスへの `@Injectable` の二重指定",
   "Low": "低",
   "Related Documentation": "関連ドキュメント",
   "Service Patterns": "サービスパターン",
@@ -133,6 +135,5 @@
   "Common Issues": "よくある問題",
   "Troubleshooting guide": "トラブルシューティングガイド",
   "MCP Server": "MCPサーバー",
-  "Anti-pattern detection tools": "アンチパターン検出ツール",
-  "Build PK: tenantCode#entityType": "PKを構築: tenantCode#entityType"
+  "Anti-pattern detection tools": "アンチパターン検出ツール"
 }

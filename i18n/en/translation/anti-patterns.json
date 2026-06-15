@@ -93,7 +93,7 @@
   "Blocks DynamoDB Stream processing": "Blocks DynamoDB Stream processing",
   "Higher costs and poor scalability": "Higher costs and poor scalability",
   "Quick Reference Card": "Quick Reference Card",
-  "The MCP server currently detects the following anti-patterns automatically. For full details on each code, see [MCP Server Anti-Pattern Detection](/docs/mcp-server#anti-pattern-detection).": "The MCP server currently detects the following anti-patterns automatically. For full details on each code, see [MCP Server Anti-Pattern Detection](/docs/mcp-server#anti-pattern-detection).",
+  "AP001–AP010 correspond to the sections above (guide codes). AP011–AP027 are detector codes emitted by the `mbc_check_anti_patterns` tool — the tool uses a separate numbering system, so AP003–AP010 detector codes differ from guide codes. See [Anti-Pattern Detection](/docs/mcp-server#anti-pattern-detection) for the full detector→guide mapping.": "AP001–AP010 correspond to the sections above (guide codes). AP011–AP027 are detector codes emitted by the `mbc_check_anti_patterns` tool — the tool uses a separate numbering system, so AP003–AP010 detector codes differ from guide codes. See [Anti-Pattern Detection](/docs/mcp-server#anti-pattern-detection) for the full detector→guide mapping.",
   "Code": "Code",
   "Severity": "Severity",
   "Direct database writes": "Direct database writes",
@@ -124,6 +124,8 @@
   "Shell command built from string concatenation": "Shell command built from string concatenation",
   "HTTP request without timeout": "HTTP request without timeout",
   "Logging `process.env` or full request object": "Logging `process.env` or full request object",
+  "`@Injectable` instead of `@NotificationTransport` on transport class": "`@Injectable` instead of `@NotificationTransport` on transport class",
+  "`@GroupRoleResolver` class also annotated with `@Injectable`": "`@GroupRoleResolver` class also annotated with `@Injectable`",
   "Low": "Low",
   "Related Documentation": "Related Documentation",
   "Service Patterns": "Service Patterns",
@@ -133,6 +135,5 @@
   "Common Issues": "Common Issues",
   "Troubleshooting guide": "Troubleshooting guide",
   "MCP Server": "MCP Server",
-  "Anti-pattern detection tools": "Anti-pattern detection tools",
-  "Build PK: tenantCode#entityType": "Build PK: tenantCode#entityType"
+  "Anti-pattern detection tools": "Anti-pattern detection tools"
 }

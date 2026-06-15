@@ -365,7 +365,7 @@ export class MyDataSyncHandler implements IDataSyncHandler {
 
 ## {{Quick Reference Card}}
 
-{{The MCP server currently detects the following anti-patterns automatically. For full details on each code, see [MCP Server Anti-Pattern Detection](/docs/mcp-server#anti-pattern-detection).}}
+{{AP001–AP010 correspond to the sections above (guide codes). AP011–AP027 are detector codes emitted by the `mbc_check_anti_patterns` tool — the tool uses a separate numbering system, so AP003–AP010 detector codes differ from guide codes. See [Anti-Pattern Detection](/docs/mcp-server#anti-pattern-detection) for the full detector→guide mapping.}}
 
 | {{Code}} | {{Anti-Pattern}} | {{Severity}} |
 |----------|------------------|--------------|
@@ -394,6 +394,8 @@ export class MyDataSyncHandler implements IDataSyncHandler {
 | AP023 | {{Shell command built from string concatenation}} | {{Critical}} |
 | AP024 | {{HTTP request without timeout}} | {{Medium}} |
 | AP025 | {{Logging `process.env` or full request object}} | {{High}} |
+| AP026 | {{`@Injectable` instead of `@NotificationTransport` on transport class}} | {{High}} |
+| AP027 | {{`@GroupRoleResolver` class also annotated with `@Injectable`}} | {{High}} |
 
 ## {{Related Documentation}}
 
