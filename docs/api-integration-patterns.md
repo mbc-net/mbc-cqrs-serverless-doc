@@ -551,6 +551,7 @@ export function ApiError({ error }: ApiErrorProps) {
 'use client';
 
 import { createContext, useContext, ReactNode } from 'react';
+import type { Tenant } from '@/stores/useTenantStore';
 import { useTenantStore } from '@/stores/useTenantStore';
 
 interface TenantContextValue {

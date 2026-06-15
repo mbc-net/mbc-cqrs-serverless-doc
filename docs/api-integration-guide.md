@@ -337,6 +337,7 @@ export class WebhookService {
 
 ```typescript
 // {{webhook.service.ts}}
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma';
 
 @Injectable()
