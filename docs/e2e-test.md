@@ -86,8 +86,8 @@ describe("Cat", () => {
   // {{Clean up test data if needed}}
   afterAll(async () => {
     await deleteItem(getTableName("cat_table", TableType.DATA), {
-      pk: "CAT#TENANT1",
-      sk: "cat#001",
+      pk: "CAT#tenant1",
+      sk: "CAT#001",
     });
   });
 });
