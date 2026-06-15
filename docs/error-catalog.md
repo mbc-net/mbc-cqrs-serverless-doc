@@ -23,7 +23,7 @@ description: {{Comprehensive error catalog with causes, solutions, and recovery 
 
 | {{Code}} | {{Error Message}} | {{Severity}} | {{Quick Fix}} |
 |----------|-------------------|--------------|---------------|
-| MBC-TNT-001 | {{Tenant not found}} | {{High}} | {{Verify tenant exists with listTenants()}} |
+| MBC-TNT-001 | {{Tenant not found}} | {{High}} | {{Verify tenant exists with getTenant()}} |
 | MBC-TNT-002 | {{Tenant already exists}} | {{Low}} | {{Check existence before creating}} |
 
 ### {{Sequence & Task Errors}}
@@ -178,19 +178,16 @@ if (!existing) {
 
 **{{Location}}**: `packages/tenant/src/services/tenant.service.ts`
 
-**{{Cause}}**: {{The specified tenant does not exist or has been deleted.}}
+**{{Cause}}**: {{The tenant code passed to `addTenantGroup()` or a similar mutation method does not exist. `getTenant()` does not throw this error — it returns `undefined` for missing tenants.}}
 
 **{{Solution}}**:
 ```typescript
-// {{Verify tenant exists}}
-try {
-  const tenant = await tenantService.getTenant(tenantCode);
-} catch (error) {
-  if (error.message === 'Tenant not found') {
-    // {{List available tenants}}
-    const tenants = await tenantService.listTenants();
-    console.log('Available tenants:', tenants.items.map(t => t.code));
-  }
+// {{Verify tenant exists before mutating}}
+const pk = `${TENANT_SYSTEM_PREFIX}${KEY_SEPARATOR}${SettingTypeEnum.TENANT}`;
+const sk = `${TENANT_SK}${KEY_SEPARATOR}${tenantCode}`;
+const tenant = await tenantService.getTenant({ pk, sk });
+if (!tenant) {
+  console.log('Tenant does not exist:', tenantCode);
 }
 ```
 
@@ -205,11 +202,13 @@ try {
 **{{Solution}}**:
 ```typescript
 // {{Check if tenant exists before creating}}
-const existing = await tenantService.getTenant(tenantCode).catch(() => null);
-if (existing) {
+const pk = `${TENANT_SYSTEM_PREFIX}${KEY_SEPARATOR}${SettingTypeEnum.TENANT}`;
+const sk = `${TENANT_SK}${KEY_SEPARATOR}${tenantCode}`;
+const existing = await tenantService.getTenant({ pk, sk });
+if (existing && !existing.isDeleted) {
   console.log('Tenant already exists, using existing tenant');
 } else {
-  await tenantService.createTenant({ code: tenantCode, name: tenantName });
+  await tenantService.createTenant({ code: tenantCode, name: tenantName }, { invokeContext });
 }
 ```
 
@@ -219,7 +218,7 @@ if (existing) {
 
 ### BadRequestException: "Sequence not found"
 
-**{{Location}}**: `packages/sequence/src/services/sequence.service.ts`
+**{{Location}}**: `packages/sequence/src/sequences.service.ts`
 
 **{{Cause}}**: {{The requested sequence key does not exist.}}
 
@@ -500,12 +499,12 @@ try {
 **{{Cause}}**: {{Prior to version 1.0.18, the `ImportStatusHandler` only sent `SendTaskSuccessCommand` for completed jobs. When an import job failed, no callback was sent to Step Functions, causing it to wait indefinitely for the `waitForTaskToken` callback.}}
 
 **{{Solution}}** ({{Fixed in 1.0.18+}}):
-{{The handler now properly sends `SendTaskFailureCommand` when import jobs fail:}}
+{{The handler now always calls `SendTaskSuccessCommand` so the ZIP orchestrator can continue. For FAILED jobs, the failure status is embedded in the output payload (via `buildZipOrchestratorFailureOutput`) so the orchestrator can mark the ZIP job as FAILED after aggregating all files:}}
 
 ```typescript
 // {{Internal behavior (automatic, no user action needed):}}
-// - COMPLETED status → SendTaskSuccessCommand
-// - FAILED status → SendTaskFailureCommand
+// - COMPLETED status → SendTaskSuccessCommand (with result payload)
+// - FAILED status → SendTaskSuccessCommand (with failure info embedded in output)
 ```
 
 {{If you're on an older version:}}

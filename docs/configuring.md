@@ -24,8 +24,7 @@ frameworkVersion: '3'
 
 plugins:
   - serverless-offline
-  - serverless-plugin-typescript
-  - serverless-dynamodb-local
+  - serverless-dynamodb
 
 provider:
   name: aws
@@ -60,13 +59,13 @@ custom:
     httpPort: 3000
     lambdaPort: 3002
 
-  dynamodb:
+  serverless-dynamodb:
     stages:
       - dev
     start:
       port: 8000
       inMemory: true
-      migrate: true
+      migrate: false
 ```
 
 ### {{NestJS Configuration}}

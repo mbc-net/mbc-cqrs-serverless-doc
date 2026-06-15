@@ -23,7 +23,7 @@ description: MBC CQRS Serverlessの原因、解決策、復旧戦略を含む包
 
 | コード | エラーメッセージ | 重大度 | クイックフィックス |
 |----------|-------------------|--------------|---------------|
-| MBC-TNT-001 | テナントが見つからない | 高 | listTenants()でテナントの存在を確認 |
+| MBC-TNT-001 | テナントが見つからない | 高 | getTenant()でテナントの存在を確認 |
 | MBC-TNT-002 | テナントが既に存在します | 低 | 作成前に存在確認 |
 
 ### シーケンス＆タスクエラー
@@ -178,19 +178,16 @@ if (!existing) {
 
 **場所**: `packages/tenant/src/services/tenant.service.ts`
 
-**原因**: 指定されたテナントが存在しないか削除されています。
+**原因**: The tenant code passed to `addTenantGroup()` or a similar mutation method does not exist. `getTenant()` does not throw this error — it returns `undefined` for missing tenants. (addTenantGroup()などのミューテーションメソッドに渡されたテナントコードが存在しません。getTenant()はこのエラーをスローせず、存在しないテナントにはundefinedを返します。)
 
 **解決策**:
 ```typescript
-// Verify tenant exists (テナントが存在することを確認)
-try {
-  const tenant = await tenantService.getTenant(tenantCode);
-} catch (error) {
-  if (error.message === 'Tenant not found') {
-    // List available tenants (利用可能なテナントを一覧表示)
-    const tenants = await tenantService.listTenants();
-    console.log('Available tenants:', tenants.items.map(t => t.code));
-  }
+// Verify tenant exists before mutating (変更前にテナントが存在することを確認)
+const pk = `${TENANT_SYSTEM_PREFIX}${KEY_SEPARATOR}${SettingTypeEnum.TENANT}`;
+const sk = `${TENANT_SK}${KEY_SEPARATOR}${tenantCode}`;
+const tenant = await tenantService.getTenant({ pk, sk });
+if (!tenant) {
+  console.log('Tenant does not exist:', tenantCode);
 }
 ```
 
@@ -205,11 +202,13 @@ try {
 **解決策**:
 ```typescript
 // Check if tenant exists before creating (作成前にテナントが存在するか確認)
-const existing = await tenantService.getTenant(tenantCode).catch(() => null);
-if (existing) {
+const pk = `${TENANT_SYSTEM_PREFIX}${KEY_SEPARATOR}${SettingTypeEnum.TENANT}`;
+const sk = `${TENANT_SK}${KEY_SEPARATOR}${tenantCode}`;
+const existing = await tenantService.getTenant({ pk, sk });
+if (existing && !existing.isDeleted) {
   console.log('Tenant already exists, using existing tenant');
 } else {
-  await tenantService.createTenant({ code: tenantCode, name: tenantName });
+  await tenantService.createTenant({ code: tenantCode, name: tenantName }, { invokeContext });
 }
 ```
 
@@ -219,7 +218,7 @@ if (existing) {
 
 ### BadRequestException: "Sequence not found"
 
-**場所**: `packages/sequence/src/services/sequence.service.ts`
+**場所**: `packages/sequence/src/sequences.service.ts`
 
 **原因**: リクエストされたシーケンスキーが存在しません。
 
@@ -500,12 +499,12 @@ APIの詳細と使用パターンについては[ImportStatusHandler API](/docs/
 **原因**: バージョン1.0.18より前は、`ImportStatusHandler`は完了したジョブに対してのみ`SendTaskSuccessCommand`を送信していました。インポートジョブが失敗した場合、Step Functionsにコールバックが送信されず、`waitForTaskToken`コールバックを無期限に待機していました。
 
 **解決策** (1.0.18以降で修正):
-ハンドラーはインポートジョブが失敗した場合に適切に`SendTaskFailureCommand`を送信するようになりました：
+The handler now always calls `SendTaskSuccessCommand` so the ZIP orchestrator can continue. For FAILED jobs, the failure status is embedded in the output payload (via `buildZipOrchestratorFailureOutput`) so the orchestrator can mark the ZIP job as FAILED after aggregating all files: (ハンドラーは常にSendTaskSuccessCommandを呼び出し、ZIPオーケストレーターが続行できるようにします。FAILEDジョブでは、失敗ステータスが出力ペイロードに埋め込まれ（buildZipOrchestratorFailureOutput経由）、オーケストレーターは全ファイルを集計後にZIPジョブをFAILEDとしてマークします：)
 
 ```typescript
 // Internal behavior (automatic, no user action needed): (内部動作（自動、ユーザー操作不要）:)
-// - COMPLETED status → SendTaskSuccessCommand
-// - FAILED status → SendTaskFailureCommand
+// - COMPLETED status → SendTaskSuccessCommand (with result payload)
+// - FAILED status → SendTaskSuccessCommand (with failure info embedded in output)
 ```
 
 古いバージョンを使用している場合：
