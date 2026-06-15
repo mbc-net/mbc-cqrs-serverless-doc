@@ -15,7 +15,7 @@ description: MBC CQRS Serverlessフレームワークで使用される用語の
 
 ![CQRSフロー](./images/CQRS.png)
 
-> See: [CQRS パターン](https://docs.aws.amazon.com/prescriptive-guidance/latest/modernization-data-persistence/cqrs-pattern.html)
+> See: [CQRSパターン](https://docs.aws.amazon.com/prescriptive-guidance/latest/modernization-data-persistence/cqrs-pattern.html)
 
 ### イベントソーシング
 

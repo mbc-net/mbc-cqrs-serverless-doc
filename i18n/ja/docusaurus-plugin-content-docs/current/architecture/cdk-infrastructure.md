@@ -1065,6 +1065,6 @@ flowchart LR
 
 ## 関連ドキュメント
 
-- [Step Functions](./step-functions.md) - ワークフローオーケストレーションの詳細
-- [システム概要](./system-overview.md) - 高レベルアーキテクチャ
-- [インストール](../installation.md) - はじめにガイド
+- [Step Functions](/docs/architecture/step-functions) - ワークフローオーケストレーションの詳細
+- [システム概要](/docs/architecture/system-overview) - 高レベルアーキテクチャ
+- [インストール](/docs/installation) - はじめにガイド

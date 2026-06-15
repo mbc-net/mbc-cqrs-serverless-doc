@@ -488,13 +488,6 @@ export class HealthController {
 - アラート説明にランブックを含める
 - エスカレーションポリシーを使用
 
-## 次のステップ {#next-steps}
-
-- [デプロイメントガイド](/docs/deployment-guide) - モニタリングを有効にしてデプロイ
-- [CodePipelineによるCI/CD](/docs/codepipeline-cicd) - デプロイを自動化
-- [トラブルシューティング](/docs/common-issues) - 問題のデバッグ
-
-
 ## 関連ドキュメント
 
 - [デプロイガイド](/docs/deployment-guide) - 監視を有効にしてデプロイ

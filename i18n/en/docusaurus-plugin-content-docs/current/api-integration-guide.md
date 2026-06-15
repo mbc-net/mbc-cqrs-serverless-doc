@@ -637,6 +637,8 @@ import { ConfigService } from '@nestjs/config';
 import {
   CommandService,
   IInvoke,
+  VERSION_FIRST,
+  generateId,
   getUserContext,
 } from '@mbc-cqrs-serverless/core';
 import { withRetry } from './retry.utils';
@@ -742,8 +744,30 @@ export class PaymentGatewayService {
     result: PaymentResponse,
     opts: { invokeContext: IInvoke },
   ): Promise<void> {
-    // Record payment result using CommandService
-    // Implementation depends on your data model
+    const { tenantCode } = getUserContext(opts.invokeContext);
+    const pk = `PAYMENT#${tenantCode}`;
+    const sk = `ORDER#${request.orderId}`;
+
+    await this.commandService.publishAsync(
+      {
+        pk,
+        sk,
+        id: generateId(pk, sk),
+        version: VERSION_FIRST, // Creates a new payment record — use version 0 for idempotent writes
+        type: 'PAYMENT',
+        tenantCode,
+        attributes: {
+          orderId: request.orderId,
+          amount: request.amount,
+          currency: request.currency,
+          customerId: request.customerId,
+          transactionId: result.transactionId,
+          status: result.status,
+          message: result.message,
+        },
+      },
+      { invokeContext: opts.invokeContext },
+    );
   }
 }
 ```

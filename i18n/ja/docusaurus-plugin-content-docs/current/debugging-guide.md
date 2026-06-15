@@ -526,7 +526,7 @@ MBC CQRSアプリケーション向けにカスタマイズされたCloudWatch L
 ```
 # Find version conflicts (バージョン競合を検索)
 fields @timestamp, @message
-| filter @message like /version not match|ConditionalCheckFailed/
+| filter @message like /version mismatch|version not match|ConditionalCheckFailed/
 | sort @timestamp desc
 | limit 50
 
@@ -603,7 +603,7 @@ async function updateWithRetry(pk: string, sk: string, updates: any, maxRetries 
         ...updates,
       }, options);
     } catch (error) {
-      if (error.message.includes('version not match') && i < maxRetries - 1) {
+      if (error.message.includes('version mismatch') && i < maxRetries - 1) {
         await new Promise(r => setTimeout(r, 100 * Math.pow(2, i)));
         continue;
       }
@@ -840,12 +840,6 @@ async function getCommandHistory(pk: string, baseSk: string) {
    // Wrap each AWS SDK v3 client with X-Ray for instrumentation (各AWS SDK v3クライアントをX-Rayでラップしてインストルメント)
    const dynamoClient = AWSXRay.captureAWSv3Client(new DynamoDBClient({}));
    ```
-
-## 次のステップ {#next-steps}
-
-- [よくある問題](/docs/common-issues) - 既知の問題と解決策
-- [モニタリングとロギング](/docs/monitoring-logging) - 包括的なモニタリングをセットアップ
-
 
 ## 関連ドキュメント
 

@@ -1331,7 +1331,7 @@ async publishAlarm(
 
 ## 関連ドキュメント
 
-- [タスクモジュール](../tasks.md) - Step Functionsを使用したタスク管理
-- [インポート/エクスポートパターン](../import-export-patterns.md) - Distributed Mapを使用したCSVインポート
-- [イベントソーシング](./event-sourcing.md) - イベント駆動アーキテクチャ
-- [CQRSフロー](./cqrs-flow.md) - コマンドとクエリの分離
+- [タスクモジュール](/docs/tasks) - Step Functionsを使用したタスク管理
+- [インポート/エクスポートパターン](/docs/import-export-patterns) - Distributed Mapを使用したCSVインポート
+- [イベントソーシング](/docs/architecture/event-sourcing) - イベント駆動アーキテクチャ
+- [CQRSフロー](/docs/architecture/cqrs-flow) - コマンドとクエリの分離

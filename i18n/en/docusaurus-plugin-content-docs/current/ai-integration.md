@@ -107,7 +107,7 @@ When asking AI to generate modules, be specific:
 When encountering errors, AI can use the error catalog to find solutions:
 
 ```
-"I'm getting error 'version not match'. What should I do?"
+"I'm getting error 'version mismatch'. What should I do?"
 ```
 
 ## Supported Tools {#supported-tools}

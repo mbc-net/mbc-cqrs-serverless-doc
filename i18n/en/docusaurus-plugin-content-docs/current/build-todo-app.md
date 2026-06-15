@@ -1178,13 +1178,6 @@ The complete source code for each step is available at:
 - [complete/basic](https://github.com/mbc-net/mbc-cqrs-serverless-samples/tree/main/complete/basic) - Full basic implementation
 - [complete/with-task](https://github.com/mbc-net/mbc-cqrs-serverless-samples/tree/main/complete/with-task) - With async task processing
 
-## Next Steps {#next-steps}
-
-- [Deployment Guide](/docs/deployment-guide) - Deploy to AWS
-- [Testing](/docs/testing) - Write unit and e2e tests
-- [Monitoring](/docs/monitoring-logging) - Add observability
-
-
 ## Related Documentation
 
 - [Quickstart Tutorial](/docs/quickstart-tutorial) - Shorter introduction

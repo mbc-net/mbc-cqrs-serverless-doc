@@ -363,13 +363,6 @@ CodeBuildのログはCloudWatch Logsで確認できます：
 aws logs tail /aws/codebuild/your-build-project --follow
 ```
 
-## 次のステップ {#next-steps}
-
-- [モニタリングとロギング](/docs/monitoring-logging) - 可観測性をセットアップする
-- [デプロイメントガイド](/docs/deployment-guide) - 手動デプロイオプション
-- [トラブルシューティング](/docs/common-issues) - よくあるデプロイの問題
-
-
 ## 関連ドキュメント
 
 - [デプロイガイド](/docs/deployment-guide) - 手動デプロイオプション

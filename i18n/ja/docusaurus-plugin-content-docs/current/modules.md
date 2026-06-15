@@ -343,4 +343,4 @@ export class AppModule {}
 
 - [NestJS Modules](https://docs.nestjs.com/modules): NestJS公式モジュールドキュメント
 - [CommandService](/docs/command-service): CommandModuleの詳細設定
-- [Event Handling Patterns](/docs/event-handling-patterns): データ同期ハンドラーの作成
+- [イベント処理パターン](/docs/event-handling-patterns): データ同期ハンドラーの作成

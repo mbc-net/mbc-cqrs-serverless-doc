@@ -1178,13 +1178,6 @@ npm run test:e2e
 - [complete/basic](https://github.com/mbc-net/mbc-cqrs-serverless-samples/tree/main/complete/basic) - 完全な基本実装
 - [complete/with-task](https://github.com/mbc-net/mbc-cqrs-serverless-samples/tree/main/complete/with-task) - 非同期タスク処理付き
 
-## 次のステップ {#next-steps}
-
-- [デプロイメントガイド](/docs/deployment-guide) - AWSにデプロイ
-- [テスト](/docs/testing) - ユニットテストとE2Eテストを記述
-- [モニタリング](/docs/monitoring-logging) - 可観測性を追加
-
-
 ## 関連ドキュメント
 
 - [クイックスタートチュートリアル](/docs/quickstart-tutorial) - 短い入門ガイド

@@ -107,7 +107,7 @@ AIにモジュールを生成させる際は、具体的に記述してくださ
 エラーに遭遇した場合、AIはエラーカタログを使用して解決策を見つけることができます：
 
 ```
-"I'm getting error 'version not match'. What should I do?"
+"I'm getting error 'version mismatch'. What should I do?"
 ```
 
 ## 対応ツール {#supported-tools}

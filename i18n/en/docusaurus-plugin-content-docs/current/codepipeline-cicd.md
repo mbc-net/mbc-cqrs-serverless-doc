@@ -363,13 +363,6 @@ CodeBuild logs are available in CloudWatch Logs:
 aws logs tail /aws/codebuild/your-build-project --follow
 ```
 
-## Next Steps {#next-steps}
-
-- [Monitoring and Logging](/docs/monitoring-logging) - Set up observability
-- [Deployment Guide](/docs/deployment-guide) - Manual deployment options
-- [Troubleshooting](/docs/common-issues) - Common deployment issues
-
-
 ## Related Documentation
 
 - [Deployment Guide](/docs/deployment-guide) - Manual deployment options
