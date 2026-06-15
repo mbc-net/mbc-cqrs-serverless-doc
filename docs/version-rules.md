@@ -35,12 +35,12 @@ describe('Version Handling', () => {
   it('should handle sequential versions correctly', async () => {
     // {{Initial create with version 0}}
     const createPayload = {
-      pk: 'test#version',
-      sk: 'item#1',
-      id: 'test#version#item#1',
+      pk: 'TEST#tenant001',
+      sk: 'TEST#item-1',
+      id: 'TEST#tenant001#TEST#item-1',
       name: 'Version Test',
       version: 0,
-      type: 'test',
+      type: 'TEST',
     }
 
     const createRes = await request(config.apiBaseUrl)
@@ -73,12 +73,12 @@ describe('Version Handling', () => {
 describe('Version Conflicts', () => {
   it('should handle concurrent updates correctly', async () => {
     const createPayload = {
-      pk: 'test#version',
-      sk: 'conflict#1',
-      id: 'test#version#conflict#1',
+      pk: 'TEST#tenant001',
+      sk: 'TEST#conflict-1',
+      id: 'TEST#tenant001#TEST#conflict-1',
       name: 'Conflict Test',
       version: 0,
-      type: 'test',
+      type: 'TEST',
     }
 
     // {{First create the item}}
@@ -116,18 +116,18 @@ describe('Version Conflicts', () => {
 describe('Independent Versioning', () => {
   it('should maintain independent version sequences', async () => {
     const item1 = {
-      pk: 'TEST#SEQ1',
-      sk: 'item#1',
-      id: 'TEST#SEQ1#item#1',
+      pk: 'TEST#seq1',
+      sk: 'TEST#item-1',
+      id: 'TEST#seq1#TEST#item-1',
       name: 'Sequence 1',
       version: 0,
       type: 'TEST',
     }
 
     const item2 = {
-      pk: 'TEST#SEQ2',
-      sk: 'item#1',
-      id: 'TEST#SEQ2#item#1',
+      pk: 'TEST#seq2',
+      sk: 'TEST#item-1',
+      id: 'TEST#seq2#TEST#item-1',
       name: 'Sequence 2',
       version: 0,
       type: 'TEST',
