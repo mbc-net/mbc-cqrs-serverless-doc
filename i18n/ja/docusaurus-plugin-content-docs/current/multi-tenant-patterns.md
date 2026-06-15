@@ -239,6 +239,8 @@ export interface UserTenantAssociation {
 import { Injectable, ForbiddenException } from '@nestjs/common';
 import { CommandService, DataService, IInvoke, KEY_SEPARATOR, generateId } from '@mbc-cqrs-serverless/core';
 
+const COMMON_TENANT = 'common';
+
 @Injectable()
 export class UserService {
   constructor(
