@@ -119,5 +119,9 @@
   "Event Handling Patterns": "Event Handling Patterns",
   "Creating data sync handlers": "Creating data sync handlers",
   "Notification Module": "Notification Module",
-  "Real-time notifications and email via AppSync and SES": "Real-time notifications and email via AppSync and SES"
+  "Real-time notifications and email via AppSync and SES": "Real-time notifications and email via AppSync and SES",
+  "Directory": "Directory",
+  "File and folder management with DirectoryStorageModule": "File and folder management with DirectoryStorageModule",
+  "Survey Template": "Survey Template",
+  "Survey template management with SurveyTemplateModule": "Survey template management with SurveyTemplateModule"
 }

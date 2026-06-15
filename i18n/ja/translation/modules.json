@@ -119,5 +119,9 @@
   "Event Handling Patterns": "イベント処理パターン",
   "Creating data sync handlers": "データ同期ハンドラーの作成",
   "Notification Module": "通知モジュール",
-  "Real-time notifications and email via AppSync and SES": "AppSyncとSESによるリアルタイム通知とメール"
+  "Real-time notifications and email via AppSync and SES": "AppSyncとSESによるリアルタイム通知とメール",
+  "Directory": "ディレクトリ",
+  "File and folder management with DirectoryStorageModule": "DirectoryStorageModuleによるファイル・フォルダ管理",
+  "Survey Template": "調査テンプレート",
+  "Survey template management with SurveyTemplateModule": "SurveyTemplateModuleによる調査テンプレート管理"
 }

@@ -387,3 +387,5 @@ export class AppModule {}
 - [CommandService](/docs/command-service): CommandModuleの詳細設定
 - [イベント処理パターン](/docs/event-handling-patterns): データ同期ハンドラーの作成
 - [通知モジュール](/docs/notification-module): AppSyncとSESによるリアルタイム通知とメール
+- [ディレクトリ](/docs/directory): DirectoryStorageModuleによるファイル・フォルダ管理
+- [調査テンプレート](/docs/survey-template): SurveyTemplateModuleによる調査テンプレート管理

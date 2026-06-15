@@ -387,3 +387,5 @@ export class AppModule {}
 - [{{CommandService}}](/docs/command-service): {{Detailed CommandModule configuration}}
 - [{{Event Handling Patterns}}](/docs/event-handling-patterns): {{Creating data sync handlers}}
 - [{{Notification Module}}](/docs/notification-module): {{Real-time notifications and email via AppSync and SES}}
+- [{{Directory}}](/docs/directory): {{File and folder management with DirectoryStorageModule}}
+- [{{Survey Template}}](/docs/survey-template): {{Survey template management with SurveyTemplateModule}}
