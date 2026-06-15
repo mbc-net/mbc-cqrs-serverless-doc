@@ -6,10 +6,10 @@ description: {{Install and set up MBC CQRS Serverless framework with system requ
 
 {{System Requirements}}:
 
-- {{[Node.js](https://nodejs.org/en/download/package-manager)}} (20.x or later)
-- {{[JQ cli](https://jqlang.github.io/jq/download/)}}
-- {{[AWS cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)}}
-- {{[Docker](https://docs.docker.com/engine/install/)}}
+- [{{Node.js}}](https://nodejs.org/en/download/package-manager) (20.x or later)
+- [{{JQ cli}}](https://jqlang.github.io/jq/download/)
+- [{{AWS cli}}](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+- [{{Docker}}](https://docs.docker.com/engine/install/)
 - {{Windows, macOS and Linux are supported.}}
 
 ## {{Automatic Installation}} {#automatic-installation}
