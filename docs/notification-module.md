@@ -293,6 +293,97 @@ export const config: Config = {
 1. **{{IAM SigV4 (recommended for Lambda/ECS)}}**: {{Used automatically for publishing. Lambda and ECS task roles are granted `appsync:EventPublish` by the CDK stack via `grantPublish()`.}}
 2. **{{API Key}}**: {{Used by browser clients for subscribing. Set in the client (e.g., Amplify `apiKey` config). Not required on the server side.}}
 
+### {{Client-Side Subscription (Browser)}} {#client-side-subscription}
+
+{{Browser clients subscribe to AppSync Events channels using the AWS Amplify v6 `events` API. The channel path determines which notifications you receive — use the `/*` wildcard to subscribe at any granularity.}}
+
+#### {{Setup with AWS Amplify v6}}
+
+```bash
+npm install aws-amplify
+```
+
+```typescript
+import { Amplify } from 'aws-amplify';
+import { events } from 'aws-amplify/data';
+
+// {{Configure Amplify once at app startup (e.g., in _app.tsx or main.ts)}}
+Amplify.configure({
+  API: {
+    Events: {
+      endpoint: 'https://YOUR_APPSYNC_EVENTS_ENDPOINT/event',
+      region: 'ap-northeast-1',
+      defaultAuthMode: 'apiKey',
+      apiKey: 'YOUR_API_KEY',  // {{Output by CDK as AppSyncEventsApiKey}}
+    },
+  },
+});
+```
+
+#### {{Subscribe to Notifications}}
+
+```typescript
+interface INotification {
+  id: string;
+  table: string;       // {{e.g., "dev-myapp-order-data"}}
+  pk: string;          // {{Partition key of the changed item}}
+  sk: string;          // {{Sort key of the changed item}}
+  tenantCode: string;
+  action: string;      // {{INSERT | MODIFY | REMOVE}}
+  content?: object;    // {{Optional change payload}}
+}
+
+// {{Subscribe to all notifications for a tenant}}
+const channel = await events.connect('/default/tenant001/*');
+
+const subscription = channel.subscribe({
+  next: ({ data }: { data: INotification }) => {
+    console.log(`${data.action} on ${data.table}: pk=${data.pk}`);
+    // {{Refresh UI or update local state}}
+  },
+  error: (err) => {
+    console.error('Subscription error:', err);
+  },
+});
+
+// {{Unsubscribe when the component unmounts}}
+subscription.unsubscribe();
+```
+
+#### {{React Hook Example}}
+
+```typescript
+import { useEffect, useRef } from 'react';
+import { events } from 'aws-amplify/data';
+
+function useOrderNotifications(tenantCode: string, orderId: string) {
+  const subscriptionRef = useRef<{ unsubscribe(): void } | null>(null);
+
+  useEffect(() => {
+    // {{Subscribe to a specific order}}
+    const channel = `/default/${tenantCode}/MODIFY/${orderId.replace(/#/g, '_')}`;
+
+    events.connect(channel).then((conn) => {
+      subscriptionRef.current = conn.subscribe({
+        next: ({ data }) => {
+          console.log('Order updated:', data);
+          // {{Trigger a refetch or update local state}}
+        },
+        error: (err) => console.error(err),
+      });
+    });
+
+    return () => {
+      subscriptionRef.current?.unsubscribe();
+    };
+  }, [tenantCode, orderId]);
+}
+```
+
+:::tip {{Channel Path Format}}
+{{The sanitized item ID in the channel path replaces `#` with `_`. For example, `ORDER#ORD001` becomes `ORDER_ORD001`. Use `sk.replace(/#/g, '_')` on the client side to compute the exact channel path.}}
+:::
+
 ## {{Custom Notification Transports (opt-in)}} {#custom-transports}
 
 :::info {{Version Note}}
