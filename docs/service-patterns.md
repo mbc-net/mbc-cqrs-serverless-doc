@@ -6,7 +6,7 @@ description: {{Learn how to implement service layer with CRUD operations using C
 
 {{This guide explains how to implement service classes that handle CRUD operations in MBC CQRS Serverless. Services are the core of your business logic, coordinating between controllers, commands, and data access.}}
 
-## {{When to Use This Guide}}
+## {{When to Use This Guide}} {#when-to-use}
 
 {{Use this guide when you need to:}}
 
@@ -16,7 +16,7 @@ description: {{Learn how to implement service layer with CRUD operations using C
 - {{Use optimistic locking for concurrent updates}}
 - {{Implement batch operations for bulk data processing}}
 
-## {{Problems This Pattern Solves}}
+## {{Problems This Pattern Solves}} {#problems-solved}
 
 | {{Problem}} | {{Solution}} |
 |---------|----------|
@@ -25,7 +25,7 @@ description: {{Learn how to implement service layer with CRUD operations using C
 | {{Concurrent updates overwrite each other}} | {{Use version field for optimistic locking}} |
 | {{Slow responses due to synchronous processing}} | {{Use publishAsync for non-blocking command publishing}} |
 
-## {{Basic Service Structure}}
+## {{Basic Service Structure}} {#basic-structure}
 
 {{A typical service uses both `CommandService` for write operations and `DataService` for read operations:}}
 
@@ -62,7 +62,7 @@ export class ProductService {
 }
 ```
 
-## {{Create Operation}}
+## {{Create Operation}} {#create-operation}
 
 ### {{Use Case: Create a New Product}}
 
@@ -112,7 +112,7 @@ async create(
 }
 ```
 
-## {{Read Operations}}
+## {{Read Operations}} {#read-operations}
 
 ### {{Find One by Key}}
 
@@ -186,7 +186,7 @@ async findAll(
 }
 ```
 
-## {{Update Operation}}
+## {{Update Operation}} {#update-operation}
 
 ### {{Use Case: Edit Product Details}}
 
@@ -249,7 +249,7 @@ async update(
 {{Use `existing.version` (as shown above) for strict optimistic locking. Use `VERSION_LATEST` (-1) when you want to always update the latest version regardless of what version you have cached.}}
 :::
 
-## {{Delete Operation (Soft Delete)}}
+## {{Delete Operation (Soft Delete)}} {#delete-operation}
 
 ### {{Use Case: Remove Product from Catalog}}
 
@@ -294,7 +294,7 @@ async remove(
 }
 ```
 
-## {{Complete Service Example}}
+## {{Complete Service Example}} {#complete-example}
 
 {{Here is a complete service implementation:}}
 
@@ -542,7 +542,7 @@ async createBatch(
 }
 ```
 
-## {{Chunked Batch Operations}}
+## {{Chunked Batch Operations}} {#chunked-batch-operations}
 
 ### {{Use Case: Large Data Migration}}
 
@@ -596,7 +596,7 @@ async createLargeBatch(
 }
 ```
 
-## {{Copy Operation}}
+## {{Copy Operation}} {#copy-operation}
 
 ### {{Use Case: Clone Product to Different Tenant}}
 
@@ -655,7 +655,7 @@ async copy(
 }
 ```
 
-## {{Using History Service}}
+## {{Using History Service}} {#history-service}
 
 ### {{Use Case: View Previous Versions of a Document}}
 
@@ -711,7 +711,7 @@ export class ProductService {
 }
 ```
 
-## {{Best Practices}}
+## {{Best Practices}} {#best-practices}
 
 ### {{1. Always Use Invoke Context}}
 
