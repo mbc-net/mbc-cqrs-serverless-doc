@@ -325,6 +325,21 @@ export class SubscriptionService {
       );
     }
   }
+
+  private async getCurrentUsage(tenantCode: string): Promise<UsageAttributes> {
+    const now = new Date();
+    const period = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+    const record = await this.dataService.getItem({
+      pk: generatePk(tenantCode),
+      sk: `USAGE#${period}`,
+    });
+    return (record?.attributes ?? {
+      apiCalls: 0,
+      storageUsedGb: 0,
+      activeUsers: 0,
+      projectCount: 0,
+    }) as UsageAttributes;
+  }
 }
 ```
 
@@ -334,7 +349,7 @@ export class SubscriptionService {
 
 ```typescript
 // usage.service.ts
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import {
   CommandService,
   DataService,
@@ -487,6 +502,34 @@ export class UsageService {
     const now = new Date();
     return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
   }
+
+  private async getCurrentUsage(tenantCode: string): Promise<any> {
+    const pk = generatePk(tenantCode);
+    const sk = `USAGE#${this.getCurrentPeriod()}`;
+    return (
+      (await this.dataService.getItem({ pk, sk })) ?? {
+        attributes: { apiCalls: 0, storageUsedGb: 0, activeUsers: 0, projectCount: 0 },
+      }
+    );
+  }
+
+  private async getActiveSubscription(tenantCode: string): Promise<any> {
+    const pk = generatePk(tenantCode);
+    const items = await this.dataService.listItemsByPk(pk, {
+      skBeginsWith: 'SUBSCRIPTION#',
+    });
+    const active = items.items.find(
+      (item) =>
+        item.attributes.status === 'active' ||
+        item.attributes.status === 'trial',
+    );
+    if (!active) {
+      throw new NotFoundException(
+        `No active subscription found for tenant ${tenantCode}`,
+      );
+    }
+    return active;
+  }
 }
 ```
 
@@ -544,9 +587,10 @@ export class ProjectController {
 
 ```typescript
 // billing-event.handler.ts
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import {
   CommandModel,
+  DataService,
   DataSyncHandler,
   IDataSyncHandler,
   KEY_SEPARATOR,
@@ -562,6 +606,7 @@ export class BillingEventHandler implements IDataSyncHandler {
 
   constructor(
     private readonly billingService: BillingService,
+    private readonly dataService: DataService,
     private readonly masterDataService: MasterDataService,
   ) {}
 
@@ -665,6 +710,24 @@ export class BillingEventHandler implements IDataSyncHandler {
     }
 
     return overages;
+  }
+
+  private async getActiveSubscription(tenantCode: string): Promise<any> {
+    const pk = `TENANT${KEY_SEPARATOR}${tenantCode}`;
+    const items = await this.dataService.listItemsByPk(pk, {
+      skBeginsWith: 'SUBSCRIPTION#',
+    });
+    const active = items.items.find(
+      (item) =>
+        item.attributes.status === 'active' ||
+        item.attributes.status === 'trial',
+    );
+    if (!active) {
+      throw new NotFoundException(
+        `No active subscription found for tenant ${tenantCode}`,
+      );
+    }
+    return active;
   }
 }
 ```
