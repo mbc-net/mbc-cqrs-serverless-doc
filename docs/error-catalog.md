@@ -24,7 +24,7 @@ description: {{Comprehensive error catalog with causes, solutions, and recovery 
 | {{Code}} | {{Error Message}} | {{Severity}} | {{Quick Fix}} |
 |----------|-------------------|--------------|---------------|
 | MBC-TNT-001 | {{Tenant not found}} | {{High}} | {{Verify tenant exists with listTenants()}} |
-| MBC-TNT-002 | {{Tenant already exist}} | {{Low}} | {{Check existence before creating}} |
+| MBC-TNT-002 | {{Tenant already exists}} | {{Low}} | {{Check existence before creating}} |
 
 ### {{Sequence & Task Errors}}
 
@@ -196,7 +196,7 @@ try {
 
 ---
 
-### BadRequestException: "Tenant already exist"
+### BadRequestException: "Tenant already exists"
 
 **{{Location}}**: `packages/tenant/src/services/tenant.service.ts`
 

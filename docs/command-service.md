@@ -86,6 +86,7 @@ export class CatModule {}
 {{For example, you can publish a new cat command as bellow:}}
 
 ```ts
+import { basename } from 'path';
 import {
   generateId,
   getCommandSource,
@@ -129,6 +130,7 @@ const item = await this.commandService.publishAsync(catCommand, {
 {{For example, you want to update cat's name:}}
 
 ```ts
+import { basename } from 'path';
 import { generateId, getCommandSource } from "@mbc-cqrs-serverless/core";
 
 // ...
@@ -228,6 +230,7 @@ const item = await this.commandService.publishSync(catCommand, {
 {{For example, you want to update cat's name:}}
 
 ```ts
+import { basename } from 'path';
 import { generateId, getCommandSource } from "@mbc-cqrs-serverless/core";
 
 // ...
@@ -262,6 +265,7 @@ const item = await this.commandService.publishPartialUpdateSync(catCommand, {
 {{For example, you can publish a new cat command as bellow:}}
 
 ```ts
+import { basename } from 'path';
 import {
   generateId,
   getCommandSource,
@@ -309,6 +313,7 @@ const item = await this.commandService.publish(catCommand, {
 {{For example, you want to update cat's name:}}
 
 ```ts
+import { basename } from 'path';
 import { generateId, getCommandSource } from "@mbc-cqrs-serverless/core";
 
 // ...

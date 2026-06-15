@@ -19,7 +19,7 @@
   "Tenant Errors": "テナントエラー",
   "Tenant not found": "テナントが見つからない",
   "Verify tenant exists with listTenants()": "listTenants()でテナントの存在を確認",
-  "Tenant already exist": "テナントが既に存在",
+  "Tenant already exists": "テナントが既に存在します",
   "Low": "低",
   "Check existence before creating": "作成前に存在確認",
   "Sequence & Task Errors": "シーケンス＆タスクエラー",

@@ -276,6 +276,8 @@ export class SeqModule {}
 #### {{Example}}
 
 ```ts
+import { RotateByEnum } from "@mbc-cqrs-serverless/sequence";
+
 const result = await this.sequencesService.generateSequenceItemWithProvideSetting(
   {
     tenantCode: 'tenant001',
@@ -294,6 +296,8 @@ const result = await this.sequencesService.generateSequenceItemWithProvideSettin
 {{Example with prefix and postfix:}}
 
 ```ts
+import { RotateByEnum } from "@mbc-cqrs-serverless/sequence";
+
 const result = await this.sequencesService.generateSequenceItemWithProvideSetting(
   {
     tenantCode: 'tenant001',
