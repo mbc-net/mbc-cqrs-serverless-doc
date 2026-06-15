@@ -18,7 +18,7 @@
   "Specifies files and directories that Git should ignore": "Specifies files and directories that Git should ignore",
   "Configure Prettier's code formatting rules": "Configure Prettier's code formatting rules",
   "Configuration for Jest testing": "Configuration for Jest testing",
-  "Nest.js plugins configuration": "Nest.js plugins configuration",
+  "NestJS plugins configuration": "NestJS plugins configuration",
   "Lockfile that holds information on the dependencies installed": "Lockfile that holds information on the dependencies installed",
   "Project dependencies and scripts": "Project dependencies and scripts",
   "Information about a project, including its description, installation instructions, and usage guidelines": "Information about a project, including its description, installation instructions, and usage guidelines",

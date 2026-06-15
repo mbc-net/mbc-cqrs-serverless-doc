@@ -18,7 +18,7 @@
   "Specifies files and directories that Git should ignore": ".gitignore ファイル",
   "Configure Prettier's code formatting rules": "Prettier のコード整形ルール設定ファイル",
   "Configuration for Jest testing": "Jest 用テスト設定ファイル",
-  "Nest.js plugins configuration": "Nest.js プラグイン設定ファイル",
+  "NestJS plugins configuration": "NestJS プラグイン設定ファイル",
   "Lockfile that holds information on the dependencies installed": "package.json のロックファイル",
   "Project dependencies and scripts": "プロジェクトの依存モジュール及び、スクリプトファイル",
   "Information about a project, including its description, installation instructions, and usage guidelines": "プロジェクトの説明、インストール方法、ガイドライン等を記載したファイル",

@@ -6,7 +6,7 @@ description: Learn how to create NestJS controllers with MBC CQRS Serverless dec
 
 Controllers are responsible for handling incoming **requests** and returning **responses** to the client.
 
-Defining a controller in the MBC Serverless Framework is the same as in Nest.js, so please refer to this section using the [provided link](https://docs.nestjs.com/controllers).
+Defining a controller in the MBC Serverless Framework is the same as in NestJS, so please refer to this section using the [provided link](https://docs.nestjs.com/controllers).
 
 :::note
 

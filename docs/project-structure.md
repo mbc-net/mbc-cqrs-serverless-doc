@@ -32,7 +32,7 @@ description: {{Overview of the MBC CQRS Serverless project file and folder struc
 | .gitignore          | {{Specifies files and directories that Git should ignore}}      |
 | .prettierrc         | {{Configure Prettier's code formatting rules}}     |
 | jest.config.json    | {{Configuration for Jest testing}}    |
-| nest-cli.json       | {{Nest.js plugins configuration}}       |
+| nest-cli.json       | {{NestJS plugins configuration}}       |
 | package-lock.json   | {{Lockfile that holds information on the dependencies installed}}   |
 | package.json        | {{Project dependencies and scripts}}        |
 | README.md           | {{Information about a project, including its description, installation instructions, and usage guidelines}}         |
