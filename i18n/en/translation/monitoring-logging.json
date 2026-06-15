@@ -143,5 +143,9 @@
   "CI/CD with CodePipeline": "CI/CD with CodePipeline",
   "Pipeline monitoring": "Pipeline monitoring",
   "Troubleshooting": "Troubleshooting",
-  "Common production issues": "Common production issues"
+  "Common production issues": "Common production issues",
+  "Error analysis": "Error analysis",
+  "Slow requests": "Slow requests",
+  "Request volume by endpoint": "Request volume by endpoint",
+  "Cold starts": "Cold starts"
 }

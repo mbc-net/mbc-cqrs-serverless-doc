@@ -363,25 +363,25 @@ new logs.SubscriptionFilter(this, 'LambdaLogSubscription', {
 {{Useful CloudWatch Logs Insights queries:}}
 
 ```
-# Error analysis
+# {{Error analysis}}
 fields @timestamp, @message
 | filter @message like /ERROR/
 | stats count(*) by bin(1h)
 
-# Slow requests
+# {{Slow requests}}
 fields @timestamp, @duration, @requestId
 | filter @duration > 3000
 | sort @duration desc
 | limit 20
 
-# Request volume by endpoint
+# {{Request volume by endpoint}}
 fields @timestamp
 | filter @message like /HTTP/
 | parse @message /(?<method>\w+) (?<path>\/\S+)/
 | stats count(*) by path, method
 | sort count desc
 
-# Cold starts
+# {{Cold starts}}
 fields @timestamp, @message
 | filter @message like /Init Duration/
 | parse @message /Init Duration: (?<initDuration>[\d.]+) ms/

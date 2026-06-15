@@ -202,5 +202,15 @@
   "Error Catalog": "Error Catalog",
   "Error codes and resolution steps": "Error codes and resolution steps",
   "E2E Testing": "E2E Testing",
-  "End-to-end testing for debugging": "End-to-end testing for debugging"
+  "End-to-end testing for debugging": "End-to-end testing for debugging",
+  "List tables": "List tables",
+  "Scan table": "Scan table",
+  "Query by partition key": "Query by partition key",
+  "Find log group": "Find log group",
+  "Tail logs": "Tail logs",
+  "Filter logs": "Filter logs",
+  "Find errors": "Find errors",
+  "Analyze cold starts": "Analyze cold starts",
+  "Find slow requests": "Find slow requests",
+  "Get execution details": "Get execution details"
 }

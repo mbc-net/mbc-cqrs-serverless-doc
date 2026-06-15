@@ -124,15 +124,15 @@ export class TodoService {
 {{Using AWS CLI with DynamoDB Local:}}
 
 ```bash
-# List tables
+# {{List tables}}
 aws dynamodb list-tables --endpoint-url http://localhost:8000
 
-# Scan table
+# {{Scan table}}
 aws dynamodb scan \
   --table-name your-table-name \
   --endpoint-url http://localhost:8000
 
-# Query by partition key
+# {{Query by partition key}}
 aws dynamodb query \
   --table-name your-table-name \
   --key-condition-expression "pk = :pk" \
@@ -165,13 +165,13 @@ export class DebugHandler implements IEventHandler<DataSyncNewCommandEvent> {
 {{Use AWS CLI to tail logs:}}
 
 ```bash
-# Find log group
+# {{Find log group}}
 aws logs describe-log-groups --log-group-name-prefix /aws/lambda/your-app
 
-# Tail logs
+# {{Tail logs}}
 aws logs tail /aws/lambda/your-app-dev-handler --follow
 
-# Filter logs
+# {{Filter logs}}
 aws logs filter-log-events \
   --log-group-name /aws/lambda/your-app-dev-handler \
   --filter-pattern "ERROR"
@@ -182,18 +182,18 @@ aws logs filter-log-events \
 {{Use CloudWatch Logs Insights for advanced queries:}}
 
 ```
-# Find errors
+# {{Find errors}}
 fields @timestamp, @message
 | filter @message like /ERROR/
 | sort @timestamp desc
 | limit 100
 
-# Analyze cold starts
+# {{Analyze cold starts}}
 fields @timestamp, @message, @duration
 | filter @type = "REPORT"
 | stats avg(@duration), max(@duration), count(*) by bin(1h)
 
-# Find slow requests
+# {{Find slow requests}}
 fields @timestamp, @message, @duration
 | filter @duration > 3000
 | sort @duration desc
@@ -226,15 +226,15 @@ fields @timestamp, level, message, context
 {{Using AWS CLI:}}
 
 ```bash
-# List executions
+# {{List executions}}
 aws stepfunctions list-executions \
   --state-machine-arn arn:aws:states:REGION:ACCOUNT:stateMachine:YourMachine
 
-# Get execution details
+# {{Get execution details}}
 aws stepfunctions describe-execution \
   --execution-arn arn:aws:states:REGION:ACCOUNT:execution:YourMachine:execution-id
 
-# Get execution history
+# {{Get execution history}}
 aws stepfunctions get-execution-history \
   --execution-arn arn:aws:states:REGION:ACCOUNT:execution:YourMachine:execution-id
 ```
@@ -250,7 +250,7 @@ const stateMachine = new sfn.StateMachine(this, 'StateMachine', {
     destination: new logs.LogGroup(this, 'StateMachineLogGroup'),
     level: sfn.LogLevel.ALL,
   },
-  tracingEnabled: true, // Enable X-Ray
+  tracingEnabled: true, // {{Enable X-Ray}}
 });
 ```
 

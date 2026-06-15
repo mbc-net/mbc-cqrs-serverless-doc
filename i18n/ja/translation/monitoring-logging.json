@@ -143,5 +143,9 @@
   "CI/CD with CodePipeline": "CodePipelineによるCI/CD",
   "Pipeline monitoring": "パイプライン監視",
   "Troubleshooting": "トラブルシューティング",
-  "Common production issues": "よくある本番環境の問題"
+  "Common production issues": "よくある本番環境の問題",
+  "Error analysis": "エラー分析",
+  "Slow requests": "スローリクエスト",
+  "Request volume by endpoint": "エンドポイント別リクエスト数",
+  "Cold starts": "コールドスタート"
 }
