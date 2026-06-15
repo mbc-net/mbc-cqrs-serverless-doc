@@ -6,7 +6,7 @@ description: {{Generate auto-incrementing sequence numbers for business IDs with
 
 ## 1. {{Purpose}}
 
-{{`SequenceModule`  is a service for managing dynamic sequences in the system using DynamoDB as the primary database.}}
+{{`SequencesModule` is a service for managing dynamic sequences in the system using DynamoDB as the primary database.}}
 
 {{This service is designed to:}}
 
@@ -39,7 +39,7 @@ sequenceDiagram
 ## 2. {{Usage}}
 
 
-{{The solution for customizing the behavior of the `SequenceModule` is to pass it an options `object` in the static `register()` method. The options object contains only one property:}}
+{{The solution for customizing the behavior of the `SequencesModule` is to pass it an options `object` in the static `register()` method. The options object contains only one property:}}
 
 - {{`enableController`: enable or disable default sequence controller.}}
 
@@ -108,7 +108,7 @@ export class SeqModule {}
 
 - {{`typeCode: string`}}
   - {{Required: Yes.}}
-  - {{Description: Identifies the tenant and type code for the intended usage.}}
+  - {{Description: Identifies the type code for the sequence.}}
   
 - {{`params?: SequenceParamsDto`}}
   - {{Required: No.}}
@@ -220,7 +220,7 @@ export class SeqModule {}
 }
 ```
 
-{{In this case}}
+{{In this case}}:
 - {{registerDate: Defines the exact start date of the fiscal year (e.g., "2005-01-01").}}
 
 {{This allows you to customize the fiscal year calculation according to your specific business needs.}}

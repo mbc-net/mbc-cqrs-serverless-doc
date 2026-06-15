@@ -11,7 +11,7 @@
   "Quick Fix": "Quick Fix",
   "High": "High",
   "Fetch latest version or use `version: -1`": "Fetch latest version or use `version: -1`",
-  "item not found": "item not found",
+  "Invalid input key: item not found": "Invalid input key: item not found",
   "Medium": "Medium",
   "Check if item exists before update": "Check if item exists before update",
   "Invalid input version": "Invalid input version",

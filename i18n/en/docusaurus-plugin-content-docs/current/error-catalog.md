@@ -16,7 +16,7 @@ Use this table to quickly identify errors and jump to solutions.
 | Code | Error Message | Severity | Quick Fix |
 |----------|-------------------|--------------|---------------|
 | MBC-CMD-001 | Invalid input: item not found or version mismatch | High | Fetch latest version or use `version: -1` |
-| MBC-CMD-002 | item not found | Medium | Check if item exists before update |
+| MBC-CMD-002 | Invalid input key: item not found | Medium | Check if item exists before update |
 | MBC-CMD-003 | Invalid input version | Medium | Use latest version from getItem() |
 
 ### Tenant Errors

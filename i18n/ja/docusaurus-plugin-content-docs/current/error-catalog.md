@@ -16,7 +16,7 @@ description: MBC CQRS Serverlessの原因、解決策、復旧戦略を含む包
 | コード | エラーメッセージ | 重大度 | クイックフィックス |
 |----------|-------------------|--------------|---------------|
 | MBC-CMD-001 | 入力が無効: アイテムが見つからないかバージョン不一致 | 高 | 最新バージョンを取得するか`version: -1`を使用 |
-| MBC-CMD-002 | アイテムが見つからない | 中 | 更新前にアイテムが存在するか確認 |
+| MBC-CMD-002 | 無効な入力キー: アイテムが見つからない | 中 | 更新前にアイテムが存在するか確認 |
 | MBC-CMD-003 | 無効な入力バージョン | 中 | getItem()から最新バージョンを使用 |
 
 ### テナントエラー
@@ -547,7 +547,7 @@ ImportModule.register({
 **原因**: インポート処理中にエラーが発生したがジョブステータスが正しく更新されなかった、またはDynamoDBストリームが次のステップをトリガーできなかった。
 
 **解決策**:
-1. Lambdaエラーについては**CloudWatchログ**を確認
+1. LambdaエラーについてはCloudWatchログを確認
 2. import_tmpテーブルでDynamoDBストリームが有効になっているか確認
 3. インポートステータス通知用のSNSトピックが存在するか確認
 4. スタックしたレコードをクリーンアップ：
@@ -866,12 +866,12 @@ class CircuitBreaker {
    DEBUG=* npm run offline
    ```
 
-2. **Lambdaエラーについては**CloudWatchログ**を確認**:
+2. **LambdaエラーについてはCloudWatchログを確認**:
    ```bash
    aws logs tail /aws/lambda/your-function-name --follow
    ```
 
-3. **トレーシングには**リクエストID**を使用**:
+3. **トレーシングにはリクエストIDを使用**:
    ```typescript
    console.log('RequestId:', context.awsRequestId);
    ```
