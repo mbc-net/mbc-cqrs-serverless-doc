@@ -62,5 +62,6 @@
   "CommandService": "CommandService",
   "publishSync and publishPartialUpdateSync API": "publishSyncとpublishPartialUpdateSync API",
   "Sequence Module": "シーケンスモジュール",
-  "generateSequenceItem API": "generateSequenceItem API"
+  "generateSequenceItem API": "generateSequenceItem API",
+  "... use result": "... 結果を使用する"
 }
