@@ -15,5 +15,7 @@
   "Installation": "Installation",
   "TypeScript configuration setup": "TypeScript configuration setup",
   "Getting Started": "Getting Started",
-  "Initial project setup": "Initial project setup"
+  "Initial project setup": "Initial project setup",
+  "before": "before",
+  "after": "after"
 }

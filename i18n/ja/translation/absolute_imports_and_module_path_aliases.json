@@ -15,5 +15,7 @@
   "Installation": "インストール",
   "TypeScript configuration setup": "TypeScript設定のセットアップ",
   "Getting Started": "はじめに",
-  "Initial project setup": "初期プロジェクトセットアップ"
+  "Initial project setup": "初期プロジェクトセットアップ",
+  "before": "変更前",
+  "after": "変更後"
 }

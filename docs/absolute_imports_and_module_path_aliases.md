@@ -9,10 +9,10 @@ description: {{Configure module path aliases that allow you to remap certain imp
 {{These options allow you to alias project directories to absolute paths, making it easier to import modules. For example:}}
 
 ```ts
-// before
+// {{before}}
 import { Role } from "../../../auth/role.enum";
 
-// after
+// {{after}}
 import { Role } from "@/auth/role.enum";
 ```
 
