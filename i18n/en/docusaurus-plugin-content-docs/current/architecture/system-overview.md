@@ -1,5 +1,6 @@
 ---
 sidebar_position: 1
+description: Overview of the MBC CQRS Serverless framework architecture including NestJS, DynamoDB, AWS Lambda, and CQRS/Event Sourcing patterns.
 ---
 
 # System Architecture Overview

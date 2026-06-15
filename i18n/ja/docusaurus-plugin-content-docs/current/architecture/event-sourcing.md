@@ -1,5 +1,6 @@
 ---
 sidebar_position: 3
+description: MBC CQRS Serverlessのイベントソーシング - DynamoDBのコマンド/履歴テーブルへのイベント保存と、監査証跡・タイムトラベルデバッグへの活用方法。
 ---
 
 # イベントソーシングパターン

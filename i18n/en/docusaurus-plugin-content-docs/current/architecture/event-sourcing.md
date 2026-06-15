@@ -1,5 +1,6 @@
 ---
 sidebar_position: 3
+description: Event sourcing in MBC CQRS Serverless - how events are stored in DynamoDB command/history tables for audit trails and time-travel debugging.
 ---
 
 # Event Sourcing Pattern

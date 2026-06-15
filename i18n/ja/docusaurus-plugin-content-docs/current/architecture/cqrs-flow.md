@@ -1,5 +1,6 @@
 ---
 sidebar_position: 2
+description: CQRSパターンにおけるコマンドとクエリの流れ（コマンド発行、DynamoDB Streams、データ同期、クエリ分離を含む）。
 ---
 
 # CQRSパターンフロー

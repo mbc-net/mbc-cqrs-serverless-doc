@@ -1,4 +1,5 @@
 {
+  "How commands and queries flow through the CQRS pattern including command publishing, DynamoDB Streams, data synchronization, and query separation.": "CQRSパターンにおけるコマンドとクエリの流れ（コマンド発行、DynamoDB Streams、データ同期、クエリ分離を含む）。",
   "CQRS Pattern Flow": "CQRSパターンフロー",
   "This document explains how the CQRS (Command Query Responsibility Segregation) pattern is implemented in MBC CQRS Serverless.": "このドキュメントでは、MBC CQRS ServerlessにおけるCQRS（Command Query Responsibility Segregation）パターンの実装について説明します。",
   "CQRS Overview": "CQRS概要",

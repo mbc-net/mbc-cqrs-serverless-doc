@@ -1,4 +1,5 @@
 {
+  "Event sourcing in MBC CQRS Serverless - how events are stored in DynamoDB command/history tables for audit trails and time-travel debugging.": "MBC CQRS Serverlessのイベントソーシング - DynamoDBのコマンド/履歴テーブルへのイベント保存と、監査証跡・タイムトラベルデバッグへの活用方法。",
   "Event Sourcing Pattern": "イベントソーシングパターン",
   "This document explains the Event Sourcing implementation in MBC CQRS Serverless.": "このドキュメントでは、MBC CQRS Serverlessにおけるイベントソーシングの実装について説明します。",
   "Event Sourcing Overview": "イベントソーシング概要",

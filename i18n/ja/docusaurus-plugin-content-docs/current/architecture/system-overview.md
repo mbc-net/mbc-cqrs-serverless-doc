@@ -1,5 +1,6 @@
 ---
 sidebar_position: 1
+description: MBC CQRS Serverlessフレームワークのアーキテクチャ概要（NestJS、DynamoDB、AWS Lambda、CQRS/イベントソーシングパターンを含む）。
 ---
 
 # システムアーキテクチャ概要

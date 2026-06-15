@@ -1,5 +1,6 @@
 ---
 sidebar_position: 2
+description: {{How commands and queries flow through the CQRS pattern including command publishing, DynamoDB Streams, data synchronization, and query separation.}}
 ---
 
 # {{CQRS Pattern Flow}}
