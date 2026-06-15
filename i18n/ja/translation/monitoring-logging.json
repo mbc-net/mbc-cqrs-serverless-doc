@@ -144,5 +144,8 @@
   "Slow requests": "スローリクエスト",
   "Request volume by endpoint": "エンドポイント別リクエスト数",
   "Cold starts": "コールドスタート",
-  "Usage": "使用例"
+  "Usage": "使用例",
+  "Create a centralized log group": "Create a centralized log group (集中ロググループを作成)",
+  "Subscribe Lambda logs": "Subscribe Lambda logs (Lambdaログをサブスクライブ)",
+  "Assume lambdaLogGroup and logProcessorFunction are already defined above": "Assume lambdaLogGroup and logProcessorFunction are already defined above (lambdaLogGroupとlogProcessorFunctionは上で定義済みと仮定)"
 }

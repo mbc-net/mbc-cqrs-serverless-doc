@@ -344,13 +344,16 @@ Centralized logging is not included in the default template. The following patte
 For complex applications, aggregate logs:
 
 ```typescript
+import * as logs from 'aws-cdk-lib/aws-logs';
+import * as destinations from 'aws-cdk-lib/aws-logs-destinations';
+
 // Create a centralized log group
 const centralLogGroup = new logs.LogGroup(this, 'CentralLogs', {
   logGroupName: `/app/${props.appName}/central`,
   retention: logs.RetentionDays.THREE_MONTHS,
 });
 
-// Subscribe Lambda logs
+// Assume lambdaLogGroup and logProcessorFunction are already defined above
 new logs.SubscriptionFilter(this, 'LambdaLogSubscription', {
   logGroup: lambdaLogGroup,
   destination: new destinations.LambdaDestination(logProcessorFunction),
@@ -438,12 +441,21 @@ The default `GET /` endpoint returns "Hello World!" and can be used for basic li
 For more detailed health checks, implement a custom controller:
 
 ```typescript
+import { Controller, Get, Injectable } from '@nestjs/common';
+import { PrismaClient } from '@prisma/client';
+import { DynamoDBClient, ListTablesCommand } from '@aws-sdk/client-dynamodb';
+
+interface HealthStatus {
+  status: 'healthy' | 'degraded';
+  timestamp: string;
+  checks: Record<string, 'ok' | 'failed'>;
+}
+
 @Controller('health')
+@Injectable()
 export class HealthController {
-  constructor(
-    private readonly prisma: PrismaService,
-    private readonly dynamodb: DynamoDBService,
-  ) {}
+  private readonly prisma = new PrismaClient();
+  private readonly dynamodb = new DynamoDBClient({});
 
   @Get()
   async check(): Promise<HealthStatus> {
@@ -460,6 +472,14 @@ export class HealthController {
         dynamodb: checks[1].status === 'fulfilled' ? 'ok' : 'failed',
       },
     };
+  }
+
+  private async checkDatabase(): Promise<void> {
+    await this.prisma.$queryRaw`SELECT 1`;
+  }
+
+  private async checkDynamoDB(): Promise<void> {
+    await this.dynamodb.send(new ListTablesCommand({ Limit: 1 }));
   }
 }
 ```

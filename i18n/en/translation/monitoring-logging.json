@@ -144,5 +144,8 @@
   "Slow requests": "Slow requests",
   "Request volume by endpoint": "Request volume by endpoint",
   "Cold starts": "Cold starts",
-  "Usage": "Usage"
+  "Usage": "Usage",
+  "Create a centralized log group": "Create a centralized log group",
+  "Subscribe Lambda logs": "Subscribe Lambda logs",
+  "Assume lambdaLogGroup and logProcessorFunction are already defined above": "Assume lambdaLogGroup and logProcessorFunction are already defined above"
 }
