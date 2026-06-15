@@ -49,7 +49,7 @@
   "Handle subscription changes": "Handle subscription changes (サブスクリプション変更を処理)",
   "Handle usage updates": "Handle usage updates (使用量更新を処理)",
   "Optional rollback logic when a sync step fails": "Optional rollback logic when a sync step fails (同期ステップ失敗時のロールバック処理・任意)",
-  "New subscription": "New subscription (新規サブスクリプション)",
+  "New subscription: stored version is VERSION_FIRST + 1": "New subscription: stored version is VERSION_FIRST + 1 (新規サブスクリプション: 保存されるバージョンはVERSION_FIRST + 1)",
   "Subscription cancelled": "Subscription cancelled (サブスクリプションキャンセル)",
   "Plan changed": "Plan changed (プラン変更)",
   "Check for overage": "Check for overage (超過を確認)",

@@ -42,7 +42,7 @@
   "Event-Driven Processing": "Event-Driven Processing",
   "Order Data Sync Handler": "Order Data Sync Handler",
   "Filter for order events only": "Filter for order events only",
-  "VERSION_FIRST (version 1) means a newly created item": "VERSION_FIRST (version 1) means a newly created item",
+  "First write: stored version is VERSION_FIRST + 1": "First write: stored version is VERSION_FIRST + 1",
   "Later versions are updates such as status changes": "Later versions are updates such as status changes",
   "Optional rollback logic when a sync step fails": "Optional rollback logic when a sync step fails",
   "Reserve inventory": "Reserve inventory",

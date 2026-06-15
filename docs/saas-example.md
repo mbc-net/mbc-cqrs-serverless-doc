@@ -586,8 +586,8 @@ export class BillingEventHandler implements IDataSyncHandler {
   private async handleSubscriptionChange(cmd: CommandModel) {
     const attrs = cmd.attributes;
 
-    // {{New subscription}}
-    if (cmd.version === VERSION_FIRST) {
+    // {{New subscription: stored version is VERSION_FIRST + 1}}
+    if (cmd.version === VERSION_FIRST + 1) {
       this.logger.log(`New subscription: ${cmd.code}`);
 
       if (attrs.status === 'active') {

@@ -49,7 +49,7 @@
   "Handle subscription changes": "Handle subscription changes",
   "Handle usage updates": "Handle usage updates",
   "Optional rollback logic when a sync step fails": "Optional rollback logic when a sync step fails",
-  "New subscription": "New subscription",
+  "New subscription: stored version is VERSION_FIRST + 1": "New subscription: stored version is VERSION_FIRST + 1",
   "Subscription cancelled": "Subscription cancelled",
   "Plan changed": "Plan changed",
   "Check for overage": "Check for overage",

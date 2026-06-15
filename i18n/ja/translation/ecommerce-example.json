@@ -42,7 +42,7 @@
   "Event-Driven Processing": "イベント駆動処理",
   "Order Data Sync Handler": "注文データ同期ハンドラー",
   "Filter for order events only": "Filter for order events only (注文イベントのみフィルター)",
-  "VERSION_FIRST (version 1) means a newly created item": "VERSION_FIRST (version 1) means a newly created item (VERSION_FIRST（バージョン1）は新規作成を意味する)",
+  "First write: stored version is VERSION_FIRST + 1": "First write: stored version is VERSION_FIRST + 1 (初回書き込み: 保存されるバージョンはVERSION_FIRST + 1)",
   "Later versions are updates such as status changes": "Later versions are updates such as status changes (バージョン2以降はステータス変更などの更新)",
   "Optional rollback logic when a sync step fails": "Optional rollback logic when a sync step fails (同期ステップ失敗時のロールバック処理・任意)",
   "Reserve inventory": "Reserve inventory (在庫を予約)",
