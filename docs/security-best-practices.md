@@ -191,7 +191,7 @@ export class JwtAuthGuard implements CanActivate {
     this.verifier = CognitoJwtVerifier.create({
       userPoolId: process.env.COGNITO_USER_POOL_ID,
       tokenUse: 'access',
-      clientId: process.env.COGNITO_CLIENT_ID,
+      clientId: process.env.COGNITO_USER_POOL_CLIENT_ID,
     });
   }
 
