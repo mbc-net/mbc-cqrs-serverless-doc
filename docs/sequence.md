@@ -55,7 +55,7 @@ import { ROLE } from "src/auth/role.enum";
 
 @Controller("api/sequence")
 @ApiTags("sequence")
-@Auth(ROLE.JCCI_ADMIN)
+@Auth(ROLE.ADMIN)
 export class SeqController extends SequencesController {}
 ```
 
