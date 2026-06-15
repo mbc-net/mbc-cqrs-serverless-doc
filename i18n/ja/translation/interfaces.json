@@ -120,5 +120,15 @@
   "Custom claim for tenant group memberships JSON array": "Custom claim for tenant group memberships JSON array (テナントグループ所属のJSON配列カスタムクレーム)",
   "Direct roles for the active tenant (excludes group-derived roles)": "Direct roles for the active tenant (excludes group-derived roles) (アクティブテナントの直接ロール、グループ由来ロールを除く)",
   "Group IDs from custom:groups for the active tenant": "Group IDs from custom:groups for the active tenant (custom:groups由来のグループID)",
-  "'SYNC' when the command was applied via synchronous publish": "'SYNC' when the command was applied via synchronous publish (同期publishで適用されたコマンドは'SYNC')"
+  "'SYNC' when the command was applied via synchronous publish": "'SYNC' when the command was applied via synchronous publish (同期publishで適用されたコマンドは'SYNC')",
+  "Authorization Interfaces": "認可インターフェース",
+  "`IGroupRoleResolver` was added in [version 1.3.1](/docs/changelog#v131) for group-based role authorization.": "`IGroupRoleResolver` はグループベースのロール認可のために[バージョン 1.3.1](/docs/changelog#v131)で追加されました。",
+  "Interface for resolving group-to-role mappings. Implement exactly one resolver per application and register it with `@GroupRoleResolver()`.": "グループからロールへのマッピングを解決するためのインターフェース。アプリケーションごとに1つだけ実装し、`@GroupRoleResolver()` で登録してください。",
+  "Active tenant for which roles are being resolved": "ロールを解決する対象のアクティブテナント",
+  "Group IDs from the `custom:groups` JWT claim for this tenant": "このテナントの `custom:groups` JWT クレームからのグループ ID",
+  "Full JWT claims for additional context": "追加コンテキスト用の完全な JWT クレーム",
+  "Do not add @Injectable() — @GroupRoleResolver() registers a singleton provider": "@Injectable() を追加しないこと — @GroupRoleResolver() がシングルトンプロバイダーとして登録します",
+  "Map group IDs to roles — fetch from DB, config, etc.": "グループ ID をロールにマッピング — DB、設定などから取得",
+  "See [Group-Based Roles](/docs/authentication#group-based-roles) for complete usage documentation.": "完全な使用方法のドキュメントは [グループベースのロール](/docs/authentication#group-based-roles) を参照してください。",
+  "Version Note": "バージョンノート"
 }

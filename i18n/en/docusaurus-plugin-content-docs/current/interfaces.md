@@ -441,6 +441,52 @@ export class OrderRdsSyncHandler implements IDataSyncHandler {
 }
 ```
 
+### Authorization Interfaces
+
+#### IGroupRoleResolver
+
+:::info Version Note
+`IGroupRoleResolver` was added in [version 1.3.1](/docs/changelog#v131) for group-based role authorization.
+:::
+
+Interface for resolving group-to-role mappings. Implement exactly one resolver per application and register it with `@GroupRoleResolver()`.
+
+```ts
+export interface IGroupRoleResolver {
+  resolveRoles(input: ResolveGroupRolesInput): Promise<string[]>
+}
+```
+
+#### ResolveGroupRolesInput
+
+```ts
+export interface ResolveGroupRolesInput {
+  tenantCode: string   // Active tenant for which roles are being resolved
+  groupIds: string[]   // Group IDs from the `custom:groups` JWT claim for this tenant
+  claims: JwtClaims    // Full JWT claims for additional context
+}
+```
+
+**Implementation Example**:
+```typescript
+import {
+  GroupRoleResolver,
+  IGroupRoleResolver,
+  ResolveGroupRolesInput,
+} from '@mbc-cqrs-serverless/core';
+
+// Do not add @Injectable() — @GroupRoleResolver() registers a singleton provider
+@GroupRoleResolver()
+export class AppGroupRoleResolver implements IGroupRoleResolver {
+  async resolveRoles({ tenantCode, groupIds }: ResolveGroupRolesInput): Promise<string[]> {
+    // Map group IDs to roles — fetch from DB, config, etc.
+    return groupIds.includes('admin-group') ? ['admin'] : ['user'];
+  }
+}
+```
+
+See [Group-Based Roles](/docs/authentication#group-based-roles) for complete usage documentation.
+
 ## Notification Interfaces {#notification-interfaces}
 
 ### EmailNotification

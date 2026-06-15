@@ -441,6 +441,52 @@ export class OrderRdsSyncHandler implements IDataSyncHandler {
 }
 ```
 
+### 認可インターフェース
+
+#### IGroupRoleResolver
+
+:::info バージョンノート
+`IGroupRoleResolver` はグループベースのロール認可のために[バージョン 1.3.1](/docs/changelog#v131)で追加されました。
+:::
+
+グループからロールへのマッピングを解決するためのインターフェース。アプリケーションごとに1つだけ実装し、`@GroupRoleResolver()` で登録してください。
+
+```ts
+export interface IGroupRoleResolver {
+  resolveRoles(input: ResolveGroupRolesInput): Promise<string[]>
+}
+```
+
+#### ResolveGroupRolesInput
+
+```ts
+export interface ResolveGroupRolesInput {
+  tenantCode: string   // ロールを解決する対象のアクティブテナント
+  groupIds: string[]   // このテナントの `custom:groups` JWT クレームからのグループ ID
+  claims: JwtClaims    // 追加コンテキスト用の完全な JWT クレーム
+}
+```
+
+**実装例**:
+```typescript
+import {
+  GroupRoleResolver,
+  IGroupRoleResolver,
+  ResolveGroupRolesInput,
+} from '@mbc-cqrs-serverless/core';
+
+// @Injectable() を追加しないこと — @GroupRoleResolver() がシングルトンプロバイダーとして登録します
+@GroupRoleResolver()
+export class AppGroupRoleResolver implements IGroupRoleResolver {
+  async resolveRoles({ tenantCode, groupIds }: ResolveGroupRolesInput): Promise<string[]> {
+    // グループ ID をロールにマッピング — DB、設定などから取得
+    return groupIds.includes('admin-group') ? ['admin'] : ['user'];
+  }
+}
+```
+
+完全な使用方法のドキュメントは [グループベースのロール](/docs/authentication#group-based-roles) を参照してください。
+
 ## 通知インターフェース {#notification-interfaces}
 
 ### EmailNotification
