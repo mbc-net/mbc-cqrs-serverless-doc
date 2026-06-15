@@ -128,7 +128,7 @@
   "Shell command built from string concatenation": "Shell command built from string concatenation",
   "HTTP request without timeout": "HTTP request without timeout",
   "Logging `process.env` or full request object": "Logging `process.env` or full request object",
-  "`@Injectable` instead of `@NotificationTransport` on transport class": "`@Injectable` instead of `@NotificationTransport` on transport class",
+  "`@NotificationTransport` class also annotated with `@Injectable`": "`@NotificationTransport` class also annotated with `@Injectable`",
   "`@GroupRoleResolver` class also annotated with `@Injectable`": "`@GroupRoleResolver` class also annotated with `@Injectable`",
   "Low": "Low",
   "Related Documentation": "Related Documentation",

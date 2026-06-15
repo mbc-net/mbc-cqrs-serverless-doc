@@ -407,7 +407,7 @@ AP001–AP010 correspond to the sections above (guide codes). AP011–AP027 are 
 | AP023 | Shell command built from string concatenation | Critical |
 | AP024 | HTTP request without timeout | Medium |
 | AP025 | Logging `process.env` or full request object | High |
-| AP026 | `@Injectable` instead of `@NotificationTransport` on transport class | High |
+| AP026 | `@NotificationTransport` class also annotated with `@Injectable` | High |
 | AP027 | `@GroupRoleResolver` class also annotated with `@Injectable` | High |
 
 ## Related Documentation

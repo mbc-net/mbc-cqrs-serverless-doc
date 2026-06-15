@@ -407,7 +407,7 @@ AP001〜AP010 は上記のセクション（ガイドコード）に対応しま
 | AP023 | 文字列連結によるシェルコマンド構築 | 重大 |
 | AP024 | タイムアウトなしのHTTPリクエスト | 中 |
 | AP025 | `process.env` またはリクエストオブジェクト全体のログ出力 | 高 |
-| AP026 | トランスポートクラスへの `@NotificationTransport` の代わりに `@Injectable` を使用 | 高 |
+| AP026 | `@NotificationTransport` クラスへの `@Injectable` の二重指定 | 高 |
 | AP027 | `@GroupRoleResolver` クラスへの `@Injectable` の二重指定 | 高 |
 
 ## 関連ドキュメント

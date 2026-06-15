@@ -128,7 +128,7 @@
   "Shell command built from string concatenation": "文字列連結によるシェルコマンド構築",
   "HTTP request without timeout": "タイムアウトなしのHTTPリクエスト",
   "Logging `process.env` or full request object": "`process.env` またはリクエストオブジェクト全体のログ出力",
-  "`@Injectable` instead of `@NotificationTransport` on transport class": "トランスポートクラスへの `@NotificationTransport` の代わりに `@Injectable` を使用",
+  "`@NotificationTransport` class also annotated with `@Injectable`": "`@NotificationTransport` クラスへの `@Injectable` の二重指定",
   "`@GroupRoleResolver` class also annotated with `@Injectable`": "`@GroupRoleResolver` クラスへの `@Injectable` の二重指定",
   "Low": "低",
   "Related Documentation": "関連ドキュメント",
