@@ -96,8 +96,6 @@
   "Record failed payment attempt": "Record failed payment attempt (失敗した決済試行を記録)",
   "Prevent duplicate charges": "Prevent duplicate charges (重複課金を防止)",
   "15 second timeout": "15 second timeout (15秒タイムアウト)",
-  "Record payment result using CommandService": "Record payment result using CommandService (CommandServiceを使用して決済結果を記録)",
-  "Implementation depends on your data model": "Implementation depends on your data model (実装はデータモデルに依存)",
   "Best Practices": "ベストプラクティス",
   "1. Always Set Timeouts": "1. 常にタイムアウトを設定する",
   "Set timeout shorter than Lambda timeout": "Set timeout shorter than Lambda timeout (Lambdaタイムアウトより短いタイムアウトを設定)",
@@ -117,5 +115,6 @@
   "Authentication": "認証",
   "Authentication setup": "認証のセットアップ",
   "Error Catalog": "エラーカタログ",
-  "API error codes": "APIエラーコード"
+  "API error codes": "APIエラーコード",
+  "Creates a new payment record — use version 0 for idempotent writes": "新しい決済レコードを作成 — べき等書き込みにバージョン0を使用"
 }

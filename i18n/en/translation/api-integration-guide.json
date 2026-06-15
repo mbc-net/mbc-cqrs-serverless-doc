@@ -96,8 +96,6 @@
   "Record failed payment attempt": "Record failed payment attempt",
   "Prevent duplicate charges": "Prevent duplicate charges",
   "15 second timeout": "15 second timeout",
-  "Record payment result using CommandService": "Record payment result using CommandService",
-  "Implementation depends on your data model": "Implementation depends on your data model",
   "Best Practices": "Best Practices",
   "1. Always Set Timeouts": "1. Always Set Timeouts",
   "Set timeout shorter than Lambda timeout": "Set timeout shorter than Lambda timeout",
@@ -117,5 +115,6 @@
   "Authentication": "Authentication",
   "Authentication setup": "Authentication setup",
   "Error Catalog": "Error Catalog",
-  "API error codes": "API error codes"
+  "API error codes": "API error codes",
+  "Creates a new payment record — use version 0 for idempotent writes": "Creates a new payment record — use version 0 for idempotent writes"
 }
