@@ -512,7 +512,7 @@ const command = {
 ```
 
 :::caution
-{{Using `VERSION_LATEST` skips conflict detection. Only use it when concurrent writes to the same entity are not a concern.}}
+{{Using `VERSION_LATEST` bypasses optimistic locking, so concurrent writes from multiple clients will silently overwrite each other. Only use it when concurrent writes to the same entity are impossible (e.g., system-only background jobs, TTL-managed records, or initial seeding).}}
 :::
 
 ### `IS_LAMBDA_RUNNING: boolean`

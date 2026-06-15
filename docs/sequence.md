@@ -74,7 +74,7 @@ import { SeqController } from "./seq.controller";
 export class SeqModule {}
 ```
 
-{{Beside controller, we can directly use `SequencesService` to generating sequence by injecting service.}}
+{{Besides the controller, we can directly use `SequencesService` to generate sequences by injecting the service.}}
 
 {{The `SequencesService` has four public methods (two current, one deprecated, one removed in v1.1.0):}}
 
@@ -207,7 +207,7 @@ export class SeqModule {}
 }
 ```
 {{In this case}}:
-- {{startMonth: Defines the month to start the fiscal year (e.g., 3 for March).}}
+- {{startMonth: Defines the month to start the fiscal year (e.g., 3 for March). Defaults to 4 (April), following the Japanese fiscal year convention (April–March).}}
 
 {{If you want to calculate the fiscal year starting from a specific date (e.x 2005-01-01), you can add the `registerDate` field, like this:}}
 

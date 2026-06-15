@@ -114,7 +114,7 @@
   "New entity: version starts at 0": "New entity: version starts at 0",
   "A constant equal to `-1`. Use as the `version` field to bypass optimistic locking (always overwrites). Returned by `getSortKeyVersion()` when no version suffix is present.": "A constant equal to `-1`. Use as the `version` field to bypass optimistic locking (always overwrites). Returned by `getSortKeyVersion()` when no version suffix is present.",
   "Bypass optimistic locking": "Bypass optimistic locking",
-  "Using `VERSION_LATEST` skips conflict detection. Only use it when concurrent writes to the same entity are not a concern.": "Using `VERSION_LATEST` skips conflict detection. Only use it when concurrent writes to the same entity are not a concern.",
+  "Using `VERSION_LATEST` bypasses optimistic locking, so concurrent writes from multiple clients will silently overwrite each other. Only use it when concurrent writes to the same entity are impossible (e.g., system-only background jobs, TTL-managed records, or initial seeding).": "Using `VERSION_LATEST` bypasses optimistic locking, so concurrent writes from multiple clients will silently overwrite each other. Only use it when concurrent writes to the same entity are impossible (e.g., system-only background jobs, TTL-managed records, or initial seeding).",
   "A constant that indicates whether the code is running in an AWS Lambda environment.": "A constant that indicates whether the code is running in an AWS Lambda environment.",
   "Lambda-specific logic": "Lambda-specific logic",
   "Local development logic": "Local development logic",
