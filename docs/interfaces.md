@@ -17,18 +17,18 @@ description: {{Complete reference of TypeScript interfaces used in MBC CQRS Serv
 
 ```ts
 export interface CommandInputModel {
-  pk: string              // Partition key (e.g., "ORDER#tenant001")
-  sk: string              // Sort key (e.g., "ORDER#ORD001") — no version suffix needed
-  id: string              // Unique identifier (e.g., UUID)
-  code: string            // Business code (e.g., "ORD001")
-  name: string            // Display name
-  version: number         // Version number for optimistic locking
-  tenantCode: string      // Tenant identifier
-  type: string            // Entity type (e.g., "ORDER")
-  isDeleted?: boolean     // Soft delete flag
-  seq?: number            // Sequence number (auto-generated)
-  ttl?: number            // Time-to-live in seconds
-  attributes?: Record<string, any>  // Custom domain attributes
+  pk: string              // {{Partition key (e.g., "ORDER#tenant001")}}
+  sk: string              // {{Sort key (e.g., "ORDER#ORD001") — no version suffix needed}}
+  id: string              // {{Unique identifier (e.g., UUID)}}
+  code: string            // {{Business code (e.g., "ORD001")}}
+  name: string            // {{Display name}}
+  version: number         // {{Version number for optimistic locking}}
+  tenantCode: string      // {{Tenant identifier}}
+  type: string            // {{Entity type (e.g., "ORDER")}}
+  isDeleted?: boolean     // {{Soft delete flag}}
+  seq?: number            // {{Sequence number (auto-generated)}}
+  ttl?: number            // {{Time-to-live in seconds}}
+  attributes?: Record<string, any>  // {{Custom domain attributes}}
 }
 ```
 
@@ -36,11 +36,11 @@ export interface CommandInputModel {
 ```typescript
 const orderInput: CommandInputModel = {
   pk: 'ORDER#tenant001',
-  sk: 'ORDER#ORD001',         // No @version suffix — version is the separate field
+  sk: 'ORDER#ORD001',         // {{No @version suffix — version is the separate field}}
   id: crypto.randomUUID(),
   code: 'ORD001',
   name: 'Customer Order',
-  version: 0,                   // VERSION_FIRST for new entities
+  version: 0,                   // {{VERSION_FIRST for new entities}}
   tenantCode: 'tenant001',
   type: 'ORDER',
   attributes: {
@@ -57,9 +57,9 @@ const orderInput: CommandInputModel = {
 
 ```ts
 export interface CommandPartialInputModel extends Partial<CommandInputModel> {
-  pk: string       // Required: Partition key
-  sk: string       // Required: Sort key
-  version: number  // Required: Current version for optimistic locking
+  pk: string       // {{Required: Partition key}}
+  sk: string       // {{Required: Sort key}}
+  version: number  // {{Required: Current version for optimistic locking}}
 }
 ```
 
@@ -68,7 +68,7 @@ export interface CommandPartialInputModel extends Partial<CommandInputModel> {
 const partialUpdate: CommandPartialInputModel = {
   pk: 'ORDER#tenant001',
   sk: 'ORDER#ORD001',
-  version: 2,  // Must match current version
+  version: 2,  // {{Must match current version}}
   name: 'Updated Order Name',
   attributes: {
     status: 'confirmed',
@@ -82,9 +82,9 @@ const partialUpdate: CommandPartialInputModel = {
 
 ```ts
 export interface ICommandOptions {
-  source?: string        // Source identifier for tracking
-  requestId?: string     // Request ID for tracing
-  invokeContext: IInvoke // Required: Invocation context
+  source?: string        // {{Source identifier for tracking}}
+  requestId?: string     // {{Request ID for tracing}}
+  invokeContext: IInvoke // {{Required: Invocation context}}
 }
 ```
 
@@ -105,8 +105,8 @@ const options: ICommandOptions = {
 
 ```ts
 export interface DetailKey {
-  pk: string  // Partition key
-  sk: string  // Sort key
+  pk: string  // {{Partition key}}
+  sk: string  // {{Sort key}}
 }
 ```
 
@@ -225,9 +225,9 @@ export interface JwtClaims {
 
 ```ts
 export class UserContext {
-  userId: string             // Cognito user ID (from JWT sub claim)
-  tenantRole: string         // User's role within the tenant
-  tenantCode: string         // Current tenant code
+  userId: string             // {{Cognito user ID (from JWT sub claim)}}
+  tenantRole: string         // {{User's role within the tenant}}
+  tenantCode: string         // {{Current tenant code}}
   tenantRoles: string[]      // {{Direct roles for the active tenant (excludes group-derived roles)}}
   tenantGroupIds: string[]   // {{Group IDs from custom:groups for the active tenant}}
 
@@ -349,9 +349,9 @@ const key = data.key;  // { pk: 'ORDER#tenant001', sk: 'ORDER#ORD001' }
 
 ```ts
 export class DataListEntity {
-  items: DataEntity[]   // Array of entities
-  total?: number        // Total count (if available)
-  lastSk?: string       // Pagination cursor (last sort key)
+  items: DataEntity[]   // {{Array of entities}}
+  total?: number        // {{Total count (if available)}}
+  lastSk?: string       // {{Pagination cursor (last sort key)}}
 
   constructor(data: Partial<DataListEntity>)  // {{Initialize with partial properties}}
 }
@@ -495,20 +495,20 @@ export class AppGroupRoleResolver implements IGroupRoleResolver {
 
 ```ts
 export interface EmailNotification {
-  fromAddr?: string       // Sender address (uses default if not specified)
-  toAddrs: string[]       // Required: Recipient addresses
-  ccAddrs?: string[]      // CC addresses
-  bccAddrs?: string[]     // BCC addresses
-  subject: string         // Required: Email subject
-  body: string            // Required: HTML body content
-  replyToAddrs?: string[] // Reply-to addresses
-  attachments?: Attachment[]  // File attachments
+  fromAddr?: string       // {{Sender address (uses default if not specified)}}
+  toAddrs: string[]       // {{Required: Recipient addresses}}
+  ccAddrs?: string[]      // {{CC addresses}}
+  bccAddrs?: string[]     // {{BCC addresses}}
+  subject: string         // {{Required: Email subject}}
+  body: string            // {{Required: HTML body content}}
+  replyToAddrs?: string[] // {{Reply-to addresses}}
+  attachments?: Attachment[]  // {{File attachments}}
 }
 
 export interface Attachment {
-  filename: string      // Attachment filename
-  content: Buffer       // File content as Buffer
-  contentType?: string  // MIME type (e.g., 'application/pdf')
+  filename: string      // {{Attachment filename}}
+  content: Buffer       // {{File content as Buffer}}
+  contentType?: string  // {{MIME type (e.g., 'application/pdf')}}
 }
 ```
 
@@ -529,10 +529,10 @@ await emailService.sendEmail({
 
 ```ts
 export interface CommandModuleOptions {
-  tableName: string                           // DynamoDB table name
-  dataSyncHandlers?: Type<IDataSyncHandler>[] // Custom sync handlers
-  skipError?: boolean                         // Reserved for future use (not yet implemented)
-  disableDefaultHandler?: boolean             // Disable the default DynamoDB data sync handler
+  tableName: string                           // {{DynamoDB table name}}
+  dataSyncHandlers?: Type<IDataSyncHandler>[] // {{Custom sync handlers}}
+  skipError?: boolean                         // {{Reserved for future use (not yet implemented)}}
+  disableDefaultHandler?: boolean             // {{Disable the default DynamoDB data sync handler}}
 }
 ```
 
@@ -560,7 +560,7 @@ export class OrderModule {}
 
 ```ts
 export interface SequencesModuleOptions {
-  enableController?: boolean  // Enable or disable default sequence controller
+  enableController?: boolean  // {{Enable or disable default sequence controller}}
 }
 ```
 
