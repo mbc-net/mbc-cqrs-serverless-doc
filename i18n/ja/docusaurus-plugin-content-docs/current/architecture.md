@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-description: システム概要、CQRSパターンフロー、イベントソーシングを含むMBC CQRS Serverlessフレームワークアーキテクチャの包括的な概要。
+description: システム概要、CQRSパターンフロー、イベントソーシング、Step Functions、CDKインフラストラクチャを含むMBC CQRS Serverlessフレームワークアーキテクチャの包括的な概要。
 ---
 
 # アーキテクチャ
@@ -16,6 +16,8 @@ description: システム概要、CQRSパターンフロー、イベントソー
 - [システム概要](/docs/architecture/system-overview) - AWSインフラストラクチャコンポーネントとその相互作用。
 - [CQRSパターンフロー](/docs/architecture/cqrs-flow) - コマンドとクエリがどのように分離され処理されるか。
 - [イベントソーシング](/docs/architecture/event-sourcing) - イベントの保存、リプレイ、プロジェクションメカニズム。
+- [Step Functions](/docs/architecture/step-functions) - 非同期タスク処理のためのワークフローオーケストレーション。
+- [CDKインフラストラクチャ](/docs/architecture/cdk-infrastructure) - AWS CDKインフラストラクチャのプロビジョニングと設定。
 
 ## 主要概念 {#key-concepts}
 
