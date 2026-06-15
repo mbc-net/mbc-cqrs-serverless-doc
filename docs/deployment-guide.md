@@ -186,6 +186,8 @@ Invalid S3 bucket name (value: cdk-hnb659fds-assets--)
 {{The generated `infra/bin/infra.ts` leaves `account` and `region` empty by default — set them explicitly or use the standard CDK environment variables:}}
 
 ```typescript
+import * as cdk from 'aws-cdk-lib';
+
 const cdkEnv: cdk.Environment = {
   account: process.env.CDK_DEFAULT_ACCOUNT,
   region: process.env.CDK_DEFAULT_REGION || 'ap-northeast-1',
