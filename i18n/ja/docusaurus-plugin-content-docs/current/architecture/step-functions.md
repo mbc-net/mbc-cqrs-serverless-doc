@@ -741,6 +741,8 @@ await this.taskService.createStepFunctionTask({
 **シナリオ**: バリデーションと変換を伴うS3からの大規模CSVファイルのインポート。
 
 ```typescript
+import { ProcessingMode } from '@mbc-cqrs-serverless/import';
+
 // APIまたは直接呼び出しでCSVインポートをトリガー
 await this.importService.createCsvImport({
   s3Bucket: 'my-bucket',
@@ -980,6 +982,8 @@ flowchart TB
 子ワークフローをトリガーする際、親は後のコールバックのためにタスクトークンを保存します：
 
 ```typescript
+import { ProcessingMode } from '@mbc-cqrs-serverless/import';
+
 // Trigger a child CSV job and wait for completion (子CSVジョブをトリガーし、完了を待機)
 private async triggerSingleCsvJob(event: ZipImportSfnEvent) {
   const s3Key = event.input?.s3Key || event.input;
@@ -1123,6 +1127,8 @@ async incrementParentJobCounters(
 | `STEP_FUNCTION` | 大きなファイル、バックグラウンド処理 | 数百万 | 最大50 |
 
 ```typescript
+import { ProcessingMode } from '@mbc-cqrs-serverless/import';
+
 // Example: Selecting processing mode based on file size (例：ファイルサイズに基づく処理モードの選択)
 const processingMode = estimatedRows > 1000
   ? ProcessingMode.STEP_FUNCTION

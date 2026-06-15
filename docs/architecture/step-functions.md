@@ -741,6 +741,8 @@ await this.taskService.createStepFunctionTask({
 **{{Scenario}}**: {{Import a large CSV file from S3 with validation and transformation.}}
 
 ```typescript
+import { ProcessingMode } from '@mbc-cqrs-serverless/import';
+
 // {{Trigger CSV import via API or direct invocation}}
 await this.importService.createCsvImport({
   s3Bucket: 'my-bucket',
@@ -980,6 +982,8 @@ flowchart TB
 {{When triggering child workflows, the parent stores the task token for later callback:}}
 
 ```typescript
+import { ProcessingMode } from '@mbc-cqrs-serverless/import';
+
 // {{Trigger a child CSV job and wait for completion}}
 private async triggerSingleCsvJob(event: ZipImportSfnEvent) {
   const s3Key = event.input?.s3Key || event.input;
@@ -1123,6 +1127,8 @@ async incrementParentJobCounters(
 | `STEP_FUNCTION` | {{Large files, background processing}} | {{Millions}} | {{Up to 50}} |
 
 ```typescript
+import { ProcessingMode } from '@mbc-cqrs-serverless/import';
+
 // {{Example: Selecting processing mode based on file size}}
 const processingMode = estimatedRows > 1000
   ? ProcessingMode.STEP_FUNCTION

@@ -136,6 +136,7 @@ await this.commandService.publishAsync(newCatCommand, {
 ```typescript
 import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
 import {
+  CommandModel,
   CommandService,
   DataService,
   IInvoke,

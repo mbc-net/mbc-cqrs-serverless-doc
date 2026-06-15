@@ -136,6 +136,7 @@ Implement retry logic to handle transient conflicts:
 ```typescript
 import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
 import {
+  CommandModel,
   CommandService,
   DataService,
   IInvoke,
