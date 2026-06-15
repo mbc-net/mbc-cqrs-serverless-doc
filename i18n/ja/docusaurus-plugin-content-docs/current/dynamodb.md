@@ -103,7 +103,7 @@ npm run migrate
 | COMMAND | `pk` | `TYPE#tenantCode` | `ORDER#ACME` |
 | COMMAND | `sk` | `TYPE#code@version` | `ORDER#ORD-000001@1` |
 
-COMMANDテーブルのソートキーにはフレームワークが付加する`@{version}`サフィックスが含まれます。DATAテーブルを照会する際は`removeSortKeyVersion(sk)`を使用して削除してください。
+COMMANDテーブルのソートキーにはフレームワークが付加する`@{version}`サフィックスが含まれます。DATAテーブルを照会する際は`removeSortKeyVersion(sk)`（`@mbc-cqrs-serverless/core`からインポート）を使用して削除してください。
 
 ### エンティティキーの例
 

@@ -48,7 +48,7 @@
   "Example": "Example",
   "DATA / HISTORY": "DATA / HISTORY",
   "COMMAND": "COMMAND",
-  "The COMMAND table sort key includes an `@{version}` suffix appended by the framework. Use `removeSortKeyVersion(sk)` to strip it when querying the DATA table.": "The COMMAND table sort key includes an `@{version}` suffix appended by the framework. Use `removeSortKeyVersion(sk)` to strip it when querying the DATA table.",
+  "The COMMAND table sort key includes an `@{version}` suffix appended by the framework. Use `removeSortKeyVersion(sk)` (imported from `@mbc-cqrs-serverless/core`) to strip it when querying the DATA table.": "The COMMAND table sort key includes an `@{version}` suffix appended by the framework. Use `removeSortKeyVersion(sk)` (imported from `@mbc-cqrs-serverless/core`) to strip it when querying the DATA table.",
   "Entity Key Examples": "Entity Key Examples",
   "Order entity": "Order entity",
   "User entity": "User entity",

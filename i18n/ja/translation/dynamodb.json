@@ -48,7 +48,7 @@
   "Example": "例",
   "DATA / HISTORY": "DATA / HISTORY",
   "COMMAND": "COMMAND",
-  "The COMMAND table sort key includes an `@{version}` suffix appended by the framework. Use `removeSortKeyVersion(sk)` to strip it when querying the DATA table.": "COMMANDテーブルのソートキーにはフレームワークが付加する`@{version}`サフィックスが含まれます。DATAテーブルを照会する際は`removeSortKeyVersion(sk)`を使用して削除してください。",
+  "The COMMAND table sort key includes an `@{version}` suffix appended by the framework. Use `removeSortKeyVersion(sk)` (imported from `@mbc-cqrs-serverless/core`) to strip it when querying the DATA table.": "COMMANDテーブルのソートキーにはフレームワークが付加する`@{version}`サフィックスが含まれます。DATAテーブルを照会する際は`removeSortKeyVersion(sk)`（`@mbc-cqrs-serverless/core`からインポート）を使用して削除してください。",
   "Entity Key Examples": "エンティティキーの例",
   "Order entity": "Order entity (注文エンティティ)",
   "User entity": "User entity (ユーザーエンティティ)",

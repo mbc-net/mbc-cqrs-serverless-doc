@@ -103,7 +103,7 @@ All entity tables use a composite primary key. The DATA table and COMMAND table 
 | COMMAND | `pk` | `TYPE#tenantCode` | `ORDER#ACME` |
 | COMMAND | `sk` | `TYPE#code@version` | `ORDER#ORD-000001@1` |
 
-The COMMAND table sort key includes an `@{version}` suffix appended by the framework. Use `removeSortKeyVersion(sk)` to strip it when querying the DATA table.
+The COMMAND table sort key includes an `@{version}` suffix appended by the framework. Use `removeSortKeyVersion(sk)` (imported from `@mbc-cqrs-serverless/core`) to strip it when querying the DATA table.
 
 ### Entity Key Examples
 

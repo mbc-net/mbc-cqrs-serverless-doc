@@ -250,8 +250,8 @@ export class TodoService {
 {{Create the controller (`todo.controller.ts`):}}
 
 ```typescript
-import { IInvoke, INVOKE_CONTEXT } from '@mbc-cqrs-serverless/core'
-import { Body, Controller, Logger, Post } from '@nestjs/common'
+import { getUserContext, IInvoke, INVOKE_CONTEXT } from '@mbc-cqrs-serverless/core'
+import { Body, Controller, Get, Logger, Post, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { CreateTodoDto } from './dto/create-todo.dto'
 import { TodoDataEntity } from './entity/todo-data.entity'
