@@ -26,8 +26,8 @@ mbc-cqrs-serverless を初めて使う方は、[プロジェクト構造](/docs/
 ## 開発用サーバの実行
 
 1. `npm run build` を実行してウォッチモードでプロジェクトをビルドします。
-2. 別のターミナルセッションを開いて`npm run offline:docker`を実行し、Dockerサービス（DynamoDB Local、PostgreSQL、LocalStack）を起動します。
-3. PostgreSQLが完全に起動するまで約30秒待ってから、別のターミナルを開いて`npm run migrate`を実行し、RDSとDynamoDBのテーブルをマイグレーションします。
+2. 別のターミナルセッションを開いて`npm run offline:docker`を実行し、Dockerサービス（DynamoDB Local、MySQL、LocalStack）を起動します。
+3. MySQLが完全に起動するまで約30秒待ってから、別のターミナルを開いて`npm run migrate`を実行し、RDSとDynamoDBのテーブルをマイグレーションします。
 4. 最後に `npm run offline:sls` コマンドを実行して serverless offline mode を実行します。
 
 :::info ローカル開発でのAWSクレデンシャル
@@ -94,7 +94,7 @@ Server ready: http://localhost:3000 🚀
 ローカルポート設定機能は[バージョン 1.0.26](/docs/changelog#v1026)で追加されました。
 :::
 
-他のサービス（別のPostgreSQLインスタンスやポート3000を使用する他のアプリケーションなど）とポートが競合する場合は、`.env`ファイルの環境変数でローカルサービスのポートを設定できます。
+他のサービス（別のMySQLインスタンスやポート3000を使用する他のアプリケーションなど）とポートが競合する場合は、`.env`ファイルの環境変数でローカルサービスのポートを設定できます。
 
 ### 利用可能なポート変数
 
@@ -103,7 +103,7 @@ Server ready: http://localhost:3000 🚀
 | `LOCAL_HTTP_PORT` | `3000` | API Gateway (Serverless Offline) |
 | `LOCAL_LAMBDA_PORT` | `3002` | Lambda HTTPエンドポイント |
 | `LOCAL_DYNAMODB_PORT` | `8000` | DynamoDB Local |
-| `LOCAL_RDS_PORT` | `5432` | PostgreSQL (RDS) |
+| `LOCAL_RDS_PORT` | `3306` | MySQL (RDS) |
 | `LOCAL_S3_PORT` | `4566` | LocalStack (S3) |
 | `LOCAL_SNS_PORT` | `4002` | SNS |
 | `LOCAL_SQS_PORT` | `9324` | SQS (ElasticMQ) |
@@ -117,14 +117,14 @@ Server ready: http://localhost:3000 🚀
 
 ### 例: ポートの変更
 
-API Gatewayのポートを3000から3010に、PostgreSQLのポートを5432から5433に変更するには、`.env`ファイルに以下を追加します：
+API Gatewayのポートを3000から3010に、MySQLのポートを3306から3307に変更するには、`.env`ファイルに以下を追加します：
 
 ```bash
 # API Gatewayのポートを3010に変更
 LOCAL_HTTP_PORT=3010
 
-# PostgreSQLのポートを5433に変更
-LOCAL_RDS_PORT=5433
+# MySQLのポートを3307に変更
+LOCAL_RDS_PORT=3307
 
 # DynamoDBのポートを9000に変更
 LOCAL_DYNAMODB_PORT=9000

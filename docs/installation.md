@@ -26,8 +26,8 @@ mbc new project-name
 ## {{Run the Development Server}}
 
 1. {{Run `npm run build` to build the project in watch mode.}}
-2. {{Open in other terminal session and run `npm run offline:docker` to start Docker services (DynamoDB Local, PostgreSQL, LocalStack).}}
-3. {{Wait ~30 seconds for PostgreSQL to fully start, then open another terminal and run `npm run migrate` to migrate RDS and DynamoDB tables.}}
+2. {{Open in other terminal session and run `npm run offline:docker` to start Docker services (DynamoDB Local, MySQL, LocalStack).}}
+3. {{Wait ~30 seconds for MySQL to fully start, then open another terminal and run `npm run migrate` to migrate RDS and DynamoDB tables.}}
 4. {{Finally, run `npm run offline:sls` to start serverless offline mode.}}
 
 :::info {{AWS Credentials for Local Development}}
@@ -94,7 +94,7 @@ Server ready: http://localhost:3000 🚀
 {{Local port configuration feature was added in [version 1.0.26](/docs/changelog#v1026).}}
 :::
 
-{{If you have port conflicts with other services (e.g., another PostgreSQL instance, another application using port 3000), you can configure the local service ports via environment variables in your `.env` file.}}
+{{If you have port conflicts with other services (e.g., another MySQL instance, another application using port 3000), you can configure the local service ports via environment variables in your `.env` file.}}
 
 ### {{Available Port Variables}}
 
@@ -103,7 +103,7 @@ Server ready: http://localhost:3000 🚀
 | `LOCAL_HTTP_PORT` | `3000` | {{API Gateway (Serverless Offline)}} |
 | `LOCAL_LAMBDA_PORT` | `3002` | {{Lambda HTTP endpoint}} |
 | `LOCAL_DYNAMODB_PORT` | `8000` | {{DynamoDB Local}} |
-| `LOCAL_RDS_PORT` | `5432` | {{PostgreSQL (RDS)}} |
+| `LOCAL_RDS_PORT` | `3306` | {{MySQL (RDS)}} |
 | `LOCAL_S3_PORT` | `4566` | {{LocalStack (S3)}} |
 | `LOCAL_SNS_PORT` | `4002` | {{SNS}} |
 | `LOCAL_SQS_PORT` | `9324` | {{SQS (ElasticMQ)}} |
@@ -117,14 +117,14 @@ Server ready: http://localhost:3000 🚀
 
 ### {{Example: Changing Ports}}
 
-{{To change the API Gateway port from 3000 to 3010 and PostgreSQL port from 5432 to 5433, add the following to your `.env` file:}}
+{{To change the API Gateway port from 3000 to 3010 and MySQL port from 3306 to 3307, add the following to your `.env` file:}}
 
 ```bash
 # {{Change API Gateway port to 3010}}
 LOCAL_HTTP_PORT=3010
 
-# {{Change PostgreSQL port to 5433}}
-LOCAL_RDS_PORT=5433
+# {{Change MySQL port to 3307}}
+LOCAL_RDS_PORT=3307
 
 # {{Change DynamoDB port to 9000}}
 LOCAL_DYNAMODB_PORT=9000
