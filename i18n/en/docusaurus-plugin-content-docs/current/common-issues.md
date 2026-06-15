@@ -362,6 +362,27 @@ COGNITO_CLIENT_ID=xxxxxxxxxxxxxxxxxxxxxxxxxx
 const issuer = `https://cognito-idp.${region}.amazonaws.com/${userPoolId}`;
 ```
 
+### GroupRoleResolver causes DI scope conflict at startup (AP027)
+
+**Symptom**: Application fails to start with a NestJS dependency injection error mentioning a scope conflict or duplicate provider for `GroupRoleResolver`.
+
+**Cause**: The resolver class has both `@GroupRoleResolver()` and `@Injectable()` decorators. `@GroupRoleResolver()` already registers the class as a singleton provider — adding `@Injectable()` creates a conflicting second registration (AP027 anti-pattern).
+
+**Solution**: Remove `@Injectable()` from the resolver class:
+
+```typescript
+// Incorrect — causes AP027: both decorators conflict
+@Injectable()
+@GroupRoleResolver()
+export class AppGroupRoleResolver implements IGroupRoleResolver { ... }
+
+// Correct — only @GroupRoleResolver()
+@GroupRoleResolver()
+export class AppGroupRoleResolver implements IGroupRoleResolver { ... }
+```
+
+The `mbc_check_anti_patterns` MCP tool flags this as AP027. See [Authentication — Group-Based Roles](/docs/authentication#group-based-roles) for complete usage.
+
 ### CORS errors
 
 **Symptom**: Access-Control-Allow-Origin error in browser.
@@ -531,6 +552,40 @@ const bucket = new s3.Bucket(this, 'Bucket', {
 2. Optimize memory allocation (more memory = faster execution)
 3. Implement request batching
 4. Use reserved concurrency to limit scaling
+
+## Notifications & Real-time Events {#notifications-realtime}
+
+### AppSync Events API not publishing notifications {#appsync-events-not-publishing}
+
+**Symptom**: Clients subscribed via the AppSync Events API do not receive notifications after commands are processed (v1.3.0+).
+
+**Checklist**:
+
+1. Verify the environment variable is set:
+```bash
+NOTIFICATION_TRANSPORTS=appsync-event
+# Or, to dual-publish to both GraphQL and Events API:
+NOTIFICATION_TRANSPORTS=appsync-graphql,appsync-event
+```
+
+2. Confirm `APPSYNC_EVENTS_ENDPOINT` points to the Events API URL — it ends in `/event`, not `/graphql`:
+```bash
+# Correct
+APPSYNC_EVENTS_ENDPOINT=https://xxxx.appsync-api.ap-northeast-1.amazonaws.com/event
+```
+
+3. Check IAM permissions — Lambda/ECS execution role must have `appsync:EventPublish` on the Event API ARN. The CDK template adds this automatically via `grantPublish()`.
+
+4. Verify the channel namespace — `APPSYNC_EVENTS_NAMESPACE` must match a pre-created namespace in your AppSync Event API (default: `default`).
+
+5. Check CloudWatch Logs for publish errors:
+```bash
+aws logs filter-log-events \
+  --log-group-name /aws/lambda/your-function \
+  --filter-pattern "appsync"
+```
+
+See [AppSync Events API](/docs/notification-module#appsync-events-service) for full setup instructions.
 
 ## Getting Help {#getting-help}
 

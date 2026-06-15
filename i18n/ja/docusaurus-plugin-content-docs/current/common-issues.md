@@ -362,6 +362,27 @@ COGNITO_CLIENT_ID=xxxxxxxxxxxxxxxxxxxxxxxxxx
 const issuer = `https://cognito-idp.${region}.amazonaws.com/${userPoolId}`;
 ```
 
+### GroupRoleResolver が起動時に DI スコープ競合を引き起こす (AP027)
+
+**症状**: アプリケーションが起動に失敗し、`GroupRoleResolver` に関するスコープ競合または重複プロバイダーの NestJS 依存性注入エラーが発生する。
+
+**原因**: リゾルバークラスに `@GroupRoleResolver()` と `@Injectable()` の両方のデコレーターが付いている。`@GroupRoleResolver()` はすでにクラスをシングルトンプロバイダーとして登録しており、`@Injectable()` を追加すると競合する二重登録が発生する（AP027 アンチパターン）。
+
+**解決策**: リゾルバークラスから `@Injectable()` を削除する：
+
+```typescript
+// 誤り — AP027 が発生: 両デコレーターが競合
+@Injectable()
+@GroupRoleResolver()
+export class AppGroupRoleResolver implements IGroupRoleResolver { ... }
+
+// 正しい — @GroupRoleResolver() のみ
+@GroupRoleResolver()
+export class AppGroupRoleResolver implements IGroupRoleResolver { ... }
+```
+
+`mbc_check_anti_patterns` MCP ツールはこれを AP027 として検出します。完全な使い方は[認証 — グループベースロール](/docs/authentication#group-based-roles)を参照してください。
+
 ### CORSエラー
 
 **症状**: ブラウザでAccess-Control-Allow-Originエラー。
@@ -531,6 +552,40 @@ const bucket = new s3.Bucket(this, 'Bucket', {
 2. メモリ割り当てを最適化（メモリが多い＝実行が速い）
 3. リクエストバッチングを実装
 4. 予約済み同時実行でスケーリングを制限
+
+## 通知とリアルタイムイベント {#notifications-realtime}
+
+### AppSync Events API が通知を配信しない {#appsync-events-not-publishing}
+
+**症状**: コマンド処理後、AppSync Events API 経由でサブスクライブしたクライアントが通知を受信しない (v1.3.0+)。
+
+**チェックリスト**:
+
+1. 環境変数が設定されていることを確認する：
+```bash
+NOTIFICATION_TRANSPORTS=appsync-event
+# または、GraphQL と Events API の両方にデュアルパブリッシュする場合：
+NOTIFICATION_TRANSPORTS=appsync-graphql,appsync-event
+```
+
+2. `APPSYNC_EVENTS_ENDPOINT` が Events API の URL を指していることを確認する — `/graphql` ではなく `/event` で終わる：
+```bash
+# 正しい例
+APPSYNC_EVENTS_ENDPOINT=https://xxxx.appsync-api.ap-northeast-1.amazonaws.com/event
+```
+
+3. IAM 権限を確認する — Lambda/ECS 実行ロールに、Event API ARN に対する `appsync:EventPublish` が必要。CDK テンプレートは `grantPublish()` で自動的に追加する。
+
+4. チャネルの名前空間を確認する — `APPSYNC_EVENTS_NAMESPACE` は AppSync Event API に事前作成された名前空間と一致する必要がある（デフォルト: `default`）。
+
+5. CloudWatch ログでパブリッシュエラーを確認する：
+```bash
+aws logs filter-log-events \
+  --log-group-name /aws/lambda/your-function \
+  --filter-pattern "appsync"
+```
+
+完全なセットアップ手順は [AppSync Events API](/docs/notification-module#appsync-events-service) を参照してください。
 
 ## ヘルプを得る {#getting-help}
 
