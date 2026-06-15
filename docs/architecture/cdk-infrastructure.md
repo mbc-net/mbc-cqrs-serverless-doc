@@ -575,6 +575,64 @@ noneDataSource.createResolver('SendMessageResolver', {
 });
 ```
 
+### {{AppSync Events API (opt-in)}} {#appsync-events-api}
+
+:::info {{Version Note}}
+{{AppSync Events API CDK provisioning (`appsyncEvents` config key) was added in [version 1.3.0](/docs/changelog#v130).}}
+:::
+
+{{An alternative real-time transport using AWS AppSync Events API (schema-free HTTP pub/sub). Opt in by adding `appsyncEvents` to your environment config:}}
+
+**{{Config type definition}}** (`infra/config/type.ts`):
+
+```typescript
+export interface Config {
+  // ...
+  appsyncEvents?: {
+    enabled: boolean;       // {{Set to true to provision the Event API}}
+    namespace?: string;     // {{Channel namespace name (default: 'default')}}
+    apiKeyExpireDays?: number;  // {{API key TTL in days (default: 365)}}
+  };
+}
+```
+
+**{{Environment config example}}** (`infra/config/dev/index.ts`):
+
+```typescript
+const config: Config = {
+  env: 'dev',
+  appName: 'your-app',
+  // ...
+  appsyncEvents: {
+    enabled: true,
+    namespace: 'default',
+    apiKeyExpireDays: 365,
+  },
+};
+```
+
+**{{CDK Stack Behavior}}:**
+
+{{When `appsyncEvents.enabled` is `true`, the CDK stack automatically:}}
+
+1. {{Provisions an `aws_appsync.EventApi` with IAM + API Key auth}}
+2. {{Creates a `ChannelNamespace` matching the configured `namespace`}}
+3. {{Injects three environment variables into Lambda and ECS:}}
+   - `NOTIFICATION_TRANSPORTS=appsync-event`
+   - `APPSYNC_EVENTS_ENDPOINT=https://xxx.appsync-api.region.amazonaws.com/event`
+   - `APPSYNC_EVENTS_NAMESPACE=<namespace>`
+4. {{Grants `appsync:EventPublish` to Lambda and ECS task roles via `grantPublish()`}}
+
+**{{Stack Outputs}}:**
+
+| {{Output}} | {{Description}} |
+|-----------|-----------------|
+| `AppSyncEventsHttpEndpoint` | {{HTTP endpoint for server-side publishing}} |
+| `AppSyncEventsNamespace` | {{Active channel namespace}} |
+| `AppSyncEventsApiKey` | {{API key for browser client subscriptions}} |
+
+{{See [AppSync Events API documentation](/docs/notification-module#appsync-events-service) for server-side usage and [Client-Side Subscription](/docs/notification-module#client-side-subscription) for browser integration.}}
+
 ### {{Step Functions State Machines}}
 
 {{Workflow orchestration for long-running processes:}}

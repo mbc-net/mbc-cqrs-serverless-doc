@@ -575,6 +575,64 @@ noneDataSource.createResolver('SendMessageResolver', {
 });
 ```
 
+### AppSync Events API（オプトイン） {#appsync-events-api}
+
+:::info バージョン情報
+AppSync Events API の CDK プロビジョニング（`appsyncEvents` 設定キー）は[バージョン 1.3.0](/docs/changelog#v130) で追加されました。
+:::
+
+AWS AppSync Events API（スキーマレス HTTP pub/sub）を使用した代替リアルタイムトランスポートです。環境設定に `appsyncEvents` を追加することでオプトインできます:
+
+**設定型定義** (`infra/config/type.ts`):
+
+```typescript
+export interface Config {
+  // ...
+  appsyncEvents?: {
+    enabled: boolean;       // Event API をプロビジョニングするには true に設定
+    namespace?: string;     // チャンネル名前空間名（デフォルト: 'default'）
+    apiKeyExpireDays?: number;  // API キーの有効期限（日数、デフォルト: 365）
+  };
+}
+```
+
+**環境設定の例** (`infra/config/dev/index.ts`):
+
+```typescript
+const config: Config = {
+  env: 'dev',
+  appName: 'your-app',
+  // ...
+  appsyncEvents: {
+    enabled: true,
+    namespace: 'default',
+    apiKeyExpireDays: 365,
+  },
+};
+```
+
+**CDK スタックの動作:**
+
+`appsyncEvents.enabled` が `true` の場合、CDK スタックは自動的に以下を行います:
+
+1. IAM + API キー認証の `aws_appsync.EventApi` をプロビジョニング
+2. 設定した `namespace` に一致する `ChannelNamespace` を作成
+3. Lambda と ECS に 3 つの環境変数を注入:
+   - `NOTIFICATION_TRANSPORTS=appsync-event`
+   - `APPSYNC_EVENTS_ENDPOINT=https://xxx.appsync-api.region.amazonaws.com/event`
+   - `APPSYNC_EVENTS_NAMESPACE=<namespace>`
+4. `grantPublish()` を通じて Lambda と ECS タスクロールに `appsync:EventPublish` を付与
+
+**スタック出力:**
+
+| 出力 | 説明 |
+|-----------|-----------------|
+| `AppSyncEventsHttpEndpoint` | サーバーサイドの公開用 HTTP エンドポイント |
+| `AppSyncEventsNamespace` | アクティブなチャンネル名前空間 |
+| `AppSyncEventsApiKey` | ブラウザクライアントのサブスクリプション用 API キー |
+
+サーバーサイドの使用方法は [AppSync Events API ドキュメント](/docs/notification-module#appsync-events-service)を、ブラウザ統合については[クライアントサイドサブスクリプション](/docs/notification-module#client-side-subscription)を参照してください。
+
 ### Step Functionsステートマシン
 
 長時間実行プロセスのワークフローオーケストレーション：
