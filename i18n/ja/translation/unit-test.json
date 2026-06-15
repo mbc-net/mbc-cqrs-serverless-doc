@@ -48,5 +48,9 @@
   "Testing": "テスト",
   "Testing overview": "テストの概要",
   "Debugging Guide": "デバッグガイド",
-  "Debug test failures": "テスト失敗のデバッグ"
+  "Debug test failures": "テスト失敗のデバッグ",
+  "Testing DataSyncHandlers": "Testing DataSyncHandlers (DataSyncHandlerのテスト)",
+  "Test the `up()` and `down()` methods of an `IDataSyncHandler` by mocking database clients with `createMock()`.": "Test the `up()` and `down()` methods of an `IDataSyncHandler` by mocking database clients with `createMock()`. (`IDataSyncHandler`の`up()`と`down()`メソッドを`createMock()`でDBクライアントをモック化してテストします。)",
+  "Arrange: build a representative CommandModel": "Arrange: build a representative CommandModel (準備：代表的なCommandModelを構築)",
+  "If your handler does not use Prisma (e.g., writes directly to DynamoDB), inject and mock `DynamoDbService` or `DataService` from `@mbc-cqrs-serverless/core` instead.": "If your handler does not use Prisma (e.g., writes directly to DynamoDB), inject and mock `DynamoDbService` or `DataService` from `@mbc-cqrs-serverless/core` instead. (ハンドラーがPrismaを使用しない場合は、`@mbc-cqrs-serverless/core`の`DynamoDbService`または`DataService`を注入してモック化してください。)"
 }

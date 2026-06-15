@@ -293,6 +293,77 @@ jest.mock('@aws-sdk/client-dynamodb', () => {
 :::
 
 
+## {{Testing DataSyncHandlers}} {#testing-data-sync-handlers}
+
+{{Test the `up()` and `down()` methods of an `IDataSyncHandler` by mocking database clients with `createMock()`.}}
+
+```ts
+import { createMock } from '@golevelup/ts-jest'
+import { Test } from '@nestjs/testing'
+import { CommandModel } from '@mbc-cqrs-serverless/core'
+
+import { OrderDataSyncHandler } from './order.handler'
+import { PrismaService } from 'src/prisma.service'
+
+describe('OrderDataSyncHandler', () => {
+  let handler: OrderDataSyncHandler
+  let prisma: jest.Mocked<PrismaService>
+
+  beforeEach(async () => {
+    const moduleRef = await Test.createTestingModule({
+      providers: [OrderDataSyncHandler],
+    })
+      .useMocker(createMock) // {{Auto-mock all dependencies}}
+      .compile()
+
+    handler = moduleRef.get(OrderDataSyncHandler)
+    prisma = moduleRef.get(PrismaService)
+  })
+
+  describe('up', () => {
+    it('should upsert record when command is processed', async () => {
+      // {{Arrange: build a representative CommandModel}}
+      const cmd = {
+        pk: 'ORDER#mbc',
+        sk: 'ORD-001',
+        tenantCode: 'mbc',
+        version: 1,
+        type: 'ORDER',
+        attributes: { customerId: 'C-001', total: 150 },
+      } as unknown as CommandModel
+
+      prisma.order.upsert.mockResolvedValue({ id: 'ORD-001' } as any)
+
+      await handler.up(cmd)
+
+      expect(prisma.order.upsert).toHaveBeenCalledWith(
+        expect.objectContaining({ where: { sk: 'ORD-001' } }),
+      )
+    })
+  })
+
+  describe('down', () => {
+    it('should delete record on rollback', async () => {
+      const cmd = {
+        pk: 'ORDER#mbc',
+        sk: 'ORD-001',
+        tenantCode: 'mbc',
+      } as unknown as CommandModel
+
+      prisma.order.delete.mockResolvedValue({ id: 'ORD-001' } as any)
+
+      await handler.down(cmd)
+
+      expect(prisma.order.delete).toHaveBeenCalledWith({
+        where: { sk: 'ORD-001' },
+      })
+    })
+  })
+})
+```
+
+{{If your handler does not use Prisma (e.g., writes directly to DynamoDB), inject and mock `DynamoDbService` or `DataService` from `@mbc-cqrs-serverless/core` instead.}}
+
 ## {{Related Documentation}}
 
 - [{{E2E Testing}}](/docs/e2e-test) - {{End-to-end testing guide}}

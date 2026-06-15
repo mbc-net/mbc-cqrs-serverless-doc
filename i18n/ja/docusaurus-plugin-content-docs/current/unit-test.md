@@ -293,6 +293,77 @@ jest.mock('@aws-sdk/client-dynamodb', () => {
 :::
 
 
+## Testing DataSyncHandlers (DataSyncHandlerのテスト) {#testing-data-sync-handlers}
+
+Test the `up()` and `down()` methods of an `IDataSyncHandler` by mocking database clients with `createMock()`. (`IDataSyncHandler`の`up()`と`down()`メソッドを`createMock()`でDBクライアントをモック化してテストします。)
+
+```ts
+import { createMock } from '@golevelup/ts-jest'
+import { Test } from '@nestjs/testing'
+import { CommandModel } from '@mbc-cqrs-serverless/core'
+
+import { OrderDataSyncHandler } from './order.handler'
+import { PrismaService } from 'src/prisma.service'
+
+describe('OrderDataSyncHandler', () => {
+  let handler: OrderDataSyncHandler
+  let prisma: jest.Mocked<PrismaService>
+
+  beforeEach(async () => {
+    const moduleRef = await Test.createTestingModule({
+      providers: [OrderDataSyncHandler],
+    })
+      .useMocker(createMock) // Auto-mock all dependencies (すべての依存関係を自動モック)
+      .compile()
+
+    handler = moduleRef.get(OrderDataSyncHandler)
+    prisma = moduleRef.get(PrismaService)
+  })
+
+  describe('up', () => {
+    it('should upsert record when command is processed', async () => {
+      // Arrange: build a representative CommandModel (準備：代表的なCommandModelを構築)
+      const cmd = {
+        pk: 'ORDER#mbc',
+        sk: 'ORD-001',
+        tenantCode: 'mbc',
+        version: 1,
+        type: 'ORDER',
+        attributes: { customerId: 'C-001', total: 150 },
+      } as unknown as CommandModel
+
+      prisma.order.upsert.mockResolvedValue({ id: 'ORD-001' } as any)
+
+      await handler.up(cmd)
+
+      expect(prisma.order.upsert).toHaveBeenCalledWith(
+        expect.objectContaining({ where: { sk: 'ORD-001' } }),
+      )
+    })
+  })
+
+  describe('down', () => {
+    it('should delete record on rollback', async () => {
+      const cmd = {
+        pk: 'ORDER#mbc',
+        sk: 'ORD-001',
+        tenantCode: 'mbc',
+      } as unknown as CommandModel
+
+      prisma.order.delete.mockResolvedValue({ id: 'ORD-001' } as any)
+
+      await handler.down(cmd)
+
+      expect(prisma.order.delete).toHaveBeenCalledWith({
+        where: { sk: 'ORD-001' },
+      })
+    })
+  })
+})
+```
+
+If your handler does not use Prisma (e.g., writes directly to DynamoDB), inject and mock `DynamoDbService` or `DataService` from `@mbc-cqrs-serverless/core` instead. (ハンドラーがPrismaを使用しない場合は、`@mbc-cqrs-serverless/core`の`DynamoDbService`または`DataService`を注入してモック化してください。)
+
 ## 関連ドキュメント
 
 - [E2Eテスト](/docs/e2e-test) - エンドツーエンドテストガイド

@@ -48,5 +48,9 @@
   "Testing": "Testing",
   "Testing overview": "Testing overview",
   "Debugging Guide": "Debugging Guide",
-  "Debug test failures": "Debug test failures"
+  "Debug test failures": "Debug test failures",
+  "Testing DataSyncHandlers": "Testing DataSyncHandlers",
+  "Test the `up()` and `down()` methods of an `IDataSyncHandler` by mocking database clients with `createMock()`.": "Test the `up()` and `down()` methods of an `IDataSyncHandler` by mocking database clients with `createMock()`.",
+  "Arrange: build a representative CommandModel": "Arrange: build a representative CommandModel",
+  "If your handler does not use Prisma (e.g., writes directly to DynamoDB), inject and mock `DynamoDbService` or `DataService` from `@mbc-cqrs-serverless/core` instead.": "If your handler does not use Prisma (e.g., writes directly to DynamoDB), inject and mock `DynamoDbService` or `DataService` from `@mbc-cqrs-serverless/core` instead."
 }
