@@ -145,13 +145,15 @@ aws dynamodb query \
 ストリームレコードをデバッグ：
 
 ```typescript
-@EventHandler(DataSyncEvent)
-export class DebugHandler implements IEventHandler<DataSyncEvent> {
-  async execute(event: DataSyncEvent): Promise<void> {
-    console.log('Stream record:', JSON.stringify(event.record, null, 2));
+import { DataSyncNewCommandEvent, IEventHandler } from '@mbc-cqrs-serverless/core';
+
+@EventHandler(DataSyncNewCommandEvent)
+export class DebugHandler implements IEventHandler<DataSyncNewCommandEvent> {
+  async execute(event: DataSyncNewCommandEvent): Promise<void> {
+    console.log('DynamoDB stream record:', JSON.stringify(event.dynamodb, null, 2));
     console.log('Event name:', event.eventName);
-    console.log('New image:', event.newImage);
-    console.log('Old image:', event.oldImage);
+    console.log('New image:', event.dynamodb?.NewImage);
+    console.log('Old image:', event.dynamodb?.OldImage);
   }
 }
 ```

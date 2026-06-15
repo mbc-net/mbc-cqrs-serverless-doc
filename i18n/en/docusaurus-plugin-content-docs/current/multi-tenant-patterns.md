@@ -283,6 +283,7 @@ export class UserService {
       code: `${tenantCode}-${userCode}`,
       name: `User ${userCode} in ${tenantCode}`,
       type: 'USER_TENANT',
+      version: VERSION_FIRST,
       attributes: {
         userCode,
         tenantCode,
@@ -391,11 +392,11 @@ export class TenantSyncService {
       code: sourceItem.code,
       name: sourceItem.name,
       type: sourceItem.type,
-      attributes: sourceItem.attributes,
-      // Mark as synced from source
-      metadata: {
+      version: VERSION_FIRST,
+      attributes: {
+        ...sourceItem.attributes,
+        // Mark as synced from source
         syncedFrom: sourceItem.id,
-        syncedAt: new Date().toISOString(),
       },
     }, { invokeContext });
   }
@@ -532,6 +533,7 @@ export class TenantSettingsService {
       code: 'config',
       name: 'Tenant Configuration',
       type: 'SETTINGS',
+      version: VERSION_FIRST,
       attributes: mergedSettings,
     }, { invokeContext });
 

@@ -39,6 +39,7 @@ import { Module } from '@nestjs/common';
   imports: [
     SurveyTemplateModule.register({
       enableController: true,  // Enable REST API endpoints
+      prismaService: PrismaService,  // Required when enableController is true
     }),
   ],
 })
@@ -67,11 +68,10 @@ export class SurveyService {
   ) {}
 
   async createTemplate(
-    tenantCode: string,
-    dto: CreateSurveyTemplateDto,
+    dto: SurveyTemplateCreateDto,
     invokeContext: IInvoke,
-  ): Promise<SurveyTemplateEntity> {
-    return this.surveyTemplateService.create(tenantCode, dto, { invokeContext });
+  ): Promise<SurveyTemplateDataEntity> {
+    return this.surveyTemplateService.create(dto, { invokeContext });
   }
 }
 ```
@@ -177,11 +177,11 @@ interface TemplateSettings {
 async searchTemplates(
   tenantCode: string,
   searchDto: SearchDto,
-): Promise<SurveyTemplateEntity[]> {
+): Promise<SurveyTemplateDataListEntity> {
   return this.surveyTemplateService.searchData(tenantCode, searchDto);
 }
 
-async getTemplate(key: DetailKey): Promise<SurveyTemplateEntity> {
+async getTemplate(key: DetailKey): Promise<SurveyTemplateDataEntity> {
   return this.surveyTemplateService.findOne(key);
 }
 ```
@@ -191,9 +191,9 @@ async getTemplate(key: DetailKey): Promise<SurveyTemplateEntity> {
 ```typescript
 async updateTemplate(
   key: DetailKey,
-  dto: UpdateSurveyTemplateDto,
+  dto: SurveyTemplateUpdateDto,
   invokeContext: IInvoke,
-): Promise<SurveyTemplateEntity> {
+): Promise<SurveyTemplateDataEntity> {
   return this.surveyTemplateService.update(key, dto, { invokeContext });
 }
 ```
@@ -204,7 +204,7 @@ async updateTemplate(
 async deleteTemplate(
   key: DetailKey,
   invokeContext: IInvoke,
-): Promise<SurveyTemplateEntity> {
+): Promise<SurveyTemplateDataEntity> {
   return this.surveyTemplateService.remove(key, { invokeContext });
 }
 ```
@@ -227,7 +227,7 @@ export class SurveyTemplateController {
   async searchData(
     @Query() searchDto: SearchDto,
     @INVOKE_CONTEXT() invokeContext: IInvoke,
-  ): Promise<SurveyTemplateEntity[]> {
+  ): Promise<SurveyTemplateDataListEntity> {
     const { tenantCode } = getUserContext(invokeContext);
     return this.surveyTemplateService.searchData(tenantCode, searchDto);
   }
