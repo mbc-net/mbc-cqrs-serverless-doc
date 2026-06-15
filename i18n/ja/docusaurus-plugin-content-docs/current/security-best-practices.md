@@ -31,6 +31,16 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
+export class OrderItemDto {
+  @IsNotEmpty()
+  @IsString()
+  productId: string;
+
+  @IsNumber()
+  @Min(1)
+  quantity: number;
+}
+
 export class CreateOrderDto {
   @IsNotEmpty()
   @IsString()
@@ -98,6 +108,7 @@ export class CommentDto {
 ファイルタイプ、サイズを制限し、マルウェアをスキャンします。
 
 ```typescript
+import { BadRequestException } from '@nestjs/common';
 import FileType from 'file-type'; // npm install file-type
 
 // Validate file type and size (ファイルタイプとサイズを検証)
@@ -239,6 +250,7 @@ async function refreshTokenIfNeeded(): Promise<string> {
 フレームワークの `@Auth` デコレータを使用してください。`RolesGuard` が適用され、`custom:roles` JWT クレームのロール（および `custom:groups` 由来のグループロール）が検証されます。ロールモデルの全体像は[認証](/docs/authentication)を参照してください。
 
 ```typescript
+import { Controller, Get } from '@nestjs/common';
 import { Auth, ROLE_SYSTEM_ADMIN } from '@mbc-cqrs-serverless/core';
 
 // Usage in controller (コントローラーでの使用)
@@ -274,6 +286,7 @@ export class MyGroupRoleResolver implements IGroupRoleResolver { ... }
 テナントコードは必ず `getUserContext()` で検証済み JWT から取得してください — リクエストパラメータやリクエストボディから取得してはいけません。フレームワークの `RolesGuard` がテナントアクセスを検証します（共通テナント向けの `x-tenant-code` ヘッダーオーバーライドを含む）。
 
 ```typescript
+import { Get } from '@nestjs/common';
 import {
   getUserContext,
   IInvoke,
@@ -301,6 +314,9 @@ async function getOrdersByTenant(invokeContext: IInvoke) {
 操作を許可する前に所有権を確認します。
 
 ```typescript
+import { NotFoundException, ForbiddenException } from '@nestjs/common';
+import { getUserContext, IInvoke, ROLE_SYSTEM_ADMIN } from '@mbc-cqrs-serverless/core';
+
 // In a service class with dataService and commandService injected (dataServiceとcommandServiceが注入されたサービスクラス内で)
 async updateOrder(
   pk: string,   // e.g., 'ORDER#tenant-a'

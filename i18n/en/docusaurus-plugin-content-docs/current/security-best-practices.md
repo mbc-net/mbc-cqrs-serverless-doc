@@ -31,6 +31,16 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
+export class OrderItemDto {
+  @IsNotEmpty()
+  @IsString()
+  productId: string;
+
+  @IsNumber()
+  @Min(1)
+  quantity: number;
+}
+
 export class CreateOrderDto {
   @IsNotEmpty()
   @IsString()
@@ -98,6 +108,7 @@ export class CommentDto {
 Restrict file types, sizes, and scan for malware.
 
 ```typescript
+import { BadRequestException } from '@nestjs/common';
 import FileType from 'file-type'; // npm install file-type
 
 // Validate file type and size
@@ -239,6 +250,7 @@ async function refreshTokenIfNeeded(): Promise<string> {
 Use the framework's `@Auth` decorator, which applies `RolesGuard` and checks the roles carried in the `custom:roles` JWT claim (and group-derived roles from `custom:groups`). See [Authentication](/docs/authentication) for the full role model.
 
 ```typescript
+import { Controller, Get } from '@nestjs/common';
 import { Auth, ROLE_SYSTEM_ADMIN } from '@mbc-cqrs-serverless/core';
 
 // Usage in controller
@@ -274,6 +286,7 @@ See [Group-Based Roles](/docs/authentication#group-based-roles) for implementati
 Always derive the tenant code from the verified JWT via `getUserContext()` — never from request parameters or the request body. The framework's `RolesGuard` verifies tenant access (including the `x-tenant-code` header override for common tenants).
 
 ```typescript
+import { Get } from '@nestjs/common';
 import {
   getUserContext,
   IInvoke,
@@ -301,6 +314,9 @@ async function getOrdersByTenant(invokeContext: IInvoke) {
 Check ownership before allowing operations.
 
 ```typescript
+import { NotFoundException, ForbiddenException } from '@nestjs/common';
+import { getUserContext, IInvoke, ROLE_SYSTEM_ADMIN } from '@mbc-cqrs-serverless/core';
+
 // In a service class with dataService and commandService injected
 async updateOrder(
   pk: string,   // e.g., 'ORDER#tenant-a'

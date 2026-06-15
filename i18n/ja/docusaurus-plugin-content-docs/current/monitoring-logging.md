@@ -97,6 +97,7 @@ export class TodoService {
 CDKでログ保持を設定：
 
 ```typescript
+import * as cdk from 'aws-cdk-lib';
 import * as logs from 'aws-cdk-lib/aws-logs';
 
 const logGroup = new logs.LogGroup(this, 'AppLogGroup', {
