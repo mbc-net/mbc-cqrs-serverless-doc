@@ -95,5 +95,7 @@
   "Error Catalog": "Error Catalog",
   "Security-related error codes": "Security-related error codes",
   "Monitoring and Logging": "Monitoring and Logging",
-  "Security event monitoring": "Security event monitoring"
+  "Security event monitoring": "Security event monitoring",
+  "In a service class with dataService and commandService injected": "In a service class with dataService and commandService injected",
+  "Check ownership — allow system_admin to bypass": "Check ownership — allow system_admin to bypass"
 }

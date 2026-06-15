@@ -284,7 +284,7 @@ async function getOrdersByTenant(invokeContext: IInvoke) {
 Check ownership before allowing operations.
 
 ```typescript
-// {{In a service class with dataService and commandService injected}}
+// In a service class with dataService and commandService injected
 async updateOrder(
   pk: string,   // e.g., 'ORDER#tenant-a'
   sk: string,   // e.g., 'order-123'
@@ -299,7 +299,7 @@ async updateOrder(
     throw new NotFoundException('Order not found');
   }
 
-  // {{Check ownership — allow system_admin to bypass}}
+  // Check ownership — allow system_admin to bypass
   const isAdmin = tenantRoles.includes(ROLE_SYSTEM_ADMIN);
   if (order.createdBy !== userId && !isAdmin) {
     throw new ForbiddenException('Not authorized to update this order');

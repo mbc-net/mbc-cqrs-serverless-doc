@@ -95,5 +95,7 @@
   "Error Catalog": "エラーカタログ",
   "Security-related error codes": "セキュリティ関連エラーコード",
   "Monitoring and Logging": "監視とログ",
-  "Security event monitoring": "セキュリティイベント監視"
+  "Security event monitoring": "セキュリティイベント監視",
+  "In a service class with dataService and commandService injected": "In a service class with dataService and commandService injected (dataServiceとcommandServiceが注入されたサービスクラス内で)",
+  "Check ownership — allow system_admin to bypass": "Check ownership — allow system_admin to bypass (所有権を確認 — system_adminはバイパス可能)"
 }
