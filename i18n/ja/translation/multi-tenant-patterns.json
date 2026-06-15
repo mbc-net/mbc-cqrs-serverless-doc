@@ -44,7 +44,7 @@
   "Use a common tenant code for data shared across all tenants:": "すべてのテナントで共有されるデータには共通のテナントコードを使用します：",
   "Shared data pattern for master data and configurations": "Shared data pattern for master data and configurations (共有データパターン：マスターデータ、設定)",
   "System-wide settings": "システム全体の設定",
-  "User data (users can belong to multiple tenants)": "ユーザーデータ（ユーザーは複数テナントに属せる）",
+  "User data (users can belong to multiple tenants)": "ユーザーデータ（ユーザーは複数のテナントに属することができる）",
   "Example: Get system-wide email templates": "例: システム全体のメールテンプレートを取得",
   "Pattern 3: User-Tenant Association": "パターン3: ユーザー・テナント関連付け",
   "Handle users belonging to multiple tenants:": "複数のテナントに所属するユーザーを処理します：",
