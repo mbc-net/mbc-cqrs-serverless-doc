@@ -709,3 +709,11 @@ await dataService.getItem({ pk, sk: cleanSk });
 | `VERSION_LATEST` | `-1` | SKにバージョンがない場合に返される |
 | `TENANT_COMMON` | `common` | クロステナント共有データに使用 |
 | `DEFAULT_TENANT_CODE` | `single` | シングルテナントモードのデフォルト |
+
+## 関連ドキュメント
+
+- [エンティティパターン](/docs/entity-patterns) - これらのキーパターンを使用するエンティティの定義
+- [データサービス](/docs/data-service) - 設計されたキーを使ったデータのクエリ
+- [マルチテナントパターン](/docs/multi-tenant-patterns) - テナント分離とクロステナント操作
+- [バージョン競合ガイド](/docs/version-conflict-guide) - バージョンキーを使った並行制御
+- [ヘルパー](/docs/helpers) - キーヘルパー関数リファレンス

@@ -304,6 +304,41 @@ const result = await this.dataService.listItemsByPk(pk);
 const listEntity = new DataListEntity(result);
 ```
 
+## HistoryService {#history-service}
+
+The `HistoryService` provides access to the history table, which stores all previous versions of commands. Use it when you need to retrieve a specific historical version of an entity for audit trails or rollback scenarios.
+
+```ts
+import {
+  HistoryService,
+  addSortKeyVersion,
+} from '@mbc-cqrs-serverless/core';
+import { Injectable, NotFoundException } from '@nestjs/common';
+
+@Injectable()
+export class ProductService {
+  constructor(private readonly historyService: HistoryService) {}
+
+  async findVersion(pk: string, sk: string, version: number) {
+    const skWithVersion = addSortKeyVersion(sk, version);
+    const item = await this.historyService.getItem({ pk, sk: skWithVersion });
+
+    if (!item) {
+      throw new NotFoundException(`Version ${version} not found`);
+    }
+    return item;
+  }
+}
+```
+
+### *async* `getItem(key: DetailKey): Promise<DataModel | undefined>`
+
+Retrieves a specific versioned item from the history table. The sort key must include the version suffix (use `addSortKeyVersion` to build it). Returns `undefined` if the version does not exist.
+
+:::note
+The history table uses the same key structure as the data table, but the sort key includes the version suffix: `sk@version`. Always use `addSortKeyVersion(sk, version)` to construct the key.
+:::
+
 ## Best Practices {#best-practices}
 
 1. **Use projection expressions**: Only retrieve the attributes you need to reduce data transfer

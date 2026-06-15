@@ -304,6 +304,41 @@ const result = await this.dataService.listItemsByPk(pk);
 const listEntity = new DataListEntity(result);
 ```
 
+## HistoryService {#history-service}
+
+`HistoryService` は履歴テーブルへのアクセスを提供し、コマンドのすべての過去バージョンを保存します。監査証跡やロールバックのシナリオで特定の履歴バージョンを取得する必要がある場合に使用します。
+
+```ts
+import {
+  HistoryService,
+  addSortKeyVersion,
+} from '@mbc-cqrs-serverless/core';
+import { Injectable, NotFoundException } from '@nestjs/common';
+
+@Injectable()
+export class ProductService {
+  constructor(private readonly historyService: HistoryService) {}
+
+  async findVersion(pk: string, sk: string, version: number) {
+    const skWithVersion = addSortKeyVersion(sk, version);
+    const item = await this.historyService.getItem({ pk, sk: skWithVersion });
+
+    if (!item) {
+      throw new NotFoundException(`Version ${version} not found`);
+    }
+    return item;
+  }
+}
+```
+
+### *async* `getItem(key: DetailKey): Promise<DataModel | undefined>`
+
+履歴テーブルから特定バージョンのアイテムを取得します。ソートキーにはバージョンサフィックスが必要です（`addSortKeyVersion` を使用して構築してください）。バージョンが存在しない場合は `undefined` を返します。
+
+:::note
+履歴テーブルはデータテーブルと同じキー構造を使用しますが、ソートキーにはバージョンサフィックスが含まれます: `sk@version`。キーの構築には常に `addSortKeyVersion(sk, version)` を使用してください。
+:::
+
 ## ベストプラクティス {#best-practices}
 
 1. **プロジェクション式を使用**: データ転送を削減するために必要な属性のみを取得

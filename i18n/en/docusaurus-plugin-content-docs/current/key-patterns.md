@@ -709,3 +709,11 @@ await dataService.getItem({ pk, sk: cleanSk });
 | `VERSION_LATEST` | `-1` | Returned when SK has no version |
 | `TENANT_COMMON` | `common` | Use for cross-tenant shared data |
 | `DEFAULT_TENANT_CODE` | `single` | Default for single-tenant mode |
+
+## Related Documentation
+
+- [Entity Patterns](/docs/entity-patterns) - Define entities that use these key patterns
+- [Data Service](/docs/data-service) - Query data using designed keys
+- [Multi-Tenant Patterns](/docs/multi-tenant-patterns) - Tenant isolation and cross-tenant operations
+- [Version Conflict Guide](/docs/version-conflict-guide) - Concurrency control using version keys
+- [Helpers](/docs/helpers) - Key helper functions reference
