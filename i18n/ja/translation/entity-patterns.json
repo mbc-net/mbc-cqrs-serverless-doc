@@ -157,5 +157,11 @@
   "Service Patterns": "サービスパターン",
   "Service layer with entities": "エンティティを使ったサービス層",
   "Not this:": "非推奨の書き方:",
-  "In DTO": "DTO 内"
+  "In DTO": "DTO 内",
+  "Sort key. Format: `{entityType}#{entityId}` — **no version suffix** (unlike CommandEntity)": "ソートキー。形式: `{entityType}#{entityId}` — **バージョンサフィックスなし**（CommandEntityとの違い）",
+  "Command partition key — records the PK of the command that created/updated this data item (audit trail)": "コマンドパーティションキー — このデータアイテムを作成・更新したコマンドのPKを記録（監査証跡）",
+  "Command sort key — records the exact SK (including `@version`) of the source command (audit trail)": "コマンドソートキー — 元コマンドの正確なSK（`@version`を含む）を記録（監査証跡）",
+  "total field is not auto-populated": "totalフィールドは自動設定されません",
+  "`DataService.listItemsByPk()` does **not** set `total` — it only sets `items` and `lastSk`. To populate `total`, run a separate `countItemsByPk()` call. Avoid displaying `total` in the UI unless you explicitly populate it.": "`DataService.listItemsByPk()`は`total`を**設定しません** — `items`と`lastSk`のみ設定されます。`total`を取得するには別途`countItemsByPk()`を実行してください。明示的に設定しない限り、UIに`total`を表示しないでください。",
+  "Use `DataListEntity` as the return type for all list/search service methods. Always return it from controllers — never return raw arrays — so the frontend receives a consistent `{ items, total, lastSk }` envelope.": "すべてのリスト・検索サービスメソッドの戻り値型に`DataListEntity`を使用してください。コントローラーから常にこの型を返し、生の配列を返さないようにすることで、フロントエンドは一貫した`{ items, total, lastSk }`形式のレスポンスを受け取れます。"
 }

@@ -70,15 +70,15 @@ export class ProductDataEntity extends DataEntity {
 | プロパティ | 型 | 必須 | 説明 |
 |--------------|----------|--------------|-----------------|
 | `pk` | `string` | はい | パーティションキー。形式: `{entityType}#{tenantCode}` |
-| `sk` | `string` | はい | ソートキー。形式: `{entityType}#{entityId}` |
+| `sk` | `string` | はい | ソートキー。形式: `{entityType}#{entityId}` — **バージョンサフィックスなし**（CommandEntityとの違い） |
 | `id` | `string` | はい | エンティティの一意識別子 |
 | `code` | `string` | はい | ビジネスコード |
 | `name` | `string` | はい | 表示名 |
 | `version` | `number` | はい | 楽観的ロック用のバージョン番号 |
 | `tenantCode` | `string` | はい | マルチテナント分離用のテナントコード |
 | `type` | `string` | はい | エンティティタイプ識別子 |
-| `cpk` | `string` | いいえ | コマンドパーティションキー - ソースコマンドレコードを参照 |
-| `csk` | `string` | いいえ | バージョン付きコマンドソートキー - 正確なコマンドバージョンを参照 |
+| `cpk` | `string` | いいえ | コマンドパーティションキー — このデータアイテムを作成・更新したコマンドのPKを記録（監査証跡） |
+| `csk` | `string` | いいえ | コマンドソートキー — 元コマンドの正確なSK（`@version`を含む）を記録（監査証跡） |
 | `seq` | `number` | いいえ | シーケンス番号 |
 | `ttl` | `number` | いいえ | DynamoDB TTL用の有効期限（秒） |
 | `isDeleted` | `boolean` | いいえ | 論理削除フラグ |
@@ -198,6 +198,12 @@ export class ProductListEntity extends DataListEntity {
   lastSk?: string;      // Last sort key for pagination
 }
 ```
+
+:::warning totalフィールドは自動設定されません
+`DataService.listItemsByPk()`は`total`を**設定しません** — `items`と`lastSk`のみ設定されます。`total`を取得するには別途`countItemsByPk()`を実行してください。明示的に設定しない限り、UIに`total`を表示しないでください。
+:::
+
+すべてのリスト・検索サービスメソッドの戻り値型に`DataListEntity`を使用してください。コントローラーから常にこの型を返し、生の配列を返さないようにすることで、フロントエンドは一貫した`{ items, total, lastSk }`形式のレスポンスを受け取れます。
 
 ## Command DTO {#command-dto}
 

@@ -70,15 +70,15 @@ export class ProductDataEntity extends DataEntity {
 | {{Property}} | {{Type}} | {{Required}} | {{Description}} |
 |--------------|----------|--------------|-----------------|
 | `pk` | `string` | {{Yes}} | {{Partition key. Format: `{entityType}#{tenantCode}`}} |
-| `sk` | `string` | {{Yes}} | {{Sort key. Format: `{entityType}#{entityId}`}} |
+| `sk` | `string` | {{Yes}} | {{Sort key. Format: `{entityType}#{entityId}` — **no version suffix** (unlike CommandEntity)}} |
 | `id` | `string` | {{Yes}} | {{Unique entity identifier}} |
 | `code` | `string` | {{Yes}} | {{Business code}} |
 | `name` | `string` | {{Yes}} | {{Display name}} |
 | `version` | `number` | {{Yes}} | {{Version number for optimistic locking}} |
 | `tenantCode` | `string` | {{Yes}} | {{Tenant code for multi-tenant isolation}} |
 | `type` | `string` | {{Yes}} | {{Entity type identifier}} |
-| `cpk` | `string` | {{No}} | {{Command partition key - references source command record}} |
-| `csk` | `string` | {{No}} | {{Command sort key with version - references exact command version}} |
+| `cpk` | `string` | {{No}} | {{Command partition key — records the PK of the command that created/updated this data item (audit trail)}} |
+| `csk` | `string` | {{No}} | {{Command sort key — records the exact SK (including `@version`) of the source command (audit trail)}} |
 | `seq` | `number` | {{No}} | {{Sequence number}} |
 | `ttl` | `number` | {{No}} | {{Time-to-live in seconds for DynamoDB TTL}} |
 | `isDeleted` | `boolean` | {{No}} | {{Soft delete flag}} |
@@ -198,6 +198,12 @@ export class ProductListEntity extends DataListEntity {
   lastSk?: string;      // Last sort key for pagination
 }
 ```
+
+:::warning {{total field is not auto-populated}}
+{{`DataService.listItemsByPk()` does **not** set `total` — it only sets `items` and `lastSk`. To populate `total`, run a separate `countItemsByPk()` call. Avoid displaying `total` in the UI unless you explicitly populate it.}}
+:::
+
+{{Use `DataListEntity` as the return type for all list/search service methods. Always return it from controllers — never return raw arrays — so the frontend receives a consistent `{ items, total, lastSk }` envelope.}}
 
 ## {{Command DTO}} {#command-dto}
 

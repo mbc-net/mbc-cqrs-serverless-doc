@@ -157,5 +157,11 @@
   "Service Patterns": "Service Patterns",
   "Service layer with entities": "Service layer with entities",
   "Not this:": "Not this:",
-  "In DTO": "In DTO"
+  "In DTO": "In DTO",
+  "Sort key. Format: `{entityType}#{entityId}` — **no version suffix** (unlike CommandEntity)": "Sort key. Format: `{entityType}#{entityId}` — **no version suffix** (unlike CommandEntity)",
+  "Command partition key — records the PK of the command that created/updated this data item (audit trail)": "Command partition key — records the PK of the command that created/updated this data item (audit trail)",
+  "Command sort key — records the exact SK (including `@version`) of the source command (audit trail)": "Command sort key — records the exact SK (including `@version`) of the source command (audit trail)",
+  "total field is not auto-populated": "total field is not auto-populated",
+  "`DataService.listItemsByPk()` does **not** set `total` — it only sets `items` and `lastSk`. To populate `total`, run a separate `countItemsByPk()` call. Avoid displaying `total` in the UI unless you explicitly populate it.": "`DataService.listItemsByPk()` does **not** set `total` — it only sets `items` and `lastSk`. To populate `total`, run a separate `countItemsByPk()` call. Avoid displaying `total` in the UI unless you explicitly populate it.",
+  "Use `DataListEntity` as the return type for all list/search service methods. Always return it from controllers — never return raw arrays — so the frontend receives a consistent `{ items, total, lastSk }` envelope.": "Use `DataListEntity` as the return type for all list/search service methods. Always return it from controllers — never return raw arrays — so the frontend receives a consistent `{ items, total, lastSk }` envelope."
 }
