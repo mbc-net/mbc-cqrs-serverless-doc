@@ -89,6 +89,7 @@ export class YourModule {}
 {{All services are available for injection in your NestJS providers:}}
 
 ```typescript
+import { Injectable } from '@nestjs/common';
 import { CommandService, DataService } from '@mbc-cqrs-serverless/core';
 
 @Injectable()

@@ -89,6 +89,7 @@ export class YourModule {}
 すべてのサービスはNestJSプロバイダーでインジェクション可能です：
 
 ```typescript
+import { Injectable } from '@nestjs/common';
 import { CommandService, DataService } from '@mbc-cqrs-serverless/core';
 
 @Injectable()
