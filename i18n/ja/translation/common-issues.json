@@ -24,7 +24,7 @@
   "Cannot connect to DynamoDB Local.": "DynamoDB Localに接続できない。",
   "Verify DynamoDB Local is running:": "DynamoDB Localが実行中であることを確認：",
   "Check the endpoint URL in your configuration:": "設定でエンドポイントURLを確認：",
-  "Should be http://localhost:8000 for local development": "ローカル開発では http://localhost:8000 を使用",
+  "Should be http://localhost:8000 for local development": "Should be http://localhost:8000 for local development (ローカル開発では http://localhost:8000 を使用)",
   "Verify tables exist:": "テーブルが存在することを確認：",
   "Prisma migration errors": "Prismaマイグレーションエラー",
   "Prisma migrate fails with connection errors.": "Prisma migrateが接続エラーで失敗する。",
