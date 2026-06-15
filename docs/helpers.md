@@ -243,6 +243,7 @@ interface JwtClaims {
   name: string;                    // {{User's name}}
   'custom:tenant'?: string;        // {{User's default tenant code}}
   'custom:roles'?: string;         // {{JSON array of tenant roles}}
+  'custom:groups'?: string;        // {{JSON array of TenantGroupMembership}}
   exp: number;                     // {{Expiration timestamp}}
   email: string;                   // {{User's email address}}
   email_verified?: boolean;        // {{Email verification status}}
