@@ -241,6 +241,12 @@ import { CommandService, DataService, IInvoke, KEY_SEPARATOR, generateId } from 
 
 @Injectable()
 export class UserService {
+  constructor(
+    private readonly commandService: CommandService,
+    private readonly dataService: DataService,
+    private readonly authService: AuthService,
+  ) {}
+
   /**
    * {{Get all tenants a user belongs to}}
    */

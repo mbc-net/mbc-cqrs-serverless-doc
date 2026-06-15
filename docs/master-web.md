@@ -1407,6 +1407,7 @@ import { useParams } from 'next/navigation'
 import axios from 'axios'
 import { fetchAuthSession } from 'aws-amplify/auth'
 import type { IUrlProvider } from '@mbc-cqrs-serverless/master-web/UrlProvider'
+import '@mbc-cqrs-serverless/master-web/styles.css'
 import '@/modules/common/components/ConfigureAmplifyClientSide'
 
 // {{Dynamic import of AppProviders (SSR disabled)}}
