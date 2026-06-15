@@ -7,7 +7,7 @@ description: {{Comprehensive error catalog with causes, solutions, and recovery 
 
 {{This catalog provides comprehensive documentation of errors encountered in MBC CQRS Serverless, including their causes, solutions, and recovery strategies.}}
 
-## {{Quick Reference}}
+## {{Quick Reference}} {#quick-reference}
 
 {{Use this table to quickly identify errors and jump to solutions.}}
 
@@ -19,7 +19,7 @@ description: {{Comprehensive error catalog with causes, solutions, and recovery 
 | MBC-CMD-002 | {{Invalid input key: item not found}} | {{Medium}} | {{Check if item exists before update}} |
 | MBC-CMD-003 | {{Invalid input version}} | {{Medium}} | {{Use latest version from getItem()}} |
 
-### {{Tenant Errors}}
+### {{Tenant Errors}} {#tenant-errors}
 
 | {{Code}} | {{Error Message}} | {{Severity}} | {{Quick Fix}} |
 |----------|-------------------|--------------|---------------|
@@ -33,13 +33,13 @@ description: {{Comprehensive error catalog with causes, solutions, and recovery 
 | MBC-SEQ-001 | {{Sequence not found}} | {{Medium}} | {{Sequence auto-initializes on first use}} |
 | MBC-TSK-001 | {{Task not found}} | {{Medium}} | {{Verify task exists with NotFoundException}} |
 
-### {{Validation Errors}}
+### {{Validation Errors}} {#validation-errors}
 
 | {{Code}} | {{Error Message}} | {{Severity}} | {{Quick Fix}} |
 |----------|-------------------|--------------|---------------|
 | MBC-VAL-001 | {{Validation failed}} | {{Medium}} | {{Check DTO constraints and input data}} |
 
-### {{DynamoDB Errors}}
+### {{DynamoDB Errors}} {#dynamodb-errors}
 
 | {{Code}} | {{Error Message}} | {{Severity}} | {{Quick Fix}} |
 |----------|-------------------|--------------|---------------|
@@ -64,7 +64,7 @@ description: {{Comprehensive error catalog with causes, solutions, and recovery 
 | MBC-IMP-002 | {{No import strategy found}} | {{High}} | {{Register ImportStrategy in module config}} |
 | MBC-IMP-003 | {{Import stuck in PROCESSING}} | {{High}} | {{Check DynamoDB streams and SNS topics}} |
 
-### {{Step Functions Errors}}
+### {{Step Functions Errors}} {#step-functions-errors}
 
 | {{Code}} | {{Error Message}} | {{Severity}} | {{Quick Fix}} |
 |----------|-------------------|--------------|---------------|
@@ -81,7 +81,7 @@ description: {{Comprehensive error catalog with causes, solutions, and recovery 
 
 ---
 
-## {{Command Service Errors}}
+## {{Command Service Errors}} {#command-service-errors}
 
 ### BadRequestException: "Invalid input: item not found or version mismatch"
 
@@ -172,7 +172,7 @@ if (!existing) {
 
 ---
 
-## {{Tenant Errors}}
+## {{Tenant Errors}} {#tenant-errors}
 
 ### BadRequestException: "Tenant not found"
 
@@ -214,7 +214,7 @@ if (existing && !existing.isDeleted) {
 
 ---
 
-## {{Sequence Errors}}
+## {{Sequence Errors}} {#sequence-errors}
 
 ### BadRequestException: "Sequence not found"
 
@@ -240,7 +240,7 @@ try {
 
 ---
 
-## {{Task Errors}}
+## {{Task Errors}} {#task-errors}
 
 ### NotFoundException: "Task not found"
 
@@ -262,7 +262,7 @@ if (task.status === 'completed') {
 
 ---
 
-## {{Validation Errors}}
+## {{Validation Errors}} {#validation-errors}
 
 ### BadRequestException: "Validation failed"
 
@@ -310,7 +310,7 @@ if (errors.length > 0) {
 
 ---
 
-## {{DynamoDB Errors}}
+## {{DynamoDB Errors}} {#dynamodb-errors}
 
 ### ProvisionedThroughputExceededException
 
@@ -419,7 +419,7 @@ const params = {
 
 ---
 
-## {{Cognito Authentication Errors}}
+## {{Cognito Authentication Errors}} {#cognito-errors}
 
 ### NotAuthorizedException
 
@@ -560,7 +560,7 @@ ImportModule.register({
 
 ---
 
-## {{Step Functions Errors}}
+## {{Step Functions Errors}} {#step-functions-errors}
 
 ### TaskTimedOut
 
@@ -622,7 +622,7 @@ export async function handler(event: StepFunctionEvent) {
 
 ---
 
-## {{S3 Errors}}
+## {{S3 Errors}} {#s3-errors}
 
 ### NoSuchKey
 
@@ -675,7 +675,7 @@ provider:
 
 ---
 
-## {{SQS Errors}}
+## {{SQS Errors}} {#sqs-errors}
 
 ### MessageNotInflight
 
@@ -701,7 +701,7 @@ export async function handler(event: SQSEvent) {
 
 ---
 
-## {{HTTP Status Code Reference}}
+## {{HTTP Status Code Reference}} {#http-status-codes}
 
 | {{Status}} | {{Exception}} | {{Meaning}} | {{Recovery Strategy}} |
 |--------|-----------|---------|-------------------|
@@ -719,7 +719,7 @@ export async function handler(event: SQSEvent) {
 
 ---
 
-## {{Error Handling Best Practices}}
+## {{Error Handling Best Practices}} {#error-handling-best-practices}
 
 ### {{1. Centralized Error Handler}}
 
@@ -858,7 +858,7 @@ class CircuitBreaker {
 
 ---
 
-## {{Debugging Tips}}
+## {{Debugging Tips}} {#debugging-tips}
 
 1. **{{Enable debug logging}}**:
    ```bash

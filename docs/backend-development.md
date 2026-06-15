@@ -56,7 +56,7 @@ import { ProductDataSyncRdsHandler } from './handler/product-rds.handler';
 export class ProductModule {}
 ```
 
-## {{Entity Design}}
+## {{Entity Design}} {#entity-design}
 
 ### {{Command Entity}}
 
@@ -408,7 +408,7 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
 }
 ```
 
-## {{Prisma Schema}}
+## {{Prisma Schema}} {#prisma-schema}
 
 ### {{Standard Model Definition}}
 

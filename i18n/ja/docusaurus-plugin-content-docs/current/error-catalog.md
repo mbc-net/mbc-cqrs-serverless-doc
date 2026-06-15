@@ -7,7 +7,7 @@ description: MBC CQRS Serverlessの原因、解決策、復旧戦略を含む包
 
 このカタログでは、MBC CQRS Serverlessで発生するエラーの原因、解決策、復旧戦略を含む包括的なドキュメントを提供します。
 
-## クイックリファレンス
+## クイックリファレンス {#quick-reference}
 
 このテーブルを使用してエラーを素早く特定し、解決策にジャンプできます。
 
@@ -19,7 +19,7 @@ description: MBC CQRS Serverlessの原因、解決策、復旧戦略を含む包
 | MBC-CMD-002 | 無効な入力キー: アイテムが見つからない | 中 | 更新前にアイテムが存在するか確認 |
 | MBC-CMD-003 | 無効な入力バージョン | 中 | getItem()から最新バージョンを使用 |
 
-### テナントエラー
+### テナントエラー {#tenant-errors}
 
 | コード | エラーメッセージ | 重大度 | クイックフィックス |
 |----------|-------------------|--------------|---------------|
@@ -33,13 +33,13 @@ description: MBC CQRS Serverlessの原因、解決策、復旧戦略を含む包
 | MBC-SEQ-001 | シーケンスが見つからない | 中 | シーケンスは初回使用時に自動初期化 |
 | MBC-TSK-001 | タスクが見つからない | 中 | NotFoundExceptionでタスクの存在を確認 |
 
-### バリデーションエラー
+### バリデーションエラー {#validation-errors}
 
 | コード | エラーメッセージ | 重大度 | クイックフィックス |
 |----------|-------------------|--------------|---------------|
 | MBC-VAL-001 | バリデーション失敗 | 中 | DTOの制約と入力データを確認 |
 
-### DynamoDBエラー
+### DynamoDBエラー {#dynamodb-errors}
 
 | コード | エラーメッセージ | 重大度 | クイックフィックス |
 |----------|-------------------|--------------|---------------|
@@ -64,7 +64,7 @@ description: MBC CQRS Serverlessの原因、解決策、復旧戦略を含む包
 | MBC-IMP-002 | インポート戦略が見つからない | 高 | モジュール設定にImportStrategyを登録 |
 | MBC-IMP-003 | インポートがPROCESSINGでスタック | 高 | DynamoDBストリームとSNSトピックを確認 |
 
-### Step Functionsエラー
+### Step Functionsエラー {#step-functions-errors}
 
 | コード | エラーメッセージ | 重大度 | クイックフィックス |
 |----------|-------------------|--------------|---------------|
@@ -81,7 +81,7 @@ description: MBC CQRS Serverlessの原因、解決策、復旧戦略を含む包
 
 ---
 
-## コマンドサービスエラー
+## コマンドサービスエラー {#command-service-errors}
 
 ### BadRequestException: "Invalid input: item not found or version mismatch"
 
@@ -172,7 +172,7 @@ if (!existing) {
 
 ---
 
-## テナントエラー
+## テナントエラー {#tenant-errors}
 
 ### BadRequestException: "Tenant not found"
 
@@ -214,7 +214,7 @@ if (existing && !existing.isDeleted) {
 
 ---
 
-## シーケンスエラー
+## シーケンスエラー {#sequence-errors}
 
 ### BadRequestException: "Sequence not found"
 
@@ -240,7 +240,7 @@ try {
 
 ---
 
-## タスクエラー
+## タスクエラー {#task-errors}
 
 ### NotFoundException: "Task not found"
 
@@ -262,7 +262,7 @@ if (task.status === 'completed') {
 
 ---
 
-## バリデーションエラー
+## バリデーションエラー {#validation-errors}
 
 ### BadRequestException: "Validation failed"
 
@@ -310,7 +310,7 @@ if (errors.length > 0) {
 
 ---
 
-## DynamoDBエラー
+## DynamoDBエラー {#dynamodb-errors}
 
 ### ProvisionedThroughputExceededException
 
@@ -419,7 +419,7 @@ const params = {
 
 ---
 
-## Cognito認証エラー
+## Cognito認証エラー {#cognito-errors}
 
 ### NotAuthorizedException
 
@@ -560,7 +560,7 @@ ImportModule.register({
 
 ---
 
-## Step Functionsエラー
+## Step Functionsエラー {#step-functions-errors}
 
 ### TaskTimedOut
 
@@ -622,7 +622,7 @@ export async function handler(event: StepFunctionEvent) {
 
 ---
 
-## S3エラー
+## S3エラー {#s3-errors}
 
 ### NoSuchKey
 
@@ -675,7 +675,7 @@ provider:
 
 ---
 
-## SQSエラー
+## SQSエラー {#sqs-errors}
 
 ### MessageNotInflight
 
@@ -701,7 +701,7 @@ export async function handler(event: SQSEvent) {
 
 ---
 
-## HTTPステータスコードリファレンス
+## HTTPステータスコードリファレンス {#http-status-codes}
 
 | ステータス | 例外 | 意味 | 復旧戦略 |
 |--------|-----------|---------|-------------------|
@@ -719,7 +719,7 @@ export async function handler(event: SQSEvent) {
 
 ---
 
-## エラーハンドリングのベストプラクティス
+## エラーハンドリングのベストプラクティス {#error-handling-best-practices}
 
 ### 1. 集中エラーハンドラー
 
@@ -858,7 +858,7 @@ class CircuitBreaker {
 
 ---
 
-## デバッグのヒント
+## デバッグのヒント {#debugging-tips}
 
 1. **デバッグログを有効にする**:
    ```bash
