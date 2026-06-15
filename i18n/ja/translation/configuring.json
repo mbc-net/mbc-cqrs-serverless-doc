@@ -62,5 +62,9 @@
   "Modules": "モジュール",
   "Module configuration and registration": "モジュールの設定と登録",
   "Deployment Guide": "デプロイガイド",
-  "Configure for production": "本番環境の設定"
+  "Configure for production": "本番環境の設定",
+  "Required: Default sender email address": "必須: デフォルト送信者メールアドレス",
+  "Optional: AWS SES endpoint (for local development)": "任意: AWS SES エンドポイント（ローカル開発用）",
+  "Optional: AWS SES region": "任意: AWS SES リージョン",
+  "For local dev": "ローカル開発用"
 }

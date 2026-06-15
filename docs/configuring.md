@@ -264,13 +264,13 @@ export class AppModule {}
 {{NotificationModule is configured through environment variables:}}
 
 ```bash
-# Required: Default sender email address
+# {{Required: Default sender email address}}
 SES_FROM_EMAIL=noreply@example.com
 
-# Optional: AWS SES endpoint (for local development)
+# {{Optional: AWS SES endpoint (for local development)}}
 SES_ENDPOINT=http://localhost:4566
 
-# Optional: AWS SES region
+# {{Optional: AWS SES region}}
 SES_REGION=ap-northeast-1
 ```
 
@@ -391,7 +391,7 @@ export default () => ({
 
   aws: {
     region: process.env.AWS_REGION || 'ap-northeast-1',
-    dynamodbEndpoint: process.env.DYNAMODB_ENDPOINT, // For local dev
+    dynamodbEndpoint: process.env.DYNAMODB_ENDPOINT, // {{For local dev}}
   },
 
   auth: {

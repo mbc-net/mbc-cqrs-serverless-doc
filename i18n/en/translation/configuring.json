@@ -62,5 +62,9 @@
   "Modules": "Modules",
   "Module configuration and registration": "Module configuration and registration",
   "Deployment Guide": "Deployment Guide",
-  "Configure for production": "Configure for production"
+  "Configure for production": "Configure for production",
+  "Required: Default sender email address": "Required: Default sender email address",
+  "Optional: AWS SES endpoint (for local development)": "Optional: AWS SES endpoint (for local development)",
+  "Optional: AWS SES region": "Optional: AWS SES region",
+  "For local dev": "For local dev"
 }
