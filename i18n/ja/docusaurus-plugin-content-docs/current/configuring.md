@@ -282,7 +282,7 @@ SES_REGION=ap-northeast-1
 本番環境向けの構造化ログを設定します。
 
 ```typescript
-import { Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 
 // Configure log level based on environment (環境に基づいてログレベルを設定)
 const LOG_LEVELS = {
@@ -320,7 +320,7 @@ export class OrderService {
 すべてのエンドポイントのバリデーションを設定します。
 
 ```typescript
-import { ValidationPipe } from '@nestjs/common';
+import { BadRequestException, ValidationPipe } from '@nestjs/common';
 
 // In main.ts or bootstrap (main.tsまたはbootstrapで設定)
 app.useGlobalPipes(

@@ -443,8 +443,8 @@ export class OrderDataSyncHandler implements IDataSyncHandler {
       return;
     }
 
-    // VERSION_FIRST (version 1) means a newly created item
-    if (cmd.version === VERSION_FIRST) {
+    // First write: stored version is VERSION_FIRST + 1
+    if (cmd.version === VERSION_FIRST + 1) {
       this.logger.log(`New order created: ${cmd.code}`);
       await this.handleNewOrder(cmd);
       return;

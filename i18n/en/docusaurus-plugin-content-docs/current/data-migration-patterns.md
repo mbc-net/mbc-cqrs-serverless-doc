@@ -628,6 +628,8 @@ interface OldProductAttributes {
 }
 
 interface NewProductAttributes {
+  pk: string;               // Partition key
+  sk: string;               // Sort key
   name: string;             // New field name
   price: number;            // New field name
   category: string;         // New field name

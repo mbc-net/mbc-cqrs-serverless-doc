@@ -550,6 +550,7 @@ import {
   DataSyncHandler,
   IDataSyncHandler,
   KEY_SEPARATOR,
+  VERSION_FIRST,
 } from '@mbc-cqrs-serverless/core';
 import { MasterDataService } from '@mbc-cqrs-serverless/master';
 import { BillingService } from './billing.service';
@@ -585,8 +586,8 @@ export class BillingEventHandler implements IDataSyncHandler {
   private async handleSubscriptionChange(cmd: CommandModel) {
     const attrs = cmd.attributes;
 
-    // New subscription (新規サブスクリプション)
-    if (cmd.version === 1) {
+    // New subscription: stored version is VERSION_FIRST + 1 (新規サブスクリプション: 保存されるバージョンはVERSION_FIRST + 1)
+    if (cmd.version === VERSION_FIRST + 1) {
       this.logger.log(`New subscription: ${cmd.code}`);
 
       if (attrs.status === 'active') {

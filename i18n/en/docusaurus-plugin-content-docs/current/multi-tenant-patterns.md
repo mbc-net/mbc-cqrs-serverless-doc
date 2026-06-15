@@ -408,6 +408,8 @@ Aggregate data across tenants for reporting:
 
 ```typescript
 // reporting/cross-tenant-report.service.ts
+import { Injectable } from '@nestjs/common';
+
 @Injectable()
 export class CrossTenantReportService {
   constructor(private readonly prismaService: PrismaService) {}

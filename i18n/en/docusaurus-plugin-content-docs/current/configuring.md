@@ -282,7 +282,7 @@ SES_REGION=ap-northeast-1
 Set up structured logging for production.
 
 ```typescript
-import { Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 
 // Configure log level based on environment
 const LOG_LEVELS = {
@@ -320,7 +320,7 @@ export class OrderService {
 Configure validation for all endpoints.
 
 ```typescript
-import { ValidationPipe } from '@nestjs/common';
+import { BadRequestException, ValidationPipe } from '@nestjs/common';
 
 // In main.ts or bootstrap
 app.useGlobalPipes(

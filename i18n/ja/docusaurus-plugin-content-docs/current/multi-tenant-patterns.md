@@ -408,6 +408,8 @@ export class TenantSyncService {
 
 ```typescript
 // reporting/cross-tenant-report.service.ts
+import { Injectable } from '@nestjs/common';
+
 @Injectable()
 export class CrossTenantReportService {
   constructor(private readonly prismaService: PrismaService) {}

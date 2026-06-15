@@ -628,6 +628,8 @@ interface OldProductAttributes {
 }
 
 interface NewProductAttributes {
+  pk: string;               // Partition key (パーティションキー)
+  sk: string;               // Sort key (ソートキー)
   name: string;             // New field name (新フィールド名)
   price: number;            // New field name (新フィールド名)
   category: string;         // New field name (新フィールド名)

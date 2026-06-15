@@ -337,6 +337,7 @@ Webhooks may be delivered multiple times. Use idempotency keys to prevent duplic
 
 ```typescript
 // webhook.service.ts
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma';
 
 @Injectable()

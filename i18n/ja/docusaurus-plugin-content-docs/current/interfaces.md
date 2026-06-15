@@ -399,6 +399,10 @@ export interface IDataSyncHandler<TExecuteResult = any, TRollbackResult = any> {
 
 **実装例**:
 ```typescript
+import { Injectable } from '@nestjs/common';
+import { CommandModel, IDataSyncHandler } from '@mbc-cqrs-serverless/core';
+import { PrismaService } from 'src/prisma';
+
 @Injectable()
 export class OrderRdsSyncHandler implements IDataSyncHandler {
   readonly type = 'ORDER';
@@ -488,6 +492,10 @@ export interface CommandModuleOptions {
 
 **使用例**:
 ```typescript
+import { Module } from '@nestjs/common';
+import { CommandModule } from '@mbc-cqrs-serverless/core';
+import { OrderRdsSyncHandler } from './order-rds-sync.handler';
+
 @Module({
   imports: [
     CommandModule.register({

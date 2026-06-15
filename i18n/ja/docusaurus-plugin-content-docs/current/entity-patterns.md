@@ -348,7 +348,7 @@ export class UpdateProductDto {
 解決策: クエリパラメータをバリデートし、デフォルト値を提供するDTOを定義する。
 
 ```ts
-import { IsString, IsOptional, IsNumber, Min, Max } from "class-validator";
+import { IsBoolean, IsNumber, IsOptional, IsString, Min, Max } from "class-validator";
 import { Type } from "class-transformer";
 
 // For single item lookup (単一アイテム検索用)
