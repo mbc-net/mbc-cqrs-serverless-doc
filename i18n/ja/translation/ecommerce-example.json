@@ -77,5 +77,7 @@
   "Service Patterns": "サービスパターン",
   "CRUD patterns used": "使用されるCRUDパターン",
   "Multi-Tenant Patterns": "マルチテナントパターン",
-  "Multi-tenant design": "マルチテナント設計"
+  "Multi-tenant design": "マルチテナント設計",
+  "tenantCode is passed directly so this method can be called from both": "tenantCode is passed directly so this method can be called from both (tenantCodeを直接渡すことで、コントローラーとDataSyncHandlerの両方から呼び出せる)",
+  "controllers (use getUserContext) and DataSyncHandlers (use cmd.tenantCode)": "controllers (use getUserContext) and DataSyncHandlers (use cmd.tenantCode) (コントローラー: getUserContext使用、DataSyncHandler: cmd.tenantCode使用)"
 }

@@ -301,8 +301,8 @@ export class InventoryService {
   ) {}
 
   // Reserve inventory for order
-  // {{tenantCode is passed directly so this method can be called from both}}
-  // {{controllers (use getUserContext) and DataSyncHandlers (use cmd.tenantCode)}}
+  // tenantCode is passed directly so this method can be called from both
+  // controllers (use getUserContext) and DataSyncHandlers (use cmd.tenantCode)
   async reserveInventory(
     items: OrderItem[],
     tenantCode: string,
