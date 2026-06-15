@@ -47,13 +47,28 @@ my-app/
 npm install
 ```
 
+## ステップ3: 環境設定
+
+環境設定ファイルをコピーし、ローカル開発用のダミーAWSクレデンシャルを設定します：
+
+```bash
+cp .env.example .env
+```
+
+`.env`を開いて以下の値が設定されていることを確認してください（LocalStackがAWSをエミュレートするため、実際のクレデンシャルは不要）：
+
+```bash
+AWS_ACCESS_KEY_ID=local
+AWS_SECRET_ACCESS_KEY=local
+```
+
 TypeScriptアプリケーションをビルドします（サーバー起動前に必要）：
 
 ```bash
 npm run build
 ```
 
-## ステップ3: ローカルインフラの起動
+## ステップ4: ローカルインフラの起動
 
 Docker Composeを使用してローカル開発環境を起動します：
 
@@ -67,15 +82,15 @@ npm run offline:docker
 - MySQL（ポート3306）
 - AWSサービス用のLocalStack
 
-## ステップ4: データベースの初期化
+## ステップ5: データベースの初期化
 
-Prismaマイグレーションを実行してデータベーススキーマをセットアップします：
+MySQLが完全に起動するまで約30秒待ってから、Prismaマイグレーションを実行してデータベーススキーマをセットアップします：
 
 ```bash
 npm run migrate
 ```
 
-## ステップ5: 開発サーバーの起動
+## ステップ6: 開発サーバーの起動
 
 新しいターミナルで、Serverless Offlineサーバーを起動します：
 
@@ -85,7 +100,7 @@ npm run offline:sls
 
 APIは `http://localhost:3000` で実行されています。
 
-## ステップ6: APIのテスト
+## ステップ7: APIのテスト
 
 ブラウザでSwagger UIを開いてAPIを確認・テストしてください：
 
@@ -196,7 +211,15 @@ npm run migrate
 
 ### ポートの競合
 
-ポート3000、3306、8000が使用中の場合は、競合するサービスを停止するか、`docker-compose.yml`でポート設定を変更してください。
+ポート3000、3306、8000が使用中の場合は、`.env`ファイルの環境変数でカスタムポートを設定してください：
+
+```bash
+LOCAL_HTTP_PORT=3010
+LOCAL_RDS_PORT=3307
+LOCAL_DYNAMODB_PORT=9000
+```
+
+利用可能なすべてのポート変数については[ローカルサービスのポート設定](/docs/installation#configuring-local-ports)を参照してください。
 
 
 ## 関連ドキュメント

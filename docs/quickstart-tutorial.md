@@ -47,13 +47,28 @@ my-app/
 npm install
 ```
 
+## {{Step 3: Configure Environment}}
+
+{{Copy the example environment file and set dummy AWS credentials for local development:}}
+
+```bash
+cp .env.example .env
+```
+
+{{Open `.env` and ensure these values are set (LocalStack emulates AWS — no real credentials needed):}}
+
+```bash
+AWS_ACCESS_KEY_ID=local
+AWS_SECRET_ACCESS_KEY=local
+```
+
 {{Build the TypeScript application (required before starting the server):}}
 
 ```bash
 npm run build
 ```
 
-## {{Step 3: Start Local Infrastructure}}
+## {{Step 4: Start Local Infrastructure}}
 
 {{Start the local development environment using Docker Compose:}}
 
@@ -67,15 +82,15 @@ npm run offline:docker
 - {{MySQL (port 3306)}}
 - {{LocalStack for AWS services}}
 
-## {{Step 4: Initialize the Database}}
+## {{Step 5: Initialize the Database}}
 
-{{Run Prisma migrations to set up your database schema:}}
+{{Wait ~30 seconds for MySQL to fully start, then run Prisma migrations to set up your database schema:}}
 
 ```bash
 npm run migrate
 ```
 
-## {{Step 5: Start the Development Server}}
+## {{Step 6: Start the Development Server}}
 
 {{In a new terminal, start the Serverless Offline server:}}
 
@@ -85,7 +100,7 @@ npm run offline:sls
 
 {{Your API is now running at `http://localhost:3000`.}}
 
-## {{Step 6: Test Your API}}
+## {{Step 7: Test Your API}}
 
 {{Open the Swagger UI in your browser to explore and test your API:}}
 
@@ -196,7 +211,15 @@ npm run migrate
 
 ### {{Port conflicts}}
 
-{{If ports 3000, 3306, or 8000 are in use, stop the conflicting services or modify the port configuration in `docker-compose.yml`.}}
+{{If ports 3000, 3306, or 8000 are in use, configure custom ports via environment variables in your `.env` file:}}
+
+```bash
+LOCAL_HTTP_PORT=3010
+LOCAL_RDS_PORT=3307
+LOCAL_DYNAMODB_PORT=9000
+```
+
+{{See [Configuring Local Service Ports](/docs/installation#configuring-local-ports) for all available port variables.}}
 
 
 ## {{Related Documentation}}
