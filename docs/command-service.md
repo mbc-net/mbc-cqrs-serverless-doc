@@ -20,7 +20,7 @@ description: {{Learn how to use CommandModule and CommandService for publishing 
 | ----------------------------- | -------------------------------------------------------------------- |
 | `tableName: string`           | {{Provide table name}}                                               |
 | `skipError?: boolean`         | {{Reserved for future use. Not yet implemented.}}                    |
-| `dataSyncHandlers?: Type[]`   | {{Register data sync handlers}}                                      |
+| `dataSyncHandlers?: Type<IDataSyncHandler>[]` | {{Register data sync handlers}}                         |
 | `disableDefaultHandler?: boolean` | {{If set to `true`, disables the default DynamoDB data sync handler}}|
 
 ### {{Registration Example}}

@@ -150,19 +150,14 @@ const departmentKey = {
 | `updatedBy` | String | {{Last modifier user ID}} |
 | `updatedIp` | String | {{Last modifier IP address}} |
 | `updatedAt` | String | {{Last update timestamp (ISO 8601)}} |
+| `seq` | Number | {{Sequence number for ordering}} |
 
-### {{Command-Specific Attributes}}
+### {{Command and Data Attributes}}
 
 | {{Attribute}} | {{Type}} | {{Description}} |
 |-----------|------|-------------|
 | `source` | String | {{Command source identifier}} |
 | `requestId` | String | {{Request tracking ID}} |
-
-### {{History-Specific Attributes}}
-
-| {{Attribute}} | {{Type}} | {{Description}} |
-|-----------|------|-------------|
-| `seq` | Number | {{Sequence number in history}} |
 
 ## {{Secondary Indexes}}
 
