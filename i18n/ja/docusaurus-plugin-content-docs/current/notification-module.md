@@ -293,6 +293,52 @@ CDK スタックは `AppSyncEventsHttpEndpoint` と `AppSyncEventsNamespace` を
 1. **IAM SigV4（Lambda/ECS 推奨）**: パブリッシュ時に自動で使用されます。CDK スタックの `grantPublish()` により Lambda と ECS タスクロールに `appsync:EventPublish` 権限が付与されます。
 2. **API キー**: ブラウザクライアントのサブスクライブに使用します。クライアント側（Amplify の `apiKey` 設定など）で設定します。サーバー側では不要です。
 
+## カスタム通知トランスポート（オプション） {#custom-transports}
+
+:::info バージョン情報
+カスタムトランスポート用の `@NotificationTransport` デコレーターは[バージョン 1.3.0](/docs/changelog#v130)で追加されました。
+:::
+
+フレームワークのコードを変更せずに、任意の外部システム（Slack、PagerDuty、カスタム WebSocket サーバーなど）へ配信するカスタム通知トランスポートを登録できます。
+
+### カスタムトランスポートの実装
+
+```typescript
+import {
+  INotificationTransport,
+  INotification,
+  NotificationTransport,
+} from '@mbc-cqrs-serverless/core';
+
+// @Injectable() を追加しないこと — @NotificationTransport() が既にシングルトンプロバイダーとして登録します
+@NotificationTransport()
+export class SlackNotificationTransport implements INotificationTransport {
+  async sendMessage(msg: INotification): Promise<void> {
+    // Slack またはカスタムエンドポイントへ通知を送信
+    await fetch(process.env.SLACK_WEBHOOK_URL, {
+      method: 'POST',
+      body: JSON.stringify({ text: `Change in ${msg.table}: ${msg.action}` }),
+    });
+  }
+}
+```
+
+:::warning トランスポート登録のガイドライン
+- **同じクラスに `@Injectable()` を追加しない** — `@NotificationTransport()` がすでにシングルトンプロバイダーとして登録します。両方のアノテーションを使用すると DI スコープの競合が発生します（AP026）。
+- **モジュールの `providers` に登録**: クラスをモジュールの `providers` 配列に追加してください。
+- **エラーは伝播される**: `sendMessage` でスローされたエラーはフレームワークに握り潰されません。トランスポートクラス内にリトライ/フォールバックロジックを実装してください。
+:::
+
+### トランスポートの選択
+
+アクティブなトランスポートは `NOTIFICATION_TRANSPORTS` 環境変数（カンマ区切り）で制御します。カスタムトランスポートは組み込みトランスポートと常に同時にアクティブになります。組み込みトランスポートを制御するには環境変数を設定してください：
+
+```bash
+NOTIFICATION_TRANSPORTS=appsync-graphql  # Only GraphQL Subscriptions (default)
+NOTIFICATION_TRANSPORTS=appsync-event    # Only Events API
+NOTIFICATION_TRANSPORTS=appsync-graphql,appsync-event  # Both built-in transports
+```
+
 ## メール通知 {#email-notifications}
 
 ### EmailService

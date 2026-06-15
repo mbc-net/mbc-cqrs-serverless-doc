@@ -188,5 +188,17 @@
   "AppSync and SES configuration": "AppSyncとSESの設定",
   "Queue": "キュー",
   "SQS for notification queuing": "通知キューイングのSQS",
-  "The return type of `sendMessage` changed from `Promise<any>` to `Promise<void>` in [version 1.3.0](/docs/changelog#v130). If your tests mock this method with `mockResolvedValue(null)`, update them to `mockResolvedValue(undefined)`. See the [v1.3.0 migration guide](/docs/migration/v1.3.0) for details.": "`sendMessage` の戻り値型は[バージョン1.3.0](/docs/changelog#v130)で `Promise<any>` から `Promise<void>` に変更されました。テストでこのメソッドを `mockResolvedValue(null)` でモックしている場合は `mockResolvedValue(undefined)` に更新してください。詳細は[v1.3.0移行ガイド](/docs/migration/v1.3.0)を参照してください。"
+  "The return type of `sendMessage` changed from `Promise<any>` to `Promise<void>` in [version 1.3.0](/docs/changelog#v130). If your tests mock this method with `mockResolvedValue(null)`, update them to `mockResolvedValue(undefined)`. See the [v1.3.0 migration guide](/docs/migration/v1.3.0) for details.": "`sendMessage` の戻り値型は[バージョン1.3.0](/docs/changelog#v130)で `Promise<any>` から `Promise<void>` に変更されました。テストでこのメソッドを `mockResolvedValue(null)` でモックしている場合は `mockResolvedValue(undefined)` に更新してください。詳細は[v1.3.0移行ガイド](/docs/migration/v1.3.0)を参照してください。",
+  "Custom Notification Transports (opt-in)": "カスタム通知トランスポート（オプション）",
+  "The `@NotificationTransport` decorator for custom transports was added in [version 1.3.0](/docs/changelog#v130).": "カスタムトランスポート用の `@NotificationTransport` デコレーターは[バージョン 1.3.0](/docs/changelog#v130)で追加されました。",
+  "You can register custom notification transports to publish to any external system (e.g., Slack, PagerDuty, custom WebSocket servers) without modifying framework code.": "フレームワークのコードを変更せずに、任意の外部システム（Slack、PagerDuty、カスタム WebSocket サーバーなど）へ配信するカスタム通知トランスポートを登録できます。",
+  "Implementing a Custom Transport": "カスタムトランスポートの実装",
+  "Do not add @Injectable() — @NotificationTransport() already registers a singleton provider": "@Injectable() を追加しないこと — @NotificationTransport() が既にシングルトンプロバイダーとして登録します",
+  "Send notification to Slack or any custom endpoint": "Slack またはカスタムエンドポイントへ通知を送信",
+  "Transport Registration Guidelines": "トランスポート登録のガイドライン",
+  "**Do not add `@Injectable()`** on the same class — `@NotificationTransport()` already registers it as a singleton provider. Using both annotations causes a DI scope conflict (AP026).": "**同じクラスに `@Injectable()` を追加しない** — `@NotificationTransport()` がすでにシングルトンプロバイダーとして登録します。両方のアノテーションを使用すると DI スコープの競合が発生します（AP026）。",
+  "**Register in module `providers`**: Add the class to your module's `providers` array.": "**モジュールの `providers` に登録**: クラスをモジュールの `providers` 配列に追加してください。",
+  "**Failures propagate**: Errors thrown in `sendMessage` are not swallowed by the framework. Implement retry/fallback logic inside the transport class.": "**エラーは伝播される**: `sendMessage` でスローされたエラーはフレームワークに握り潰されません。トランスポートクラス内にリトライ/フォールバックロジックを実装してください。",
+  "Selecting Transports": "トランスポートの選択",
+  "Active transports are controlled by the `NOTIFICATION_TRANSPORTS` environment variable (comma-separated). Custom transports are always active alongside any built-in transports. Set the env var to control which built-in transports are active:": "アクティブなトランスポートは `NOTIFICATION_TRANSPORTS` 環境変数（カンマ区切り）で制御します。カスタムトランスポートは組み込みトランスポートと常に同時にアクティブになります。組み込みトランスポートを制御するには環境変数を設定してください："
 }

@@ -293,6 +293,52 @@ The `AppSyncEventsService` supports two authentication methods for publishing:
 1. **IAM SigV4 (recommended for Lambda/ECS)**: Used automatically for publishing. Lambda and ECS task roles are granted `appsync:EventPublish` by the CDK stack via `grantPublish()`.
 2. **API Key**: Used by browser clients for subscribing. Set in the client (e.g., Amplify `apiKey` config). Not required on the server side.
 
+## Custom Notification Transports (opt-in) {#custom-transports}
+
+:::info Version Note
+The `@NotificationTransport` decorator for custom transports was added in [version 1.3.0](/docs/changelog#v130).
+:::
+
+You can register custom notification transports to publish to any external system (e.g., Slack, PagerDuty, custom WebSocket servers) without modifying framework code.
+
+### Implementing a Custom Transport
+
+```typescript
+import {
+  INotificationTransport,
+  INotification,
+  NotificationTransport,
+} from '@mbc-cqrs-serverless/core';
+
+// Do not add @Injectable() — @NotificationTransport() already registers a singleton provider
+@NotificationTransport()
+export class SlackNotificationTransport implements INotificationTransport {
+  async sendMessage(msg: INotification): Promise<void> {
+    // Send notification to Slack or any custom endpoint
+    await fetch(process.env.SLACK_WEBHOOK_URL, {
+      method: 'POST',
+      body: JSON.stringify({ text: `Change in ${msg.table}: ${msg.action}` }),
+    });
+  }
+}
+```
+
+:::warning Transport Registration Guidelines
+- **Do not add `@Injectable()`** on the same class — `@NotificationTransport()` already registers it as a singleton provider. Using both annotations causes a DI scope conflict (AP026).
+- **Register in module `providers`**: Add the class to your module's `providers` array.
+- **Failures propagate**: Errors thrown in `sendMessage` are not swallowed by the framework. Implement retry/fallback logic inside the transport class.
+:::
+
+### Selecting Transports
+
+Active transports are controlled by the `NOTIFICATION_TRANSPORTS` environment variable (comma-separated). Custom transports are always active alongside any built-in transports. Set the env var to control which built-in transports are active:
+
+```bash
+NOTIFICATION_TRANSPORTS=appsync-graphql  # Only GraphQL Subscriptions (default)
+NOTIFICATION_TRANSPORTS=appsync-event    # Only Events API
+NOTIFICATION_TRANSPORTS=appsync-graphql,appsync-event  # Both built-in transports
+```
+
 ## Email Notifications {#email-notifications}
 
 ### EmailService
