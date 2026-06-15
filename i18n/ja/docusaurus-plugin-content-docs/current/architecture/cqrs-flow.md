@@ -176,9 +176,9 @@ export class ResourceService {
     dto: CreateResourceDto,
     invokeContext: IInvoke,
   ): Promise<CommandModel | null> {
-    // 1. Validate business rules
-    // 2. Build the command input (pk, sk, attributes, ...)
-    // 3. Persist and publish event
+    // 1. ビジネスルールを検証
+    // 2. コマンド入力を構築（pk、sk、属性など）
+    // 3. イベントを永続化して発行
     return this.commandService.publishAsync(input, { invokeContext });
   }
 }

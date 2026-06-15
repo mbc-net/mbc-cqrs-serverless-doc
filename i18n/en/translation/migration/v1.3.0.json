@@ -23,6 +23,7 @@
   "nodemailer was upgraded from v7 to v8. The error code for authentication failure was renamed:": "nodemailer was upgraded from v7 to v8. The error code for authentication failure was renamed:",
   "Before (v1.2.x, nodemailer v7)": "Before (v1.2.x, nodemailer v7)",
   "After (v1.3.0, nodemailer v8)": "After (v1.3.0, nodemailer v8)",
+  "handle authentication error": "handle authentication error",
   "Migration Steps": "Migration Steps",
   "Step 1: Find usages": "Step 1: Find usages",
   "Step 2: Replace if found": "Step 2: Replace if found",
