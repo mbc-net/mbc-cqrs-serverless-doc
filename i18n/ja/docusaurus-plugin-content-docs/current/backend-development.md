@@ -482,13 +482,16 @@ const opts = {
 ロギングを含む適切なエラーハンドリングを実装します：
 
 ```typescript
-import { SnsService } from '@mbc-cqrs-serverless/core';
+import { Injectable, Logger } from '@nestjs/common';
+import { IDataSyncHandler, CommandModel, SnsService } from '@mbc-cqrs-serverless/core';
 
 @Injectable()
 export class MyDataSyncHandler implements IDataSyncHandler {
+  private readonly logger = new Logger(MyDataSyncHandler.name);
+  private readonly alarmTopicArn = process.env.ALARM_TOPIC_ARN || '';
+
   constructor(
-    private readonly snsService: SnsService,     // Inject for alarm notifications (アラーム通知用に注入)
-    private readonly logger: Logger,
+    private readonly snsService: SnsService, // Inject for alarm notifications (アラーム通知用に注入)
   ) {}
 
   async up(cmd: CommandModel): Promise<void> {
