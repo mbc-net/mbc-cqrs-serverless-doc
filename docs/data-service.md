@@ -89,7 +89,7 @@ async listCatsWithPagination(
   pageSize: number,
   lastSk?: string
 ): Promise<{ items: CatDataEntity[]; lastSk?: string }> {
-  const pk = `${tenantCode}#CAT`;
+  const pk = `CAT#${tenantCode}`;
 
   const result = await this.dataService.listItemsByPk(pk, {
     limit: pageSize,
@@ -189,7 +189,7 @@ export class CustomDataSyncHandler implements IDataSyncHandler {
 
 ```ts
 async findByCode(tenantCode: string, code: string): Promise<CatDataEntity | undefined> {
-  const pk = `${tenantCode}#CAT`;
+  const pk = `CAT#${tenantCode}`;
   const sk = `CAT#${code}`;
 
   const item = await this.dataService.getItem({ pk, sk });
@@ -203,7 +203,7 @@ async findByCode(tenantCode: string, code: string): Promise<CatDataEntity | unde
 
 ```ts
 async listByType(tenantCode: string, type: string): Promise<CatDataEntity[]> {
-  const pk = `${tenantCode}#CAT`;
+  const pk = `CAT#${tenantCode}`;
 
   const result = await this.dataService.listItemsByPk(pk, {
     sk: {

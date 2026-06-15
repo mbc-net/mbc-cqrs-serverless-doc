@@ -66,10 +66,10 @@ const userContext = getUserContext(ctx);
 console.log(userContext.tenantCode); // "my_tenant"
 
 // {{Partition key generation uses lowercase}}
-const pk = `${userContext.tenantCode}#PRODUCT`; // "my_tenant#PRODUCT"
+const pk = `PRODUCT#${userContext.tenantCode}`; // "PRODUCT#my_tenant"
 ```
 
-{{**The problem:** If your existing DynamoDB data has partition keys with uppercase tenant codes (e.g., `MY_TENANT#PRODUCT`), queries using the normalized lowercase tenant code will not find that data.}}
+{{**The problem:** If your existing DynamoDB data has partition keys with uppercase tenant codes (e.g., `PRODUCT#MY_TENANT`), queries using the normalized lowercase tenant code will not find that data.}}
 
 ### {{Migration Strategy 1: Update DynamoDB Data}} {#strategy-1-update-dynamodb}
 
@@ -120,7 +120,7 @@ export class TenantNormalizationMigrationService {
         }
 
         // {{Create new record with lowercase tenant code}}
-        const newPk = `${newTenantCode}${KEY_SEPARATOR}${entityPrefix}`;
+        const newPk = `${entityPrefix}${KEY_SEPARATOR}${newTenantCode}`;
         const newId = generateId(newPk, item.sk);
 
         await this.commandService.publishSync({
@@ -298,7 +298,7 @@ export class TenantCompatibleDataService {
     sk: string,
   ): Promise<any | undefined> {
     // {{Try lowercase first (new format)}}
-    const lowercasePk = `${tenantCode.toLowerCase()}${KEY_SEPARATOR}${entityPrefix}`;
+    const lowercasePk = `${entityPrefix}${KEY_SEPARATOR}${tenantCode.toLowerCase()}`;
     let item = await this.dataService.getItem({ pk: lowercasePk, sk });
 
     if (item) {
@@ -306,7 +306,7 @@ export class TenantCompatibleDataService {
     }
 
     // {{Fallback to uppercase (legacy format)}}
-    const uppercasePk = `${tenantCode.toUpperCase()}${KEY_SEPARATOR}${entityPrefix}`;
+    const uppercasePk = `${entityPrefix}${KEY_SEPARATOR}${tenantCode.toUpperCase()}`;
     item = await this.dataService.getItem({ pk: uppercasePk, sk });
 
     if (item) {
@@ -326,8 +326,8 @@ export class TenantCompatibleDataService {
     entityPrefix: string,
     tenantCode: string,
   ): Promise<any[]> {
-    const lowercasePk = `${tenantCode.toLowerCase()}${KEY_SEPARATOR}${entityPrefix}`;
-    const uppercasePk = `${tenantCode.toUpperCase()}${KEY_SEPARATOR}${entityPrefix}`;
+    const lowercasePk = `${entityPrefix}${KEY_SEPARATOR}${tenantCode.toLowerCase()}`;
+    const uppercasePk = `${entityPrefix}${KEY_SEPARATOR}${tenantCode.toUpperCase()}`;
 
     // {{Query both partitions}}
     const [lowercaseItems, uppercaseItems] = await Promise.all([
@@ -391,7 +391,7 @@ async function verifyMigration(
   const issues: string[] = [];
 
   // {{Check lowercase data exists}}
-  const pk = `${tenantCode.toLowerCase()}#${entityPrefix}`;
+  const pk = `${entityPrefix}#${tenantCode.toLowerCase()}`;
   const items = await dataService.listItemsByPk(pk);
 
   if (items.items.length === 0) {
@@ -399,7 +399,7 @@ async function verifyMigration(
   }
 
   // {{Check no uppercase data remains}}
-  const uppercasePk = `${tenantCode.toUpperCase()}#${entityPrefix}`;
+  const uppercasePk = `${entityPrefix}#${tenantCode.toUpperCase()}`;
   const legacyItems = await dataService.listItemsByPk(uppercasePk);
 
   if (legacyItems.items.length > 0) {
@@ -451,7 +451,7 @@ export class TenantMigrationService {
     targetTenantCode: string,
     invokeContext: IInvoke,
   ): Promise<{ copied: number; errors: string[] }> {
-    const sourcePk = `${sourceTenantCode}${KEY_SEPARATOR}${entityType}`;
+    const sourcePk = `${entityType}${KEY_SEPARATOR}${sourceTenantCode}`;
     const sourceData = await this.dataService.listItemsByPk(sourcePk);
 
     let copied = 0;
@@ -460,7 +460,7 @@ export class TenantMigrationService {
     for (const item of sourceData.items) {
       try {
         // {{Create new keys for target tenant}}
-        const targetPk = `${targetTenantCode}${KEY_SEPARATOR}${entityType}`;
+        const targetPk = `${entityType}${KEY_SEPARATOR}${targetTenantCode}`;
         const targetId = generateId(targetPk, item.sk);
 
         await this.commandService.publishSync({
@@ -536,10 +536,10 @@ export class BulkMigrationImportStrategy
 
     // {{Extract entity type from source PK}}
     const pkParts = input.sourcePk.split(KEY_SEPARATOR);
-    const entityType = pkParts[1];
+    const entityType = pkParts[0];
 
     // {{Build target keys}}
-    const targetPk = `${targetTenantCode}${KEY_SEPARATOR}${entityType}`;
+    const targetPk = `${entityType}${KEY_SEPARATOR}${targetTenantCode}`;
     const targetId = generateId(targetPk, input.sourceSk);
 
     return {
@@ -798,7 +798,7 @@ export class CsvMigrationService {
     tenantCode: string,
     targetTenantCode: string,
   ): Promise<{ bucket: string; key: string }> {
-    const pk = `${tenantCode}${KEY_SEPARATOR}${entityType}`;
+    const pk = `${entityType}${KEY_SEPARATOR}${tenantCode}`;
     const data = await this.dataService.listItemsByPk(pk);
 
     // {{Build CSV with migration columns}}
@@ -1054,7 +1054,7 @@ export class RollbackService {
     migrationTimestamp: string,
     invokeContext: IInvoke,
   ): Promise<{ rolledBack: number; errors: string[] }> {
-    const pk = `${tenantCode}#${entityType}`;
+    const pk = `${entityType}#${tenantCode}`;
     const data = await this.dataService.listItemsByPk(pk);
 
     let rolledBack = 0;
@@ -1245,7 +1245,7 @@ export class MigrationValidationService {
     tenantCode: string,
     dtoClass: new () => T,
   ): Promise<ValidationResult> {
-    const pk = `${tenantCode}${KEY_SEPARATOR}${entityType}`;
+    const pk = `${entityType}${KEY_SEPARATOR}${tenantCode}`;
     const data = await this.dataService.listItemsByPk(pk);
 
     const invalidRecords: ValidationError[] = [];
@@ -1285,10 +1285,10 @@ export class MigrationValidationService {
     referenceField: string,
     referenceEntityType: string,
   ): Promise<ValidationError[]> {
-    const pk = `${tenantCode}${KEY_SEPARATOR}${entityType}`;
+    const pk = `${entityType}${KEY_SEPARATOR}${tenantCode}`;
     const data = await this.dataService.listItemsByPk(pk);
 
-    const refPk = `${tenantCode}${KEY_SEPARATOR}${referenceEntityType}`;
+    const refPk = `${referenceEntityType}${KEY_SEPARATOR}${tenantCode}`;
     const refData = await this.dataService.listItemsByPk(refPk);
     const validRefs = new Set(refData.items.map(r => r.id));
 

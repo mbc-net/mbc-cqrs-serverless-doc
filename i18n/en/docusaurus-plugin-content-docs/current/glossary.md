@@ -59,11 +59,11 @@ The context object passed to service methods containing user information, tenant
 
 ### Partition Key (PK)
 
-The primary key component in DynamoDB that determines data distribution across partitions. In MBC CQRS Serverless, typically formatted as `tenantCode#TYPE` (e.g., `tenant001#ORDER`).
+The primary key component in DynamoDB that determines data distribution across partitions. In MBC CQRS Serverless, typically formatted as `TYPE#tenantCode` (e.g., `ORDER#tenant001`).
 
 ### Sort Key (SK)
 
-The secondary key component in DynamoDB that enables range queries within a partition. In MBC CQRS Serverless, typically formatted as `TYPE#code` for data tables or `TYPE#code@N` for command tables.
+The secondary key component in DynamoDB that enables range queries within a partition. In MBC CQRS Serverless, typically formatted as `TYPE#code` for data tables or `TYPE#code@vN` for command tables.
 
 ### Tenant
 

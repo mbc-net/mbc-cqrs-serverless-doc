@@ -351,13 +351,13 @@ import { DetailKey } from "@mbc-cqrs-serverless/core";
 
 // Get a specific version of a command (特定バージョンのコマンドを取得)
 const command = await this.commandService.getItem({
-  pk: "tenant1#CAT",
+  pk: "CAT#tenant1",
   sk: "CAT#cat001@2", // Includes version number (バージョン番号を含む)
 });
 
 // If no version in sk, automatically gets latest version (skにバージョンがない場合、自動的に最新バージョンを取得)
 const latestCommand = await this.commandService.getItem({
-  pk: "tenant1#CAT",
+  pk: "CAT#tenant1",
   sk: "CAT#cat001",
 });
 ```
@@ -370,7 +370,7 @@ const latestCommand = await this.commandService.getItem({
 import { DetailKey } from "@mbc-cqrs-serverless/core";
 
 const latestCommand = await this.commandService.getLatestItem({
-  pk: "tenant1#CAT",
+  pk: "CAT#tenant1",
   sk: "CAT#cat001", // Sort key without version (バージョンなしのソートキー)
 });
 
@@ -387,7 +387,7 @@ if (latestCommand) {
 import { DetailKey } from "@mbc-cqrs-serverless/core";
 
 const currentKey: DetailKey = {
-  pk: "tenant1#CAT",
+  pk: "CAT#tenant1",
   sk: "CAT#cat001@2",
 };
 
@@ -403,7 +403,7 @@ const nextCommand = await this.commandService.getNextCommand(currentKey);
 import { DetailKey } from "@mbc-cqrs-serverless/core";
 
 const key: DetailKey = {
-  pk: "tenant1#CAT",
+  pk: "CAT#tenant1",
   sk: "CAT#cat001@1",
 };
 
@@ -431,7 +431,7 @@ import { DetailKey, getCommandSource } from "@mbc-cqrs-serverless/core";
 import { basename } from "path";
 
 const key: DetailKey = {
-  pk: "tenant1#CAT",
+  pk: "CAT#tenant1",
   sk: "CAT#cat001@1",
 };
 
@@ -460,7 +460,7 @@ const duplicatedCommand = await this.commandService.duplicate(key, {
 import { DetailKey } from "@mbc-cqrs-serverless/core";
 
 const key: DetailKey = {
-  pk: "tenant1#CAT",
+  pk: "CAT#tenant1",
   sk: "CAT#cat001@1",
 };
 
@@ -479,7 +479,7 @@ await this.commandService.updateTaskToken(key, event.taskToken);
 import { DetailKey } from "@mbc-cqrs-serverless/core";
 
 const key: DetailKey = {
-  pk: "tenant1#CAT",
+  pk: "CAT#tenant1",
   sk: "CAT#cat001@3", // Version 3 (バージョン3)
 };
 

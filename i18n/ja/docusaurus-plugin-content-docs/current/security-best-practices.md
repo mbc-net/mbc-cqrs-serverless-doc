@@ -273,7 +273,7 @@ async function getOrdersByTenant(invokeContext: IInvoke) {
   const { tenantCode } = getUserContext(invokeContext);
 
   // テナントは常にパーティションキーの一部
-  return this.dataService.listItemsByPk(`${tenantCode}#ORDER`);
+  return this.dataService.listItemsByPk(`ORDER#${tenantCode}`);
 }
 ```
 

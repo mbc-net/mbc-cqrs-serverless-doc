@@ -56,7 +56,7 @@
   "Unique ID (generated from pk#sk)": "Unique ID (generated from pk#sk)（一意のID、pk#skから生成）",
   "Command partition key": "Command partition key（コマンドパーティションキー）",
   "Command sort key (with version)": "Command sort key (with version)（コマンドソートキー、バージョン付き）",
-  "Data partition key: tenantCode#TODO": "Data partition key: tenantCode#TODO（データパーティションキー）",
+  "Data partition key: TODO#tenantCode": "Data partition key: TODO#tenantCode（データパーティションキー）",
   "Data sort key: ULID": "Data sort key: ULID（データソートキー）",
   "Tenant code for multi-tenancy": "Tenant code for multi-tenancy（マルチテナンシー用テナントコード）",
   "Sequence number (for ordering)": "Sequence number (for ordering)（並べ替え用シーケンス番号）",

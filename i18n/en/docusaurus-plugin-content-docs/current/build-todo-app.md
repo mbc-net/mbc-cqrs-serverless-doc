@@ -58,7 +58,7 @@ import { ulid } from 'ulid'
 export const TODO_PK_PREFIX = 'TODO'
 
 export function generateTodoPk(tenantCode: string): string {
-  return `${tenantCode}${KEY_SEPARATOR}${TODO_PK_PREFIX}`
+  return `${TODO_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`
 }
 
 export function generateTodoSk(): string {
@@ -69,7 +69,7 @@ export function parsePk(pk: string): { type: string; tenantCode: string } {
   if (pk.split(KEY_SEPARATOR).length !== 2) {
     throw new Error('Invalid PK')
   }
-  const [tenantCode, type] = pk.split(KEY_SEPARATOR)
+  const [type, tenantCode] = pk.split(KEY_SEPARATOR)
   return { type, tenantCode }
 }
 ```
@@ -321,7 +321,7 @@ model Todo {
   id         String   @id                        // Unique ID (generated from pk#sk)
   cpk        String                              // Command partition key
   csk        String                              // Command sort key (with version)
-  pk         String                              // Data partition key: tenantCode#TODO
+  pk         String                              // Data partition key: TODO#tenantCode
   sk         String                              // Data sort key: ULID
   tenantCode String   @map("tenant_code")        // Tenant code for multi-tenancy
   seq        Int      @default(0)                // Sequence number (for ordering)

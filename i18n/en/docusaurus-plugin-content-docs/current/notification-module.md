@@ -68,7 +68,7 @@ The return type of `sendMessage` changed from `Promise<any>` to `Promise<void>` 
 await this.appSyncService.sendMessage({
   id: "unique-id",
   table: "my-table",
-  pk: "tenant1#ITEM",
+  pk: "ITEM#tenant1",
   sk: "ITEM#001",
   tenantCode: "tenant1",
   action: "MODIFY",
@@ -98,7 +98,7 @@ export class MyService {
     const notification: INotification = {
       id: "notification-123",
       table: "my-table",
-      pk: "tenant1#ITEM",
+      pk: "ITEM#tenant1",
       sk: "ITEM#item001",
       tenantCode: "tenant1",
       action: "MODIFY",

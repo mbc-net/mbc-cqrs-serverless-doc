@@ -22,11 +22,11 @@ description: {{Complete E-commerce implementation example with order management,
 ```
 {{Partition Key (pk)}}           {{Sort Key (sk)}}
 ──────────────────────────────────────────────────
-shop-a#ORDER                     ORDER#ORD-000001
-shop-a#ORDER                     ORDER#ORD-000002
-shop-a#PRODUCT                   PRODUCT#PRD-001
-shop-a#INVENTORY                 INVENTORY#PRD-001
-shop-b#ORDER                     ORDER#ORD-000001
+TENANT#shop-a                    ORDER#ORD-000001
+TENANT#shop-a                    ORDER#ORD-000002
+TENANT#shop-a                    PRODUCT#PRD-001
+TENANT#shop-a                    INVENTORY#PRD-001
+TENANT#shop-b                    ORDER#ORD-000001
 ```
 
 ### {{Entity Definitions}}
@@ -119,9 +119,9 @@ import {
 } from '@mbc-cqrs-serverless/core';
 import { SequencesService } from '@mbc-cqrs-serverless/sequence';
 
-// {{Order PK helper: tenantCode#ORDER}}
-const generateOrderPk = (tenantCode: string): string =>
-  `${tenantCode}${KEY_SEPARATOR}ORDER`;
+// {{Example helper: per-tenant partition key}}
+const generatePk = (tenantCode: string): string =>
+  `TENANT${KEY_SEPARATOR}${tenantCode}`;
 
 
 @Injectable()
@@ -152,7 +152,7 @@ export class OrderService {
     const total = subtotal + tax;
 
     const command = {
-      pk: generateOrderPk(tenantCode),
+      pk: generatePk(tenantCode),
       sk: `ORDER#${orderCode}`,
       version: VERSION_FIRST,
       code: orderCode,
@@ -181,7 +181,7 @@ export class OrderService {
     context: IInvoke,
   ) {
     const { tenantCode } = getUserContext(context);
-    const pk = generateOrderPk(tenantCode);
+    const pk = generatePk(tenantCode);
     const sk = `ORDER#${orderCode}`;
 
     // {{Fetch current order}}
@@ -212,7 +212,11 @@ export class OrderService {
   async listOrders(options: ListOrdersDto, context: IInvoke) {
     const { tenantCode } = getUserContext(context);
 
-    return this.dataService.listItemsByPk(generateOrderPk(tenantCode), {
+    return this.dataService.listItemsByPk(generatePk(tenantCode), {
+      sk: {
+        skExpression: 'begins_with(sk, :prefix)',
+        skAttributeValues: { ':prefix': 'ORDER#' },
+      },
       limit: options.limit || 20,
       startFromSk: options.cursor,
     });
@@ -286,8 +290,8 @@ import { Injectable, ConflictException, NotFoundException } from '@nestjs/common
 import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
 import { CommandService, DataService, IInvoke, getUserContext, KEY_SEPARATOR } from '@mbc-cqrs-serverless/core';
 
-const generateInventoryPk = (tenantCode: string): string =>
-  `${tenantCode}${KEY_SEPARATOR}INVENTORY`;
+const generatePk = (tenantCode: string): string =>
+  `TENANT${KEY_SEPARATOR}${tenantCode}`;
 
 @Injectable()
 export class InventoryService {
@@ -302,7 +306,7 @@ export class InventoryService {
     context: IInvoke,
   ): Promise<void> {
     const { tenantCode } = getUserContext(context);
-    const pk = generateInventoryPk(tenantCode);
+    const pk = generatePk(tenantCode);
 
     for (const item of items) {
       const sk = `INVENTORY#${item.productCode}`;
@@ -353,7 +357,7 @@ export class InventoryService {
     context: IInvoke,
   ): Promise<void> {
     const { tenantCode } = getUserContext(context);
-    const pk = generateInventoryPk(tenantCode);
+    const pk = generatePk(tenantCode);
 
     for (const item of items) {
       const sk = `INVENTORY#${item.productCode}`;
@@ -383,7 +387,7 @@ export class InventoryService {
     context: IInvoke,
   ): Promise<void> {
     const { tenantCode } = getUserContext(context);
-    const pk = generateInventoryPk(tenantCode);
+    const pk = generatePk(tenantCode);
 
     for (const item of items) {
       const sk = `INVENTORY#${item.productCode}`;
@@ -537,7 +541,7 @@ export class OrderDataSyncHandler implements IDataSyncHandler {
 
 // {{Response}}
 {
-  "pk": "shop-a#ORDER",
+  "pk": "TENANT#shop-a",
   "sk": "ORDER#ORD-000001@1",
   "code": "ORD-000001",
   "name": "Order ORD-000001",

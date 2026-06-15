@@ -351,13 +351,13 @@ import { DetailKey } from "@mbc-cqrs-serverless/core";
 
 // Get a specific version of a command
 const command = await this.commandService.getItem({
-  pk: "tenant1#CAT",
+  pk: "CAT#tenant1",
   sk: "CAT#cat001@2", // Includes version number
 });
 
 // If no version in sk, automatically gets latest version
 const latestCommand = await this.commandService.getItem({
-  pk: "tenant1#CAT",
+  pk: "CAT#tenant1",
   sk: "CAT#cat001",
 });
 ```
@@ -370,7 +370,7 @@ Retrieves the latest version of a command item by its primary key. This method u
 import { DetailKey } from "@mbc-cqrs-serverless/core";
 
 const latestCommand = await this.commandService.getLatestItem({
-  pk: "tenant1#CAT",
+  pk: "CAT#tenant1",
   sk: "CAT#cat001", // Sort key without version
 });
 
@@ -387,7 +387,7 @@ Retrieves the next version of a command based on the current command's key. This
 import { DetailKey } from "@mbc-cqrs-serverless/core";
 
 const currentKey: DetailKey = {
-  pk: "tenant1#CAT",
+  pk: "CAT#tenant1",
   sk: "CAT#cat001@2",
 };
 
@@ -403,7 +403,7 @@ Updates the status of a command and sends an SNS notification. This is commonly 
 import { DetailKey } from "@mbc-cqrs-serverless/core";
 
 const key: DetailKey = {
-  pk: "tenant1#CAT",
+  pk: "CAT#tenant1",
   sk: "CAT#cat001@1",
 };
 
@@ -431,7 +431,7 @@ import { DetailKey, getCommandSource } from "@mbc-cqrs-serverless/core";
 import { basename } from "path";
 
 const key: DetailKey = {
-  pk: "tenant1#CAT",
+  pk: "CAT#tenant1",
   sk: "CAT#cat001@1",
 };
 
@@ -460,7 +460,7 @@ Stores an AWS Step Functions task token on a command item. This is used when int
 import { DetailKey } from "@mbc-cqrs-serverless/core";
 
 const key: DetailKey = {
-  pk: "tenant1#CAT",
+  pk: "CAT#tenant1",
   sk: "CAT#cat001@1",
 };
 
@@ -479,7 +479,7 @@ Updates the TTL (Time To Live) of the previous version of a command. This is typ
 import { DetailKey } from "@mbc-cqrs-serverless/core";
 
 const key: DetailKey = {
-  pk: "tenant1#CAT",
+  pk: "CAT#tenant1",
   sk: "CAT#cat001@3", // Version 3
 };
 

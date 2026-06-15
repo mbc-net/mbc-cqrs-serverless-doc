@@ -22,10 +22,10 @@ The SaaS example covers:
 ```
 Partition Key (pk)           Sort Key (sk)
 ──────────────────────────────────────────────────
-acme-corp#SUBSCRIPTION           SUBSCRIPTION#SUB-001
-acme-corp#USAGE                  USAGE#2024-01
-acme-corp#USER                   USER#usr-001
-acme-corp#APIKEY                 APIKEY#key-001
+TENANT#acme-corp                 SUBSCRIPTION#SUB-001
+TENANT#acme-corp                 USAGE#2024-01
+TENANT#acme-corp                 USER#usr-001
+TENANT#acme-corp                 APIKEY#key-001
 MASTER#COMMON                    PLAN#starter
 MASTER#COMMON                    PLAN#professional
 MASTER#COMMON                    PLAN#enterprise
@@ -92,9 +92,9 @@ import { CommandService, IInvoke, KEY_SEPARATOR } from '@mbc-cqrs-serverless/cor
 import { TenantService } from '@mbc-cqrs-serverless/tenant';
 import { SubscriptionService } from './subscription.service';
 
-// Usage PK helper: tenantCode#USAGE
-const generateUsagePk = (tenantCode: string): string =>
-  `${tenantCode}${KEY_SEPARATOR}USAGE`;
+// Example helper: per-tenant partition key
+const generatePk = (tenantCode: string): string =>
+  `TENANT${KEY_SEPARATOR}${tenantCode}`;
 
 
 @Injectable()
@@ -142,7 +142,7 @@ export class TenantSetupService {
 
     await this.commandService.publishAsync(
       {
-        pk: generateUsagePk(tenantCode),
+        pk: generatePk(tenantCode),
         sk: `USAGE#${currentPeriod}`,
         code: currentPeriod,
         name: `Usage for ${currentPeriod}`,
@@ -183,9 +183,9 @@ import {
 } from '@mbc-cqrs-serverless/core';
 import { MasterDataService } from '@mbc-cqrs-serverless/master';
 
-// Subscription PK helper: tenantCode#SUBSCRIPTION
-const generateSubscriptionPk = (tenantCode: string): string =>
-  `${tenantCode}${KEY_SEPARATOR}SUBSCRIPTION`;
+// Example helper: per-tenant partition key
+const generatePk = (tenantCode: string): string =>
+  `TENANT${KEY_SEPARATOR}${tenantCode}`;
 
 @Injectable()
 export class SubscriptionService {
@@ -215,7 +215,7 @@ export class SubscriptionService {
     endDate.setDate(endDate.getDate() + trialDays);
 
     const command = {
-      pk: generateSubscriptionPk(tenantCode),
+      pk: generatePk(tenantCode),
       sk: `SUBSCRIPTION#SUB-${Date.now()}`,
       code: `SUB-${Date.now()}`,
       name: `${plan.name} Subscription`,
@@ -240,7 +240,7 @@ export class SubscriptionService {
     context: IInvoke,
   ) {
     const { tenantCode } = getUserContext(context);
-    const pk = generateSubscriptionPk(tenantCode);
+    const pk = generatePk(tenantCode);
     const sk = `SUBSCRIPTION#${subscriptionCode}`;
 
     const current = await this.dataService.getItem({ pk, sk });
@@ -280,7 +280,7 @@ export class SubscriptionService {
     context: IInvoke,
   ) {
     const { tenantCode } = getUserContext(context);
-    const pk = generateSubscriptionPk(tenantCode);
+    const pk = generatePk(tenantCode);
     const sk = `SUBSCRIPTION#${subscriptionCode}`;
 
     const current = await this.dataService.getItem({ pk, sk });
@@ -344,9 +344,9 @@ import {
 } from '@mbc-cqrs-serverless/core';
 import { MasterDataService } from '@mbc-cqrs-serverless/master';
 
-// Usage PK helper: tenantCode#USAGE
-const generateUsagePk = (tenantCode: string): string =>
-  `${tenantCode}${KEY_SEPARATOR}USAGE`;
+// Example helper: per-tenant partition key
+const generatePk = (tenantCode: string): string =>
+  `TENANT${KEY_SEPARATOR}${tenantCode}`;
 
 @Injectable()
 export class UsageService {
@@ -407,7 +407,7 @@ export class UsageService {
     tenantCode: string,
     period: string,
   ): Promise<UsageSummary> {
-    const pk = generateUsagePk(tenantCode);
+    const pk = generatePk(tenantCode);
     const sk = `USAGE#${period}`;
 
     const usage = await this.dataService.getItem({ pk, sk });
@@ -431,7 +431,7 @@ export class UsageService {
   ): Promise<void> {
     const { tenantCode } = getUserContext(context);
     const period = this.getCurrentPeriod();
-    const pk = generateUsagePk(tenantCode);
+    const pk = generatePk(tenantCode);
     const sk = `USAGE#${period}`;
 
     const current = await this.dataService.getItem({ pk, sk });
@@ -684,9 +684,9 @@ import {
   getUserContext,
 } from '@mbc-cqrs-serverless/core';
 
-// API Key PK helper: tenantCode#APIKEY
-const generateApiKeyPk = (tenantCode: string): string =>
-  `${tenantCode}${KEY_SEPARATOR}APIKEY`;
+// Example helper: per-tenant partition key
+const generatePk = (tenantCode: string): string =>
+  `TENANT${KEY_SEPARATOR}${tenantCode}`;
 
 @Injectable()
 export class ApiKeyService {
@@ -705,7 +705,7 @@ export class ApiKeyService {
     const keyPrefix = rawKey.substring(0, 11); // Show first 11 chars
 
     const command = {
-      pk: generateApiKeyPk(tenantCode),
+      pk: generatePk(tenantCode),
       sk: `APIKEY#${keyHash}`,
       code: keyHash,
       name: dto.name,
@@ -772,7 +772,7 @@ export class ApiKeyService {
   // Revoke API key
   async revokeApiKey(keyPrefix: string, context: IInvoke) {
     const { tenantCode } = getUserContext(context);
-    const pk = generateApiKeyPk(tenantCode);
+    const pk = generatePk(tenantCode);
 
     // Find key by prefix
     const keys = await this.dataService.listItemsByPk(pk, {
@@ -830,7 +830,7 @@ Always scope data access by tenant:
 
 ```typescript
 const { tenantCode } = getUserContext(context);
-const pk = `${tenantCode}${KEY_SEPARATOR}ENTITY_TYPE`;
+const pk = generatePk(tenantCode);
 ```
 
 ### 2. Usage Tracking

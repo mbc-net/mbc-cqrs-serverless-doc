@@ -32,7 +32,7 @@
   "Before: Cognito stores uppercase": "Before: Cognito stores uppercase",
   "After: getUserContext() returns lowercase": "After: getUserContext() returns lowercase",
   "Partition key generation uses lowercase": "Partition key generation uses lowercase",
-  "**The problem:** If your existing DynamoDB data has partition keys with uppercase tenant codes (e.g., `MY_TENANT#PRODUCT`), queries using the normalized lowercase tenant code will not find that data.": "**The problem:** If your existing DynamoDB data has partition keys with uppercase tenant codes (e.g., `MY_TENANT#PRODUCT`), queries using the normalized lowercase tenant code will not find that data.",
+  "**The problem:** If your existing DynamoDB data has partition keys with uppercase tenant codes (e.g., `PRODUCT#MY_TENANT`), queries using the normalized lowercase tenant code will not find that data.": "**The problem:** If your existing DynamoDB data has partition keys with uppercase tenant codes (e.g., `PRODUCT#MY_TENANT`), queries using the normalized lowercase tenant code will not find that data.",
   "Migration Strategy 1: Update DynamoDB Data": "Migration Strategy 1: Update DynamoDB Data",
   "Migrate existing DynamoDB data to use lowercase tenant codes in partition keys.": "Migrate existing DynamoDB data to use lowercase tenant codes in partition keys.",
   "Migrate all entities of a type to lowercase tenant codes": "Migrate all entities of a type to lowercase tenant codes",

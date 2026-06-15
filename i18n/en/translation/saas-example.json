@@ -18,6 +18,7 @@
   "Usage Entity": "Usage Entity",
   "Tenant Management": "Tenant Management",
   "Tenant Service Extension": "Tenant Service Extension",
+  "Example helper: per-tenant partition key": "Example helper: per-tenant partition key",
   "Usage PK helper: tenantCode#USAGE": "Usage PK helper: tenantCode#USAGE",
   "Subscription PK helper: tenantCode#SUBSCRIPTION": "Subscription PK helper: tenantCode#SUBSCRIPTION",
   "API Key PK helper: tenantCode#APIKEY": "API Key PK helper: tenantCode#APIKEY",

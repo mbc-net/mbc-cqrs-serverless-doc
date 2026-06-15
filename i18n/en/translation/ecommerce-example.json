@@ -20,6 +20,7 @@
   "Order Module": "Order Module",
   "Order Service": "Order Service",
   "Order PK helper: tenantCode#ORDER": "Order PK helper: tenantCode#ORDER",
+  "Example helper: per-tenant partition key": "Example helper: per-tenant partition key",
   "Create a new order": "Create a new order",
   "Generate unique order number": "Generate unique order number",
   "Calculate totals": "Calculate totals",

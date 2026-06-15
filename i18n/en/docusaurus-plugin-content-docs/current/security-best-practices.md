@@ -273,7 +273,7 @@ async function getOrdersByTenant(invokeContext: IInvoke) {
   const { tenantCode } = getUserContext(invokeContext);
 
   // Tenant is always part of the partition key
-  return this.dataService.listItemsByPk(`${tenantCode}#ORDER`);
+  return this.dataService.listItemsByPk(`ORDER#${tenantCode}`);
 }
 ```
 

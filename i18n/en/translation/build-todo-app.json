@@ -56,7 +56,7 @@
   "Unique ID (generated from pk#sk)": "Unique ID (generated from pk#sk)",
   "Command partition key": "Command partition key",
   "Command sort key (with version)": "Command sort key (with version)",
-  "Data partition key: tenantCode#TODO": "Data partition key: tenantCode#TODO",
+  "Data partition key: TODO#tenantCode": "Data partition key: TODO#tenantCode",
   "Data sort key: ULID": "Data sort key: ULID",
   "Tenant code for multi-tenancy": "Tenant code for multi-tenancy",
   "Sequence number (for ordering)": "Sequence number (for ordering)",

@@ -32,7 +32,7 @@ description: MBC CQRS Serverlessでマルチテナントのデータ分離とテ
 │          ▼                 ▼                  ▼                  │
 │   ┌─────────────────────────────────────────────────────────┐   │
 │   │                    DynamoDB Table                        │   │
-│   │  PK: tenantCode#ENTITY  |  SK: identifier                │   │
+│   │  PK: ENTITY#tenantCode  |  SK: identifier                │   │
 │   └─────────────────────────────────────────────────────────┘   │
 │                                                                  │
 └─────────────────────────────────────────────────────────────────┘
@@ -165,7 +165,7 @@ export class TenantGuard implements CanActivate {
   private extractTenantFromPk(pk: string | undefined): string | undefined {
     if (!pk) return undefined;
     const parts = pk.split('#');
-    return parts.length >= 2 ? parts[0] : undefined;
+    return parts.length >= 2 ? parts[1] : undefined;
   }
 }
 ```
@@ -182,11 +182,11 @@ export class TenantGuard implements CanActivate {
 const PRODUCT_PK_PREFIX = 'PRODUCT';
 
 function generateProductPk(tenantCode: string): string {
-  return `${tenantCode}${KEY_SEPARATOR}${PRODUCT_PK_PREFIX}`;
+  return `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
 }
 
 // キー例:
-// PK: tenant-a#PRODUCT
+// PK: PRODUCT#tenant-a
 // SK: 01HX7MBJK3V9WQBZ7XNDK5ZT2M
 
 // テナントの全商品を取得
@@ -206,14 +206,14 @@ async function listProductsByTenant(tenantCode: string) {
 const COMMON_TENANT = 'common';
 
 // システム全体の設定
-const settingsPk = `${COMMON_TENANT}${KEY_SEPARATOR}SETTINGS`;
+const settingsPk = `SETTINGS${KEY_SEPARATOR}${COMMON_TENANT}`;
 
 // ユーザーデータ（ユーザーは複数テナントに属せる）
-const userPk = `${COMMON_TENANT}${KEY_SEPARATOR}USER`;
+const userPk = `USER${KEY_SEPARATOR}${COMMON_TENANT}`;
 
 // 例: システム全体のメールテンプレートを取得
 async function getEmailTemplates() {
-  return dataService.listItemsByPk(`${COMMON_TENANT}${KEY_SEPARATOR}TEMPLATE`);
+  return dataService.listItemsByPk(`TEMPLATE${KEY_SEPARATOR}${COMMON_TENANT}`);
 }
 ```
 
@@ -371,8 +371,8 @@ export class TenantSyncService {
   ): Promise<void> {
     // ターゲットテナント用の新しいキーを作成
     const pkParts = sourceItem.pk.split(KEY_SEPARATOR);
-    const entityType = pkParts[1];
-    const targetPk = `${targetTenantCode}${KEY_SEPARATOR}${entityType}`;
+    const entityType = pkParts[0];
+    const targetPk = `${entityType}${KEY_SEPARATOR}${targetTenantCode}`;
     const targetId = generateId(targetPk, sourceItem.sk);
 
     await this.commandService.publishSync({
@@ -487,16 +487,17 @@ export class TenantSettingsService {
       return this.settingsCache.get(tenantCode)!;
     }
 
-    const pk = `${tenantCode}${KEY_SEPARATOR}SETTINGS`;
+    const pk = `SETTINGS${KEY_SEPARATOR}${tenantCode}`;
     const sk = 'config';
 
-    const settings = await this.dataService.getItem({ pk, sk });
-    if (!settings) {
+    try {
+      const settings = await this.dataService.getItem({ pk, sk });
+      this.settingsCache.set(tenantCode, settings.attributes);
+      return settings.attributes;
+    } catch (error) {
       // 見つからない場合はデフォルト設定を返す
       return this.getDefaultSettings();
     }
-    this.settingsCache.set(tenantCode, settings.attributes);
-    return settings.attributes;
   }
 
   /**

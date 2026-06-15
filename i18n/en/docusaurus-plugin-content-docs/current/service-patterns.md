@@ -79,7 +79,7 @@ async create(
   const { tenantCode } = getUserContext(opts.invokeContext);
 
   // Generate PK and SK
-  const pk = `${tenantCode}${KEY_SEPARATOR}${PRODUCT_PK_PREFIX}`;
+  const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
   const sk = ulid(); // Use ULID for sortable unique ID
   const id = generateId(pk, sk);
 
@@ -127,9 +127,6 @@ async findOne(
   detailDto: { pk: string; sk: string },
 ): Promise<ProductDataEntity> {
   const item = await this.dataService.getItem(detailDto);
-  if (!item) {
-    throw new NotFoundException('Product not found');
-  }
   return new ProductDataEntity(item);
 }
 ```
@@ -237,7 +234,6 @@ async update(
     invokeContext: opts.invokeContext,
   });
 
-  if (!item) return null;
   return new ProductDataEntity(item);
 }
 ```
@@ -341,7 +337,7 @@ export class ProductService {
   ): Promise<ProductDataEntity> {
     const { tenantCode } = getUserContext(opts.invokeContext);
 
-    const pk = `${tenantCode}${KEY_SEPARATOR}${PRODUCT_PK_PREFIX}`;
+    const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
     const sk = ulid();
     const id = generateId(pk, sk);
 
@@ -506,7 +502,7 @@ async createBatch(
   opts: { invokeContext: IInvoke },
 ): Promise<ProductDataEntity[]> {
   const { tenantCode } = getUserContext(opts.invokeContext);
-  const pk = `${tenantCode}${KEY_SEPARATOR}${PRODUCT_PK_PREFIX}`;
+  const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
 
   // Create all commands
   const commands = items.map((item) => {
@@ -559,7 +555,7 @@ async createLargeBatch(
   opts: { invokeContext: IInvoke },
 ): Promise<ProductDataEntity[]> {
   const { tenantCode } = getUserContext(opts.invokeContext);
-  const pk = `${tenantCode}${KEY_SEPARATOR}${PRODUCT_PK_PREFIX}`;
+  const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
 
   const chunkSize = 100;
   const results: ProductDataEntity[] = [];
@@ -630,7 +626,7 @@ async copy(
   }
 
   // Create new keys for target tenant
-  const pk = `${targetTenantCode}${KEY_SEPARATOR}${PRODUCT_PK_PREFIX}`;
+  const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${targetTenantCode}`;
   const sk = ulid();
   const id = generateId(pk, sk);
 

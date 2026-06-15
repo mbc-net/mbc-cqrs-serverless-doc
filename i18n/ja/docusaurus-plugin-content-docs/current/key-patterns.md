@@ -39,12 +39,12 @@ description: DynamoDBのパーティションキー（PK）とソートキー（
 
 | 要件 | 推奨パターン | PK構造 | SK構造 |
 |-----------------|------------------------|------------------|------------------|
-| テナント分離を伴うシンプルなCRUD | [シンプルエンティティ](#pattern-1-simple-entity) | `tenantCode#ENTITY` | `ulid()` |
-| 複数の子を持つ親 | [階層構造](#pattern-2-hierarchical-entity) | `tenantCode#PARENT` | `TYPE#parentId[#childId]` |
-| 複数のエンティティバリアント | [複合SK](#pattern-3-user-with-multiple-auth-providers) | `tenantCode#ENTITY` | `variant#identifier` |
-| クロステナント共有データ | [共通テナント](#pattern-4-multi-tenant-association) | `common#ENTITY` | `tenantCode#identifier` |
+| テナント分離を伴うシンプルなCRUD | [シンプルエンティティ](#pattern-1-simple-entity) | `ENTITY#tenantCode` | `ulid()` |
+| 複数の子を持つ親 | [階層構造](#pattern-2-hierarchical-entity) | `PARENT#tenantCode` | `TYPE#parentId[#childId]` |
+| 複数のエンティティバリアント | [複合SK](#pattern-3-user-with-multiple-auth-providers) | `ENTITY#tenantCode` | `variant#identifier` |
+| クロステナント共有データ | [共通テナント](#pattern-4-multi-tenant-association) | `ENTITY#common` | `tenantCode#identifier` |
 | カテゴリ別設定 | [マスターデータ](#pattern-5-master-data-with-categories) | `MASTER#tenantCode` | `TYPE#category#code` |
-| 時間ベースのクエリ | [時系列](#pattern-6-time-series-data) | `tenantCode#LOG#YYYY-MM` | `timestamp#eventId` |
+| 時間ベースのクエリ | [時系列](#pattern-6-time-series-data) | `LOG#tenantCode#YYYY-MM` | `timestamp#eventId` |
 
 ### デシジョンツリー
 
@@ -74,7 +74,7 @@ description: DynamoDBのパーティションキー（PK）とソートキー（
 フレームワークは一貫したキー構造を使用します：
 
 ```
-PK = TENANT_CODE#PREFIX
+PK = PREFIX#TENANT_CODE
 SK = IDENTIFIER[@VERSION]
 ID = PK#SK (without version)
 ```
@@ -143,8 +143,8 @@ import { ulid } from "ulid";
 const PRODUCT_PK_PREFIX = "PRODUCT";
 
 // PKを生成
-const pk = `${tenantCode}${KEY_SEPARATOR}${PRODUCT_PK_PREFIX}`;
-// Result: "tenant001#PRODUCT"
+const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
+// Result: "PRODUCT#tenant001"
 
 // SKを生成（一意性とソート可能性のためにULIDを使用）
 const sk = ulid();
@@ -152,7 +152,7 @@ const sk = ulid();
 
 // IDを生成（PKとSKの組み合わせ）
 const id = generateId(pk, sk);
-// Result: "tenant001#PRODUCT#01HX7MBJK3V9WQBZ7XNDK5ZT2M"
+// Result: "PRODUCT#tenant001#01HX7MBJK3V9WQBZ7XNDK5ZT2M"
 ```
 
 ### バージョン管理
@@ -181,7 +181,7 @@ const latestVersion = getSortKeyVersion(sk);
 import { getTenantCode } from "@mbc-cqrs-serverless/core";
 
 // PKからテナントコードを抽出
-const tenantCode = getTenantCode("tenant001#PRODUCT");
+const tenantCode = getTenantCode("PRODUCT#tenant001");
 // Result: "tenant001"
 
 // セパレーターが見つからない場合はundefinedを返す
@@ -201,17 +201,17 @@ const noTenant = getTenantCode("PRODUCT");
 
 ```ts
 // キー構造
-PK: <tenantCode>#PRODUCT
+PK: PRODUCT#<tenantCode>
 SK: <ulid>
 
 // Example
-PK: tenant001#PRODUCT
+PK: PRODUCT#tenant001
 SK: 01HX7MBJK3V9WQBZ7XNDK5ZT2M
-ID: tenant001#PRODUCT#01HX7MBJK3V9WQBZ7XNDK5ZT2M
+ID: PRODUCT#tenant001#01HX7MBJK3V9WQBZ7XNDK5ZT2M
 ```
 
 ```ts
-const pk = `${tenantCode}${KEY_SEPARATOR}PRODUCT`;
+const pk = `PRODUCT${KEY_SEPARATOR}${tenantCode}`;
 const sk = ulid();
 const id = generateId(pk, sk);
 ```
@@ -226,20 +226,20 @@ const id = generateId(pk, sk);
 
 ```ts
 // 注文キー構造
-PK: <tenantCode>#ORDER
+PK: ORDER#<tenantCode>
 SK: ORDER#<orderId>
 
 // 注文アイテムキー構造（同じPK、異なるSKプレフィックス）
-PK: <tenantCode>#ORDER
+PK: ORDER#<tenantCode>
 SK: ORDER_ITEM#<orderId>#<itemId>
 
 // Example
 Order:
-  PK: tenant001#ORDER
+  PK: ORDER#tenant001
   SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M
 
 Order Items:
-  PK: tenant001#ORDER
+  PK: ORDER#tenant001
   SK: ORDER_ITEM#01HX7MBJK3V9WQBZ7XNDK5ZT2M#001
   SK: ORDER_ITEM#01HX7MBJK3V9WQBZ7XNDK5ZT2M#002
 ```
@@ -249,7 +249,7 @@ const ORDER_SK_PREFIX = "ORDER";
 const ORDER_ITEM_SK_PREFIX = "ORDER_ITEM";
 
 // 注文を作成
-const orderPk = `${tenantCode}${KEY_SEPARATOR}ORDER`;
+const orderPk = `ORDER${KEY_SEPARATOR}${tenantCode}`;
 const orderId = ulid();
 const orderSk = `${ORDER_SK_PREFIX}${KEY_SEPARATOR}${orderId}`;
 
@@ -267,11 +267,11 @@ const itemSk = `${ORDER_ITEM_SK_PREFIX}${KEY_SEPARATOR}${orderId}${KEY_SEPARATOR
 
 ```ts
 // キー構造
-PK: <tenantCode>#USER
+PK: USER#<tenantCode>
 SK: <provider>#<userId>
 
 // Examples
-PK: common#USER
+PK: USER#common
 SK: local#user123           // Local authentication
 SK: sso#abc123def456        // SSO provider
 SK: oauth#google789         // OAuth provider
@@ -286,7 +286,7 @@ function generateUserSk(provider: AuthProvider, userId: string): string {
   return `${provider}${KEY_SEPARATOR}${userId}`;
 }
 
-const pk = `common${KEY_SEPARATOR}USER`;
+const pk = `USER${KEY_SEPARATOR}common`;
 const sk = generateUserSk("sso", cognitoSubId);
 ```
 
@@ -300,17 +300,17 @@ const sk = generateUserSk("sso", cognitoSubId);
 
 ```ts
 // キー構造
-PK: <commonTenant>#USER_TENANT
+PK: USER_TENANT#<commonTenant>
 SK: <tenantCode>#<userCode>
 
 // Example
-PK: common#USER_TENANT
+PK: USER_TENANT#common
 SK: tenant001#user123
 SK: tenant002#user123   // Same user in different tenant
 ```
 
 ```ts
-const pk = `common${KEY_SEPARATOR}USER_TENANT`;
+const pk = `USER_TENANT${KEY_SEPARATOR}common`;
 const sk = `${tenantCode}${KEY_SEPARATOR}${userCode}`;
 ```
 
@@ -359,11 +359,11 @@ const sk = generateMasterSk(DATA_PREFIX, "product_category", "electronics");
 
 ```ts
 // キー構造
-PK: <tenantCode>#LOG#<year-month>
+PK: LOG#<tenantCode>#<year-month>
 SK: <timestamp>#<eventId>
 
 // Example
-PK: tenant001#LOG#2024-01
+PK: LOG#tenant001#2024-01
 SK: 2024-01-15T10:30:00Z#evt001
 SK: 2024-01-15T10:31:00Z#evt002
 ```
@@ -371,7 +371,7 @@ SK: 2024-01-15T10:31:00Z#evt002
 ```ts
 function generateLogKeys(tenantCode: string, timestamp: Date, eventId: string) {
   const yearMonth = timestamp.toISOString().slice(0, 7); // "2024-01"
-  const pk = `${tenantCode}${KEY_SEPARATOR}LOG${KEY_SEPARATOR}${yearMonth}`;
+  const pk = `LOG${KEY_SEPARATOR}${tenantCode}${KEY_SEPARATOR}${yearMonth}`;
   const sk = `${timestamp.toISOString()}${KEY_SEPARATOR}${eventId}`;
   return { pk, sk };
 }
@@ -397,11 +397,11 @@ export const NOTIFICATION_PK_PREFIX = "NOTIFICATION";
 
 // キージェネレーター
 export function generateProductPk(tenantCode: string): string {
-  return `${tenantCode}${KEY_SEPARATOR}${PRODUCT_PK_PREFIX}`;
+  return `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
 }
 
 export function generateOrderPk(tenantCode: string): string {
-  return `${tenantCode}${KEY_SEPARATOR}${ORDER_PK_PREFIX}`;
+  return `${ORDER_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
 }
 
 export function generateOrderSk(orderId?: string): string {
@@ -437,11 +437,11 @@ export function parseOrderItemSk(sk: string): {
 
 // エンティティタイプ付きIDジェネレーター
 export function generateEntityId(
-  tenantCode: string,
   prefix: string,
+  tenantCode: string,
   sk?: string,
 ): { pk: string; sk: string; id: string } {
-  const pk = `${tenantCode}${KEY_SEPARATOR}${prefix}`;
+  const pk = `${prefix}${KEY_SEPARATOR}${tenantCode}`;
   const finalSk = sk ?? ulid();
   const id = generateId(pk, finalSk);
   return { pk, sk: finalSk, id };
@@ -500,7 +500,7 @@ async up(cmd: CommandModel): Promise<any> {
 ```ts
 // テナントの全商品を取得
 const items = await dataService.listItemsByPk(
-  `${tenantCode}${KEY_SEPARATOR}PRODUCT`,
+  `PRODUCT${KEY_SEPARATOR}${tenantCode}`,
 );
 ```
 
@@ -509,7 +509,7 @@ const items = await dataService.listItemsByPk(
 ```ts
 // 特定の注文の全注文アイテムを取得
 const items = await dataService.listItemsByPk(
-  `${tenantCode}${KEY_SEPARATOR}ORDER`,
+  `ORDER${KEY_SEPARATOR}${tenantCode}`,
   {
     sk: {
       skExpression: 'begins_with(sk, :skPrefix)',
@@ -524,7 +524,7 @@ const items = await dataService.listItemsByPk(
 ```ts
 // SKにタイムスタンプを使用している場合、日付範囲内の注文を取得
 const items = await dataService.listItemsByPk(
-  `${tenantCode}${KEY_SEPARATOR}ORDER`,
+  `ORDER${KEY_SEPARATOR}${tenantCode}`,
   {
     sk: {
       skExpression: 'sk BETWEEN :start AND :end',
@@ -543,10 +543,10 @@ const items = await dataService.listItemsByPk(
 ```ts
 // Good
 export const PRODUCT_PK_PREFIX = "PRODUCT";
-const pk = `${tenantCode}${KEY_SEPARATOR}${PRODUCT_PK_PREFIX}`;
+const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
 
 // Avoid
-const pk = `${tenantCode}#PRODUCT`; // Magic string
+const pk = `PRODUCT#${tenantCode}`; // Magic string
 ```
 
 ### 2. ソート可能なIDにはULIDを使用する
@@ -567,7 +567,7 @@ const sk = ulid();
 
 ```ts
 // 注文の全アイテムを取得する必要がある場合:
-PK: tenant001#ORDER
+PK: ORDER#tenant001
 SK: ORDER_ITEM#orderId#itemId  // Query by SK prefix
 
 // 注文を横断して商品別にアイテムを取得する必要がある場合:
@@ -580,7 +580,7 @@ SK: ORDER_ITEM#orderId#itemId  // Query by SK prefix
 
 ```ts
 // 良い - テナントで制限される
-PK: tenant001#PRODUCT
+PK: PRODUCT#tenant001
 
 // 避ける - ユーザーで制限されない
 PK: USER_ACTIVITY#user123  // Could create millions of partitions
@@ -592,7 +592,7 @@ PK: USER_ACTIVITY#user123  // Could create millions of partitions
 
 ```ts
 // Good
-PK: tenant001#PRODUCT
+PK: PRODUCT#tenant001
 
 // Avoid
 PK: PRODUCT  // No tenant isolation
@@ -610,10 +610,10 @@ custom:tenant = "MY_TENANT"
 tenantCode = "my_tenant"
 
 // 生成されたPKは小文字を使用
-PK: my_tenant#PRODUCT
+PK: PRODUCT#my_tenant
 ```
 
-**既存データへの影響:** 既存のデータが大文字のテナントコードでPKに保存されている場合（例：`MY_TENANT#PRODUCT`）、正規化されたテナントコードを使用したクエリではそのデータを見つけることができません。
+**既存データへの影響:** 既存のデータが大文字のテナントコードでPKに保存されている場合（例：`PRODUCT#MY_TENANT`）、正規化されたテナントコードを使用したクエリではそのデータを見つけることができません。
 
 **マイグレーションが必要:** マイグレーション戦略については[テナントコード正規化マイグレーション](/docs/data-migration-patterns#tenant-code-normalization-migration)を参照するか、完全なアップグレード手順については[v1.1.0 マイグレーションガイド](/docs/migration/v1.1.0)を参照してください。
 :::
@@ -624,11 +624,11 @@ PK: my_tenant#PRODUCT
 
 ```ts
 // ユーザーデータ（テナント間で共有）
-PK: common#USER
+PK: USER#common
 SK: sso#userId
 
 // ユーザー-テナント関連付け
-PK: common#USER_TENANT
+PK: USER_TENANT#common
 SK: tenant001#userId
 ```
 
@@ -675,7 +675,7 @@ SK: ORDER#01HX7M#ITEM#001
 ```ts
 // 避ける - データテーブルSKにバージョンを含める
 await dataService.getItem({
-  pk: "tenant001#PRODUCT",
+  pk: "PRODUCT#tenant001",
   sk: "01HX7MBJK3V9WQBZ7XNDK5ZT2M@3"  // バージョンはここにあるべきではない
 });
 
