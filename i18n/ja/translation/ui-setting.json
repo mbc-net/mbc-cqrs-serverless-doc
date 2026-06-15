@@ -13,6 +13,8 @@
   "Solution": "解決策",
   "Every new setting requires code deployment": "新しい設定ごとにコードのデプロイが必要",
   "Define schemas dynamically via API": "APIを通じてスキーマを動的に定義",
+  "Enable REST API for settings": "Enable REST API for settings (設定のREST APIを有効化)",
+  "Enable REST API for data settings": "Enable REST API for data settings (データ設定のREST APIを有効化)",
   "Settings structure differs between tenants": "テナント間で設定構造が異なる",
   "Multi-tenant schema support": "マルチテナントスキーマサポート",
   "No validation for user-entered settings": "ユーザー入力設定のバリデーションがない",

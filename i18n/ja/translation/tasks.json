@@ -10,6 +10,7 @@
   "Task history and logging": "タスク履歴とロギング",
   "Architecture": "アーキテクチャ",
   "Installation": "インストール",
+  "Optional: enable REST endpoints for task management": "Optional: enable REST endpoints for task management (タスク管理REST APIエンドポイントを有効化 - 省略可)",
   "Usage": "使用方法",
   "There are 2 types of task processing:": "タスク処理には2つのタイプがあります：",
   "Single task processing": "単一タスク処理",

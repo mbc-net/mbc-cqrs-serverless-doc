@@ -22,6 +22,8 @@
   "Complete REST API for survey template operations": "Complete REST API for survey template operations",
   "Basic Setup": "Basic Setup",
   "Module Configuration": "Module Configuration",
+  "Enable REST API endpoints": "Enable REST API endpoints",
+  "Required when enableController is true": "Required when enableController is true",
   "API Endpoints": "API Endpoints",
   "Method": "Method",
   "Endpoint": "Endpoint",

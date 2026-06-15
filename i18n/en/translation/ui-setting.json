@@ -13,6 +13,8 @@
   "Solution": "Solution",
   "Every new setting requires code deployment": "Every new setting requires code deployment",
   "Define schemas dynamically via API": "Define schemas dynamically via API",
+  "Enable REST API for settings": "Enable REST API for settings",
+  "Enable REST API for data settings": "Enable REST API for data settings",
   "Settings structure differs between tenants": "Settings structure differs between tenants",
   "Multi-tenant schema support": "Multi-tenant schema support",
   "No validation for user-entered settings": "No validation for user-entered settings",

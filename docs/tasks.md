@@ -116,7 +116,7 @@ import { TaskQueueEventFactory } from "./task-queue-event-factory";
   imports: [
     TaskModule.register({
       taskQueueEventFactory: TaskQueueEventFactory,
-      enableController: true, // Optional: enable REST endpoints for task management
+      enableController: true, // {{Optional: enable REST endpoints for task management}}
     }),
   ],
   providers: [TaskEventHandler],
@@ -237,7 +237,7 @@ import { TaskQueueEventFactory } from "./task-queue-event-factory";
   imports: [
     TaskModule.register({
       taskQueueEventFactory: TaskQueueEventFactory,
-      enableController: true, // Optional: enable REST endpoints for task management
+      enableController: true, // {{Optional: enable REST endpoints for task management}}
     }),
   ],
   providers: [TaskEventHandler],

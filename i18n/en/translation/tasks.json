@@ -10,6 +10,7 @@
   "Task history and logging": "Task history and logging",
   "Architecture": "Architecture",
   "Installation": "Installation",
+  "Optional: enable REST endpoints for task management": "Optional: enable REST endpoints for task management",
   "Usage": "Usage",
   "There are 2 types of task processing:": "There are 2 types of task processing:",
   "Single task processing": "Single task processing",

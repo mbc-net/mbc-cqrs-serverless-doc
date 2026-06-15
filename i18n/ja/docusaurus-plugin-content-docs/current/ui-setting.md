@@ -49,8 +49,8 @@ import { SettingModule } from '@mbc-cqrs-serverless/ui-setting';
 @Module({
   imports: [
     SettingModule.register({
-      enableSettingController: true,  // Enable REST API for settings
-      enableDataController: true,     // Enable REST API for data settings
+      enableSettingController: true,  // Enable REST API for settings (設定のREST APIを有効化)
+      enableDataController: true,     // Enable REST API for data settings (データ設定のREST APIを有効化)
     }),
   ],
 })

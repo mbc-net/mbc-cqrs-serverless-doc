@@ -38,8 +38,8 @@ import { Module } from '@nestjs/common';
 @Module({
   imports: [
     SurveyTemplateModule.register({
-      enableController: true,  // Enable REST API endpoints
-      prismaService: PrismaService,  // Required when enableController is true
+      enableController: true,  // {{Enable REST API endpoints}}
+      prismaService: PrismaService,  // {{Required when enableController is true}}
     }),
   ],
 })

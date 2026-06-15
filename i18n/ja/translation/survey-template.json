@@ -22,6 +22,8 @@
   "Complete REST API for survey template operations": "アンケートテンプレート操作のための完全なREST API",
   "Basic Setup": "基本セットアップ",
   "Module Configuration": "モジュール設定",
+  "Enable REST API endpoints": "Enable REST API endpoints (REST APIエンドポイントを有効化)",
+  "Required when enableController is true": "Required when enableController is true (enableController が true の場合に必須)",
   "API Endpoints": "APIエンドポイント",
   "Method": "メソッド",
   "Endpoint": "エンドポイント",
