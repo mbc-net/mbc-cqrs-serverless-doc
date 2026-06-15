@@ -24,7 +24,7 @@ description: MBC CQRS ServerlessアプリケーションをAWSにデプロイす
 - API Gateway - HTTP APIエンドポイント
 - Lambda - サーバーレスコンピューティング
 - DynamoDB - NoSQLデータベース
-- RDS（PostgreSQL）- リレーショナルデータベース（オプション）
+- RDS（MySQL）- リレーショナルデータベース（オプション）
 - Cognito - ユーザー認証
 - S3 - ファイルストレージ
 - SQS/SNS - メッセージキューイング
@@ -124,7 +124,7 @@ APP_NAME=your-app
 NODE_ENV=dev
 
 # Database
-DATABASE_URL=postgresql://user:password@host:5432/dbname?schema=public
+DATABASE_URL=mysql://user:password@host:3306/dbname
 
 # Cognito
 COGNITO_USER_POOL_ID=ap-northeast-1_xxxxxxx

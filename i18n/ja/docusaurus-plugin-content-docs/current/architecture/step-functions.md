@@ -832,6 +832,7 @@ sequenceDiagram
 `StepFunctionService`は、実行の開始と一時停止したワークフローの再開のためのメソッドを提供します：
 
 ```typescript
+import { Injectable } from '@nestjs/common';
 import {
   SFNClient,
   SendTaskSuccessCommand,

@@ -14,7 +14,7 @@
   "API Gateway - HTTP API endpoints": "API Gateway - HTTP API endpoints",
   "Lambda - Serverless compute": "Lambda - Serverless compute",
   "DynamoDB - NoSQL database": "DynamoDB - NoSQL database",
-  "RDS (PostgreSQL) - Relational database (optional)": "RDS (PostgreSQL) - Relational database (optional)",
+  "RDS (MySQL) - Relational database (optional)": "RDS (MySQL) - Relational database (optional)",
   "Cognito - User authentication": "Cognito - User authentication",
   "S3 - File storage": "S3 - File storage",
   "SQS/SNS - Message queuing": "SQS/SNS - Message queuing",

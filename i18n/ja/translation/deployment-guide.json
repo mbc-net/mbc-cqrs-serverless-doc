@@ -14,7 +14,7 @@
   "API Gateway - HTTP API endpoints": "API Gateway - HTTP APIエンドポイント",
   "Lambda - Serverless compute": "Lambda - サーバーレスコンピューティング",
   "DynamoDB - NoSQL database": "DynamoDB - NoSQLデータベース",
-  "RDS (PostgreSQL) - Relational database (optional)": "RDS（PostgreSQL）- リレーショナルデータベース（オプション）",
+  "RDS (MySQL) - Relational database (optional)": "RDS（MySQL）- リレーショナルデータベース（オプション）",
   "Cognito - User authentication": "Cognito - ユーザー認証",
   "S3 - File storage": "S3 - ファイルストレージ",
   "SQS/SNS - Message queuing": "SQS/SNS - メッセージキューイング",

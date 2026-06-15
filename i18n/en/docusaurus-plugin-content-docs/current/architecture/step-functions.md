@@ -832,6 +832,7 @@ sequenceDiagram
 The `StepFunctionService` provides methods for starting executions and resuming paused workflows:
 
 ```typescript
+import { Injectable } from '@nestjs/common';
 import {
   SFNClient,
   SendTaskSuccessCommand,
