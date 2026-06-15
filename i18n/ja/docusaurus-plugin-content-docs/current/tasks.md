@@ -159,6 +159,18 @@ export class CustomEventFactory extends EventFactoryAddedTask {
 
 6. タスクの作成
 
+```ts
+const task = await this.taskService.createTask(
+  {
+    taskType: "data-export",
+    tenantCode: "mbc",
+    name: "Export user data",
+    input: { userId: "123", format: "csv" },
+  },
+  { invokeContext }
+);
+```
+
 ### Step Functionsを使用したタスク処理
 
 1. Step Functionsタスクイベントの定義
