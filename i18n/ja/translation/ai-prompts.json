@@ -48,5 +48,8 @@
   "MCP Server": "MCPサーバー",
   "MCP server for AI tools": "AIツール用MCPサーバー",
   "Error Catalog": "エラーカタログ",
-  "Error reference with solutions": "エラーリファレンスと解決策"
+  "Error reference with solutions": "エラーリファレンスと解決策",
+  "Authentication & Authorization": "認証と認可",
+  "Implement Group-Based Role Resolver (v1.3.1+)": "グループベースのロールリゾルバーを実装する (v1.3.1+)",
+  "Add AppSync Events API Notifications (v1.3.0+)": "AppSync Events API リアルタイム通知を追加する (v1.3.0+)"
 }

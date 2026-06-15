@@ -128,6 +128,31 @@ Implement [FEATURE] with multi-tenancy support:
 - Follow existing tenant patterns in the codebase
 ```
 
+## Authentication & Authorization {#auth-prompts}
+
+### Implement Group-Based Role Resolver (v1.3.1+)
+
+```
+Implement a GroupRoleResolver for [APP_NAME]:
+- Group-to-role mapping stored in [DynamoDB / RDS / hardcoded config]
+- Map groups: [LIST_GROUPS] to roles: [LIST_ROLES]
+- Use @GroupRoleResolver() decorator (NOT @Injectable() — AP027 anti-pattern)
+- Implement IGroupRoleResolver interface with resolveRoles()
+- Register as provider in AppModule
+- See: https://mbc-cqrs-serverless.mbc-net.com/docs/authentication#group-based-roles
+```
+
+### Add AppSync Events API Notifications (v1.3.0+)
+
+```
+Set up AppSync Events API real-time notifications for [FEATURE]:
+- Add NOTIFICATION_TRANSPORTS=appsync-event to environment
+- Configure APPSYNC_EVENTS_ENDPOINT and APPSYNC_EVENTS_NAMESPACE
+- Add appsyncEvents CDK config to provision EventApi + ChannelNamespace
+- Subscribe frontend client using AppSync Events API channel path format
+- See: https://mbc-cqrs-serverless.mbc-net.com/docs/notification-module#appsync-events-service
+```
+
 ## Testing {#testing}
 
 ### Unit Test for Command Handler

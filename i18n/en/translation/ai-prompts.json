@@ -48,5 +48,8 @@
   "MCP Server": "MCP Server",
   "MCP server for AI tools": "MCP server for AI tools",
   "Error Catalog": "Error Catalog",
-  "Error reference with solutions": "Error reference with solutions"
+  "Error reference with solutions": "Error reference with solutions",
+  "Authentication & Authorization": "Authentication & Authorization",
+  "Implement Group-Based Role Resolver (v1.3.1+)": "Implement Group-Based Role Resolver (v1.3.1+)",
+  "Add AppSync Events API Notifications (v1.3.0+)": "Add AppSync Events API Notifications (v1.3.0+)"
 }
