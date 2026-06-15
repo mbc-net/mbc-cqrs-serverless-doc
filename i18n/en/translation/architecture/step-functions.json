@@ -183,6 +183,8 @@
   "Create state machine": "Create state machine",
   "Iterator task for each item": "Iterator task for each item",
   "Map state with concurrency limit": "Map state with concurrency limit",
+  "Types for Distributed Map S3 item reader configuration": "Types for Distributed Map S3 item reader configuration",
+  "Types for Distributed Map batch processing configuration": "Types for Distributed Map batch processing configuration",
   "Custom Distributed Map class for S3 CSV processing": "Custom Distributed Map class for S3 CSV processing",
   "Usage in your stack": "Usage in your stack",
   "DynamoDB Stream event source": "DynamoDB Stream event source",

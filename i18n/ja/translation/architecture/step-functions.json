@@ -183,6 +183,8 @@
   "Create state machine": "ステートマシンを作成",
   "Iterator task for each item": "各アイテムのイテレータータスク",
   "Map state with concurrency limit": "同時実行制限付きマップステート",
+  "Types for Distributed Map S3 item reader configuration": "Types for Distributed Map S3 item reader configuration (分散マップS3アイテムリーダー設定の型定義)",
+  "Types for Distributed Map batch processing configuration": "Types for Distributed Map batch processing configuration (分散マップバッチ処理設定の型定義)",
   "Custom Distributed Map class for S3 CSV processing": "S3 CSV処理用カスタム分散マップクラス",
   "Usage in your stack": "スタックでの使用法",
   "DynamoDB Stream event source": "DynamoDBストリームイベントソース",
