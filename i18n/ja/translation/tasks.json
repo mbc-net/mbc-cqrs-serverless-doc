@@ -11,7 +11,7 @@
   "Architecture": "アーキテクチャ",
   "Installation": "インストール",
   "Usage": "使用方法",
-  "There are 2 type task processing:": "タスク処理には2つのタイプがあります：",
+  "There are 2 types of task processing:": "タスク処理には2つのタイプがあります：",
   "Single task processing": "単一タスク処理",
   "Task processing with Step function": "Step Functionを使用したタスク処理",
   "Define task event": "タスクイベントの定義",

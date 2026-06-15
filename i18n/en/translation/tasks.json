@@ -11,7 +11,7 @@
   "Architecture": "Architecture",
   "Installation": "Installation",
   "Usage": "Usage",
-  "There are 2 type task processing:": "There are 2 type task processing:",
+  "There are 2 types of task processing:": "There are 2 types of task processing:",
   "Single task processing": "Single task processing",
   "Task processing with Step function": "Task processing with Step function",
   "Define task event": "Define task event",
