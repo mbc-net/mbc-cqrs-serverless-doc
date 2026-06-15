@@ -194,8 +194,8 @@ export class ProductListEntity extends DataListEntity {
 ```ts
 // {{Inherited from DataListEntity}}
 {
-  total?: number;       // Total count (optional — not populated by listItemsByPk)
-  lastSk?: string;      // Last sort key for pagination
+  total?: number;       // {{Total count (optional — not populated by listItemsByPk)}}
+  lastSk?: string;      // {{Last sort key for pagination}}
 }
 ```
 
@@ -810,7 +810,7 @@ interface ProductAttributes {
 }
 
 // {{Not this:}}
-attributes: Record<string, any>  // Avoid
+attributes: Record<string, any>  // {{Avoid}}
 ```
 
 ### {{3. Add Computed Properties}}

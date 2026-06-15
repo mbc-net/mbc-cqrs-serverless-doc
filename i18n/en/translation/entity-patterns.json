@@ -163,5 +163,8 @@
   "Command sort key — records the exact SK (including `@version`) of the source command (audit trail)": "Command sort key — records the exact SK (including `@version`) of the source command (audit trail)",
   "total field is not auto-populated": "total field is not auto-populated",
   "`DataService.listItemsByPk()` does **not** set `total` — it only sets `items` and `lastSk`. To populate `total`, run a separate `countItemsByPk()` call. Avoid displaying `total` in the UI unless you explicitly populate it.": "`DataService.listItemsByPk()` does **not** set `total` — it only sets `items` and `lastSk`. To populate `total`, run a separate `countItemsByPk()` call. Avoid displaying `total` in the UI unless you explicitly populate it.",
-  "Use `DataListEntity` as the return type for all list/search service methods. Always return it from controllers — never return raw arrays — so the frontend receives a consistent `{ items, total, lastSk }` envelope.": "Use `DataListEntity` as the return type for all list/search service methods. Always return it from controllers — never return raw arrays — so the frontend receives a consistent `{ items, total, lastSk }` envelope."
+  "Use `DataListEntity` as the return type for all list/search service methods. Always return it from controllers — never return raw arrays — so the frontend receives a consistent `{ items, total, lastSk }` envelope.": "Use `DataListEntity` as the return type for all list/search service methods. Always return it from controllers — never return raw arrays — so the frontend receives a consistent `{ items, total, lastSk }` envelope.",
+  "Total count (optional — not populated by listItemsByPk)": "Total count (optional — not populated by listItemsByPk)",
+  "Last sort key for pagination": "Last sort key for pagination",
+  "Avoid": "Avoid"
 }

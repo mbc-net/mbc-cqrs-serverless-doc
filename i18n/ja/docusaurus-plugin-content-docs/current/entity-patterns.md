@@ -194,8 +194,8 @@ export class ProductListEntity extends DataListEntity {
 ```ts
 // Inherited from DataListEntity (DataListEntityから継承)
 {
-  total?: number;       // Total count (optional — not populated by listItemsByPk)
-  lastSk?: string;      // Last sort key for pagination
+  total?: number;       // 合計件数（オプション — listItemsByPkでは設定されない）
+  lastSk?: string;      // ページネーション用の最終ソートキー
 }
 ```
 
@@ -810,7 +810,7 @@ interface ProductAttributes {
 }
 
 // 非推奨の書き方:
-attributes: Record<string, any>  // Avoid
+attributes: Record<string, any>  // 非推奨
 ```
 
 ### 3. 算出プロパティを追加する
