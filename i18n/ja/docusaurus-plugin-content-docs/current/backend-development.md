@@ -447,7 +447,7 @@ model Product {
   updatedIp String   @default("")
   updatedAt DateTime
 
-  // Indexes
+  // インデックス
   @@unique([cpk, csk])
   @@unique([pk, sk])
   @@unique([tenantCode, code])

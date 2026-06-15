@@ -36,5 +36,6 @@
   "Database connection configuration": "Database connection configuration",
   "Deployment Guide": "Deployment Guide",
   "Database migration in deployment": "Database migration in deployment",
-  "domain-specific properties": "domain-specific properties"
+  "domain-specific properties": "domain-specific properties",
+  "Example": "Example"
 }

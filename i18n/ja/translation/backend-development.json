@@ -70,5 +70,6 @@
   "Multi-tenant implementation": "マルチテナント実装",
   "Import/Export Patterns": "インポート/エクスポートパターン",
   "Batch data processing": "バッチデータ処理",
-  "publishAsync returns null when command is a no-op (no changes detected)": "publishAsync returns null when command is a no-op (no changes detected) (変更がない場合（no-op）null を返す)"
+  "publishAsync returns null when command is a no-op (no changes detected)": "publishAsync returns null when command is a no-op (no changes detected) (変更がない場合（no-op）null を返す)",
+  "Indexes": "インデックス"
 }
