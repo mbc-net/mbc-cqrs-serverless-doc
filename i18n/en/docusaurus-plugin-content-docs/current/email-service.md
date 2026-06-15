@@ -8,6 +8,30 @@ description: Send emails using AWS SES with the EmailService module, including a
 
 This service is designed to send emails using [AWS SES (Simple Email Service)](https://aws.amazon.com/ses/).
 
+## Usage {#usage}
+
+`EmailService` is exported from `@mbc-cqrs-serverless/core` and is registered as a global provider automatically by the framework. Inject it into any service using the standard NestJS constructor injection:
+
+```typescript
+import { EmailService, EmailNotification } from '@mbc-cqrs-serverless/core';
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class NotificationService {
+  constructor(private readonly emailService: EmailService) {}
+
+  async sendWelcomeEmail(email: string, name: string): Promise<void> {
+    await this.emailService.sendEmail({
+      toAddrs: [email],
+      subject: `Welcome, ${name}!`,
+      body: `<p>Thank you for joining.</p>`,
+    });
+  }
+}
+```
+
+Set the `AWS_SES_REGION` and optionally `AWS_SES_FROM_ADDR` environment variables for SES configuration. See [Environment Variables](/docs/environment-variables) for details.
+
 ## Methods {#methods}
 
 ### *async* `sendEmail(msg: EmailNotification): Promise<any>`
