@@ -1,6 +1,6 @@
 {
   "Learn how to write unit tests for MBC CQRS Serverless services, handlers, and commands using Jest and mocking patterns.": "Jestとモッキングパターンを使用して、MBC CQRS Serverlessサービス、ハンドラー、コマンドのユニットテストを書く方法を学びます。",
-  "Unit test": "単体テスト",
+  "Unit Tests": "単体テスト",
   "This guide explains how to write unit tests for services and handlers in the MBC CQRS Serverless framework.": "このガイドでは、MBC CQRS Serverless フレームワークでサービスやハンドラーの単体テストを書く方法を説明します。",
   "Mocking Dependencies": "依存関係のモック",
   "The framework uses `@golevelup/ts-jest` for creating mocks. The `createMock()` function automatically generates mock implementations for any interface or class.": "フレームワークでは `@golevelup/ts-jest` を使用してモックを作成します。`createMock()` 関数は、任意のインターフェースやクラスに対してモック実装を自動生成します。",
