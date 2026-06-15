@@ -6,7 +6,7 @@ description: Learn how to choose between DynamoDB and RDS for different query sc
 
 This guide helps you understand when to query DynamoDB directly versus RDS (via Prisma) in the MBC CQRS Serverless framework.
 
-## Overview of CQRS Data Flow
+## Overview of CQRS Data Flow {#cqrs-data-flow}
 
 In the CQRS pattern, write operations (commands) and read operations (queries) are handled separately with different data stores optimized for each purpose.
 
@@ -36,7 +36,7 @@ flowchart TB
 3. **Dual Storage**: Data is synchronized to both DynamoDB Data Table and RDS
 4. **Query Path**: Read operations choose between `DataService` (DynamoDB) or `PrismaService` (RDS)
 
-## Database Characteristics
+## Database Characteristics {#database-characteristics}
 
 ### DynamoDB
 
@@ -56,7 +56,7 @@ flowchart TB
 | Strengths | Flexible querying, relational integrity, powerful filtering |
 | Limitations | Connection management needed, requires Data Sync Handler setup |
 
-## Decision Matrix
+## Decision Matrix {#decision-matrix}
 
 Use this matrix to quickly determine which database to query:
 
@@ -72,7 +72,7 @@ Use this matrix to quickly determine which database to query:
 | Pagination with total count | Limited | **Yes** |
 | Complex WHERE conditions (OR, LIKE) | No | **Yes** |
 
-## Decision Flowchart
+## Decision Flowchart {#decision-flowchart}
 
 ```mermaid
 flowchart TD
@@ -93,7 +93,7 @@ flowchart TD
     H -->|"Aggregation"| J["prisma.entity.count/aggregate()"]
 ```
 
-## Code Examples
+## Code Examples {#code-examples}
 
 ### Example 1: Single Item Lookup - Use DynamoDB
 
@@ -383,7 +383,7 @@ export class ProductService {
 }
 ```
 
-## Performance Considerations
+## Performance Considerations {#performance-considerations}
 
 ### DynamoDB Performance
 
@@ -432,7 +432,7 @@ const [total, items] = await Promise.all([
 ]);
 ```
 
-## Data Sync Handler Requirement
+## Data Sync Handler Requirement {#data-sync-handler-requirement}
 
 To query data from RDS, you must implement a Data Sync Handler that synchronizes data from DynamoDB to RDS.
 
@@ -490,7 +490,7 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
 
 See [Data Sync Handler Examples](/docs/data-sync-handler-examples) for more detailed examples.
 
-## Summary
+## Summary {#summary}
 
 | Use Case | Database | Service |
 |------------|------------|-----------|

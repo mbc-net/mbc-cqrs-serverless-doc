@@ -6,7 +6,7 @@ description: MBC CQRS Serverlessにおける異なるクエリシナリオでDyn
 
 このガイドでは、MBC CQRS ServerlessフレームワークでDynamoDBに直接クエリする場合とRDS（Prisma経由）を使用する場合の判断基準を説明します。
 
-## CQRSデータフローの概要
+## CQRSデータフローの概要 {#cqrs-data-flow}
 
 CQRSパターンでは、書き込み操作（コマンド）と読み取り操作（クエリ）は、それぞれの目的に最適化された異なるデータストアで別々に処理されます。
 
@@ -36,7 +36,7 @@ flowchart TB
 3. **二重ストレージ**: データはDynamoDB データテーブルとRDSの両方に同期されます
 4. **クエリパス**: 読み取り操作は`DataService`（DynamoDB）または`PrismaService`（RDS）を選択します
 
-## データベースの特性
+## データベースの特性 {#database-characteristics}
 
 ### DynamoDB
 
@@ -56,7 +56,7 @@ flowchart TB
 | 強み | 柔軟なクエリ、リレーショナル整合性、強力なフィルタリング |
 | 制限 | コネクション管理が必要、Data Sync Handlerの設定が必要 |
 
-## 判断マトリクス
+## 判断マトリクス {#decision-matrix}
 
 このマトリクスを使用して、どのデータベースにクエリすべきかを素早く判断できます：
 
@@ -72,7 +72,7 @@ flowchart TB
 | 総件数付きページネーション | 限定的 | **はい** |
 | 複雑なWHERE条件（OR, LIKE） | いいえ | **はい** |
 
-## 判断フローチャート
+## 判断フローチャート {#decision-flowchart}
 
 ```mermaid
 flowchart TD
@@ -93,7 +93,7 @@ flowchart TD
     H -->|"集計"| J["prisma.entity.count/aggregate()"]
 ```
 
-## コード例
+## コード例 {#code-examples}
 
 ### 例1: 単一アイテムのルックアップ - DynamoDBを使用
 
@@ -383,7 +383,7 @@ export class ProductService {
 }
 ```
 
-## パフォーマンスの考慮事項
+## パフォーマンスの考慮事項 {#performance-considerations}
 
 ### DynamoDBのパフォーマンス
 
@@ -432,7 +432,7 @@ const [total, items] = await Promise.all([
 ]);
 ```
 
-## Data Sync Handlerの要件
+## Data Sync Handlerの要件 {#data-sync-handler-requirement}
 
 RDSからデータをクエリするには、DynamoDBからRDSにデータを同期するData Sync Handlerを実装する必要があります。
 
@@ -490,7 +490,7 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
 
 詳細な例については[Data Sync Handlerの実装例](/docs/data-sync-handler-examples)を参照してください。
 
-## まとめ
+## まとめ {#summary}
 
 | ユースケース | データベース | サービス |
 |------------|------------|-----------|

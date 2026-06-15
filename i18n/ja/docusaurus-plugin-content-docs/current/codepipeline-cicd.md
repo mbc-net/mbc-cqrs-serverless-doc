@@ -6,7 +6,7 @@ description: AWS CodePipelineで継続的インテグレーションとデプロ
 
 このガイドでは、MBC CQRS Serverlessアプリケーション用にAWS CodePipelineを使用したCI/CDパイプラインのセットアップ方法を説明します。
 
-## 概要
+## 概要 {#overview}
 
 AWS CodePipelineは、ビルド、テスト、デプロイのワークフローを自動化します。典型的なパイプラインは以下で構成されます：
 
@@ -23,13 +23,13 @@ graph LR
     E --> F[Prod環境デプロイ]
 ```
 
-## 前提条件
+## 前提条件 {#prerequisites}
 
 - CodePipeline、CodeBuild権限を持つAWSアカウント
 - ソースリポジトリ（GitHub、CodeCommit、またはBitbucket）
 - 設定済みのAWS CDKプロジェクト
 
-## CDKによるパイプラインスタック
+## CDKによるパイプラインスタック {#pipeline-stack}
 
 ### パイプラインスタックの作成
 
@@ -112,7 +112,7 @@ export class PipelineStack extends cdk.Stack {
 }
 ```
 
-## BuildSpec設定
+## BuildSpec設定 {#buildspec-configuration}
 
 ### 基本的なbuildspec.yml
 
@@ -189,7 +189,7 @@ artifacts:
     - 'infra/cdk.out/**/*'
 ```
 
-## マルチ環境パイプライン
+## マルチ環境パイプライン {#multi-environment}
 
 ### 開発環境と本番環境のステージ
 
@@ -244,7 +244,7 @@ const pipeline = new codepipeline.Pipeline(this, 'Pipeline', {
 });
 ```
 
-## GitHub接続
+## GitHub接続 {#github-connection}
 
 ### CodeStar Connectionの作成
 
@@ -271,7 +271,7 @@ new codepipeline_actions.CodeStarConnectionsSourceAction({
 });
 ```
 
-## ブランチベースのパイプライン
+## ブランチベースのパイプライン {#branch-based-pipelines}
 
 ### フィーチャーブランチ戦略
 
@@ -301,7 +301,7 @@ new PipelineStack(app, 'ProdPipeline', {
 });
 ```
 
-## 通知
+## 通知 {#notifications}
 
 ### SNS通知
 
@@ -323,7 +323,7 @@ new notifications.NotificationRule(this, 'PipelineNotificationRule', {
 });
 ```
 
-## ベストプラクティス
+## ベストプラクティス {#best-practices}
 
 ### セキュリティ
 
@@ -344,7 +344,7 @@ new notifications.NotificationRule(this, 'PipelineNotificationRule', {
 - ロールバック戦略を実装
 - 本番環境にはBlue-GreenまたはCanaryデプロイを使用
 
-## トラブルシューティング
+## トラブルシューティング {#troubleshooting}
 
 ### よくある問題
 
@@ -363,7 +363,7 @@ CodeBuildのログはCloudWatch Logsで確認できます：
 aws logs tail /aws/codebuild/your-build-project --follow
 ```
 
-## 次のステップ
+## 次のステップ {#next-steps}
 
 - [モニタリングとロギング](/docs/monitoring-logging) - 可観測性をセットアップする
 - [デプロイメントガイド](/docs/deployment-guide) - 手動デプロイオプション

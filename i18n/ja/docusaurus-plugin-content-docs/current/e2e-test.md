@@ -214,7 +214,7 @@ const syncDataFinished = async (
 export { retry, sleep, syncDataFinished };
 ```
 
-## GitHub Actions のセットアップ
+## GitHub Actions のセットアップ {#github-actions-setup}
 
 CI/CDパイプラインでE2Eテストを自動化するには、GitHub Actionsを設定する必要があります。E2EテストのためのGitHub Actions設定に関する包括的なガイドを以下に示します：
 

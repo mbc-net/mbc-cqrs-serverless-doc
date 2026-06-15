@@ -6,7 +6,7 @@ description: MBC CQRS Serverlessアプリケーションで外部APIと統合し
 
 このガイドでは、MBC CQRS Serverlessアプリケーションを外部APIやサービスと統合する方法を説明します。HTTPリクエストの作成、Webhookの処理、リトライロジックの実装、および回復力のある統合を確保するためのパターンを学びます。
 
-## このガイドを使用するタイミング
+## このガイドを使用するタイミング {#when-to-use}
 
 以下のことが必要な場合にこのガイドを使用してください：
 
@@ -15,7 +15,7 @@ description: MBC CQRS Serverlessアプリケーションで外部APIと統合し
 - 外部API呼び出しのリトライとエラーハンドリングを実装する
 - 外部システムとの回復力のある統合を構築する
 
-## このパターンが解決する問題
+## このパターンが解決する問題 {#problems-solved}
 
 | 問題 | 解決策 |
 |---------|----------|
@@ -24,7 +24,7 @@ description: MBC CQRS Serverlessアプリケーションで外部APIと統合し
 | ネットワークタイムアウトがLambda障害を引き起こす | 適切なタイムアウトを設定し、タイムアウトエラーを処理 |
 | 外部APIの問題を把握できない | 構造化ログとモニタリングを追加 |
 
-## 外部APIの呼び出し
+## 外部APIの呼び出し {#calling-external-apis}
 
 ### HTTPリクエストにfetchを使用する
 
@@ -179,7 +179,7 @@ const client = axios.create({
 });
 ```
 
-## Webhookの受信
+## Webhookの受信 {#consuming-webhooks}
 
 ### Webhookコントローラーパターン
 
@@ -375,7 +375,7 @@ export class WebhookService {
 }
 ```
 
-## リトライとエラーハンドリング
+## リトライとエラーハンドリング {#retry-error-handling}
 
 ### 指数バックオフでリトライ
 
@@ -512,7 +512,7 @@ resources:
         QueueName: external-api-dlq
 ```
 
-## サーキットブレーカーパターン
+## サーキットブレーカーパターン {#circuit-breaker}
 
 :::info 推奨事項
 サーキットブレーカーパターンはフレームワークに組み込まれていません。API呼び出し量が多い本番アプリケーションでは、サーキットブレーカーの実装、または`cockatiel`や`opossum`などのライブラリの使用を検討してください。
@@ -626,7 +626,7 @@ export class ExternalApiService {
 }
 ```
 
-## 実践例：決済ゲートウェイ統合
+## 実践例：決済ゲートウェイ統合 {#payment-gateway-example}
 
 この例は、外部決済ゲートウェイとの完全な統合を示しています：
 
@@ -748,7 +748,7 @@ export class PaymentGatewayService {
 }
 ```
 
-## ベストプラクティス
+## ベストプラクティス {#best-practices}
 
 ### 1. 常にタイムアウトを設定する
 

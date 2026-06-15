@@ -214,7 +214,7 @@ const syncDataFinished = async (
 export { retry, sleep, syncDataFinished };
 ```
 
-## {{GitHub Actions Setup}}
+## {{GitHub Actions Setup}} {#github-actions-setup}
 
 {{To automate E2E testing in your CI/CD pipeline, you'll need to set up GitHub Actions. Here's a comprehensive guide on configuring GitHub Actions for E2E testing:}}
 

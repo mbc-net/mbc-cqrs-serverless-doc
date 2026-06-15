@@ -6,7 +6,7 @@ description: MBC CQRS Serverlessフレームワークで開発する際に避け
 
 このガイドでは、MBC CQRS Serverlessフレームワークで開発する際に避けるべき一般的な間違いとアンチパターンを文書化しています。「やってはいけないこと」を理解することは、ベストプラクティスを知ることと同じくらい重要です。
 
-## コマンド処理のアンチパターン
+## コマンド処理のアンチパターン {#command-handling}
 
 ### AP001: CommandServiceをバイパスした直接データベース書き込み
 
@@ -115,7 +115,7 @@ await Promise.all(promises);
 
 ---
 
-## データアクセスのアンチパターン
+## データアクセスのアンチパターン {#data-access}
 
 ### AP004: N+1クエリパターン
 
@@ -229,7 +229,7 @@ const command = new DocumentCommand({
 
 ---
 
-## マルチテナントのアンチパターン
+## マルチテナントのアンチパターン {#multi-tenant}
 
 ### AP007: テナントコードのハードコーディング
 
@@ -292,7 +292,7 @@ async create(
 
 ---
 
-## イベント処理のアンチパターン
+## イベント処理のアンチパターン {#event-handling}
 
 ### AP009: データ同期ハンドラーでのエラースロー
 
@@ -372,7 +372,7 @@ export class MyDataSyncHandler implements IDataSyncHandler {
 
 ---
 
-## クイックリファレンスカード
+## クイックリファレンスカード {#quick-reference}
 
 AP001〜AP010 は上記のセクション（ガイドコード）に対応します。AP011〜AP027 は `mbc_check_anti_patterns` ツールが出力する検出器コードで、AP003〜AP010 については検出器コードとガイドコードで番号が異なります。完全なマッピングは[アンチパターン検出](/docs/mcp-server#anti-pattern-detection)を参照してください。
 

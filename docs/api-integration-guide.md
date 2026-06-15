@@ -6,7 +6,7 @@ description: {{Learn how to integrate with external APIs and receive webhooks in
 
 {{This guide explains how to integrate your MBC CQRS Serverless application with external APIs and services. Learn patterns for making HTTP requests, handling webhooks, implementing retry logic, and ensuring resilient integrations.}}
 
-## {{When to Use This Guide}}
+## {{When to Use This Guide}} {#when-to-use}
 
 {{Use this guide when you need to:}}
 
@@ -15,7 +15,7 @@ description: {{Learn how to integrate with external APIs and receive webhooks in
 - {{Implement retry and error handling for external API calls}}
 - {{Build resilient integrations with external systems}}
 
-## {{Problems This Pattern Solves}}
+## {{Problems This Pattern Solves}} {#problems-solved}
 
 | {{Problem}} | {{Solution}} |
 |---------|----------|
@@ -24,7 +24,7 @@ description: {{Learn how to integrate with external APIs and receive webhooks in
 | {{Network timeouts cause Lambda failures}} | {{Set appropriate timeouts and handle timeout errors}} |
 | {{No visibility into external API issues}} | {{Add structured logging and monitoring}} |
 
-## {{Calling External APIs}}
+## {{Calling External APIs}} {#calling-external-apis}
 
 ### {{Using fetch for HTTP Requests}}
 
@@ -179,7 +179,7 @@ const client = axios.create({
 });
 ```
 
-## {{Consuming Webhooks}}
+## {{Consuming Webhooks}} {#consuming-webhooks}
 
 ### {{Webhook Controller Pattern}}
 
@@ -375,7 +375,7 @@ export class WebhookService {
 }
 ```
 
-## {{Retry and Error Handling}}
+## {{Retry and Error Handling}} {#retry-error-handling}
 
 ### {{Retry with Exponential Backoff}}
 
@@ -512,7 +512,7 @@ resources:
         QueueName: external-api-dlq
 ```
 
-## {{Circuit Breaker Pattern}}
+## {{Circuit Breaker Pattern}} {#circuit-breaker}
 
 :::info {{Recommendation}}
 {{The circuit breaker pattern is not built into the framework. For production applications with high API call volumes, consider implementing a circuit breaker or using a library like `cockatiel` or `opossum`.}}
@@ -626,7 +626,7 @@ export class ExternalApiService {
 }
 ```
 
-## {{Practical Example: Payment Gateway Integration}}
+## {{Practical Example: Payment Gateway Integration}} {#payment-gateway-example}
 
 {{This example shows a complete integration with an external payment gateway:}}
 
@@ -748,7 +748,7 @@ export class PaymentGatewayService {
 }
 ```
 
-## {{Best Practices}}
+## {{Best Practices}} {#best-practices}
 
 ### {{1. Always Set Timeouts}}
 

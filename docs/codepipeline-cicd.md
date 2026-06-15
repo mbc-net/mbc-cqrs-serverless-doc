@@ -6,7 +6,7 @@ description: {{Set up continuous integration and deployment with AWS CodePipelin
 
 {{This guide explains how to set up a CI/CD pipeline using AWS CodePipeline for your MBC CQRS Serverless application.}}
 
-## {{Overview}}
+## {{Overview}} {#overview}
 
 {{AWS CodePipeline automates your build, test, and deployment workflow. A typical pipeline consists of:}}
 
@@ -23,13 +23,13 @@ graph LR
     E --> F[{{Deploy Prod}}]
 ```
 
-## {{Prerequisites}}
+## {{Prerequisites}} {#prerequisites}
 
 - {{AWS account with CodePipeline, CodeBuild permissions}}
 - {{Source repository (GitHub, CodeCommit, or Bitbucket)}}
 - {{AWS CDK project configured}}
 
-## {{Pipeline Stack with CDK}}
+## {{Pipeline Stack with CDK}} {#pipeline-stack}
 
 ### {{Create Pipeline Stack}}
 
@@ -112,7 +112,7 @@ export class PipelineStack extends cdk.Stack {
 }
 ```
 
-## {{BuildSpec Configuration}}
+## {{BuildSpec Configuration}} {#buildspec-configuration}
 
 ### {{Basic buildspec.yml}}
 
@@ -189,7 +189,7 @@ artifacts:
     - 'infra/cdk.out/**/*'
 ```
 
-## {{Multi-Environment Pipeline}}
+## {{Multi-Environment Pipeline}} {#multi-environment}
 
 ### {{Development and Production Stages}}
 
@@ -244,7 +244,7 @@ const pipeline = new codepipeline.Pipeline(this, 'Pipeline', {
 });
 ```
 
-## {{GitHub Connection}}
+## {{GitHub Connection}} {#github-connection}
 
 ### {{Create CodeStar Connection}}
 
@@ -271,7 +271,7 @@ new codepipeline_actions.CodeStarConnectionsSourceAction({
 });
 ```
 
-## {{Branch-Based Pipelines}}
+## {{Branch-Based Pipelines}} {#branch-based-pipelines}
 
 ### {{Feature Branch Strategy}}
 
@@ -301,7 +301,7 @@ new PipelineStack(app, 'ProdPipeline', {
 });
 ```
 
-## {{Notifications}}
+## {{Notifications}} {#notifications}
 
 ### {{SNS Notifications}}
 
@@ -323,7 +323,7 @@ new notifications.NotificationRule(this, 'PipelineNotificationRule', {
 });
 ```
 
-## {{Best Practices}}
+## {{Best Practices}} {#best-practices}
 
 ### {{Security}}
 
@@ -344,7 +344,7 @@ new notifications.NotificationRule(this, 'PipelineNotificationRule', {
 - {{Implement rollback strategies}}
 - {{Use blue-green or canary deployments for production}}
 
-## {{Troubleshooting}}
+## {{Troubleshooting}} {#troubleshooting}
 
 ### {{Common Issues}}
 
@@ -363,7 +363,7 @@ new notifications.NotificationRule(this, 'PipelineNotificationRule', {
 aws logs tail /aws/codebuild/your-build-project --follow
 ```
 
-## {{Next Steps}}
+## {{Next Steps}} {#next-steps}
 
 - {{[Monitoring and Logging](/docs/monitoring-logging) - Set up observability}}
 - {{[Deployment Guide](/docs/deployment-guide) - Manual deployment options}}

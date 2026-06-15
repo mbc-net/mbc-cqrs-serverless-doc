@@ -7,7 +7,7 @@ description: {{Optimized prompts for AI-assisted development with MBC CQRS Serve
 
 {{This page provides optimized prompts for common development tasks when using AI assistants with the MBC CQRS Serverless framework.}}
 
-## {{Module Generation}}
+## {{Module Generation}} {#module-generation}
 
 ### {{Create a New CQRS Module}}
 
@@ -32,7 +32,7 @@ Create a CQRS module for [FEATURE_NAME] that syncs data to RDS:
 - Include error handling for sync failures
 ```
 
-## {{Command Operations}}
+## {{Command Operations}} {#command-operations}
 
 ### {{Implement Async Command}}
 
@@ -55,7 +55,7 @@ Implement a synchronous command for [OPERATION] that waits for completion:
 - Consider timeout implications
 ```
 
-## {{Query Operations}}
+## {{Query Operations}} {#query-operations}
 
 ### {{List Query with Filters}}
 
@@ -78,7 +78,7 @@ Implement a detail query to get [ENTITY] by ID:
 - Serialize response for API output
 ```
 
-## {{Event Handling}}
+## {{Event Handling}} {#event-handling}
 
 ### {{Create Custom Event Handler}}
 
@@ -102,7 +102,7 @@ Create a DynamoDB stream handler to [PURPOSE]:
 - Handle errors appropriately
 ```
 
-## {{Data Sync}}
+## {{Data Sync}} {#data-sync}
 
 ### {{Create Data Sync Handler}}
 
@@ -115,7 +115,7 @@ Create a DataSyncHandler to sync [ENTITY] to [TARGET]:
 - Include error handling and rollback logic
 ```
 
-## {{Multi-Tenancy}}
+## {{Multi-Tenancy}} {#multi-tenancy}
 
 ### {{Implement Tenant-Aware Feature}}
 
@@ -128,7 +128,7 @@ Implement [FEATURE] with multi-tenancy support:
 - Follow existing tenant patterns in the codebase
 ```
 
-## {{Testing}}
+## {{Testing}} {#testing}
 
 ### {{Unit Test for Command Handler}}
 
@@ -152,7 +152,7 @@ Write integration tests for [FEATURE]:
 - Use LocalStack for local testing
 ```
 
-## {{Debugging}}
+## {{Debugging}} {#debugging}
 
 ### {{Diagnose Version Conflict}}
 
@@ -185,7 +185,7 @@ Events are not being processed for [EVENT_TYPE]. Please check:
 4. Error handling and dead letter queue setup
 ```
 
-## {{Architecture Review}}
+## {{Architecture Review}} {#architecture-review}
 
 ### {{Review Module Implementation}}
 
@@ -211,7 +211,7 @@ Review [FEATURE] for production readiness:
 - Rollback procedures
 ```
 
-## {{Migration}}
+## {{Migration}} {#migration}
 
 ### {{Create Migration for Schema Change}}
 
@@ -224,7 +224,7 @@ Create a migration for [SCHEMA_CHANGE]:
 - Document breaking changes if any
 ```
 
-## {{Best Practices}}
+## {{Best Practices}} {#best-practices}
 
 {{When using these prompts:}}
 

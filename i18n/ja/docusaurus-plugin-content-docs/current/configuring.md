@@ -7,7 +7,7 @@ description: TypeScript、ESLint、プロジェクト設定を含むMBC CQRS Ser
 
 MBC CQRS サーバーレスフレームワークでは、特定の要件に合わせてプロジェクトをカスタマイズできます。このガイドでは、フレームワークで利用可能なすべての設定オプションについて説明します。
 
-## プロジェクト設定
+## プロジェクト設定 {#project-configuration}
 
 ### serverless.yml
 
@@ -96,7 +96,7 @@ import { CommandModule } from '@mbc-cqrs-serverless/core';
 export class AppModule {}
 ```
 
-## TypeScript設定
+## TypeScript設定 {#typescript-configuration}
 
 ### tsconfig.json
 
@@ -137,7 +137,7 @@ MBC CQRS Serverlessプロジェクト向けの推奨TypeScript設定。
 }
 ```
 
-## ESLint設定
+## ESLint設定 {#eslint-configuration}
 
 ### .eslintrc.js
 
@@ -171,7 +171,7 @@ module.exports = {
 };
 ```
 
-## モジュール設定
+## モジュール設定 {#module-configuration}
 
 ### CommandModuleオプション
 
@@ -274,7 +274,7 @@ SES_ENDPOINT=http://localhost:4566
 SES_REGION=ap-northeast-1
 ```
 
-## ログ設定
+## ログ設定 {#logging-configuration}
 
 ### ロガーの設定
 
@@ -312,7 +312,7 @@ export class OrderService {
 }
 ```
 
-## バリデーション設定
+## バリデーション設定 {#validation-configuration}
 
 ### グローバルバリデーションパイプ
 
@@ -353,7 +353,7 @@ app.useGlobalPipes(
 );
 ```
 
-## CORS設定
+## CORS設定 {#cors-configuration}
 
 ### CORSの設定
 
@@ -372,7 +372,7 @@ app.enableCors({
 });
 ```
 
-## ステージ固有の設定
+## ステージ固有の設定 {#stage-specific-configuration}
 
 ### 環境ベースの設定
 

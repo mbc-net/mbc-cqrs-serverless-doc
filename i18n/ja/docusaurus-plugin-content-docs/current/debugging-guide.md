@@ -6,7 +6,7 @@ description: MBC CQRS Serverlessアプリケーションのデバッグテクニ
 
 このガイドでは、ローカル環境とAWS環境の両方でのMBC CQRS Serverlessアプリケーションのデバッグテクニックを説明します。
 
-## ローカル開発環境でのデバッグ
+## ローカル開発環境でのデバッグ {#local-debugging}
 
 ### NestJS REPLの使用
 
@@ -117,7 +117,7 @@ export class TodoService {
 }
 ```
 
-## DynamoDBのデバッグ
+## DynamoDBのデバッグ {#dynamodb-debugging}
 
 ### テーブル内容の表示
 
@@ -158,7 +158,7 @@ export class DebugHandler implements IEventHandler<DataSyncNewCommandEvent> {
 }
 ```
 
-## CloudWatch Logs
+## CloudWatch Logs {#cloudwatch-logs}
 
 ### ログの表示
 
@@ -210,7 +210,7 @@ fields @timestamp, level, message, context
 | sort @timestamp desc
 ```
 
-## Step Functionsのデバッグ
+## Step Functionsのデバッグ {#step-functions-debugging}
 
 ### 実行履歴
 
@@ -254,7 +254,7 @@ const stateMachine = new sfn.StateMachine(this, 'StateMachine', {
 });
 ```
 
-## API Gatewayのデバッグ
+## API Gatewayのデバッグ {#api-gateway-debugging}
 
 ### アクセスログの有効化
 
@@ -287,7 +287,7 @@ curl -v -X POST https://your-api.execute-api.region.amazonaws.com/todos \
   -d '{"title": "Test Todo"}'
 ```
 
-## X-Rayトレーシング
+## X-Rayトレーシング {#xray-tracing}
 
 X-RayトレーシングはCDKレベルでLambda関数とAPI Gatewayに対して自動的に有効化されています。`aws-xray-sdk`を使用したSDKレベルのインストルメンテーションは、追加のトレーシング機能が必要な場合のオプションです。
 
@@ -348,7 +348,7 @@ async function processOrder(orderId: string): Promise<void> {
 }
 ```
 
-## 一般的なデバッグパターン
+## 一般的なデバッグパターン {#common-debugging-patterns}
 
 ### リクエスト相関
 
@@ -393,7 +393,7 @@ function debugLog(message: string, data?: any): void {
 }
 ```
 
-## トラブルシューティングチェックリスト
+## トラブルシューティングチェックリスト {#troubleshooting-checklist}
 
 問題をデバッグする際：
 
@@ -405,7 +405,7 @@ function debugLog(message: string, data?: any): void {
 6. **最近の変更を確認**: 最後に動作した時から何が変わりましたか？
 7. **依存関係を確認**: すべてのサービスは正常ですか？
 
-## ローカルStep Functionsデバッグ
+## ローカルStep Functionsデバッグ {#local-step-functions-debugging}
 
 フレームワークはAWS Step Functions Localをサポートしており、ローカル開発環境でStep Functionsワークフローをテストおよびデバッグできます。
 
@@ -475,7 +475,7 @@ aws stepfunctions send-task-failure \
   --error "TestError"
 ```
 
-## CloudWatchを使用した本番デバッグ
+## CloudWatchを使用した本番デバッグ {#production-debugging}
 
 ### Lambdaログ分析
 
@@ -550,7 +550,7 @@ fields @timestamp, @message
 | limit 50
 ```
 
-## バージョン競合のデバッグ
+## バージョン競合のデバッグ {#version-conflict-debugging}
 
 バージョン競合は、複数のプロセスが同時に同じアイテムを更新しようとした場合に発生します。フレームワークは楽観的ロックを使用してデータの一貫性を確保します。
 
@@ -613,7 +613,7 @@ async function updateWithRetry(pk: string, sk: string, updates: any, maxRetries 
 }
 ```
 
-## DynamoDBコマンド履歴の検査
+## DynamoDBコマンド履歴の検査 {#inspecting-command-history}
 
 コマンドテーブルはすべてのコマンドの完全な履歴を保存し、完全な監査証跡とデバッグを可能にします。
 
@@ -683,7 +683,7 @@ async function getCommandHistory(pk: string, baseSk: string) {
 }
 ```
 
-## 一般的なデバッグシナリオ
+## 一般的なデバッグシナリオ {#debugging-scenarios}
 
 ### シナリオ1：コマンドがデータテーブルに表示されない
 
@@ -841,7 +841,7 @@ async function getCommandHistory(pk: string, baseSk: string) {
    const dynamoClient = AWSXRay.captureAWSv3Client(new DynamoDBClient({}));
    ```
 
-## 次のステップ
+## 次のステップ {#next-steps}
 
 - [よくある問題](/docs/common-issues) - 既知の問題と解決策
 - [モニタリングとロギング](/docs/monitoring-logging) - 包括的なモニタリングをセットアップ

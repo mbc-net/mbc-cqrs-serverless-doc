@@ -6,7 +6,7 @@ description: Learn how to integrate with backend APIs using generated OpenAPI SD
 
 This guide explains how to connect frontend applications to MBC CQRS Serverless backends using auto-generated TypeScript SDKs. Type-safe API integration catches errors at compile time and provides excellent developer experience with autocomplete.
 
-## When to Use This Guide
+## When to Use This Guide {#when-to-use}
 
 Use this guide when you need to:
 
@@ -16,7 +16,7 @@ Use this guide when you need to:
 - Handle API errors consistently across the application
 - Support multi-tenant API calls with tenant headers
 
-## Problems This Pattern Solves
+## Problems This Pattern Solves {#problems-solved}
 
 | Problem | Solution |
 |---------|----------|
@@ -26,7 +26,7 @@ Use this guide when you need to:
 | Tenant header missing in some requests | Add tenant interceptor that reads from store |
 | Hard to update when API changes | Regenerate SDK with one command |
 
-## SDK Generation Setup
+## SDK Generation Setup {#sdk-generation-setup}
 
 ### Use Case: Generate Type-Safe API Client
 
@@ -74,7 +74,7 @@ export default defineConfig({
 }
 ```
 
-## Generated SDK Structure
+## Generated SDK Structure {#generated-sdk-structure}
 
 After running `npm run generate-sdk`, the following files are created:
 
@@ -144,7 +144,7 @@ export class ProductService {
 }
 ```
 
-## Client Configuration
+## Client Configuration {#client-configuration}
 
 ### Use Case: Add Authentication to All Requests
 
@@ -294,7 +294,7 @@ export const productApi = {
 };
 ```
 
-## React Query Integration
+## React Query Integration {#react-query-integration}
 
 ### Use Case: Data Fetching with Caching
 
@@ -430,7 +430,7 @@ export function ProductList() {
 }
 ```
 
-## Error Handling
+## Error Handling {#error-handling}
 
 ### Use Case: Structured Error Responses
 
@@ -538,7 +538,7 @@ export function ApiError({ error }: ApiErrorProps) {
 }
 ```
 
-## Multi-Tenant API Calls
+## Multi-Tenant API Calls {#multi-tenant-api-calls}
 
 ### Use Case: Tenant Context for SaaS Applications
 
@@ -606,7 +606,7 @@ export function useTenantProducts() {
 }
 ```
 
-## File Upload Integration
+## File Upload Integration {#file-upload-integration}
 
 ### Use Case: Upload Files to S3 via API
 
@@ -647,7 +647,7 @@ export const fileApi = {
 };
 ```
 
-## Best Practices
+## Best Practices {#best-practices}
 
 ### 1. Always Regenerate SDK After Backend Changes
 

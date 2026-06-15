@@ -7,7 +7,7 @@ description: Configuration guide for MBC CQRS Serverless framework including Typ
 
 MBC CQRS serverless framework allows you to customize your project to meet specific requirements. This guide covers all configuration options available in the framework.
 
-## Project Configuration
+## Project Configuration {#project-configuration}
 
 ### serverless.yml
 
@@ -96,7 +96,7 @@ import { CommandModule } from '@mbc-cqrs-serverless/core';
 export class AppModule {}
 ```
 
-## TypeScript Configuration
+## TypeScript Configuration {#typescript-configuration}
 
 ### tsconfig.json
 
@@ -137,7 +137,7 @@ Recommended TypeScript configuration for MBC CQRS Serverless projects.
 }
 ```
 
-## ESLint Configuration
+## ESLint Configuration {#eslint-configuration}
 
 ### .eslintrc.js
 
@@ -171,7 +171,7 @@ module.exports = {
 };
 ```
 
-## Module Configuration
+## Module Configuration {#module-configuration}
 
 ### CommandModule Options
 
@@ -274,7 +274,7 @@ SES_ENDPOINT=http://localhost:4566
 SES_REGION=ap-northeast-1
 ```
 
-## Logging Configuration
+## Logging Configuration {#logging-configuration}
 
 ### Configure Logger
 
@@ -312,7 +312,7 @@ export class OrderService {
 }
 ```
 
-## Validation Configuration
+## Validation Configuration {#validation-configuration}
 
 ### Global Validation Pipe
 
@@ -353,7 +353,7 @@ app.useGlobalPipes(
 );
 ```
 
-## CORS Configuration
+## CORS Configuration {#cors-configuration}
 
 ### Configure CORS
 
@@ -372,7 +372,7 @@ app.enableCors({
 });
 ```
 
-## Stage-Specific Configuration
+## Stage-Specific Configuration {#stage-specific-configuration}
 
 ### Environment-Based Settings
 

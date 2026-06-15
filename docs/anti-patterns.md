@@ -6,7 +6,7 @@ description: {{Common anti-patterns to avoid when developing with MBC CQRS Serve
 
 {{This guide documents common mistakes and anti-patterns to avoid when developing with the MBC CQRS Serverless framework. Understanding what NOT to do is as important as knowing the best practices.}}
 
-## {{Command Handling Anti-Patterns}}
+## {{Command Handling Anti-Patterns}} {#command-handling}
 
 ### {{AP001: Direct Database Writes Bypassing Command Service}}
 
@@ -115,7 +115,7 @@ await Promise.all(promises);
 
 ---
 
-## {{Data Access Anti-Patterns}}
+## {{Data Access Anti-Patterns}} {#data-access}
 
 ### {{AP004: N+1 Query Pattern}}
 
@@ -229,7 +229,7 @@ const command = new DocumentCommand({
 
 ---
 
-## {{Multi-Tenant Anti-Patterns}}
+## {{Multi-Tenant Anti-Patterns}} {#multi-tenant}
 
 ### {{AP007: Hardcoding Tenant Code}}
 
@@ -292,7 +292,7 @@ async create(
 
 ---
 
-## {{Event Handling Anti-Patterns}}
+## {{Event Handling Anti-Patterns}} {#event-handling}
 
 ### {{AP009: Throwing Errors in Data Sync Handlers}}
 
@@ -372,7 +372,7 @@ export class MyDataSyncHandler implements IDataSyncHandler {
 
 ---
 
-## {{Quick Reference Card}}
+## {{Quick Reference Card}} {#quick-reference}
 
 {{AP001–AP010 correspond to the sections above (guide codes). AP011–AP027 are detector codes emitted by the `mbc_check_anti_patterns` tool — the tool uses a separate numbering system, so AP003–AP010 detector codes differ from guide codes. See [Anti-Pattern Detection](/docs/mcp-server#anti-pattern-detection) for the full detector→guide mapping.}}
 

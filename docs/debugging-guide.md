@@ -6,7 +6,7 @@ description: {{Learn debugging techniques for MBC CQRS Serverless applications.}
 
 {{This guide covers debugging techniques for MBC CQRS Serverless applications in both local and AWS environments.}}
 
-## {{Local Development Debugging}}
+## {{Local Development Debugging}} {#local-debugging}
 
 ### {{Using NestJS REPL}}
 
@@ -117,7 +117,7 @@ export class TodoService {
 }
 ```
 
-## {{DynamoDB Debugging}}
+## {{DynamoDB Debugging}} {#dynamodb-debugging}
 
 ### {{View Table Contents}}
 
@@ -158,7 +158,7 @@ export class DebugHandler implements IEventHandler<DataSyncNewCommandEvent> {
 }
 ```
 
-## {{CloudWatch Logs}}
+## {{CloudWatch Logs}} {#cloudwatch-logs}
 
 ### {{Viewing Logs}}
 
@@ -210,7 +210,7 @@ fields @timestamp, level, message, context
 | sort @timestamp desc
 ```
 
-## {{Step Functions Debugging}}
+## {{Step Functions Debugging}} {#step-functions-debugging}
 
 ### {{Execution History}}
 
@@ -254,7 +254,7 @@ const stateMachine = new sfn.StateMachine(this, 'StateMachine', {
 });
 ```
 
-## {{API Gateway Debugging}}
+## {{API Gateway Debugging}} {#api-gateway-debugging}
 
 ### {{Enable Access Logs}}
 
@@ -287,7 +287,7 @@ curl -v -X POST https://your-api.execute-api.region.amazonaws.com/todos \
   -d '{"title": "Test Todo"}'
 ```
 
-## {{X-Ray Tracing}}
+## {{X-Ray Tracing}} {#xray-tracing}
 
 {{X-Ray tracing is automatically enabled at the CDK level for Lambda functions and API Gateway. SDK-level instrumentation with `aws-xray-sdk` is optional for additional tracing capabilities.}}
 
@@ -348,7 +348,7 @@ async function processOrder(orderId: string): Promise<void> {
 }
 ```
 
-## {{Common Debugging Patterns}}
+## {{Common Debugging Patterns}} {#common-debugging-patterns}
 
 ### {{Request Correlation}}
 
@@ -393,7 +393,7 @@ function debugLog(message: string, data?: any): void {
 }
 ```
 
-## {{Troubleshooting Checklist}}
+## {{Troubleshooting Checklist}} {#troubleshooting-checklist}
 
 {{When debugging an issue:}}
 
@@ -405,7 +405,7 @@ function debugLog(message: string, data?: any): void {
 6. **{{Review recent changes}}**: {{What changed since it last worked?}}
 7. **{{Check dependencies}}**: {{Are all services healthy?}}
 
-## {{Local Step Functions Debugging}}
+## {{Local Step Functions Debugging}} {#local-step-functions-debugging}
 
 {{The framework includes support for AWS Step Functions Local, allowing you to test and debug Step Functions workflows in your local development environment.}}
 
@@ -475,7 +475,7 @@ aws stepfunctions send-task-failure \
   --error "TestError"
 ```
 
-## {{Production Debugging with CloudWatch}}
+## {{Production Debugging with CloudWatch}} {#production-debugging}
 
 ### {{Lambda Log Analysis}}
 
@@ -550,7 +550,7 @@ fields @timestamp, @message
 | limit 50
 ```
 
-## {{Version Conflict Debugging}}
+## {{Version Conflict Debugging}} {#version-conflict-debugging}
 
 {{Version conflicts occur when multiple processes attempt to update the same item simultaneously. The framework uses optimistic locking to ensure data consistency.}}
 
@@ -613,7 +613,7 @@ async function updateWithRetry(pk: string, sk: string, updates: any, maxRetries 
 }
 ```
 
-## {{Inspecting DynamoDB Command History}}
+## {{Inspecting DynamoDB Command History}} {#inspecting-command-history}
 
 {{The command table stores a complete history of all commands, enabling full audit trails and debugging.}}
 
@@ -683,7 +683,7 @@ async function getCommandHistory(pk: string, baseSk: string) {
 }
 ```
 
-## {{Common Debugging Scenarios}}
+## {{Common Debugging Scenarios}} {#debugging-scenarios}
 
 ### {{Scenario 1: Command Not Appearing in Data Table}}
 
@@ -841,7 +841,7 @@ async function getCommandHistory(pk: string, baseSk: string) {
    const dynamoClient = AWSXRay.captureAWSv3Client(new DynamoDBClient({}));
    ```
 
-## {{Next Steps}}
+## {{Next Steps}} {#next-steps}
 
 - {{[Common Issues](/docs/common-issues) - Known issues and solutions}}
 - {{[Monitoring and Logging](/docs/monitoring-logging) - Set up comprehensive monitoring}}

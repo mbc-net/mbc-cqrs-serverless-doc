@@ -6,7 +6,7 @@ description: {{Learn how to handle forms effectively using React Hook Form with 
 
 {{This guide explains how to build type-safe forms with validation using React Hook Form and Zod. These patterns ensure data integrity before sending to the API and provide clear feedback to users.}}
 
-## {{When to Use This Guide}}
+## {{When to Use This Guide}} {#when-to-use}
 
 {{Use this guide when you need to:}}
 
@@ -16,7 +16,7 @@ description: {{Learn how to handle forms effectively using React Hook Form with 
 - {{Handle complex forms with dynamic fields (order items, tags)}}
 - {{Show conditional fields based on other form values}}
 
-## {{Problems This Pattern Solves}}
+## {{Problems This Pattern Solves}} {#problems-solved}
 
 | {{Problem}} | {{Solution}} |
 |---------|----------|
@@ -26,7 +26,7 @@ description: {{Learn how to handle forms effectively using React Hook Form with 
 | {{Hard to show validation errors}} | {{Automatic error state per field}} |
 | {{Dynamic fields are complex to manage}} | {{useFieldArray handles add/remove}} |
 
-## {{Technology Stack}}
+## {{Technology Stack}} {#technology-stack}
 
 | {{Library}} | {{Purpose}} |
 |---------|---------|
@@ -35,13 +35,13 @@ description: {{Learn how to handle forms effectively using React Hook Form with 
 | @hookform/resolvers | {{Zod integration}} |
 | shadcn/ui Form | {{Form UI components}} |
 
-## {{Installation}}
+## {{Installation}} {#installation}
 
 ```bash
 npm install react-hook-form zod @hookform/resolvers
 ```
 
-## {{Form Component Architecture}}
+## {{Form Component Architecture}} {#form-architecture}
 
 {{The form system uses a layered component architecture:}}
 
@@ -55,7 +55,7 @@ npm install react-hook-form zod @hookform/resolvers
 | `FormMessage` | {{Displays validation error message}} |
 | `FormDescription` | {{Optional help text for the field}} |
 
-## {{Basic Form Structure}}
+## {{Basic Form Structure}} {#basic-form-structure}
 
 ### {{Use Case: Product Create Form}}
 
@@ -258,7 +258,7 @@ export function ProductForm({
 }
 ```
 
-## {{Reusable Form Components}}
+## {{Reusable Form Components}} {#reusable-components}
 
 ### {{Use Case: Consistent Form Field Styling}}
 
@@ -349,7 +349,7 @@ Input.displayName = 'Input';
 export { Input };
 ```
 
-## {{Form Component Implementation}}
+## {{Form Component Implementation}} {#form-implementation}
 
 {{The Form components from shadcn/ui provide context-based error handling:}}
 
@@ -545,7 +545,7 @@ export {
 };
 ```
 
-## {{Advanced Form Patterns}}
+## {{Advanced Form Patterns}} {#advanced-patterns}
 
 ### {{Use Case: Order Form with Multiple Items}}
 
@@ -776,7 +776,7 @@ function PaymentForm() {
 }
 ```
 
-## {{Form with React Query}}
+## {{Form with React Query}} {#react-query}
 
 ### {{Use Case: Create Product with API Integration}}
 
@@ -875,7 +875,7 @@ export function EditProductForm({ pk, sk }: EditProductFormProps) {
 }
 ```
 
-## {{Complex Validation Patterns}}
+## {{Complex Validation Patterns}} {#complex-validation}
 
 ### {{Use Case: Date Range Validation}}
 
@@ -924,7 +924,7 @@ const form = useForm({
 });
 ```
 
-## {{Best Practices}}
+## {{Best Practices}} {#best-practices}
 
 ### {{1. Colocate Schemas with Forms}}
 
