@@ -200,5 +200,8 @@
   "**Register in module `providers`**: Add the class to your module's `providers` array.": "**モジュールの `providers` に登録**: クラスをモジュールの `providers` 配列に追加してください。",
   "**Failures propagate**: Errors thrown in `sendMessage` are not swallowed by the framework. Implement retry/fallback logic inside the transport class.": "**エラーは伝播される**: `sendMessage` でスローされたエラーはフレームワークに握り潰されません。トランスポートクラス内にリトライ/フォールバックロジックを実装してください。",
   "Selecting Transports": "トランスポートの選択",
-  "Active transports are controlled by the `NOTIFICATION_TRANSPORTS` environment variable (comma-separated). Custom transports are always active alongside any built-in transports. Set the env var to control which built-in transports are active:": "アクティブなトランスポートは `NOTIFICATION_TRANSPORTS` 環境変数（カンマ区切り）で制御します。カスタムトランスポートは組み込みトランスポートと常に同時にアクティブになります。組み込みトランスポートを制御するには環境変数を設定してください："
+  "Active transports are controlled by the `NOTIFICATION_TRANSPORTS` environment variable (comma-separated). Custom transports are always active alongside any built-in transports. Set the env var to control which built-in transports are active:": "アクティブなトランスポートは `NOTIFICATION_TRANSPORTS` 環境変数（カンマ区切り）で制御します。カスタムトランスポートは組み込みトランスポートと常に同時にアクティブになります。組み込みトランスポートを制御するには環境変数を設定してください：",
+  "Only GraphQL Subscriptions (default)": "GraphQL サブスクリプションのみ（デフォルト）",
+  "Only Events API": "Events API のみ",
+  "Both built-in transports": "両方の組み込みトランスポート"
 }

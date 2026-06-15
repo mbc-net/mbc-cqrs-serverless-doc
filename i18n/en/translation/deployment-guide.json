@@ -128,5 +128,8 @@
   "Set up observability after deployment": "Set up observability after deployment",
   "Configure environment for deployment": "Configure environment for deployment",
   "Troubleshooting": "Troubleshooting",
-  "Common deployment issues": "Common deployment issues"
+  "Common deployment issues": "Common deployment issues",
+  "AWS Configuration": "AWS Configuration",
+  "Application Configuration": "Application Configuration",
+  "Cognito": "Cognito"
 }

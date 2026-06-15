@@ -115,18 +115,18 @@ export default config;
 {{Set up environment variables in `.env` or through your CI/CD pipeline:}}
 
 ```bash
-# AWS Configuration
+# {{AWS Configuration}}
 AWS_REGION=ap-northeast-1
 AWS_ACCOUNT_ID=123456789012
 
-# Application Configuration
+# {{Application Configuration}}
 APP_NAME=your-app
 NODE_ENV=dev
 
-# Database
+# {{Database}}
 DATABASE_URL=mysql://user:password@host:3306/dbname
 
-# Cognito
+# {{Cognito}}
 COGNITO_USER_POOL_ID=ap-northeast-1_xxxxxxx
 COGNITO_USER_POOL_CLIENT_ID=xxxxxxxxxxxxxxxxxx
 ```

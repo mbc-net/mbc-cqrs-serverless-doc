@@ -334,9 +334,9 @@ export class SlackNotificationTransport implements INotificationTransport {
 {{Active transports are controlled by the `NOTIFICATION_TRANSPORTS` environment variable (comma-separated). Custom transports are always active alongside any built-in transports. Set the env var to control which built-in transports are active:}}
 
 ```bash
-NOTIFICATION_TRANSPORTS=appsync-graphql  # Only GraphQL Subscriptions (default)
-NOTIFICATION_TRANSPORTS=appsync-event    # Only Events API
-NOTIFICATION_TRANSPORTS=appsync-graphql,appsync-event  # Both built-in transports
+NOTIFICATION_TRANSPORTS=appsync-graphql  # {{Only GraphQL Subscriptions (default)}}
+NOTIFICATION_TRANSPORTS=appsync-event    # {{Only Events API}}
+NOTIFICATION_TRANSPORTS=appsync-graphql,appsync-event  # {{Both built-in transports}}
 ```
 
 ## {{Email Notifications}} {#email-notifications}

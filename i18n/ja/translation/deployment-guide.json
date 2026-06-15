@@ -128,5 +128,8 @@
   "Set up observability after deployment": "デプロイ後のオブザーバビリティ設定",
   "Configure environment for deployment": "デプロイ用の環境設定",
   "Troubleshooting": "トラブルシューティング",
-  "Common deployment issues": "よくあるデプロイの問題"
+  "Common deployment issues": "よくあるデプロイの問題",
+  "AWS Configuration": "AWS 設定",
+  "Application Configuration": "アプリケーション設定",
+  "Cognito": "Cognito"
 }

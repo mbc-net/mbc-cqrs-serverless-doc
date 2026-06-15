@@ -200,5 +200,8 @@
   "**Register in module `providers`**: Add the class to your module's `providers` array.": "**Register in module `providers`**: Add the class to your module's `providers` array.",
   "**Failures propagate**: Errors thrown in `sendMessage` are not swallowed by the framework. Implement retry/fallback logic inside the transport class.": "**Failures propagate**: Errors thrown in `sendMessage` are not swallowed by the framework. Implement retry/fallback logic inside the transport class.",
   "Selecting Transports": "Selecting Transports",
-  "Active transports are controlled by the `NOTIFICATION_TRANSPORTS` environment variable (comma-separated). Custom transports are always active alongside any built-in transports. Set the env var to control which built-in transports are active:": "Active transports are controlled by the `NOTIFICATION_TRANSPORTS` environment variable (comma-separated). Custom transports are always active alongside any built-in transports. Set the env var to control which built-in transports are active:"
+  "Active transports are controlled by the `NOTIFICATION_TRANSPORTS` environment variable (comma-separated). Custom transports are always active alongside any built-in transports. Set the env var to control which built-in transports are active:": "Active transports are controlled by the `NOTIFICATION_TRANSPORTS` environment variable (comma-separated). Custom transports are always active alongside any built-in transports. Set the env var to control which built-in transports are active:",
+  "Only GraphQL Subscriptions (default)": "Only GraphQL Subscriptions (default)",
+  "Only Events API": "Only Events API",
+  "Both built-in transports": "Both built-in transports"
 }
