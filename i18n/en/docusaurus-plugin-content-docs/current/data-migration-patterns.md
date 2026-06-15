@@ -1096,10 +1096,15 @@ Use soft delete to enable easy recovery.
 
 ```typescript
 // migration/safe-migration.service.ts
-import { parseTwoSegmentPkSkFromId, VERSION_FIRST } from '@mbc-cqrs-serverless/core';
+import { Injectable } from '@nestjs/common';
+import { CommandService, DataService, generateId, IInvoke, parseTwoSegmentPkSkFromId, VERSION_FIRST } from '@mbc-cqrs-serverless/core';
 
 @Injectable()
 export class SafeMigrationService {
+  constructor(
+    private readonly commandService: CommandService,
+    private readonly dataService: DataService,
+  ) {}
   /**
    * Migrate with soft delete for rollback capability
    */
