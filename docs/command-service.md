@@ -342,9 +342,9 @@ const item = await this.commandService.publishPartialUpdate(catCommand, {
 await this.commandService.reSyncData();
 ```
 
-### {{*async* `getItem(key: DetailKey): Promise<CommandModel>`}}
+### {{*async* `getItem(key: DetailKey): Promise<CommandModel | null>`}}
 
-{{Retrieves a command item by its primary key. If the sort key does not include a version separator, it automatically calls `getLatestItem` to get the latest version.}}
+{{Retrieves a command item by its primary key. If the sort key does not include a version separator, it automatically calls `getLatestItem` to get the latest version. Returns `null` when no matching item is found.}}
 
 ```ts
 import { DetailKey } from "@mbc-cqrs-serverless/core";
@@ -362,9 +362,9 @@ const latestCommand = await this.commandService.getItem({
 });
 ```
 
-### {{*async* `getLatestItem(key: DetailKey): Promise<CommandModel>`}}
+### {{*async* `getLatestItem(key: DetailKey): Promise<CommandModel | null>`}}
 
-{{Retrieves the latest version of a command item by its primary key. This method uses a lookup algorithm that starts from the data table's version and searches up/down to find the most recent command version.}}
+{{Retrieves the latest version of a command item by its primary key. This method uses a lookup algorithm that starts from the data table's version and searches up/down to find the most recent command version. Returns `null` when no matching item is found.}}
 
 ```ts
 import { DetailKey } from "@mbc-cqrs-serverless/core";
