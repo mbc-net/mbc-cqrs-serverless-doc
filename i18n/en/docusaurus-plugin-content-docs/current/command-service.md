@@ -153,7 +153,7 @@ const item = await this.commandService.publishPartialUpdateAsync(catCommand, {
 });
 ```
 
-### *async* `publishSync( input: CommandInputModel, options: ICommandOptions): Promise\<CommandModel | null\>` {#publishsync-audit-trail}
+### *async* `publishSync( input: CommandInputModel, options: ICommandOptions): Promise<CommandModel | null>` {#publishsync-audit-trail}
 
 This method serves as a synchronous counterpart to the `publishAsync` method, meaning that it will halt the execution of the code until the command has been fully processed. This ensures that you receive the result of the command before proceeding with any further operations in your code.
 
@@ -215,7 +215,7 @@ const item = await this.commandService.publishSync(catCommand, {
 });
 ```
 
-### *async* `publishPartialUpdateSync( input: CommandPartialInputModel, options: ICommandOptions): Promise\<CommandModel | null\>`
+### *async* `publishPartialUpdateSync( input: CommandPartialInputModel, options: ICommandOptions): Promise<CommandModel | null>`
 
 This method is a synchronous version of the `publishPartialUpdateAsync` method. It will block the execution of the code until the command is processed.
 

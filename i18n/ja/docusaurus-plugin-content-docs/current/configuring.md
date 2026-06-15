@@ -180,6 +180,7 @@ module.exports = {
 ```typescript
 import { Module } from '@nestjs/common';
 import { CommandModule } from '@mbc-cqrs-serverless/core';
+import { OrderRdsSyncHandler } from './order-rds-sync.handler'; // Your IDataSyncHandler implementation — see service-patterns (IDataSyncHandlerの実装 — service-patternsを参照)
 
 @Module({
   imports: [
@@ -229,6 +230,7 @@ export class AppModule {}
 ```typescript
 import { Module } from '@nestjs/common';
 import { TenantModule } from '@mbc-cqrs-serverless/tenant';
+import { TenantRdsSyncHandler } from './tenant-rds-sync.handler'; // Your IDataSyncHandler implementation — see service-patterns (IDataSyncHandlerの実装 — service-patternsを参照)
 
 @Module({
   imports: [

@@ -67,5 +67,6 @@
   "Optional: AWS SES endpoint (for local development)": "任意: AWS SES エンドポイント（ローカル開発用）",
   "Optional: AWS SES region": "任意: AWS SES リージョン",
   "For local dev": "ローカル開発用",
-  "Usage": "使用例"
+  "Usage": "使用例",
+  "Your IDataSyncHandler implementation — see service-patterns": "Your IDataSyncHandler implementation — see service-patterns (IDataSyncHandlerの実装 — service-patternsを参照)"
 }

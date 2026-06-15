@@ -67,5 +67,6 @@
   "Optional: AWS SES endpoint (for local development)": "Optional: AWS SES endpoint (for local development)",
   "Optional: AWS SES region": "Optional: AWS SES region",
   "For local dev": "For local dev",
-  "Usage": "Usage"
+  "Usage": "Usage",
+  "Your IDataSyncHandler implementation — see service-patterns": "Your IDataSyncHandler implementation — see service-patterns"
 }

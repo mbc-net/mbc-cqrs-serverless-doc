@@ -180,6 +180,7 @@ Configure the core CommandModule.
 ```typescript
 import { Module } from '@nestjs/common';
 import { CommandModule } from '@mbc-cqrs-serverless/core';
+import { OrderRdsSyncHandler } from './order-rds-sync.handler'; // Your IDataSyncHandler implementation — see service-patterns
 
 @Module({
   imports: [
@@ -229,6 +230,7 @@ Configure multi-tenant support.
 ```typescript
 import { Module } from '@nestjs/common';
 import { TenantModule } from '@mbc-cqrs-serverless/tenant';
+import { TenantRdsSyncHandler } from './tenant-rds-sync.handler'; // Your IDataSyncHandler implementation — see service-patterns
 
 @Module({
   imports: [
