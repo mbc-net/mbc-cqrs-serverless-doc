@@ -453,11 +453,19 @@ function sleep(ms: number): Promise<void> {
 ```typescript
 // {{external-api.service.ts}}
 import { Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { withRetry } from './retry.utils';
 
 @Injectable()
 export class ExternalApiService {
   private readonly logger = new Logger(ExternalApiService.name);
+  private readonly apiUrl: string;
+  private readonly apiKey: string;
+
+  constructor(private readonly configService: ConfigService) {
+    this.apiUrl = this.configService.get<string>('EXTERNAL_API_URL');
+    this.apiKey = this.configService.get<string>('EXTERNAL_API_KEY');
+  }
 
   async getResourceWithRetry(resourceId: string): Promise<any> {
     return withRetry(
@@ -584,14 +592,17 @@ export class CircuitBreaker {
 ```typescript
 // {{external-api.service.ts}}
 import { Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { CircuitBreaker } from './circuit-breaker';
 
 @Injectable()
 export class ExternalApiService {
   private readonly logger = new Logger(ExternalApiService.name);
+  private readonly apiUrl: string;
   private readonly circuitBreaker: CircuitBreaker;
 
-  constructor() {
+  constructor(private readonly configService: ConfigService) {
+    this.apiUrl = this.configService.get<string>('EXTERNAL_API_URL');
     this.circuitBreaker = new CircuitBreaker({
       failureThreshold: 5,
       resetTimeoutMs: 30000, // {{30 seconds}}
