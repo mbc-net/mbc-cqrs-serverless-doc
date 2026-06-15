@@ -1680,7 +1680,7 @@ export class ZipImportSfnEvent implements IEvent {
 
 ## {{Related Documentation}}
 
-- {{[Backend Development Guide](/docs/backend-development) - Core backend patterns}}
-- {{[Service Patterns](/docs/service-patterns) - Service implementation}}
-- {{[Step Functions](/docs/architecture/step-functions) - Workflow orchestration}}
-- {{[Data Sync Handler Examples](/docs/data-sync-handler-examples) - Sync handler patterns}}
+- [{{Backend Development Guide}}](/docs/backend-development) - {{Core backend patterns}}
+- [{{Service Patterns}}](/docs/service-patterns) - {{Service implementation}}
+- [{{Step Functions}}](/docs/architecture/step-functions) - {{Workflow orchestration}}
+- [{{Data Sync Handler Examples}}](/docs/data-sync-handler-examples) - {{Sync handler patterns}}

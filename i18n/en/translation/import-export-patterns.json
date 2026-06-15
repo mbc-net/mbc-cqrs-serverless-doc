@@ -316,8 +316,12 @@
   "Primary key of the ZIP master job in DynamoDB": "Primary key of the ZIP master job in DynamoDB",
   "Original import parameters (bucket, tenantCode, tableName)": "Original import parameters (bucket, tenantCode, tableName)",
   "Related Documentation": "Related Documentation",
-  "[Backend Development Guide](/docs/backend-development) - Core backend patterns": "[Backend Development Guide](/docs/backend-development) - Core backend patterns",
-  "[Service Patterns](/docs/service-patterns) - Service implementation": "[Service Patterns](/docs/service-patterns) - Service implementation",
-  "[Step Functions](/docs/architecture/step-functions) - Workflow orchestration": "[Step Functions](/docs/architecture/step-functions) - Workflow orchestration",
-  "[Data Sync Handler Examples](/docs/data-sync-handler-examples) - Sync handler patterns": "[Data Sync Handler Examples](/docs/data-sync-handler-examples) - Sync handler patterns"
+  "Backend Development Guide": "Backend Development Guide",
+  "Core backend patterns": "Core backend patterns",
+  "Service Patterns": "Service Patterns",
+  "Service implementation": "Service implementation",
+  "Step Functions": "Step Functions",
+  "Workflow orchestration": "Workflow orchestration",
+  "Data Sync Handler Examples": "Data Sync Handler Examples",
+  "Sync handler patterns": "Sync handler patterns"
 }

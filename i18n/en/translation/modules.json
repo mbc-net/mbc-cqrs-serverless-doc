@@ -102,7 +102,10 @@
   "Keep modules focused": "Keep modules focused",
   "Each module should have a single responsibility": "Each module should have a single responsibility",
   "Related Documentation": "Related Documentation",
-  "[NestJS Modules](https://docs.nestjs.com/modules): Official NestJS module documentation": "[NestJS Modules](https://docs.nestjs.com/modules): Official NestJS module documentation",
-  "[CommandService](/docs/command-service): Detailed CommandModule configuration": "[CommandService](/docs/command-service): Detailed CommandModule configuration",
-  "[Event Handling Patterns](/docs/event-handling-patterns): Creating data sync handlers": "[Event Handling Patterns](/docs/event-handling-patterns): Creating data sync handlers"
+  "NestJS Modules": "NestJS Modules",
+  "Official NestJS module documentation": "Official NestJS module documentation",
+  "CommandService": "CommandService",
+  "Detailed CommandModule configuration": "Detailed CommandModule configuration",
+  "Event Handling Patterns": "Event Handling Patterns",
+  "Creating data sync handlers": "Creating data sync handlers"
 }

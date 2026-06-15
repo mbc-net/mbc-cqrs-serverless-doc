@@ -149,9 +149,12 @@
   "Aggregations": "集計",
   "Pagination with count": "件数付きページネーション",
   "Related Documentation": "関連ドキュメント",
-  "[DynamoDB](/docs/dynamodb): DynamoDB table design and management": "[DynamoDB](/docs/dynamodb): DynamoDBテーブル設計と管理",
-  "[Prisma](/docs/prisma): Prisma ORM setup and conventions": "[Prisma](/docs/prisma): Prisma ORMのセットアップと規約",
-  "[DataService](/docs/data-service): DynamoDB query methods": "[DataService](/docs/data-service): DynamoDBクエリメソッド",
-  "[Data Sync Handler Examples](/docs/data-sync-handler-examples): RDS synchronization patterns": "[Data Sync Handlerの実装例](/docs/data-sync-handler-examples): RDS同期パターン",
-  "[Service Implementation Patterns](/docs/service-patterns): Complete service layer examples": "[サービス実装パターン](/docs/service-patterns): 完全なサービスレイヤー例"
+  "DynamoDB table design and management": "DynamoDBテーブル設計と管理",
+  "Prisma": "Prisma",
+  "Prisma ORM setup and conventions": "Prisma ORMのセットアップと規約",
+  "DynamoDB query methods": "DynamoDBクエリメソッド",
+  "Data Sync Handler Examples": "Data Sync Handlerの実装例",
+  "RDS synchronization patterns": "RDS同期パターン",
+  "Service Implementation Patterns": "サービス実装パターン",
+  "Complete service layer examples": "完全なサービスレイヤー例"
 }

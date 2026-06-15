@@ -504,8 +504,8 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
 
 ## {{Related Documentation}}
 
-- {{[DynamoDB](/docs/dynamodb): DynamoDB table design and management}}
-- {{[Prisma](/docs/prisma): Prisma ORM setup and conventions}}
-- {{[DataService](/docs/data-service): DynamoDB query methods}}
-- {{[Data Sync Handler Examples](/docs/data-sync-handler-examples): RDS synchronization patterns}}
-- {{[Service Implementation Patterns](/docs/service-patterns): Complete service layer examples}}
+- [{{DynamoDB}}](/docs/dynamodb): {{DynamoDB table design and management}}
+- [{{Prisma}}](/docs/prisma): {{Prisma ORM setup and conventions}}
+- [{{DataService}}](/docs/data-service): {{DynamoDB query methods}}
+- [{{Data Sync Handler Examples}}](/docs/data-sync-handler-examples): {{RDS synchronization patterns}}
+- [{{Service Implementation Patterns}}](/docs/service-patterns): {{Complete service layer examples}}

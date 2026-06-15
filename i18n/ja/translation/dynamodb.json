@@ -111,10 +111,6 @@
   "The framework includes DynamoDB Local for development:": "フレームワークには開発用のDynamoDB Localが含まれています：",
   "Environment Variables": "環境変数",
   "Related Documentation": "関連ドキュメント",
-  "[Key Patterns](/docs/key-patterns): Detailed key design strategies": "[Key Patterns](/docs/key-patterns): 詳細なキー設計戦略",
-  "[Entity Patterns](/docs/entity-patterns): Entity modeling guidelines": "[Entity Patterns](/docs/entity-patterns): エンティティモデリングガイドライン",
-  "[Sequence](/docs/sequence): Sequence ID generation": "[Sequence](/docs/sequence): シーケンスID生成",
-  "[CommandService](/docs/command-service): Command handling and data sync": "[CommandService](/docs/command-service): コマンド処理とデータ同期",
   "Deployed Table Names": "デプロイ時のテーブル名",
   "The actual table names are prefixed with the environment and application name: `{NODE_ENV}-{APP_NAME}-{entity}-{type}` (for example `dev-myapp-order-command`). The names above are the logical suffixes used by `CommandModule.register({ tableName })`.": "実際のテーブル名には環境名とアプリケーション名のプレフィックスが付きます: `{NODE_ENV}-{APP_NAME}-{エンティティ}-{種別}`（例: `dev-myapp-order-command`）。上記の名前は `CommandModule.register({ tableName })` で使用される論理サフィックスです。",
   "Tracks Read-Your-Writes sessions (v1.2.0+)": "Read-Your-Writes セッションの追跡（v1.2.0以降）",
@@ -123,5 +119,12 @@
   "Migrate both DynamoDB and RDS": "DynamoDB と RDS の両方を移行",
   "Start DynamoDB Local (included in docker-compose)": "DynamoDB Local を起動（docker-compose に含まれています）",
   "Access DynamoDB Local Admin UI": "DynamoDB Local 管理 UI にアクセス",
-  "Local DynamoDB endpoint": "ローカル DynamoDB エンドポイント"
+  "Local DynamoDB endpoint": "ローカル DynamoDB エンドポイント",
+  "Key Patterns": "Key Patterns",
+  "Detailed key design strategies": "詳細なキー設計戦略",
+  "Entity Patterns": "Entity Patterns",
+  "Entity modeling guidelines": "エンティティモデリングガイドライン",
+  "Sequence": "Sequence",
+  "CommandService": "CommandService",
+  "Command handling and data sync": "コマンド処理とデータ同期"
 }

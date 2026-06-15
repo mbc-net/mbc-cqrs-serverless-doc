@@ -17,9 +17,9 @@ description: {{Learn about partition key (PK) and sort key (SK) design patterns 
 - {{Handle versioning for optimistic locking}}
 
 :::tip {{Related Documentation}}
-- {{[Entity Definition Patterns](/docs/entity-patterns) - How to define entities that use these key patterns}}
-- {{[Multi-Tenant Patterns](/docs/multi-tenant-patterns) - Tenant isolation and cross-tenant operations}}
-- {{[Backend Development Guide](/docs/backend-development) - Complete module implementation patterns}}
+- [{{Entity Definition Patterns}}](/docs/entity-patterns) - {{How to define entities that use these key patterns}}
+- [{{Multi-Tenant Patterns}}](/docs/multi-tenant-patterns) - {{Tenant isolation and cross-tenant operations}}
+- [{{Backend Development Guide}}](/docs/backend-development) - {{Complete module implementation patterns}}
 :::
 
 ## {{Problems This Pattern Solves}} {#problems-solved}

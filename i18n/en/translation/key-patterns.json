@@ -10,9 +10,6 @@
   "Enable efficient query patterns (list by tenant, filter by date)": "Enable efficient query patterns (list by tenant, filter by date)",
   "Handle versioning for optimistic locking": "Handle versioning for optimistic locking",
   "Related Documentation": "Related Documentation",
-  "[Entity Definition Patterns](/docs/entity-patterns) - How to define entities that use these key patterns": "[Entity Definition Patterns](/docs/entity-patterns) - How to define entities that use these key patterns",
-  "[Multi-Tenant Patterns](/docs/multi-tenant-patterns) - Tenant isolation and cross-tenant operations": "[Multi-Tenant Patterns](/docs/multi-tenant-patterns) - Tenant isolation and cross-tenant operations",
-  "[Backend Development Guide](/docs/backend-development) - Complete module implementation patterns": "[Backend Development Guide](/docs/backend-development) - Complete module implementation patterns",
   "Problems This Pattern Solves": "Problems This Pattern Solves",
   "Problem": "Problem",
   "Solution": "Solution",
@@ -234,5 +231,9 @@
   "Result: 3": "Result: 3",
   "Result: -1 (VERSION_LATEST)": "Result: -1 (VERSION_LATEST)",
   "Result: \"tenant001\"": "Result: \"tenant001\"",
-  "Result: undefined": "Result: undefined"
+  "Result: undefined": "Result: undefined",
+  "Entity Definition Patterns": "Entity Definition Patterns",
+  "How to define entities that use these key patterns": "How to define entities that use these key patterns",
+  "Backend Development Guide": "Backend Development Guide",
+  "Complete module implementation patterns": "Complete module implementation patterns"
 }

@@ -10,9 +10,6 @@
   "Enable efficient query patterns (list by tenant, filter by date)": "効率的なクエリパターンを有効にする（テナント別リスト、日付フィルター）",
   "Handle versioning for optimistic locking": "楽観的ロック用のバージョニングを処理する",
   "Related Documentation": "関連ドキュメント",
-  "[Entity Definition Patterns](/docs/entity-patterns) - How to define entities that use these key patterns": "[エンティティ定義パターン](/docs/entity-patterns) - これらのキーパターンを使用するエンティティの定義方法",
-  "[Multi-Tenant Patterns](/docs/multi-tenant-patterns) - Tenant isolation and cross-tenant operations": "[マルチテナントパターン](/docs/multi-tenant-patterns) - テナント分離とクロステナント操作",
-  "[Backend Development Guide](/docs/backend-development) - Complete module implementation patterns": "[バックエンド開発ガイド](/docs/backend-development) - 完全なモジュール実装パターン",
   "Problems This Pattern Solves": "このパターンが解決する問題",
   "Problem": "問題",
   "Solution": "解決策",
@@ -234,5 +231,9 @@
   "Result: 3": "結果: 3",
   "Result: -1 (VERSION_LATEST)": "結果: -1 (VERSION_LATEST)",
   "Result: \"tenant001\"": "結果: \"tenant001\"",
-  "Result: undefined": "結果: undefined"
+  "Result: undefined": "結果: undefined",
+  "Entity Definition Patterns": "エンティティ定義パターン",
+  "How to define entities that use these key patterns": "これらのキーパターンを使用するエンティティの定義方法",
+  "Backend Development Guide": "バックエンド開発ガイド",
+  "Complete module implementation patterns": "完全なモジュール実装パターン"
 }

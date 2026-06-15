@@ -149,9 +149,12 @@
   "Aggregations": "Aggregations",
   "Pagination with count": "Pagination with count",
   "Related Documentation": "Related Documentation",
-  "[DynamoDB](/docs/dynamodb): DynamoDB table design and management": "[DynamoDB](/docs/dynamodb): DynamoDB table design and management",
-  "[Prisma](/docs/prisma): Prisma ORM setup and conventions": "[Prisma](/docs/prisma): Prisma ORM setup and conventions",
-  "[DataService](/docs/data-service): DynamoDB query methods": "[DataService](/docs/data-service): DynamoDB query methods",
-  "[Data Sync Handler Examples](/docs/data-sync-handler-examples): RDS synchronization patterns": "[Data Sync Handler Examples](/docs/data-sync-handler-examples): RDS synchronization patterns",
-  "[Service Implementation Patterns](/docs/service-patterns): Complete service layer examples": "[Service Implementation Patterns](/docs/service-patterns): Complete service layer examples"
+  "DynamoDB table design and management": "DynamoDB table design and management",
+  "Prisma": "Prisma",
+  "Prisma ORM setup and conventions": "Prisma ORM setup and conventions",
+  "DynamoDB query methods": "DynamoDB query methods",
+  "Data Sync Handler Examples": "Data Sync Handler Examples",
+  "RDS synchronization patterns": "RDS synchronization patterns",
+  "Service Implementation Patterns": "Service Implementation Patterns",
+  "Complete service layer examples": "Complete service layer examples"
 }

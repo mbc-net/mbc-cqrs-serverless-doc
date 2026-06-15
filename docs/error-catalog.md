@@ -890,6 +890,6 @@ class CircuitBreaker {
 
 ## {{Related Documentation}}
 
-- {{[Debugging Guide](/docs/debugging-guide) - Detailed debugging procedures}}
-- {{[Common Issues](/docs/common-issues) - Frequently encountered problems}}
-- {{[Monitoring and Logging](/docs/monitoring-logging) - Production monitoring setup}}
+- [{{Debugging Guide}}](/docs/debugging-guide) - {{Detailed debugging procedures}}
+- [{{Common Issues}}](/docs/common-issues) - {{Frequently encountered problems}}
+- [{{Monitoring and Logging}}](/docs/monitoring-logging) - {{Production monitoring setup}}

@@ -316,8 +316,12 @@
   "Primary key of the ZIP master job in DynamoDB": "DynamoDBのZIPマスタージョブのプライマリキー",
   "Original import parameters (bucket, tenantCode, tableName)": "元のインポートパラメータ（bucket、tenantCode、tableName）",
   "Related Documentation": "関連ドキュメント",
-  "[Backend Development Guide](/docs/backend-development) - Core backend patterns": "[バックエンド開発ガイド](/docs/backend-development) - コアバックエンドパターン",
-  "[Service Patterns](/docs/service-patterns) - Service implementation": "[サービスパターン](/docs/service-patterns) - サービス実装",
-  "[Step Functions](/docs/architecture/step-functions) - Workflow orchestration": "[Step Functions](/docs/architecture/step-functions) - ワークフローオーケストレーション",
-  "[Data Sync Handler Examples](/docs/data-sync-handler-examples) - Sync handler patterns": "[データ同期ハンドラー例](/docs/data-sync-handler-examples) - 同期ハンドラーパターン"
+  "Backend Development Guide": "バックエンド開発ガイド",
+  "Core backend patterns": "コアバックエンドパターン",
+  "Service Patterns": "サービスパターン",
+  "Service implementation": "サービス実装",
+  "Step Functions": "Step Functions",
+  "Workflow orchestration": "ワークフローオーケストレーション",
+  "Data Sync Handler Examples": "データ同期ハンドラー例",
+  "Sync handler patterns": "同期ハンドラーパターン"
 }
