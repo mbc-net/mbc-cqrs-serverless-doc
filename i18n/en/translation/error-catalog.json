@@ -200,5 +200,12 @@
   "Common Issues": "Common Issues",
   "Frequently encountered problems": "Frequently encountered problems",
   "Monitoring and Logging": "Monitoring and Logging",
-  "Production monitoring setup": "Production monitoring setup"
+  "Production monitoring setup": "Production monitoring setup",
+  "\"name must be a string\" -> Ensure name is string type": "\"name must be a string\" -> Ensure name is string type",
+  "\"code should not be empty\" -> Provide code value": "\"code should not be empty\" -> Provide code value",
+  "\"amount must not be less than 0\" -> Use positive number": "\"amount must not be less than 0\" -> Use positive number",
+  "Use null instead of empty string": "Use null instead of empty string",
+  "COMPLETED status → SendTaskSuccessCommand (with result payload)": "COMPLETED status → SendTaskSuccessCommand (with result payload)",
+  "FAILED status → SendTaskSuccessCommand (with failure info embedded in output)": "FAILED status → SendTaskSuccessCommand (with failure info embedded in output)",
+  "Must match the tableName in your import request": "Must match the tableName in your import request"
 }

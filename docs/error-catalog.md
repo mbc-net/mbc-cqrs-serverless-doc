@@ -290,9 +290,9 @@ export class CreateOrderDto {
 }
 
 // {{Common validation errors and fixes:}}
-// - "name must be a string" -> Ensure name is string type
-// - "code should not be empty" -> Provide code value
-// - "amount must not be less than 0" -> Use positive number
+// - {{"name must be a string" -> Ensure name is string type}}
+// - {{"code should not be empty" -> Provide code value}}
+// - {{"amount must not be less than 0" -> Use positive number}}
 ```
 
 **{{Solution}}**:
@@ -405,7 +405,7 @@ echo $DYNAMODB_TABLE_NAME
 const item = {
   pk: 'ORDER#tenant001',
   sk: 'ORDER#ORD001',
-  name: value || null,  // Use null instead of empty string
+  name: value || null,  // {{Use null instead of empty string}}
 };
 
 // {{Use expression attribute names for reserved words}}
@@ -503,8 +503,8 @@ try {
 
 ```typescript
 // {{Internal behavior (automatic, no user action needed):}}
-// - COMPLETED status → SendTaskSuccessCommand (with result payload)
-// - FAILED status → SendTaskSuccessCommand (with failure info embedded in output)
+// - {{COMPLETED status → SendTaskSuccessCommand (with result payload)}}
+// - {{FAILED status → SendTaskSuccessCommand (with failure info embedded in output)}}
 ```
 
 {{If you're on an older version:}}
@@ -529,7 +529,7 @@ try {
 ImportModule.register({
   profiles: [
     {
-      tableName: 'your-table-name',  // Must match the tableName in your import request
+      tableName: 'your-table-name',  // {{Must match the tableName in your import request}}
       importStrategy: YourImportStrategy,
       processStrategy: YourProcessStrategy,
     },

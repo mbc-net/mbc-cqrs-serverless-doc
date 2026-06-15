@@ -290,9 +290,9 @@ export class CreateOrderDto {
 }
 
 // Common validation errors and fixes: (よくある検証エラーと修正方法:)
-// - "name must be a string" -> Ensure name is string type
-// - "code should not be empty" -> Provide code value
-// - "amount must not be less than 0" -> Use positive number
+// - "name must be a string" -> name は文字列型にしてください
+// - "code should not be empty" -> code の値を指定してください
+// - "amount must not be less than 0" -> 0以上の数値を使用してください
 ```
 
 **解決策**:
@@ -405,7 +405,7 @@ echo $DYNAMODB_TABLE_NAME
 const item = {
   pk: 'ORDER#tenant001',
   sk: 'ORDER#ORD001',
-  name: value || null,  // Use null instead of empty string
+  name: value || null,  // 空文字列の代わりに null を使用する
 };
 
 // Use expression attribute names for reserved words (予約語には式属性名を使用)
@@ -503,8 +503,8 @@ The handler now always calls `SendTaskSuccessCommand` so the ZIP orchestrator ca
 
 ```typescript
 // Internal behavior (automatic, no user action needed): (内部動作（自動、ユーザー操作不要）:)
-// - COMPLETED status → SendTaskSuccessCommand (with result payload)
-// - FAILED status → SendTaskSuccessCommand (with failure info embedded in output)
+// - COMPLETED ステータス → SendTaskSuccessCommand（結果ペイロードあり）
+// - FAILED ステータス → SendTaskSuccessCommand（失敗情報を出力に埋め込み）
 ```
 
 古いバージョンを使用している場合：
@@ -529,7 +529,7 @@ ImportModuleを設定する際にインポート戦略を登録：
 ImportModule.register({
   profiles: [
     {
-      tableName: 'your-table-name',  // Must match the tableName in your import request
+      tableName: 'your-table-name',  // インポートリクエストの tableName と一致させてください
       importStrategy: YourImportStrategy,
       processStrategy: YourProcessStrategy,
     },
