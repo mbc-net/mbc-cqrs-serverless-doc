@@ -108,7 +108,7 @@ export class OrderModule {}
 
 ```typescript
 // order.service.ts
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import {
   CommandService,
   DataService,
@@ -288,7 +288,7 @@ export class OrderController {
 // inventory.service.ts
 import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
 import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
-import { CommandService, DataService, IInvoke, getUserContext, KEY_SEPARATOR } from '@mbc-cqrs-serverless/core';
+import { CommandService, DataService, KEY_SEPARATOR } from '@mbc-cqrs-serverless/core';
 
 const generatePk = (tenantCode: string): string =>
   `TENANT${KEY_SEPARATOR}${tenantCode}`;
@@ -301,11 +301,12 @@ export class InventoryService {
   ) {}
 
   // Reserve inventory for order
+  // {{tenantCode is passed directly so this method can be called from both}}
+  // {{controllers (use getUserContext) and DataSyncHandlers (use cmd.tenantCode)}}
   async reserveInventory(
     items: OrderItem[],
-    context: IInvoke,
+    tenantCode: string,
   ): Promise<void> {
-    const { tenantCode } = getUserContext(context);
     const pk = generatePk(tenantCode);
 
     for (const item of items) {
@@ -338,7 +339,7 @@ export class InventoryService {
       };
 
       try {
-        await this.commandService.publishAsync(command, { invokeContext: context });
+        await this.commandService.publishAsync(command, {});
       } catch (error) {
         if (error instanceof ConditionalCheckFailedException) {
           // Retry on concurrent modification
@@ -354,9 +355,8 @@ export class InventoryService {
   // Release reserved inventory
   async releaseInventory(
     items: OrderItem[],
-    context: IInvoke,
+    tenantCode: string,
   ): Promise<void> {
-    const { tenantCode } = getUserContext(context);
     const pk = generatePk(tenantCode);
 
     for (const item of items) {
@@ -377,16 +377,15 @@ export class InventoryService {
         },
       };
 
-      await this.commandService.publishAsync(command, { invokeContext: context });
+      await this.commandService.publishAsync(command, {});
     }
   }
 
   // Deduct inventory after shipment
   async deductInventory(
     items: OrderItem[],
-    context: IInvoke,
+    tenantCode: string,
   ): Promise<void> {
-    const { tenantCode } = getUserContext(context);
     const pk = generatePk(tenantCode);
 
     for (const item of items) {
@@ -406,7 +405,7 @@ export class InventoryService {
         },
       };
 
-      await this.commandService.publishAsync(command, { invokeContext: context });
+      await this.commandService.publishAsync(command, {});
     }
   }
 }
@@ -461,7 +460,7 @@ export class OrderDataSyncHandler implements IDataSyncHandler {
   private async handleNewOrder(order: CommandModel) {
     // Reserve inventory
     try {
-      await this.inventoryService.reserveInventory(order.attributes.items);
+      await this.inventoryService.reserveInventory(order.attributes.items, order.tenantCode);
     } catch (error) {
       this.logger.error(`Failed to reserve inventory: ${error.message}`);
       // Send notification to operations team
@@ -483,13 +482,13 @@ export class OrderDataSyncHandler implements IDataSyncHandler {
     switch (status) {
       case 'cancelled':
         // Release reserved inventory
-        await this.inventoryService.releaseInventory(order.attributes.items);
+        await this.inventoryService.releaseInventory(order.attributes.items, order.tenantCode);
         await this.notificationService.sendCancellationNotice(order);
         break;
 
       case 'shipped':
         // Deduct from inventory
-        await this.inventoryService.deductInventory(order.attributes.items);
+        await this.inventoryService.deductInventory(order.attributes.items, order.tenantCode);
         await this.notificationService.sendShippingNotification(order);
         break;
 

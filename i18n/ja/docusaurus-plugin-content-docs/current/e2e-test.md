@@ -50,12 +50,12 @@ describe("Cat", () => {
   it("should create a new cat (新しい猫を作成する)", async () => {
     // Arrange - define test data inline (テストデータをインラインで定義)
     const payload = {
-      pk: "CAT#TENANT1",
-      sk: "cat#001",
-      id: "CAT#TENANT1#cat#001",
+      pk: "CAT#tenant1",
+      sk: "CAT#001",
+      id: "CAT#tenant1#CAT#001",
       name: "Whiskers",
       version: 0,
-      code: "cat#001",
+      code: "001",
       type: "CAT",
     };
 
@@ -86,8 +86,8 @@ describe("Cat", () => {
   // Clean up test data if needed (必要に応じてテストデータをクリーンアップ)
   afterAll(async () => {
     await deleteItem(getTableName("cat_table", TableType.DATA), {
-      pk: "CAT#TENANT1",
-      sk: "cat#001",
+      pk: "CAT#tenant1",
+      sk: "CAT#001",
     });
   });
 });

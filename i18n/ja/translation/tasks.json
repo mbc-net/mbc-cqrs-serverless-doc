@@ -13,7 +13,7 @@
   "Usage": "使用方法",
   "There are 2 types of task processing:": "タスク処理には2つのタイプがあります：",
   "Single task processing": "単一タスク処理",
-  "Task processing with Step function": "Step Functionを使用したタスク処理",
+  "Task processing with Step Functions": "Step Functionsを使用したタスク処理",
   "Define task event": "タスクイベントの定義",
   "Define task event handler": "タスクイベントハンドラーの定義",
   "Implement `ITaskQueueEventFactory`": "`ITaskQueueEventFactory`の実装",

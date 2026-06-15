@@ -22,8 +22,7 @@ The `baseUrl` configuration option allows you to import directly from the root o
 
 An example of this configuration:
 
-```json
-# tsconfig.json
+```json title="tsconfig.json"
 {
   "compilerOptions": {
     "baseUrl": "."
@@ -38,8 +37,7 @@ In addition to configuring the `baseUrl` path, you can use the "paths" option to
 
 For example, the following configuration maps `@/auth/*` to `auth/*`:
 
-```json
-# tsconfig.json
+```json title="tsconfig.json"
 {
   "compilerOptions": {
     "baseUrl": ".",

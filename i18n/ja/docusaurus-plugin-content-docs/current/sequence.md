@@ -74,7 +74,7 @@ import { SeqController } from "./seq.controller";
 export class SeqModule {}
 ```
 
-コントローラーのほかに、`SequencesService` を直接使用してサービスを注入することでシーケンスを生成できます。
+コントローラーのほかに、`SequencesService` を直接注入して使用することでシーケンスを生成できます。
 
 `SequencesService`には4つのパブリックメソッドがあります（現行2つ、非推奨1つ、v1.1.0で削除1つ）：
 
@@ -207,7 +207,7 @@ GenerateFormattedSequenceDto オブジェクトで提供されたパラメータ
 }
 ```
 この場合:
-- startMonth: 会計年度を開始する月を定義します (例: 3 月の場合は 3)。
+- startMonth: 会計年度を開始する月を定義します (例: 3 月の場合は 3)。デフォルトは 4 (4月)で、日本の会計年度慣習（4月〜3月）に従います。
 
 特定の日付 (例: 2005-01-01) から始まる会計年度を計算したい場合は、次のように `registerDate` フィールドを追加できます。
 
@@ -276,6 +276,8 @@ GenerateFormattedSequenceDto オブジェクトで提供されたパラメータ
 #### 例
 
 ```ts
+import { RotateByEnum } from "@mbc-cqrs-serverless/sequence";
+
 const result = await this.sequencesService.generateSequenceItemWithProvideSetting(
   {
     tenantCode: 'tenant001',
@@ -294,6 +296,8 @@ const result = await this.sequencesService.generateSequenceItemWithProvideSettin
 prefixとpostfixを使用した例：
 
 ```ts
+import { RotateByEnum } from "@mbc-cqrs-serverless/sequence";
+
 const result = await this.sequencesService.generateSequenceItemWithProvideSetting(
   {
     tenantCode: 'tenant001',
@@ -302,8 +306,8 @@ const result = await this.sequencesService.generateSequenceItemWithProvideSettin
     rotateBy: RotateByEnum.FISCAL_YEARLY,
     startMonth: 4,
     params: { code1: 'ORD' },
-    prefix: 'ORD-',    // フォーマットされたシーケンスの先頭に追加
-    postfix: '-DRAFT', // フォーマットされたシーケンスの末尾に追加
+    prefix: 'ORD-',    // Prepended to formatted sequence (フォーマットされたシーケンスの先頭に追加)
+    postfix: '-DRAFT', // Appended to formatted sequence (フォーマットされたシーケンスの末尾に追加)
   },
   { invokeContext },
 );

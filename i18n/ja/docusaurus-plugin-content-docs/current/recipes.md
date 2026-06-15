@@ -21,7 +21,7 @@ description: MBC CQRS Serverlessフレームワークでの一般的なユース
 ### 1. エンティティ設計
 
 ```typescript
-// 適切なキー構造でエンティティを定義
+// Define your entity with proper key structure (適切なキー構造でエンティティを定義)
 export class OrderEntity extends DataEntity {
   pk: string;           // ORDER#tenantCode
   sk: string;           // ORDER#orderId
@@ -69,7 +69,7 @@ async createOrder(dto: CreateOrderDto, context: IInvoke) {
 ### 3. クエリパターン
 
 ```typescript
-// 適切なフィルタリングでデータを取得
+// Query data with proper filtering (適切なフィルタリングでデータを取得)
 async listOrders(tenantCode: string, options: ListOptions) {
   return this.dataService.listItemsByPk(
     `ORDER#${tenantCode}`,
@@ -84,11 +84,11 @@ async listOrders(tenantCode: string, options: ListOptions) {
 ### 4. イベントハンドラー
 
 ```typescript
-// データ同期イベントを処理
+// Handle data sync events (データ同期イベントを処理)
 @EventHandler(OrderDataSyncEvent)
 export class OrderDataSyncHandler implements IEventHandler<OrderDataSyncEvent> {
   async execute(event: OrderDataSyncEvent): Promise<void> {
-    // 読み取りモデルに同期（RDS、OpenSearchなど）
+    // Sync to read model (RDS, OpenSearch, etc.) (読み取りモデルに同期（RDS、OpenSearchなど）)
     await this.syncToReadModel(event.data);
   }
 }
@@ -112,7 +112,7 @@ try {
   await this.commandService.publishAsync(command, options);
 } catch (error) {
   if (error instanceof ConditionalCheckFailedException) {
-    // 楽観的ロック競合を処理（バージョン不一致）
+    // Handle optimistic locking conflict (version mismatch) (楽観的ロック競合を処理（バージョン不一致）)
     throw new ConflictException('Item was modified by another process');
   }
   throw error;

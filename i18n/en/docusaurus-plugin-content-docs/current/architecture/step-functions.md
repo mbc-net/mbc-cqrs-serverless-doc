@@ -411,6 +411,25 @@ For processing large CSV files, use Distributed Map which provides native S3 int
 ```typescript
 import { Map as SfnMap, ProcessorMode, ProcessorConfig, IChainable, JsonPath } from 'aws-cdk-lib/aws-stepfunctions';
 
+// Types for Distributed Map S3 item reader configuration
+interface DistributedMapItemReader {
+  Resource: string;
+  ReaderConfig?: {
+    InputType: 'CSV' | 'JSON' | 'MANIFEST';
+    CSVHeaderLocation?: 'FIRST_ROW' | 'GIVEN';
+    CSVHeaders?: string[];
+    MaxItems?: number;
+  };
+  Parameters?: Record<string, string>;
+}
+
+// Types for Distributed Map batch processing configuration
+interface DistributedMapItemBatcher {
+  MaxInputBytesPerBatch?: number;
+  MaxItemsPerBatch?: number;
+  BatchInput?: Record<string, string>;
+}
+
 // Custom Distributed Map class for S3 CSV processing
 export class DistributedMap extends SfnMap {
   public itemReader?: DistributedMapItemReader;
@@ -679,7 +698,7 @@ Synchronize data across multiple tables with version control and conflict resolu
 
 await this.commandService.publishAsync(
   {
-    pk: 'TENANT#tenant1',
+    pk: 'ORDER#tenant1',
     sk: 'ORDER#order123',
     id: 'order-uuid',
     code: 'order123',

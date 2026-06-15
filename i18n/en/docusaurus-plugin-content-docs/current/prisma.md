@@ -26,7 +26,7 @@ DATABASE_URL="postgresql://root:RootCqrs@localhost:5432/cqrs?schema=public"
 
 ## Design table convention
 
-When creating an RDS table that maps to a DynamoDB table, ensure you add the necessary fields and indexes to the RDS table accordingly.
+When creating an RDS table that maps to a DynamoDB table, ensure you add the necessary fields and indexes to the RDS table accordingly. The `cpk`/`csk` fields store the original command table keys (used to link back to the DynamoDB command record). Include them when you need full traceability from RDS to DynamoDB; omit them if you only need the data table keys (`pk`/`sk`).
 
 ```prisma
 model YourEntity {

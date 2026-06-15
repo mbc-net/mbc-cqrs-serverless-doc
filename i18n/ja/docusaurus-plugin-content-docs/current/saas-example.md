@@ -674,7 +674,7 @@ export class BillingEventHandler implements IDataSyncHandler {
 
 ```typescript
 // api-key.service.ts
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { randomBytes, createHash } from 'crypto';
 import {
   CommandService,

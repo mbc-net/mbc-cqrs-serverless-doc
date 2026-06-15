@@ -411,6 +411,25 @@ export class TaskStateMachineConstruct extends Construct {
 ```typescript
 import { Map as SfnMap, ProcessorMode, ProcessorConfig, IChainable, JsonPath } from 'aws-cdk-lib/aws-stepfunctions';
 
+// Types for Distributed Map S3 item reader configuration (分散マップS3アイテムリーダー設定の型定義)
+interface DistributedMapItemReader {
+  Resource: string;
+  ReaderConfig?: {
+    InputType: 'CSV' | 'JSON' | 'MANIFEST';
+    CSVHeaderLocation?: 'FIRST_ROW' | 'GIVEN';
+    CSVHeaders?: string[];
+    MaxItems?: number;
+  };
+  Parameters?: Record<string, string>;
+}
+
+// Types for Distributed Map batch processing configuration (分散マップバッチ処理設定の型定義)
+interface DistributedMapItemBatcher {
+  MaxInputBytesPerBatch?: number;
+  MaxItemsPerBatch?: number;
+  BatchInput?: Record<string, string>;
+}
+
 // S3 CSV処理用カスタム分散マップクラス
 export class DistributedMap extends SfnMap {
   public itemReader?: DistributedMapItemReader;
@@ -679,7 +698,7 @@ export class WorkflowService {
 
 await this.commandService.publishAsync(
   {
-    pk: 'TENANT#tenant1',
+    pk: 'ORDER#tenant1',
     sk: 'ORDER#order123',
     id: 'order-uuid',
     code: 'order123',

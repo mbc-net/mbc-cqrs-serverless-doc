@@ -98,7 +98,9 @@ export class CommentDto {
 ファイルタイプ、サイズを制限し、マルウェアをスキャンします。
 
 ```typescript
-// ファイルタイプとサイズを検証
+import FileType from 'file-type'; // npm install file-type
+
+// Validate file type and size (ファイルタイプとサイズを検証)
 const ALLOWED_MIME_TYPES = [
   'image/jpeg',
   'image/png',
@@ -108,17 +110,17 @@ const ALLOWED_MIME_TYPES = [
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
 async function validateUpload(file: Express.Multer.File): Promise<void> {
-  // MIMEタイプを確認
+  // Check MIME type (MIMEタイプを確認)
   if (!ALLOWED_MIME_TYPES.includes(file.mimetype)) {
     throw new BadRequestException('File type not allowed');
   }
 
-  // ファイルサイズを確認
+  // Check file size (ファイルサイズを確認)
   if (file.size > MAX_FILE_SIZE) {
     throw new BadRequestException('File too large');
   }
 
-  // ファイルシグネチャ（マジックバイト）を確認
+  // Verify file signature (magic bytes) (ファイルシグネチャ（マジックバイト）を確認)
   const fileType = await FileType.fromBuffer(file.buffer);
   if (!fileType || !ALLOWED_MIME_TYPES.includes(fileType.mime)) {
     throw new BadRequestException('Invalid file content');
@@ -133,7 +135,7 @@ async function validateUpload(file: Express.Multer.File): Promise<void> {
 強力なパスワードポリシーとMFAを使用します。
 
 ```typescript
-// Cognito User Pool用CDK設定
+// CDK configuration for Cognito User Pool (Cognito User Pool用CDK設定)
 const userPool = new cognito.UserPool(this, 'UserPool', {
   selfSignUpEnabled: false,  // Disable self-registration if not needed
   signInAliases: {
@@ -214,14 +216,14 @@ export class JwtAuthGuard implements CanActivate {
 クライアントにリフレッシュトークンを保存せずに、安全なトークンリフレッシュを実装します。
 
 ```typescript
-// フロントエンドトークンリフレッシュ
+// Frontend token refresh (フロントエンドトークンリフレッシュ)
 async function refreshTokenIfNeeded(): Promise<string> {
   try {
     const session = await Auth.currentSession();
     return session.getAccessToken().getJwtToken();
   } catch (error) {
     if (error.name === 'NotAuthorizedException') {
-      // ログインにリダイレクト
+      // Redirect to login (ログインにリダイレクト)
       await Auth.signOut();
       throw new Error('Session expired');
     }
@@ -239,7 +241,7 @@ async function refreshTokenIfNeeded(): Promise<string> {
 ```typescript
 import { Auth, ROLE_SYSTEM_ADMIN } from '@mbc-cqrs-serverless/core';
 
-// コントローラーでの使用
+// Usage in controller (コントローラーでの使用)
 @Controller('admin')
 export class AdminController {
   @Get('users')
@@ -268,11 +270,11 @@ async listOrders(@INVOKE_CONTEXT() invokeContext: IInvoke) {
   return this.orderService.listOrders(tenantCode);
 }
 
-// 常にクエリにテナントを含める
+// Always include tenant in queries (常にクエリにテナントを含める)
 async function getOrdersByTenant(invokeContext: IInvoke) {
   const { tenantCode } = getUserContext(invokeContext);
 
-  // テナントは常にパーティションキーの一部
+  // Tenant is always part of the partition key (テナントは常にパーティションキーの一部)
   return this.dataService.listItemsByPk(`ORDER#${tenantCode}`);
 }
 ```
@@ -282,21 +284,24 @@ async function getOrdersByTenant(invokeContext: IInvoke) {
 操作を許可する前に所有権を確認します。
 
 ```typescript
-async function updateOrder(
-  orderId: string,
+// {{In a service class with dataService and commandService injected}}
+async updateOrder(
+  pk: string,   // e.g., 'ORDER#tenant-a'
+  sk: string,   // e.g., 'order-123'
   updates: UpdateOrderDto,
   invokeContext: IInvoke,
 ): Promise<CommandModel | null> {
-  // JWTから検証済みのユーザーIDを取得する — リクエストパラメーターから取得しない
-  const { userId } = getUserContext(invokeContext);
+  // Derive user identity from verified JWT — never from request parameters (JWTから検証済みのユーザーIDを取得する — リクエストパラメーターから取得しない)
+  const { userId, tenantRoles } = getUserContext(invokeContext);
   const order = await this.dataService.getItem({ pk, sk });
 
   if (!order) {
     throw new NotFoundException('Order not found');
   }
 
-  // 所有権を確認
-  if (order.createdBy !== userId && !this.isAdmin(userId)) {
+  // {{Check ownership — allow system_admin to bypass}}
+  const isAdmin = tenantRoles.includes(ROLE_SYSTEM_ADMIN);
+  if (order.createdBy !== userId && !isAdmin) {
     throw new ForbiddenException('Not authorized to update this order');
   }
 
@@ -366,7 +371,7 @@ const sensitiveData = {
 機密情報をログに記録しないでください。
 
 ```typescript
-// 機密フィールドをマスクするロガーを作成
+// Create a logger that masks sensitive fields (機密フィールドをマスクするロガーを作成)
 const SENSITIVE_FIELDS = ['password', 'token', 'ssn', 'creditCard', 'secret'];
 
 function maskSensitiveData(obj: any): any {
@@ -416,7 +421,7 @@ async function getSecret(secretName: string): Promise<Record<string, string>> {
   throw new Error('Secret not found');
 }
 
-// 繰り返しのAPIコールを避けるためにシークレットをキャッシュ
+// Cache secrets to avoid repeated API calls (繰り返しのAPIコールを避けるためにシークレットをキャッシュ)
 let cachedSecrets: Record<string, string> | null = null;
 
 async function getDatabasePassword(): Promise<string> {
@@ -434,14 +439,14 @@ async function getDatabasePassword(): Promise<string> {
 悪用を防止するためにレート制限を実装します。
 
 ```typescript
-// serverless.ymlのAPI Gatewayスロットリング
+// API Gateway throttling in serverless.yml (serverless.ymlのAPI Gatewayスロットリング)
 provider:
   apiGateway:
     throttling:
       burstLimit: 200
       rateLimit: 100
 
-// 関数ごとのスロットリング
+// Per-function throttling (関数ごとのスロットリング)
 functions:
   createOrder:
     handler: handler.createOrder
@@ -488,14 +493,14 @@ provider:
 DoSを防止するためにリクエストペイロードサイズを制限します。
 
 ```typescript
-// serverless.ymlのAPI Gatewayペイロード制限
+// API Gateway payload limit in serverless.yml (serverless.ymlのAPI Gatewayペイロード制限)
 provider:
   apiGateway:
     binaryMediaTypes:
       - 'application/octet-stream'
     maximumPayloadSize: 10485760  # 10MB
 
-// アプリケーションレベルの検証
+// Application-level validation (アプリケーションレベルの検証)
 @Post('upload')
 @UseInterceptors(
   FileInterceptor('file', {
@@ -505,7 +510,7 @@ provider:
   }),
 )
 async uploadFile(@UploadedFile() file: Express.Multer.File) {
-  // ファイルを処理
+  // Process file (ファイルを処理)
 }
 ```
 
@@ -585,7 +590,7 @@ resources:
 監査のためにすべてのAPI呼び出しをログに記録します。
 
 ```typescript
-// CDK設定
+// CDK configuration (CDK設定)
 const trail = new cloudtrail.Trail(this, 'AuditTrail', {
   bucket: auditBucket,
   sendToCloudWatchLogs: true,
@@ -594,7 +599,7 @@ const trail = new cloudtrail.Trail(this, 'AuditTrail', {
   isMultiRegionTrail: true,
 });
 
-// 特定のイベントをログ記録
+// Log specific events (特定のイベントをログ記録)
 trail.addEventSelector(cloudtrail.DataResourceType.DYNAMODB_TABLE, [
   `arn:aws:dynamodb:${this.region}:${this.account}:table/*`,
 ]);

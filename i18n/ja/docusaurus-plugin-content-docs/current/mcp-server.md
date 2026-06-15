@@ -147,7 +147,7 @@ Claude Codeに以下のように依頼できます:
 ### アンチパターン検出 {#anti-pattern-detection}
 
 :::info バージョン情報
-AP011〜AP015 は [v1.2.x](/docs/changelog#v120)（publishSync の null チェック、非推奨API、TaskModule 重複）で追加されました。AP016〜AP020 は [v1.2.5](/docs/changelog#v125) で追加。AP021（publishAsync 後のイベント発行）は [v1.2.6](/docs/changelog#v126) で追加。AP022〜AP025（eval、シェルインジェクション、HTTPタイムアウト、機密情報ロギング）は v1.2.7 で追加されました。
+AP011〜AP015 は [v1.2.x](/docs/changelog#v120)（publishSync の null チェック、非推奨API、TaskModule 重複）で追加されました。AP016〜AP020 は [v1.2.5](/docs/changelog#v125) で追加。AP021（publishAsync 後のイベント発行）は [v1.2.6](/docs/changelog#v126) で追加。AP022〜AP025（eval、シェルインジェクション、HTTPタイムアウト、機密情報ロギング）は [v1.3.0](/docs/changelog#v130) で追加されました。
 :::
 
 `mbc_check_anti_patterns` ツールは一般的なコード問題を検出します。検出器が出力するのは **検出器AP番号**（この表）で、`/mbc-review` スキルの **skill-doc AP番号** とは別の番号体系です。検出器の出力には対応する skill-doc 番号が併記されます（例: `AP005: Hardcoded Tenant (skill-doc: AP002)`）。両者で同じ番号を共有するのは AP016〜AP019 と AP021 のみです。

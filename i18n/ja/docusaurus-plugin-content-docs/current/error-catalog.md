@@ -24,7 +24,7 @@ description: MBC CQRS Serverlessの原因、解決策、復旧戦略を含む包
 | コード | エラーメッセージ | 重大度 | クイックフィックス |
 |----------|-------------------|--------------|---------------|
 | MBC-TNT-001 | テナントが見つからない | 高 | listTenants()でテナントの存在を確認 |
-| MBC-TNT-002 | テナントが既に存在 | 低 | 作成前に存在確認 |
+| MBC-TNT-002 | テナントが既に存在します | 低 | 作成前に存在確認 |
 
 ### シーケンス＆タスクエラー
 
@@ -43,7 +43,7 @@ description: MBC CQRS Serverlessの原因、解決策、復旧戦略を含む包
 
 | コード | エラーメッセージ | 重大度 | クイックフィックス |
 |----------|-------------------|--------------|---------------|
-| MBC-DDB-001 | ProvisionedThroughputExceededException | 高 | 指数バックオフリトライを実装 |
+| MBC-DDB-001 | ProvisionedThroughputExceededException | 高 | Implement exponential backoff retry (指数バックオフリトライを実装) |
 | MBC-DDB-002 | ConditionalCheckFailedException | 高 | アイテムを更新し新バージョンでリトライ |
 | MBC-DDB-003 | ResourceNotFoundException | 重大 | テーブルの存在と環境変数を確認 |
 | MBC-DDB-004 | ValidationException | 中 | 空文字列を避け、予約語をエスケープ |
@@ -54,7 +54,7 @@ description: MBC CQRS Serverlessの原因、解決策、復旧戦略を含む包
 |----------|-------------------|--------------|---------------|
 | MBC-COG-001 | NotAuthorizedException | 高 | トークンを更新または再認証 |
 | MBC-COG-002 | UserNotFoundException | 中 | プールにユーザーが存在するか確認 |
-| MBC-COG-003 | UserNotConfirmedException | 中 | 確認コードを再送信 |
+| MBC-COG-003 | UserNotConfirmedException | 中 | Resend confirmation code (確認コードを再送信) |
 
 ### インポートモジュールエラー
 
@@ -95,7 +95,7 @@ v1.0.25 より前のバージョンでは、この例外のメッセージは「
 
 **解決策**:
 ```typescript
-// オプション1: 更新前に最新バージョンを取得
+// Option 1: Fetch latest version before update (オプション1: 更新前に最新バージョンを取得)
 const latest = await dataService.getItem({ pk, sk });
 if (!latest) throw new NotFoundException('Item not found');
 await commandService.publishPartialUpdateSync({
@@ -105,7 +105,7 @@ await commandService.publishPartialUpdateSync({
   name: 'Updated Name',
 }, options);
 
-// オプション2: version: -1を使用して自動取得（非同期モードのみ）
+// Option 2: Use version: -1 for auto-fetch (async mode only) (オプション2: version: -1を使用して自動取得（非同期モードのみ）)
 await commandService.publishPartialUpdateAsync({
   pk,
   sk,
@@ -113,7 +113,7 @@ await commandService.publishPartialUpdateAsync({
   name: 'Updated Name',
 }, options);
 
-// オプション3: リトライロジックを実装
+// Option 3: Implement retry logic (オプション3: リトライロジックを実装)
 async function updateWithRetry(data, maxRetries = 3) {
   for (let i = 0; i < maxRetries; i++) {
     try {
@@ -136,7 +136,7 @@ async function updateWithRetry(data, maxRetries = 3) {
 
 ---
 
-### BadRequestException: "The input key is not a valid, item not found"
+### BadRequestException: "Invalid input key: item not found"
 
 **場所**: `packages/core/src/commands/command.service.ts`
 
@@ -144,13 +144,13 @@ async function updateWithRetry(data, maxRetries = 3) {
 
 **解決策**:
 ```typescript
-// まずアイテムが存在するか確認
+// Check if item exists first (まずアイテムが存在するか確認)
 const existing = await dataService.getItem({ pk, sk });
 if (!existing) {
-  // 新しいアイテムを作成
+  // Create new item (新しいアイテムを作成)
   await commandService.publishAsync(newItem, options);
 } else {
-  // 既存のアイテムを更新
+  // Update existing item (既存のアイテムを更新)
   await commandService.publishPartialUpdateAsync({
     pk,
     sk,
@@ -162,7 +162,7 @@ if (!existing) {
 
 ---
 
-### BadRequestException: "Invalid input version"
+### BadRequestException: "Invalid input version. The input version must be equal to the latest version"
 
 **場所**: `packages/core/src/commands/command.service.ts`
 
@@ -182,12 +182,12 @@ if (!existing) {
 
 **解決策**:
 ```typescript
-// テナントが存在することを確認
+// Verify tenant exists (テナントが存在することを確認)
 try {
   const tenant = await tenantService.getTenant(tenantCode);
 } catch (error) {
   if (error.message === 'Tenant not found') {
-    // 利用可能なテナントを一覧表示
+    // List available tenants (利用可能なテナントを一覧表示)
     const tenants = await tenantService.listTenants();
     console.log('Available tenants:', tenants.items.map(t => t.code));
   }
@@ -196,7 +196,7 @@ try {
 
 ---
 
-### BadRequestException: "Tenant already exist"
+### BadRequestException: "Tenant already exists"
 
 **場所**: `packages/tenant/src/services/tenant.service.ts`
 
@@ -204,7 +204,7 @@ try {
 
 **解決策**:
 ```typescript
-// 作成前にテナントが存在するか確認
+// Check if tenant exists before creating (作成前にテナントが存在するか確認)
 const existing = await tenantService.getTenant(tenantCode).catch(() => null);
 if (existing) {
   console.log('Tenant already exists, using existing tenant');
@@ -225,7 +225,7 @@ if (existing) {
 
 **解決策**:
 ```typescript
-// シーケンスを生成 - 初回使用時に自動初期化
+// Generate sequence - auto-initializes on first use (シーケンスを生成 - 初回使用時に自動初期化)
 try {
   const result = await sequencesService.generateSequenceItem(
     {
@@ -235,7 +235,7 @@ try {
     { invokeContext },
   );
 } catch (error) {
-  // エラーが続く場合はDynamoDBテーブルの権限を確認
+  // If error persists, check DynamoDB table permissions (エラーが続く場合はDynamoDBテーブルの権限を確認)
 }
 ```
 
@@ -251,7 +251,7 @@ try {
 
 **解決策**:
 ```typescript
-// 操作前にタスクステータスを確認
+// Verify task status before operations (操作前にタスクステータスを確認)
 const task = await taskService.getTask({ pk, sk });
 if (!task) {
   throw new NotFoundException('Task not found');
@@ -273,7 +273,7 @@ if (task.status === 'completed') {
 
 **一般的なバリデーションエラー**:
 ```typescript
-// 検証付きDTOの例
+// Example DTO with validation (検証付きDTOの例)
 export class CreateOrderDto {
   @IsNotEmpty({ message: 'Name is required' })
   @IsString()
@@ -290,7 +290,7 @@ export class CreateOrderDto {
   amount?: number;
 }
 
-// よくある検証エラーと修正方法:
+// Common validation errors and fixes: (よくある検証エラーと修正方法:)
 // - "name must be a string" -> Ensure name is string type
 // - "code should not be empty" -> Provide code value
 // - "amount must not be less than 0" -> Use positive number
@@ -298,7 +298,7 @@ export class CreateOrderDto {
 
 **解決策**:
 ```typescript
-// 送信前に検証
+// Validate before sending (送信前に検証)
 import { validate } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 
@@ -321,7 +321,7 @@ if (errors.length > 0) {
 
 **解決策**:
 ```typescript
-// 指数バックオフリトライを実装
+// Implement exponential backoff retry (指数バックオフリトライを実装)
 async function withRetry<T>(
   fn: () => Promise<T>,
   maxRetries = 5,
@@ -359,12 +359,12 @@ async function withRetry<T>(
 
 **解決策**:
 ```typescript
-// 条件チェック失敗を処理
+// Handle conditional check failure (条件チェック失敗を処理)
 try {
   await commandService.publishSync(item, options);
 } catch (error) {
   if (error.name === 'ConditionalCheckFailedException') {
-    // 更新して再試行
+    // Refresh and retry (更新して再試行)
     const latest = await dataService.getItem({ pk, sk });
     if (!latest) throw new NotFoundException('Item not found');
     await commandService.publishSync({
@@ -402,14 +402,14 @@ echo $DYNAMODB_TABLE_NAME
 
 **解決策**:
 ```typescript
-// 空文字列を避ける
+// Avoid empty strings (空文字列を避ける)
 const item = {
   pk: 'ORDER#tenant001',
   sk: 'ORDER#ORD001',
   name: value || null,  // Use null instead of empty string
 };
 
-// 予約語には式属性名を使用
+// Use expression attribute names for reserved words (予約語には式属性名を使用)
 const params = {
   ExpressionAttributeNames: {
     '#name': 'name',
@@ -430,12 +430,12 @@ const params = {
 
 **解決策**:
 ```typescript
-// フロントエンド: トークンをリフレッシュ
+// Frontend: Refresh token (フロントエンド: トークンをリフレッシュ)
 try {
   await Auth.currentSession();  // Auto-refreshes if needed
 } catch (error) {
   if (error.name === 'NotAuthorizedException') {
-    // ログインにリダイレクト
+    // Redirect to login (ログインにリダイレクト)
     await Auth.signOut();
     window.location.href = '/login';
   }
@@ -452,12 +452,12 @@ try {
 
 **解決策**:
 ```typescript
-// 操作前にユーザーが存在することを確認
+// Check user exists before operations (操作前にユーザーが存在することを確認)
 try {
   const user = await adminGetUser({ Username: email });
 } catch (error) {
   if (error.name === 'UserNotFoundException') {
-    // 新しいユーザーを作成するか登録フォームを表示
+    // Create new user or show registration form (新しいユーザーを作成するか登録フォームを表示)
   }
 }
 ```
@@ -476,9 +476,9 @@ try {
   await Auth.signIn(email, password);
 } catch (error) {
   if (error.name === 'UserNotConfirmedException') {
-    // 確認コードを再送信
+    // Resend confirmation code (確認コードを再送信)
     await Auth.resendSignUp(email);
-    // 確認ページにリダイレクト
+    // Redirect to confirmation page (確認ページにリダイレクト)
   }
 }
 ```
@@ -503,7 +503,7 @@ APIの詳細と使用パターンについては[ImportStatusHandler API](/docs/
 ハンドラーはインポートジョブが失敗した場合に適切に`SendTaskFailureCommand`を送信するようになりました：
 
 ```typescript
-// 内部動作（自動、ユーザー操作不要）:
+// Internal behavior (automatic, no user action needed): (内部動作（自動、ユーザー操作不要）:)
 // - COMPLETED status → SendTaskSuccessCommand
 // - FAILED status → SendTaskFailureCommand
 ```
@@ -571,13 +571,13 @@ ImportModule.register({
 
 **解決策**:
 ```typescript
-// serverless.ymlでLambdaタイムアウトを増加
+// Increase Lambda timeout in serverless.yml (serverless.ymlでLambdaタイムアウトを増加)
 functions:
   processTask:
     handler: handler.process
     timeout: 900  # 15 minutes max
 
-// またはより小さなチャンクに分割
+// Or break into smaller chunks (またはより小さなチャンクに分割)
 async function processInChunks(items, chunkSize = 100) {
   for (let i = 0; i < items.length; i += chunkSize) {
     const chunk = items.slice(i, i + chunkSize);
@@ -600,18 +600,18 @@ import { SFNClient, SendTaskSuccessCommand, SendTaskFailureCommand } from '@aws-
 
 const sfnClient = new SFNClient({});
 
-// Step Functionsを使った適切なエラー処理
+// Proper error handling with Step Functions (Step Functionsを使った適切なエラー処理)
 export async function handler(event: StepFunctionEvent) {
   try {
     const result = await processTask(event.input);
 
-    // 成功コールバックを送信
+    // Send success callback (成功コールバックを送信)
     await sfnClient.send(new SendTaskSuccessCommand({
       taskToken: event.taskToken,
       output: JSON.stringify(result),
     }));
   } catch (error) {
-    // 失敗コールバックを送信
+    // Send failure callback (失敗コールバックを送信)
     await sfnClient.send(new SendTaskFailureCommand({
       taskToken: event.taskToken,
       error: error.name,
@@ -637,7 +637,7 @@ import { S3Client, HeadObjectCommand, GetObjectCommand } from '@aws-sdk/client-s
 
 const s3Client = new S3Client({});
 
-// ダウンロード前にオブジェクトが存在するか確認
+// Check if object exists before downloading (ダウンロード前にオブジェクトが存在するか確認)
 try {
   await s3Client.send(new HeadObjectCommand({ Bucket: bucket, Key: key }));
   const data = await s3Client.send(new GetObjectCommand({ Bucket: bucket, Key: key }));
@@ -686,14 +686,14 @@ provider:
 
 **解決策**:
 ```typescript
-// 可視性タイムアウト内にメッセージを処理
+// Process messages within visibility timeout (可視性タイムアウト内にメッセージを処理)
 export async function handler(event: SQSEvent) {
   for (const record of event.Records) {
     try {
       await processMessage(record);
-      // 正常終了時にメッセージを自動削除
+      // Message auto-deleted on successful return (正常終了時にメッセージを自動削除)
     } catch (error) {
-      // リトライのためにメッセージをキューに保持するためスロー
+      // Throw to keep message in queue for retry (リトライのためにメッセージをキューに保持するためスロー)
       throw error;
     }
   }
@@ -710,7 +710,7 @@ export async function handler(event: SQSEvent) {
 | 401 | UnauthorizedException | 認証が欠落しているか無効 | トークンを更新または再ログイン |
 | 403 | ForbiddenException | 認証済みだが権限がない | ユーザー権限を確認 |
 | 404 | NotFoundException | リソースが見つからない | リソースの存在を確認 |
-| 409 | ConflictException | バージョン競合（楽観的ロック） | 更新して再試行 |
+| 409 | ConflictException | バージョン競合（楽観的ロック） | Refresh and retry (更新して再試行) |
 | 422 | UnprocessableEntityException | バリデーション失敗 | バリデーションエラーを修正 |
 | 429 | TooManyRequestsException | レート制限超過 | バックオフリトライを実装 |
 | 500 | InternalServerErrorException | 予期しないサーバーエラー | ログを確認し、バグを報告 |
@@ -725,7 +725,7 @@ export async function handler(event: SQSEvent) {
 ### 1. 集中エラーハンドラー
 
 ```typescript
-// グローバル例外フィルターを作成
+// Create a global exception filter (グローバル例外フィルターを作成)
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
@@ -741,7 +741,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       ? exception.message
       : 'Internal server error';
 
-    // コンテキスト付きでエラーをログ記録
+    // Log error with context (コンテキスト付きでエラーをログ記録)
     console.error({
       timestamp: new Date().toISOString(),
       path: request.url,

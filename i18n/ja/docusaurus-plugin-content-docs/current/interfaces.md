@@ -118,8 +118,8 @@ Lambda/Expressのイベントとコンテキストを含む呼び出しコンテ
 
 ```ts
 export interface IInvoke {
-  event?: IInvokeEvent      // Request event (headers, requestContext等のリクエストイベント)
-  context?: IInvokeContext  // Lambda context (requestId, functionName等のLambdaコンテキスト)
+  event?: IInvokeEvent      // Request event (headers, requestContext, etc.) (リクエストイベント(headers, requestContext等))
+  context?: IInvokeContext  // Lambda context (requestId, functionName, etc.) (Lambdaコンテキスト(requestId, functionName等))
 }
 ```
 
@@ -169,7 +169,7 @@ Lambda実行コンテキスト情報。
 export interface IInvokeContext {
   functionName?: string               // Lambda function name (Lambda関数名)
   functionVersion?: string            // Lambda function version (Lambda関数バージョン)
-  invokedFunctionArn?: string         // Lambda ARN (Lambda ARN)
+  invokedFunctionArn?: string         // Lambda ARN (LambdaのARN)
   memoryLimitInMB?: string           // Memory limit (メモリ制限)
   awsRequestId?: string              // AWS request ID for tracing (トレース用AWSリクエストID)
   logGroupName?: string              // CloudWatch log group (CloudWatchロググループ)
@@ -207,7 +207,7 @@ export interface JwtClaims {
   email: string
   email_verified?: boolean
   iat: number                        // Token issued at timestamp (トークン発行タイムスタンプ)
-  jti: string                        // JWT ID (JWT ID)
+  jti: string                        // JWT ID (JWT識別子)
 }
 ```
 
@@ -228,7 +228,7 @@ export class UserContext {
   userId: string             // Cognito user ID (from JWT sub claim)
   tenantRole: string         // User's role within the tenant
   tenantCode: string         // Current tenant code
-  tenantRoles: string[]      // Direct roles for the active tenant (アクティブテナントの直接ロール、グループ由来ロールを除く)
+  tenantRoles: string[]      // Direct roles for the active tenant (excludes group-derived roles) (アクティブテナントの直接ロール、グループ由来ロールを除く)
   tenantGroupIds: string[]   // Group IDs from custom:groups for the active tenant (custom:groups由来のグループID)
 
   constructor(partial: Partial<UserContext>)  // Initialize with partial properties (部分的なプロパティで初期化)
@@ -239,7 +239,7 @@ export class UserContext {
 ```typescript
 import { getUserContext, IInvoke } from '@mbc-cqrs-serverless/core';
 
-// IInvokeまたはExecutionContextからユーザーコンテキストを抽出
+// Extract user context from IInvoke or ExecutionContext (IInvokeまたはExecutionContextからユーザーコンテキストを抽出)
 const userContext = getUserContext(invokeContext);
 console.log(userContext.userId);      // '92ca4f68-9ac6-4080-9ae2-2f02a86206a4'
 console.log(userContext.tenantCode);  // 'tenant001'
@@ -256,8 +256,8 @@ console.log(userContext.tenantRole);  // 'admin'
 
 ```ts
 export interface CommandModel extends CommandInputModel {
-  status?: string       // Processing status (処理ステータス: 'PENDING', 'COMPLETED', 'FAILED'等)
-  source?: string       // Event source identifier (イベントソース識別子: 'POST /api/master', 'SQS'等)
+  status?: string       // Processing status (e.g., 'PENDING', 'COMPLETED', 'FAILED') (処理ステータス: 'PENDING', 'COMPLETED', 'FAILED'等)
+  source?: string       // Event source identifier (e.g., 'POST /api/master', 'SQS') (イベントソース識別子('POST /api/master', 'SQS'等))
   requestId?: string    // Unique request ID for tracing and idempotency (トレースと冪等性のための一意のリクエストID)
   createdAt?: Date      // Timestamp when the command was created (コマンド作成時のタイムスタンプ)
   updatedAt?: Date      // Timestamp when the command was last updated (コマンド最終更新時のタイムスタンプ)
@@ -366,7 +366,7 @@ const result = await dataService.listItemsByPk('ORDER#tenant001', {
 
 // Pagination
 if (result.lastSk) {
-  // 追加アイテムあり - 次ページにresult.lastSkを使用
+  // More items available - use result.lastSk for next page (追加アイテムあり - 次ページにresult.lastSkを使用)
 }
 ```
 
@@ -420,7 +420,7 @@ export class OrderRdsSyncHandler implements IDataSyncHandler {
   }
 
   async down(cmd: CommandModel): Promise<void> {
-    // ロールバックロジック - 前の状態を復元
+    // Rollback logic - restore previous state (ロールバックロジック - 前の状態を復元)
     await this.prisma.order.delete({
       where: { id: cmd.id },
     });
@@ -553,15 +553,15 @@ export interface StepFunctionsEvent<TInput> {
 ### 共通型ヘルパー
 
 ```ts
-// 特定のキーを必須とする部分型
+// Partial type that requires specific keys (特定のキーを必須とする部分型)
 type RequiredPick<T, K extends keyof T> = Partial<T> & Pick<T, K>;
 
-// ディープパーシャル型
+// Deep partial type (ディープパーシャル型)
 type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
 };
 
-// 監査フィールドなしのエンティティ
+// Entity without audit fields (監査フィールドなしのエンティティ)
 type EntityInput<T> = Omit<T, 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'>;
 ```
 

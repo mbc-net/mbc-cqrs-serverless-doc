@@ -24,7 +24,7 @@ Use this table to quickly identify errors and jump to solutions.
 | Code | Error Message | Severity | Quick Fix |
 |----------|-------------------|--------------|---------------|
 | MBC-TNT-001 | Tenant not found | High | Verify tenant exists with listTenants() |
-| MBC-TNT-002 | Tenant already exist | Low | Check existence before creating |
+| MBC-TNT-002 | Tenant already exists | Low | Check existence before creating |
 
 ### Sequence & Task Errors
 
@@ -136,7 +136,7 @@ async function updateWithRetry(data, maxRetries = 3) {
 
 ---
 
-### BadRequestException: "The input key is not a valid, item not found"
+### BadRequestException: "Invalid input key: item not found"
 
 **Location**: `packages/core/src/commands/command.service.ts`
 
@@ -162,7 +162,7 @@ if (!existing) {
 
 ---
 
-### BadRequestException: "Invalid input version"
+### BadRequestException: "Invalid input version. The input version must be equal to the latest version"
 
 **Location**: `packages/core/src/commands/command.service.ts`
 
@@ -196,7 +196,7 @@ try {
 
 ---
 
-### BadRequestException: "Tenant already exist"
+### BadRequestException: "Tenant already exists"
 
 **Location**: `packages/tenant/src/services/tenant.service.ts`
 

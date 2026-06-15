@@ -54,7 +54,7 @@ import {
 import { S3Event } from 'aws-lambda';
 import { StepFunctionsEvent, SQSEvent, DynamoDBStreamEvent } from './types';
 
-// イベントクラスをインポート
+// Import event classes (イベントクラスをインポート)
 import { CsvImportEvent } from './csv-import/event/csv-import.event';
 import { FileProcessEvent } from './file/event/file-process.event';
 import { OrderCreatedEvent } from './order/event/order-created.event';
@@ -276,7 +276,7 @@ import { ConfigService } from '@nestjs/config';
 import { ImportProcessEvent } from './import-process.event';
 import { ImportService } from '../import.service';
 
-// アラーム通知用のSNSイベントを定義
+// Define SNS event for alarm notifications (アラーム通知用のSNSイベントを定義)
 class AlarmSnsEvent extends SnsEvent {
   importId: string;
   bucket: string;
@@ -309,10 +309,10 @@ export class ImportProcessEventHandler
     this.logger.log(`Processing import: ${event.importId}`);
 
     try {
-      // インポートを処理
+      // Process the import (インポートを処理)
       const result = await this.importService.processImport(event);
 
-      // 成功時にStep Functions実行を再開
+      // Resume Step Functions execution on success (成功時にStep Functions実行を再開)
       if (event.taskToken) {
         await this.sfnService.resumeExecution(event.taskToken, result);
       }
@@ -389,7 +389,7 @@ export class FileUploadHandler implements IEventHandler<FileUploadEvent, FilePro
   async execute(event: FileUploadEvent): Promise<FileProcessingResult> {
     this.logger.log(`Processing file: ${event.key}`);
 
-    // S3からファイル内容を取得
+    // Get file content from S3 (S3からファイル内容を取得)
     const command = new GetObjectCommand({
       Bucket: event.bucket,
       Key: event.key,
@@ -502,13 +502,13 @@ export class SendNotificationHandler
   }
 
   private async sendSms(event: SendNotificationEvent): Promise<NotificationResult> {
-    // SMS送信ロジックを実装
+    // Implement SMS sending logic (SMS送信ロジックを実装)
     this.logger.log('SMS sending not implemented');
     return { status: 'skipped', type: 'SMS', reason: 'Not implemented' };
   }
 
   private async sendPush(event: SendNotificationEvent): Promise<NotificationResult> {
-    // プッシュ通知ロジックを実装
+    // Implement push notification logic (プッシュ通知ロジックを実装)
     this.logger.log('Push notification not implemented');
     return { status: 'skipped', type: 'PUSH', reason: 'Not implemented' };
   }
@@ -517,7 +517,7 @@ export class SendNotificationHandler
     templateId: string,
     data: Record<string, any>,
   ): Promise<string> {
-    // テンプレートレンダリングロジック
+    // Template rendering logic (テンプレートレンダリングロジック)
     return `Template ${templateId} rendered with data`;
   }
 }
@@ -713,10 +713,10 @@ async execute(event: OrderEvent): Promise<IdempotentResult> {
     return { skipped: true };
   }
 
-  // イベントを処理
+  // Process event (イベントを処理)
   const result = await this.processEvent(event);
 
-  // 処理済みとしてマーク
+  // Mark as processed (処理済みとしてマーク)
   await this.prismaService.processedEvent.create({
     data: { eventId: event.eventId, processedAt: new Date() },
   });
@@ -748,7 +748,7 @@ interface TimeoutResult {
 
 // Implement timeout for long-running operations (長時間実行される操作にタイムアウトを実装)
 async execute(event: LongRunningEvent): Promise<TimeoutResult> {
-  const timeout = 25000; // 25秒（Lambdaのデフォルトは30秒）
+  const timeout = 25000; // 25 seconds (Lambda default is 30s) (25秒（Lambdaのデフォルトは30秒）)
 
   const result = await Promise.race([
     this.processEvent(event),
@@ -926,7 +926,7 @@ export class CustomS3ImportEvent implements IEvent, Partial<S3EventRecord> {
 イベントファクトリーは様々なAWSソースからのイベント変換をサポートしています：
 
 ```typescript
-// DefaultEventFactoryで利用可能な変換メソッド
+// Available transform methods in DefaultEventFactory (DefaultEventFactoryで利用可能な変換メソッド)
 transformSqs(event: SQSEvent): Promise<IEvent[]>;
 transformSns(event: SNSEvent): Promise<IEvent[]>;
 transformDynamodbStream(event: DynamoDBStreamEvent): Promise<IEvent[]>;

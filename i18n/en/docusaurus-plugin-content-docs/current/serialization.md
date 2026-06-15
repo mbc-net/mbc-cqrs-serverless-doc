@@ -12,8 +12,8 @@ The MBC CQRS Serverless Framework provides helper functions for converting betwe
 ### Internal DynamoDB Structure
 ```typescript
 {
-  pk: "PROJECT",
-  sk: "123",
+  pk: "PROJECT#tenant001",
+  sk: "PROJECT#proj-001",
   name: "Test Project",
   attributes: {
     details: {
@@ -27,10 +27,10 @@ The MBC CQRS Serverless Framework provides helper functions for converting betwe
 ### External Flat Structure
 ```typescript
 {
-  id: "PROJECT#123",    // Combination of pk and sk
-  code: "123",         // Mainly sk
-  name: "Test Project", // First level in DynamoDB
-  details: {           // Flattened from attributes
+  id: "PROJECT#tenant001#PROJECT#proj-001",  // Combination of pk and sk
+  code: "proj-001",                           // Code portion of sk
+  name: "Test Project",                       // First level in DynamoDB
+  details: {                                  // Flattened from attributes
     status: "active",
     category: "development"
   }
@@ -44,8 +44,8 @@ The MBC CQRS Serverless Framework provides helper functions for converting betwe
 import { serializeToExternal } from '@mbc-cqrs-serverless/core';
 
 const internal = {
-  pk: "PROJECT",
-  sk: "123",
+  pk: "PROJECT#tenant001",
+  sk: "PROJECT#proj-001",
   name: "Test Project",
   attributes: {
     details: {
@@ -63,8 +63,8 @@ const external = serializeToExternal(internal);
 import { deserializeToInternal, DataEntity } from '@mbc-cqrs-serverless/core';
 
 const external = {
-  id: "PROJECT#123",
-  code: "123",
+  id: "PROJECT#tenant001#PROJECT#proj-001",
+  code: "proj-001",
   name: "Test Project",
   details: {
     status: "active",

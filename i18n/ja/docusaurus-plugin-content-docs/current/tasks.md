@@ -50,7 +50,7 @@ npm install @mbc-cqrs-serverless/task
 タスク処理には2つのタイプがあります：
 
 - 単一タスク処理
-- Step Functionを使用したタスク処理
+- Step Functionsを使用したタスク処理
 
 ### 単一タスク処理
 
@@ -159,7 +159,7 @@ export class CustomEventFactory extends EventFactoryAddedTask {
 
 6. タスクの作成
 
-### Step Functionを使用したタスク処理
+### Step Functionsを使用したタスク処理
 
 1. Step Functionタスクイベントの定義
 
@@ -472,12 +472,12 @@ const subTasks = await this.taskService.getAllSubTask({
 });
 
 const formattedStatus = await this.taskService.formatTaskStatus(subTasks);
-// 戻り値:
+// Returns: (戻り値:)
 // {
-//   subTaskCount: 10,           // サブタスクの総数
-//   subTaskSucceedCount: 7,     // 完了したサブタスクの数
-//   subTaskFailedCount: 1,      // 失敗したサブタスクの数
-//   subTaskRunningCount: 2,     // 進行中のサブタスクの数
+//   subTaskCount: 10,           // Total number of subtasks (サブタスクの総数)
+//   subTaskSucceedCount: 7,     // Number of completed subtasks (完了したサブタスクの数)
+//   subTaskFailedCount: 1,      // Number of failed subtasks (失敗したサブタスクの数)
+//   subTaskRunningCount: 2,     // Number of in-progress subtasks (進行中のサブタスクの数)
 //   subTasks: [                 // Array of subtask summaries (サブタスクサマリーの配列)
 //     { pk: "...", sk: "...", status: "COMPLETED" },
 //     ...
@@ -489,10 +489,10 @@ const formattedStatus = await this.taskService.formatTaskStatus(subTasks);
 
 ```ts
 {
-  subTaskCount: number;        // サブタスクの合計数
-  subTaskSucceedCount: number; // COMPLETEDサブタスク
-  subTaskFailedCount: number;  // FAILEDサブタスク
-  subTaskRunningCount: number; // PROCESSINGサブタスク
+  subTaskCount: number;        // Total subtask count (サブタスクの合計数)
+  subTaskSucceedCount: number; // COMPLETED subtasks (COMPLETEDサブタスク)
+  subTaskFailedCount: number;  // FAILED subtasks (FAILEDサブタスク)
+  subTaskRunningCount: number; // PROCESSING subtasks (PROCESSINGサブタスク)
   subTasks: Array<{            // Subtask summary array (サブタスクサマリー配列)
     pk: string;
     sk: string;

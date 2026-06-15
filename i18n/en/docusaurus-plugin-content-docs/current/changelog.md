@@ -107,7 +107,17 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ---
 
-## [1.2.2](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.2) (2026-04-08) {#v122}
+## [1.2.4](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.4) (2026-04-09) {#v124}
+
+### Features
+
+- **task:** `TaskModule.register()` now returns a global module, eliminating the need to register it in multiple feature modules ([PR #398](https://github.com/mbc-net/mbc-cqrs-serverless/pull/398))
+  - Previously, `TaskModule.register()` had to be called in each module that needed task functionality; now register it once in `AppModule`
+- **mcp-server:** Add AP015 anti-pattern detector — detects duplicate `TaskModule.register()` calls (now redundant in v1.2.4+) ([PR #399](https://github.com/mbc-net/mbc-cqrs-serverless/pull/399))
+
+---
+
+## [1.2.3](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.3) (2026-04-08) {#v123}
 
 ### Bug Fixes
 
@@ -117,6 +127,22 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
   - Valid rows are saved successfully; failed rows trigger SQS retry; already-succeeded rows are skipped on retry via EQUAL comparison (idempotency maintained)
 - **import:** Fix `ImportQueueEventHandler` passing raw SQS payload instead of parsed `importEvent` to `SingleImportProcessor` ([PR #394](https://github.com/mbc-net/mbc-cqrs-serverless/pull/394))
   - `singleImportProcessor.process()` now receives `event.importEvent` (parsed, rich object) instead of `event.payload` (raw SQS payload)
+
+---
+
+## [1.2.2](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.2) (2026-04-08) {#v122}
+
+### Features
+
+- **import:** Enhance import processing with SQS integration and parent job counter tracking ([PR #387](https://github.com/mbc-net/mbc-cqrs-serverless/pull/387))
+  - `ImportQueueEventHandler` now publishes sub-job events to SQS for distributed processing
+  - Parent job counter increments correctly when child jobs are enqueued
+- **import:** Fix `CsvImportSfnEventHandler` to process both SUCCEEDED and FAILED Step Functions results ([PR #387](https://github.com/mbc-net/mbc-cqrs-serverless/pull/387))
+
+### Bug Fixes
+
+- **core:** Handle malformed JWT tokens gracefully in `extractInvokeContext` ([PR #388](https://github.com/mbc-net/mbc-cqrs-serverless/pull/388))
+  - Prevents authentication failures caused by corrupted or unexpected JWT payloads
 
 ---
 

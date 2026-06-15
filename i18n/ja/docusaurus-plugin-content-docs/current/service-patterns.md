@@ -58,7 +58,7 @@ export class ProductService {
     private readonly prismaService: PrismaService,
   ) {}
 
-  // CRUDメソッドは以下で実装
+  // CRUD methods will be implemented below (CRUDメソッドは以下で実装)
 }
 ```
 
@@ -74,16 +74,16 @@ export class ProductService {
 async create(
   createDto: CreateProductDto,
   opts: { invokeContext: IInvoke },
-): Promise<ProductDataEntity> {
-  // 呼び出しコンテキストからテナントコンテキストを取得
+): Promise<ProductDataEntity | null> {
+  // Get tenant context from the invoke context (呼び出しコンテキストからテナントコンテキストを取得)
   const { tenantCode } = getUserContext(opts.invokeContext);
 
-  // PKとSKを生成
+  // Generate PK and SK (PKとSKを生成)
   const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
   const sk = ulid(); // Use ULID for sortable unique ID
   const id = generateId(pk, sk);
 
-  // コマンドDTOを作成
+  // Create command DTO (コマンドDTOを作成)
   const command = new ProductCommandDto({
     pk,
     sk,
@@ -101,12 +101,12 @@ async create(
     },
   });
 
-  // コマンドを発行（非同期 - 即座に返す）
+  // Publish command (async - returns immediately) (コマンドを発行（非同期 - 即座に返す）)
   const item = await this.commandService.publishAsync(command, {
     invokeContext: opts.invokeContext,
   });
 
-  // publishAsync は変更がない場合（no-op）null を返す
+  // publishAsync returns null when command is a no-op (no changes detected) (変更がない場合（no-op）null を返す)
   if (!item) return null;
   return new ProductDataEntity(item);
 }
@@ -154,7 +154,7 @@ async findAll(
   const limit = searchDto.limit ?? 20;
   const skip = (page - 1) * limit;
 
-  // WHERE句を構築
+  // Build where clause (WHERE句を構築)
   const where: any = {
     tenantCode: searchDto.tenantCode,
     isDeleted: false,
@@ -168,7 +168,7 @@ async findAll(
     where.inStock = searchDto.inStock;
   }
 
-  // カウントとデータの並列クエリを実行
+  // Execute parallel queries for count and data (カウントとデータの並列クエリを実行)
   const [total, items] = await Promise.all([
     this.prismaService.product.count({ where }),
     this.prismaService.product.findMany({
@@ -207,21 +207,21 @@ async update(
   detailDto: { pk: string; sk: string },
   updateDto: UpdateProductDto,
   opts: { invokeContext: IInvoke },
-): Promise<ProductDataEntity> {
-  // まず既存のアイテムを取得
+): Promise<ProductDataEntity | null> {
+  // First, get the existing item (まず既存のアイテムを取得)
   const existing = await this.dataService.getItem(detailDto);
 
   if (!existing) {
     throw new NotFoundException("Product not found");
   }
 
-  // 既存の属性と更新をマージ
+  // Merge existing attributes with updates (既存の属性と更新をマージ)
   const updatedAttributes = {
     ...existing.attributes,
     ...updateDto.attributes,
   };
 
-  // 部分更新コマンドを作成
+  // Create partial update command (部分更新コマンドを作成)
   const command: CommandPartialInputModel = {
     pk: existing.pk,
     sk: existing.sk,
@@ -230,11 +230,12 @@ async update(
     attributes: updatedAttributes,
   };
 
-  // 部分更新を発行
+  // Publish partial update (部分更新を発行)
   const item = await this.commandService.publishPartialUpdateAsync(command, {
     invokeContext: opts.invokeContext,
   });
 
+  if (!item) return null;
   return new ProductDataEntity(item);
 }
 ```
@@ -268,15 +269,15 @@ import { NotFoundException } from "@nestjs/common";
 async remove(
   detailDto: { pk: string; sk: string },
   opts: { invokeContext: IInvoke },
-): Promise<ProductDataEntity> {
-  // 既存のアイテムを取得
+): Promise<ProductDataEntity | null> {
+  // Get existing item (既存のアイテムを取得)
   const existing = await this.dataService.getItem(detailDto);
 
   if (!existing) {
     throw new NotFoundException("Product not found");
   }
 
-  // ソフトデリートコマンドを作成
+  // Create soft delete command (ソフトデリートコマンドを作成)
   const command: CommandPartialInputModel = {
     pk: existing.pk,
     sk: existing.sk,
@@ -288,6 +289,7 @@ async remove(
     invokeContext: opts.invokeContext,
   });
 
+  if (!item) return null;
   return new ProductDataEntity(item);
 }
 ```
@@ -335,7 +337,7 @@ export class ProductService {
   async create(
     createDto: CreateProductDto,
     opts: { invokeContext: IInvoke },
-  ): Promise<ProductDataEntity> {
+  ): Promise<ProductDataEntity | null> {
     const { tenantCode } = getUserContext(opts.invokeContext);
 
     const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
@@ -363,7 +365,7 @@ export class ProductService {
       invokeContext: opts.invokeContext,
     });
 
-    // publishAsync returns null when the command is not dirty (変更がない場合 publishAsync は null を返す)
+    // publishAsync returns null when the command is not dirty (no-op) (変更がない場合 publishAsync は null を返す)
     return item ? new ProductDataEntity(item) : null;
   }
 
@@ -453,7 +455,7 @@ export class ProductService {
       invokeContext: opts.invokeContext,
     });
 
-    // publishPartialUpdateAsync は変更がない場合（no-op）null を返す
+    // publishPartialUpdateAsync returns null when command is a no-op (no changes detected) (変更がない場合（no-op）null を返す)
     if (!item) return null;
     return new ProductDataEntity(item);
   }
@@ -482,7 +484,7 @@ export class ProductService {
       invokeContext: opts.invokeContext,
     });
 
-    // publishPartialUpdateAsync は変更がない場合（no-op）null を返す
+    // publishPartialUpdateAsync returns null when command is a no-op (no changes detected) (変更がない場合（no-op）null を返す)
     if (!item) return null;
     return new ProductDataEntity(item);
   }
@@ -505,7 +507,7 @@ async createBatch(
   const { tenantCode } = getUserContext(opts.invokeContext);
   const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
 
-  // 全コマンドを作成
+  // Create all commands (全コマンドを作成)
   const commands = items.map((item) => {
     const sk = ulid();
     return new ProductCommandDto({
@@ -526,7 +528,7 @@ async createBatch(
     });
   });
 
-  // 全コマンドを並列で発行
+  // Publish all commands in parallel (全コマンドを並列で発行)
   const results = await Promise.all(
     commands.map((command) =>
       this.commandService.publishAsync(command, {
@@ -535,7 +537,7 @@ async createBatch(
     ),
   );
 
-  // エンティティへのマッピング前にnull結果（no-opコマンド）を除外
+  // Filter out null results (no-op commands) before mapping to entities (エンティティへのマッピング前にnull結果（no-opコマンド）を除外)
   return results.filter(Boolean).map((item) => new ProductDataEntity(item!));
 }
 ```
@@ -619,19 +621,19 @@ async copy(
   targetTenantCode: string,
   opts: { invokeContext: IInvoke },
 ): Promise<ProductDataEntity> {
-  // ソースアイテムを取得
+  // Get source item (ソースアイテムを取得)
   const source = await this.dataService.getItem(sourceKey);
 
   if (!source) {
     throw new NotFoundException("Source product not found");
   }
 
-  // ターゲットテナント用の新しいキーを作成
+  // Create new keys for target tenant (ターゲットテナント用の新しいキーを作成)
   const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${targetTenantCode}`;
   const sk = ulid();
   const id = generateId(pk, sk);
 
-  // ソースデータでコマンドを作成
+  // Create command with source data (ソースデータでコマンドを作成)
   const command = new ProductCommandDto({
     pk,
     sk,
@@ -648,7 +650,7 @@ async copy(
     invokeContext: opts.invokeContext,
   });
 
-  // VERSION_FIRST を使用した新しいアイテムは常に正常に公開されます — 結果は null になりません
+  // New items with VERSION_FIRST always publish successfully — result is never null (VERSION_FIRSTを使用した新しいアイテムは常に正常に公開される — 結果はnullにならない)
   return new ProductDataEntity(item!);
 }
 ```
@@ -686,16 +688,16 @@ export class ProductService {
     detailDto: { pk: string; sk: string },
     version: number,
   ): Promise<ProductDataEntity> {
-    // SKにバージョンを追加
+    // Add version to SK (SKにバージョンを追加)
     const skWithVersion = addSortKeyVersion(detailDto.sk, version);
 
-    // 履歴から取得を試みる
+    // Try to get from history (履歴から取得を試みる)
     let item = await this.historyService.getItem({
       pk: detailDto.pk,
       sk: skWithVersion,
     });
 
-    // 履歴にない場合は最新にフォールバック
+    // Fallback to latest if not in history (履歴にない場合は最新にフォールバック)
     if (!item) {
       item = await this.dataService.getItem(detailDto);
     }
@@ -739,10 +741,10 @@ const command: CommandPartialInputModel = {
 レスポンシブ性向上のために非同期メソッドを使用します：
 
 ```ts
-// 推奨: 即座に返す
+// Recommended: Returns immediately (推奨: 即座に返す)
 await this.commandService.publishAsync(command, opts);
 
-// 処理を待つ必要がある場合のみ使用
+// Use only when you need to wait for processing (処理を待つ必要がある場合のみ使用)
 await this.commandService.publishSync(command, opts);
 ```
 
@@ -751,10 +753,10 @@ await this.commandService.publishSync(command, opts);
 単一アイテムの読み取りにはDynamoDB、複雑なクエリにはRDSを使用します：
 
 ```ts
-// 単一アイテム: DataService（DynamoDB）を使用
+// Single item: Use DataService (DynamoDB) (単一アイテム: DataService（DynamoDB）を使用)
 const item = await this.dataService.getItem({ pk, sk });
 
-// 複雑なクエリ: Prisma（RDS）を使用
+// Complex query: Use Prisma (RDS) (複雑なクエリ: Prisma（RDS）を使用)
 const items = await this.prismaService.product.findMany({
   where: { category: "electronics", inStock: true },
   orderBy: { price: "asc" },

@@ -21,7 +21,7 @@ npm i -g @mbc-cqrs-serverless/cli
 mbc new project-name
 ```
 
-mbc-cqrs-serverless を使用して新しいプロジェクトを作成した際は、[プロジェクト構造](/docs/project-structure) のドキュメントを参照してアプリケーションないで使用出来る全てのファイルとフォルダーの概要を確認して下さい。
+mbc-cqrs-serverless を初めて使う方は、[プロジェクト構造](/docs/project-structure) のドキュメントを参照して、アプリケーション内で使用できるすべてのファイルとフォルダーの概要を確認してください。
 
 ## 開発用サーバの実行
 

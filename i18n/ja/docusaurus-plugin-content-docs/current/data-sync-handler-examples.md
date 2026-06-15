@@ -40,11 +40,11 @@ export class EntityDataSyncRdsHandler implements IDataSyncHandler {
   constructor(private readonly prismaService: PrismaService) {}
 
   async up(cmd: CommandModel): Promise<any> {
-    // データをRDSに同期
+    // Sync data to RDS (データをRDSに同期)
   }
 
   async down(cmd: CommandModel): Promise<any> {
-    // オプション: ロールバック処理（通常はログのみ）
+    // Optional: Handle rollback (usually just logs) (オプション: ロールバック処理（通常はログのみ）)
     this.logger.debug(cmd);
   }
 }
@@ -82,7 +82,7 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
   constructor(private readonly prismaService: PrismaService) {}
 
   async up(cmd: CommandModel): Promise<any> {
-    // ソートキーからバージョンサフィックスを削除（例: "PROD001@1" -> "PROD001"）
+    // Remove version suffix from sort key (e.g., "PROD001@1" -> "PROD001") (ソートキーからバージョンサフィックスを削除（例: "PROD001@1" -> "PROD001"）)
     const sk = removeSortKeyVersion(cmd.sk);
     const attrs = cmd.attributes as ProductAttributes;
 
@@ -95,12 +95,12 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
         code: cmd.code,
         version: cmd.version,
         tenantCode: cmd.tenantCode,
-        // 属性をカラムにマッピング
+        // Map attributes to columns (属性をカラムにマッピング)
         description: attrs.description,
         price: attrs.price,
         category: attrs.category,
         inStock: attrs.inStock,
-        // 監査フィールド
+        // Audit fields (監査フィールド)
         isDeleted: cmd.isDeleted ?? false,
         createdAt: cmd.createdAt,
         createdBy: cmd.createdBy,
@@ -111,7 +111,7 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
         id: cmd.id,
         pk: cmd.pk,
         sk: sk,
-        // 参照用に元のキー（バージョン付き）も保存
+        // Also store original keys with version for reference (参照用に元のキー（バージョン付き）も保存)
         cpk: cmd.pk,
         csk: cmd.sk,
         name: cmd.name,
@@ -181,13 +181,13 @@ export class OrderDataSyncRdsHandler implements IDataSyncHandler {
   async up(cmd: CommandModel): Promise<any> {
     const sk = removeSortKeyVersion(cmd.sk);
 
-    // ORDERレコードのみ処理し、ORDER_ITEMはスキップ
+    // Process only ORDER records, skip ORDER_ITEM (ORDERレコードのみ処理し、ORDER_ITEMはスキップ)
     if (sk.startsWith(ORDER_SK_PREFIX) && !sk.startsWith(ORDER_ITEM_SK_PREFIX)) {
       await this.syncOrder(cmd, sk);
     } else if (sk.startsWith(ORDER_ITEM_SK_PREFIX)) {
       await this.syncOrderItem(cmd, sk);
     }
-    // 他のレコードタイプをスキップ
+    // Skip other record types (他のレコードタイプをスキップ)
   }
 
   private async syncOrder(cmd: CommandModel, sk: string): Promise<void> {
@@ -332,7 +332,7 @@ export class NotificationDataSyncRdsHandler implements IDataSyncHandler {
     const sk = removeSortKeyVersion(cmd.sk);
     const attrs = cmd.attributes as NotificationAttributes;
 
-    // 通知タイプに基づいてタイトルを抽出
+    // Extract title based on notification type (通知タイプに基づいてタイトルを抽出)
     const title = this.getTitle(attrs);
     const body = this.getBody(attrs);
 
@@ -346,10 +346,10 @@ export class NotificationDataSyncRdsHandler implements IDataSyncHandler {
         type: attrs.type,
         title: title,
         body: body,
-        // RDS用に配列をカンマ区切り文字列に変換
+        // Convert arrays to comma-separated strings for RDS (RDS用に配列をカンマ区切り文字列に変換)
         targetUsers: attrs.targetUsers?.join(",") ?? null,
         tags: attrs.tags?.join(",") ?? null,
-        // 日付を処理
+        // Handle dates (日付を処理)
         startDate: attrs.schedule?.startDate
           ? new Date(attrs.schedule.startDate)
           : null,
@@ -462,12 +462,12 @@ export class UserDataSyncRdsHandler implements IDataSyncHandler {
   constructor(private readonly prismaService: PrismaService) {}
 
   async up(cmd: CommandModel): Promise<any> {
-    // USERレコードのみ処理
+    // Only process USER records (USERレコードのみ処理)
     if (!cmd.pk.startsWith(USER_PK_PREFIX + KEY_SEPARATOR)) {
       return;
     }
 
-    // 一時またはプロファイルレコードをスキップ
+    // Skip temporary or profile records (一時またはプロファイルレコードをスキップ)
     if (cmd.sk.startsWith("temp") || cmd.sk.startsWith("profile")) {
       return;
     }
@@ -562,8 +562,8 @@ export class MasterDataSyncRdsHandler implements IDataSyncHandler {
     const sk = removeSortKeyVersion(cmd.sk);
     const attrs = cmd.attributes as MasterAttributes;
 
-    // SKを解析してタイプとコードを抽出
-    // SKフォーマット: "SETTING#category#code" または "DATA#category#code"
+    // Parse SK to extract type and code (SKを解析してタイプとコードを抽出)
+    // SK format: "SETTING#category#code" or "DATA#category#code" (SKフォーマット: "SETTING#category#code" または "DATA#category#code")
     const skParts = sk.split(KEY_SEPARATOR);
 
     let masterType: string;
@@ -579,7 +579,7 @@ export class MasterDataSyncRdsHandler implements IDataSyncHandler {
       masterCategory = skParts[1] ?? "";
       masterCode = skParts[2] ?? "";
     } else {
-      // 未知のタイプをスキップ
+      // Skip unknown types (未知のタイプをスキップ)
       return;
     }
 

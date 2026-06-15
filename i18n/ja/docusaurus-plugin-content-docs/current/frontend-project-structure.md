@@ -162,13 +162,13 @@ src/
 
 ```typescript
 // src/app/(auth)/login/page.tsx
-// URL: /login - 認証不要
+// URL: /login - No authentication required (URL: /login - 認証不要)
 
 // src/app/(main)/dashboard/page.tsx
-// URL: /dashboard - 認証が必要
+// URL: /dashboard - Requires authentication (URL: /dashboard - 認証が必要)
 
 // src/app/(main)/products/page.tsx
-// URL: /products - 認証が必要
+// URL: /products - Requires authentication (URL: /products - 認証が必要)
 ```
 
 ### レイアウトパターン
@@ -367,7 +367,7 @@ import { Providers } from './providers';
 import { configureAmplify } from '@/lib/auth/amplify';
 import './globals.css';
 
-// サーバー側でAmplifyを設定
+// Configure Amplify on the server (サーバー側でAmplifyを設定)
 configureAmplify();
 
 export default function RootLayout({
@@ -438,7 +438,7 @@ export const config = {
 解決策：フックやブラウザAPIを使用するコンポーネントに'use client'をマークします。
 
 ```typescript
-// サーバーコンポーネント（デフォルト）
+// Server Component (default) (サーバーコンポーネント（デフォルト）)
 // src/app/(main)/products/page.tsx
 import { ProductList } from '@/containers/products/ProductList';
 
@@ -446,7 +446,7 @@ export default function ProductsPage() {
   return <ProductList />;
 }
 
-// クライアントコンポーネント
+// Client Component (クライアントコンポーネント)
 // src/containers/products/ProductList.tsx
 'use client';
 

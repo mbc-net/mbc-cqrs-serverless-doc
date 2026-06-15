@@ -26,7 +26,7 @@ DATABASE_URL="postgresql://root:RootCqrs@localhost:5432/cqrs?schema=public"
 
 ## テーブル設計の規則
 
-DynamoDB テーブルにマップする RDS テーブルを作成するときは、必要なフィールドとインデックスをそれに応じて RDS テーブルに追加してください。
+DynamoDB テーブルにマップする RDS テーブルを作成するときは、必要なフィールドとインデックスをそれに応じて RDS テーブルに追加してください。`cpk`/`csk` フィールドにはコマンドテーブルの元のキーを格納します（DynamoDB コマンドレコードへの参照用）。RDS から DynamoDB への完全なトレーサビリティが必要な場合は含めてください。データテーブルのキー（`pk`/`sk`）だけで十分な場合は省略できます。
 
 ```prisma
 model YourEntity {
@@ -48,7 +48,7 @@ model YourEntity {
   updatedIp  String   @default("") @map("updated_ip") // Updated IP, supports IPv6 (更新IP、IPv6対応)
   updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamp(0) // Updated at (更新日時)
 
-  // ドメイン固有のプロパティ
+  // domain-specific properties (ドメイン固有のプロパティ)
 
   // relations (リレーション)
 

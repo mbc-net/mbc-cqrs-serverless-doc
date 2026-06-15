@@ -86,6 +86,7 @@ The method provides immediate feedback by returning the command data right away,
 For example, you can publish a new cat command as bellow:
 
 ```ts
+import { basename } from 'path';
 import {
   generateId,
   getCommandSource,
@@ -129,6 +130,7 @@ As same as the `publishAsync` method, the method immediately returns the updated
 For example, you want to update cat's name:
 
 ```ts
+import { basename } from 'path';
 import { generateId, getCommandSource } from "@mbc-cqrs-serverless/core";
 
 // ...
@@ -228,6 +230,7 @@ This method requires the `version` field in the input to match the current versi
 For example, you want to update cat's name:
 
 ```ts
+import { basename } from 'path';
 import { generateId, getCommandSource } from "@mbc-cqrs-serverless/core";
 
 // ...
@@ -262,6 +265,7 @@ This method was removed in [v1.1.0](/docs/changelog#v110). Use [`publishAsync` m
 For example, you can publish a new cat command as bellow:
 
 ```ts
+import { basename } from 'path';
 import {
   generateId,
   getCommandSource,
@@ -309,6 +313,7 @@ This method allows you to create new command data based on the previous command.
 For example, you want to update cat's name:
 
 ```ts
+import { basename } from 'path';
 import { generateId, getCommandSource } from "@mbc-cqrs-serverless/core";
 
 // ...
@@ -344,7 +349,7 @@ await this.commandService.reSyncData();
 
 ### *async* `getItem(key: DetailKey): Promise<CommandModel | null>`
 
-Retrieves a command item by its primary key. If the sort key does not include a version separator, it automatically calls `getLatestItem` to get the latest version. Returns `null` when no matching item is found.
+Retrieves a command item by its primary key. If the sort key does not include the version separator (`@`, e.g. `CAT#cat001@2`), it automatically calls `getLatestItem` to get the latest version. Returns `null` when no matching item is found.
 
 ```ts
 import { DetailKey } from "@mbc-cqrs-serverless/core";

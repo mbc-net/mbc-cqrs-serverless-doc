@@ -47,10 +47,10 @@ npm install @mbc-cqrs-serverless/task
 
 ## Usage
 
-There are 2 type task processing:
+There are 2 types of task processing:
 
 - Single task processing
-- Task processing with Step function
+- Task processing with Step Functions
 
 ### Single task processing
 
@@ -159,7 +159,7 @@ export class CustomEventFactory extends EventFactoryAddedTask {
 
 6. Create a Task
 
-### Task processing with Step function
+### Task processing with Step Functions
 
 1. Define step function task event
 

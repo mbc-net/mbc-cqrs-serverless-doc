@@ -62,7 +62,7 @@ export function generateTodoPk(tenantCode: string): string {
 }
 
 export function generateTodoSk(): string {
-  return ulid() // ULID provides time-ordered unique identifiers（ULIDは時間順の一意識別子を提供）
+  return ulid() // ULID provides time-ordered unique identifiers (ULIDは時間順の一意識別子を提供)
 }
 
 export function parsePk(pk: string): { type: string; tenantCode: string } {
@@ -82,7 +82,7 @@ Todo属性DTOを作成（`dto/todo-attributes.dto.ts`）：
 import { ApiProperty } from '@nestjs/swagger'
 import { IsDateString, IsEnum, IsOptional, IsString } from 'class-validator'
 
-// TodoStatus enum (will be synced with Prisma in step-03)（TodoStatusのenum、step-03でPrismaと同期）
+// TodoStatus enum (will be synced with Prisma in step-03) (TodoStatusのenum、step-03でPrismaと同期)
 export enum TodoStatus {
   PENDING = 'PENDING',
   IN_PROGRESS = 'IN_PROGRESS',
@@ -115,7 +115,7 @@ import { TodoAttributes } from './todo-attributes.dto'
 
 export class CreateTodoDto {
   @IsString()
-  name: string // The name field is required by CommandEntity（nameフィールドはCommandEntityで必須）
+  name: string // The name field is required by CommandEntity (nameフィールドはCommandEntityで必須)
 
   @Type(() => TodoAttributes)
   @ValidateNested()
@@ -211,14 +211,14 @@ export class TodoService {
     createDto: CreateTodoDto,
     opts: { invokeContext: IInvoke },
   ): Promise<TodoDataEntity> {
-    // Get tenant code from user context (JWT token)（ユーザーコンテキストからテナントコードを取得）
+    // Get tenant code from user context (JWT token) (ユーザーコンテキストからテナントコードを取得)
     const { tenantCode } = getUserContext(opts.invokeContext)
 
-    // Generate partition key and sort key（パーティションキーとソートキーを生成）
+    // Generate partition key and sort key (パーティションキーとソートキーを生成)
     const pk = generateTodoPk(tenantCode)
     const sk = generateTodoSk()
 
-    // Create command DTO（コマンドDTOを作成）
+    // Create command DTO (コマンドDTOを作成)
     const todo = new TodoCommandDto({
       pk,
       sk,
@@ -226,14 +226,14 @@ export class TodoService {
       tenantCode,
       code: sk,
       type: TODO_PK_PREFIX,
-      version: VERSION_FIRST, // Version for optimistic locking（楽観的ロック用バージョン）
+      version: VERSION_FIRST, // Version for optimistic locking (楽観的ロック用バージョン)
       name: createDto.name,
       attributes: createDto.attributes,
     })
 
     this.logger.debug('Creating todo:', todo)
 
-    // Publish command to DynamoDB（DynamoDBにコマンドを発行）
+    // Publish command to DynamoDB (DynamoDBにコマンドを発行)
     const item = await this.commandService.publishAsync(todo, opts)
     // New entities (VERSION_FIRST) always publish successfully and return a non-null result (新規エンティティ(VERSION_FIRST)は常に正常にパブリッシュされ、非nullの結果を返す)
     return new TodoDataEntity(item as TodoDataEntity)
@@ -289,7 +289,7 @@ import { TodoService } from './todo.service'
   imports: [
     CommandModule.register({
       tableName: 'todo',
-      // Data sync handlers will be added in step-03-rds-sync（データ同期ハンドラーはstep-03-rds-syncで追加）
+      // Data sync handlers will be added in step-03-rds-sync (データ同期ハンドラーはstep-03-rds-syncで追加)
       // dataSyncHandlers: [TodoDataSyncRdsHandler],
     }),
   ],
@@ -308,7 +308,7 @@ DynamoDBからRDSへの自動データ同期を実装します。
 `prisma/schema.prisma`にTodoStatus enumとTodoモデルを追加：
 
 ```prisma
-// Todo status enum（Todoステータスのenum）
+// Todo status enum (Todoステータスのenum)
 enum TodoStatus {
   PENDING
   IN_PROGRESS
@@ -316,37 +316,37 @@ enum TodoStatus {
   CANCELED
 }
 
-// Todo model for RDS (PostgreSQL) - synchronized from DynamoDB（RDS用Todoモデル - DynamoDBから同期）
+// Todo model for RDS (PostgreSQL) - synchronized from DynamoDB (RDS用Todoモデル - DynamoDBから同期)
 model Todo {
-  id         String   @id                        // Unique ID (generated from pk#sk)（一意のID、pk#skから生成）
-  cpk        String                              // Command partition key（コマンドパーティションキー）
-  csk        String                              // Command sort key (with version)（コマンドソートキー、バージョン付き）
-  pk         String                              // Data partition key: TODO#tenantCode（データパーティションキー）
-  sk         String                              // Data sort key: ULID（データソートキー）
-  tenantCode String   @map("tenant_code")        // Tenant code for multi-tenancy（マルチテナンシー用テナントコード）
-  seq        Int      @default(0)                // Sequence number (for ordering)（並べ替え用シーケンス番号）
-  code       String                              // Record code (same as sk)（レコードコード、skと同じ）
-  name       String                              // Todo name/title（Todo名/タイトル）
-  version    Int                                 // Version for optimistic locking（楽観的ロック用バージョン）
-  isDeleted  Boolean  @default(false) @map("is_deleted")  // Soft delete flag（論理削除フラグ）
-  createdBy  String   @default("") @map("created_by")     // Created by user（作成ユーザー）
-  createdIp  String   @default("") @map("created_ip")     // Created from IP（作成元IP）
+  id         String   @id                        // Unique ID (generated from pk#sk) (一意のID、pk#skから生成)
+  cpk        String                              // Command partition key (コマンドパーティションキー)
+  csk        String                              // Command sort key (with version) (コマンドソートキー、バージョン付き)
+  pk         String                              // Data partition key: TODO#tenantCode (データパーティションキー)
+  sk         String                              // Data sort key: ULID (データソートキー)
+  tenantCode String   @map("tenant_code")        // Tenant code for multi-tenancy (マルチテナンシー用テナントコード)
+  seq        Int      @default(0)                // Sequence number (for ordering) (並べ替え用シーケンス番号)
+  code       String                              // Record code (same as sk) (レコードコード、skと同じ)
+  name       String                              // Todo name/title (Todo名/タイトル)
+  version    Int                                 // Version for optimistic locking (楽観的ロック用バージョン)
+  isDeleted  Boolean  @default(false) @map("is_deleted")  // Soft delete flag (論理削除フラグ)
+  createdBy  String   @default("") @map("created_by")     // Created by user (作成ユーザー)
+  createdIp  String   @default("") @map("created_ip")     // Created from IP (作成元IP)
   createdAt  DateTime @default(now()) @map("created_at") @db.Timestamp(0)
-  updatedBy  String   @default("") @map("updated_by")     // Updated by user（更新ユーザー）
-  updatedIp  String   @default("") @map("updated_ip")     // Updated from IP（更新元IP）
+  updatedBy  String   @default("") @map("updated_by")     // Updated by user (更新ユーザー)
+  updatedIp  String   @default("") @map("updated_ip")     // Updated from IP (更新元IP)
   updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
 
-  // Todo-specific attributes（Todo固有の属性）
-  description String?    @default("") @map("description")  // Description（説明）
-  status      TodoStatus @default(PENDING) @map("status")  // Status（ステータス）
-  dueDate     DateTime?  @map("due_date")                  // Due date（期限日）
+  // Todo-specific attributes (Todo固有の属性)
+  description String?    @default("") @map("description")  // Description (説明)
+  status      TodoStatus @default(PENDING) @map("status")  // Status (ステータス)
+  dueDate     DateTime?  @map("due_date")                  // Due date (期限日)
 
-  // Indexes for efficient queries（効率的なクエリ用インデックス）
-  @@unique([cpk, csk])           // Command table unique constraint（コマンドテーブルのユニーク制約）
-  @@unique([pk, sk])             // Data table unique constraint（データテーブルのユニーク制約）
-  @@unique([tenantCode, code])   // Tenant + code unique constraint（テナント+コードのユニーク制約）
-  @@index([tenantCode, name])    // Search by tenant and name（テナントと名前で検索）
-  @@map("todos")                 // Table name in database（データベースのテーブル名）
+  // Indexes for efficient queries (効率的なクエリ用インデックス)
+  @@unique([cpk, csk])           // Command table unique constraint (コマンドテーブルのユニーク制約)
+  @@unique([pk, sk])             // Data table unique constraint (データテーブルのユニーク制約)
+  @@unique([tenantCode, code])   // Tenant + code unique constraint (テナント+コードのユニーク制約)
+  @@index([tenantCode, name])    // Search by tenant and name (テナントと名前で検索)
+  @@map("todos")                 // Table name in database (データベースのテーブル名)
 }
 ```
 
@@ -370,17 +370,17 @@ export class TodoDataSyncRdsHandler implements IDataSyncHandler {
 
   constructor(private readonly prismaService: PrismaService) {}
 
-  // Called when data is created or updated in DynamoDB（DynamoDBでデータが作成または更新された時に呼び出される）
+  // Called when data is created or updated in DynamoDB (DynamoDBでデータが作成または更新された時に呼び出される)
   async up(cmd: CommandModel): Promise<any> {
     this.logger.debug('Syncing to RDS:', cmd)
 
-    // Remove version suffix from sort key for the data table（データテーブル用にソートキーからバージョンサフィックスを削除）
+    // Remove version suffix from sort key for the data table (データテーブル用にソートキーからバージョンサフィックスを削除)
     const sk = removeSortKeyVersion(cmd.sk)
     const attrs = cmd.attributes as TodoAttributes
 
     await this.prismaService.todo.upsert({
       where: { id: cmd.id },
-      // Update existing record（既存レコードを更新）
+      // Update existing record (既存レコードを更新)
       update: {
         csk: cmd.sk,
         name: cmd.name,
@@ -394,7 +394,7 @@ export class TodoDataSyncRdsHandler implements IDataSyncHandler {
         status: attrs?.status,
         dueDate: attrs?.dueDate,
       },
-      // Create new record（新規レコードを作成）
+      // Create new record (新規レコードを作成)
       create: {
         id: cmd.id,
         cpk: cmd.pk,
@@ -419,10 +419,10 @@ export class TodoDataSyncRdsHandler implements IDataSyncHandler {
     })
   }
 
-  // Called when data needs to be rolled back（データのロールバックが必要な時に呼び出される）
+  // Called when data needs to be rolled back (データのロールバックが必要な時に呼び出される)
   async down(cmd: CommandModel): Promise<any> {
     this.logger.debug('Rollback requested:', cmd)
-    // Implement rollback logic if needed（必要に応じてロールバックロジックを実装）
+    // Implement rollback logic if needed (必要に応じてロールバックロジックを実装)
   }
 }
 ```
@@ -442,7 +442,7 @@ import { TodoService } from './todo.service'
   imports: [
     CommandModule.register({
       tableName: 'todo',
-      // Register RDS sync handler to synchronize DynamoDB data to PostgreSQL（RDS同期ハンドラーを登録してDynamoDBデータをPostgreSQLに同期）
+      // Register RDS sync handler to synchronize DynamoDB data to PostgreSQL (RDS同期ハンドラーを登録してDynamoDBデータをPostgreSQLに同期)
       dataSyncHandlers: [TodoDataSyncRdsHandler],
     }),
   ],
@@ -468,7 +468,7 @@ import { NotFoundException } from '@nestjs/common'
 export class TodoService {
   constructor(
     private readonly commandService: CommandService,
-    private readonly dataService: DataService, // Inject DataService（DataServiceを注入）
+    private readonly dataService: DataService, // Inject DataService (DataServiceを注入)
   ) {}
 
   // ... create method ...
@@ -508,7 +508,7 @@ async findOne(
 
 ```typescript
 import { ApiPropertyOptional } from '@nestjs/swagger'
-import { TodoStatus } from '@prisma/client' // Import from Prisma generated types（Prisma生成型からインポート）
+import { TodoStatus } from '@prisma/client' // Import from Prisma generated types (Prisma生成型からインポート)
 import { IsEnum, IsInt, IsOptional, IsString, Max, Min } from 'class-validator'
 import { Transform, Type } from 'class-transformer'
 
@@ -588,31 +588,31 @@ async findAll(
 
   const { name, status, page = 1, limit = 10, sortBy = 'createdAt', sortOrder = 'DESC' } = searchDto
 
-  // Build where clause dynamically（WHERE句を動的に構築）
+  // Build where clause dynamically (WHERE句を動的に構築)
   const where: Prisma.TodoWhereInput = {
     tenantCode,
     isDeleted: false,
   }
 
-  // Add name filter (partial match)（名前フィルターを追加、部分一致）
+  // Add name filter (partial match) (名前フィルターを追加、部分一致)
   if (name) {
     where.name = { contains: name }
   }
 
-  // Add status filter (exact match)（ステータスフィルターを追加、完全一致）
+  // Add status filter (exact match) (ステータスフィルターを追加、完全一致)
   if (status) {
     where.status = status
   }
 
-  // Build orderBy clause（ORDER BY句を構築）
+  // Build orderBy clause (ORDER BY句を構築)
   const orderBy: Prisma.TodoOrderByWithRelationInput = {
     [sortBy]: sortOrder.toLowerCase(),
   }
 
-  // Calculate skip for pagination（ページネーション用のスキップ数を計算）
+  // Calculate skip for pagination (ページネーション用のスキップ数を計算)
   const skip = (page - 1) * limit
 
-  // Execute query with pagination（ページネーション付きでクエリを実行）
+  // Execute query with pagination (ページネーション付きでクエリを実行)
   const [data, total] = await Promise.all([
     this.prismaService.todo.findMany({
       where,
@@ -623,7 +623,7 @@ async findAll(
     this.prismaService.todo.count({ where }),
   ])
 
-  // Map Prisma results to TodoDataEntity（Prisma結果をTodoDataEntityにマッピング）
+  // Map Prisma results to TodoDataEntity (Prisma結果をTodoDataEntityにマッピング)
   const todos = data.map((item) => new TodoDataEntity({
     ...item,
     type: TODO_PK_PREFIX,
@@ -676,7 +676,7 @@ export class UpdateTodoDto {
   @IsInt()
   @Min(1)
   @ApiPropertyOptional({ description: 'Version for optimistic locking' })
-  version: number // Required for optimistic locking（楽観的ロックに必須）
+  version: number // Required for optimistic locking (楽観的ロックに必須)
 }
 ```
 
@@ -693,22 +693,22 @@ async update(
 ): Promise<TodoDataEntity> {
   this.logger.debug(`Updating todo: pk=${pk}, sk=${sk}`, updateDto)
 
-  // First, verify the item exists（まずアイテムの存在を確認）
+  // First, verify the item exists (まずアイテムの存在を確認)
   const currentItem = await this.dataService.getItem({ pk, sk })
   if (!currentItem) {
     throw new NotFoundException(`Todo not found: pk=${pk}, sk=${sk}`)
   }
 
-  // Build the partial update object（部分更新オブジェクトを構築）
+  // Build the partial update object (部分更新オブジェクトを構築)
   const partialUpdate: CommandPartialInputModel = {
     pk,
     sk,
-    version: updateDto.version, // Required for optimistic locking（楽観的ロックに必須）
+    version: updateDto.version, // Required for optimistic locking (楽観的ロックに必須)
     ...(updateDto.name !== undefined && { name: updateDto.name }),
     ...(updateDto.attributes !== undefined && { attributes: updateDto.attributes }),
   }
 
-  // Publish partial update command（部分更新コマンドを発行）
+  // Publish partial update command (部分更新コマンドを発行)
   const item = await this.commandService.publishPartialUpdateAsync(partialUpdate, opts)
   // null means no fields changed — treat as NotFoundException since caller verified it exists (nullはフィールドに変更がないことを意味する — 呼び出し元で存在確認済みのためNotFoundExceptionとして扱う)
   if (!item) throw new NotFoundException(`Todo not found or no changes: pk=${pk}, sk=${sk}`)
@@ -724,13 +724,13 @@ async remove(
 ): Promise<TodoDataEntity> {
   this.logger.debug(`Removing todo: pk=${pk}, sk=${sk}, version=${version}`)
 
-  // First, verify the item exists（まずアイテムの存在を確認）
+  // First, verify the item exists (まずアイテムの存在を確認)
   const currentItem = await this.dataService.getItem({ pk, sk })
   if (!currentItem) {
     throw new NotFoundException(`Todo not found: pk=${pk}, sk=${sk}`)
   }
 
-  // Soft delete by setting isDeleted flag（isDeletedフラグを設定して論理削除）
+  // Soft delete by setting isDeleted flag (isDeletedフラグを設定して論理削除)
   const item = await this.commandService.publishPartialUpdateAsync(
     {
       pk,
@@ -794,7 +794,7 @@ import { SequencesModule } from '@mbc-cqrs-serverless/sequence'
       tableName: 'todo',
       dataSyncHandlers: [TodoDataSyncRdsHandler],
     }),
-    SequencesModule, // Add SequencesModule（SequencesModuleを追加）
+    SequencesModule, // Add SequencesModule (SequencesModuleを追加)
   ],
   // ...
 })
@@ -812,7 +812,7 @@ export class TodoService {
     private readonly commandService: CommandService,
     private readonly dataService: DataService,
     private readonly prismaService: PrismaService,
-    private readonly sequencesService: SequencesService, // Inject SequencesService（SequencesServiceを注入）
+    private readonly sequencesService: SequencesService, // Inject SequencesService (SequencesServiceを注入)
   ) {}
 
   async create(
@@ -821,7 +821,7 @@ export class TodoService {
   ): Promise<TodoDataEntity> {
     const { tenantCode } = getUserContext(opts.invokeContext)
 
-    // Generate sequential number（シーケンス番号を生成）
+    // Generate sequential number (シーケンス番号を生成)
     const seqItem = await this.sequencesService.generateSequenceItem(
       {
         tenantCode,
@@ -833,7 +833,7 @@ export class TodoService {
     this.logger.debug(`Generated sequence number: ${seqItem.formattedNo} for tenant: ${tenantCode}`)
 
     const pk = generateTodoPk(tenantCode)
-    const sk = generateTodoSk() // SK is still ULID（SKは引き続きULID）
+    const sk = generateTodoSk() // SK is still ULID (SKは引き続きULID)
 
     const todo = new TodoCommandDto({
       pk,
@@ -843,7 +843,7 @@ export class TodoService {
       code: sk,
       type: TODO_PK_PREFIX,
       version: VERSION_FIRST,
-      seq: seqItem.no, // Store sequence number in seq field（seqフィールドにシーケンス番号を格納）
+      seq: seqItem.no, // Store sequence number in seq field (seqフィールドにシーケンス番号を格納)
       name: createDto.name,
       attributes: createDto.attributes,
     })
@@ -891,8 +891,8 @@ export class TodoTaskEventHandler implements IEventHandler<TodoTaskEvent> {
   async execute(event: TodoTaskEvent): Promise<any> {
     this.logger.debug('Processing todo task:', event)
 
-    // Implement your async task processing here（ここに非同期タスク処理を実装）
-    // e.g., send notification, sync to external system（例：通知送信、外部システムへの同期）
+    // Implement your async task processing here (ここに非同期タスク処理を実装)
+    // e.g., send notification, sync to external system (例：通知送信、外部システムへの同期)
 
     return { processed: true }
   }
@@ -989,7 +989,7 @@ import { CommandService, DataService } from '@mbc-cqrs-serverless/core'
 import { TodoService } from './todo.service'
 import { PrismaService } from '../prisma/prisma.service'
 
-// Mock getUserContext（getUserContextをモック）
+// Mock getUserContext (getUserContextをモック)
 jest.mock('@mbc-cqrs-serverless/core', () => ({
   ...jest.requireActual('@mbc-cqrs-serverless/core'),
   getUserContext: jest.fn().mockReturnValue({
@@ -1075,14 +1075,14 @@ import request from 'supertest'
 import { TodoController } from '../src/todo/todo.controller'
 import { TodoService } from '../src/todo/todo.service'
 
-// Mock getUserContext（getUserContextをモック）
+// Mock getUserContext (getUserContextをモック)
 jest.mock('@mbc-cqrs-serverless/core', () => ({
   ...jest.requireActual('@mbc-cqrs-serverless/core'),
   getUserContext: jest.fn().mockReturnValue({
     tenantCode: 'test',
     userId: 'user-123',
   }),
-  INVOKE_CONTEXT: () => () => {}, // Decorator stub（デコレータスタブ）
+  INVOKE_CONTEXT: () => () => {}, // Decorator stub (デコレータスタブ)
 }))
 
 describe('TodoController (e2e)', () => {

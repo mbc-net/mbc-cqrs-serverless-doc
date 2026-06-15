@@ -93,7 +93,7 @@ export default function SurveyResponsePage({ schema }: Props) {
       onSubmit={handleSubmit}
       disabled={false}
     >
-      {/* オプション: 現在のセクション内にレンダリングされるカスタムコンテンツ */}
+      {/* Optional: Custom content rendered inside the current section (オプション: 現在のセクション内にレンダリングされるカスタムコンテンツ) */}
     </SurveyForm>
   );
 }
@@ -101,10 +101,10 @@ export default function SurveyResponsePage({ schema }: Props) {
 
 | プロパティ | 型 | 必須 | 説明 |
 |----------|----------|--------------|-----------------|
-| `schema` | `SurveySchema` | はい | レンダリングするアンケートテンプレートスキーマ (The survey template schema to render) |
-| `onSubmit` | `(answers: SurveyAnswers) => void` | はい | すべての回答でアンケートが送信されたときのコールバック (Callback when survey is submitted with all answers) |
-| `disabled` | `boolean` | いいえ | フォーム操作を無効化（デフォルト：false）(Disable form interactions) |
-| `children` | `React.ReactNode` | いいえ | 現在のセクション内にレンダリングされるオプションのコンテンツ (Optional content rendered inside the current section) |
+| `schema` | `SurveySchema` | はい | レンダリングするアンケートテンプレートスキーマ |
+| `onSubmit` | `(answers: SurveyAnswers) => void` | はい | すべての回答でアンケートが送信されたときのコールバック |
+| `disabled` | `boolean` | いいえ | フォーム操作を無効化（デフォルト：false） |
+| `children` | `React.ReactNode` | いいえ | 現在のセクション内にレンダリングされるオプションのコンテンツ |
 
 ## 質問タイプ
 
@@ -307,15 +307,15 @@ Survey Webパッケージは9種類の質問タイプをサポートしていま
 function TemplateList() {
   const {
     surveys,        // Array of survey templates (SurveyTemplateDataEntity[]) (アンケートテンプレートの配列)
-    totalItems,     // テンプレートの総数 (Total number of templates)
+    totalItems,     // Total number of templates (テンプレートの総数)
     isLoading,
     error,          // Error | null (エラーまたはnull)
     refetch         // () => Promise<void> - Function to refresh the list (リストを更新する関数)
   } = useSurveyTemplates({
     page: 1,
     pageSize: 10,
-    keyword: "",           // オプション：検索キーワード (Optional: search keyword)
-    orderBy: "createdAt",  // オプション：ソートフィールド (Optional: sort field)
+    keyword: "",           // Optional: search keyword (オプション：検索キーワード)
+    orderBy: "createdAt",  // Optional: sort field (オプション：ソートフィールド)
     orderType: "desc"      // Optional: sort direction ('asc' | 'desc') (オプション: ソート順)
   });
 
@@ -352,9 +352,9 @@ function TemplateEditor({ id }: { id?: string }) {
     isLoading,
     isSubmitting,
     error,
-    setCurrentSchema,     // 現在のスキーマを更新する関数 (Function to update current schema)
-    handleCreateSurvey,   // (schema: SurveySchemaType) => Promise<void> - 新しいアンケートを作成
-    handleUpdateSurvey,   // (schema: SurveySchemaType) => Promise<void> - 既存のアンケートを更新
+    setCurrentSchema,     // Function to update current schema (現在のスキーマを更新する関数)
+    handleCreateSurvey,   // (schema: SurveySchemaType) => Promise<void> - Create new survey (新しいアンケートを作成)
+    handleUpdateSurvey,   // (schema: SurveySchemaType) => Promise<void> - Update existing survey (既存のアンケートを更新)
     retryFetchSurvey,     // () => Promise<void> - Retry fetching survey data (アンケートデータの再取得)
     isSchemaChanged,      // boolean - True if schema differs from original (スキーマが元と異なる場合はtrue)
     isButtonDisabled,     // boolean - True if submit should be disabled (送信を無効にすべき場合はtrue)
@@ -372,7 +372,7 @@ function TemplateEditor({ id }: { id?: string }) {
 
   return (
     <div>
-      {/* エディタUI (Editor UI) */}
+      {/* Editor UI (エディタUI) */}
       <button
         ref={submitButtonRef}
         onClick={handleSave}
@@ -399,8 +399,8 @@ function DeleteButton({ surveyId }: { surveyId: string }) {
     isDeleting           // boolean - True while deletion is in progress (削除中はtrue)
   } = useDeleteSurveyTemplate({
     onSuccess: () => {
-      console.log("アンケートが正常に削除されました (Survey deleted successfully)");
-      // リストに戻るか更新 (Navigate back to list or refresh)
+      console.log("Survey deleted successfully (アンケートが正常に削除されました)");
+      // Navigate back to list or refresh (リストに戻るか更新)
     }
   });
 
@@ -423,10 +423,10 @@ function DeleteButton({ surveyId }: { surveyId: string }) {
 interface SurveySchema {
   title: string;
   description?: string;
-  items: SurveyItem[];  // セクションヘッダーと質問のフラットリスト (Flat list of section headers and questions)
+  items: SurveyItem[];  // Flat list of section headers and questions (セクションヘッダーと質問のフラットリスト)
 }
 
-// セクションヘッダー項目 - ブックマークまたはページ区切りとして機能 (Section header item - acts as a bookmark or page break)
+// Section header item - acts as a bookmark or page break (セクションヘッダー項目 - ブックマークまたはページ区切りとして機能)
 interface SectionHeader {
   id: string;
   type: "section-header";
@@ -436,29 +436,29 @@ interface SectionHeader {
     type: "submit";
   } | {
     type: "jump";
-    targetSectionId: string;  // 条件分岐用の別のsection-headerのID (ID of another section-header for conditional branching)
+    targetSectionId: string;  // ID of another section-header for conditional branching (条件分岐用の別のsection-headerのID)
   };
 }
 
-// 質問項目 (Question item)
+// Question item (質問項目)
 interface Question {
   id: string;
-  type: QuestionType;  // short-text、long-text、single-choiceなど (short-text, long-text, single-choice, etc.)
+  type: QuestionType;  // short-text, long-text, single-choice, etc. (short-text、long-text、single-choiceなど)
   label: string;
   description?: string;
-  options?: QuestionOption[];  // 選択ベースの質問用 (For choice-based questions)
+  options?: QuestionOption[];  // For choice-based questions (選択ベースの質問用)
   validation?: ValidationRules;
 }
 
-// 選択ベースの質問用オプション (Option for choice-based questions)
+// Option for choice-based questions (選択ベースの質問用オプション)
 interface QuestionOption {
-  value: string;        // オプションの一意の値 (Unique value for the option)
-  label: string;        // オプションの表示ラベル (Display label for the option)
-  nextSectionId?: string;  // このオプションが選択されたときにジャンプするセクションのID（条件分岐用） (ID of section to jump to when this option is selected)
-  isOther?: boolean;    // trueの場合、カスタム「その他」回答用のテキスト入力を表示 (If true, shows a text input for custom "Other" response)
+  value: string;        // Unique value for the option (オプションの一意の値)
+  label: string;        // Display label for the option (オプションの表示ラベル)
+  nextSectionId?: string;  // ID of section to jump to when this option is selected (for conditional branching) (このオプションが選択されたときにジャンプするセクションのID（条件分岐用）)
+  isOther?: boolean;    // If true, shows a text input for custom "Other" response (trueの場合、カスタム「その他」回答用のテキスト入力を表示)
 }
 
-// すべての項目タイプの共用体 (Union of all item types)
+// Union of all item types (すべての項目タイプの共用体)
 type SurveyItem = SectionHeader | Question;
 ```
 
@@ -507,39 +507,39 @@ type SurveyItem = SectionHeader | Question;
 
 ```typescript
 type SurveyTemplateDataEntity = {
-  // プライマリキー (Primary keys)
-  pk: string;                    // パーティションキー (Partition key)
-  sk: string;                    // ソートキー (Sort key)
+  // Primary keys (プライマリキー)
+  pk: string;                    // Partition key (パーティションキー)
+  sk: string;                    // Sort key (ソートキー)
 
-  // エンティティ識別子 (Entity identifiers)
-  id: string;                    // 一意の識別子 (Unique identifier)
-  code: string;                  // テンプレートコード (Template code)
-  name: string;                  // テンプレート名 (Template name)
-  version: number;               // バージョン番号 (Version number)
-  tenantCode: string;            // テナントコード (Tenant code)
-  type: string;                  // エンティティタイプ (Entity type)
+  // Entity identifiers (エンティティ識別子)
+  id: string;                    // Unique identifier (一意の識別子)
+  code: string;                  // Template code (テンプレートコード)
+  name: string;                  // Template name (テンプレート名)
+  version: number;               // Version number (バージョン番号)
+  tenantCode: string;            // Tenant code (テナントコード)
+  type: string;                  // Entity type (エンティティタイプ)
 
-  // 監査フィールド（文字列） (Audit fields)
-  createdAt?: string;            // 作成日時 (Creation timestamp)
-  updatedAt?: string;            // 最終更新日時 (Last update timestamp)
-  createdBy?: string;            // 作成者ユーザーID (Creator user ID)
-  updatedBy?: string;            // 最終更新者ユーザーID (Last updater user ID)
+  // Audit fields (as strings) (監査フィールド（文字列）)
+  createdAt?: string;            // Creation timestamp (作成日時)
+  updatedAt?: string;            // Last update timestamp (最終更新日時)
+  createdBy?: string;            // Creator user ID (作成者ユーザーID)
+  updatedBy?: string;            // Last updater user ID (最終更新者ユーザーID)
 
-  // オプションフィールド (Optional fields)
-  cpk?: string;                  // コマンドパーティションキー (Command partition key)
-  csk?: string;                  // コマンドソートキー (Command sort key)
-  source?: string;               // ソース識別子 (Source identifier)
-  requestId?: string;            // リクエストID (Request ID)
-  createdIp?: string;            // 作成者IPアドレス (Creator IP address)
-  updatedIp?: string;            // 更新者IPアドレス (Updater IP address)
-  seq?: number;                  // シーケンス番号 (Sequence number)
-  ttl?: number;                  // 有効期限 (Time to live)
-  isDeleted?: boolean;           // 論理削除フラグ (Soft delete flag)
+  // Optional fields (オプションフィールド)
+  cpk?: string;                  // Command partition key (コマンドパーティションキー)
+  csk?: string;                  // Command sort key (コマンドソートキー)
+  source?: string;               // Source identifier (ソース識別子)
+  requestId?: string;            // Request ID (リクエストID)
+  createdIp?: string;            // Creator IP address (作成者IPアドレス)
+  updatedIp?: string;            // Updater IP address (更新者IPアドレス)
+  seq?: number;                  // Sequence number (シーケンス番号)
+  ttl?: number;                  // Time to live (有効期限)
+  isDeleted?: boolean;           // Soft delete flag (論理削除フラグ)
 
-  // アンケートテンプレートデータ (Survey template data)
+  // Survey template data (アンケートテンプレートデータ)
   attributes: {
-    description?: string;        // テンプレート説明 (Template description)
-    surveyTemplate: {            // アンケートテンプレートJSON構造 (Survey template JSON structure)
+    description?: string;        // Template description (テンプレート説明)
+    surveyTemplate: {            // Survey template JSON structure (アンケートテンプレートJSON構造)
       [key: string]: unknown;
     };
   };
@@ -571,12 +571,12 @@ interface ChoiceValidationRules extends BaseValidationRules {
   shuffleOptions?: boolean;  // Randomize option order (選択肢の順序をランダム化)
 }
 
-// 複数選択質問用 (For multiple-choice questions)
+// For multiple-choice questions (複数選択質問用)
 interface MultipleChoiceValidationRules extends ChoiceValidationRules {
   custom?: MultipleChoiceValidationRule;  // For min/max/exact selection count (最小/最大/正確な選択数用)
 }
 
-// カスタムバリデーションルール用の判別共用体 (Discriminated union for custom validation rules)
+// Discriminated union for custom validation rules (カスタムバリデーションルール用の判別共用体)
 // Note: short-text supports all validation types (注意: short-textはすべてのバリデーションタイプをサポート)
 // Note: long-text only supports LengthValidation and RegexValidation (注意: long-textはLengthValidationとRegexValidationのみサポート)
 type CustomValidationRule =
@@ -594,7 +594,7 @@ interface NumberValidation {
   type: "number";
   rule: "gt" | "gte" | "lt" | "lte" | "eq" | "neq" | "between" | "not_between" | "is_number" | "is_whole";
   value?: number;
-  value2?: number;  // 'between'および'not_between'ルール用 (For 'between' and 'not_between' rules)
+  value2?: number;  // For 'between' and 'not_between' rules ('between'および'not_between'ルール用)
   customError?: string;
 }
 
@@ -619,7 +619,7 @@ interface RegexValidation {
   customError?: string;
 }
 
-// 複数選択質問用 (For multiple-choice questions)
+// For multiple-choice questions (複数選択質問用)
 interface MultipleChoiceValidationRule {
   rule: "min" | "max" | "exact";
   value: number;
@@ -706,14 +706,14 @@ interface MultipleChoiceValidationRule {
 `.env.local`の設定例：
 
 ```bash
-# REST API設定 (REST API Configuration)
-# API_URLはオプション（サーバーサイドのみ）、NEXT_PUBLIC_API_URLは必須 (API_URL is optional (server-side only), NEXT_PUBLIC_API_URL is required)
+# REST API Configuration (REST API設定)
+# API_URL is optional (server-side only), NEXT_PUBLIC_API_URL is required (API_URLはオプション（サーバーサイドのみ）、NEXT_PUBLIC_API_URLは必須)
 NEXT_PUBLIC_API_URL=https://api.example.com
 
-# テナント設定 (Tenant Configuration)
+# Tenant Configuration (テナント設定)
 NEXT_PUBLIC_TENANT_CODE=my-tenant
 
-# AWS AppSync設定 (AWS AppSync Configuration)
+# AWS AppSync Configuration (AWS AppSync設定)
 NEXT_PUBLIC_AWS_APPSYNC_GRAPHQLENDPOINT=https://xxxxx.appsync-api.us-east-1.amazonaws.com/graphql
 NEXT_PUBLIC_AWS_APPSYNC_APIKEY=da2-xxxxxxxxxxxxxxxxxxxxxxxxxx
 NEXT_PUBLIC_AWS_APPSYNC_REGION=us-east-1
@@ -724,7 +724,7 @@ NEXT_PUBLIC_AWS_APPSYNC_REGION=us-east-1
 アプリケーションでパッケージのスタイルをインポートします：
 
 ```tsx
-// レイアウトまたはエントリファイルで (In your layout or entry file)
+// In your layout or entry file (レイアウトまたはエントリファイルで)
 import "@mbc-cqrs-serverless/survey-web/styles.css";
 ```
 

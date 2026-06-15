@@ -108,7 +108,7 @@ export class OrderModule {}
 
 ```typescript
 // order.service.ts
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import {
   CommandService,
   DataService,
@@ -174,7 +174,7 @@ export class OrderService {
     return this.commandService.publishAsync(command, { invokeContext: context });
   }
 
-  // 注文ステータスを更新
+  // Update order status (注文ステータスを更新)
   async updateOrderStatus(
     orderCode: string,
     newStatus: OrderStatus,
@@ -288,7 +288,7 @@ export class OrderController {
 // inventory.service.ts
 import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
 import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb';
-import { CommandService, DataService, IInvoke, getUserContext, KEY_SEPARATOR } from '@mbc-cqrs-serverless/core';
+import { CommandService, DataService, KEY_SEPARATOR } from '@mbc-cqrs-serverless/core';
 
 const generatePk = (tenantCode: string): string =>
   `TENANT${KEY_SEPARATOR}${tenantCode}`;
@@ -301,11 +301,12 @@ export class InventoryService {
   ) {}
 
   // Reserve inventory for order (注文用に在庫を予約)
+  // {{tenantCode is passed directly so this method can be called from both}}
+  // {{controllers (use getUserContext) and DataSyncHandlers (use cmd.tenantCode)}}
   async reserveInventory(
     items: OrderItem[],
-    context: IInvoke,
+    tenantCode: string,
   ): Promise<void> {
-    const { tenantCode } = getUserContext(context);
     const pk = generatePk(tenantCode);
 
     for (const item of items) {
@@ -338,7 +339,7 @@ export class InventoryService {
       };
 
       try {
-        await this.commandService.publishAsync(command, { invokeContext: context });
+        await this.commandService.publishAsync(command, {});
       } catch (error) {
         if (error instanceof ConditionalCheckFailedException) {
           // Retry on concurrent modification (同時変更時にリトライ)
@@ -354,9 +355,8 @@ export class InventoryService {
   // Release reserved inventory (予約済み在庫を解放)
   async releaseInventory(
     items: OrderItem[],
-    context: IInvoke,
+    tenantCode: string,
   ): Promise<void> {
-    const { tenantCode } = getUserContext(context);
     const pk = generatePk(tenantCode);
 
     for (const item of items) {
@@ -377,16 +377,15 @@ export class InventoryService {
         },
       };
 
-      await this.commandService.publishAsync(command, { invokeContext: context });
+      await this.commandService.publishAsync(command, {});
     }
   }
 
   // Deduct inventory after shipment (出荷後に在庫を減少)
   async deductInventory(
     items: OrderItem[],
-    context: IInvoke,
+    tenantCode: string,
   ): Promise<void> {
-    const { tenantCode } = getUserContext(context);
     const pk = generatePk(tenantCode);
 
     for (const item of items) {
@@ -406,7 +405,7 @@ export class InventoryService {
         },
       };
 
-      await this.commandService.publishAsync(command, { invokeContext: context });
+      await this.commandService.publishAsync(command, {});
     }
   }
 }
@@ -461,7 +460,7 @@ export class OrderDataSyncHandler implements IDataSyncHandler {
   private async handleNewOrder(order: CommandModel) {
     // Reserve inventory (在庫を予約)
     try {
-      await this.inventoryService.reserveInventory(order.attributes.items);
+      await this.inventoryService.reserveInventory(order.attributes.items, order.tenantCode);
     } catch (error) {
       this.logger.error(`Failed to reserve inventory: ${error.message}`);
       // Send notification to operations team (運用チームに通知を送信)
@@ -483,13 +482,13 @@ export class OrderDataSyncHandler implements IDataSyncHandler {
     switch (status) {
       case 'cancelled':
         // Release reserved inventory (予約済み在庫を解放)
-        await this.inventoryService.releaseInventory(order.attributes.items);
+        await this.inventoryService.releaseInventory(order.attributes.items, order.tenantCode);
         await this.notificationService.sendCancellationNotice(order);
         break;
 
       case 'shipped':
         // Deduct from inventory (在庫から減少)
-        await this.inventoryService.deductInventory(order.attributes.items);
+        await this.inventoryService.deductInventory(order.attributes.items, order.tenantCode);
         await this.notificationService.sendShippingNotification(order);
         break;
 
@@ -508,7 +507,7 @@ export class OrderDataSyncHandler implements IDataSyncHandler {
 | POST | `/orders` | 新規注文を作成 |
 | GET | `/orders` | List orders with pagination (ページネーション付きで注文を一覧表示) |
 | GET | `/orders/:code` | 注文詳細を取得 |
-| PATCH | `/orders/:code/status` | 注文ステータスを更新 |
+| PATCH | `/orders/:code/status` | Update order status (注文ステータスを更新) |
 | POST | `/products` | 商品を作成 |
 | GET | `/products` | 商品を一覧表示 |
 | PATCH | `/inventory/:productCode` | 在庫を更新 |
@@ -519,7 +518,7 @@ export class OrderDataSyncHandler implements IDataSyncHandler {
 
 ```json
 // POST /orders（注文作成）
-// リクエスト
+// Request (リクエスト)
 {
   "customerId": "CUST-001",
   "items": [
@@ -539,7 +538,7 @@ export class OrderDataSyncHandler implements IDataSyncHandler {
   "paymentMethod": "credit_card"
 }
 
-// レスポンス
+// Response (レスポンス)
 {
   "pk": "TENANT#shop-a",
   "sk": "ORDER#ORD-000001@1",

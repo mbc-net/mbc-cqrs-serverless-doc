@@ -199,9 +199,9 @@ const masterSetting = await this.masterSettingService.deleteSetting(
 ```ts
 const result = await this.masterSettingService.list(
   {
-    name: "service",           // 名前の部分一致
-    code: "SVC",               // コードの部分一致
-    keyword: "description",    // attributes.description内を検索
+    name: "service",           // Partial match for name (名前の部分一致)
+    code: "SVC",               // Partial match for code (コードの部分一致)
+    keyword: "description",    // Search in attributes.description (attributes.description内を検索)
     page: 1,
     pageSize: 10,
     orderBys: ["-createdAt"],
@@ -278,7 +278,7 @@ await this.masterSettingService.delete(
 ```ts
 const exists = await this.masterSettingService.checkExistCode("service", invokeContext);
 if (exists) {
-  // 重複コードの処理
+  // Handle duplicate code (重複コードの処理)
 }
 ```
 
@@ -289,15 +289,15 @@ const task = await this.masterSettingService.copy(
   {
     masterSettingId: "MASTER#mbc#MASTER_SETTING#service",
     targetTenants: ["tenant1", "tenant2"],
-    copyType: CopyType.BOTH,   // CopyType.SETTING_ONLY、CopyType.DATA_ONLY、またはCopyType.BOTH
+    copyType: CopyType.BOTH,   // CopyType.SETTING_ONLY, CopyType.DATA_ONLY, or CopyType.BOTH (CopyType.SETTING_ONLY、CopyType.DATA_ONLY、またはCopyType.BOTH)
     dataCopyOption: {
-      mode: DataCopyMode.ALL,  // またはDataCopyMode.PARTIAL
-      // id: ["id1", "id2"]    // modeがPARTIALの場合は必須
+      mode: DataCopyMode.ALL,  // or DataCopyMode.PARTIAL (またはDataCopyMode.PARTIAL)
+      // id: ["id1", "id2"]    // Required when mode is PARTIAL (modeがPARTIALの場合は必須)
     }
   },
   { invokeContext }
 );
-// タスクエンティティを返します - コピー操作は非同期で実行されます
+// Returns a task entity - the copy operation runs asynchronously (タスクエンティティを返します - コピー操作は非同期で実行されます)
 ```
 
 コピータイプ:
@@ -393,7 +393,7 @@ const masterData = await this.masterDataService.delete(
 ```ts
 const exists = await this.masterDataService.checkExistCode("mbc", "service", "01");
 if (exists) {
-  // 既存コードの処理
+  // Handle existing code (既存コードの処理)
 }
 ```
 
@@ -499,9 +499,9 @@ const result = await this.masterDataService.deleteSetting(
 ```ts
 const result = await this.masterDataService.listByRds(
   {
-    settingCode: "service",    // マスタータイプコードの完全一致
-    keyword: "example",        // 名前の部分一致（大文字小文字を区別しない）
-    code: "001",               // マスターコードの部分一致（大文字小文字を区別しない）
+    settingCode: "service",    // Exact match for master type code (マスタータイプコードの完全一致)
+    keyword: "example",        // Partial match (case-insensitive) for name (名前の部分一致（大文字小文字を区別しない）)
+    code: "001",               // Partial match (case-insensitive) for master code (マスターコードの部分一致（大文字小文字を区別しない）)
     page: 1,
     pageSize: 10,
     orderBys: ["seq", "masterCode"],

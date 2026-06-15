@@ -15,13 +15,13 @@ description: MBC CQRS ServerlessにおけるQueueModule、SnsService、SqsServic
 SNSトピックへメッセージをパブリッシュします。
 
 ```typescript
-// SnsServiceをインジェクト
+// Inject SnsService (SnsServiceをインジェクト)
 constructor(private readonly snsService: SnsService) {}
 
-// デフォルトトピックへ送信（SNS_TOPIC_ARN環境変数）
+// Publish to default topic (SNS_TOPIC_ARN env var) (デフォルトトピックへ送信（SNS_TOPIC_ARN環境変数）)
 await this.snsService.publish({ action: 'my-action', ...payload })
 
-// 特定のトピックへ送信
+// Publish to a specific topic (特定のトピックへ送信)
 await this.snsService.publish({ action: 'my-action', ...payload }, 'arn:aws:sns:...')
 ```
 
@@ -60,18 +60,18 @@ await this.sqsService.sendMessage(
   JSON.stringify({ key: 'value' }),
 )
 
-// オプションフィールドを指定する場合
+// With optional fields (オプションフィールドを指定する場合)
 await this.sqsService.sendMessage(queueUrl, body, {
   DelaySeconds: 5,
-  MessageGroupId: 'group-1',         // FIFOキューのみ
-  MessageDeduplicationId: 'dedup-1', // FIFOキューのみ
-  MessageAttributes: { key: { DataType: 'String', StringValue: 'value' } }, // カスタムメッセージ属性
+  MessageGroupId: 'group-1',         // FIFO queues only (FIFOキューのみ)
+  MessageDeduplicationId: 'dedup-1', // FIFO queues only (FIFOキューのみ)
+  MessageAttributes: { key: { DataType: 'String', StringValue: 'value' } }, // Custom message attributes (カスタムメッセージ属性)
 })
 ```
 
 ### `sendMessageBatch(queueUrl, entries)`
 
-1回のAPIコールで最大10件のメッセージを送信します。`entries.length <= 10`であることは呼び出し側の責任です。
+1回のAPIコールで最大10件のメッセージを送信します。`entries.length <= 10`であることは呼び出し側の責任です。10件を超えるバッチはSQSに拒否されます。大量送信時は複数回に分けて呼び出してください。
 
 ```typescript
 await this.sqsService.sendMessageBatch(queueUrl, [
@@ -85,14 +85,14 @@ await this.sqsService.sendMessageBatch(queueUrl, [
 SQSキューからメッセージを受信します。デフォルトは`MaxNumberOfMessages: 10`、`WaitTimeSeconds: 0`です。
 
 ```typescript
-// デフォルト: MaxNumberOfMessages=10, WaitTimeSeconds=0
+// Default: MaxNumberOfMessages=10, WaitTimeSeconds=0 (デフォルト: MaxNumberOfMessages=10, WaitTimeSeconds=0)
 const output = await this.sqsService.receiveMessages(queueUrl)
 const messages = output.Messages ?? []
 
-// オプションを指定する場合
+// With options (オプションを指定する場合)
 const outputWithOpts = await this.sqsService.receiveMessages(queueUrl, {
   MaxNumberOfMessages: 5,
-  WaitTimeSeconds: 20,         // ロングポーリング
+  WaitTimeSeconds: 20,         // Long polling (ロングポーリング)
   VisibilityTimeout: 30,
   MessageSystemAttributeNames: ['All'],
 })
@@ -104,7 +104,7 @@ const outputWithOpts = await this.sqsService.receiveMessages(queueUrl, {
 
 ```typescript
 for (const message of messages) {
-  // メッセージを処理...
+  // Process message... (メッセージを処理...)
   await this.sqsService.deleteMessage(queueUrl, message.ReceiptHandle!)
 }
 ```

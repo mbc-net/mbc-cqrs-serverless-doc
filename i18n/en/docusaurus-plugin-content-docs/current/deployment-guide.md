@@ -128,7 +128,7 @@ DATABASE_URL=postgresql://user:password@host:5432/dbname?schema=public
 
 # Cognito
 COGNITO_USER_POOL_ID=ap-northeast-1_xxxxxxx
-COGNITO_CLIENT_ID=xxxxxxxxxxxxxxxxxx
+COGNITO_USER_POOL_CLIENT_ID=xxxxxxxxxxxxxxxxxx
 ```
 
 ## CDK Stack Structure
@@ -232,9 +232,10 @@ Deploy all configured environment stacks:
 cdk deploy --all
 ```
 
-Or deploy a specific environment stack:
+Or deploy a specific environment stack (run `cdk ls` first to see all available stack names):
 
 ```bash
+cdk ls
 cdk deploy dev-your-app-pipeline-stack
 ```
 

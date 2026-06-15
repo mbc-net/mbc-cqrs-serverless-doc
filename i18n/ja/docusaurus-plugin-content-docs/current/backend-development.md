@@ -213,7 +213,7 @@ export class ProductController {
   }
 
   /**
-   * すべてのデータをRDSに再同期
+   * Resync all data to RDS (すべてのデータをRDSに再同期)
    */
   @Put('resync-data/:pk')
   async resyncData(@Param('pk') pk: string): Promise<void> {
@@ -285,7 +285,7 @@ export class ProductService {
       invokeContext: opts.invokeContext,
     });
 
-    // publishAsync は変更がない場合（no-op）null を返す
+    // publishAsync returns null when command is a no-op (no changes detected) (変更がない場合（no-op）null を返す)
     if (!item) return null;
     return new ProductDataEntity(item);
   }
@@ -332,7 +332,7 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
    * Sync command to RDS (upsert)
    */
   async up(cmd: CommandModel): Promise<any> {
-    // SKからバージョンサフィックスを削除
+    // Remove version suffix from SK (SKからバージョンサフィックスを削除)
     const sk = removeSortKeyVersion(cmd.sk);
     const attrs = cmd.attributes as ProductAttributes;
 
@@ -347,12 +347,12 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
           version: cmd.version,
           tenantCode: cmd.tenantCode,
           isDeleted: cmd.isDeleted ?? false,
-          // 属性をカラムにマッピング
+          // Map attributes to columns (属性をカラムにマッピング)
           category: attrs?.category,
           price: attrs?.price,
           description: attrs?.description,
           specification: attrs?.specification,
-          // 監査フィールド
+          // Audit fields (監査フィールド)
           createdAt: cmd.createdAt,
           createdBy: cmd.createdBy ?? '',
           createdIp: cmd.createdIp ?? '',
@@ -395,7 +395,7 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
    * Handle rollback or delete
    */
   async down(cmd: CommandModel): Promise<any> {
-    // ソフトデリートの実装
+    // Soft delete implementation (ソフトデリートの実装)
     await this.prismaService.product.update({
       where: { id: cmd.id },
       data: { isDeleted: true },
@@ -413,27 +413,27 @@ CQRSフィールドを含むPrismaモデルを定義します：
 ```prisma
 // prisma/schema.prisma
 model Product {
-  // CQRSの複合キー
+  // CQRS composite keys (CQRSの複合キー)
   id     String @id            // PK#SK without version
   cpk    String                // Command PK
   csk    String                // Command SK with version
   pk     String                // Data PK
   sk     String                // Data SK without version
 
-  // ドメインフィールド
+  // Domain fields (ドメインフィールド)
   code   String
   name   String
 
-  // ドメイン固有
+  // Domain-specific (ドメイン固有)
   category     String?
   price        Decimal?
   description  String?
   specification Json?
 
-  // マルチテナント
+  // Multi-tenant (マルチテナント)
   tenantCode String
 
-  // 監査フィールド
+  // Audit fields (監査フィールド)
   version   Int
   isDeleted Boolean  @default(false)
   createdBy String   @default("")
@@ -483,7 +483,7 @@ try {
 } catch (error) {
   this.logger.error(`Failed to process item ${item.id}:`, error);
 
-  // 重大エラーのアラームを送信
+  // Send alarm for critical errors (重大エラーのアラームを送信)
   if (this.isCriticalError(error)) {
     await this.snsService.publish({
       topicArn: this.alarmTopicArn,

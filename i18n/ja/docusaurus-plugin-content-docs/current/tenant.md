@@ -43,8 +43,8 @@ import { TenantModule } from "@mbc-cqrs-serverless/tenant";
 @Module({
   imports: [
     TenantModule.register({
-      enableController: true, // 組み込みのRESTコントローラーを有効にする
-      dataSyncHandlers: [TenantDataSyncHandler], // オプション: カスタム同期ハンドラー
+      enableController: true, // Enable built-in REST controller (組み込みのRESTコントローラーを有効にする)
+      dataSyncHandlers: [TenantDataSyncHandler], // Optional: Custom sync handlers (オプション: カスタム同期ハンドラー)
     }),
   ],
 })
@@ -179,7 +179,7 @@ const result = await this.tenantService.customizeSettingGroups(
 
 ```ts
 const tenantGroup = await this.tenantService.createTenantGroup(
-  "tenant001", // 親テナントコード
+  "tenant001", // Parent tenant code (親テナントコード)
   {
     code: "department-a",
     name: "Department A",

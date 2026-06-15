@@ -78,33 +78,33 @@ export class MyService {
   constructor(private readonly settingService: SettingService) {}
 
   async example() {
-    // テナントの全設定を一覧表示
+    // List all settings for a tenant (テナントの全設定を一覧表示)
     const settings = await this.settingService.list(tenantCode);
 
-    // 特定の設定を取得
+    // Get a specific setting (特定の設定を取得)
     const setting = await this.settingService.get({ pk, sk });
 
-    // 新しい設定を作成
+    // Create a new setting (新しい設定を作成)
     const newSetting = await this.settingService.create(
       tenantCode,
       createDto,
       { invokeContext }
     );
 
-    // 設定を更新
+    // Update a setting (設定を更新)
     const updated = await this.settingService.update(
       { pk, sk },
       updateDto,
       { invokeContext }
     );
 
-    // 設定を削除
+    // Delete a setting (設定を削除)
     const deleted = await this.settingService.delete(
       { pk, sk },
       { invokeContext }
     );
 
-    // 設定コードの存在確認
+    // Check if a setting code exists (設定コードの存在確認)
     const exists = await this.settingService.checkExistSettingCode(
       tenantCode,
       code
@@ -186,36 +186,36 @@ export class MyService {
   constructor(private readonly dataSettingService: DataSettingService) {}
 
   async example() {
-    // データ設定を一覧表示（オプションで設定コードでフィルタリング）
+    // List data settings (optionally filter by setting code) (データ設定を一覧表示（オプションで設定コードでフィルタリング）)
     const dataList = await this.dataSettingService.list(
       tenantCode,
       { settingCode: 'user-preferences' }
     );
 
-    // 特定のデータ設定を取得
+    // Get a specific data setting (特定のデータ設定を取得)
     const data = await this.dataSettingService.get({ pk, sk });
 
-    // 新しいデータ設定を作成
+    // Create a new data setting (新しいデータ設定を作成)
     const newData = await this.dataSettingService.create(
       tenantCode,
       createDto,
       { invokeContext }
     );
 
-    // データ設定を更新
+    // Update a data setting (データ設定を更新)
     const updated = await this.dataSettingService.update(
       { pk, sk },
       updateDto,
       { invokeContext }
     );
 
-    // データ設定を削除
+    // Delete a data setting (データ設定を削除)
     const deleted = await this.dataSettingService.delete(
       { pk, sk },
       { invokeContext }
     );
 
-    // データコードが存在するか確認
+    // Check if a data code exists (データコードが存在するか確認)
     const exists = await this.dataSettingService.checkExistCode(
       tenantCode,
       settingCode,
@@ -249,21 +249,21 @@ const createDto: CreateDataSettingDto = {
 | メソッド | エンドポイント | 説明 |
 |--------|----------|-------------|
 | GET | `/api/master-setting` | すべての設定を一覧表示 |
-| GET | `/api/master-setting/:pk/:sk` | 特定の設定を取得 |
-| POST | `/api/master-setting` | 新しい設定を作成 |
-| PUT | `/api/master-setting/:pk/:sk` | 設定を更新 |
-| DELETE | `/api/master-setting/:pk/:sk` | 設定を削除 |
-| POST | `/api/master-setting/check-exist/:code` | 設定コードの存在確認 |
+| GET | `/api/master-setting/:pk/:sk` | Get a specific setting (特定の設定を取得) |
+| POST | `/api/master-setting` | Create a new setting (新しい設定を作成) |
+| PUT | `/api/master-setting/:pk/:sk` | Update a setting (設定を更新) |
+| DELETE | `/api/master-setting/:pk/:sk` | Delete a setting (設定を削除) |
+| POST | `/api/master-setting/check-exist/:code` | Check if a setting code exists (設定コードの存在確認) |
 
 ### データ設定エンドポイント
 
 | メソッド | エンドポイント | 説明 |
 |--------|----------|-------------|
 | GET | `/api/master-data` | すべてのデータ設定を一覧表示 |
-| GET | `/api/master-data/:pk/:sk` | 特定のデータ設定を取得 |
-| POST | `/api/master-data` | 新しいデータ設定を作成 |
-| PUT | `/api/master-data/:pk/:sk` | データ設定を更新 |
-| DELETE | `/api/master-data/:pk/:sk` | データ設定を削除 |
+| GET | `/api/master-data/:pk/:sk` | Get a specific data setting (特定のデータ設定を取得) |
+| POST | `/api/master-data` | Create a new data setting (新しいデータ設定を作成) |
+| PUT | `/api/master-data/:pk/:sk` | Update a data setting (データ設定を更新) |
+| DELETE | `/api/master-data/:pk/:sk` | Delete a data setting (データ設定を削除) |
 | POST | `/api/master-data/check-exist/:settingCode/:code` | データ設定コードの存在確認 |
 
 ### 統合バルクUpsertエンドポイント

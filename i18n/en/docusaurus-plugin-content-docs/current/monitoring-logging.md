@@ -419,7 +419,8 @@ class PerformanceMonitor {
 
   async flush(): Promise<void> {
     for (const [name, values] of this.metrics.entries()) {
-      await publishMetric(name, average(values), 'Milliseconds');
+      const avg = values.reduce((a, b) => a + b, 0) / values.length;
+      await publishMetric(name, avg, 'Milliseconds');
     }
     this.metrics.clear();
   }

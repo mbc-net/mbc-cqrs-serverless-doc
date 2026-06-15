@@ -86,6 +86,7 @@ CommandServiceを使用した完全なCRUD実装パターンについては、[S
 たとえば、次のように新しい cat コマンドを発行できます。
 
 ```ts
+import { basename } from 'path';
 import {
   generateId,
   getCommandSource,
@@ -129,6 +130,7 @@ const item = await this.commandService.publishAsync(catCommand, {
 たとえば、猫の名前を更新したいとします。
 
 ```ts
+import { basename } from 'path';
 import { generateId, getCommandSource } from "@mbc-cqrs-serverless/core";
 
 // ...
@@ -160,8 +162,8 @@ const item = await this.commandService.publishPartialUpdateAsync(catCommand, {
 
 ```ts
 const result = await this.commandService.publishSync(command, { invokeContext });
-if (!result) return; // no-op: コマンドに変更なし、何も書き込まれていません
-console.log(result.pk); // nullチェック後は安全
+if (!result) return; // no-op: command was not dirty, nothing was written (no-op: コマンドに変更なし、何も書き込まれていません)
+console.log(result.pk); // safe after null check (nullチェック後は安全)
 ```
 :::
 
@@ -228,6 +230,7 @@ const item = await this.commandService.publishSync(catCommand, {
 たとえば、猫の名前を更新したいとします。
 
 ```ts
+import { basename } from 'path';
 import { generateId, getCommandSource } from "@mbc-cqrs-serverless/core";
 
 // ...
@@ -262,6 +265,7 @@ const item = await this.commandService.publishPartialUpdateSync(catCommand, {
 たとえば、次のように新しい cat コマンドを発行できます。
 
 ```ts
+import { basename } from 'path';
 import {
   generateId,
   getCommandSource,
@@ -309,6 +313,7 @@ const item = await this.commandService.publish(catCommand, {
 たとえば、猫の名前を更新したいとします。
 
 ```ts
+import { basename } from 'path';
 import { generateId, getCommandSource } from "@mbc-cqrs-serverless/core";
 
 // ...
@@ -344,7 +349,7 @@ await this.commandService.reSyncData();
 
 ### *async* `getItem(key: DetailKey): Promise<CommandModel | null>`
 
-プライマリキーでコマンドアイテムを取得します。ソートキーにバージョン区切り文字が含まれていない場合、自動的に`getLatestItem`を呼び出して最新バージョンを取得します。アイテムが見つからない場合は`null`を返します。
+プライマリキーでコマンドアイテムを取得します。ソートキーにバージョン区切り文字（`@`、例：`CAT#cat001@2`）が含まれていない場合、自動的に`getLatestItem`を呼び出して最新バージョンを取得します。アイテムが見つからない場合は`null`を返します。
 
 ```ts
 import { DetailKey } from "@mbc-cqrs-serverless/core";
@@ -483,7 +488,7 @@ const key: DetailKey = {
   sk: "CAT#cat001@3", // Version 3 (バージョン3)
 };
 
-// Updates TTL of version 2 (previous version) (バージョン2（前のバージョン）のTTLを更新)
+// Updates TTL of version 2 (previous version) (バージョン2(前のバージョン)のTTLを更新)
 const result = await this.commandService.updateTtl(key);
 ```
 
@@ -642,7 +647,7 @@ await repository.listItems(
       version: cmd.version,
       // ...他のCommandModelフィールドをRDS行の形にマッピング
     }),
-    getVersion: (item) => item.version, // v1.2.6で追加
+    getVersion: (item) => item.version, // new in v1.2.6 (v1.2.6で追加)
   },
   options,
 )
@@ -722,8 +727,8 @@ export class OrderService {
   constructor(private readonly repository: Repository) {}
 
   async getOrder(key: DetailKey, options: ICommandOptions) {
-    // このアイテムに対してユーザーが直前にasyncコマンドを発行した場合、
-    // 保留バージョンがマージされます — ユーザーは常に自分の書き込みを見ることができます。
+    // If the user just published an async command for this item, (このアイテムに対してユーザーが直前にasyncコマンドを発行した場合、)
+    // the pending version is merged in — the user always sees their own write. (保留バージョンがマージされます — ユーザーは常に自分の書き込みを見ることができます。)
     return this.repository.getItem(key, options)
   }
 }
@@ -737,8 +742,8 @@ export class OrderService {
 async listOrders(pk: string, options: ICommandOptions) {
   return this.repository.listItemsByPk(
     pk,
-    { limit: 20, order: 'desc' },  // 標準DynamoDBクエリオプション
-    { latestFlg: true },            // RYWマージを有効化
+    { limit: 20, order: 'desc' },  // standard DynamoDB query options (標準DynamoDBクエリオプション)
+    { latestFlg: true },            // enable RYW merge (RYWマージを有効化)
     options,
   )
 }
@@ -779,25 +784,25 @@ export class OrderService {
     const mergeOptions: IMergeOptions<OrderDto> = {
       latestFlg: true,
 
-      // 保留中のCommandModelをOrderDtoに変換
+      // Convert a pending CommandModel into an OrderDto (保留中のCommandModelをOrderDtoに変換)
       transformCommand: (cmd, existing) => ({
         id: cmd.id,
         code: cmd.code,
         name: cmd.name,
         status: cmd.attributes?.status ?? existing?.status,
-        // コマンドに存在しないJOINフィールドを引き継ぐ
+        // carry over join fields that don't exist in the command (コマンドに存在しないJOINフィールドを引き継ぐ)
         customerName: existing?.customerName ?? '',
         createdAt: cmd.createdAt,
         updatedAt: cmd.updatedAt,
       }),
 
-      // 現在の検索フィルターにマッチする新規作成アイテムのみを先頭に追加
+      // Only prepend create-new items that match the current search filter (現在の検索フィルターにマッチする新規作成アイテムのみを先頭に追加)
       matchesFilter: (item) =>
         !filter.status || item.status === filter.status,
     }
 
     return this.repository.listItems(
-      // 基底クエリ — 通常通り実行
+      // The base query — runs as normal (基底クエリ — 通常通り実行)
       () => this.orderRepository.search(filter),
       mergeOptions,
       options,

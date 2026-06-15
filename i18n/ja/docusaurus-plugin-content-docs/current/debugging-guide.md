@@ -104,7 +104,8 @@ export class TodoService {
     this.logger.debug(`Creating todo: ${JSON.stringify(dto)}`);
 
     try {
-      const result = await this.commandService.publishAsync(entity, { invokeContext });
+      const command = { pk: dto.pk, sk: dto.sk, version: 0, name: dto.name, attributes: dto };
+      const result = await this.commandService.publishAsync(command, { invokeContext });
       if (!result) throw new Error('Command publish returned null (no-op)');
       this.logger.log(`Todo created: ${result.id}`);
       return result;
@@ -366,7 +367,7 @@ export class CorrelationMiddleware implements NestMiddleware {
 ### 環境変数のデバッグ
 
 ```typescript
-// 起動時に環境変数をログ出力（開発環境のみ）
+// Log environment on startup (development only) (起動時に環境変数をログ出力（開発環境のみ）)
 if (process.env.NODE_ENV === 'development') {
   console.log('Environment:', {
     NODE_ENV: process.env.NODE_ENV,
@@ -553,7 +554,7 @@ fields @timestamp, @message
 
 MBC CQRS Serverlessでは、バージョン管理は以下のように機能します：
 
-- ソートキー（sk）形式：`ITEM#code@version`（例：`TODO#001@3`）
+- コマンドテーブルのソートキー形式：`TYPE#code@version`（例：`TODO#001@3`）；データテーブルのソートキーは`@version`サフィックスなし
 - バージョン区切り文字：`@`
 - VERSION_FIRST：`0`（初期バージョン）
 - VERSION_LATEST：`-1`（最新バージョンを自動取得）

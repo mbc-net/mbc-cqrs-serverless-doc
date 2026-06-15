@@ -104,7 +104,8 @@ export class TodoService {
     this.logger.debug(`Creating todo: ${JSON.stringify(dto)}`);
 
     try {
-      const result = await this.commandService.publishAsync(entity, { invokeContext });
+      const command = { pk: dto.pk, sk: dto.sk, version: 0, name: dto.name, attributes: dto };
+      const result = await this.commandService.publishAsync(command, { invokeContext });
       if (!result) throw new Error('Command publish returned null (no-op)');
       this.logger.log(`Todo created: ${result.id}`);
       return result;
@@ -553,7 +554,7 @@ Version conflicts occur when multiple processes attempt to update the same item 
 
 In MBC CQRS Serverless, version management works as follows:
 
-- Sort key (sk) format: `ITEM#code@version` (e.g., `TODO#001@3`)
+- Command table sort key format: `TYPE#code@version` (e.g., `TODO#001@3`); data table sort key omits the `@version` suffix
 - Version separator: `@`
 - VERSION_FIRST: `0` (initial version)
 - VERSION_LATEST: `-1` (auto-fetch latest version)

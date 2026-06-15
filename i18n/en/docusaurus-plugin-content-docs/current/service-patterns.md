@@ -74,7 +74,7 @@ Flow: Controller receives CreateProductDto → Service generates keys → Comman
 async create(
   createDto: CreateProductDto,
   opts: { invokeContext: IInvoke },
-): Promise<ProductDataEntity> {
+): Promise<ProductDataEntity | null> {
   // Get tenant context from the invoke context
   const { tenantCode } = getUserContext(opts.invokeContext);
 
@@ -207,7 +207,7 @@ async update(
   detailDto: { pk: string; sk: string },
   updateDto: UpdateProductDto,
   opts: { invokeContext: IInvoke },
-): Promise<ProductDataEntity> {
+): Promise<ProductDataEntity | null> {
   // First, get the existing item
   const existing = await this.dataService.getItem(detailDto);
 
@@ -235,6 +235,7 @@ async update(
     invokeContext: opts.invokeContext,
   });
 
+  if (!item) return null;
   return new ProductDataEntity(item);
 }
 ```
@@ -268,7 +269,7 @@ import { NotFoundException } from "@nestjs/common";
 async remove(
   detailDto: { pk: string; sk: string },
   opts: { invokeContext: IInvoke },
-): Promise<ProductDataEntity> {
+): Promise<ProductDataEntity | null> {
   // Get existing item
   const existing = await this.dataService.getItem(detailDto);
 
@@ -288,6 +289,7 @@ async remove(
     invokeContext: opts.invokeContext,
   });
 
+  if (!item) return null;
   return new ProductDataEntity(item);
 }
 ```
@@ -335,7 +337,7 @@ export class ProductService {
   async create(
     createDto: CreateProductDto,
     opts: { invokeContext: IInvoke },
-  ): Promise<ProductDataEntity> {
+  ): Promise<ProductDataEntity | null> {
     const { tenantCode } = getUserContext(opts.invokeContext);
 
     const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;

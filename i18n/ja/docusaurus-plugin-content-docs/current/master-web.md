@@ -217,7 +217,7 @@ export default function MasterSettingsPage() {
 ```tsx
 import { EditMasterSettings } from "@mbc-cqrs-serverless/master-web";
 
-// The component takes no props (このコンポーネントは props を受け取らず、useParams() で URL から pk と sk を読み取るため、[pk]/[sk] のようなルート配下に配置してください)
+// The component takes no props — it reads pk and sk from the URL via useParams(), so place it under a route like [pk]/[sk] (The component takes no props (このコンポーネントは props を受け取らず、useParams() で URL から pk と sk を読み取るため、[pk]/[sk] のようなルート配下に配置してください))
 export default function EditMasterSettingsPage() {
   return <EditMasterSettings />;
 }
@@ -230,7 +230,7 @@ export default function EditMasterSettingsPage() {
 ```tsx
 import { CopyMasterSettings } from "@mbc-cqrs-serverless/master-web";
 
-// The component takes no props (このコンポーネントは props を受け取らず、useParams() で URL から pk と sk を読み取るため、[pk]/[sk] のようなルート配下に配置してください)
+// The component takes no props — it reads pk and sk from the URL via useParams(), so place it under a route like [pk]/[sk] (The component takes no props (このコンポーネントは props を受け取らず、useParams() で URL から pk と sk を読み取るため、[pk]/[sk] のようなルート配下に配置してください))
 export default function CopyMasterSettingsPage() {
   return <CopyMasterSettings />;
 }
@@ -243,7 +243,7 @@ export default function CopyMasterSettingsPage() {
 ```tsx
 import { NewCopyMasterSettings } from "@mbc-cqrs-serverless/master-web";
 
-// The component takes no props (このコンポーネントは props を受け取らず、useParams() で URL から pk と sk を読み取るため、[pk]/[sk] のようなルート配下に配置してください)
+// The component takes no props — it reads pk and sk from the URL via useParams(), so place it under a route like [pk]/[sk] (The component takes no props (このコンポーネントは props を受け取らず、useParams() で URL から pk と sk を読み取るため、[pk]/[sk] のようなルート配下に配置してください))
 export default function NewCopyMasterSettingsPage() {
   return <NewCopyMasterSettings />;
 }
@@ -256,7 +256,7 @@ export default function NewCopyMasterSettingsPage() {
 ```tsx
 import { DetailCopy } from "@mbc-cqrs-serverless/master-web";
 
-// The component takes no props (このコンポーネントは props を受け取らず、useParams() で URL から pk と sk を読み取るため、[pk]/[sk] のようなルート配下に配置してください)
+// The component takes no props — it reads pk and sk from the URL via useParams(), so place it under a route like [pk]/[sk] (The component takes no props (このコンポーネントは props を受け取らず、useParams() で URL から pk と sk を読み取るため、[pk]/[sk] のようなルート配下に配置してください))
 export default function DetailCopyPage() {
   return <DetailCopy />;
 }
@@ -283,7 +283,7 @@ export default function MasterDataPage() {
 ```tsx
 import { EditMasterData } from "@mbc-cqrs-serverless/master-web";
 
-// The component takes no props (このコンポーネントは props を受け取らず、useParams() で URL から pk と sk を読み取るため、[pk]/[sk] のようなルート配下に配置してください)
+// The component takes no props — it reads pk and sk from the URL via useParams(), so place it under a route like [pk]/[sk] (The component takes no props (このコンポーネントは props を受け取らず、useParams() で URL から pk と sk を読み取るため、[pk]/[sk] のようなルート配下に配置してください))
 export default function EditMasterDataPage() {
   return <EditMasterData />;
 }
@@ -433,7 +433,7 @@ import { useApolloClient } from "@mbc-cqrs-serverless/master-web";
 
 function MyComponent() {
   const client = useApolloClient();
-  // カスタムGraphQLクエリにはclientを使用
+  // Use client for custom GraphQL queries (カスタムGraphQLクエリにはclientを使用)
 }
 ```
 
@@ -446,7 +446,7 @@ import { useHttpClient } from "@mbc-cqrs-serverless/master-web";
 
 function MyComponent() {
   const httpClient = useHttpClient();
-  // カスタムAPIリクエストにはhttpClientを使用
+  // Use httpClient for custom API requests (カスタムAPIリクエストにはhttpClientを使用)
 }
 ```
 
@@ -1407,6 +1407,7 @@ import { useParams } from 'next/navigation'
 import axios from 'axios'
 import { fetchAuthSession } from 'aws-amplify/auth'
 import type { IUrlProvider } from '@mbc-cqrs-serverless/master-web/UrlProvider'
+import '@mbc-cqrs-serverless/master-web/styles.css'
 import '@/modules/common/components/ConfigureAmplifyClientSide'
 
 // Dynamic import of AppProviders (SSR disabled) (AppProviders の動的インポート、SSR 無効)

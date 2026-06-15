@@ -180,6 +180,47 @@ export class NotificationEventHandler implements IEventHandler<NotificationEvent
 
 `NOTIFICATION_TRANSPORTS=appsync-event` を設定してオプトインします。`NOTIFICATION_TRANSPORTS=appsync-graphql,appsync-event` と両方のエンドポイントを設定すると、フレームワークは両方のトランスポートに**デュアルパブリッシュ**し、ダウンタイムなしのマイグレーションを可能にします。
 
+### メソッド: `sendMessage(msg: INotification): Promise<void>`
+
+AppSync Events チャンネルに通知をパブリッシュします。通知はサブスクライブ中のすべてのクライアントに配信されます。
+
+```ts
+await this.appSyncEventsService.sendMessage({
+  id: "command-123",
+  table: "orders-table",
+  pk: "ORDER#tenant1",
+  sk: "ORDER#001",
+  tenantCode: "tenant1",
+  action: "MODIFY",
+  content: { status: "confirmed" },
+});
+```
+
+### 使用方法
+
+```ts
+import { AppSyncEventsService, INotification } from "@mbc-cqrs-serverless/core";
+
+@Injectable()
+export class MyService {
+  constructor(private readonly appSyncEventsService: AppSyncEventsService) {}
+
+  async notifyClients() {
+    const notification: INotification = {
+      id: "notification-456",
+      table: "my-table",
+      pk: "ITEM#tenant1",
+      sk: "ITEM#item001",
+      tenantCode: "tenant1",
+      action: "MODIFY",
+      content: { status: "updated" },
+    };
+
+    await this.appSyncEventsService.sendMessage(notification);
+  }
+}
+```
+
 ### チャンネル構造
 
 すべての通知は最も具体的な単一チャンネルにパブリッシュされます。クライアントは AppSync Events のワイルドカード（`/*`）を使って必要な粒度でサブスクライブします：
@@ -237,8 +278,8 @@ export const config: Config = {
   // ...
   appsyncEvents: {
     enabled: true,
-    namespace: 'default',       // オプション、デフォルトは 'default'
-    apiKeyExpireDays: 365,      // オプション、デフォルトは 365
+    namespace: 'default',       // optional, defaults to 'default' (オプション、デフォルトは 'default')
+    apiKeyExpireDays: 365,      // optional, defaults to 365 (オプション、デフォルトは 365)
   },
 }
 ```
@@ -450,7 +491,7 @@ template: {
 データオブジェクトに変数が見つからない場合、プレースホルダーは出力に保持されます。これは開発中に欠落データを特定するのに役立ちます：
 
 ```ts
-// データに 'missingKey' がない場合、出力に ' missingKey ' が残ります
+// If 'missingKey' is not in data, output will contain ' (データに 'missingKey' がない場合、出力に ') missingKey ' が残ります
 template: {
   html: "<p>Value: missingKey</p>",
 }

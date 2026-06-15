@@ -95,7 +95,7 @@ export const createProductSchema = z.object({
 
 export type CreateProductInput = z.infer<typeof createProductSchema>;
 
-// オプションフィールドとバージョンを含む更新スキーマ
+// Update schema with optional fields and version (オプションフィールドとバージョンを含む更新スキーマ)
 export const updateProductSchema = createProductSchema.partial().extend({
   version: z.number().int().min(0),
 });
@@ -369,10 +369,10 @@ import {
 import { cn } from '@/lib/utils';
 import { Label } from './label';
 
-// FormはFormProviderを再エクスポートしたもの
+// Form is just FormProvider re-exported (FormはFormProviderを再エクスポートしたもの)
 const Form = FormProvider;
 
-// FormFieldのコンテキスト型
+// Context type for FormField (FormFieldのコンテキスト型)
 type FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
@@ -384,7 +384,7 @@ const FormFieldContext = React.createContext<FormFieldContextValue>(
   {} as FormFieldContextValue
 );
 
-// FormFieldはControllerをラップし、フィールドコンテキストを提供
+// FormField wraps Controller and provides field context (FormFieldはControllerをラップし、フィールドコンテキストを提供)
 const FormField = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
@@ -398,7 +398,7 @@ const FormField = <
   );
 };
 
-// useFormFieldフックはコンテキストからフィールド状態を取得
+// useFormField hook retrieves field state from context (useFormFieldフックはコンテキストからフィールド状態を取得)
 const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext);
   const itemContext = React.useContext(FormItemContext);
@@ -422,7 +422,7 @@ const useFormField = () => {
   };
 };
 
-// FormItemのコンテキスト型
+// Context type for FormItem (FormItemのコンテキスト型)
 type FormItemContextValue = {
   id: string;
 };
@@ -431,7 +431,7 @@ const FormItemContext = React.createContext<FormItemContextValue>(
   {} as FormItemContextValue
 );
 
-// FormItemはコンテキスト経由でユニークIDを提供
+// FormItem provides unique ID via context (FormItemはコンテキスト経由でユニークIDを提供)
 const FormItem = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -446,7 +446,7 @@ const FormItem = React.forwardRef<
 });
 FormItem.displayName = 'FormItem';
 
-// FormLabelはエラー状態を色で表示
+// FormLabel shows error state via color (FormLabelはエラー状態を色で表示)
 const FormLabel = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
@@ -464,7 +464,7 @@ const FormLabel = React.forwardRef<
 });
 FormLabel.displayName = 'FormLabel';
 
-// FormControlはアクセシビリティのためにaria属性を渡す
+// FormControl passes aria attributes for accessibility (FormControlはアクセシビリティのためにaria属性を渡す)
 const FormControl = React.forwardRef<
   React.ElementRef<typeof Slot>,
   React.ComponentPropsWithoutRef<typeof Slot>
@@ -487,7 +487,7 @@ const FormControl = React.forwardRef<
 });
 FormControl.displayName = 'FormControl';
 
-// FormDescriptionはヘルプテキストを提供
+// FormDescription provides help text (FormDescriptionはヘルプテキストを提供)
 const FormDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
@@ -505,7 +505,7 @@ const FormDescription = React.forwardRef<
 });
 FormDescription.displayName = 'FormDescription';
 
-// FormMessageはコンテキストからエラーを自動表示
+// FormMessage automatically displays error from context (FormMessageはコンテキストからエラーを自動表示)
 const FormMessage = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
@@ -917,10 +917,10 @@ const uniqueCodeSchema = z.object({
     ),
 });
 
-// フォーム内
+// In the form (フォーム内)
 const form = useForm({
   resolver: zodResolver(uniqueCodeSchema),
-  mode: 'onBlur', // 非同期バリデーションのためにonBlurで検証
+  mode: 'onBlur', // Validate on blur for async validation (非同期バリデーションのためにonBlurで検証)
 });
 ```
 
@@ -944,13 +944,13 @@ src/
 フォームの複雑さに基づいてバリデーションのタイミングを選択します：
 
 ```typescript
-// 送信時に検証（デフォルト） - シンプルなフォームに最適
+// Validate on submit (default) - best for simple forms (送信時に検証（デフォルト） - シンプルなフォームに最適)
 useForm({ mode: 'onSubmit' });
 
-// フォーカスアウト時に検証 - 非同期バリデーションを持つフォームに最適
+// Validate on blur - best for forms with async validation (フォーカスアウト時に検証 - 非同期バリデーションを持つフォームに最適)
 useForm({ mode: 'onBlur' });
 
-// 変更時に検証 - リアルタイムフィードバックに最適
+// Validate on change - best for real-time feedback (変更時に検証 - リアルタイムフィードバックに最適)
 useForm({ mode: 'onChange' });
 ```
 
@@ -980,7 +980,7 @@ function FormWithServerErrors() {
       await api.create(data);
     } catch (error) {
       if (error.details) {
-        // サーバーからのフィールドレベルエラーを設定
+        // Set field-level errors from server (サーバーからのフィールドレベルエラーを設定)
         Object.entries(error.details).forEach(([field, messages]) => {
           form.setError(field, { message: messages[0] });
         });

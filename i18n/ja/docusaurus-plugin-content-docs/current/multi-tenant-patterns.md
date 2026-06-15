@@ -95,7 +95,7 @@ export const DEFAULT_TENANT_CODE = 'single';
 これらのモジュールの組み込みメソッド（例：`createCommonTenantSetting`、`createCommonTenant`）を使用する場合、データ保存時に内部的にこの`'COMMON'`値が自動的に使用されます。
 
 ```typescript
-// @mbc-cqrs-serverless/masterと@mbc-cqrs-serverless/tenantで
+// In @mbc-cqrs-serverless/master and @mbc-cqrs-serverless/tenant (@mbc-cqrs-serverless/masterと@mbc-cqrs-serverless/tenantで)
 export enum SettingTypeEnum {
   TENANT_COMMON = 'COMMON',  // Internal constant for data storage (データ保存用の内部定数)
 }
@@ -144,7 +144,7 @@ export class TenantGuard implements CanActivate {
     const invokeContext = request.invokeContext;
     const userContext = getCustomUserContext(invokeContext);
 
-    // パスまたはボディからターゲットテナントを取得
+    // Get target tenant from path or body (パスまたはボディからターゲットテナントを取得)
     const targetTenant = request.params.tenantCode ||
                         request.body?.tenantCode ||
                         this.extractTenantFromPk(request.body?.pk);
@@ -185,11 +185,11 @@ function generateProductPk(tenantCode: string): string {
   return `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
 }
 
-// キー例:
+// Example keys: (キー例:)
 // PK: PRODUCT#tenant-a
 // SK: 01HX7MBJK3V9WQBZ7XNDK5ZT2M
 
-// テナントの全商品を取得
+// Query all products for a tenant (テナントの全商品を取得)
 async function listProductsByTenant(tenantCode: string) {
   const pk = generateProductPk(tenantCode);
   return dataService.listItemsByPk(pk);
@@ -205,13 +205,13 @@ async function listProductsByTenant(tenantCode: string) {
 
 const COMMON_TENANT = 'common';
 
-// システム全体の設定
+// System-wide settings (システム全体の設定)
 const settingsPk = `SETTINGS${KEY_SEPARATOR}${COMMON_TENANT}`;
 
-// ユーザーデータ（ユーザーは複数テナントに属せる）
+// User data (users can belong to multiple tenants) (ユーザーデータ（ユーザーは複数のテナントに属することができる）)
 const userPk = `USER${KEY_SEPARATOR}${COMMON_TENANT}`;
 
-// 例: システム全体のメールテンプレートを取得
+// Example: Get system-wide email templates (例: システム全体のメールテンプレートを取得)
 async function getEmailTemplates() {
   return dataService.listItemsByPk(`TEMPLATE${KEY_SEPARATOR}${COMMON_TENANT}`);
 }
@@ -241,6 +241,12 @@ import { CommandService, DataService, IInvoke, KEY_SEPARATOR, generateId } from 
 
 @Injectable()
 export class UserService {
+  constructor(
+    private readonly commandService: CommandService,
+    private readonly dataService: DataService,
+    private readonly authService: AuthService,
+  ) {}
+
   /**
    * Get all tenants a user belongs to (ユーザーが所属する全テナントを取得)
    */
@@ -292,7 +298,7 @@ export class UserService {
     newTenantCode: string,
     invokeContext: IInvoke,
   ): Promise<{ token: string }> {
-    // ユーザーがテナントに属することを確認
+    // Verify user belongs to tenant (ユーザーがテナントに属することを確認)
     const associations = await this.getUserTenants(userCode);
     const association = associations.find(a =>
       a.attributes.tenantCode === newTenantCode,
@@ -304,7 +310,7 @@ export class UserService {
       );
     }
 
-    // 更新されたテナントコンテキストで新しいトークンを生成
+    // Generate new token with updated tenant context (更新されたテナントコンテキストで新しいトークンを生成)
     return this.authService.generateToken({
       userCode,
       tenantCode: newTenantCode,
@@ -369,7 +375,7 @@ export class TenantSyncService {
     targetTenantCode: string,
     invokeContext: IInvoke,
   ): Promise<void> {
-    // ターゲットテナント用の新しいキーを作成
+    // Create new keys for target tenant (ターゲットテナント用の新しいキーを作成)
     const pkParts = sourceItem.pk.split(KEY_SEPARATOR);
     const entityType = pkParts[0];
     const targetPk = `${entityType}${KEY_SEPARATOR}${targetTenantCode}`;
@@ -384,7 +390,7 @@ export class TenantSyncService {
       name: sourceItem.name,
       type: sourceItem.type,
       attributes: sourceItem.attributes,
-      // ソースから同期済みとしてマーク
+      // Mark as synced from source (ソースから同期済みとしてマーク)
       metadata: {
         syncedFrom: sourceItem.id,
         syncedAt: new Date().toISOString(),
@@ -409,19 +415,19 @@ export class CrossTenantReportService {
    */
   async getSystemMetrics(): Promise<SystemMetrics> {
     const [totalProducts, productsByTenant, recentOrders] = await Promise.all([
-      // 全テナントの合計カウント
+      // Total count across all tenants (全テナントの合計カウント)
       this.prismaService.product.count({
         where: { isDeleted: false },
       }),
 
-      // テナント別カウント
+      // Count by tenant (テナント別カウント)
       this.prismaService.product.groupBy({
         by: ['tenantCode'],
         _count: { id: true },
         where: { isDeleted: false },
       }),
 
-      // 全テナントの最近の注文（管理者のみ）
+      // Recent orders across all tenants (admin only) (全テナントの最近の注文（管理者のみ）)
       this.prismaService.order.findMany({
         where: { isDeleted: false },
         orderBy: { createdAt: 'desc' },
@@ -482,7 +488,7 @@ export class TenantSettingsService {
    * Get tenant settings with caching (キャッシュ付きでテナント設定を取得)
    */
   async getSettings(tenantCode: string): Promise<TenantSettings> {
-    // まずキャッシュを確認
+    // Check cache first (まずキャッシュを確認)
     if (this.settingsCache.has(tenantCode)) {
       return this.settingsCache.get(tenantCode)!;
     }
@@ -495,7 +501,7 @@ export class TenantSettingsService {
       this.settingsCache.set(tenantCode, settings.attributes);
       return settings.attributes;
     } catch (error) {
-      // 見つからない場合はデフォルト設定を返す
+      // Return default settings if not found (見つからない場合はデフォルト設定を返す)
       return this.getDefaultSettings();
     }
   }
@@ -525,7 +531,7 @@ export class TenantSettingsService {
       attributes: mergedSettings,
     }, { invokeContext });
 
-    // キャッシュを無効化
+    // Invalidate cache (キャッシュを無効化)
     this.settingsCache.delete(tenantCode);
 
     return mergedSettings;
@@ -654,7 +660,7 @@ async updateProduct(
 ): Promise<ProductDataEntity> {
   const { tenantCode } = getCustomUserContext(invokeContext);
 
-  // 商品がユーザーのテナントに属することを確認
+  // Verify product belongs to user's tenant (商品がユーザーのテナントに属することを確認)
   const existing = await this.prismaService.product.findUnique({
     where: { id: productId },
   });
@@ -663,7 +669,7 @@ async updateProduct(
     throw new ForbiddenException('Access denied');
   }
 
-  // 更新を続行
+  // Proceed with update (更新を続行)
   return this.publishCommand(updateDto, invokeContext);
 }
 ```
@@ -688,13 +694,13 @@ this.logger.log({
 @Controller('api/admin/tenants')
 @UseGuards(SystemAdminGuard)
 export class TenantAdminController {
-  // 全テナントにわたるシステム管理者操作
+  // System admin operations across tenants (全テナントにわたるシステム管理者操作)
 }
 
 @Controller('api/products')
 @UseGuards(TenantGuard)
 export class ProductController {
-  // テナントスコープの操作
+  // Tenant-scoped operations (テナントスコープの操作)
 }
 ```
 

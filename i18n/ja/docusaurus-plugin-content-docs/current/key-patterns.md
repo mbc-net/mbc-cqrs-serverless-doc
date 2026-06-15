@@ -106,14 +106,14 @@ ID = PK#SK (without version)
 ```ts
 import { masterPk, seqPk, ttlSk } from "@mbc-cqrs-serverless/core";
 
-// マスターデータパーティションキー
+// Master data partition key (マスターデータパーティションキー)
 masterPk("tenant001");      // "MASTER#tenant001"
 masterPk();                 // "MASTER#single" (default tenant)
 
-// シーケンスパーティションキー
+// Sequence partition key (シーケンスパーティションキー)
 seqPk("tenant001");         // "SEQ#tenant001"
 
-// テーブルレベルTTL設定用のTTLソートキー
+// TTL sort key for table-level TTL settings (テーブルレベルTTL設定用のTTLソートキー)
 ttlSk("product");           // "TTL#product"
 ```
 
@@ -142,15 +142,15 @@ import { ulid } from "ulid";
 ```ts
 const PRODUCT_PK_PREFIX = "PRODUCT";
 
-// PKを生成
+// Generate PK (PKを生成)
 const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
 // Result: "PRODUCT#tenant001"
 
-// SKを生成（一意性とソート可能性のためにULIDを使用）
+// Generate SK (using ULID for uniqueness and sortability) (SKを生成（一意性とソート可能性のためにULIDを使用）)
 const sk = ulid();
 // Result: "01HX7MBJK3V9WQBZ7XNDK5ZT2M"
 
-// IDを生成（PKとSKの組み合わせ）
+// Generate ID (combination of PK and SK) (IDを生成（PKとSKの組み合わせ）)
 const id = generateId(pk, sk);
 // Result: "PRODUCT#tenant001#01HX7MBJK3V9WQBZ7XNDK5ZT2M"
 ```
@@ -158,19 +158,19 @@ const id = generateId(pk, sk);
 ### バージョン管理
 
 ```ts
-// SKにバージョンを追加
+// Add version to SK (SKにバージョンを追加)
 const skWithVersion = addSortKeyVersion(sk, 3);
 // Result: "01HX7MBJK3V9WQBZ7XNDK5ZT2M@3"
 
-// SKからバージョンを削除
+// Remove version from SK (SKからバージョンを削除)
 const baseSk = removeSortKeyVersion(skWithVersion);
 // Result: "01HX7MBJK3V9WQBZ7XNDK5ZT2M"
 
-// SKからバージョン番号を取得
+// Get version number from SK (SKからバージョン番号を取得)
 const version = getSortKeyVersion(skWithVersion);
 // Result: 3
 
-// バージョンサフィックスなしのSKからバージョンを取得
+// Get version from SK without version suffix (バージョンサフィックスなしのSKからバージョンを取得)
 const latestVersion = getSortKeyVersion(sk);
 // Result: -1 (VERSION_LATEST)
 ```
@@ -180,11 +180,11 @@ const latestVersion = getSortKeyVersion(sk);
 ```ts
 import { getTenantCode } from "@mbc-cqrs-serverless/core";
 
-// PKからテナントコードを抽出
+// Extract tenant code from PK (PKからテナントコードを抽出)
 const tenantCode = getTenantCode("PRODUCT#tenant001");
 // Result: "tenant001"
 
-// セパレーターが見つからない場合はundefinedを返す
+// Returns undefined if no separator found (セパレーターが見つからない場合はundefinedを返す)
 const noTenant = getTenantCode("PRODUCT");
 // Result: undefined
 ```
@@ -200,7 +200,7 @@ const noTenant = getTenantCode("PRODUCT");
 使用タイミング: 親子関係のないスタンドアロンエンティティ。
 
 ```ts
-// キー構造
+// Key Structure (キー構造)
 PK: PRODUCT#<tenantCode>
 SK: <ulid>
 
@@ -225,11 +225,11 @@ const id = generateId(pk, sk);
 解決策: 親と子の間でPKを共有し、SKプレフィックスでアイテムタイプを区別します。
 
 ```ts
-// 注文キー構造
+// Order Key Structure (注文キー構造)
 PK: ORDER#<tenantCode>
 SK: ORDER#<orderId>
 
-// 注文アイテムキー構造（同じPK、異なるSKプレフィックス）
+// Order Item Key Structure (same PK, different SK prefix) (注文アイテムキー構造（同じPK、異なるSKプレフィックス）)
 PK: ORDER#<tenantCode>
 SK: ORDER_ITEM#<orderId>#<itemId>
 
@@ -248,12 +248,12 @@ Order Items:
 const ORDER_SK_PREFIX = "ORDER";
 const ORDER_ITEM_SK_PREFIX = "ORDER_ITEM";
 
-// 注文を作成
+// Create order (注文を作成)
 const orderPk = `ORDER${KEY_SEPARATOR}${tenantCode}`;
 const orderId = ulid();
 const orderSk = `${ORDER_SK_PREFIX}${KEY_SEPARATOR}${orderId}`;
 
-// 注文アイテムを作成
+// Create order item (注文アイテムを作成)
 const itemSk = `${ORDER_ITEM_SK_PREFIX}${KEY_SEPARATOR}${orderId}${KEY_SEPARATOR}${itemId}`;
 ```
 
@@ -266,7 +266,7 @@ const itemSk = `${ORDER_ITEM_SK_PREFIX}${KEY_SEPARATOR}${orderId}${KEY_SEPARATOR
 解決策: すべてのユーザーレコードに同じPKを使用し、SKプレフィックスで認証プロバイダーを示します。
 
 ```ts
-// キー構造
+// Key Structure (キー構造)
 PK: USER#<tenantCode>
 SK: <provider>#<userId>
 
@@ -299,7 +299,7 @@ const sk = generateUserSk("sso", cognitoSubId);
 解決策: テナントコードとユーザーコードを組み合わせたSKを持つ共通テナントを使用します。
 
 ```ts
-// キー構造
+// Key Structure (キー構造)
 PK: USER_TENANT#<commonTenant>
 SK: <tenantCode>#<userCode>
 
@@ -323,12 +323,12 @@ const sk = `${tenantCode}${KEY_SEPARATOR}${userCode}`;
 解決策: SKにタイププレフィックス（SETTING、DATA）を使用して、異なる設定タイプを整理します。
 
 ```ts
-// キー構造
+// Key Structure (キー構造)
 PK: MASTER#COMMON
 SK: <type>#<category>#<code>
 
-// タイプ: SETTING、DATA、COPY
-// マスターデータはCOMMONパーティションの下で全テナント間で共有されます
+// Types: SETTING, DATA, COPY (タイプ: SETTING、DATA、COPY)
+// Master data is shared across all tenants under the COMMON partition (マスターデータはCOMMONパーティションの下で全テナント間で共有されます)
 // Examples
 PK: MASTER#COMMON
 SK: SETTING#notification#email_template
@@ -358,7 +358,7 @@ const sk = generateMasterSk(DATA_PREFIX, "product_category", "electronics");
 解決策: 時間ベースのパーティショニングのためにPKに日付を含め、ソートのためにSKにタイムスタンプを含めます。
 
 ```ts
-// キー構造
+// Key Structure (キー構造)
 PK: LOG#<tenantCode>#<year-month>
 SK: <timestamp>#<eventId>
 
@@ -386,7 +386,7 @@ function generateLogKeys(tenantCode: string, timestamp: Date, eventId: string) {
 import { KEY_SEPARATOR, generateId } from "@mbc-cqrs-serverless/core";
 import { ulid } from "ulid";
 
-// エンティティプレフィックス
+// Entity prefixes (エンティティプレフィックス)
 export const PRODUCT_PK_PREFIX = "PRODUCT";
 export const ORDER_PK_PREFIX = "ORDER";
 export const ORDER_SK_PREFIX = "ORDER";
@@ -395,7 +395,7 @@ export const USER_PK_PREFIX = "USER";
 export const MASTER_PK_PREFIX = "MASTER";
 export const NOTIFICATION_PK_PREFIX = "NOTIFICATION";
 
-// キージェネレーター
+// Key generators (キージェネレーター)
 export function generateProductPk(tenantCode: string): string {
   return `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
 }
@@ -413,7 +413,7 @@ export function generateOrderItemSk(orderId: string, itemId: string): string {
   return `${ORDER_ITEM_SK_PREFIX}${KEY_SEPARATOR}${orderId}${KEY_SEPARATOR}${itemId}`;
 }
 
-// キーパーサー
+// Key parsers (キーパーサー)
 export function parseOrderSk(sk: string): { prefix: string; orderId: string } {
   const parts = sk.split(KEY_SEPARATOR);
   return {
@@ -435,7 +435,7 @@ export function parseOrderItemSk(sk: string): {
   };
 }
 
-// エンティティタイプ付きIDジェネレーター
+// ID generator with entity type (エンティティタイプ付きIDジェネレーター)
 export function generateEntityId(
   prefix: string,
   tenantCode: string,
@@ -453,16 +453,16 @@ export function generateEntityId(
 フレームワークは楽観的ロックのためにバージョニングを使用します：
 
 ```ts
-// DynamoDBテーブル
-// コマンドテーブル: @バージョンサフィックス付きで全バージョンを保存
-// データテーブル: 最新バージョンのみ保存（バージョンサフィックスなし）
+// DynamoDB Tables (DynamoDBテーブル)
+// Command table: Stores all versions with @version suffix (コマンドテーブル: @バージョンサフィックス付きで全バージョンを保存)
+// Data table: Stores latest version only (no version suffix) (データテーブル: 最新バージョンのみ保存（バージョンサフィックスなし）)
 
-// SKのバージョン（コマンドテーブル）
+// Version in SK (Command table) (SKのバージョン（コマンドテーブル）)
 SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M@1  // Version 1
 SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M@2  // Version 2
 SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M@3  // Version 3
 
-// データテーブルSK（バージョンサフィックスなし）
+// Data table SK (no version suffix) (データテーブルSK（バージョンサフィックスなし）)
 SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M
 ```
 
@@ -474,7 +474,7 @@ import {
   removeSortKeyVersion,
 } from "@mbc-cqrs-serverless/core";
 
-// 最初のバージョンを作成
+// Creating first version (最初のバージョンを作成)
 const command = new OrderCommandDto({
   pk,
   sk,
@@ -482,14 +482,14 @@ const command = new OrderCommandDto({
   // ...
 });
 
-// 履歴から特定のバージョンを読み取り
+// Reading specific version from history (履歴から特定のバージョンを読み取り)
 const skWithVersion = addSortKeyVersion(baseSk, 2);
 const historicalItem = await historyService.getItem({ pk, sk: skWithVersion });
 
-// データ同期ハンドラーで - RDS保存時は常にバージョンを削除
+// In Data Sync Handler - always remove version for RDS storage (データ同期ハンドラーで - RDS保存時は常にバージョンを削除)
 async up(cmd: CommandModel): Promise<any> {
   const sk = removeSortKeyVersion(cmd.sk);
-  // バージョンなしのSKをRDSに保存
+  // Store sk without version in RDS (バージョンなしのSKをRDSに保存)
 }
 ```
 
@@ -498,7 +498,7 @@ async up(cmd: CommandModel): Promise<any> {
 ### PKによるクエリ
 
 ```ts
-// テナントの全商品を取得
+// Get all products for a tenant (テナントの全商品を取得)
 const items = await dataService.listItemsByPk(
   `PRODUCT${KEY_SEPARATOR}${tenantCode}`,
 );
@@ -507,7 +507,7 @@ const items = await dataService.listItemsByPk(
 ### SKプレフィックスによるクエリ
 
 ```ts
-// 特定の注文の全注文アイテムを取得
+// Get all order items for a specific order (特定の注文の全注文アイテムを取得)
 const items = await dataService.listItemsByPk(
   `ORDER${KEY_SEPARATOR}${tenantCode}`,
   {
@@ -522,7 +522,7 @@ const items = await dataService.listItemsByPk(
 ### SK範囲によるクエリ
 
 ```ts
-// SKにタイムスタンプを使用している場合、日付範囲内の注文を取得
+// Get orders within a date range (if using timestamp in SK) (SKにタイムスタンプを使用している場合、日付範囲内の注文を取得)
 const items = await dataService.listItemsByPk(
   `ORDER${KEY_SEPARATOR}${tenantCode}`,
   {
@@ -558,7 +558,7 @@ import { ulid } from "ulid";
 
 const sk = ulid();
 // Result: "01HX7MBJK3V9WQBZ7XNDK5ZT2M"
-// 作成時刻でソート可能
+// Sortable by creation time (作成時刻でソート可能)
 ```
 
 ### 3. クエリパターンに合わせた設計
@@ -566,12 +566,12 @@ const sk = ulid();
 データのクエリ方法に基づいてキーを構造化します：
 
 ```ts
-// 注文の全アイテムを取得する必要がある場合:
+// If you need to query all items for an order: (注文の全アイテムを取得する必要がある場合:)
 PK: ORDER#tenant001
 SK: ORDER_ITEM#orderId#itemId  // Query by SK prefix
 
-// 注文を横断して商品別にアイテムを取得する必要がある場合:
-// GSIまたは別テーブルを検討
+// If you need to query items by product across orders: (注文を横断して商品別にアイテムを取得する必要がある場合:)
+// Consider a GSI or separate table (GSIまたは別テーブルを検討)
 ```
 
 ### 4. PKのカーディナリティを管理可能に保つ
@@ -579,10 +579,10 @@ SK: ORDER_ITEM#orderId#itemId  // Query by SK prefix
 ホットパーティションを防ぐために、ユニークなPKが多すぎないようにします：
 
 ```ts
-// 良い - テナントで制限される
+// Good - bounded by tenants (良い - テナントで制限される)
 PK: PRODUCT#tenant001
 
-// 避ける - ユーザーで制限されない
+// Avoid - unbounded by users (避ける - ユーザーで制限されない)
 PK: USER_ACTIVITY#user123  // Could create millions of partitions
 ```
 
@@ -603,13 +603,13 @@ SK: tenant001#productId  // Tenant in SK is less efficient
 `getUserContext()`関数は`tenantCode`を小文字に正規化します。これはパーティションキー生成に影響します：
 
 ```ts
-// ユーザーのCognitoには大文字のテナントがある
+// User's Cognito has uppercase tenant (ユーザーのCognitoには大文字のテナントがある)
 custom:tenant = "MY_TENANT"
 
-// getUserContext()は小文字を返す
+// getUserContext() returns lowercase (getUserContext()は小文字を返す)
 tenantCode = "my_tenant"
 
-// 生成されたPKは小文字を使用
+// Generated PK uses lowercase (生成されたPKは小文字を使用)
 PK: PRODUCT#my_tenant
 ```
 
@@ -623,11 +623,11 @@ PK: PRODUCT#my_tenant
 テナント間で共有されるデータには共通テナントコードを使用します：
 
 ```ts
-// ユーザーデータ（テナント間で共有）
+// User data (shared across tenants) (ユーザーデータ（テナント間で共有）)
 PK: USER#common
 SK: sso#userId
 
-// ユーザー-テナント関連付け
+// User-tenant association (ユーザー-テナント関連付け)
 PK: USER_TENANT#common
 SK: tenant001#userId
 ```
@@ -637,10 +637,10 @@ SK: tenant001#userId
 ### 1. キーに情報を詰め込みすぎる
 
 ```ts
-// 避ける - 複雑すぎる
+// Avoid - too complex (避ける - 複雑すぎる)
 SK: ORDER#2024-01-15#electronics#high-priority#01HX7M...
 
-// 良い - フィルタリングに属性を使用
+// Better - use attributes for filtering (良い - フィルタリングに属性を使用)
 SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M
 attributes: {
   date: "2024-01-15",
@@ -652,10 +652,10 @@ attributes: {
 ### 2. キーに可変データを使用する
 
 ```ts
-// 避ける - ステータスが変わる
+// Avoid - status changes (避ける - ステータスが変わる)
 SK: ORDER#pending#01HX7M...  // What happens when status changes?
 
-// 良い - 属性を使用
+// Better - use attributes (良い - 属性を使用)
 SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M
 attributes: { status: "pending" }
 ```
@@ -663,23 +663,23 @@ attributes: { status: "pending" }
 ### 3. 一貫性のないセパレーター
 
 ```ts
-// 避ける - 混在したセパレーター
+// Avoid - mixed separators (避ける - 混在したセパレーター)
 SK: ORDER-01HX7M_item:001
 
-// 良い - 一貫したセパレーター
+// Better - consistent separator (良い - 一貫したセパレーター)
 SK: ORDER#01HX7M#ITEM#001
 ```
 
 ### 4. データ操作でのバージョンサフィックス
 
 ```ts
-// 避ける - データテーブルSKにバージョンを含める
+// Avoid - including version in data table SK (避ける - データテーブルSKにバージョンを含める)
 await dataService.getItem({
   pk: "PRODUCT#tenant001",
-  sk: "01HX7MBJK3V9WQBZ7XNDK5ZT2M@3"  // バージョンはここにあるべきではない
+  sk: "01HX7MBJK3V9WQBZ7XNDK5ZT2M@3"  // Version should not be here (バージョンはここにあるべきではない)
 });
 
-// 良い - 常にremoveSortKeyVersionを使用
+// Better - always use removeSortKeyVersion (良い - 常にremoveSortKeyVersionを使用)
 const cleanSk = removeSortKeyVersion(skWithVersion);
 await dataService.getItem({ pk, sk: cleanSk });
 ```

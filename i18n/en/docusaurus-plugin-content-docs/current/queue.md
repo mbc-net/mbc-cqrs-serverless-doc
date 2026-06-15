@@ -71,7 +71,7 @@ await this.sqsService.sendMessage(queueUrl, body, {
 
 ### `sendMessageBatch(queueUrl, entries)`
 
-Sends up to 10 messages in a single API call. Caller is responsible for ensuring `entries.length <= 10`.
+Sends up to 10 messages in a single API call. Caller is responsible for ensuring `entries.length <= 10`. Batches larger than 10 will be rejected by SQS — split them into multiple calls for larger workloads.
 
 ```typescript
 await this.sqsService.sendMessageBatch(queueUrl, [

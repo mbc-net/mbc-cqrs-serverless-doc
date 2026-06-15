@@ -242,7 +242,7 @@ import {
   ResolveGroupRolesInput,
 } from "@mbc-cqrs-serverless/core";
 
-// @Injectable() を付けないでください — @GroupRoleResolver() が既にシングルトンプロバイダとして登録します
+// Do not add @Injectable() — @GroupRoleResolver() already registers a singleton provider (@Injectable() を付けないでください — @GroupRoleResolver() が既にシングルトンプロバイダとして登録します)
 @GroupRoleResolver()
 export class AppGroupRoleResolver implements IGroupRoleResolver {
   async resolveRoles({
@@ -250,7 +250,7 @@ export class AppGroupRoleResolver implements IGroupRoleResolver {
     groupIds,
     claims,
   }: ResolveGroupRolesInput): Promise<string[]> {
-    // このテナントについて、ユーザーのグループ ID をロールにマッピングします（DynamoDB/RDS/設定）
+    // Map the user's group IDs to roles for this tenant (DynamoDB/RDS/config) (このテナントについて、ユーザーのグループ ID をロールにマッピングします（DynamoDB/RDS/設定）)
     return [];
   }
 }

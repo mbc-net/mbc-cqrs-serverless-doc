@@ -50,7 +50,7 @@ import { ImportModule } from "@mbc-cqrs-serverless/import";
 @Module({
   imports: [
     ImportModule.register({
-      enableController: true, // 組み込みRESTコントローラーを有効化
+      enableController: true, // Enable built-in REST controller (組み込みRESTコントローラーを有効化)
       profiles: [
         {
           tableName: "products",
@@ -58,8 +58,8 @@ import { ImportModule } from "@mbc-cqrs-serverless/import";
           processStrategy: ProductProcessStrategy,
         },
       ],
-      imports: [ProductModule], // ストラテジーの依存関係をエクスポートするモジュール
-      zipFinalizationHooks: [BackupToS3Hook], // オプション: インポート後のフック
+      imports: [ProductModule], // Modules exporting strategy dependencies (ストラテジーの依存関係をエクスポートするモジュール)
+      zipFinalizationHooks: [BackupToS3Hook], // Optional: Post-import hooks (オプション: インポート後のフック)
     }),
   ],
 })
@@ -83,9 +83,9 @@ export class AppModule {}
 
 ```ts
 interface ImportEntityProfile {
-  tableName: string; // このデータタイプの一意識別子
-  importStrategy: Type<IImportStrategy<any, any>>; // 変換と検証
-  processStrategy: Type<IProcessStrategy<any, any>>; // 比較とマッピング
+  tableName: string; // Unique identifier for this data type (このデータタイプの一意識別子)
+  importStrategy: Type<IImportStrategy<any, any>>; // Transform and validate (変換と検証)
+  processStrategy: Type<IProcessStrategy<any, any>>; // Compare and map (比較とマッピング)
 }
 ```
 
@@ -134,7 +134,7 @@ const importEntity = await this.importService.createWithApi(
 CSVインポートのメインルーター。processingModeに基づいて、直接処理またはStep Functionに委譲します。
 
 ```ts
-// DIRECTモード - 作成されたインポートの配列を返す
+// DIRECT mode - returns array of created imports (DIRECTモード - 作成されたインポートの配列を返す)
 const imports = await this.importService.handleCsvImport(
   {
     processingMode: "DIRECT",
@@ -146,7 +146,7 @@ const imports = await this.importService.handleCsvImport(
   { invokeContext }
 );
 
-// STEP_FUNCTIONモード - マスタージョブエンティティを返す
+// STEP_FUNCTION mode - returns master job entity (STEP_FUNCTIONモード - マスタージョブエンティティを返す)
 const masterJob = await this.importService.handleCsvImport(
   {
     processingMode: "STEP_FUNCTION",
@@ -169,8 +169,8 @@ const zipJob = await this.importService.createZipJob(
     bucket: "my-bucket",
     key: "imports/bulk-data.zip",
     tenantCode: "tenant001",
-    sortedFileKeys: ["products.csv", "categories.csv"], // オプション: 処理順序を指定
-    tableName: "products", // オプション: tableName検出をオーバーライド
+    sortedFileKeys: ["products.csv", "categories.csv"], // Optional: specify processing order (オプション: 処理順序を指定)
+    tableName: "products", // Optional: override tableName detection (オプション: tableName検出をオーバーライド)
   },
   { invokeContext }
 );
@@ -285,7 +285,7 @@ export class ProductImportStrategy extends BaseImportStrategy<
     };
   }
 
-  // validate()は継承されます - class-validatorを使用
+  // validate() is inherited - uses class-validator (validate()は継承されます - class-validatorを使用)
 }
 ```
 
@@ -355,7 +355,7 @@ export class ProductProcessStrategy extends BaseProcessStrategy<
       return { status: ComparisonStatus.NOT_EXIST };
     }
 
-    // 関連フィールドを比較
+    // Compare relevant fields (関連フィールドを比較)
     if (
       existing.name !== importAttributes.name ||
       existing.attributes?.price !== importAttributes.price
@@ -388,7 +388,7 @@ export class ProductProcessStrategy extends BaseProcessStrategy<
       };
     }
 
-    // 既存を更新
+    // Update existing (既存を更新)
     return {
       pk,
       sk,
@@ -425,7 +425,7 @@ export class BackupToS3Hook implements IZipFinalizationHook {
     const { bucket, key } = executionInput.parameters;
 
     if (status === "COMPLETED") {
-      // ファイルをバックアップ場所に移動
+      // Move file to backup location (ファイルをバックアップ場所に移動)
       const backupKey = `backup/${new Date().toISOString()}/${key}`;
       await this.s3Service.copyObject({
         sourceBucket: bucket,
@@ -497,10 +497,10 @@ export class BackupToS3Hook implements IZipFinalizationHook {
 
 ### エラー処理 {#csv-batch-error-handling}
 
-:::warning 既知の問題（v1.2.2で修正済み）
-v1.2.2以前は、SQSバッチの先頭行に永続的なバリデーションエラーがあると`CsvBatchProcessor`が即座にクラッシュしていました。SQSはバッチ全体をリトライし、先頭行で繰り返し失敗することで、残りの有効な行がDLQ閾値に達するまでブロックされていました（Head-of-Line Blocking / Poison Pill問題）。
+:::warning 既知の問題（v1.2.3で修正済み）
+v1.2.3以前は、SQSバッチの先頭行に永続的なバリデーションエラーがあると`CsvBatchProcessor`が即座にクラッシュしていました。SQSはバッチ全体をリトライし、先頭行で繰り返し失敗することで、残りの有効な行がDLQ閾値に達するまでブロックされていました（Head-of-Line Blocking / Poison Pill問題）。
 
-この問題は[v1.2.2](/docs/changelog#v122)でSmart Retryパターンにより修正されました。各行をtry/catchブロックで独立して処理し、バッチ終了後に集約エラーをスローして失敗行のみSQSリトライをトリガーします。
+この問題は[v1.2.3](/docs/changelog#v123)でSmart Retryパターンにより修正されました。各行をtry/catchブロックで独立して処理し、バッチ終了後に集約エラーをスローして失敗行のみSQSリトライをトリガーします。
 :::
 
 - 無効な行はCSV処理でログに記録されスキップされます

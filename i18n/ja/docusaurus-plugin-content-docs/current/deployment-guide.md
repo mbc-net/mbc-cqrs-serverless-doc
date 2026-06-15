@@ -70,30 +70,30 @@ const config: Config = {
   env: 'dev',
   appName: 'your-app',
 
-  // ドメイン設定
+  // Domain configuration (ドメイン設定)
   domain: {
     http: 'dev-api.your-domain.com',
     appsync: 'dev-appsync.your-domain.com',
   },
 
-  // 既存のCognito User Pool（オプション）
+  // Existing Cognito User Pool (optional) (既存のCognito User Pool（オプション）)
   userPoolId: 'ap-northeast-1_xxxxxxx',
 
-  // VPC設定
+  // VPC Configuration (VPC設定)
   vpc: {
     id: 'vpc-xxxxxxxxx',
     subnetIds: ['subnet-xxx1', 'subnet-xxx2'],
     securityGroupIds: ['sg-xxxxxxxxx'],
   },
 
-  // RDS設定
+  // RDS Configuration (RDS設定)
   rds: {
     accountSsmKey: '/your-app/dev/rds/account',
     endpoint: 'your-rds-endpoint.ap-northeast-1.rds.amazonaws.com',
     dbName: 'your_app_dev',
   },
 
-  // ログレベル設定
+  // Log Level Configuration (ログレベル設定)
   logLevel: {
     lambdaSystem: SystemLogLevel.DEBUG,
     lambdaApplication: ApplicationLogLevel.TRACE,
@@ -103,7 +103,7 @@ const config: Config = {
   frontBaseUrl: 'https://dev.your-domain.com',
   fromEmailAddress: 'noreply@your-domain.com',
 
-  // WAF設定（オプション）
+  // WAF Configuration (optional) (WAF設定（オプション）)
   // wafArn: 'arn:aws:wafv2:ap-northeast-1:YOUR_ACCOUNT:regional/webacl/xxx',
 };
 
@@ -128,7 +128,7 @@ DATABASE_URL=postgresql://user:password@host:5432/dbname?schema=public
 
 # Cognito
 COGNITO_USER_POOL_ID=ap-northeast-1_xxxxxxx
-COGNITO_CLIENT_ID=xxxxxxxxxxxxxxxxxx
+COGNITO_USER_POOL_CLIENT_ID=xxxxxxxxxxxxxxxxxx
 ```
 
 ## CDKスタック構造
@@ -206,7 +206,7 @@ AWS_PROFILE=your-profile cdk synth
 
 ```typescript
 // infra/bin/infra.ts
-const envs: Env[] = ['dev'];  // 必要に応じて 'stg' や 'prod' を追加
+const envs: Env[] = ['dev'];  // Add 'stg' or 'prod' as needed (必要に応じて 'stg' や 'prod' を追加)
 ```
 
 複数の環境をデプロイするには、配列に追加します：
@@ -232,9 +232,10 @@ cdk synth
 cdk deploy --all
 ```
 
-または特定の環境スタックをデプロイします：
+または特定の環境スタックをデプロイします（利用可能なスタック名を確認するには `cdk ls` を実行してください）：
 
 ```bash
+cdk ls
 cdk deploy dev-your-app-pipeline-stack
 ```
 
