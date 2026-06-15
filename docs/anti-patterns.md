@@ -210,6 +210,8 @@ const command = new DocumentCommand({
 
 ```typescript
 // ✅ {{Correct: Store in S3, reference in DynamoDB}}
+import { toS3AttributeKey } from '@mbc-cqrs-serverless/core';
+
 const s3Key = `documents/${tenantCode}/${documentId}.pdf`;
 await this.s3Service.upload(s3Key, fileBuffer);
 
@@ -217,7 +219,7 @@ const command = new DocumentCommand({
   pk,
   sk,
   attributes: {
-    pdfLocation: toS3Uri(bucket, s3Key), // {{s3://bucket/path}}
+    pdfLocation: toS3AttributeKey(bucket, s3Key), // {{s3://bucket/path}}
   }
 });
 ```
