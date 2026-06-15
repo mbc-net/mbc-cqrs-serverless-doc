@@ -240,14 +240,14 @@ const command = new DocumentCommand({
 ```typescript
 // ❌ Anti-Pattern: Hardcoded tenant (アンチパターン: ハードコードされたテナント)
 const pk = 'TENANT#default';
-const items = await this.dataService.listItems({ pk });
+const items = await this.dataService.listItemsByPk(pk);
 ```
 
 ```typescript
 // ✅ Correct: Use context-provided tenant (正解: コンテキストから提供されるテナントを使用)
 const { tenantCode } = getUserContext(context);
 const pk = generatePk(tenantCode);
-const items = await this.dataService.listItems({ pk });
+const items = await this.dataService.listItemsByPk(pk);
 ```
 
 **なぜこれが問題なのか：**

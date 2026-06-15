@@ -240,14 +240,14 @@ const command = new DocumentCommand({
 ```typescript
 // ❌ {{Anti-Pattern: Hardcoded tenant}}
 const pk = 'TENANT#default';
-const items = await this.dataService.listItems({ pk });
+const items = await this.dataService.listItemsByPk(pk);
 ```
 
 ```typescript
 // ✅ {{Correct: Use context-provided tenant}}
 const { tenantCode } = getUserContext(context);
 const pk = generatePk(tenantCode);
-const items = await this.dataService.listItems({ pk });
+const items = await this.dataService.listItemsByPk(pk);
 ```
 
 **{{Why this is problematic:}}**
