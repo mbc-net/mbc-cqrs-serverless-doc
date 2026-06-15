@@ -992,6 +992,7 @@ import {
   DataService,
   HistoryService,
   IInvoke,
+  addSortKeyVersion,
 } from '@mbc-cqrs-serverless/core';
 
 @Injectable()

@@ -6,7 +6,7 @@ description: Learn about partition key (PK) and sort key (SK) design patterns fo
 
 This guide explains how to design partition keys (PK) and sort keys (SK) for your entities in DynamoDB. Proper key design is critical for performance, scalability, and query efficiency.
 
-## When to Use This Guide
+## When to Use This Guide {#when-to-use}
 
 Use this guide when you need to:
 
@@ -22,7 +22,7 @@ Use this guide when you need to:
 - [Backend Development Guide](/docs/backend-development) - Complete module implementation patterns
 :::
 
-## Problems This Pattern Solves
+## Problems This Pattern Solves {#problems-solved}
 
 | Problem | Solution |
 |---------|----------|
@@ -69,7 +69,7 @@ Start: What type of data are you storing?
    └─ Use Composite SK Pattern
 ```
 
-## Key Structure Overview
+## Key Structure Overview {#key-structure-overview}
 
 The framework uses a consistent key structure:
 
@@ -117,7 +117,7 @@ seqPk("tenant001");         // "SEQ#tenant001"
 ttlSk("product");           // "TTL#product"
 ```
 
-## Basic Key Generation
+## Basic Key Generation {#basic-key-generation}
 
 Import utilities from the core package:
 
@@ -189,7 +189,7 @@ const noTenant = getTenantCode("PRODUCT");
 // Result: undefined
 ```
 
-## Common Key Patterns
+## Common Key Patterns {#common-patterns}
 
 ### Pattern 1: Simple Entity {#pattern-1-simple-entity}
 
@@ -377,7 +377,7 @@ function generateLogKeys(tenantCode: string, timestamp: Date, eventId: string) {
 }
 ```
 
-## Key Helper Functions
+## Key Helper Functions {#key-helper-functions}
 
 Create a helpers file for consistent key generation:
 
@@ -448,7 +448,7 @@ export function generateEntityId(
 }
 ```
 
-## Version Management
+## Version Management {#version-management}
 
 The framework uses versioning for optimistic locking:
 
@@ -493,7 +493,7 @@ async up(cmd: CommandModel): Promise<any> {
 }
 ```
 
-## Query Patterns
+## Query Patterns {#query-patterns}
 
 ### Query by PK
 
@@ -534,7 +534,7 @@ const items = await dataService.listItemsByPk(
 );
 ```
 
-## Best Practices
+## Best Practices {#best-practices}
 
 ### 1. Use Consistent Prefixes
 
@@ -632,7 +632,7 @@ PK: USER_TENANT#common
 SK: tenant001#userId
 ```
 
-## Anti-Patterns to Avoid
+## Anti-Patterns to Avoid {#anti-patterns}
 
 ### 1. Embedding Too Much in Keys
 

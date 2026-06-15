@@ -6,7 +6,7 @@ description: DynamoDBのパーティションキー（PK）とソートキー（
 
 このガイドでは、DynamoDBにおけるエンティティのパーティションキー（PK）とソートキー（SK）の設計方法を説明します。適切なキー設計は、パフォーマンス、スケーラビリティ、クエリ効率にとって重要です。
 
-## このガイドを使用するタイミング
+## このガイドを使用するタイミング {#when-to-use}
 
 以下が必要な場合にこのガイドを使用してください：
 
@@ -22,7 +22,7 @@ description: DynamoDBのパーティションキー（PK）とソートキー（
 - [バックエンド開発ガイド](/docs/backend-development) - 完全なモジュール実装パターン
 :::
 
-## このパターンが解決する問題
+## このパターンが解決する問題 {#problems-solved}
 
 | 問題 | 解決策 |
 |---------|----------|
@@ -69,7 +69,7 @@ description: DynamoDBのパーティションキー（PK）とソートキー（
    └─ 複合SKパターンを使用
 ```
 
-## キー構造の概要
+## キー構造の概要 {#key-structure-overview}
 
 フレームワークは一貫したキー構造を使用します：
 
@@ -117,7 +117,7 @@ seqPk("tenant001");         // "SEQ#tenant001"
 ttlSk("product");           // "TTL#product"
 ```
 
-## 基本的なキー生成
+## 基本的なキー生成 {#basic-key-generation}
 
 コアパッケージからユーティリティをインポートします：
 
@@ -189,7 +189,7 @@ const noTenant = getTenantCode("PRODUCT");
 // Result: undefined
 ```
 
-## 一般的なキーパターン
+## 一般的なキーパターン {#common-patterns}
 
 ### パターン1: シンプルなエンティティ {#pattern-1-simple-entity}
 
@@ -377,7 +377,7 @@ function generateLogKeys(tenantCode: string, timestamp: Date, eventId: string) {
 }
 ```
 
-## キーヘルパー関数
+## キーヘルパー関数 {#key-helper-functions}
 
 一貫したキー生成のためのヘルパーファイルを作成します：
 
@@ -448,7 +448,7 @@ export function generateEntityId(
 }
 ```
 
-## バージョン管理
+## バージョン管理 {#version-management}
 
 フレームワークは楽観的ロックのためにバージョニングを使用します：
 
@@ -493,7 +493,7 @@ async up(cmd: CommandModel): Promise<any> {
 }
 ```
 
-## クエリパターン
+## クエリパターン {#query-patterns}
 
 ### PKによるクエリ
 
@@ -534,7 +534,7 @@ const items = await dataService.listItemsByPk(
 );
 ```
 
-## ベストプラクティス
+## ベストプラクティス {#best-practices}
 
 ### 1. 一貫したプレフィックスを使用する
 
@@ -632,7 +632,7 @@ PK: USER_TENANT#common
 SK: tenant001#userId
 ```
 
-## 避けるべきアンチパターン
+## 避けるべきアンチパターン {#anti-patterns}
 
 ### 1. キーに情報を詰め込みすぎる
 
