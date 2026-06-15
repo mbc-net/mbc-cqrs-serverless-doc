@@ -7,7 +7,7 @@ description: MBC CQRS Serverlessフレームワークで使用されるTypeScrip
 
 このドキュメントでは、MBC CQRS Serverlessフレームワークで使用されるすべてのTypeScriptインターフェースの包括的なリファレンスを提供します。
 
-## コアインターフェース
+## コアインターフェース {#core-interfaces}
 
 ### コマンドインターフェース
 
@@ -246,7 +246,7 @@ console.log(userContext.tenantCode);  // 'tenant001'
 console.log(userContext.tenantRole);  // 'admin'
 ```
 
-## データインターフェース
+## データインターフェース {#data-interfaces}
 
 ### エンティティインターフェース
 
@@ -370,7 +370,7 @@ if (result.lastSk) {
 }
 ```
 
-## サービスインターフェース
+## サービスインターフェース {#service-interfaces}
 
 ### 同期ハンドラーインターフェース
 
@@ -441,7 +441,7 @@ export class OrderRdsSyncHandler implements IDataSyncHandler {
 }
 ```
 
-## 通知インターフェース
+## 通知インターフェース {#notification-interfaces}
 
 ### EmailNotification
 
@@ -475,7 +475,7 @@ await emailService.sendEmail({
 });
 ```
 
-## モジュール設定インターフェース
+## モジュール設定インターフェース {#module-config-interfaces}
 
 ### CommandModuleOptions
 
@@ -518,7 +518,7 @@ export interface SequencesModuleOptions {
 }
 ```
 
-## イベントインターフェース
+## イベントインターフェース {#event-interfaces}
 
 ### StepFunctionsEvent
 
@@ -556,7 +556,7 @@ export interface StepFunctionsEvent<TInput> {
 }
 ```
 
-## 型ユーティリティ
+## 型ユーティリティ {#type-utilities}
 
 ### 共通型ヘルパー
 

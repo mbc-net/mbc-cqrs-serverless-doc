@@ -7,17 +7,17 @@ description: システム概要、CQRSパターンフロー、イベントソー
 
 このセクションでは、MBC CQRS Serverlessフレームワークのアーキテクチャの概要を説明します。
 
-## 概要
+## 概要 {#overview}
 
 このフレームワークはAWSサーバーレスサービス上に構築され、スケーラブルでイベント駆動型のアプリケーションのためにCQRSパターンとイベントソーシングを実装しています。
 
-## アーキテクチャセクション
+## アーキテクチャセクション {#architecture-sections}
 
 - [システム概要](/docs/architecture/system-overview) - AWSインフラストラクチャコンポーネントとその相互作用。
 - [CQRSパターンフロー](/docs/architecture/cqrs-flow) - コマンドとクエリがどのように分離され処理されるか。
 - [イベントソーシング](/docs/architecture/event-sourcing) - イベントの保存、リプレイ、プロジェクションメカニズム。
 
-## 主要概念
+## 主要概念 {#key-concepts}
 
 ### CQRS
 

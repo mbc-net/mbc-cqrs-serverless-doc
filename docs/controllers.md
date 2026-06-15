@@ -43,7 +43,7 @@ export class CatController {
 }
 ```
 
-## {{Decorators}}
+## {{Decorators}} {#decorators}
 
 {{The framework provides several decorators to simplify common patterns in your controllers.}}
 

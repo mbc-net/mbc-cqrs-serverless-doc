@@ -7,17 +7,17 @@ description: {{Comprehensive overview of MBC CQRS Serverless framework architect
 
 {{This section provides a comprehensive overview of the MBC CQRS Serverless framework architecture.}}
 
-## {{Overview}}
+## {{Overview}} {#overview}
 
 {{The framework is built on AWS serverless services and implements the CQRS pattern with Event Sourcing for scalable, event-driven applications.}}
 
-## {{Architecture Sections}}
+## {{Architecture Sections}} {#architecture-sections}
 
 - [{{System Overview}}](/docs/architecture/system-overview) - {{AWS infrastructure components and their interactions.}}
 - [{{CQRS Pattern Flow}}](/docs/architecture/cqrs-flow) - {{How commands and queries are separated and processed.}}
 - [{{Event Sourcing}}](/docs/architecture/event-sourcing) - {{Event storage, replay, and projection mechanisms.}}
 
-## {{Key Concepts}}
+## {{Key Concepts}} {#key-concepts}
 
 ### {{CQRS}}
 

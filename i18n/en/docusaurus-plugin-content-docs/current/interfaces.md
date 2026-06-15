@@ -7,7 +7,7 @@ description: Complete reference of TypeScript interfaces used in MBC CQRS Server
 
 This document provides a comprehensive reference of all TypeScript interfaces used in the MBC CQRS Serverless framework.
 
-## Core Interfaces
+## Core Interfaces {#core-interfaces}
 
 ### Command Interfaces
 
@@ -246,7 +246,7 @@ console.log(userContext.tenantCode);  // 'tenant001'
 console.log(userContext.tenantRole);  // 'admin'
 ```
 
-## Data Interfaces
+## Data Interfaces {#data-interfaces}
 
 ### Entity Interfaces
 
@@ -370,7 +370,7 @@ if (result.lastSk) {
 }
 ```
 
-## Service Interfaces
+## Service Interfaces {#service-interfaces}
 
 ### Sync Handler Interfaces
 
@@ -441,7 +441,7 @@ export class OrderRdsSyncHandler implements IDataSyncHandler {
 }
 ```
 
-## Notification Interfaces
+## Notification Interfaces {#notification-interfaces}
 
 ### EmailNotification
 
@@ -475,7 +475,7 @@ await emailService.sendEmail({
 });
 ```
 
-## Module Configuration Interfaces
+## Module Configuration Interfaces {#module-config-interfaces}
 
 ### CommandModuleOptions
 
@@ -518,7 +518,7 @@ export interface SequencesModuleOptions {
 }
 ```
 
-## Event Interfaces
+## Event Interfaces {#event-interfaces}
 
 ### StepFunctionsEvent
 
@@ -556,7 +556,7 @@ export interface StepFunctionsEvent<TInput> {
 }
 ```
 
-## Type Utilities
+## Type Utilities {#type-utilities}
 
 ### Common Type Helpers
 
