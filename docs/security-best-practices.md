@@ -98,6 +98,8 @@ export class CommentDto {
 {{Restrict file types, sizes, and scan for malware.}}
 
 ```typescript
+import FileType from 'file-type'; // npm install file-type
+
 // {{Validate file type and size}}
 const ALLOWED_MIME_TYPES = [
   'image/jpeg',
@@ -282,21 +284,24 @@ async function getOrdersByTenant(invokeContext: IInvoke) {
 {{Check ownership before allowing operations.}}
 
 ```typescript
-async function updateOrder(
-  orderId: string,
+// {{In a service class with dataService and commandService injected}}
+async updateOrder(
+  pk: string,   // e.g., 'ORDER#tenant-a'
+  sk: string,   // e.g., 'order-123'
   updates: UpdateOrderDto,
   invokeContext: IInvoke,
 ): Promise<CommandModel | null> {
   // {{Derive user identity from verified JWT — never from request parameters}}
-  const { userId } = getUserContext(invokeContext);
+  const { userId, tenantRoles } = getUserContext(invokeContext);
   const order = await this.dataService.getItem({ pk, sk });
 
   if (!order) {
     throw new NotFoundException('Order not found');
   }
 
-  // {{Check ownership}}
-  if (order.createdBy !== userId && !this.isAdmin(userId)) {
+  // {{Check ownership — allow system_admin to bypass}}
+  const isAdmin = tenantRoles.includes(ROLE_SYSTEM_ADMIN);
+  if (order.createdBy !== userId && !isAdmin) {
     throw new ForbiddenException('Not authorized to update this order');
   }
 
