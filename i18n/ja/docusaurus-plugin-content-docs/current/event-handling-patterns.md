@@ -278,6 +278,7 @@ import { ImportService } from '../import.service';
 
 // Define SNS event for alarm notifications (アラーム通知用のSNSイベントを定義)
 class AlarmSnsEvent implements SnsEvent {
+  action: string;
   importId: string;
   bucket: string;
   key: string;

@@ -1351,6 +1351,7 @@ import {
   ImportEvent,
   ImportQueueEvent,
 } from '@mbc-cqrs-serverless/import';
+import { EventFactoryAddedTask } from '@mbc-cqrs-serverless/task';
 import { DynamoDBStreamEvent, SQSEvent } from 'aws-lambda';
 
 @EventFactory()
