@@ -202,5 +202,6 @@
   "AI Prompts Library": "AI Prompts Library",
   "Optimized prompts for common tasks": "Optimized prompts for common tasks",
   "CLI": "CLI",
-  "MBC CLI code generation tool": "MBC CLI code generation tool"
+  "MBC CLI code generation tool": "MBC CLI code generation tool",
+  "Version migration matrix (v1.0.16 to v1.3.1)": "Version migration matrix (v1.0.16 to v1.3.1)"
 }

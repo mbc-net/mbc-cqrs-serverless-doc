@@ -202,5 +202,6 @@
   "AI Prompts Library": "AIプロンプトライブラリ",
   "Optimized prompts for common tasks": "よく使うタスクに最適化されたプロンプト",
   "CLI": "CLI",
-  "MBC CLI code generation tool": "MBC CLIコード生成ツール"
+  "MBC CLI code generation tool": "MBC CLIコード生成ツール",
+  "Version migration matrix (v1.0.16 to v1.3.1)": "バージョン移行マトリックス（v1.0.16 から v1.3.1）"
 }

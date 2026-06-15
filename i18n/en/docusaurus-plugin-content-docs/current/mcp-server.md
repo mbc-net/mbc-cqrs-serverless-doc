@@ -316,7 +316,7 @@ Review the code in src/order/order.service.ts
 Guides version migrations for MBC CQRS Serverless framework.
 
 **Features:**
-- Version migration matrix (v1.0.16 to v1.0.23)
+- Version migration matrix (v1.0.16 to v1.3.1)
 - Detailed migration guides for each version
 - Deprecated API migration instructions
 - Migration checklist (before, during, after)
@@ -325,7 +325,7 @@ Guides version migrations for MBC CQRS Serverless framework.
 **Example Usage:**
 ```
 /mbc-migrate
-I need to upgrade from v1.0.20 to v1.0.23
+I need to upgrade from v1.2.x to v1.3.0
 ```
 
 ### /mbc-debug Skill
