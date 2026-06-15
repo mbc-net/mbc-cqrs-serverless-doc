@@ -9,7 +9,7 @@ description: {{Learn how to add and validate your environment variables in your 
 - {{Use `.env` to load environment variables}}
 - {{Validate environment variables}}
 
-## {{Loading Environment Variables}}
+## {{Loading Environment Variables}} {#loading-env-vars}
 
 {{MBC CQRS serverless framework has built-in support for loading environment variables from `.env*` files into `process.env.`}}
 
@@ -207,7 +207,7 @@ SES_FROM_EMAIL=email@example.com
 DATABASE_URL="postgresql://root:RootCqrs@localhost:5432/cqrs?schema=public"
 ```
 
-## {{Validate Environment Variables}}
+## {{Validate Environment Variables}} {#validate-env-vars}
 
 {{It is standard practice to throw an exception during application startup if required environment variables haven't been provided or if they don't meet certain validation rules. The `@mbc-cqrs-serverless/core` package makes this easy to do.}}
 

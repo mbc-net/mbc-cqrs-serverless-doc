@@ -6,7 +6,7 @@ description: {{Learn how to structure your Next.js frontend project for MBC CQRS
 
 {{This guide explains how to organize a Next.js frontend application that integrates with an MBC CQRS Serverless backend. A well-structured project improves maintainability, enables team collaboration, and scales effectively as the application grows.}}
 
-## {{When to Use This Guide}}
+## {{When to Use This Guide}} {#when-to-use}
 
 {{Use this guide when you are:}}
 
@@ -15,7 +15,7 @@ description: {{Learn how to structure your Next.js frontend project for MBC CQRS
 - {{Setting up a multi-tenant SaaS application with Cognito authentication}}
 - {{Creating an admin panel or dashboard for CQRS-based data management}}
 
-## {{Problems This Structure Solves}}
+## {{Problems This Structure Solves}} {#problems-solved}
 
 | {{Problem}} | {{Solution}} |
 |---------|----------|
@@ -25,7 +25,7 @@ description: {{Learn how to structure your Next.js frontend project for MBC CQRS
 | {{Components become too large and hard to test}} | {{Split into ui (presentation), forms (input), and containers (logic)}} |
 | {{Authentication logic scattered across files}} | {{Centralize in lib/auth with Amplify configuration}} |
 
-## {{Technology Stack}}
+## {{Technology Stack}} {#technology-stack}
 
 | {{Category}} | {{Technology}} | {{Purpose}} |
 |----------|------------|---------|
@@ -39,7 +39,7 @@ description: {{Learn how to structure your Next.js frontend project for MBC CQRS
 | {{Styling}} | Tailwind CSS | {{Utility-first CSS}} |
 | {{UI Components}} | Ant Design / Radix UI | {{Component library}} |
 
-## {{Directory Structure}}
+## {{Directory Structure}} {#directory-structure}
 
 {{The following structure separates concerns clearly and scales well for medium to large applications:}}
 
@@ -114,7 +114,7 @@ src/
     └── config.ts            # Configuration constants
 ```
 
-## {{Key Directory Explanations}}
+## {{Key Directory Explanations}} {#key-directories}
 
 ### {{app/ - Page Routes}}
 
@@ -152,7 +152,7 @@ src/
 
 {{Why: React Query handles server state complexity (caching, refetching, optimistic updates).}}
 
-## {{App Router Structure}}
+## {{App Router Structure}} {#app-router-structure}
 
 ### {{Route Groups}}
 
@@ -220,7 +220,7 @@ export default function ProductsPage() {
 }
 ```
 
-## {{Component Organization}}
+## {{Component Organization}} {#component-organization}
 
 ### {{UI Components}}
 
@@ -317,7 +317,7 @@ export function ProductList() {
 }
 ```
 
-## {{Provider Setup}}
+## {{Provider Setup}} {#provider-setup}
 
 ### {{Root Providers}}
 
@@ -386,7 +386,7 @@ export default function RootLayout({
 }
 ```
 
-## {{Environment Configuration}}
+## {{Environment Configuration}} {#environment-configuration}
 
 ### {{Environment Variables}}
 
@@ -430,7 +430,7 @@ export const config = {
 } as const;
 ```
 
-## {{Best Practices}}
+## {{Best Practices}} {#best-practices}
 
 ### {{1. Separate Server and Client Components}}
 
