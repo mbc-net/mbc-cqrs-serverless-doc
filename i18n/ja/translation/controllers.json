@@ -32,5 +32,16 @@
   "Interfaces": "インターフェース",
   "IInvoke and IInvokeContext interfaces": "IInvokeとIInvokeContextインターフェース",
   "Since [v1.3.1](/docs/changelog#v131), `RolesGuard` checks both direct roles (from `custom:roles`) and group-derived roles (from `custom:groups`, when a `@GroupRoleResolver()` is configured). Existing `@Roles()` calls benefit automatically — no code changes required. See [Group-Based Roles](/docs/authentication#group-based-roles).": "[v1.3.1](/docs/changelog#v131) 以降、`RolesGuard` は直接ロール（`custom:roles`）とグループ派生ロール（`custom:groups`、`@GroupRoleResolver()` が設定されている場合）の両方をチェックします。既存の `@Roles()` 呼び出しは自動的に恩恵を受けます — コード変更は不要です。[グループベースロール](/docs/authentication#group-based-roles)を参照してください。",
-  "Version Note": "バージョン情報"
+  "Version Note": "バージョン情報",
+  "Other Framework Decorators": "その他のフレームワークデコレーター",
+  "The following decorators are used on provider classes rather than controllers — see their respective guides:": "以下のデコレーターはコントローラーではなくプロバイダークラスに使用します — それぞれのガイドを参照してください：",
+  "marks a class as a DynamoDB Stream sync handler": "クラスをDynamoDB Streamの同期ハンドラーとしてマーク",
+  "marks a class as a domain event handler": "クラスをドメインイベントハンドラーとしてマーク",
+  "marks a class as an event factory": "クラスをイベントファクトリーとしてマーク",
+  "registers a group-to-role mapping class": "グループからロールへのマッピングクラスを登録",
+  "registers a custom notification transport": "カスタム通知トランスポートを登録",
+  "Data Sync Handler Examples": "データ同期ハンドラーの例",
+  "Authentication — Group-Based Roles": "認証 — グループベースロール",
+  "Notification Module": "通知モジュール",
+  "Tasks": "タスク"
 }

@@ -93,5 +93,6 @@
   "Deployment Guide": "Deployment Guide",
   "Deployment environment setup": "Deployment environment setup",
   "Installation": "Installation",
-  "Initial environment setup": "Initial environment setup"
+  "Initial environment setup": "Initial environment setup",
+  "Set to `true` automatically by serverless-offline when running locally. The framework uses this flag to detect local development and skip production-only behaviors.": "Set to `true` automatically by serverless-offline when running locally. The framework uses this flag to detect local development and skip production-only behaviors."
 }

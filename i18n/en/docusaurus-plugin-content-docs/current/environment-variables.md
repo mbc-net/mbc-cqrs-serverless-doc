@@ -29,6 +29,7 @@ The "Required" column indicates the general expectation for typical applications
 | `NODE_ENV` | Running environment: local, dev, stg, prod | Yes | - | `local` |
 | `APP_NAME` | Application name used for table prefixes | Yes | - | `demo` |
 | `APP_PORT` | Application port for non-Lambda environments | No | `3000` | `3000` |
+| `IS_OFFLINE` | Set to `true` automatically by serverless-offline when running locally. The framework uses this flag to detect local development and skip production-only behaviors. | No | `false` | `true` |
 | `LOG_LEVEL` | Log level: debug, verbose, info, warn, error, fatal | Yes | - | `verbose` |
 | `EVENT_SOURCE_DISABLED` | Disable event source route for API Gateway integration | Yes | - | `false` |
 | `REQUEST_BODY_SIZE_LIMIT` | Request body size limit for JSON and URL-encoded data | No | `100kb` | `100kb` |

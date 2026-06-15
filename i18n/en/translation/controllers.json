@@ -32,5 +32,16 @@
   "Interfaces": "Interfaces",
   "IInvoke and IInvokeContext interfaces": "IInvoke and IInvokeContext interfaces",
   "Since [v1.3.1](/docs/changelog#v131), `RolesGuard` checks both direct roles (from `custom:roles`) and group-derived roles (from `custom:groups`, when a `@GroupRoleResolver()` is configured). Existing `@Roles()` calls benefit automatically — no code changes required. See [Group-Based Roles](/docs/authentication#group-based-roles).": "Since [v1.3.1](/docs/changelog#v131), `RolesGuard` checks both direct roles (from `custom:roles`) and group-derived roles (from `custom:groups`, when a `@GroupRoleResolver()` is configured). Existing `@Roles()` calls benefit automatically — no code changes required. See [Group-Based Roles](/docs/authentication#group-based-roles).",
-  "Version Note": "Version Note"
+  "Version Note": "Version Note",
+  "Other Framework Decorators": "Other Framework Decorators",
+  "The following decorators are used on provider classes rather than controllers — see their respective guides:": "The following decorators are used on provider classes rather than controllers — see their respective guides:",
+  "marks a class as a DynamoDB Stream sync handler": "marks a class as a DynamoDB Stream sync handler",
+  "marks a class as a domain event handler": "marks a class as a domain event handler",
+  "marks a class as an event factory": "marks a class as an event factory",
+  "registers a group-to-role mapping class": "registers a group-to-role mapping class",
+  "registers a custom notification transport": "registers a custom notification transport",
+  "Data Sync Handler Examples": "Data Sync Handler Examples",
+  "Authentication — Group-Based Roles": "Authentication — Group-Based Roles",
+  "Notification Module": "Notification Module",
+  "Tasks": "Tasks"
 }

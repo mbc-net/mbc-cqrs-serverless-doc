@@ -29,6 +29,7 @@ MBC CQRS サーバーレスフレームワークには、環境変数を `.env*`
 | `NODE_ENV` | 実行環境: local, dev, stg, prod | はい | - | `local` |
 | `APP_NAME` | テーブルプレフィックスに使用されるアプリケーション名 | はい | - | `demo` |
 | `APP_PORT` | Lambda以外の環境でのアプリケーションポート | いいえ | `3000` | `3000` |
+| `IS_OFFLINE` | ローカル実行時にserverless-offlineによって自動的に`true`に設定されます。フレームワークはこのフラグを使用してローカル開発を検出し、本番環境専用の動作をスキップします。 | いいえ | `false` | `true` |
 | `LOG_LEVEL` | ログレベル: debug, verbose, info, warn, error, fatal | はい | - | `verbose` |
 | `EVENT_SOURCE_DISABLED` | API Gateway統合用のイベントソースルートを無効にする | はい | - | `false` |
 | `REQUEST_BODY_SIZE_LIMIT` | JSONおよびURLエンコードデータのリクエストボディサイズ制限 | いいえ | `100kb` | `100kb` |

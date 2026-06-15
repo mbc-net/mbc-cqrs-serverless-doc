@@ -148,6 +148,16 @@ export class CustomController {
 ```
 
 
+:::tip その他のフレームワークデコレーター
+以下のデコレーターはコントローラーではなくプロバイダークラスに使用します — それぞれのガイドを参照してください：
+
+- `@DataSyncHandler(tableName)` — クラスをDynamoDB Streamの同期ハンドラーとしてマーク → [データ同期ハンドラーの例](/docs/data-sync-handler-examples)
+- `@EventHandler(EventClass)` — クラスをドメインイベントハンドラーとしてマーク → [タスク](/docs/tasks)
+- `@EventFactory()` — クラスをイベントファクトリーとしてマーク → [タスク](/docs/tasks)
+- `@GroupRoleResolver()` — グループからロールへのマッピングクラスを登録 → [認証 — グループベースロール](/docs/authentication#group-based-roles)
+- `@NotificationTransport(name)` — カスタム通知トランスポートを登録 → [通知モジュール](/docs/notification-module)
+:::
+
 ## 関連ドキュメント
 
 - [認証](/docs/authentication) - Cognitoの認証とJWTの設定

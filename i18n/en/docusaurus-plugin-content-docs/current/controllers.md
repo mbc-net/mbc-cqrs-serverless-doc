@@ -148,6 +148,16 @@ export class CustomController {
 ```
 
 
+:::tip Other Framework Decorators
+The following decorators are used on provider classes rather than controllers — see their respective guides:
+
+- `@DataSyncHandler(tableName)` — marks a class as a DynamoDB Stream sync handler → [Data Sync Handler Examples](/docs/data-sync-handler-examples)
+- `@EventHandler(EventClass)` — marks a class as a domain event handler → [Tasks](/docs/tasks)
+- `@EventFactory()` — marks a class as an event factory → [Tasks](/docs/tasks)
+- `@GroupRoleResolver()` — registers a group-to-role mapping class → [Authentication — Group-Based Roles](/docs/authentication#group-based-roles)
+- `@NotificationTransport(name)` — registers a custom notification transport → [Notification Module](/docs/notification-module)
+:::
+
 ## Related Documentation
 
 - [Authentication](/docs/authentication) - Cognito authentication and JWT setup
