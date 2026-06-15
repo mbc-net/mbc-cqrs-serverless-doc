@@ -7,7 +7,7 @@ description: Learn patterns for importing and exporting data in CSV and Excel fo
 
 This guide covers patterns for handling data import and export operations, including CSV processing, Excel file handling, and batch data operations with Step Functions.
 
-## When to Use This Guide
+## When to Use This Guide {#when-to-use}
 
 Use this guide when you need to:
 
@@ -17,7 +17,7 @@ Use this guide when you need to:
 - Implement file upload with S3 presigned URLs
 - Transform data between external and internal formats
 
-## Import Architecture Overview
+## Import Architecture Overview {#import-architecture}
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -33,7 +33,7 @@ Use this guide when you need to:
                     └─────────────┘     └─────────────┘
 ```
 
-## File Upload Pattern
+## File Upload Pattern {#file-upload-pattern}
 
 ### Storage Service
 
@@ -133,7 +133,7 @@ export class StorageController {
 }
 ```
 
-## CSV Import Pattern
+## CSV Import Pattern {#csv-import-pattern}
 
 ### CSV Import Controller
 
@@ -371,7 +371,7 @@ export class CsvImportEventHandler implements IEventHandler<CsvImportEvent> {
 }
 ```
 
-## Excel Import Pattern
+## Excel Import Pattern {#excel-import-pattern}
 
 ### Excel Helper Functions
 
@@ -723,7 +723,7 @@ export class ProductImportStrategy
 }
 ```
 
-## Export Pattern
+## Export Pattern {#export-pattern}
 
 :::info Note
 The export patterns shown below are example implementations for your application. Unlike the import module (`@mbc-cqrs-serverless/import`), there is no dedicated export package in the framework. You can implement these patterns directly in your application code.
@@ -840,7 +840,7 @@ export class ExportService {
 }
 ```
 
-## Step Function Integration
+## Step Function Integration {#step-function-integration}
 
 ### Import Orchestration
 
@@ -889,7 +889,7 @@ stepFunctions:
 */
 ```
 
-## Best Practices
+## Best Practices {#best-practices}
 
 ### 1. Batch Processing
 
@@ -964,7 +964,7 @@ for (const batch of batches) {
 }
 ```
 
-## ImportModule API Reference
+## ImportModule API Reference {#importmodule-api}
 
 The `@mbc-cqrs-serverless/import` package provides a comprehensive framework for managing data import tasks.
 

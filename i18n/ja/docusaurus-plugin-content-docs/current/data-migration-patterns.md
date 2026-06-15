@@ -7,7 +7,7 @@ description: MBC CQRS Serverlessにおけるテナント間操作、スキーマ
 
 このガイドでは、テナント間データ移行、スキーマ進化、インポートモジュールを使用した一括データ操作、ロールバック手順など、MBC CQRS Serverlessアプリケーションにおけるデータ移行戦略について説明します。
 
-## このガイドを使用するタイミング
+## このガイドを使用するタイミング {#when-to-use}
 
 以下の場合にこのガイドを使用してください：
 
@@ -17,7 +17,7 @@ description: MBC CQRS Serverlessにおけるテナント間操作、スキーマ
 - 失敗した移行のロールバック手順を実装する
 - 移行プロセス中にデータを検証する
 
-## 移行アーキテクチャの概要
+## 移行アーキテクチャの概要 {#migration-architecture}
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -415,7 +415,7 @@ async function verifyMigration(
 }
 ```
 
-## テナント間データ移行
+## テナント間データ移行 {#cross-tenant-migration}
 
 ### パターン1：テナント間でデータをコピー
 
@@ -561,7 +561,7 @@ export class BulkMigrationImportStrategy
 }
 ```
 
-## スキーマ進化戦略
+## スキーマ進化戦略 {#schema-evolution}
 
 ### 戦略1：後方互換性のある変更
 
@@ -770,7 +770,7 @@ export class AttributeMigratorService {
 }
 ```
 
-## 一括操作でのインポートモジュールの使用
+## 一括操作でのインポートモジュールの使用 {#import-module-bulk}
 
 ### CSVベースの一括移行
 
@@ -978,7 +978,7 @@ export class MigrationProcessStrategy
 }
 ```
 
-## ロールバック手順
+## ロールバック手順 {#rollback-procedures}
 
 ### イベントソーシングベースのロールバック
 
@@ -1201,7 +1201,7 @@ export class SafeMigrationService {
 }
 ```
 
-## 移行中のデータ検証
+## 移行中のデータ検証 {#data-validation}
 
 ### 移行前検証
 
@@ -1395,7 +1395,7 @@ export class MigrationVerificationService {
 }
 ```
 
-## ベストプラクティス
+## ベストプラクティス {#best-practices}
 
 ### 1. 可能な場合は常にトランザクションを使用
 

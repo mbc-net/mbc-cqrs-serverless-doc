@@ -6,7 +6,7 @@ description: MBC CQRS ServerlessにおけるQueueModule、SnsService、SqsServic
 
 `QueueModule`はSNS（パブ/サブ）とSQS（キュー）操作のメッセージングサービスを提供します。グローバルモジュールとして登録されているため、`QueueModule`を明示的にインポートしなくても、`SnsService`と`SqsService`をアプリケーション全体でインジェクションできます。
 
-## SnsService
+## SnsService {#sns-service}
 
 `SnsService`はSNSのパブリッシュ操作を提供します。
 

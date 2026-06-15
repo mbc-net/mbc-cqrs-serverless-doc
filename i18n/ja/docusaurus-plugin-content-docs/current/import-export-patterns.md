@@ -7,7 +7,7 @@ description: バッチ処理とバリデーションを使用したCSVおよびE
 
 このガイドでは、CSVの処理、Excelファイルの処理、Step Functionsを使用したバッチデータ操作など、データのインポートおよびエクスポート操作のパターンについて説明します。
 
-## このガイドを使用するタイミング
+## このガイドを使用するタイミング {#when-to-use}
 
 以下の場合にこのガイドを使用してください：
 
@@ -17,7 +17,7 @@ description: バッチ処理とバリデーションを使用したCSVおよびE
 - S3署名付きURLでファイルアップロードを実装する
 - 外部形式と内部形式の間でデータを変換する
 
-## インポートアーキテクチャの概要
+## インポートアーキテクチャの概要 {#import-architecture}
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -33,7 +33,7 @@ description: バッチ処理とバリデーションを使用したCSVおよびE
                     └─────────────┘     └─────────────┘
 ```
 
-## ファイルアップロードパターン
+## ファイルアップロードパターン {#file-upload-pattern}
 
 ### ストレージサービス
 
@@ -133,7 +133,7 @@ export class StorageController {
 }
 ```
 
-## CSVインポートパターン
+## CSVインポートパターン {#csv-import-pattern}
 
 ### CSVインポートコントローラー
 
@@ -371,7 +371,7 @@ export class CsvImportEventHandler implements IEventHandler<CsvImportEvent> {
 }
 ```
 
-## Excelインポートパターン
+## Excelインポートパターン {#excel-import-pattern}
 
 ### Excelヘルパー関数
 
@@ -723,7 +723,7 @@ export class ProductImportStrategy
 }
 ```
 
-## エクスポートパターン
+## エクスポートパターン {#export-pattern}
 
 :::info 注意
 以下に示すエクスポートパターンは、アプリケーション用の実装例です。インポートモジュール（`@mbc-cqrs-serverless/import`）とは異なり、フレームワークには専用のエクスポートパッケージはありません。これらのパターンをアプリケーションコードに直接実装できます。
@@ -840,7 +840,7 @@ export class ExportService {
 }
 ```
 
-## Step Functions統合
+## Step Functions統合 {#step-function-integration}
 
 ### インポートオーケストレーション
 
@@ -889,7 +889,7 @@ stepFunctions:
 */
 ```
 
-## ベストプラクティス
+## ベストプラクティス {#best-practices}
 
 ### 1. バッチ処理
 
@@ -964,7 +964,7 @@ for (const batch of batches) {
 }
 ```
 
-## ImportModule APIリファレンス
+## ImportModule APIリファレンス {#importmodule-api}
 
 `@mbc-cqrs-serverless/import`パッケージは、データインポートタスクを管理するための包括的なフレームワークを提供します。
 

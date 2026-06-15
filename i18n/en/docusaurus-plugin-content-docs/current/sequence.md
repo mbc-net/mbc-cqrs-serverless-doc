@@ -4,7 +4,7 @@ description: Generate auto-incrementing sequence numbers for business IDs with c
 
 # Sequence
 
-## 1. Purpose
+## 1. Purpose {#purpose}
 
 `SequencesModule` is a service for managing dynamic sequences in the system using DynamoDB as the primary database.
 
@@ -20,7 +20,7 @@ This service is designed to:
 Format sequence numbers according to specific system requirements (e.g., TODO-PERSONAL-72-001).
 Ensure data consistency and integrity in multi-tenant systems.
 
-## How It Works
+## How It Works {#how-it-works}
 
 ```mermaid
 sequenceDiagram
@@ -36,7 +36,7 @@ sequenceDiagram
     SequencesService-->>Client: SequenceEntity
 ```
 
-## 2. Usage
+## 2. Usage {#usage}
 
 
 The solution for customizing the behavior of the `SequencesModule` is to pass it an options `object` in the static `register()` method. The options object contains only one property:

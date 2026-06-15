@@ -359,7 +359,7 @@ async function updateItem(item, changes) {
 
 ## {{Related Documentation}}
 
-- [{{Versioning Rules}}](/docs/version-rules)
-- [{{CommandService}}](/docs/command-service)
-- [{{Error Catalog}}](/docs/error-catalog)
+- [{{Versioning Rules}}](/docs/version-rules) - {{VERSION_FIRST, VERSION_LATEST constants and basic rules}}
+- [{{CommandService}}](/docs/command-service) - {{publishSync and publishAsync with version handling}}
+- [{{Error Catalog}}](/docs/error-catalog) - {{Version conflict error codes and HTTP status codes}}
 - [{{Migration Guide v1.2.0}}](/docs/migration/v1.2.0) - {{Breaking changes to `publishSync` return type (now `CommandModel | null`) in v1.2.0}}

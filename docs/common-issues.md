@@ -6,7 +6,7 @@ description: {{Solutions to common issues encountered when using MBC CQRS Server
 
 {{This page lists common issues and their solutions when working with MBC CQRS Serverless applications.}}
 
-## {{Installation & Setup}}
+## {{Installation & Setup}} {#installation-setup}
 
 ### {{npm install fails with peer dependency errors}}
 
@@ -76,7 +76,7 @@ docker-compose -f infra-local/docker-compose.yml up -d
 docker-compose -f infra-local/docker-compose.yml logs dynamodb-local
 ```
 
-## {{Database Issues}}
+## {{Database Issues}} {#database-issues}
 
 ### {{DynamoDB connection refused}}
 
@@ -288,7 +288,7 @@ const table = new dynamodb.Table(this, 'Table', {
 });
 ```
 
-## {{Lambda Errors}}
+## {{Lambda Errors}} {#lambda-errors}
 
 ### {{Lambda timeout}}
 
@@ -338,7 +338,7 @@ const handler = new lambda_nodejs.NodejsFunction(this, 'Handler', {
 
 2. {{Verify package.json dependencies are correct}}
 
-## {{Authentication Errors}}
+## {{Authentication Errors}} {#authentication-errors}
 
 ### {{Cognito token invalid}}
 
@@ -381,7 +381,7 @@ const api = new apigateway.HttpApi(this, 'Api', {
 
 2. {{Ensure OPTIONS requests are handled}}
 
-## {{Event Processing}}
+## {{Event Processing}} {#event-processing}
 
 ### {{Events not being processed}}
 
@@ -424,7 +424,7 @@ if (await this.isProcessed(idempotencyKey)) {
 
 2. {{Configure SQS visibility timeout appropriately}}
 
-## {{Step Functions}}
+## {{Step Functions}} {#step-functions}
 
 ### {{Step Function execution failed}}
 
@@ -468,7 +468,7 @@ if (await this.isProcessed(idempotencyKey)) {
 - {{Break long-running tasks into smaller steps}}
 - {{Use wait states with callbacks for async operations}}
 
-## {{Deployment Issues}}
+## {{Deployment Issues}} {#deployment-issues}
 
 ### {{CDK deployment fails}}
 
@@ -508,7 +508,7 @@ const bucket = new s3.Bucket(this, 'Bucket', {
 
 2. {{Or let CDK generate names by not specifying bucketName}}
 
-## {{Performance Issues}}
+## {{Performance Issues}} {#performance-issues}
 
 ### {{Slow API response times}}
 
@@ -532,7 +532,7 @@ const bucket = new s3.Bucket(this, 'Bucket', {
 3. {{Implement request batching}}
 4. {{Use reserved concurrency to limit scaling}}
 
-## {{Getting Help}}
+## {{Getting Help}} {#getting-help}
 
 {{If you can't find a solution here:}}
 

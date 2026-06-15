@@ -6,7 +6,7 @@ description: MBC CQRS Serverless使用時によく発生する問題の解決策
 
 このページでは、MBC CQRS Serverlessアプリケーション開発時によくある問題とその解決策を紹介します。
 
-## インストールとセットアップ
+## インストールとセットアップ {#installation-setup}
 
 ### npm installがピア依存関係エラーで失敗する
 
@@ -76,7 +76,7 @@ docker-compose -f infra-local/docker-compose.yml up -d
 docker-compose -f infra-local/docker-compose.yml logs dynamodb-local
 ```
 
-## データベースの問題
+## データベースの問題 {#database-issues}
 
 ### DynamoDB接続が拒否される
 
@@ -288,7 +288,7 @@ const table = new dynamodb.Table(this, 'Table', {
 });
 ```
 
-## Lambdaエラー
+## Lambdaエラー {#lambda-errors}
 
 ### Lambdaタイムアウト
 
@@ -338,7 +338,7 @@ const handler = new lambda_nodejs.NodejsFunction(this, 'Handler', {
 
 2. package.jsonの依存関係が正しいことを確認
 
-## 認証エラー
+## 認証エラー {#authentication-errors}
 
 ### Cognitoトークンが無効
 
@@ -381,7 +381,7 @@ const api = new apigateway.HttpApi(this, 'Api', {
 
 2. OPTIONSリクエストが処理されていることを確認
 
-## イベント処理
+## イベント処理 {#event-processing}
 
 ### イベントが処理されない
 
@@ -424,7 +424,7 @@ if (await this.isProcessed(idempotencyKey)) {
 
 2. SQS可視性タイムアウトを適切に設定
 
-## Step Functions
+## Step Functions {#step-functions}
 
 ### Step Functions実行の失敗
 
@@ -468,7 +468,7 @@ if (await this.isProcessed(idempotencyKey)) {
 - 長時間実行タスクを小さなステップに分割
 - 非同期操作にはコールバック付きのWait状態を使用
 
-## デプロイの問題
+## デプロイの問題 {#deployment-issues}
 
 ### CDKデプロイの失敗
 
@@ -508,7 +508,7 @@ const bucket = new s3.Bucket(this, 'Bucket', {
 
 2. またはbucketNameを指定せずにCDKに名前を生成させる
 
-## パフォーマンスの問題
+## パフォーマンスの問題 {#performance-issues}
 
 ### APIレスポンスが遅い
 
@@ -532,7 +532,7 @@ const bucket = new s3.Bucket(this, 'Bucket', {
 3. リクエストバッチングを実装
 4. 予約済み同時実行でスケーリングを制限
 
-## ヘルプを得る
+## ヘルプを得る {#getting-help}
 
 ここで解決策が見つからない場合：
 

@@ -6,7 +6,7 @@ description: {{Learn about the Master Service for managing master data and setti
 
 
 {{The Master Service provides functionality for managing master data and settings in a multi-tenant environment.}}
-## {{Overview}}
+## {{Overview}} {#overview}
 
 {{The Master Service consists of two main components:}}
 
@@ -24,7 +24,7 @@ description: {{Learn about the Master Service for managing master data and setti
 - {{Includes code validation capabilities}}
 - {{Ensures data integrity across tenant boundaries}}
 
-## {{Architecture}}
+## {{Architecture}} {#architecture}
 
 ```mermaid
 graph TB
@@ -41,13 +41,13 @@ graph TB
     end
 ```
 
-## {{Installation}}
+## {{Installation}} {#installation}
 
 ```bash
 npm install @mbc-cqrs-serverless/master
 ```
 
-## {{Basic Usage}}
+## {{Basic Usage}} {#basic-usage}
 
 {{The solution for customizing the behavior of the `MasterModule` is to pass it an options `object` in the static `register()` method.}}
 
@@ -78,7 +78,7 @@ import { MasterModule } from '@mbc-cqrs-serverless/master'
 
 ```
 
-## {{API Reference}}
+## {{API Reference}} {#api-reference}
 
 ### {{MasterSettingService}}
 {{The MasterSettingService interface manages settings at various levels: user, group, tenant, and common. It allows retrieving, updating, creating, and deleting settings.}}

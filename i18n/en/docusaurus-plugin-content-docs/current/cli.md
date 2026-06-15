@@ -6,7 +6,7 @@ description: MBC CQRS Serverless CLI tool for scaffolding projects, generating m
 
 The mbc-cqrs-serverless CLI helps you quickly scaffold new projects and generate boilerplate code for modules, services, and entities. It follows the framework's conventions to ensure consistency.
 
-## When to Use the CLI
+## When to Use the CLI {#when-to-use}
 
 Use the CLI when you need to:
 
@@ -15,7 +15,7 @@ Use the CLI when you need to:
 - Generate controller, service, entity, and DTO files with correct structure
 - Start the local development server
 
-## Problems the CLI Solves
+## Problems the CLI Solves {#problems-solved}
 
 | Problem | Solution |
 |---------|----------|
@@ -23,7 +23,7 @@ Use the CLI when you need to:
 | Remembering correct file names and imports | `mbc generate` creates consistent boilerplate |
 | Forgetting to register modules correctly | Generated code follows NestJS conventions |
 
-## Installation
+## Installation {#installation}
 
 To install the CLI globally:
 
@@ -31,7 +31,7 @@ To install the CLI globally:
 npm install -g @mbc-cqrs-serverless/cli
 ```
 
-## Available Commands
+## Available Commands {#available-commands}
 
 To get a list of the available CLI commands, run the following command:
 
@@ -66,7 +66,7 @@ Commands:
   help [command]                           display help for command
 ```
 
-## new Command
+## new Command {#new-command}
 
 ### Use Case: Start a New Backend Project
 
@@ -96,7 +96,7 @@ Create a project with a specific version:
 mbc new my-cqrs-app@0.1.45
 ```
 
-## generate Command
+## generate Command {#generate-command}
 
 ### Use Case: Add a New Domain to Existing Project
 
@@ -177,7 +177,7 @@ Dry run (preview without creating files):
 mbc g mo order --dry-run
 ```
 
-## start Command
+## start Command {#start-command}
 
 ```bash
 mbc start
@@ -197,7 +197,7 @@ npm run offline:sls    # Start the serverless offline server
 See [Installation](/docs/installation) for the full local development setup.
 :::
 
-## ui-common Command
+## ui-common Command {#ui-common-command}
 
 ### Use Case: Add Pre-built UI Components to Frontend
 
@@ -333,7 +333,7 @@ mbc install-skills --force
 The `install-skills` command was added in [version 1.0.24](/docs/changelog#v1024).
 :::
 
-## Troubleshooting
+## Troubleshooting {#troubleshooting}
 
 ### Version not found
 

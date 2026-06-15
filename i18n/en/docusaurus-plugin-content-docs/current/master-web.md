@@ -6,13 +6,13 @@ description: Learn about the Master Web package for building master data managem
 
 Frontend component library for master data and settings management in MBC CQRS Serverless applications.
 
-## Installation
+## Installation {#installation}
 
 ```bash
 npm install @mbc-cqrs-serverless/master-web
 ```
 
-## Quick Start (Recommended Setup)
+## Quick Start (Recommended Setup) {#quick-start}
 
 :::tip Start Here
 **This is the recommended way to integrate master-web with Next.js App Router.** Following this pattern will help you avoid common issues like `httpClient.get is not a function` errors.
@@ -170,11 +170,11 @@ NEXT_PUBLIC_MASTER_APPSYNC_REGION=ap-northeast-1
 See [Next.js App Router Integration](#nextjs-app-router-integration) for alternative patterns, troubleshooting, and detailed explanations.
 :::
 
-## Overview
+## Overview {#overview}
 
 The Master Web package (`@mbc-cqrs-serverless/master-web`) provides a complete set of React components for managing master data and settings. It integrates seamlessly with the backend Master Service and includes pre-built pages, forms, and data tables.
 
-## Features
+## Features {#features}
 
 - **Master Settings Management**: View, create, edit, and delete master settings
 - **Master Data Management**: CRUD operations for master data records
@@ -184,7 +184,7 @@ The Master Web package (`@mbc-cqrs-serverless/master-web`) provides a complete s
 - **Real-time Updates**: AWS AppSync integration for real-time data sync
 - **Copy Functionality**: Clone master settings and data
 
-## Main Components
+## Main Components {#main-components}
 
 :::info Import Options
 Components can be imported from the main package or via sub-path imports:
@@ -297,7 +297,7 @@ JSON editor component for bulk importing master settings and master data via JSO
 `AddJsonData` uses hardcoded API URLs (`/master-setting/bulk` for settings, `/master-data/bulk` for data) which call the framework's `createBulk` method. This means re-importing JSON data for existing records will fail with a `BadRequestException`. To support upsert behavior, use an Axios interceptor to rewrite these URLs to custom upsert endpoints. See [Master - Upsert Pattern](/docs/master#upsert-pattern) for details.
 :::
 
-## Provider Setup
+## Provider Setup {#provider-setup}
 
 Wrap your application with the required providers for authentication and API access.
 
@@ -348,7 +348,7 @@ type UserContext = {
 While `UserContext` is used internally, you can create a compatible object type for the `user` prop.
 :::
 
-## URL Provider
+## URL Provider {#url-provider}
 
 The package provides a URL provider system for managing application URLs.
 
@@ -422,7 +422,7 @@ const customUrlProvider = new CustomUrlProvider("my-tenant");
 </AppProviders>
 ```
 
-## Custom Hooks
+## Custom Hooks {#custom-hooks}
 
 ### useApolloClient
 
@@ -935,7 +935,7 @@ function MyComponent() {
 | `reload` | `() => void` | Refresh current page with loading indicator |
 | `hardNavigate` | `(url: string) => void` | Full browser navigation (window.location) |
 
-## UI Components
+## UI Components {#ui-components}
 
 The package includes several reusable UI components:
 
@@ -1303,7 +1303,7 @@ function MyPage() {
 }
 ```
 
-## Environment Variables
+## Environment Variables {#environment-variables}
 
 Configure the following environment variables for the Master Web package:
 
@@ -1323,7 +1323,7 @@ NEXT_PUBLIC_MASTER_APPSYNC_APIKEY=da2-xxxxxxxxxxxxxxxxx
 NEXT_PUBLIC_MASTER_APPSYNC_REGION=ap-northeast-1
 ```
 
-## Styling
+## Styling {#styling}
 
 Import the package styles in your application:
 
@@ -1767,7 +1767,7 @@ class MasterUrlProvider extends BaseUrlProvider {
 
 When implementing the `IUrlProvider` interface directly without extending `BaseUrlProvider`, you need to explicitly define all URL properties. See the Layout-based Provider Pattern example above for reference.
 
-## Dependencies
+## Dependencies {#dependencies}
 
 Key dependencies used by this package:
 
@@ -1780,7 +1780,7 @@ Key dependencies used by this package:
 - react-hook-form
 - Zod for validation
 
-## Changelog
+## Changelog {#changelog}
 
 :::info Version History
 See [Web Packages Changelog](/docs/web-changelog) for all version history and release notes.

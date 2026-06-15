@@ -359,7 +359,7 @@ async function updateItem(item, changes) {
 
 ## 関連ドキュメント
 
-- [バージョン管理ルール](/docs/version-rules)
-- [CommandService](/docs/command-service)
-- [エラーカタログ](/docs/error-catalog)
+- [バージョン管理ルール](/docs/version-rules) - VERSION_FIRST、VERSION_LATEST 定数と基本ルール
+- [CommandService](/docs/command-service) - バージョン処理を伴う publishSync と publishAsync
+- [エラーカタログ](/docs/error-catalog) - バージョン競合エラーコードと HTTP ステータスコード
 - [マイグレーションガイド v1.2.0](/docs/migration/v1.2.0) - v1.2.0 での `publishSync` 戻り値型の破壊的変更（`CommandModel | null` に変更）

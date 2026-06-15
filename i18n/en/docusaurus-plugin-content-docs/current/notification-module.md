@@ -9,7 +9,7 @@ The NotificationModule provides two types of notification capabilities in the MB
 - **Real-time notifications** via AWS AppSync for WebSocket-based updates
 - **Email notifications** via AWS SES for sending emails
 
-## Architecture
+## Architecture {#architecture}
 
 ```mermaid
 graph TB
@@ -30,7 +30,7 @@ graph TB
     end
 ```
 
-## Real-time Notifications
+## Real-time Notifications {#real-time-notifications}
 
 ### Overview
 
@@ -293,7 +293,7 @@ The `AppSyncEventsService` supports two authentication methods for publishing:
 1. **IAM SigV4 (recommended for Lambda/ECS)**: Used automatically for publishing. Lambda and ECS task roles are granted `appsync:EventPublish` by the CDK stack via `grantPublish()`.
 2. **API Key**: Used by browser clients for subscribing. Set in the client (e.g., Amplify `apiKey` config). Not required on the server side.
 
-## Email Notifications
+## Email Notifications {#email-notifications}
 
 ### EmailService
 

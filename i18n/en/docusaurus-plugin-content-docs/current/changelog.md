@@ -8,7 +8,7 @@ description: Track all notable changes, new features, and bug fixes in MBC CQRS 
 
 All notable changes to MBC CQRS Serverless are documented here. This project follows [Semantic Versioning](https://semver.org/) and [Conventional Commits](https://conventionalcommits.org/).
 
-## Version Scheme
+## Version Scheme {#version-scheme}
 
 - `x.y.z` - Production releases
 - `x.y.z-beta.n` - Beta releases for testing
@@ -16,7 +16,7 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ---
 
-## Stable Releases (1.x)
+## Stable Releases (1.x) {#stable-releases}
 
 ## [1.3.1](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.1) (2026-06-02) {#v131}
 
@@ -726,7 +726,7 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ---
 
-## Beta Releases (0.1.x)
+## Beta Releases (0.1.x) {#beta-releases}
 
 ## [0.1.75-beta.0](https://github.com/mbc-net/mbc-cqrs-serverless/compare/v0.1.74-beta.0...v0.1.75-beta.0)
 

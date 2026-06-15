@@ -9,7 +9,7 @@ NotificationModuleは、MBC CQRS Serverlessフレームワークで2種類の通
 - WebSocketベースの更新用の**リアルタイム通知**（AWS AppSync経由）
 - メール送信用の**メール通知**（AWS SES経由）
 
-## アーキテクチャ
+## アーキテクチャ {#architecture}
 
 ```mermaid
 graph TB
@@ -30,7 +30,7 @@ graph TB
     end
 ```
 
-## リアルタイム通知
+## リアルタイム通知 {#real-time-notifications}
 
 ### 概要
 
@@ -293,7 +293,7 @@ CDK スタックは `AppSyncEventsHttpEndpoint` と `AppSyncEventsNamespace` を
 1. **IAM SigV4（Lambda/ECS 推奨）**: パブリッシュ時に自動で使用されます。CDK スタックの `grantPublish()` により Lambda と ECS タスクロールに `appsync:EventPublish` 権限が付与されます。
 2. **API キー**: ブラウザクライアントのサブスクライブに使用します。クライアント側（Amplify の `apiKey` 設定など）で設定します。サーバー側では不要です。
 
-## メール通知
+## メール通知 {#email-notifications}
 
 ### EmailService
 

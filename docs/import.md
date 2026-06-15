@@ -32,7 +32,7 @@ graph TB
 {{Since [v1.2.5](/docs/changelog#v125), ZIP import jobs are processed directly within `ImportService`. The separate `ZipImportQueueEventHandler` has been removed. `ImportEventHandler` now skips SQS publishing for `ZIP_MASTER_JOB` events, simplifying the import processing pipeline.}}
 :::
 
-## {{Installation}}
+## {{Installation}} {#installation}
 
 ```bash
 npm install @mbc-cqrs-serverless/import
@@ -42,7 +42,7 @@ npm install @mbc-cqrs-serverless/import
 {{The import module requires an `import_tmp` DynamoDB table with a DynamoDB Stream. Run `npm run migrate` after scaffolding to create this table automatically. If `npm run offline:sls` fails with a `LOCAL_DDB_IMPORT_TMP_STREAM` error, see [Serverless Offline fails with missing import_tmp stream](/docs/common-issues#missing-import-tmp-table) for the fix.}}
 :::
 
-## {{Module Registration}}
+## {{Module Registration}} {#module-registration}
 
 ```ts
 import { ImportModule } from "@mbc-cqrs-serverless/import";
@@ -66,7 +66,7 @@ import { ImportModule } from "@mbc-cqrs-serverless/import";
 export class AppModule {}
 ```
 
-## {{Module Options}}
+## {{Module Options}} {#module-options}
 
 | {{Option}} | {{Type}} | {{Required}} | {{Description}} |
 |------------|----------|--------------|-----------------|
@@ -75,7 +75,7 @@ export class AppModule {}
 | `imports` | `ModuleMetadata['imports']` | {{No}} | {{Modules that export providers needed by strategy classes}} |
 | `zipFinalizationHooks` | `Type<IZipFinalizationHook>[]` | {{No}} | {{Hooks that execute after ZIP import completes}} |
 
-## {{Core Concepts}}
+## {{Core Concepts}} {#core-concepts}
 
 ### {{Import Entity Profile}}
 
@@ -107,7 +107,7 @@ interface ImportEntityProfile {
 | `COMPLETED` | {{Successfully completed}} |
 | `FAILED` | {{Processing failed}} |
 
-## {{API Reference}}
+## {{API Reference}} {#api-reference}
 
 ### {{ImportService Methods}}
 
@@ -200,7 +200,7 @@ const importJob = await this.importService.getImportByKey({
 });
 ```
 
-## {{REST API Endpoints}}
+## {{REST API Endpoints}} {#rest-api-endpoints}
 
 {{When `enableController: true`, the following endpoints are available:}}
 
@@ -251,7 +251,7 @@ const importJob = await this.importService.getImportByKey({
 
 **{{Response}}**: `202 Accepted`
 
-## {{Implementing Import Strategies}}
+## {{Implementing Import Strategies}} {#implementing-strategies}
 
 ### {{IImportStrategy Interface}}
 
@@ -408,7 +408,7 @@ export class ProductProcessStrategy extends BaseProcessStrategy<
 }
 ```
 
-## {{ZIP Finalization Hooks}}
+## {{ZIP Finalization Hooks}} {#zip-finalization-hooks}
 
 {{Hooks execute after ZIP import completes. Use them for post-processing tasks.}}
 
@@ -449,7 +449,7 @@ export class BackupToS3Hook implements IZipFinalizationHook {
 | `status` | `ImportStatusEnum` | {{Final status of the job}} |
 | `executionInput` | `any` | {{Original Step Functions execution input}} |
 
-## {{DTOs}}
+## {{DTOs}} {#dtos}
 
 ### {{CreateImportDto}}
 
@@ -481,7 +481,7 @@ export class BackupToS3Hook implements IZipFinalizationHook {
 | `sortedFileKeys` | `string[]` | {{No}} | {{Process files in this order}} |
 | `tableName` | `string` | {{No}} | {{Override auto-detected tableName}} |
 
-## {{Best Practices}}
+## {{Best Practices}} {#best-practices}
 
 ### {{CSV File Format}}
 

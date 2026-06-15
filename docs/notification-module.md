@@ -9,7 +9,7 @@ description: {{Learn about real-time notifications and email services in MBC CQR
 - {{**Real-time notifications** via AWS AppSync for WebSocket-based updates}}
 - {{**Email notifications** via AWS SES for sending emails}}
 
-## {{Architecture}}
+## {{Architecture}} {#architecture}
 
 ```mermaid
 graph TB
@@ -30,7 +30,7 @@ graph TB
     end
 ```
 
-## {{Real-time Notifications}}
+## {{Real-time Notifications}} {#real-time-notifications}
 
 ### {{Overview}}
 
@@ -293,7 +293,7 @@ export const config: Config = {
 1. **{{IAM SigV4 (recommended for Lambda/ECS)}}**: {{Used automatically for publishing. Lambda and ECS task roles are granted `appsync:EventPublish` by the CDK stack via `grantPublish()`.}}
 2. **{{API Key}}**: {{Used by browser clients for subscribing. Set in the client (e.g., Amplify `apiKey` config). Not required on the server side.}}
 
-## {{Email Notifications}}
+## {{Email Notifications}} {#email-notifications}
 
 ### {{EmailService}}
 

@@ -4,11 +4,11 @@ description: {{Learn how to use CommandModule and CommandService for publishing 
 
 # {{CommandService}}
 
-## {{Overview}}
+## {{Overview}} {#overview}
 
 {{The `CommandService` is a core component of the framework that facilitates the management and synchronization of commands. It primarily provides methods for publishing both full commands and partial commands, allowing for their processing either synchronously or asynchronously, thereby enhancing the overall efficiency and flexibility of command handling within the system.}}
 
-## {{CommandModule Configuration}}
+## {{CommandModule Configuration}} {#commandmodule-configuration}
 
 ![{{CommandModule structure}}](./images/CommandModule.png)
 
@@ -42,7 +42,7 @@ export class CatModule {}
 
 {{Here, the `CommandModule` registers with the `cat` table name and provides the `CatDataSyncRdsHandler` to the data sync handlers.}}
 
-## {{Using CommandService}}
+## {{Using CommandService}} {#using-commandservice}
 
 {{In the example for the method below, assume you import the `CommandModule` into your module as follows:}}
 
@@ -73,7 +73,7 @@ export class CatModule {}
 {{For complete CRUD implementation patterns using CommandService, see [Service Patterns](/docs/service-patterns).}}
 :::
 
-## {{Methods}}
+## {{Methods}} {#methods}
 
 ### {{*async* `publishAsync(input: CommandInputModel, options: ICommandOptions): Promise<CommandModel | null>`}} {#publishasync}
 

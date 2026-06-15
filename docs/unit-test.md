@@ -6,7 +6,7 @@ description: {{Learn how to write unit tests for MBC CQRS Serverless services, h
 
 {{This guide explains how to write unit tests for services and handlers in the MBC CQRS Serverless framework.}}
 
-## {{Mocking Dependencies}}
+## {{Mocking Dependencies}} {#mocking-dependencies}
 
 {{The framework uses `@golevelup/ts-jest` for creating mocks. The `createMock()` function automatically generates mock implementations for any interface or class.}}
 
@@ -48,7 +48,7 @@ const moduleRef = await Test.createTestingModule({
 }).compile()
 ```
 
-## {{Mocking AWS SDK Clients}}
+## {{Mocking AWS SDK Clients}} {#mocking-aws-sdk}
 
 {{Use `aws-sdk-client-mock` to mock AWS SDK v3 clients:}}
 
@@ -88,7 +88,7 @@ describe('MyService', () => {
 })
 ```
 
-## {{Complete Test Example}}
+## {{Complete Test Example}} {#complete-test-example}
 
 {{Here is a complete example based on the framework's actual test patterns:}}
 
@@ -160,7 +160,7 @@ describe('CommandService', () => {
 })
 ```
 
-## {{Key Testing Patterns}}
+## {{Key Testing Patterns}} {#testing-patterns}
 
 ### {{Test Structure}}
 

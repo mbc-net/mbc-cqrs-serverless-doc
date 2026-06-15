@@ -12,7 +12,7 @@ description: {{Install and set up MBC CQRS Serverless framework with system requ
 - {{[Docker](https://docs.docker.com/engine/install/)}}
 - {{Windows, macOS and Linux are supported.}}
 
-## {{Automatic Installation}}
+## {{Automatic Installation}} {#automatic-installation}
 
 {{To get started, scaffold the project with the [mbc-cqrs-serverless CLI](/docs/cli). Run the following commands. This will create a new project directory, and populate the directory with the initial core mbc-cqrs-serverless files and supporting modules, creating a conventional base structure for your project.}}
 
@@ -23,7 +23,7 @@ mbc new project-name
 
 {{If you're new to mbc-cqrs-serverless, see the [project structure](/docs/project-structure) docs for an overview of all the possible files and folders in your application.}}
 
-## {{Run the Development Server}}
+## {{Run the Development Server}} {#run-dev-server}
 
 1. {{Run `npm run build` to build the project in watch mode.}}
 2. {{Open in other terminal session and run `npm run offline:docker` to start Docker services (DynamoDB Local, MySQL, LocalStack).}}
@@ -155,7 +155,7 @@ sudo chmod -R 777 ./infra-local/docker-data/dynamodb-local
 :::
 
 
-## {{Next Steps}}
+## {{Next Steps}} {#next-steps}
 
 {{Your local environment is ready. Here's the recommended path forward:}}
 

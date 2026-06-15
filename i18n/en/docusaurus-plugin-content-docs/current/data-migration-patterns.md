@@ -7,7 +7,7 @@ description: Learn data migration strategies for cross-tenant operations, schema
 
 This guide covers data migration strategies in MBC CQRS Serverless applications, including cross-tenant data migration, schema evolution, bulk data operations using the Import module, and rollback procedures.
 
-## When to Use This Guide
+## When to Use This Guide {#when-to-use}
 
 Use this guide when you need to:
 
@@ -17,7 +17,7 @@ Use this guide when you need to:
 - Implement rollback procedures for failed migrations
 - Validate data during migration processes
 
-## Migration Architecture Overview
+## Migration Architecture Overview {#migration-architecture}
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -415,7 +415,7 @@ async function verifyMigration(
 }
 ```
 
-## Cross-Tenant Data Migration
+## Cross-Tenant Data Migration {#cross-tenant-migration}
 
 ### Pattern 1: Copy Data Between Tenants
 
@@ -561,7 +561,7 @@ export class BulkMigrationImportStrategy
 }
 ```
 
-## Schema Evolution Strategies
+## Schema Evolution Strategies {#schema-evolution}
 
 ### Strategy 1: Backward Compatible Changes
 
@@ -770,7 +770,7 @@ export class AttributeMigratorService {
 }
 ```
 
-## Using Import Module for Bulk Operations
+## Using Import Module for Bulk Operations {#import-module-bulk}
 
 ### CSV-Based Bulk Migration
 
@@ -978,7 +978,7 @@ export class MigrationProcessStrategy
 }
 ```
 
-## Rollback Procedures
+## Rollback Procedures {#rollback-procedures}
 
 ### Event Sourcing Based Rollback
 
@@ -1201,7 +1201,7 @@ export class SafeMigrationService {
 }
 ```
 
-## Data Validation During Migration
+## Data Validation During Migration {#data-validation}
 
 ### Pre-Migration Validation
 
@@ -1395,7 +1395,7 @@ export class MigrationVerificationService {
 }
 ```
 
-## Best Practices
+## Best Practices {#best-practices}
 
 ### 1. Always Use Transactions When Possible
 

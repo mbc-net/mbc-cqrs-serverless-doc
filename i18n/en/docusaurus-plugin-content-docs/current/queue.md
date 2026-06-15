@@ -6,7 +6,7 @@ description: Learn about the QueueModule, SnsService, and SqsService for messagi
 
 The `QueueModule` provides messaging services for SNS (pub/sub) and SQS (queue) operations. It is registered as a global module, so `SnsService` and `SqsService` are available for injection throughout the application without explicitly importing `QueueModule`.
 
-## SnsService
+## SnsService {#sns-service}
 
 `SnsService` provides SNS publish operations.
 

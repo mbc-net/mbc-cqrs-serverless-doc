@@ -105,5 +105,8 @@
   "CommandService": "CommandService",
   "Error Catalog": "エラーカタログ",
   "Migration Guide v1.2.0": "マイグレーションガイド v1.2.0",
-  "Breaking changes to `publishSync` return type (now `CommandModel | null`) in v1.2.0": "v1.2.0 での `publishSync` 戻り値型の破壊的変更（`CommandModel | null` に変更）"
+  "Breaking changes to `publishSync` return type (now `CommandModel | null`) in v1.2.0": "v1.2.0 での `publishSync` 戻り値型の破壊的変更（`CommandModel | null` に変更）",
+  "VERSION_FIRST, VERSION_LATEST constants and basic rules": "VERSION_FIRST、VERSION_LATEST 定数と基本ルール",
+  "publishSync and publishAsync with version handling": "バージョン処理を伴う publishSync と publishAsync",
+  "Version conflict error codes and HTTP status codes": "バージョン競合エラーコードと HTTP ステータスコード"
 }

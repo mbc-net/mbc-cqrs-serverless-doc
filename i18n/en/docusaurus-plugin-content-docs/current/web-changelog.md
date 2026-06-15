@@ -288,7 +288,7 @@ For backend framework changes, see [Changelog](/docs/changelog).
 - [Survey Web](/docs/survey-web) - Survey frontend documentation
 - [Frontend Project Structure](/docs/frontend-project-structure) - Frontend project organization
 
-## Related Links
+## Related Links {#related-links}
 
 - [GitHub Repository](https://github.com/mbc-net/mbc-cqrs-serverless-web)
 - [master-web npm Package](https://www.npmjs.com/package/@mbc-cqrs-serverless/master-web)

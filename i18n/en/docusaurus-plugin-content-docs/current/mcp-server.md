@@ -7,11 +7,11 @@ description: MCP Server for AI tool integration with MBC CQRS Serverless.
 
 MCP (Model Context Protocol) Server for the MBC CQRS Serverless framework. This package enables interaction with the framework through tools like Claude Code and Cursor.
 
-## What is MCP?
+## What is MCP? {#what-is-mcp}
 
 Model Context Protocol (MCP) is a protocol for AI tools to interact with applications and frameworks in a standardized way. It provides three main concepts: Resources, Tools, and Prompts.
 
-## Features
+## Features {#features}
 
 ### Resources
 
@@ -58,7 +58,7 @@ Provides guided assistance.
 | `debug_command_error` | Debug command-related errors |
 | `migration_guide` | Version migration guidance |
 
-## Installation
+## Installation {#installation}
 
 ```bash
 npm install @mbc-cqrs-serverless/mcp-server
@@ -70,7 +70,7 @@ Or use directly with npx:
 npx @mbc-cqrs-serverless/mcp-server
 ```
 
-## Configuration
+## Configuration {#configuration}
 
 ### Claude Code
 
@@ -112,7 +112,7 @@ Add to Cursor MCP configuration:
 |----------|-------------|---------|
 | `MBC_PROJECT_PATH` | Path to project directory | Current working directory |
 
-## Usage Examples
+## Usage Examples {#usage-examples}
 
 ### Module Generation
 
@@ -345,7 +345,7 @@ Helps debug and troubleshoot issues in MBC CQRS Serverless applications.
 I'm getting ConditionalCheckFailedException errors
 ```
 
-## Related Packages
+## Related Packages {#related-packages}
 
 - [CLI Tool](/docs/cli) - CLI tool for code generation
 - [API Reference](/docs/api-reference) - Detailed API documentation

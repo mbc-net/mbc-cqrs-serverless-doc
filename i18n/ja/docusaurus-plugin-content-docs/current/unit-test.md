@@ -6,7 +6,7 @@ description: Jestとモッキングパターンを使用して、MBC CQRS Server
 
 このガイドでは、MBC CQRS Serverless フレームワークでサービスやハンドラーの単体テストを書く方法を説明します。
 
-## 依存関係のモック
+## 依存関係のモック {#mocking-dependencies}
 
 フレームワークでは `@golevelup/ts-jest` を使用してモックを作成します。`createMock()` 関数は、任意のインターフェースやクラスに対してモック実装を自動生成します。
 
@@ -48,7 +48,7 @@ const moduleRef = await Test.createTestingModule({
 }).compile()
 ```
 
-## AWS SDK クライアントのモック
+## AWS SDK クライアントのモック {#mocking-aws-sdk}
 
 AWS SDK v3 クライアントをモックするには `aws-sdk-client-mock` を使用します：
 
@@ -88,7 +88,7 @@ describe('MyService', () => {
 })
 ```
 
-## 完全なテスト例
+## 完全なテスト例 {#complete-test-example}
 
 以下は、フレームワークの実際のテストパターンに基づいた完全な例です：
 
@@ -160,7 +160,7 @@ describe('CommandService', () => {
 })
 ```
 
-## 主要なテストパターン
+## 主要なテストパターン {#testing-patterns}
 
 ### テスト構造
 

@@ -4,11 +4,11 @@ description: Learn about DynamoDB table design and management in MBC CQRS Server
 
 # DynamoDB
 
-## Overview
+## Overview {#overview}
 
 MBC CQRS Serverless uses DynamoDB as its primary data store, implementing CQRS and Event Sourcing patterns through a structured table design. Understanding the table structure is essential for building efficient applications.
 
-## Table Architecture
+## Table Architecture {#table-architecture}
 
 ```mermaid
 graph TB
@@ -51,7 +51,7 @@ The actual table names are prefixed with the environment and application name: `
 | `import_tmp` | Stores temporary data for import operations via Step Functions |
 | `session` | Tracks Read-Your-Writes sessions (v1.2.0+) |
 
-## Table Definition
+## Table Definition {#table-definition}
 
 Table definitions are stored in the `prisma/dynamodbs` folder. To add a new entity table:
 
@@ -90,7 +90,7 @@ System tables (`tasks`, `sequences`, `import_tmp`, `session`) have their own JSO
 The `import_tmp.json` template was added in [version 1.1.1](/docs/changelog#v111). If you created your project with an earlier version and use the ImportModule, you need to add this file manually. See [Common Issues](/docs/common-issues#missing-import-tmp-table) for details.
 :::
 
-## Key Design Patterns
+## Key Design Patterns {#key-design-patterns}
 
 ### Standard Key Structure
 
@@ -127,7 +127,7 @@ const departmentKey = {
 };
 ```
 
-## Table Attributes
+## Table Attributes {#table-attributes}
 
 ### Common Attributes
 
@@ -159,7 +159,7 @@ All entity tables share these common attributes:
 | `source` | String | Command source identifier |
 | `requestId` | String | Request tracking ID |
 
-## Secondary Indexes
+## Secondary Indexes {#secondary-indexes}
 
 ### Adding Global Secondary Indexes
 
@@ -197,7 +197,7 @@ const params = {
 };
 ```
 
-## Best Practices
+## Best Practices {#best-practices}
 
 ### Key Design
 
@@ -217,7 +217,7 @@ const params = {
 2. **Monitor consumed capacity**: Set up CloudWatch alarms
 3. **Consider DAX**: For read-heavy workloads requiring microsecond latency
 
-## Local Development
+## Local Development {#local-development}
 
 ### DynamoDB Local
 

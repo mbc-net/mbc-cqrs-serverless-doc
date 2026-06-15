@@ -105,5 +105,8 @@
   "CommandService": "CommandService",
   "Error Catalog": "Error Catalog",
   "Migration Guide v1.2.0": "Migration Guide v1.2.0",
-  "Breaking changes to `publishSync` return type (now `CommandModel | null`) in v1.2.0": "Breaking changes to `publishSync` return type (now `CommandModel | null`) in v1.2.0"
+  "Breaking changes to `publishSync` return type (now `CommandModel | null`) in v1.2.0": "Breaking changes to `publishSync` return type (now `CommandModel | null`) in v1.2.0",
+  "VERSION_FIRST, VERSION_LATEST constants and basic rules": "VERSION_FIRST, VERSION_LATEST constants and basic rules",
+  "publishSync and publishAsync with version handling": "publishSync and publishAsync with version handling",
+  "Version conflict error codes and HTTP status codes": "Version conflict error codes and HTTP status codes"
 }

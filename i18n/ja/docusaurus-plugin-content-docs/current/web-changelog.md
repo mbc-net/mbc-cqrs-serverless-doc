@@ -288,7 +288,7 @@ Webパッケージ（`@mbc-cqrs-serverless/master-web`、`@mbc-cqrs-serverless/s
 - [アンケートWeb](/docs/survey-web) - アンケートのフロントエンドドキュメント
 - [フロントエンドプロジェクト構成](/docs/frontend-project-structure) - フロントエンドプロジェクトの構成
 
-## 関連リンク
+## 関連リンク {#related-links}
 
 - [GitHub Repository](https://github.com/mbc-net/mbc-cqrs-serverless-web)
 - [master-web npm Package](https://www.npmjs.com/package/@mbc-cqrs-serverless/master-web)
