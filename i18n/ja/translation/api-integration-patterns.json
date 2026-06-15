@@ -98,5 +98,6 @@
   "State Management Patterns": "ステート管理パターン",
   "Frontend state management": "フロントエンドステート管理",
   "Form Handling Patterns": "フォーム処理パターン",
-  "Form handling": "フォーム処理"
+  "Form handling": "フォーム処理",
+  "After backend API changes": "バックエンド API 変更後"
 }

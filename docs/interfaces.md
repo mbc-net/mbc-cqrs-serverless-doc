@@ -364,7 +364,7 @@ const result = await dataService.listItemsByPk('ORDER#tenant001', {
   startFromSk: previousLastSk,
 });
 
-// Pagination
+// {{Pagination}}
 if (result.lastSk) {
   // {{More items available - use result.lastSk for next page}}
 }

@@ -656,7 +656,7 @@ export const fileApi = {
 {{Why: Ensures frontend types match backend exactly.}}
 
 ```bash
-# After backend API changes
+# {{After backend API changes}}
 npm run generate-sdk
 ```
 

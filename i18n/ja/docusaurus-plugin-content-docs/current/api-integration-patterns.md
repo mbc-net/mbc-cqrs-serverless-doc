@@ -656,7 +656,7 @@ export const fileApi = {
 理由：フロントエンドの型がバックエンドと完全に一致することを保証する。
 
 ```bash
-# After backend API changes
+# バックエンド API 変更後
 npm run generate-sdk
 ```
 
