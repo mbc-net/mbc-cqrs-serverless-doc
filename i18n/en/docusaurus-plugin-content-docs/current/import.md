@@ -415,6 +415,7 @@ Hooks execute after ZIP import completes. Use them for post-processing tasks.
 ```ts
 import { IZipFinalizationHook, ZipFinalizationContext } from "@mbc-cqrs-serverless/import";
 import { S3Service } from "@mbc-cqrs-serverless/core";
+import { CopyObjectCommand } from "@aws-sdk/client-s3";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
@@ -428,12 +429,11 @@ export class BackupToS3Hook implements IZipFinalizationHook {
     if (status === "COMPLETED") {
       // Move file to backup location
       const backupKey = `backup/${new Date().toISOString()}/${key}`;
-      await this.s3Service.copyObject({
-        sourceBucket: bucket,
-        sourceKey: key,
-        destinationBucket: bucket,
-        destinationKey: backupKey,
-      });
+      await this.s3Service.client.send(new CopyObjectCommand({
+        Bucket: bucket,
+        CopySource: `${bucket}/${key}`,
+        Key: backupKey,
+      }));
     }
   }
 }

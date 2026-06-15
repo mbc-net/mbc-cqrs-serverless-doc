@@ -141,6 +141,7 @@ TenantModule.register({
 | {{Option}} | {{Type}} | {{Default}} | {{Description}} |
 |--------|------|---------|-------------|
 | `enableController` | `boolean` | `false` | {{Enable the built-in TenantController endpoints}} |
+| `dataSyncHandlers` | `Type[]` | `[]` | {{Data sync handler classes}} |
 
 {{See}} [{{Tenant}}](/docs/tenant) {{for the full API reference.}}
 

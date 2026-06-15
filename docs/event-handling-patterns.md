@@ -277,7 +277,7 @@ import { ImportProcessEvent } from './import-process.event';
 import { ImportService } from '../import.service';
 
 // {{Define SNS event for alarm notifications}}
-class AlarmSnsEvent extends SnsEvent {
+class AlarmSnsEvent implements SnsEvent {
   importId: string;
   bucket: string;
   key: string;

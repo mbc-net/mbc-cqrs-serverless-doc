@@ -304,7 +304,7 @@ export class CommandEntity implements CommandModel {
 
 **Usage Example**:
 ```typescript
-const command: CommandEntity = await commandService.findOne({
+const command: CommandEntity = await commandService.getItem({
   pk: 'ORDER#tenant001',
   sk: 'ORDER#ORD001',
 });
@@ -332,7 +332,7 @@ export class DataEntity implements DataModel {
 
 **Usage Example**:
 ```typescript
-const data: DataEntity = await dataService.findOne({
+const data: DataEntity = await dataService.getItem({
   pk: 'ORDER#tenant001',
   sk: 'ORDER#ORD001',
 });

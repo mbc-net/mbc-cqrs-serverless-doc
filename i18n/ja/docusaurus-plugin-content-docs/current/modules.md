@@ -141,6 +141,7 @@ TenantModule.register({
 | オプション | 型 | デフォルト | 説明 |
 |--------|------|---------|-------------|
 | `enableController` | `boolean` | `false` | 組み込みTenantControllerエンドポイントを有効化 |
+| `dataSyncHandlers` | `Type[]` | `[]` | データ同期ハンドラークラス |
 
 詳細は [テナント](/docs/tenant) のAPIリファレンスを参照してください。
 

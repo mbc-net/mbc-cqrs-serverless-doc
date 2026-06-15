@@ -224,7 +224,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { IInvoke, InvokeContext } from '@mbc-cqrs-serverless/core';
+import { IInvoke, INVOKE_CONTEXT } from '@mbc-cqrs-serverless/core';
 
 @Controller('cats')
 export class CatController {
@@ -234,7 +234,7 @@ export class CatController {
   async updateCat(
     @Param('id') id: string,
     @Body() updateDto: UpdateCatDto,
-    @InvokeContext() invokeContext: IInvoke,
+    @INVOKE_CONTEXT() invokeContext: IInvoke,
   ) {
     try {
       return await this.catService.update(id, updateDto, invokeContext);
