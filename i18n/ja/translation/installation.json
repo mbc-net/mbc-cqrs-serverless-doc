@@ -20,6 +20,7 @@
   "After the server runs successfully, you can see:": "サーバの起動が完了したら次のようなメッセージを確認する事が出来ます。",
   "You can also use several endpoints": "次のサービスのエンドポイントが起動します。",
   "API gateway: http://localhost:3000": "API Gateway: http://localhost:3000",
+  "Swagger UI: http://localhost:3000/swagger-ui": "Swagger UI: http://localhost:3000/swagger-ui",
   "Offline Lambda Server: http://localhost:4000": "オフラインLambdaサーバー: http://localhost:4000",
   "HTTP for lambda: http://localhost:3002": "Lambda用HTTP: http://localhost:3002",
   "Step Functions: http://localhost:8083": "Step Functions: http://localhost:8083",
@@ -84,5 +85,7 @@
   "Architecture": "アーキテクチャ",
   "Learn the CQRS and Event Sourcing concepts behind the framework": "フレームワークの背景にあるCQRSとイベントソーシングの概念を学ぶ",
   "Backend Development": "バックエンド開発",
-  "Start implementing real features": "実際の機能の実装を開始する"
+  "Start implementing real features": "実際の機能の実装を開始する",
+  "Verify Your Setup": "セットアップの確認",
+  "Open the [Swagger UI](http://localhost:3000/swagger-ui) in your browser to confirm the API server is running. You should see the interactive API documentation with all available endpoints.": "[Swagger UI](http://localhost:3000/swagger-ui) をブラウザで開き、APIサーバーが起動していることを確認してください。利用可能なすべてのエンドポイントを含むインタラクティブなAPIドキュメントが表示されるはずです。"
 }

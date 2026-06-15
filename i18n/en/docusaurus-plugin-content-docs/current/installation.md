@@ -73,6 +73,7 @@ Server ready: http://localhost:3000 🚀
 You can also use several endpoints:
 
 - API gateway: http://localhost:3000
+- Swagger UI: http://localhost:3000/swagger-ui
 - Offline Lambda Server: http://localhost:4000
 - HTTP for lambda: http://localhost:3002
 - Step Functions: http://localhost:8083
@@ -87,6 +88,10 @@ You can also use several endpoints:
 - EventBridge: http://localhost:4010
 - Simple Email Service: http://localhost:8005
 - Run `npx prisma studio` to open studio web: http://localhost:5000
+
+:::tip Verify Your Setup
+Open the [Swagger UI](http://localhost:3000/swagger-ui) in your browser to confirm the API server is running. You should see the interactive API documentation with all available endpoints.
+:::
 
 ## Configuring Local Service Ports {#configuring-local-ports}
 

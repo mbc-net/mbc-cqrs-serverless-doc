@@ -73,6 +73,7 @@ Server ready: http://localhost:3000 🚀
 次のサービスのエンドポイントが起動します。:
 
 - API Gateway: http://localhost:3000
+- Swagger UI: http://localhost:3000/swagger-ui
 - オフラインLambdaサーバー: http://localhost:4000
 - Lambda用HTTP: http://localhost:3002
 - Step Functions: http://localhost:8083
@@ -87,6 +88,10 @@ Server ready: http://localhost:3000 🚀
 - EventBridge: http://localhost:4010
 - Simple Email Service: http://localhost:8005
 - `npx prisma studio` を実行して prisma studio を起動します。 エンドポイント: http://localhost:5000
+
+:::tip セットアップの確認
+[Swagger UI](http://localhost:3000/swagger-ui) をブラウザで開き、APIサーバーが起動していることを確認してください。利用可能なすべてのエンドポイントを含むインタラクティブなAPIドキュメントが表示されるはずです。
+:::
 
 ## ローカルサービスのポート設定 {#configuring-local-ports}
 
