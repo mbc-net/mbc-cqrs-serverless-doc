@@ -128,5 +128,11 @@
   "System Overview": "システム概要",
   "High-level architecture": "高レベルアーキテクチャ",
   "Installation": "インストール",
-  "Getting started guide": "はじめにガイド"
+  "Getting started guide": "はじめにガイド",
+  "Unlimited": "無制限",
+  "e.g., api.example.com": "例: api.example.com",
+  "e.g., graphql.example.com": "例: graphql.example.com",
+  "Optional: use existing Cognito pool": "オプション: 既存のCognitoプールを使用",
+  "SSM parameter for DB credentials": "DB認証情報のSSMパラメータ",
+  "Optional: WAF for CloudFront": "オプション: CloudFront用WAF"
 }

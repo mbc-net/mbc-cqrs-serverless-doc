@@ -885,9 +885,9 @@ export class ProductModule {}
 CommandModule.register({
   tableName: 'order',
   dataSyncHandlers: [
-    OrderRdsSyncHandler,      // Sync to RDS for queries
-    OrderElasticSyncHandler,  // Sync to Elasticsearch for search
-    OrderAnalyticsSyncHandler, // Sync to analytics warehouse
+    OrderRdsSyncHandler,      // {{Sync to RDS for queries}}
+    OrderElasticSyncHandler,  // {{Sync to Elasticsearch for search}}
+    OrderAnalyticsSyncHandler, // {{Sync to analytics warehouse}}
   ],
 }),
 ```

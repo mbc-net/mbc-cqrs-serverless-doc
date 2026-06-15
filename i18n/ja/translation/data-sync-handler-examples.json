@@ -78,5 +78,9 @@
   "Database Selection Guide": "データベース選択ガイド",
   "DynamoDB vs RDS": "DynamoDB対RDSの比較",
   "Prisma": "Prisma",
-  "RDS with Prisma ORM": "Prisma ORMを使ったRDS"
+  "RDS with Prisma ORM": "Prisma ORMを使ったRDS",
+  "Cleaned PK": "クリーンなPK",
+  "Cleaned SK (without version)": "クリーンなSK（バージョンなし）",
+  "Original PK (same as pk for most cases)": "元のPK（ほとんどの場合pkと同じ）",
+  "Original SK (with version)": "元のSK（バージョンあり）"
 }

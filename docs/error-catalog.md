@@ -431,7 +431,7 @@ const params = {
 ```typescript
 // {{Frontend: Refresh token}}
 try {
-  await Auth.currentSession();  // Auto-refreshes if needed
+  await Auth.currentSession();  // {{Auto-refreshes if needed}}
 } catch (error) {
   if (error.name === 'NotAuthorizedException') {
     // {{Redirect to login}}

@@ -106,5 +106,8 @@
   "Step Functions": "Step Functions",
   "Workflow orchestration": "ワークフローオーケストレーション",
   "Data Sync Handler Examples": "データ同期ハンドラーの例",
-  "Comprehensive sync examples": "包括的な同期の例"
+  "Comprehensive sync examples": "包括的な同期の例",
+  "Sync to RDS for queries": "クエリ用にRDSへ同期",
+  "Sync to Elasticsearch for search": "検索用にElasticsearchへ同期",
+  "Sync to analytics warehouse": "分析ウェアハウスへ同期"
 }

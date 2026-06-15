@@ -128,5 +128,11 @@
   "System Overview": "System Overview",
   "High-level architecture": "High-level architecture",
   "Installation": "Installation",
-  "Getting started guide": "Getting started guide"
+  "Getting started guide": "Getting started guide",
+  "Unlimited": "Unlimited",
+  "e.g., api.example.com": "e.g., api.example.com",
+  "e.g., graphql.example.com": "e.g., graphql.example.com",
+  "Optional: use existing Cognito pool": "Optional: use existing Cognito pool",
+  "SSM parameter for DB credentials": "SSM parameter for DB credentials",
+  "Optional: WAF for CloudFront": "Optional: WAF for CloudFront"
 }

@@ -687,10 +687,10 @@ create操作で参照用にオリジナルキー（cpk, csk）を保存します
 
 ```ts
 create: {
-  pk: cmd.pk,     // Cleaned PK
-  sk: sk,         // Cleaned SK (without version)
-  cpk: cmd.pk,    // Original PK (same as pk for most cases)
-  csk: cmd.sk,    // Original SK (with version)
+  pk: cmd.pk,     // クリーンなPK
+  sk: sk,         // クリーンなSK（バージョンなし）
+  cpk: cmd.pk,    // 元のPK（ほとんどの場合pkと同じ）
+  csk: cmd.sk,    // 元のSK（バージョンあり）
   // ...
 }
 ```

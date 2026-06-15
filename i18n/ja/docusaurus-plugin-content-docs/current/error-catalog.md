@@ -431,7 +431,7 @@ const params = {
 ```typescript
 // Frontend: Refresh token (フロントエンド: トークンをリフレッシュ)
 try {
-  await Auth.currentSession();  // Auto-refreshes if needed
+  await Auth.currentSession();  // 必要に応じて自動更新
 } catch (error) {
   if (error.name === 'NotAuthorizedException') {
     // Redirect to login (ログインにリダイレクト)

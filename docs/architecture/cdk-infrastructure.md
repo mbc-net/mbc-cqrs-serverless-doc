@@ -713,7 +713,7 @@ const finish = createLambdaTask('finish').next(success);
 const syncData = createLambdaTask('sync_data');
 const syncDataAll = new sfn.Map(this, 'sync_data_all', {
   stateName: 'sync_data_all',
-  maxConcurrency: 0, // Unlimited
+  maxConcurrency: 0, // {{Unlimited}}
   itemsPath: sfn.JsonPath.stringAt('$'),
 })
   .itemProcessor(syncData)
@@ -822,11 +822,11 @@ export interface Config {
   appName: string;
 
   domain: {
-    http: string;      // e.g., api.example.com
-    appsync: string;   // e.g., graphql.example.com
+    http: string;      // {{e.g., api.example.com}}
+    appsync: string;   // {{e.g., graphql.example.com}}
   };
 
-  userPoolId?: string;  // Optional: use existing Cognito pool
+  userPoolId?: string;  // {{Optional: use existing Cognito pool}}
 
   vpc: {
     id: string;
@@ -835,7 +835,7 @@ export interface Config {
   };
 
   rds: {
-    accountSsmKey: string;  // SSM parameter for DB credentials
+    accountSsmKey: string;  // {{SSM parameter for DB credentials}}
     endpoint: string;
     dbName: string;
   };
@@ -848,7 +848,7 @@ export interface Config {
 
   frontBaseUrl: string;
   fromEmailAddress: string;
-  wafArn?: string;  // Optional: WAF for CloudFront
+  wafArn?: string;  // {{Optional: WAF for CloudFront}}
 
   ecs?: {
     maxInstances: number;

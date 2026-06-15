@@ -687,10 +687,10 @@ isDeleted: cmd.isDeleted ?? false,
 
 ```ts
 create: {
-  pk: cmd.pk,     // Cleaned PK
-  sk: sk,         // Cleaned SK (without version)
-  cpk: cmd.pk,    // Original PK (same as pk for most cases)
-  csk: cmd.sk,    // Original SK (with version)
+  pk: cmd.pk,     // {{Cleaned PK}}
+  sk: sk,         // {{Cleaned SK (without version)}}
+  cpk: cmd.pk,    // {{Original PK (same as pk for most cases)}}
+  csk: cmd.sk,    // {{Original SK (with version)}}
   // ...
 }
 ```

@@ -207,5 +207,6 @@
   "Use null instead of empty string": "Use null instead of empty string",
   "COMPLETED status → SendTaskSuccessCommand (with result payload)": "COMPLETED status → SendTaskSuccessCommand (with result payload)",
   "FAILED status → SendTaskSuccessCommand (with failure info embedded in output)": "FAILED status → SendTaskSuccessCommand (with failure info embedded in output)",
-  "Must match the tableName in your import request": "Must match the tableName in your import request"
+  "Must match the tableName in your import request": "Must match the tableName in your import request",
+  "Auto-refreshes if needed": "Auto-refreshes if needed"
 }

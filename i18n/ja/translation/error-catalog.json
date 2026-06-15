@@ -207,5 +207,6 @@
   "Use null instead of empty string": "空文字列の代わりに null を使用する",
   "COMPLETED status → SendTaskSuccessCommand (with result payload)": "COMPLETED ステータス → SendTaskSuccessCommand（結果ペイロードあり）",
   "FAILED status → SendTaskSuccessCommand (with failure info embedded in output)": "FAILED ステータス → SendTaskSuccessCommand（失敗情報を出力に埋め込み）",
-  "Must match the tableName in your import request": "インポートリクエストの tableName と一致させてください"
+  "Must match the tableName in your import request": "インポートリクエストの tableName と一致させてください",
+  "Auto-refreshes if needed": "必要に応じて自動更新"
 }

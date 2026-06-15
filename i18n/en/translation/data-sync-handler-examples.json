@@ -78,5 +78,9 @@
   "Database Selection Guide": "Database Selection Guide",
   "DynamoDB vs RDS": "DynamoDB vs RDS",
   "Prisma": "Prisma",
-  "RDS with Prisma ORM": "RDS with Prisma ORM"
+  "RDS with Prisma ORM": "RDS with Prisma ORM",
+  "Cleaned PK": "Cleaned PK",
+  "Cleaned SK (without version)": "Cleaned SK (without version)",
+  "Original PK (same as pk for most cases)": "Original PK (same as pk for most cases)",
+  "Original SK (with version)": "Original SK (with version)"
 }

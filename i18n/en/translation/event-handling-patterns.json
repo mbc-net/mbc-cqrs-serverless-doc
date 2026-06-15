@@ -106,5 +106,8 @@
   "Step Functions": "Step Functions",
   "Workflow orchestration": "Workflow orchestration",
   "Data Sync Handler Examples": "Data Sync Handler Examples",
-  "Comprehensive sync examples": "Comprehensive sync examples"
+  "Comprehensive sync examples": "Comprehensive sync examples",
+  "Sync to RDS for queries": "Sync to RDS for queries",
+  "Sync to Elasticsearch for search": "Sync to Elasticsearch for search",
+  "Sync to analytics warehouse": "Sync to analytics warehouse"
 }
