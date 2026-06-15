@@ -210,6 +210,7 @@
   "Update Parent Job Counters": "Update Parent Job Counters",
   "Check if All Children Complete": "Check if All Children Complete",
   "Update Master": "Update Master",
+  "Wait for Job Status": "Wait for Job Status",
   "more children": "more children",
   "FAILED": "FAILED",
   "COMPLETED": "COMPLETED",

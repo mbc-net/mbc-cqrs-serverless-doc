@@ -1455,8 +1455,7 @@ Check if All Children Complete
     ┌────┴────┐
     │ Yes     │ No
     ▼         ▼
-Update Master  {{Wait for
-  Job Status}}     more children
+Update Master  Wait for Job Status  more children
          │
     ┌────┴────┐
     │ Has     │ All
