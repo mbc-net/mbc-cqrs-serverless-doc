@@ -488,13 +488,6 @@ export class HealthController {
 - {{Include runbooks in alert descriptions}}
 - {{Use escalation policies}}
 
-## {{Next Steps}} {#next-steps}
-
-- {{[Deployment Guide](/docs/deployment-guide) - Deploy with monitoring enabled}}
-- {{[CI/CD with CodePipeline](/docs/codepipeline-cicd) - Automate deployments}}
-- {{[Troubleshooting](/docs/common-issues) - Debug issues}}
-
-
 ## {{Related Documentation}}
 
 - [{{Deployment Guide}}](/docs/deployment-guide) - {{Deploy with monitoring enabled}}

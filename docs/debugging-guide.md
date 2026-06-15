@@ -841,12 +841,6 @@ async function getCommandHistory(pk: string, baseSk: string) {
    const dynamoClient = AWSXRay.captureAWSv3Client(new DynamoDBClient({}));
    ```
 
-## {{Next Steps}} {#next-steps}
-
-- {{[Common Issues](/docs/common-issues) - Known issues and solutions}}
-- {{[Monitoring and Logging](/docs/monitoring-logging) - Set up comprehensive monitoring}}
-
-
 ## {{Related Documentation}}
 
 - [{{Common Issues}}](/docs/common-issues) - {{Frequently encountered problems and solutions}}
