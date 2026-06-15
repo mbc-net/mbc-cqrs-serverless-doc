@@ -679,7 +679,7 @@ export class WorkflowService {
 
 await this.commandService.publishAsync(
   {
-    pk: 'TENANT#tenant1',
+    pk: 'ORDER#tenant1',
     sk: 'ORDER#order123',
     id: 'order-uuid',
     code: 'order123',
