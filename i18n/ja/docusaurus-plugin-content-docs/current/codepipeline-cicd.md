@@ -286,20 +286,18 @@ new codepipeline_actions.CodeStarConnectionsSourceAction({
 ### ブランチ対応のCDKパイプライン
 
 ```typescript
-// Development pipeline (auto-deploy) (開発パイプライン（自動デプロイ）)
+// 開発パイプライン
 new PipelineStack(app, 'DevPipeline', {
   repositoryName: 'your-app',
   branchName: 'develop',
   connectionArn: connectionArn,
-  autoApprove: true,
 });
 
-// Production pipeline (manual approval) (本番パイプライン（手動承認）)
+// 本番パイプライン
 new PipelineStack(app, 'ProdPipeline', {
   repositoryName: 'your-app',
   branchName: 'main',
   connectionArn: connectionArn,
-  autoApprove: false,
 });
 ```
 

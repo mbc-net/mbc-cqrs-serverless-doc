@@ -194,7 +194,7 @@ describe('ServiceName', () => {
 import { BadRequestException } from '@nestjs/common';
 
 it('should throw BadRequestException when item not found', async () => {
-  const invalidKey = { pk: 'invalid', sk: 'key' }
+  const invalidKey = { pk: 'invalid', sk: 'key', version: 1 }
 
   await expect(
     commandService.publishPartialUpdateAsync(invalidKey, { invokeContext: {} })

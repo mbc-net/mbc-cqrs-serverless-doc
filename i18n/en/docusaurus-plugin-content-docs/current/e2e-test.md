@@ -183,18 +183,16 @@ import { getItem, getTableName, TableType } from "./dynamo-client";
 const sleep = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const retry = async <T>(
-  fn: () => Promise<T>,
-  options: { retries: number; retryIntervalMs: number }
+  fn: () => Promise<T> | T,
+  { retries, retryIntervalMs }: { retries: number; retryIntervalMs: number }
 ): Promise<T> => {
   try {
-    await sleep(options.retryIntervalMs);
+    await sleep(retryIntervalMs);
     return await fn();
   } catch (error) {
-    if (options.retries <= 0) throw error;
-    return retry(fn, {
-      retries: options.retries - 1,
-      retryIntervalMs: options.retryIntervalMs,
-    });
+    if (retries <= 0) throw error;
+    await sleep(retryIntervalMs);
+    return retry(fn, { retries: retries - 1, retryIntervalMs });
   }
 };
 

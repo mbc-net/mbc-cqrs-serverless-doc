@@ -23,7 +23,8 @@ description: {{Understand the optimistic locking strategy using version numbers 
 {{3. Optimistic Locking}}
    - {{Used to prevent concurrent updates to the same item}}
    - {{Version number is automatically incremented with each update}}
-   - {{Throws ConditionalCheckFailedException on version conflicts}}
+   - {{Throws BadRequestException on version conflicts (publishSync)}}
+   - {{Throws ConditionalCheckFailedException for concurrent duplicate key writes (DynamoDB-level)}}
    - {{Ensures data consistency in distributed environments}}
 
 ## {{Implementation Examples}}

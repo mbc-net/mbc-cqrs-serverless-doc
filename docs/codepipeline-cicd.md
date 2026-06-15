@@ -286,20 +286,18 @@ new codepipeline_actions.CodeStarConnectionsSourceAction({
 ### {{CDK Pipeline with Branches}}
 
 ```typescript
-// {{Development pipeline (auto-deploy)}}
+// {{Development pipeline}}
 new PipelineStack(app, 'DevPipeline', {
   repositoryName: 'your-app',
   branchName: 'develop',
   connectionArn: connectionArn,
-  autoApprove: true,
 });
 
-// {{Production pipeline (manual approval)}}
+// {{Production pipeline}}
 new PipelineStack(app, 'ProdPipeline', {
   repositoryName: 'your-app',
   branchName: 'main',
   connectionArn: connectionArn,
-  autoApprove: false,
 });
 ```
 
