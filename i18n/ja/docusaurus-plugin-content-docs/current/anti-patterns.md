@@ -276,12 +276,14 @@ async create(@Body() dto: CreateDto) {
 
 ```typescript
 // ✅ Correct: Validate against JWT claims (正解: JWTクレームに対して検証)
+import { INVOKE_CONTEXT, IInvoke, getUserContext } from '@mbc-cqrs-serverless/core';
+
 @Post()
 async create(
   @Body() dto: CreateDto,
-  @Req() request: IInvoke
+  @INVOKE_CONTEXT() invokeContext: IInvoke
 ) {
-  const { tenantCode } = getUserContext(request);
+  const { tenantCode } = getUserContext(invokeContext);
   const pk = generatePk(tenantCode); // From authenticated context (認証済みコンテキストから)
   // ...
 }
