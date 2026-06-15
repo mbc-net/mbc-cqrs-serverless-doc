@@ -20,11 +20,13 @@ graph TB
         D["TaskModule"]
         E["MasterModule"]
         F["ImportModule"]
+        G["DirectoryStorageModule"]
+        H["SurveyTemplateModule"]
     end
 
     subgraph "Support Modules"
-        G["NotificationModule"]
-        H["SettingModule"]
+        I["NotificationModule"]
+        J["SettingModule"]
     end
 
     A --> B
@@ -32,7 +34,7 @@ graph TB
     C --> D
     C --> E
     C --> F
-    D --> G
+    D --> I
 ```
 
 ## Core Modules {#core-modules}
@@ -50,6 +52,8 @@ graph TB
 | Task Module | `@mbc-cqrs-serverless/task` | Async task execution with Step Functions |
 | Master Module | `@mbc-cqrs-serverless/master` | Master data and settings management |
 | Import Module | `@mbc-cqrs-serverless/import` | Large-scale CSV import with Distributed Map |
+| Directory Module | `@mbc-cqrs-serverless/directory` | S3-backed file and folder management |
+| Survey Template Module | `@mbc-cqrs-serverless/survey-template` | Survey template management |
 
 ## Support Modules {#support-modules}
 

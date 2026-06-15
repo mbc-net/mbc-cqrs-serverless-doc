@@ -20,11 +20,13 @@ graph TB
         D["TaskModule"]
         E["MasterModule"]
         F["ImportModule"]
+        G["DirectoryStorageModule"]
+        H["SurveyTemplateModule"]
     end
 
     subgraph "サポートモジュール"
-        G["NotificationModule"]
-        H["SettingModule"]
+        I["NotificationModule"]
+        J["SettingModule"]
     end
 
     A --> B
@@ -32,7 +34,7 @@ graph TB
     C --> D
     C --> E
     C --> F
-    D --> G
+    D --> I
 ```
 
 ## コアモジュール {#core-modules}
@@ -50,6 +52,8 @@ graph TB
 | Taskモジュール | `@mbc-cqrs-serverless/task` | Step Functionsによる非同期タスク実行 |
 | Masterモジュール | `@mbc-cqrs-serverless/master` | マスターデータと設定の管理 |
 | Importモジュール | `@mbc-cqrs-serverless/import` | Distributed Mapによる大規模CSVインポート |
+| Directoryモジュール | `@mbc-cqrs-serverless/directory` | S3バックのファイル・フォルダ管理 |
+| Survey Templateモジュール | `@mbc-cqrs-serverless/survey-template` | 調査テンプレート管理 |
 
 ## サポートモジュール {#support-modules}
 
