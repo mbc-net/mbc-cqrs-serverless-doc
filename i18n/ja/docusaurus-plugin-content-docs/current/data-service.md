@@ -8,6 +8,10 @@ description: DynamoDBテーブルからデータをクエリするためのDataS
 
 `DataService`はCQRSパターンのクエリ側であり、DynamoDBに保存されたデータに対する効率的な読み取り操作を提供します。クエリに最適化されたデータテーブル（読み取りモデル）からのすべての読み取り操作を処理します。
 
+:::tip Read-Your-Writes（自己書き込み読み取り）整合性
+`DataService`はDynamoDB Streamsを介して非同期に更新されるDynamoDBデータテーブルから読み取ります。ユーザーが自分の書き込みをすぐに確認できる必要がある場合（Streamが反映される前）は、代わりに`Repository`を使用してください。`Repository`はRYWセッションキャッシュを追加する`DataService`のドロップイン代替品です。設定と使用方法については[CommandServiceのRead-Your-Writes](/docs/command-service#read-your-writes)を参照してください。
+:::
+
 ```mermaid
 graph LR
     subgraph "CQRSクエリ側"

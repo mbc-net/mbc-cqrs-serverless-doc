@@ -3,6 +3,8 @@
   "DataService": "DataService",
   "Overview": "Overview",
   "The `DataService` is the query side of the CQRS pattern, providing efficient read operations for data stored in DynamoDB. It handles all read operations from the data table (the read model) which is optimized for queries.": "The `DataService` is the query side of the CQRS pattern, providing efficient read operations for data stored in DynamoDB. It handles all read operations from the data table (the read model) which is optimized for queries.",
+  "Read-Your-Writes Consistency": "Read-Your-Writes Consistency",
+  "`DataService` reads from the DynamoDB data table, which is updated asynchronously via DynamoDB Streams. If you need a user to immediately see their own writes (before the stream propagates), use `Repository` instead — it is a drop-in replacement for `DataService` that adds RYW session caching. See [Read-Your-Writes in CommandService](/docs/command-service#read-your-writes) for setup and usage.": "`DataService` reads from the DynamoDB data table, which is updated asynchronously via DynamoDB Streams. If you need a user to immediately see their own writes (before the stream propagates), use `Repository` instead — it is a drop-in replacement for `DataService` that adds RYW session caching. See [Read-Your-Writes in CommandService](/docs/command-service#read-your-writes) for setup and usage.",
   "CQRS Query Side": "CQRS Query Side",
   "Application": "Application",
   "Data Table": "Data Table",
