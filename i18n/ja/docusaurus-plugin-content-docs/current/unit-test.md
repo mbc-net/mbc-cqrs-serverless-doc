@@ -191,6 +191,8 @@ describe('ServiceName', () => {
 ### エラーケースのテスト
 
 ```ts
+import { BadRequestException } from '@nestjs/common';
+
 it('should throw BadRequestException when item not found', async () => {
   const invalidKey = { pk: 'invalid', sk: 'key' }
 

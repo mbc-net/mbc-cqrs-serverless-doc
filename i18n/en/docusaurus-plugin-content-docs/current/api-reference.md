@@ -69,6 +69,7 @@ npm install @mbc-cqrs-serverless/core
 Register the CommandModule in your application:
 
 ```typescript
+import { Module } from '@nestjs/common';
 import { CommandModule } from '@mbc-cqrs-serverless/core';
 
 @Module({
