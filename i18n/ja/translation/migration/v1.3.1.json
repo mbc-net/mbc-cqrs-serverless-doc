@@ -24,7 +24,7 @@
   "**Do not add `@Injectable()`** on the resolver class. Adding it alongside `@GroupRoleResolver()` causes a scope conflict (AP027 anti-pattern). `@GroupRoleResolver()` already registers the class as a singleton provider.": "リゾルバークラスに**`@Injectable()`を追加しないでください**。`@GroupRoleResolver()`と同時に追加するとスコープの競合が発生します（AP027アンチパターン）。`@GroupRoleResolver()`はすでにクラスをシングルトンプロバイダーとして登録します。",
   "**Let failures propagate** — a resolver error surfaces as a 5xx, not a silent 403, making backend outages distinguishable from genuine access denials.": "**エラーを伝播させる** — リゾルバーエラーはサイレントな403ではなく5xxとして現れ、バックエンドの停止と実際のアクセス拒否を区別できます。",
   "**Implement exactly one resolver** per application.": "アプリケーションごとに**リゾルバーは1つだけ**実装してください。",
-  "AP027: @GroupRoleResolver + @Injectable Anti-Pattern": "AP027: @GroupRoleResolver + @InjectableアンチパターN",
+  "AP027: @GroupRoleResolver + @Injectable Anti-Pattern": "AP027: @GroupRoleResolver + @Injectableアンチパターン",
   "The new AP027 anti-pattern detector (`mbc_check_anti_patterns`) flags resolver classes that are annotated with both `@GroupRoleResolver()` and `@Injectable()`. If you create a resolver, make sure it has only `@GroupRoleResolver()`.": "新しいAP027アンチパターン検出器（`mbc_check_anti_patterns`）は、`@GroupRoleResolver()`と`@Injectable()`の両方が付与されたリゾルバークラスを検出します。リゾルバーを作成する場合は、`@GroupRoleResolver()`のみを付与してください。",
   "See [Authentication — Group-Based Roles](/docs/authentication#group-based-roles) for complete documentation.": "完全なドキュメントは[認証 — グループベースのロール](/docs/authentication#group-based-roles)を参照してください。",
   "Updated UserContext Fields": "UserContextフィールドの更新",
