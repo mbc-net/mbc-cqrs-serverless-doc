@@ -45,7 +45,7 @@ npm run migrate
 npm run offline:sls
 ```
 
-## Part 1: Basic CQRS Implementation (step-02-create)
+## Part 1: Basic CQRS Implementation (step-02-create) {#part1-create}
 
 ### Step 1: Create Helper Functions
 
@@ -299,7 +299,7 @@ import { TodoService } from './todo.service'
 export class TodoModule {}
 ```
 
-## Part 2: RDS Data Synchronization (step-03-rds-sync)
+## Part 2: RDS Data Synchronization (step-03-rds-sync) {#part2-rds-sync}
 
 Implement automatic data synchronization from DynamoDB to RDS.
 
@@ -452,7 +452,7 @@ import { TodoService } from './todo.service'
 export class TodoModule {}
 ```
 
-## Part 3: Read Operations (step-04-read)
+## Part 3: Read Operations (step-04-read) {#part3-read}
 
 Add methods to retrieve single items from DynamoDB.
 
@@ -500,7 +500,7 @@ async findOne(
 }
 ```
 
-## Part 4: Search Operations (step-05-search)
+## Part 4: Search Operations (step-05-search) {#part4-search}
 
 Implement search using RDS for efficient queries.
 
@@ -652,7 +652,7 @@ async findAll(
 }
 ```
 
-## Part 5: Update and Delete (step-06-update-delete)
+## Part 5: Update and Delete (step-06-update-delete) {#part5-update-delete}
 
 ### Update DTO
 
@@ -773,7 +773,7 @@ async remove(
 }
 ```
 
-## Part 6: Sequence Numbers (step-07-sequence)
+## Part 6: Sequence Numbers (step-07-sequence) {#part6-sequence}
 
 Add auto-incrementing todo numbers.
 
@@ -858,7 +858,7 @@ export class TodoService {
 }
 ```
 
-## Part 7: Async Task Processing (complete/with-task)
+## Part 7: Async Task Processing (complete/with-task) {#part7-async-tasks}
 
 Process long-running todo operations asynchronously.
 

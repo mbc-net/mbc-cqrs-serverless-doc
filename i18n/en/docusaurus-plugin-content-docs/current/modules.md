@@ -4,7 +4,7 @@ description: Learn how to create and configure modules in MBC CQRS Serverless.
 
 # Modules
 
-## Overview
+## Overview {#overview}
 
 A module is a class annotated with a `@Module()` decorator. The `@Module()` decorator provides metadata that organizes the application structure. Modules encapsulate related functionality and follow the NestJS module pattern.
 
@@ -29,7 +29,7 @@ graph TB
     D --> G
 ```
 
-## Module Structure
+## Module Structure {#module-structure}
 
 A typical module in MBC CQRS Serverless includes:
 
@@ -55,7 +55,7 @@ import { CatDataSyncRdsHandler } from './handler/cat-rds.handler';
 export class CatModule {}
 ```
 
-## Module Components
+## Module Components {#module-components}
 
 | Component | Description |
 |-----------|-------------|
@@ -64,7 +64,7 @@ export class CatModule {}
 | `providers` | Services and other providers available for injection |
 | `exports` | Providers that should be available in modules that import this module |
 
-## Framework Modules
+## Framework Modules {#framework-modules}
 
 MBC CQRS Serverless provides several ready-to-use modules:
 
@@ -91,7 +91,7 @@ MBC CQRS Serverless provides several ready-to-use modules:
 | `NotificationModule` | `@mbc-cqrs-serverless/core` | Email notifications via SES |
 | `SettingModule` | `@mbc-cqrs-serverless/ui-setting` | User interface settings storage |
 
-## Dynamic Module Registration
+## Dynamic Module Registration {#dynamic-registration}
 
 Most framework modules are dynamic modules that accept configuration:
 
@@ -288,7 +288,7 @@ This module exports:
 - `AppSyncService` - Send real-time notifications via AppSync (GraphQL Subscriptions)
 - `AppSyncEventsService` - Send real-time notifications via AppSync Events API (opt-in, added in v1.3.0)
 
-## Creating Custom Modules
+## Creating Custom Modules {#custom-modules}
 
 ### Step 1: Create Module File
 
@@ -332,7 +332,7 @@ import { OrderModule } from './order/order.module';
 export class AppModule {}
 ```
 
-## Best Practices
+## Best Practices {#best-practices}
 
 1. **One module per entity**: Create a dedicated module for each business entity
 2. **Export services, not controllers**: Only export providers that other modules need

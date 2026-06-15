@@ -45,7 +45,7 @@ npm run migrate
 npm run offline:sls
 ```
 
-## Part 1：基本的なCQRS実装（step-02-create）
+## Part 1：基本的なCQRS実装（step-02-create） {#part1-create}
 
 ### ステップ1：ヘルパー関数の作成
 
@@ -299,7 +299,7 @@ import { TodoService } from './todo.service'
 export class TodoModule {}
 ```
 
-## Part 2：RDSデータ同期（step-03-rds-sync）
+## Part 2：RDSデータ同期（step-03-rds-sync） {#part2-rds-sync}
 
 DynamoDBからRDSへの自動データ同期を実装します。
 
@@ -452,7 +452,7 @@ import { TodoService } from './todo.service'
 export class TodoModule {}
 ```
 
-## Part 3：読み取り操作（step-04-read）
+## Part 3：読み取り操作（step-04-read） {#part3-read}
 
 DynamoDBから単一アイテムを取得するメソッドを追加します。
 
@@ -500,7 +500,7 @@ async findOne(
 }
 ```
 
-## Part 4：検索操作（step-05-search）
+## Part 4：検索操作（step-05-search） {#part4-search}
 
 効率的なクエリのためにRDSを使用した検索を実装します。
 
@@ -652,7 +652,7 @@ async findAll(
 }
 ```
 
-## Part 5：更新と削除（step-06-update-delete）
+## Part 5：更新と削除（step-06-update-delete） {#part5-update-delete}
 
 ### 更新DTOの作成
 
@@ -773,7 +773,7 @@ async remove(
 }
 ```
 
-## Part 6：シーケンス番号（step-07-sequence）
+## Part 6：シーケンス番号（step-07-sequence） {#part6-sequence}
 
 自動インクリメントのTodo番号を追加します。
 
@@ -858,7 +858,7 @@ export class TodoService {
 }
 ```
 
-## Part 7：非同期タスク処理（complete/with-task）
+## Part 7：非同期タスク処理（complete/with-task） {#part7-async-tasks}
 
 長時間実行されるTodo操作を非同期で処理します。
 
