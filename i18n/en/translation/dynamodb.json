@@ -43,7 +43,6 @@
   "Key Design Patterns": "Key Design Patterns",
   "Standard Key Structure": "Standard Key Structure",
   "All entity tables use a composite primary key. The DATA table and COMMAND table use the same `pk` format but differ in `sk`:": "All entity tables use a composite primary key. The DATA table and COMMAND table use the same `pk` format but differ in `sk`:",
-  "Table": "Table",
   "Key": "Key",
   "Format": "Format",
   "Example": "Example",
@@ -119,5 +118,10 @@
   "Deployed Table Names": "Deployed Table Names",
   "The actual table names are prefixed with the environment and application name: `{NODE_ENV}-{APP_NAME}-{entity}-{type}` (for example `dev-myapp-order-command`). The names above are the logical suffixes used by `CommandModule.register({ tableName })`.": "The actual table names are prefixed with the environment and application name: `{NODE_ENV}-{APP_NAME}-{entity}-{type}` (for example `dev-myapp-order-command`). The names above are the logical suffixes used by `CommandModule.register({ tableName })`.",
   "Tracks Read-Your-Writes sessions (v1.2.0+)": "Tracks Read-Your-Writes sessions (v1.2.0+)",
-  "Read-Your-Writes session tracking (v1.2.0+), see [Command Service](/docs/command-service#read-your-writes)": "Read-Your-Writes session tracking (v1.2.0+), see [Command Service](/docs/command-service#read-your-writes)"
+  "Read-Your-Writes session tracking (v1.2.0+), see [Command Service](/docs/command-service#read-your-writes)": "Read-Your-Writes session tracking (v1.2.0+), see [Command Service](/docs/command-service#read-your-writes)",
+  "Migrate DynamoDB tables only": "Migrate DynamoDB tables only",
+  "Migrate both DynamoDB and RDS": "Migrate both DynamoDB and RDS",
+  "Start DynamoDB Local (included in docker-compose)": "Start DynamoDB Local (included in docker-compose)",
+  "Access DynamoDB Local Admin UI": "Access DynamoDB Local Admin UI",
+  "Local DynamoDB endpoint": "Local DynamoDB endpoint"
 }

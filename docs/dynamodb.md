@@ -68,10 +68,10 @@ graph TB
 {{For local development:}}
 
 ```bash
-# Migrate DynamoDB tables only
+# {{Migrate DynamoDB tables only}}
 npm run migrate:ddb
 
-# Migrate both DynamoDB and RDS
+# {{Migrate both DynamoDB and RDS}}
 npm run migrate
 ```
 
@@ -224,17 +224,17 @@ const params = {
 {{The framework includes DynamoDB Local for development:}}
 
 ```bash
-# Start DynamoDB Local (included in docker-compose)
+# {{Start DynamoDB Local (included in docker-compose)}}
 docker-compose up -d dynamodb-local
 
-# Access DynamoDB Local Admin UI
+# {{Access DynamoDB Local Admin UI}}
 open http://localhost:8001
 ```
 
 ### {{Environment Variables}}
 
 ```bash
-# Local DynamoDB endpoint
+# {{Local DynamoDB endpoint}}
 DYNAMODB_ENDPOINT=http://localhost:8000
 DYNAMODB_REGION=ap-northeast-1
 ```

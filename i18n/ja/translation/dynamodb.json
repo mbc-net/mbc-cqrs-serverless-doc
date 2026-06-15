@@ -118,5 +118,10 @@
   "Deployed Table Names": "デプロイ時のテーブル名",
   "The actual table names are prefixed with the environment and application name: `{NODE_ENV}-{APP_NAME}-{entity}-{type}` (for example `dev-myapp-order-command`). The names above are the logical suffixes used by `CommandModule.register({ tableName })`.": "実際のテーブル名には環境名とアプリケーション名のプレフィックスが付きます: `{NODE_ENV}-{APP_NAME}-{エンティティ}-{種別}`（例: `dev-myapp-order-command`）。上記の名前は `CommandModule.register({ tableName })` で使用される論理サフィックスです。",
   "Tracks Read-Your-Writes sessions (v1.2.0+)": "Read-Your-Writes セッションの追跡（v1.2.0以降）",
-  "Read-Your-Writes session tracking (v1.2.0+), see [Command Service](/docs/command-service#read-your-writes)": "Read-Your-Writes セッションの追跡（v1.2.0以降）。[コマンドサービス](/docs/command-service#read-your-writes)を参照"
+  "Read-Your-Writes session tracking (v1.2.0+), see [Command Service](/docs/command-service#read-your-writes)": "Read-Your-Writes セッションの追跡（v1.2.0以降）。[コマンドサービス](/docs/command-service#read-your-writes)を参照",
+  "Migrate DynamoDB tables only": "DynamoDB テーブルのみ移行",
+  "Migrate both DynamoDB and RDS": "DynamoDB と RDS の両方を移行",
+  "Start DynamoDB Local (included in docker-compose)": "DynamoDB Local を起動（docker-compose に含まれています）",
+  "Access DynamoDB Local Admin UI": "DynamoDB Local 管理 UI にアクセス",
+  "Local DynamoDB endpoint": "ローカル DynamoDB エンドポイント"
 }
