@@ -155,7 +155,7 @@ class NotificationEvent implements IEvent, SQSRecord {
 {{The `NotificationEventHandler` is the built-in event handler that processes `NotificationEvent` and sends notifications to AppSync. It is automatically registered when using the notification module.}}
 
 ```ts
-import { NotificationEventHandler, NotificationEvent } from "@mbc-cqrs-serverless/core";
+import { EventHandler, IEventHandler, NotificationEventHandler, NotificationEvent } from "@mbc-cqrs-serverless/core";
 
 @EventHandler(NotificationEvent)
 export class NotificationEventHandler implements IEventHandler<NotificationEvent> {

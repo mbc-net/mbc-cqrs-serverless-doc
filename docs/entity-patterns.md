@@ -348,7 +348,7 @@ export class UpdateProductDto {
 {{Solution: Define DTOs that validate query parameters and provide default values.}}
 
 ```ts
-import { IsString, IsOptional, IsNumber, Min, Max } from "class-validator";
+import { IsBoolean, IsNumber, IsOptional, IsString, Min, Max } from "class-validator";
 import { Type } from "class-transformer";
 
 // {{For single item lookup}}
