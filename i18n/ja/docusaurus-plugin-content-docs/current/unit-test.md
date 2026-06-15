@@ -243,6 +243,8 @@ describe('MultiServiceTest', () => {
 入力に基づいて異なるレスポンスを返すには `callsFake` を使用します：
 
 ```ts
+import { marshall } from '@aws-sdk/util-dynamodb'
+
 dynamoMock.on(GetItemCommand).callsFake((input) => {
   if (input.Key.pk.S === 'existing-key') {
     return {
@@ -262,6 +264,8 @@ dynamoMock.on(GetItemCommand).callsFake((input) => {
 モックをrejectさせてエラーハンドリングをテストします：
 
 ```ts
+import { ConflictException } from '@nestjs/common'
+
 it('should handle ConditionalCheckFailedException as 409 conflict', async () => {
   const error = new Error('The conditional request failed')
   error.name = 'ConditionalCheckFailedException'

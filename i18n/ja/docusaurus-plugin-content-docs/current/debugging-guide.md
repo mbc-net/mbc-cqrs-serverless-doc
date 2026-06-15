@@ -244,6 +244,9 @@ aws stepfunctions get-execution-history \
 Step Functionsでログを有効化：
 
 ```typescript
+import * as sfn from 'aws-cdk-lib/aws-stepfunctions';
+import * as logs from 'aws-cdk-lib/aws-logs';
+
 const stateMachine = new sfn.StateMachine(this, 'StateMachine', {
   definition: definition,
   logs: {
@@ -259,6 +262,10 @@ const stateMachine = new sfn.StateMachine(this, 'StateMachine', {
 ### アクセスログの有効化
 
 ```typescript
+import * as apigateway from 'aws-cdk-lib/aws-apigatewayv2';
+import * as logs from 'aws-cdk-lib/aws-logs';
+
+const logGroup = new logs.LogGroup(this, 'ApiAccessLogs');
 const api = new apigateway.HttpApi(this, 'Api');
 
 const stage = api.defaultStage?.node.defaultChild as apigateway.CfnStage;
@@ -355,6 +362,8 @@ async function processOrder(orderId: string): Promise<void> {
 リクエストを追跡するために相関IDを追加：
 
 ```typescript
+import { Injectable, NestMiddleware } from '@nestjs/common';
+import { Request, Response, NextFunction } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
