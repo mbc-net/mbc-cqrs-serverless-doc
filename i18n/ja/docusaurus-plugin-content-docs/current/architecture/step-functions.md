@@ -301,7 +301,7 @@ export class CommandStateMachineConstruct extends Construct {
     // 並列データ同期のマップステート
     const syncDataAll = new sfn.Map(this, 'sync_data_all', {
       stateName: 'sync_data_all',
-      maxConcurrency: 0, // Unlimited concurrency
+      maxConcurrency: 0, // 同時実行数無制限
       itemsPath: sfn.JsonPath.stringAt('$'),
     })
       .itemProcessor(syncData)
@@ -376,7 +376,7 @@ export class TaskStateMachineConstruct extends Construct {
     // 同時実行制限付きマップステート
     const mapState = new sfn.Map(this, 'TaskMapState', {
       stateName: 'map_state',
-      maxConcurrency: 2, // Process 2 items at a time
+      maxConcurrency: 2, // 一度に2アイテムを処理
       inputPath: '$',
       itemsPath: sfn.JsonPath.stringAt('$'),
     }).itemProcessor(iteratorTask);
@@ -482,7 +482,7 @@ const csvRowsHandler = new tasks.LambdaInvoke(this, 'csv_rows_handler', {
 });
 
 const importCsvDefinition = new DistributedMap(this, 'import-csv', {
-  maxConcurrency: 50, // Process up to 50 batches in parallel
+  maxConcurrency: 50, // 最大50バッチを並行処理
 })
   .setLabel('import-csv')
   .setItemReader({
@@ -503,7 +503,7 @@ const importCsvDefinition = new DistributedMap(this, 'import-csv', {
     },
   })
   .itemProcessor(csvRowsHandler, {
-    executionType: sfn.ProcessorType.EXPRESS, // Use EXPRESS for child executions
+    executionType: sfn.ProcessorType.EXPRESS, // 子実行にはEXPRESSを使用
   });
 
 const importCsvStateMachine = new sfn.StateMachine(this, 'ImportCsvStateMachine', {
@@ -752,11 +752,11 @@ await this.importService.createCsvImport({
 });
 
 // import-csvステートマシンが行うこと:
-// 1. Read CSV from S3
-// 2. Batch rows (default: 10 per batch)
-// 3. Process up to 50 batches concurrently
-// 4. Transform and validate each row
-// 5. Create import commands
+// 1. S3からCSVを読み込む
+// 2. 行をバッチ化（デフォルト: 10行/バッチ）
+// 3. 最大50バッチを並行処理
+// 4. 各行を変換・バリデーション
+// 5. インポートコマンドを作成
 ```
 
 ### ユースケース4：非同期コールバックパターン
@@ -786,7 +786,7 @@ await this.importService.createCsvImport({
 async handleWaitForApproval(event: ApprovalEvent) {
   await this.approvalService.createApprovalRequest({
     requestId: event.input.requestId,
-    taskToken: event.taskToken, // Store for later callback
+    taskToken: event.taskToken, // 後でコールバックするために保存
   });
 }
 
@@ -1151,20 +1151,20 @@ await importService.handleCsvImport({
 ```typescript
 interface StepFunctionsContext {
   Execution: {
-    Id: string;        // Execution ARN
-    Input: object;     // Original input
-    Name: string;      // Execution name
-    RoleArn: string;   // IAM role
-    StartTime: string; // ISO timestamp
+    Id: string;        // 実行ARN
+    Input: object;     // 元の入力
+    Name: string;      // 実行名
+    RoleArn: string;   // IAMロール
+    StartTime: string; // ISOタイムスタンプ
   };
   State: {
-    EnteredTime: string; // When this state started
-    Name: string;        // Current state name
-    RetryCount: number;  // Retry attempt number
+    EnteredTime: string; // このステートが開始した時刻
+    Name: string;        // 現在のステート名
+    RetryCount: number;  // リトライ試行回数
   };
   StateMachine: {
-    Id: string;   // State machine ARN
-    Name: string; // State machine name
+    Id: string;   // ステートマシンARN
+    Name: string; // ステートマシン名
   };
 }
 ```

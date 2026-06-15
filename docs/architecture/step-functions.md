@@ -301,7 +301,7 @@ export class CommandStateMachineConstruct extends Construct {
     // {{Map state for parallel data sync}}
     const syncDataAll = new sfn.Map(this, 'sync_data_all', {
       stateName: 'sync_data_all',
-      maxConcurrency: 0, // Unlimited concurrency
+      maxConcurrency: 0, // {{Unlimited concurrency}}
       itemsPath: sfn.JsonPath.stringAt('$'),
     })
       .itemProcessor(syncData)
@@ -376,7 +376,7 @@ export class TaskStateMachineConstruct extends Construct {
     // {{Map state with concurrency limit}}
     const mapState = new sfn.Map(this, 'TaskMapState', {
       stateName: 'map_state',
-      maxConcurrency: 2, // Process 2 items at a time
+      maxConcurrency: 2, // {{Process 2 items at a time}}
       inputPath: '$',
       itemsPath: sfn.JsonPath.stringAt('$'),
     }).itemProcessor(iteratorTask);
@@ -482,7 +482,7 @@ const csvRowsHandler = new tasks.LambdaInvoke(this, 'csv_rows_handler', {
 });
 
 const importCsvDefinition = new DistributedMap(this, 'import-csv', {
-  maxConcurrency: 50, // Process up to 50 batches in parallel
+  maxConcurrency: 50, // {{Process up to 50 batches in parallel}}
 })
   .setLabel('import-csv')
   .setItemReader({
@@ -503,7 +503,7 @@ const importCsvDefinition = new DistributedMap(this, 'import-csv', {
     },
   })
   .itemProcessor(csvRowsHandler, {
-    executionType: sfn.ProcessorType.EXPRESS, // Use EXPRESS for child executions
+    executionType: sfn.ProcessorType.EXPRESS, // {{Use EXPRESS for child executions}}
   });
 
 const importCsvStateMachine = new sfn.StateMachine(this, 'ImportCsvStateMachine', {
@@ -752,11 +752,11 @@ await this.importService.createCsvImport({
 });
 
 // {{The import-csv state machine will:}}
-// 1. Read CSV from S3
-// 2. Batch rows (default: 10 per batch)
-// 3. Process up to 50 batches concurrently
-// 4. Transform and validate each row
-// 5. Create import commands
+// {{1. Read CSV from S3}}
+// {{2. Batch rows (default: 10 per batch)}}
+// {{3. Process up to 50 batches concurrently}}
+// {{4. Transform and validate each row}}
+// {{5. Create import commands}}
 ```
 
 ### {{Use Case 4: Async Callback Pattern}}
@@ -786,7 +786,7 @@ await this.importService.createCsvImport({
 async handleWaitForApproval(event: ApprovalEvent) {
   await this.approvalService.createApprovalRequest({
     requestId: event.input.requestId,
-    taskToken: event.taskToken, // Store for later callback
+    taskToken: event.taskToken, // {{Store for later callback}}
   });
 }
 
@@ -1151,20 +1151,20 @@ await importService.handleCsvImport({
 ```typescript
 interface StepFunctionsContext {
   Execution: {
-    Id: string;        // Execution ARN
-    Input: object;     // Original input
-    Name: string;      // Execution name
-    RoleArn: string;   // IAM role
-    StartTime: string; // ISO timestamp
+    Id: string;        // {{Execution ARN}}
+    Input: object;     // {{Original input}}
+    Name: string;      // {{Execution name}}
+    RoleArn: string;   // {{IAM role}}
+    StartTime: string; // {{ISO timestamp}}
   };
   State: {
-    EnteredTime: string; // When this state started
-    Name: string;        // Current state name
-    RetryCount: number;  // Retry attempt number
+    EnteredTime: string; // {{When this state started}}
+    Name: string;        // {{Current state name}}
+    RetryCount: number;  // {{Retry attempt number}}
   };
   StateMachine: {
-    Id: string;   // State machine ARN
-    Name: string; // State machine name
+    Id: string;   // {{State machine ARN}}
+    Name: string; // {{State machine name}}
   };
 }
 ```
