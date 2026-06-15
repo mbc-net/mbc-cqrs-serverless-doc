@@ -10,7 +10,7 @@ description: MBC CQRS Serverlessアプリケーションで外部APIと統合し
 
 以下のことが必要な場合にこのガイドを使用してください：
 
-- Lambdaハンドラーやサービスからexternal REST APIを呼び出す
+- Lambdaハンドラーやサービスから外部REST APIを呼び出す
 - サードパーティサービスからWebhookを受信する
 - 外部API呼び出しのリトライとエラーハンドリングを実装する
 - 外部システムとの回復力のある統合を構築する

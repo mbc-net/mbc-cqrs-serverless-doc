@@ -4,7 +4,7 @@
   "This guide explains how to integrate your MBC CQRS Serverless application with external APIs and services. Learn patterns for making HTTP requests, handling webhooks, implementing retry logic, and ensuring resilient integrations.": "このガイドでは、MBC CQRS Serverlessアプリケーションを外部APIやサービスと統合する方法を説明します。HTTPリクエストの作成、Webhookの処理、リトライロジックの実装、および回復力のある統合を確保するためのパターンを学びます。",
   "When to Use This Guide": "このガイドを使用するタイミング",
   "Use this guide when you need to:": "以下のことが必要な場合にこのガイドを使用してください：",
-  "Call external REST APIs from your Lambda handlers or services": "Lambdaハンドラーやサービスからexternal REST APIを呼び出す",
+  "Call external REST APIs from your Lambda handlers or services": "Lambdaハンドラーやサービスから外部REST APIを呼び出す",
   "Receive webhooks from third-party services": "サードパーティサービスからWebhookを受信する",
   "Implement retry and error handling for external API calls": "外部API呼び出しのリトライとエラーハンドリングを実装する",
   "Build resilient integrations with external systems": "外部システムとの回復力のある統合を構築する",
