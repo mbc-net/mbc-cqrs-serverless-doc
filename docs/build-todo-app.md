@@ -462,7 +462,7 @@ export class TodoModule {}
 
 ```typescript
 import { DataService } from '@mbc-cqrs-serverless/core'
-import { NotFoundException } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 
 @Injectable()
 export class TodoService {
@@ -804,6 +804,7 @@ export class TodoModule {}
 ### {{Update Service}}
 
 ```typescript
+import { Injectable } from '@nestjs/common'
 import { SequencesService } from '@mbc-cqrs-serverless/sequence'
 
 @Injectable()
