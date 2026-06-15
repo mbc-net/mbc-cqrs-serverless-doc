@@ -36,5 +36,7 @@
   "Environment Variables": "環境変数",
   "SES configuration environment variables": "SES設定の環境変数",
   "Interfaces": "インターフェース",
-  "EmailNotification interface reference": "EmailNotificationインターフェースリファレンス"
+  "EmailNotification interface reference": "EmailNotificationインターフェースリファレンス",
+  "Composes an email message and immediately queues it for sending. Returns `Promise<SendEmailCommandOutput>` — the AWS SES response includes a `MessageId` string you can capture for tracking:": "メールを作成してすぐに送信キューに追加します。`Promise<SendEmailCommandOutput>`を返します — AWS SESレスポンスには追跡に使用できる`MessageId`文字列が含まれます：",
+  "Log MessageId for email tracking": "Log MessageId for email tracking (メール追跡用にMessageIdをログ出力)"
 }

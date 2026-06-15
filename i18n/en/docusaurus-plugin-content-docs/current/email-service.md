@@ -12,7 +12,16 @@ This service is designed to send emails using [AWS SES (Simple Email Service)](h
 
 ### *async* `sendEmail(msg: EmailNotification): Promise<any>`
 
-Composes an email message and immediately queues it for sending.
+Composes an email message and immediately queues it for sending. Returns `Promise<SendEmailCommandOutput>` — the AWS SES response includes a `MessageId` string you can capture for tracking:
+
+```ts
+const result = await this.emailService.sendEmail({
+  toAddrs: ["recipient@example.com"],
+  subject: "Hello",
+  body: "<p>World</p>",
+});
+console.log(result.MessageId); // Log MessageId for email tracking
+```
 
 #### Basic Example
 

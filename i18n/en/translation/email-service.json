@@ -36,5 +36,7 @@
   "Environment Variables": "Environment Variables",
   "SES configuration environment variables": "SES configuration environment variables",
   "Interfaces": "Interfaces",
-  "EmailNotification interface reference": "EmailNotification interface reference"
+  "EmailNotification interface reference": "EmailNotification interface reference",
+  "Composes an email message and immediately queues it for sending. Returns `Promise<SendEmailCommandOutput>` — the AWS SES response includes a `MessageId` string you can capture for tracking:": "Composes an email message and immediately queues it for sending. Returns `Promise<SendEmailCommandOutput>` — the AWS SES response includes a `MessageId` string you can capture for tracking:",
+  "Log MessageId for email tracking": "Log MessageId for email tracking"
 }
