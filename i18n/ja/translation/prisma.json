@@ -8,7 +8,7 @@
   "For local development, please make sure to set the correct `DATABASE_URL` environment variable.": "ローカル開発の場合は、正しい「DATABASE_URL」環境変数を設定してください。",
   "You could view [prisma-client documentation](https://www.prisma.io/docs/orm/prisma-client) for more information": "詳細については、[prisma-client ドキュメント](https://www.prisma.io/docs/orm/prisma-client) をご覧ください。",
   "Design table convention": "テーブル設計の規則",
-  "When creating an RDS table that maps to a DynamoDB table, ensure you add the necessary fields and indexes to the RDS table accordingly.": "DynamoDB テーブルにマップする RDS テーブルを作成するときは、必要なフィールドとインデックスをそれに応じて RDS テーブルに追加してください。",
+  "When creating an RDS table that maps to a DynamoDB table, ensure you add the necessary fields and indexes to the RDS table accordingly. The `cpk`/`csk` fields store the original command table keys (used to link back to the DynamoDB command record). Include them when you need full traceability from RDS to DynamoDB; omit them if you only need the data table keys (`pk`/`sk`).": "DynamoDB テーブルにマップする RDS テーブルを作成するときは、必要なフィールドとインデックスをそれに応じて RDS テーブルに追加してください。`cpk`/`csk` フィールドにはコマンドテーブルの元のキーを格納します（DynamoDB コマンドレコードへの参照用）。RDS から DynamoDB への完全なトレーサビリティが必要な場合は含めてください。データテーブルのキー（`pk`/`sk`）だけで十分な場合は省略できます。",
   "Command PK": "Command PK (コマンド用PK)",
   "Command SK": "Command SK (コマンド用SK)",
   "Data PK": "Data PK (データ用PK)",
