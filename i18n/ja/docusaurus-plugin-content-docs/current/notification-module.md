@@ -739,3 +739,4 @@ await this.emailService.sendEmail(email);
 - [イベントハンドリングパターン](/docs/event-handling-patterns) - 通知がイベントとどのように統合されるか
 - [環境変数](/docs/environment-variables) - AppSyncとSESの設定
 - [キュー](/docs/queue) - 通知キューイングのSQS
+- [よくある問題 — AppSync Events API が通知を配信しない](/docs/common-issues#appsync-events-not-publishing) - AppSync Events API のトラブルシューティング

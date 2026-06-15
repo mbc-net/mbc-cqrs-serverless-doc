@@ -220,5 +220,7 @@
   "Subscribe to a specific order": "特定の注文をサブスクライブ",
   "Trigger a refetch or update local state": "再フェッチをトリガーするかローカルステートを更新",
   "Channel Path Format": "チャンネルパスのフォーマット",
-  "The sanitized item ID in the channel path replaces `#` with `_`. For example, `ORDER#ORD001` becomes `ORDER_ORD001`. Use `sk.replace(/#/g, '_')` on the client side to compute the exact channel path.": "チャンネルパスのサニタイズされたアイテム ID は `#` を `_` に置換します。例えば `ORDER#ORD001` は `ORDER_ORD001` になります。クライアントサイドでは `sk.replace(/#/g, '_')` を使って正確なチャンネルパスを算出してください。"
+  "The sanitized item ID in the channel path replaces `#` with `_`. For example, `ORDER#ORD001` becomes `ORDER_ORD001`. Use `sk.replace(/#/g, '_')` on the client side to compute the exact channel path.": "チャンネルパスのサニタイズされたアイテム ID は `#` を `_` に置換します。例えば `ORDER#ORD001` は `ORDER_ORD001` になります。クライアントサイドでは `sk.replace(/#/g, '_')` を使って正確なチャンネルパスを算出してください。",
+  "Common Issues — AppSync Events API not publishing": "よくある問題 — AppSync Events API が通知を配信しない",
+  "Troubleshooting AppSync Events API": "AppSync Events API のトラブルシューティング"
 }

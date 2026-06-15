@@ -220,5 +220,7 @@
   "Subscribe to a specific order": "Subscribe to a specific order",
   "Trigger a refetch or update local state": "Trigger a refetch or update local state",
   "Channel Path Format": "Channel Path Format",
-  "The sanitized item ID in the channel path replaces `#` with `_`. For example, `ORDER#ORD001` becomes `ORDER_ORD001`. Use `sk.replace(/#/g, '_')` on the client side to compute the exact channel path.": "The sanitized item ID in the channel path replaces `#` with `_`. For example, `ORDER#ORD001` becomes `ORDER_ORD001`. Use `sk.replace(/#/g, '_')` on the client side to compute the exact channel path."
+  "The sanitized item ID in the channel path replaces `#` with `_`. For example, `ORDER#ORD001` becomes `ORDER_ORD001`. Use `sk.replace(/#/g, '_')` on the client side to compute the exact channel path.": "The sanitized item ID in the channel path replaces `#` with `_`. For example, `ORDER#ORD001` becomes `ORDER_ORD001`. Use `sk.replace(/#/g, '_')` on the client side to compute the exact channel path.",
+  "Common Issues — AppSync Events API not publishing": "Common Issues — AppSync Events API not publishing",
+  "Troubleshooting AppSync Events API": "Troubleshooting AppSync Events API"
 }

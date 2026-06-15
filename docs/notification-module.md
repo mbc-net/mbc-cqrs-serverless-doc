@@ -739,3 +739,4 @@ await this.emailService.sendEmail(email);
 - [{{Event Handling Patterns}}](/docs/event-handling-patterns) - {{How notifications integrate with events}}
 - [{{Environment Variables}}](/docs/environment-variables) - {{AppSync and SES configuration}}
 - [{{Queue}}](/docs/queue) - {{SQS for notification queuing}}
+- [{{Common Issues — AppSync Events API not publishing}}](/docs/common-issues#appsync-events-not-publishing) - {{Troubleshooting AppSync Events API}}
