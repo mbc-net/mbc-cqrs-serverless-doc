@@ -86,6 +86,7 @@ interface ImportEntityProfile {
   tableName: string; // Unique identifier for this data type (このデータタイプの一意識別子)
   importStrategy: Type<IImportStrategy<any, any>>; // Transform and validate (変換と検証)
   processStrategy: Type<IProcessStrategy<any, any>>; // Compare and map (比較とマッピング)
+  publishMode?: ImportPublishMode; // Optional: override the default publish mode (オプション: デフォルトのパブリッシュモードをオーバーライド)
 }
 ```
 
@@ -444,7 +445,7 @@ export class BackupToS3Hook implements IZipFinalizationHook {
 |--------------|----------|-----------------|
 | `event` | `ZipImportSfnEvent` | 元のStep Functionイベント |
 | `masterJobKey` | `DetailKey` | マスターZIPジョブのキー |
-| `results` | `object` | 集計結果（totalRows、processedRows、failedRows） |
+| `results` | `ZipFinalizationResults` | 集計結果（totalRows、processedRows、failedRows、csvTaskFailureCount） |
 | `status` | `ImportStatusEnum` | ジョブの最終ステータス |
 | `executionInput` | `any` | 元のStep Functions実行入力 |
 
