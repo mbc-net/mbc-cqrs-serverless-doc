@@ -195,12 +195,12 @@ Finally, we create a CustomRoleGuard class which will compare the roles assigned
 import { RolesGuard } from "@mbc-cqrs-serverless/core";
 import { ExecutionContext, Injectable } from "@nestjs/common";
 
-import { getUserContext } from "./user.context";
+import { getCustomUserContext } from "./user.context";
 
 @Injectable()
 export class CustomRoleGuard extends RolesGuard {
   protected async verifyTenant(context: ExecutionContext): Promise<boolean> {
-    const userContext = getUserContext(context);
+    const userContext = getCustomUserContext(context);
 
     return !!userContext.tenantCode;
   }

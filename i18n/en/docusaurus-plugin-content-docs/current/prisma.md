@@ -4,7 +4,7 @@ description: Integrate Prisma ORM with MBC CQRS Serverless for RDS database acce
 
 # Prisma
 
-In MBC CQRS serverless, we use prisma as an ORM. It helps developers more productive when working with databases.
+In MBC CQRS serverless, we use prisma as an ORM. It helps developers be more productive when working with databases.
 
 A common scenario when working with Prisma is needing to make changes to the database, such as creating tables, updating fields in tables, etc. Follow these steps:
 
