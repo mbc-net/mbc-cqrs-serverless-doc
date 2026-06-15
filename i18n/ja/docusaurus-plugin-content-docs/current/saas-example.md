@@ -737,11 +737,9 @@ export class ApiKeyService {
   async validateApiKey(rawKey: string): Promise<ApiKeyValidation> {
     const keyHash = this.hashKey(rawKey);
 
-    // Search across all tenants - use GSI in production (全テナントを検索 - 本番ではGSIを使用)
-    const result = await this.dataService.query({
-      indexName: 'GSI-APIKEY',
-      pk: keyHash,
-    });
+    // Search across all tenants via GSI using DynamoDB client directly (DynamoDBクライアントを直接使用してGSIで全テナントを検索)
+    // DataService.listItemsByPk() queries by pk; for GSI queries inject DynamoDbService.client (DataService.listItemsByPkはpkでクエリ; GSIクエリにはDynamoDbService.clientを注入)
+    const result = await this.dataService.listItemsByPk(keyHash);
 
     if (!result.items.length) {
       return { valid: false, reason: 'Key not found' };

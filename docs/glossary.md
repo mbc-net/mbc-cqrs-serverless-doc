@@ -79,7 +79,7 @@ description: {{Comprehensive glossary of terms used in MBC CQRS Serverless frame
 
 ### {{DataEntity}}
 
-{{The base class for entities stored in data (read-side) tables. Extends the raw DynamoDB item with typed accessors and helper methods. Used as the return type of `DataService.getItem()` and `DataService.listItemsByPk()`.}}
+{{The base class for entities stored in data (read-side) tables. Extends the raw DynamoDB item with typed accessors and helper methods. Used in the `items` array returned by `DataService.listItemsByPk()`. Note: `DataService.getItem()` returns the raw `DataModel` interface, not `DataEntity`.}}
 
 ### {{CommandEntity}}
 
@@ -213,7 +213,7 @@ description: {{Comprehensive glossary of terms used in MBC CQRS Serverless frame
 
 ### {{Publish (publishAsync/publishSync)}}
 
-{{Create a new entity. publishAsync processes asynchronously via DynamoDB Streams, while publishSync processes synchronously.}}
+{{Create or update an entity. `publishAsync` writes to the command table and returns immediately (async data propagation via DynamoDB Streams is a side effect). `publishSync` runs the full write + data sync pipeline synchronously before returning.}}
 
 ### {{Partial Update (publishPartialUpdateAsync/publishPartialUpdateSync)}}
 
@@ -229,7 +229,7 @@ description: {{Comprehensive glossary of terms used in MBC CQRS Serverless frame
 
 ### {{Sequence}}
 
-{{An auto-incrementing number generator. Used to generate unique codes like order numbers. Can be rotated by day, month, or year.}}
+{{An auto-incrementing number generator. Used to generate unique codes like order numbers. Rotation modes: `DAILY`, `MONTHLY`, `YEARLY`, `FISCAL_YEARLY`, or `NONE` (no rotation).}}
 
 ## {{Architecture Terms}}
 

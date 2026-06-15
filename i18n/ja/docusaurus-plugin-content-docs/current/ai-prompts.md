@@ -64,7 +64,7 @@ Implement a list query for [ENTITY] with:
 - Pagination support (limit, cursor)
 - Filter by [FIELD_NAMES]
 - Sort options
-- Use DataService.listItems with skExpression
+- Use DataService.listItemsByPk with skExpression
 - Return paginated response with items and cursor
 ```
 
