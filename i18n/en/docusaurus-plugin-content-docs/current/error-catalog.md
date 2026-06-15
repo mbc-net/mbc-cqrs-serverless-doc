@@ -724,6 +724,8 @@ export async function handler(event: SQSEvent) {
 ### 1. Centralized Error Handler
 
 ```typescript
+import { Catch, ExceptionFilter, ArgumentsHost, HttpException } from '@nestjs/common';
+
 // Create a global exception filter
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {

@@ -38,7 +38,9 @@ npm install @mbc-cqrs-serverless/tenant
 ## モジュール登録 {#module-registration}
 
 ```ts
+import { Module } from '@nestjs/common';
 import { TenantModule } from "@mbc-cqrs-serverless/tenant";
+import { TenantDataSyncHandler } from './tenant-data-sync.handler'; // Your IDataSyncHandler implementation (IDataSyncHandlerの実装)
 
 @Module({
   imports: [

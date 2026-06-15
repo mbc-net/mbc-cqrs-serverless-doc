@@ -59,7 +59,13 @@ export class AppModule {}
 ## Creating a Survey Template {#creating-survey-template}
 
 ```typescript
-import { SurveyTemplateService } from '@mbc-cqrs-serverless/survey-template';
+import { Injectable } from '@nestjs/common';
+import { IInvoke } from '@mbc-cqrs-serverless/core';
+import {
+  SurveyTemplateCreateDto,
+  SurveyTemplateDataEntity,
+  SurveyTemplateService,
+} from '@mbc-cqrs-serverless/survey-template';
 
 @Injectable()
 export class SurveyService {

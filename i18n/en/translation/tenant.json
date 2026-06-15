@@ -68,5 +68,6 @@
   "Tenant-based authentication": "Tenant-based authentication",
   "Key Patterns": "Key Patterns",
   "Tenant key design": "Tenant key design",
-  "TenantModule interfaces": "TenantModule interfaces"
+  "TenantModule interfaces": "TenantModule interfaces",
+  "Your IDataSyncHandler implementation": "Your IDataSyncHandler implementation"
 }

@@ -38,7 +38,9 @@ Tenant codes are case-insensitive. The `getUserContext()` function in `@mbc-cqrs
 ## Module Registration {#module-registration}
 
 ```ts
+import { Module } from '@nestjs/common';
 import { TenantModule } from "@mbc-cqrs-serverless/tenant";
+import { TenantDataSyncHandler } from './tenant-data-sync.handler'; // Your IDataSyncHandler implementation
 
 @Module({
   imports: [

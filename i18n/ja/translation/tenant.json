@@ -68,5 +68,6 @@
   "Tenant-based authentication": "テナントベースの認証",
   "Key Patterns": "キーパターン",
   "Tenant key design": "テナントキー設計",
-  "TenantModule interfaces": "TenantModuleインターフェース"
+  "TenantModule interfaces": "TenantModuleインターフェース",
+  "Your IDataSyncHandler implementation": "Your IDataSyncHandler implementation (IDataSyncHandlerの実装)"
 }
