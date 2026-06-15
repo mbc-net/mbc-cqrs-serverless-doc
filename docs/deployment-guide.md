@@ -104,7 +104,7 @@ const config: Config = {
   fromEmailAddress: 'noreply@your-domain.com',
 
   // {{WAF Configuration (optional)}}
-  // wafArn: 'arn:aws:wafv2:ap-northeast-1:YOUR_ACCOUNT:regional/webacl/xxx',
+  // wafArn: 'arn:aws:wafv2:ap-northeast-1:YOUR_ACCOUNT_ID:regional/webacl/xxx',
 };
 
 export default config;

@@ -259,7 +259,7 @@ To connect GitHub to CodePipeline:
 ### Use Connection in CDK
 
 ```typescript
-const connectionArn = 'arn:aws:codestar-connections:REGION:ACCOUNT:connection/CONNECTION_ID';
+const connectionArn = 'arn:aws:codestar-connections:YOUR_REGION:YOUR_ACCOUNT_ID:connection/YOUR_CONNECTION_ID';
 
 new codepipeline_actions.CodeStarConnectionsSourceAction({
   actionName: 'GitHub_Source',
