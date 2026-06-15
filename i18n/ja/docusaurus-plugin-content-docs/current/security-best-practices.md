@@ -252,6 +252,23 @@ export class AdminController {
 }
 ```
 
+:::warning AP027: GroupRoleResolver + @Injectable() の競合
+グループベースのロール解決（v1.3.1+）を実装する際、**リゾルバークラスに`@GroupRoleResolver()`と`@Injectable()`を両方注釈しないでください**。`@GroupRoleResolver()`はすでにシングルトンプロバイダーとしてクラスを登録します — `@Injectable()`を追加すると競合する2番目の登録が作成され、起動時にNestJS DIエラーが発生します。
+
+```typescript
+// ❌ 誤り — AP027アンチパターン
+@Injectable()
+@GroupRoleResolver()
+export class MyGroupRoleResolver implements IGroupRoleResolver { ... }
+
+// ✅ 正しい — @GroupRoleResolver()のみ使用
+@GroupRoleResolver()
+export class MyGroupRoleResolver implements IGroupRoleResolver { ... }
+```
+
+実装の詳細は[グループベースのロール](/docs/authentication#group-based-roles)、トラブルシューティングは[よくある問題](/docs/common-issues#authentication-errors)を参照してください。
+:::
+
 ### テナント分離の強制
 
 テナントコードは必ず `getUserContext()` で検証済み JWT から取得してください — リクエストパラメータやリクエストボディから取得してはいけません。フレームワークの `RolesGuard` がテナントアクセスを検証します（共通テナント向けの `x-tenant-code` ヘッダーオーバーライドを含む）。

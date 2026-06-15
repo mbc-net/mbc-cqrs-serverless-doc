@@ -104,5 +104,10 @@
   "DynamoDB access - specific tables only": "DynamoDB access - specific tables only",
   "S3 access - specific bucket and prefix": "S3 access - specific bucket and prefix",
   "Secrets Manager - specific secrets only": "Secrets Manager - specific secrets only",
-  "Usage": "Usage"
+  "Usage": "Usage",
+  "AP027: GroupRoleResolver + @Injectable() Conflict": "AP027: GroupRoleResolver + @Injectable() Conflict",
+  "When implementing group-based role resolution (v1.3.1+), **do not annotate your resolver class with both `@GroupRoleResolver()` and `@Injectable()`**. `@GroupRoleResolver()` already registers the class as a singleton provider — adding `@Injectable()` creates a conflicting second registration that causes a NestJS DI error at startup.": "When implementing group-based role resolution (v1.3.1+), **do not annotate your resolver class with both `@GroupRoleResolver()` and `@Injectable()`**. `@GroupRoleResolver()` already registers the class as a singleton provider — adding `@Injectable()` creates a conflicting second registration that causes a NestJS DI error at startup.",
+  "Wrong — AP027 anti-pattern": "Wrong — AP027 anti-pattern",
+  "Correct — only @GroupRoleResolver()": "Correct — only @GroupRoleResolver()",
+  "See [Group-Based Roles](/docs/authentication#group-based-roles) for implementation details and [Common Issues](/docs/common-issues#authentication-errors) for troubleshooting.": "See [Group-Based Roles](/docs/authentication#group-based-roles) for implementation details and [Common Issues](/docs/common-issues#authentication-errors) for troubleshooting."
 }

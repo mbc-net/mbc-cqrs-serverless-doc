@@ -104,5 +104,10 @@
   "DynamoDB access - specific tables only": "DynamoDB アクセス - 特定テーブルのみ",
   "S3 access - specific bucket and prefix": "S3 アクセス - 特定バケットとプレフィックスのみ",
   "Secrets Manager - specific secrets only": "Secrets Manager - 特定シークレットのみ",
-  "Usage": "使用例"
+  "Usage": "使用例",
+  "AP027: GroupRoleResolver + @Injectable() Conflict": "AP027: GroupRoleResolver + @Injectable() の競合",
+  "When implementing group-based role resolution (v1.3.1+), **do not annotate your resolver class with both `@GroupRoleResolver()` and `@Injectable()`**. `@GroupRoleResolver()` already registers the class as a singleton provider — adding `@Injectable()` creates a conflicting second registration that causes a NestJS DI error at startup.": "グループベースのロール解決（v1.3.1+）を実装する際、**リゾルバークラスに`@GroupRoleResolver()`と`@Injectable()`を両方注釈しないでください**。`@GroupRoleResolver()`はすでにシングルトンプロバイダーとしてクラスを登録します — `@Injectable()`を追加すると競合する2番目の登録が作成され、起動時にNestJS DIエラーが発生します。",
+  "Wrong — AP027 anti-pattern": "誤り — AP027アンチパターン",
+  "Correct — only @GroupRoleResolver()": "正しい — @GroupRoleResolver()のみ使用",
+  "See [Group-Based Roles](/docs/authentication#group-based-roles) for implementation details and [Common Issues](/docs/common-issues#authentication-errors) for troubleshooting.": "実装の詳細は[グループベースのロール](/docs/authentication#group-based-roles)、トラブルシューティングは[よくある問題](/docs/common-issues#authentication-errors)を参照してください。"
 }

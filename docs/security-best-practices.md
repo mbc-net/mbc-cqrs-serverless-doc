@@ -252,6 +252,23 @@ export class AdminController {
 }
 ```
 
+:::warning {{AP027: GroupRoleResolver + @Injectable() Conflict}}
+{{When implementing group-based role resolution (v1.3.1+), **do not annotate your resolver class with both `@GroupRoleResolver()` and `@Injectable()`**. `@GroupRoleResolver()` already registers the class as a singleton provider — adding `@Injectable()` creates a conflicting second registration that causes a NestJS DI error at startup.}}
+
+```typescript
+// ❌ {{Wrong — AP027 anti-pattern}}
+@Injectable()
+@GroupRoleResolver()
+export class MyGroupRoleResolver implements IGroupRoleResolver { ... }
+
+// ✅ {{Correct — only @GroupRoleResolver()}}
+@GroupRoleResolver()
+export class MyGroupRoleResolver implements IGroupRoleResolver { ... }
+```
+
+{{See [Group-Based Roles](/docs/authentication#group-based-roles) for implementation details and [Common Issues](/docs/common-issues#authentication-errors) for troubleshooting.}}
+:::
+
 ### {{Enforce Tenant Isolation}}
 
 {{Always derive the tenant code from the verified JWT via `getUserContext()` — never from request parameters or the request body. The framework's `RolesGuard` verifies tenant access (including the `x-tenant-code` header override for common tenants).}}
