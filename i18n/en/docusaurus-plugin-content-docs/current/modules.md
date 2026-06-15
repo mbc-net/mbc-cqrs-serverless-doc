@@ -83,6 +83,8 @@ MBC CQRS Serverless provides several ready-to-use modules:
 | `TaskModule` | `@mbc-cqrs-serverless/task` | Async task execution with Step Functions |
 | `MasterModule` | `@mbc-cqrs-serverless/master` | Master data and settings management |
 | `ImportModule` | `@mbc-cqrs-serverless/import` | CSV/API data import |
+| `DirectoryStorageModule` | `@mbc-cqrs-serverless/directory` | File and folder management with S3 |
+| `SurveyTemplateModule` | `@mbc-cqrs-serverless/survey-template` | Survey template management |
 
 ### Support Modules
 
@@ -244,6 +246,46 @@ Each `ImportEntityProfile` requires:
 | `tableName` | `string` | Unique identifier for the data type (e.g., 'policy', 'user') |
 | `importStrategy` | `Type<IImportStrategy>` | Class implementing import logic (transform & validate) |
 | `processStrategy` | `Type<IProcessStrategy>` | Class implementing business processing logic (compare & map) |
+
+### DirectoryStorageModule
+
+The DirectoryStorageModule provides S3-backed file and folder management with permissions, version history, and presigned URL generation.
+
+```typescript
+import { DirectoryStorageModule } from '@mbc-cqrs-serverless/directory';
+import { PrismaService } from './prisma.service';
+
+DirectoryStorageModule.register({
+  enableController: true,
+  prismaService: PrismaService,
+  dataSyncHandlers: [],
+})
+```
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enableController` | `boolean` | `false` | Enable built-in directory REST endpoints |
+| `prismaService` | `Type<PrismaService>` | Required when enableController is true | Application PrismaService class |
+| `dataSyncHandlers` | `Type[]` | `[]` | Data sync handler classes |
+
+### SurveyTemplateModule
+
+The SurveyTemplateModule provides survey template management with support for multiple question types including text, radio, checkbox, and rating questions.
+
+```typescript
+import { SurveyTemplateModule } from '@mbc-cqrs-serverless/survey-template';
+import { PrismaService } from './prisma.service';
+
+SurveyTemplateModule.register({
+  enableController: true,
+  prismaService: PrismaService,
+})
+```
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enableController` | `boolean` | `false` | Enable built-in survey template REST endpoints |
+| `prismaService` | `Type<PrismaService>` | Required when enableController is true | Application PrismaService class |
 
 ### SettingModule
 
