@@ -107,6 +107,7 @@
   "AP014: detects deprecated `genNewSequence()` usage": "AP014: detects deprecated `genNewSequence()` usage",
   "`migration_guide` prompt updated with v1.2.0 sections": "`migration_guide` prompt updated with v1.2.0 sections",
   "See [Migration Guide v1.2.0](/docs/migration/v1.2.0) for detailed upgrade instructions for both breaking changes.": "See [Migration Guide v1.2.0](/docs/migration/v1.2.0) for detailed upgrade instructions for both breaking changes.",
+  "backport from v1.2.0": "backport from v1.2.0",
   "Fix import status handling for ZIP orchestrator": "Fix import status handling for ZIP orchestrator",
   "`ImportStatusHandler` now sends task success with `importJobStatus` when the job fails": "`ImportStatusHandler` now sends task success with `importJobStatus` when the job fails",
   "`ZipImportSfnEventHandler` aggregates CSV task failure counts and adjusts final job status": "`ZipImportSfnEventHandler` aggregates CSV task failure counts and adjusts final job status",

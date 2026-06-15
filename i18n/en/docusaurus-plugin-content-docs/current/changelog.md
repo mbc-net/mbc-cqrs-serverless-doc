@@ -194,6 +194,16 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ---
 
+## [1.1.6](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.6) (2026-03-30) {#v116}
+
+### Bug Fixes
+
+- **import:** Fix import status handling for ZIP orchestrator ([PR #371](https://github.com/mbc-net/mbc-cqrs-serverless/pull/371)) (backport from v1.2.0)
+  - `ImportStatusHandler` now sends task success with `importJobStatus` when the job fails
+  - `ZipImportSfnEventHandler` aggregates CSV task failure counts and adjusts final job status
+
+---
+
 ## [1.1.5](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.1.5) (2026-03-28) {#v115}
 
 ### Features
