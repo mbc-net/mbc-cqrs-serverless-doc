@@ -44,8 +44,8 @@ DynamoDBでデータ変更が発生すると、リアルタイム通知が自動
 interface INotification {
   id: string;        // Unique notification ID (一意の通知ID)
   table: string;     // Source DynamoDB table name (ソースDynamoDBテーブル名)
-  pk: string;        // Partition key of the changed item (変更されたアイテムのパーティションキー)
-  sk: string;        // Sort key of the changed item (変更されたアイテムのソートキー)
+  pk: string;        // 変更されたアイテムのパーティションキー
+  sk: string;        // 変更されたアイテムのソートキー
   tenantCode: string; // Tenant code for filtering notifications (通知フィルタリング用のテナントコード)
   action: string;    // Type of change: 'INSERT', 'MODIFY', 'REMOVE' (変更タイプ)
   content?: object;  // Optional payload with changed data (変更データを含むオプションのペイロード)
@@ -293,6 +293,97 @@ CDK スタックは `AppSyncEventsHttpEndpoint` と `AppSyncEventsNamespace` を
 1. **IAM SigV4（Lambda/ECS 推奨）**: パブリッシュ時に自動で使用されます。CDK スタックの `grantPublish()` により Lambda と ECS タスクロールに `appsync:EventPublish` 権限が付与されます。
 2. **API キー**: ブラウザクライアントのサブスクライブに使用します。クライアント側（Amplify の `apiKey` 設定など）で設定します。サーバー側では不要です。
 
+### クライアントサイドサブスクリプション（ブラウザ） {#client-side-subscription}
+
+ブラウザクライアントは AWS Amplify v6 の `events` API を使って AppSync Events チャンネルをサブスクライブします。チャンネルパスで受信する通知を決定します — `/*` ワイルドカードで任意の粒度でサブスクライブできます。
+
+#### AWS Amplify v6 でのセットアップ
+
+```bash
+npm install aws-amplify
+```
+
+```typescript
+import { Amplify } from 'aws-amplify';
+import { events } from 'aws-amplify/data';
+
+// アプリ起動時に一度 Amplify を設定します（例: _app.tsx または main.ts）
+Amplify.configure({
+  API: {
+    Events: {
+      endpoint: 'https://YOUR_APPSYNC_EVENTS_ENDPOINT/event',
+      region: 'ap-northeast-1',
+      defaultAuthMode: 'apiKey',
+      apiKey: 'YOUR_API_KEY',  // CDK から AppSyncEventsApiKey として出力されます
+    },
+  },
+});
+```
+
+#### 通知のサブスクライブ
+
+```typescript
+interface INotification {
+  id: string;
+  table: string;       // 例: "dev-myapp-order-data"
+  pk: string;          // 変更されたアイテムのパーティションキー
+  sk: string;          // 変更されたアイテムのソートキー
+  tenantCode: string;
+  action: string;      // INSERT | MODIFY | REMOVE
+  content?: object;    // 変更内容のオプショナルペイロード
+}
+
+// テナントの全通知をサブスクライブ
+const channel = await events.connect('/default/tenant001/*');
+
+const subscription = channel.subscribe({
+  next: ({ data }: { data: INotification }) => {
+    console.log(`${data.action} on ${data.table}: pk=${data.pk}`);
+    // UI を更新するかローカルステートを更新
+  },
+  error: (err) => {
+    console.error('Subscription error:', err);
+  },
+});
+
+// コンポーネントのアンマウント時にサブスクライブ解除
+subscription.unsubscribe();
+```
+
+#### React フックの例
+
+```typescript
+import { useEffect, useRef } from 'react';
+import { events } from 'aws-amplify/data';
+
+function useOrderNotifications(tenantCode: string, orderId: string) {
+  const subscriptionRef = useRef<{ unsubscribe(): void } | null>(null);
+
+  useEffect(() => {
+    // 特定の注文をサブスクライブ
+    const channel = `/default/${tenantCode}/MODIFY/${orderId.replace(/#/g, '_')}`;
+
+    events.connect(channel).then((conn) => {
+      subscriptionRef.current = conn.subscribe({
+        next: ({ data }) => {
+          console.log('Order updated:', data);
+          // 再フェッチをトリガーするかローカルステートを更新
+        },
+        error: (err) => console.error(err),
+      });
+    });
+
+    return () => {
+      subscriptionRef.current?.unsubscribe();
+    };
+  }, [tenantCode, orderId]);
+}
+```
+
+:::tip チャンネルパスのフォーマット
+チャンネルパスのサニタイズされたアイテム ID は `#` を `_` に置換します。例えば `ORDER#ORD001` は `ORDER_ORD001` になります。クライアントサイドでは `sk.replace(/#/g, '_')` を使って正確なチャンネルパスを算出してください。
+:::
+
 ## カスタム通知トランスポート（オプション） {#custom-transports}
 
 :::info バージョン情報
@@ -334,9 +425,9 @@ export class SlackNotificationTransport implements INotificationTransport {
 アクティブなトランスポートは `NOTIFICATION_TRANSPORTS` 環境変数（カンマ区切り）で制御します。カスタムトランスポートは組み込みトランスポートと常に同時にアクティブになります。組み込みトランスポートを制御するには環境変数を設定してください：
 
 ```bash
-NOTIFICATION_TRANSPORTS=appsync-graphql  # Only GraphQL Subscriptions (default)
-NOTIFICATION_TRANSPORTS=appsync-event    # Only Events API
-NOTIFICATION_TRANSPORTS=appsync-graphql,appsync-event  # Both built-in transports
+NOTIFICATION_TRANSPORTS=appsync-graphql  # GraphQL サブスクリプションのみ（デフォルト）
+NOTIFICATION_TRANSPORTS=appsync-event    # Events API のみ
+NOTIFICATION_TRANSPORTS=appsync-graphql,appsync-event  # 両方の組み込みトランスポート
 ```
 
 ## メール通知 {#email-notifications}

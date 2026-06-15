@@ -264,13 +264,13 @@ export class AppModule {}
 NotificationModuleは環境変数で設定されます：
 
 ```bash
-# Required: Default sender email address
+# 必須: デフォルト送信者メールアドレス
 SES_FROM_EMAIL=noreply@example.com
 
-# Optional: AWS SES endpoint (for local development)
+# 任意: AWS SES エンドポイント（ローカル開発用）
 SES_ENDPOINT=http://localhost:4566
 
-# Optional: AWS SES region
+# 任意: AWS SES リージョン
 SES_REGION=ap-northeast-1
 ```
 
@@ -391,7 +391,7 @@ export default () => ({
 
   aws: {
     region: process.env.AWS_REGION || 'ap-northeast-1',
-    dynamodbEndpoint: process.env.DYNAMODB_ENDPOINT, // For local dev
+    dynamodbEndpoint: process.env.DYNAMODB_ENDPOINT, // ローカル開発用
   },
 
   auth: {

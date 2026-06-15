@@ -261,8 +261,8 @@ async getItemSafely(pk: string, sk: string): Promise<CatDataEntity> {
 
 ```ts
 interface DetailKey {
-  pk: string;  // Partition key
-  sk: string;  // Sort key
+  pk: string;  // パーティションキー
+  sk: string;  // ソートキー
 }
 ```
 

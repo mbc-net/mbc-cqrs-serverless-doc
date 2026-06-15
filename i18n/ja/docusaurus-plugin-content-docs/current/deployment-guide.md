@@ -115,15 +115,15 @@ export default config;
 `.env` またはCI/CDパイプラインで環境変数を設定します：
 
 ```bash
-# AWS Configuration
+# AWS 設定
 AWS_REGION=ap-northeast-1
 AWS_ACCOUNT_ID=123456789012
 
-# Application Configuration
+# アプリケーション設定
 APP_NAME=your-app
 NODE_ENV=dev
 
-# Database
+# データベース
 DATABASE_URL=mysql://user:password@host:3306/dbname
 
 # Cognito

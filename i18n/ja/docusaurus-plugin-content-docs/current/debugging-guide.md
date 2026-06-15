@@ -124,15 +124,15 @@ export class TodoService {
 DynamoDB LocalでAWS CLIを使用：
 
 ```bash
-# List tables
+# テーブル一覧表示
 aws dynamodb list-tables --endpoint-url http://localhost:8000
 
-# Scan table
+# テーブルスキャン
 aws dynamodb scan \
   --table-name your-table-name \
   --endpoint-url http://localhost:8000
 
-# Query by partition key
+# パーティションキーで検索
 aws dynamodb query \
   --table-name your-table-name \
   --key-condition-expression "pk = :pk" \
@@ -165,13 +165,13 @@ export class DebugHandler implements IEventHandler<DataSyncNewCommandEvent> {
 AWS CLIを使用してログをテール：
 
 ```bash
-# Find log group
+# ロググループを検索
 aws logs describe-log-groups --log-group-name-prefix /aws/lambda/your-app
 
-# Tail logs
+# ログをリアルタイム表示
 aws logs tail /aws/lambda/your-app-dev-handler --follow
 
-# Filter logs
+# ログをフィルタリング
 aws logs filter-log-events \
   --log-group-name /aws/lambda/your-app-dev-handler \
   --filter-pattern "ERROR"
@@ -182,18 +182,18 @@ aws logs filter-log-events \
 高度なクエリにはCloudWatch Logs Insightsを使用：
 
 ```
-# Find errors
+# エラーを検索
 fields @timestamp, @message
 | filter @message like /ERROR/
 | sort @timestamp desc
 | limit 100
 
-# Analyze cold starts
+# コールドスタートを分析
 fields @timestamp, @message, @duration
 | filter @type = "REPORT"
 | stats avg(@duration), max(@duration), count(*) by bin(1h)
 
-# Find slow requests
+# スロークエリを検索
 fields @timestamp, @message, @duration
 | filter @duration > 3000
 | sort @duration desc
@@ -226,15 +226,15 @@ AWSコンソールで実行を表示：
 AWS CLIを使用：
 
 ```bash
-# List executions
+# 実行一覧を表示
 aws stepfunctions list-executions \
   --state-machine-arn arn:aws:states:REGION:ACCOUNT:stateMachine:YourMachine
 
-# Get execution details
+# 実行詳細を取得
 aws stepfunctions describe-execution \
   --execution-arn arn:aws:states:REGION:ACCOUNT:execution:YourMachine:execution-id
 
-# Get execution history
+# 実行履歴を取得
 aws stepfunctions get-execution-history \
   --execution-arn arn:aws:states:REGION:ACCOUNT:execution:YourMachine:execution-id
 ```
@@ -250,7 +250,7 @@ const stateMachine = new sfn.StateMachine(this, 'StateMachine', {
     destination: new logs.LogGroup(this, 'StateMachineLogGroup'),
     level: sfn.LogLevel.ALL,
   },
-  tracingEnabled: true, // Enable X-Ray
+  tracingEnabled: true, // X-Ray を有効化
 });
 ```
 
@@ -305,7 +305,7 @@ const handler = new NodejsFunction(this, 'Handler', {
 // Step Functions can also enable X-Ray (Step FunctionsでもX-Rayを有効化できる)
 const stateMachine = new sfn.StateMachine(this, 'StateMachine', {
   definition: definition,
-  tracingEnabled: true, // Enable X-Ray (X-Rayを有効化)
+  tracingEnabled: true, // X-Ray を有効化
 });
 ```
 
@@ -445,12 +445,12 @@ aws stepfunctions start-execution \
   --state-machine-arn arn:aws:states:ap-northeast-1:101010101010:stateMachine:command \
   --input '{"pk":"TODO#tenant","sk":"item#001@1"}'
 
-# List executions (実行一覧を表示)
+# 実行一覧を表示
 aws stepfunctions list-executions \
   --endpoint-url http://localhost:8083 \
   --state-machine-arn arn:aws:states:ap-northeast-1:101010101010:stateMachine:command
 
-# Get execution history (実行履歴を取得)
+# 実行履歴を取得
 aws stepfunctions get-execution-history \
   --endpoint-url http://localhost:8083 \
   --execution-arn arn:aws:states:ap-northeast-1:101010101010:execution:command:execution-id

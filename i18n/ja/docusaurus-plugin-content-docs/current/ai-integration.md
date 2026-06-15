@@ -29,10 +29,10 @@ llms.txt規約は、ウェブサイトやプロジェクトがLLM向けに情報
 AIツールはこれらのファイルを直接取得してフレームワークのコンテキストを構築できます：
 
 ```bash
-# Short version for quick context
+# クイックコンテキスト用の短縮版
 curl https://mbc-cqrs-serverless.mbc-net.com/llms.txt
 
-# Full version for comprehensive context
+# 包括的なコンテキスト用のフル版
 curl https://mbc-cqrs-serverless.mbc-net.com/llms-full.txt
 ```
 

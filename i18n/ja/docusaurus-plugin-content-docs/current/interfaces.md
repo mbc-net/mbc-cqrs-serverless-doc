@@ -17,18 +17,18 @@ description: MBC CQRS Serverlessフレームワークで使用されるTypeScrip
 
 ```ts
 export interface CommandInputModel {
-  pk: string              // Partition key (e.g., "ORDER#tenant001")
-  sk: string              // Sort key (e.g., "ORDER#ORD001") — no version suffix needed
-  id: string              // Unique identifier (e.g., UUID)
-  code: string            // Business code (e.g., "ORD001")
-  name: string            // Display name
-  version: number         // Version number for optimistic locking
-  tenantCode: string      // Tenant identifier
-  type: string            // Entity type (e.g., "ORDER")
-  isDeleted?: boolean     // Soft delete flag
-  seq?: number            // Sequence number (auto-generated)
-  ttl?: number            // Time-to-live in seconds
-  attributes?: Record<string, any>  // Custom domain attributes
+  pk: string              // パーティションキー（例: "ORDER#tenant001"）
+  sk: string              // ソートキー（例: "ORDER#ORD001"）— バージョンサフィックス不要
+  id: string              // 一意識別子（例: UUID）
+  code: string            // ビジネスコード（例: "ORD001"）
+  name: string            // 表示名
+  version: number         // 楽観的ロック用バージョン番号
+  tenantCode: string      // テナント識別子
+  type: string            // エンティティタイプ（例: "ORDER"）
+  isDeleted?: boolean     // 論理削除フラグ
+  seq?: number            // シーケンス番号（自動生成）
+  ttl?: number            // 有効期限（秒）
+  attributes?: Record<string, any>  // カスタムドメイン属性
 }
 ```
 
@@ -36,11 +36,11 @@ export interface CommandInputModel {
 ```typescript
 const orderInput: CommandInputModel = {
   pk: 'ORDER#tenant001',
-  sk: 'ORDER#ORD001',         // No @version suffix — version is the separate field
+  sk: 'ORDER#ORD001',         // @version サフィックス不要 — version は別フィールド
   id: crypto.randomUUID(),
   code: 'ORD001',
   name: 'Customer Order',
-  version: 0,                   // VERSION_FIRST for new entities
+  version: 0,                   // 新規エンティティには VERSION_FIRST を使用
   tenantCode: 'tenant001',
   type: 'ORDER',
   attributes: {
@@ -57,9 +57,9 @@ const orderInput: CommandInputModel = {
 
 ```ts
 export interface CommandPartialInputModel extends Partial<CommandInputModel> {
-  pk: string       // Required: Partition key
-  sk: string       // Required: Sort key
-  version: number  // Required: Current version for optimistic locking
+  pk: string       // 必須: パーティションキー
+  sk: string       // 必須: ソートキー
+  version: number  // 必須: 楽観的ロック用の現在バージョン
 }
 ```
 
@@ -68,7 +68,7 @@ export interface CommandPartialInputModel extends Partial<CommandInputModel> {
 const partialUpdate: CommandPartialInputModel = {
   pk: 'ORDER#tenant001',
   sk: 'ORDER#ORD001',
-  version: 2,  // Must match current version
+  version: 2,  // 現在のバージョンと一致する必要があります
   name: 'Updated Order Name',
   attributes: {
     status: 'confirmed',
@@ -82,9 +82,9 @@ const partialUpdate: CommandPartialInputModel = {
 
 ```ts
 export interface ICommandOptions {
-  source?: string        // Source identifier for tracking
-  requestId?: string     // Request ID for tracing
-  invokeContext: IInvoke // Required: Invocation context
+  source?: string        // 追跡用ソース識別子
+  requestId?: string     // トレーシング用リクエスト ID
+  invokeContext: IInvoke // 必須: 呼び出しコンテキスト
 }
 ```
 
@@ -105,8 +105,8 @@ DynamoDBアイテムのプライマリキーを表します。
 
 ```ts
 export interface DetailKey {
-  pk: string  // Partition key
-  sk: string  // Sort key
+  pk: string  // パーティションキー
+  sk: string  // ソートキー
 }
 ```
 
@@ -225,9 +225,9 @@ export interface JwtClaims {
 
 ```ts
 export class UserContext {
-  userId: string             // Cognito user ID (from JWT sub claim)
-  tenantRole: string         // User's role within the tenant
-  tenantCode: string         // Current tenant code
+  userId: string             // Cognito ユーザー ID（JWT の sub クレームから）
+  tenantRole: string         // テナント内のユーザーロール
+  tenantCode: string         // 現在のテナントコード
   tenantRoles: string[]      // Direct roles for the active tenant (excludes group-derived roles) (アクティブテナントの直接ロール、グループ由来ロールを除く)
   tenantGroupIds: string[]   // Group IDs from custom:groups for the active tenant (custom:groups由来のグループID)
 
@@ -349,9 +349,9 @@ const key = data.key;  // { pk: 'ORDER#tenant001', sk: 'ORDER#ORD001' }
 
 ```ts
 export class DataListEntity {
-  items: DataEntity[]   // Array of entities
-  total?: number        // Total count (if available)
-  lastSk?: string       // Pagination cursor (last sort key)
+  items: DataEntity[]   // エンティティの配列
+  total?: number        // 総件数（利用可能な場合）
+  lastSk?: string       // ページネーションカーソル（最後のソートキー）
 
   constructor(data: Partial<DataListEntity>)  // Initialize with partial properties (部分的なプロパティで初期化)
 }
@@ -495,20 +495,20 @@ export class AppGroupRoleResolver implements IGroupRoleResolver {
 
 ```ts
 export interface EmailNotification {
-  fromAddr?: string       // Sender address (uses default if not specified)
-  toAddrs: string[]       // Required: Recipient addresses
-  ccAddrs?: string[]      // CC addresses
-  bccAddrs?: string[]     // BCC addresses
-  subject: string         // Required: Email subject
-  body: string            // Required: HTML body content
-  replyToAddrs?: string[] // Reply-to addresses
-  attachments?: Attachment[]  // File attachments
+  fromAddr?: string       // 送信者アドレス（未指定時はデフォルト使用）
+  toAddrs: string[]       // 必須: 宛先アドレス
+  ccAddrs?: string[]      // CC アドレス
+  bccAddrs?: string[]     // BCC アドレス
+  subject: string         // 必須: メール件名
+  body: string            // 必須: HTML 本文コンテンツ
+  replyToAddrs?: string[] // 返信先アドレス
+  attachments?: Attachment[]  // ファイル添付
 }
 
 export interface Attachment {
-  filename: string      // Attachment filename
-  content: Buffer       // File content as Buffer
-  contentType?: string  // MIME type (e.g., 'application/pdf')
+  filename: string      // 添付ファイル名
+  content: Buffer       // Buffer 形式のファイルコンテンツ
+  contentType?: string  // MIME タイプ（例: 'application/pdf'）
 }
 ```
 
@@ -529,10 +529,10 @@ CommandModuleの設定オプション。
 
 ```ts
 export interface CommandModuleOptions {
-  tableName: string                           // DynamoDB table name
-  dataSyncHandlers?: Type<IDataSyncHandler>[] // Custom sync handlers
-  skipError?: boolean                         // Reserved for future use (not yet implemented)
-  disableDefaultHandler?: boolean             // Disable the default DynamoDB data sync handler
+  tableName: string                           // DynamoDB テーブル名
+  dataSyncHandlers?: Type<IDataSyncHandler>[] // カスタム同期ハンドラー
+  skipError?: boolean                         // 将来の使用のために予約済み（未実装）
+  disableDefaultHandler?: boolean             // デフォルトの DynamoDB データ同期ハンドラーを無効化
 }
 ```
 
@@ -560,7 +560,7 @@ SequencesModuleの設定オプション。
 
 ```ts
 export interface SequencesModuleOptions {
-  enableController?: boolean  // Enable or disable default sequence controller
+  enableController?: boolean  // デフォルトのシーケンスコントローラーの有効・無効
 }
 ```
 

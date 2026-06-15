@@ -78,7 +78,7 @@ export class CommentDto {
   @IsString()
   @MaxLength(1000)
   @Transform(({ value }) => sanitizeHtml(value, {
-    allowedTags: [],  // Strip all HTML
+    allowedTags: [],  // すべての HTML を除去
     allowedAttributes: {},
   }))
   content: string;
@@ -86,7 +86,7 @@ export class CommentDto {
   @IsString()
   @MaxLength(500)
   @Transform(({ value }) => sanitizeHtml(value, {
-    allowedTags: ['b', 'i', 'em', 'strong'],  // Allow basic formatting
+    allowedTags: ['b', 'i', 'em', 'strong'],  // 基本的な書式設定のみ許可
     allowedAttributes: {},
   }))
   description: string;
@@ -137,7 +137,7 @@ async function validateUpload(file: Express.Multer.File): Promise<void> {
 ```typescript
 // CDK configuration for Cognito User Pool (Cognito User Pool用CDK設定)
 const userPool = new cognito.UserPool(this, 'UserPool', {
-  selfSignUpEnabled: false,  // Disable self-registration if not needed
+  selfSignUpEnabled: false,  // 不要な場合はセルフ登録を無効化
   signInAliases: {
     email: true,
     username: false,
@@ -323,7 +323,7 @@ async updateOrder(
 ```typescript
 import * as crypto from 'crypto';
 
-const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY; // 32 bytes for AES-256
+const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY; // AES-256 用の 32 バイト
 const IV_LENGTH = 16;
 
 function encrypt(text: string): string {
@@ -526,7 +526,7 @@ provider:
   iam:
     role:
       statements:
-        # DynamoDB access - specific tables only
+        # DynamoDB アクセス - 特定テーブルのみ
         - Effect: Allow
           Action:
             - dynamodb:GetItem
@@ -537,7 +537,7 @@ provider:
             - !GetAtt OrderTable.Arn
             - !Sub '${OrderTable.Arn}/index/*'
 
-        # S3 access - specific bucket and prefix
+        # S3 アクセス - 特定バケットとプレフィックスのみ
         - Effect: Allow
           Action:
             - s3:GetObject
@@ -545,7 +545,7 @@ provider:
           Resource:
             - !Sub 'arn:aws:s3:::${UploadBucket}/uploads/*'
 
-        # Secrets Manager - specific secrets only
+        # Secrets Manager - 特定シークレットのみ
         - Effect: Allow
           Action:
             - secretsmanager:GetSecretValue
