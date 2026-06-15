@@ -600,14 +600,14 @@ export class CustomWorkflowEvent implements IEvent {
 Step Functionイベントを処理するハンドラーを作成します：
 
 ```typescript
-import { EventHandler, IEventHandler } from '@mbc-cqrs-serverless/core';
+import { EventHandler, IEventHandler, StepFunctionStateInput } from '@mbc-cqrs-serverless/core';
 import { Logger } from '@nestjs/common';
 
 @EventHandler(CustomWorkflowEvent)
 export class CustomWorkflowHandler implements IEventHandler<CustomWorkflowEvent> {
   private readonly logger = new Logger(CustomWorkflowHandler.name);
 
-  async execute(event: CustomWorkflowEvent): Promise<StepStateOutput> {
+  async execute(event: CustomWorkflowEvent): Promise<StepFunctionStateInput> {
     const stateName = event.context.State.Name;
 
     switch (stateName) {
