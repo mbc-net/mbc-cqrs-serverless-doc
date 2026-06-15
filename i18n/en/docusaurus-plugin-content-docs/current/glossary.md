@@ -97,6 +97,18 @@ A constant with value `0` used as the version when creating a new entity that do
 
 A constant with value `-1` used to instruct the framework to auto-resolve to the latest version of an entity, bypassing optimistic locking. Use only when "last writer wins" semantics are intentional. Import from `@mbc-cqrs-serverless/core`.
 
+### NotificationTransport
+
+A pluggable notification delivery mechanism registered with `@NotificationTransport()`. Built-in transports are `appsync-graphql` (default) and `appsync-event` (opt-in, v1.3.0+). Custom transports can be added by implementing `INotificationTransport` and registering with `@NotificationTransport('transport-name')`.
+
+### AppSync Events API
+
+An HTTP pub/sub API provided by AWS AppSync that does not require a GraphQL schema. Available as an opt-in notification transport since v1.3.0 via `NOTIFICATION_TRANSPORTS=appsync-event`. Channel paths follow the pattern `/{namespace}/{tenantCode}/{action}/{itemId}`. Clients subscribe using the Amplify v6 `events` API; servers publish via `AppSyncEventsService`.
+
+### GroupRoleResolver
+
+A user-supplied class (annotated with `@GroupRoleResolver()`) that maps Cognito group IDs to application roles. Introduced in v1.3.1. Exactly one resolver must be registered per application to use group-based role authorization. Do not also annotate the class with `@Injectable()` — `@GroupRoleResolver()` already registers the singleton provider.
+
 ### Repository
 
 A drop-in replacement for `DataService` that adds Read-Your-Writes (RYW) session caching. When a user publishes a command via `publishAsync`, the pending data is stored in a DynamoDB session table. Subsequent `getItem` and `listItemsByPk` calls merge pending data with the persisted read model, so the user sees their own writes before the DynamoDB Stream propagates the change. Enabled by setting `RYW_SESSION_TTL_MINUTES` in the environment.
@@ -146,6 +158,10 @@ A fully managed message queuing service. Used for asynchronous processing and de
 ### Amazon RDS (Relational Database Service)
 
 A managed relational database service. Used in MBC CQRS Serverless for complex queries that require SQL joins and aggregations.
+
+### AWS AppSync
+
+A managed GraphQL and Pub/Sub API service. MBC CQRS Serverless uses AppSync for real-time notifications — either via GraphQL Subscriptions (default) or the schema-free AppSync Events API (opt-in since v1.3.0).
 
 ### AWS CDK (Cloud Development Kit)
 
