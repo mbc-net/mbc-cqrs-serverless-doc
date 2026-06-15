@@ -553,7 +553,7 @@ fields @timestamp, @message
 
 {{In MBC CQRS Serverless, version management works as follows:}}
 
-- {{Sort key (sk) format: `ITEM#code@version` (e.g., `TODO#001@3`)}}
+- {{Command table sort key format: `TYPE#code@version` (e.g., `TODO#001@3`); data table sort key omits the `@version` suffix}}
 - {{Version separator: `@`}}
 - {{VERSION_FIRST: `0` (initial version)}}
 - {{VERSION_LATEST: `-1` (auto-fetch latest version)}}

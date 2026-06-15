@@ -119,7 +119,7 @@
   "Version conflicts occur when multiple processes attempt to update the same item simultaneously. The framework uses optimistic locking to ensure data consistency.": "バージョン競合は、複数のプロセスが同時に同じアイテムを更新しようとした場合に発生します。フレームワークは楽観的ロックを使用してデータの一貫性を確保します。",
   "Understanding Version Numbers": "バージョン番号の理解",
   "In MBC CQRS Serverless, version management works as follows:": "MBC CQRS Serverlessでは、バージョン管理は以下のように機能します：",
-  "Sort key (sk) format: `ITEM#code@version` (e.g., `TODO#001@3`)": "ソートキー（sk）形式：`ITEM#code@version`（例：`TODO#001@3`）",
+  "Command table sort key format: `TYPE#code@version` (e.g., `TODO#001@3`); data table sort key omits the `@version` suffix": "コマンドテーブルのソートキー形式：`TYPE#code@version`（例：`TODO#001@3`）；データテーブルのソートキーは`@version`サフィックスなし",
   "Version separator: `@`": "バージョン区切り文字：`@`",
   "VERSION_FIRST: `0` (initial version)": "VERSION_FIRST：`0`（初期バージョン）",
   "VERSION_LATEST: `-1` (auto-fetch latest version)": "VERSION_LATEST：`-1`（最新バージョンを自動取得）",
