@@ -62,7 +62,10 @@ src/
 │   │   ├── Button/
 │   │   ├── Input/
 │   │   ├── Modal/
+│   │   ├── Spinner/
 │   │   └── Table/
+│   ├── products/            # Product-specific components
+│   │   └── ProductTable/
 │   ├── forms/               # Form components
 │   │   ├── ProductForm/
 │   │   └── UserForm/

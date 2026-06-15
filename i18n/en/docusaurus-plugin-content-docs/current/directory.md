@@ -266,7 +266,10 @@ async updatePermission(
 
 ### Checking Permissions
 
+`hasPermission()` returns `true` when the user holds at least one of the required roles on the item. `getEffectiveRole()` returns the highest role the user holds, or `null` if they have no access.
+
 ```typescript
+// Returns true if user holds any of the required roles on the item
 async hasPermission(
   itemId: DetailDto,
   requiredRole: FileRole[],
@@ -275,6 +278,7 @@ async hasPermission(
   return this.directoryService.hasPermission(itemId, requiredRole, user);
 }
 
+// Returns the effective FileRole the user holds, or null if no access
 async getEffectiveRole(
   itemId: DetailDto,
   user?: { email?: string; tenant?: string },
@@ -459,16 +463,25 @@ Handle directory data synchronization using data sync handlers:
 
 ```typescript
 import { CommandModel, IDataSyncHandler } from '@mbc-cqrs-serverless/core';
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma';
 
+@Injectable()
 export class DirectoryDataSyncHandler implements IDataSyncHandler {
+  constructor(private readonly prisma: PrismaService) {}
+
   async up(cmd: CommandModel): Promise<any> {
     // Called automatically on every command event — sync to RDS, notify users, update indexes, etc.
-    console.log('Directory upserted:', cmd.name);
+    await this.prisma.directory.upsert({
+      where: { sk: cmd.sk },
+      create: { sk: cmd.sk, pk: cmd.pk, name: cmd.name, ...cmd.attributes },
+      update: { name: cmd.name, ...cmd.attributes },
+    });
   }
 
   async down(cmd: CommandModel): Promise<any> {
     // Reserved for manual rollback — not called automatically by the framework
-    console.log('Directory rollback:', cmd.name);
+    await this.prisma.directory.delete({ where: { sk: cmd.sk } });
   }
 }
 ```

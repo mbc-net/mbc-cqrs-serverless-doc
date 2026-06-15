@@ -135,5 +135,8 @@
   "Environment Variables": "環境変数",
   "S3 configuration": "S3設定",
   "Interfaces": "インターフェース",
-  "Directory interfaces": "ディレクトリインターフェース"
+  "Directory interfaces": "ディレクトリインターフェース",
+  "`hasPermission()` returns `true` when the user holds at least one of the required roles on the item. `getEffectiveRole()` returns the highest role the user holds, or `null` if they have no access.": "`hasPermission()`はユーザーがアイテムに対して必要なロールのいずれかを保有する場合に`true`を返します。`getEffectiveRole()`はユーザーが保有する最上位ロールを返し、アクセス権がない場合は`null`を返します。",
+  "Returns true if user holds any of the required roles on the item": "Returns true if user holds any of the required roles on the item (ユーザーがアイテムへの必要なロールのいずれかを保有する場合trueを返す)",
+  "Returns the effective FileRole the user holds, or null if no access": "Returns the effective FileRole the user holds, or null if no access (ユーザーが保有する実効FilRole、アクセス権なしの場合はnull)"
 }
