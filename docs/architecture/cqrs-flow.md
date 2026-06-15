@@ -155,7 +155,7 @@ publishAsync()
 | {{Session entry}} | {{Written by `SessionService.put()` after every successful `publishAsync`; expires after `RYW_SESSION_TTL_MINUTES` minutes}} |
 | {{Repository}} | {{Drop-in replacement for `DataService` that transparently applies the RYW merge}} |
 | {{Merge strategy}} | {{Pending `create` commands are prepended; pending `delete` commands are filtered out; `update` / `partial-update` are applied on top of the read-store item}} |
-| {{Fallback}} | {{When `RYW_SESSION_TTL_MINUTES` is unset, `SessionService.put()` is a no-op and `Repository` behaves identically to `DataService`}} |
+| {{Fallback}} | {{When `RYW_SESSION_TTL_MINUTES` is unset or set to a non-positive value, `SessionService.put()` is a no-op and `Repository` behaves identically to `DataService`}} |
 
 :::info {{Version Note (v1.2.0)}}
 {{Read-Your-Writes support (`SessionService`, `Repository`) was added in [v1.2.0](/docs/changelog#v120). Enabling it requires setting `RYW_SESSION_TTL_MINUTES` and provisioning a session DynamoDB table.}}
