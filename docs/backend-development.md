@@ -482,21 +482,38 @@ const opts = {
 {{Implement proper error handling with logging:}}
 
 ```typescript
-try {
-  await this.processItem(item);
-} catch (error) {
-  this.logger.error(`Failed to process item ${item.id}:`, error);
+import { SnsService } from '@mbc-cqrs-serverless/core';
 
-  // {{Send alarm for critical errors}}
-  if (this.isCriticalError(error)) {
-    await this.snsService.publish({
-      topicArn: this.alarmTopicArn,
-      subject: 'Processing Error',
-      message: JSON.stringify({ item, error: error.message }),
-    });
+@Injectable()
+export class MyDataSyncHandler implements IDataSyncHandler {
+  constructor(
+    private readonly snsService: SnsService,     // {{Inject for alarm notifications}}
+    private readonly logger: Logger,
+  ) {}
+
+  async up(cmd: CommandModel): Promise<void> {
+    try {
+      await this.processItem(cmd); // {{Your application-specific processing}}
+    } catch (error) {
+      this.logger.error(`Failed to process item ${cmd.sk}:`, error);
+
+      // {{Send alarm for critical errors}}
+      if (this.isCriticalError(error)) {
+        await this.snsService.publish({
+          topicArn: this.alarmTopicArn,
+          subject: 'Processing Error',
+          message: JSON.stringify({ sk: cmd.sk, error: error.message }),
+        });
+      }
+
+      throw error;
+    }
   }
 
-  throw error;
+  private isCriticalError(error: unknown): boolean {
+    // {{Return true for errors that require immediate alerting}}
+    return error instanceof Error && !error.message.includes('not found');
+  }
 }
 ```
 
@@ -505,17 +522,22 @@ try {
 {{Use dirty checking to avoid unnecessary syncs:}}
 
 ```typescript
-import { CommandService } from '@mbc-cqrs-serverless/core';
+import { CommandService, CommandModel, CommandInputModel } from '@mbc-cqrs-serverless/core';
 
 constructor(private readonly commandService: CommandService) {}
 
-async syncData(newData: any, existingData: any): Promise<void> {
+async syncToRds(existingData: CommandModel, newData: CommandInputModel): Promise<void> {
   if (this.commandService.isNotCommandDirty(existingData, newData)) {
     this.logger.debug('Data unchanged, skipping sync');
     return;
   }
 
-  await this.performSync(newData);
+  // {{Perform your actual sync: upsert via Prisma or publish a downstream command}}
+  await this.prismaService.entity.upsert({
+    where: { sk: newData.sk },
+    create: { ...newData.attributes, sk: newData.sk, tenantCode: newData.tenantCode },
+    update: { ...newData.attributes },
+  });
 }
 ```
 

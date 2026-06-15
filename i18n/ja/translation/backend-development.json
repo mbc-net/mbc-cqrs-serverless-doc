@@ -71,5 +71,9 @@
   "Import/Export Patterns": "インポート/エクスポートパターン",
   "Batch data processing": "バッチデータ処理",
   "publishAsync returns null when command is a no-op (no changes detected)": "publishAsync returns null when command is a no-op (no changes detected) (変更がない場合（no-op）null を返す)",
-  "Indexes": "インデックス"
+  "Indexes": "インデックス",
+  "Inject for alarm notifications": "Inject for alarm notifications (アラーム通知用に注入)",
+  "Your application-specific processing": "Your application-specific processing (アプリケーション固有の処理)",
+  "Return true for errors that require immediate alerting": "Return true for errors that require immediate alerting (即時アラートが必要なエラーの場合trueを返す)",
+  "Perform your actual sync: upsert via Prisma or publish a downstream command": "Perform your actual sync: upsert via Prisma or publish a downstream command (実際の同期処理：Prismaでupsertするか、後続コマンドをpublish)"
 }

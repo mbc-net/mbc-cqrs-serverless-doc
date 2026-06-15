@@ -71,5 +71,9 @@
   "Import/Export Patterns": "Import/Export Patterns",
   "Batch data processing": "Batch data processing",
   "publishAsync returns null when command is a no-op (no changes detected)": "publishAsync returns null when command is a no-op (no changes detected)",
-  "Indexes": "Indexes"
+  "Indexes": "Indexes",
+  "Inject for alarm notifications": "Inject for alarm notifications",
+  "Your application-specific processing": "Your application-specific processing",
+  "Return true for errors that require immediate alerting": "Return true for errors that require immediate alerting",
+  "Perform your actual sync: upsert via Prisma or publish a downstream command": "Perform your actual sync: upsert via Prisma or publish a downstream command"
 }
