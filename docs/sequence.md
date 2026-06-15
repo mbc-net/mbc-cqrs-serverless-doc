@@ -100,7 +100,16 @@ export class SeqModule {}
     - {{MONTHLY}} (`'monthly'`)
     - {{DAILY}} (`'daily'`)
     - {{NONE}} (`'none'`)
-  - {{Description: Determines the rotation type for the sequence.}}
+  - {{Description: Determines when the sequence counter resets to 1.}}
+  - {{Rotation strategy reference:}}
+
+    | {{Strategy}} | {{Counter resets when}} | {{Example}} |
+    |---|---|---|
+    | `NONE` | {{Never — counter increments indefinitely}} | `1, 2, 3, … 9999` |
+    | `DAILY` | {{The calendar date changes}} | {{Resets each midnight}} |
+    | `MONTHLY` | {{The calendar month changes}} | {{Resets on the 1st of each month}} |
+    | `YEARLY` | {{The calendar year changes}} | {{Resets every January 1st}} |
+    | `FISCAL_YEARLY` | {{The fiscal year changes (start month controlled by `startMonth`)}} | {{Resets at fiscal year start; defaults to April (Japanese convention)}} |
 
 - {{`tenantCode: string`}}
   - {{Required: Yes.}}
@@ -193,7 +202,16 @@ export class SeqModule {}
 ```
 {{In this format}}:
 - {{Variables are written inside `%% <param> %%.`}}
-- {{After the #, the length of the variable is specified, indicating the desired length of the field when the formatted sequence number is returned.}}
+- {{The `#:0>N` suffix pads the value to `N` characters wide with leading zeros (e.g., `#:0>3` turns `5` into `005`). Omit the suffix to use the value as-is.}}
+
+{{Format spec reference:}}
+
+| {{Suffix}} | {{Meaning}} | {{Input `5`}} | {{Result}} |
+|---|---|---|---|
+| {{(none)}} | {{No padding — raw value}} | `5` | `5` |
+| `#:0>3` | {{Pad to width 3 with leading zeros}} | `5` | `005` |
+| `#:0>7` | {{Pad to width 7 with leading zeros}} | `5` | `0000005` |
+
 {{For instance}}:
 
 - {{`%%code2#:0>7%%` ensures code2 is formatted to be 7 characters long, padding with leading zeros if necessary.}}
@@ -241,7 +259,7 @@ export class SeqModule {}
 - {{`rotateBy?: RotateByEnum`}}
   - {{Default: NONE.}}
   - {{Options: FISCAL_YEARLY, YEARLY, MONTHLY, DAILY, NONE}}
-  - {{Description: Determines the rotation type for the sequence.}}
+  - {{Description: Determines when the sequence counter resets. See the rotation strategy table in `generateSequenceItem` above.}}
 
 - {{`tenantCode: string`}}
   - {{Required: Yes.}}
