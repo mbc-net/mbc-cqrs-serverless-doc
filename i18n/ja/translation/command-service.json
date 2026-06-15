@@ -99,7 +99,7 @@
   "*async* `updateTtl(key: DetailKey): Promise<any | null>`": "*async* `updateTtl(key: DetailKey): Promise<any | null>`",
   "Updates the TTL (Time To Live) of the previous version of a command. This is typically used internally to manage command history retention. Returns `null` if the version is too low or the previous command doesn't exist.": "コマンドの前のバージョンのTTL（Time To Live）を更新します。これは通常、コマンド履歴の保持を管理するために内部的に使用されます。バージョンが低すぎるか、前のコマンドが存在しない場合は`null`を返します。",
   "Version 3": "Version 3 (バージョン3)",
-  "Updates TTL of version 2 (previous version)": "Updates TTL of version 2 (previous version) (バージョン2（前のバージョン）のTTLを更新)",
+  "Updates TTL of version 2 (previous version)": "Updates TTL of version 2 (previous version) (バージョン2(前のバージョン)のTTLを更新)",
   "This method is primarily used internally by the framework for command history management. Direct usage is rarely needed in application code.": "このメソッドは主にフレームワークがコマンド履歴管理のために内部的に使用します。アプリケーションコードでの直接使用はほとんど必要ありません。",
   "`dataSyncHandlers` (getter): IDataSyncHandler[]": "`dataSyncHandlers` (getter): IDataSyncHandler[]",
   "Returns the array of registered data sync handlers for this CommandService instance. This is useful when you need to inspect or iterate over the handlers programmatically.": "このCommandServiceインスタンスに登録されているデータ同期ハンドラーの配列を返します。ハンドラーをプログラムで検査または反復処理する必要がある場合に便利です。",
