@@ -383,5 +383,7 @@
   "Upgrade guide for v1.1.0 (TENANT_COMMON, tenant code normalization)": "Upgrade guide for v1.1.0 (TENANT_COMMON, tenant code normalization)",
   "Version Conflict Guide": "Version Conflict Guide",
   "Handling version conflicts in upgrades": "Handling version conflicts in upgrades",
-  "Related Links": "Related Links"
+  "Related Links": "Related Links",
+  "See [Migration Guide v1.3.1](/docs/migration/v1.3.1) for upgrade instructions.": "See [Migration Guide v1.3.1](/docs/migration/v1.3.1) for upgrade instructions.",
+  "See [Migration Guide v1.3.0](/docs/migration/v1.3.0) for upgrade instructions.": "See [Migration Guide v1.3.0](/docs/migration/v1.3.0) for upgrade instructions."
 }

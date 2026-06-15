@@ -383,5 +383,7 @@
   "Upgrade guide for v1.1.0 (TENANT_COMMON, tenant code normalization)": "v1.1.0アップグレードガイド（TENANT_COMMON、テナントコードの正規化）",
   "Version Conflict Guide": "バージョン競合ガイド",
   "Handling version conflicts in upgrades": "アップグレード時のバージョン競合処理",
-  "Related Links": "関連リンク"
+  "Related Links": "関連リンク",
+  "See [Migration Guide v1.3.1](/docs/migration/v1.3.1) for upgrade instructions.": "[移行ガイド v1.3.1](/docs/migration/v1.3.1) でアップグレード手順を確認してください。",
+  "See [Migration Guide v1.3.0](/docs/migration/v1.3.0) for upgrade instructions.": "[移行ガイド v1.3.0](/docs/migration/v1.3.0) でアップグレード手順を確認してください。"
 }

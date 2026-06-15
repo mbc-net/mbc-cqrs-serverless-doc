@@ -36,6 +36,7 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 ### Bug Fixes
 
 - **core:** Tolerate a malformed `custom:groups` claim (fail-closed to no group roles) instead of throwing, so a bad token degrades to direct-role-only checks rather than crashing the request
+- See [Migration Guide v1.3.1](/docs/migration/v1.3.1) for upgrade instructions.
 
 ---
 
@@ -56,6 +57,7 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
   - `mbc-migrate` skill: v1.3.0 migration guide and version compatibility table updated
   - `mbc-generate` skill: custom notification transport code generation template added
   - `mbc-review` skill: AP026 added to checklist
+- See [Migration Guide v1.3.0](/docs/migration/v1.3.0) for upgrade instructions.
 
 ---
 
