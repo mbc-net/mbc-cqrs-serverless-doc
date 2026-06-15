@@ -11,6 +11,14 @@ A common scenario when working with Prisma is needing to make changes to the dat
 1. Update prisma/schema.prisma file.
 2. For local development, create and apply migrations with command npm run migrate:dev.
 
+## Migration Scripts {#migration-scripts}
+
+| Command | When to use | What it does |
+|------------|-----------------|-----------------|
+| `npm run migrate:dev` | Local development only | Creates a new Prisma migration file and applies it to the local RDS database. Use this when you change `schema.prisma`. |
+| `npm run migrate` | Local setup and CI | Applies existing Prisma migrations to RDS (without creating new ones), then runs DynamoDB table migration. Use this after cloning or pulling. |
+| `npm run migrate:ddb` | DynamoDB only | Creates or updates DynamoDB tables defined in `prisma/dynamodbs/*.json` without touching the RDS schema. |
+
 :::warning
 
 For local development, please make sure to set the correct `DATABASE_URL` environment variable.

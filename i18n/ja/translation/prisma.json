@@ -37,5 +37,15 @@
   "Deployment Guide": "デプロイガイド",
   "Database migration in deployment": "デプロイ時のデータベース移行",
   "domain-specific properties": "domain-specific properties (ドメイン固有のプロパティ)",
-  "Example": "例"
+  "Example": "例",
+  "Migration Scripts": "マイグレーションスクリプト",
+  "Command": "コマンド",
+  "When to use": "使用タイミング",
+  "What it does": "処理内容",
+  "Local development only": "ローカル開発のみ",
+  "Creates a new Prisma migration file and applies it to the local RDS database. Use this when you change `schema.prisma`.": "新しいPrismaマイグレーションファイルを作成し、ローカルRDSデータベースに適用します。`schema.prisma`を変更した際に使用してください。",
+  "Local setup and CI": "ローカルセットアップおよびCI",
+  "Applies existing Prisma migrations to RDS (without creating new ones), then runs DynamoDB table migration. Use this after cloning or pulling.": "既存のPrismaマイグレーションをRDSに適用し（新規作成なし）、その後DynamoDBテーブルのマイグレーションを実行します。クローンまたはプル後に使用してください。",
+  "DynamoDB only": "DynamoDBのみ",
+  "Creates or updates DynamoDB tables defined in `prisma/dynamodbs/*.json` without touching the RDS schema.": "`prisma/dynamodbs/*.json`で定義されたDynamoDBテーブルを作成または更新します。RDSスキーマには影響しません。"
 }

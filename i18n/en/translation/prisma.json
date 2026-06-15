@@ -37,5 +37,15 @@
   "Deployment Guide": "Deployment Guide",
   "Database migration in deployment": "Database migration in deployment",
   "domain-specific properties": "domain-specific properties",
-  "Example": "Example"
+  "Example": "Example",
+  "Migration Scripts": "Migration Scripts",
+  "Command": "Command",
+  "When to use": "When to use",
+  "What it does": "What it does",
+  "Local development only": "Local development only",
+  "Creates a new Prisma migration file and applies it to the local RDS database. Use this when you change `schema.prisma`.": "Creates a new Prisma migration file and applies it to the local RDS database. Use this when you change `schema.prisma`.",
+  "Local setup and CI": "Local setup and CI",
+  "Applies existing Prisma migrations to RDS (without creating new ones), then runs DynamoDB table migration. Use this after cloning or pulling.": "Applies existing Prisma migrations to RDS (without creating new ones), then runs DynamoDB table migration. Use this after cloning or pulling.",
+  "DynamoDB only": "DynamoDB only",
+  "Creates or updates DynamoDB tables defined in `prisma/dynamodbs/*.json` without touching the RDS schema.": "Creates or updates DynamoDB tables defined in `prisma/dynamodbs/*.json` without touching the RDS schema."
 }
