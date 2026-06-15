@@ -112,7 +112,8 @@ await this.commandService.publishAsync(entity, {
 });
 
 // DynamoDBのConditionExpressionが楽観的ロックを確保
-// ConditionExpression: 'attribute_not_exists(pk) OR version = :currentVersion'
+// ConditionExpression: 'attribute_not_exists(pk) AND attribute_not_exists(sk)'
+// skにはバージョン番号が含まれており、同一バージョンのコマンドの重複書き込みを防ぎます
 ```
 
 ## イベント処理パイプライン

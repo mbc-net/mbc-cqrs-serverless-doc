@@ -112,7 +112,8 @@ await this.commandService.publishAsync(entity, {
 });
 
 // {{DynamoDB ConditionExpression ensures optimistic locking}}
-// {{ConditionExpression: 'attribute_not_exists(pk) OR version = :currentVersion'}}
+// {{ConditionExpression: 'attribute_not_exists(pk) AND attribute_not_exists(sk)'}}
+// {{sk includes the version number, preventing duplicate command versions}}
 ```
 
 ## {{Event Processing Pipeline}}
