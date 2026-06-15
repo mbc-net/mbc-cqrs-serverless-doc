@@ -62,7 +62,7 @@
   "Request Correlation": "リクエスト相関",
   "Add correlation IDs to trace requests:": "リクエストを追跡するために相関IDを追加：",
   "Debug Environment Variables": "環境変数のデバッグ",
-  "Log environment on startup (development only)": "起動時に環境変数をログ出力（開発環境のみ）",
+  "Log environment on startup (development only)": "Log environment on startup (development only) (起動時に環境変数をログ出力（開発環境のみ）)",
   "Conditional Debugging": "条件付きデバッグ",
   "Troubleshooting Checklist": "トラブルシューティングチェックリスト",
   "When debugging an issue:": "問題をデバッグする際：",
