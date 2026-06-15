@@ -271,7 +271,7 @@ export class CatController {
 ```typescript
 const newCommand = {
   pk: 'CAT#tenant1',
-  sk: 'cat#001',
+  sk: 'CAT#001',
   version: VERSION_FIRST, // {{version 0}}
   // ... {{other fields}}
 };
@@ -287,7 +287,7 @@ const newCommand = {
 ```typescript
 const updateCommand = {
   pk: 'CAT#tenant1',
-  sk: 'cat#001',
+  sk: 'CAT#001',
   version: VERSION_LATEST, // {{-1, auto-resolves}}
   // ... {{other fields}}
 };
