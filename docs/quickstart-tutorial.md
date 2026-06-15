@@ -64,7 +64,7 @@ npm run offline:docker
 {{This starts the following services:}}
 
 - {{DynamoDB Local (port 8000)}}
-- {{PostgreSQL (port 5432)}}
+- {{MySQL (port 3306)}}
 - {{LocalStack for AWS services}}
 
 ## {{Step 4: Initialize the Database}}
@@ -188,7 +188,7 @@ docker-compose -f infra-local/docker-compose.yml up -d
 
 ### {{Database connection errors}}
 
-{{Wait a few seconds for PostgreSQL to fully start, then run migrations again:}}
+{{Wait a few seconds for MySQL to fully start, then run migrations again:}}
 
 ```bash
 npm run migrate
