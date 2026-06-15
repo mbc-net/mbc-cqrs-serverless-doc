@@ -194,7 +194,7 @@ export class ProductListEntity extends DataListEntity {
 ```ts
 // {{Inherited from DataListEntity}}
 {
-  total: number;        // Total count
+  total?: number;       // Total count (optional — not populated by listItemsByPk)
   lastSk?: string;      // Last sort key for pagination
 }
 ```
