@@ -30,6 +30,18 @@ description: {{Introduction to MBC CQRS Serverless framework - a production-read
 
 {{To get started, check out the [Installation](/docs/installation) guide.}}
 
+## {{Recommended Learning Path}}
+
+{{If you're new to the framework, follow this sequence:}}
+
+| {{Step}} | {{Page}} | {{What you'll learn}} |
+|----------|----------|----------------------|
+| 1 | [{{Installation}}](/docs/installation) | {{Set up your local development environment}} |
+| 2 | [{{Quickstart Tutorial}}](/docs/quickstart-tutorial) | {{Build a working API in 15 minutes}} |
+| 3 | [{{Project Structure}}](/docs/project-structure) | {{Understand the generated file layout}} |
+| 4 | [{{Architecture}}](/docs/architecture) | {{CQRS and Event Sourcing concepts}} |
+| 5 | [{{Backend Development}}](/docs/backend-development) | {{Implement features with the CQRS pattern}} |
+| 6 | {{Examples}} | [{{E-commerce}}](/docs/ecommerce-example) · [{{SaaS}}](/docs/saas-example) |
 
 ## {{Related Documentation}}
 

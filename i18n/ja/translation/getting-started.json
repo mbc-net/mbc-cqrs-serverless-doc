@@ -25,6 +25,20 @@
   "On the left side of the screen, you'll find the docs navbar. The pages of the docs are organized sequentially, you can follow them step-by-step when building your application. However, you can read them in any order or skip to the pages that apply to your case.": "画面の左側にドキュメント ナビゲーション バーがあります。ドキュメントのページは順番に整理されており、アプリケーションを構築するときにステップごとに従えます。ただし、任意の順序で読んだり、ケースに該当するページにスキップしたりすることもできます。",
   "On the right side of the screen, you'll see a table of contents that makes it easier to navigate between sections of a page. If you need to quickly find a page, you can use the search bar at the top, or the search shortcut (Ctrl+K or Cmd+K).": "画面の右側には、ページのセクション間を簡単に移動できる目次が表示されます。ページをすばやく見つける必要がある場合は、上部の検索バーまたは検索ショートカット (Ctrl+K または Cmd+K) を使用できます。",
   "To get started, check out the [Installation](/docs/installation) guide.": "開始するには [インストール](/docs/installation) ガイドを確認してください。",
+  "Recommended Learning Path": "推奨学習パス",
+  "If you're new to the framework, follow this sequence:": "フレームワークが初めての方は、次の順序で進めることをお勧めします：",
+  "Step": "ステップ",
+  "Page": "ページ",
+  "What you'll learn": "学ぶ内容",
+  "Set up your local development environment": "ローカル開発環境をセットアップする",
+  "Build a working API in 15 minutes": "15分で動作するAPIを構築する",
+  "Understand the generated file layout": "生成されたファイル構成を理解する",
+  "CQRS and Event Sourcing concepts": "CQRSとイベントソーシングの概念",
+  "Implement features with the CQRS pattern": "CQRSパターンで機能を実装する",
+  "Backend Development": "バックエンド開発",
+  "E-commerce": "Eコマース",
+  "SaaS": "SaaS",
+  "Examples": "サンプルアプリ",
   "Related Documentation": "関連ドキュメント",
   "Installation": "インストール",
   "System requirements and setup instructions": "システム要件とセットアップ手順",
@@ -32,6 +46,5 @@
   "Build your first API in 15 minutes": "15分で初めてのAPIを構築",
   "Project Structure": "プロジェクト構成",
   "Understanding the generated project layout": "生成されたプロジェクト構成を理解",
-  "Architecture": "アーキテクチャ",
-  "CQRS and Event Sourcing concepts": "CQRSとイベントソーシングの概念"
+  "Architecture": "アーキテクチャ"
 }

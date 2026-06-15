@@ -75,5 +75,14 @@
   "Configuring": "設定",
   "Configure modules for your application": "アプリケーションのモジュール設定",
   "CLI": "CLI",
-  "CLI commands for scaffolding": "スキャフォールディング用CLIコマンド"
+  "CLI commands for scaffolding": "スキャフォールディング用CLIコマンド",
+  "Next Steps": "次のステップ",
+  "Your local environment is ready. Here's the recommended path forward:": "ローカル環境の準備が整いました。次の順序で進めることをお勧めします：",
+  "Quickstart Tutorial": "クイックスタートチュートリアル",
+  "Build your first API endpoint in 15 minutes": "15分で最初のAPIエンドポイントを構築",
+  "Understand what each generated file and folder does": "生成されたファイルとフォルダの役割を理解する",
+  "Architecture": "アーキテクチャ",
+  "Learn the CQRS and Event Sourcing concepts behind the framework": "フレームワークの背景にあるCQRSとイベントソーシングの概念を学ぶ",
+  "Backend Development": "バックエンド開発",
+  "Start implementing real features": "実際の機能の実装を開始する"
 }

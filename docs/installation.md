@@ -155,6 +155,15 @@ sudo chmod -R 777 ./infra-local/docker-data/dynamodb-local
 :::
 
 
+## {{Next Steps}}
+
+{{Your local environment is ready. Here's the recommended path forward:}}
+
+1. **[{{Quickstart Tutorial}}](/docs/quickstart-tutorial)** — {{Build your first API endpoint in 15 minutes}}
+2. **[{{Project Structure}}](/docs/project-structure)** — {{Understand what each generated file and folder does}}
+3. **[{{Architecture}}](/docs/architecture)** — {{Learn the CQRS and Event Sourcing concepts behind the framework}}
+4. **[{{Backend Development}}](/docs/backend-development)** — {{Start implementing real features}}
+
 ## {{Related Documentation}}
 
 - [{{Getting Started}}](/docs/getting-started) - {{Introduction to MBC CQRS Serverless}}

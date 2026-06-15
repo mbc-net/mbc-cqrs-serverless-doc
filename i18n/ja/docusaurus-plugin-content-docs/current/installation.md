@@ -155,6 +155,15 @@ sudo chmod -R 777 ./infra-local/docker-data/dynamodb-local
 :::
 
 
+## 次のステップ
+
+ローカル環境の準備が整いました。次の順序で進めることをお勧めします：
+
+1. **[クイックスタートチュートリアル](/docs/quickstart-tutorial)** — 15分で最初のAPIエンドポイントを構築
+2. **[プロジェクト構成](/docs/project-structure)** — 生成されたファイルとフォルダの役割を理解する
+3. **[アーキテクチャ](/docs/architecture)** — フレームワークの背景にあるCQRSとイベントソーシングの概念を学ぶ
+4. **[バックエンド開発](/docs/backend-development)** — 実際の機能の実装を開始する
+
 ## 関連ドキュメント
 
 - [はじめに](/docs/getting-started) - MBC CQRS Serverlessの紹介

@@ -75,5 +75,14 @@
   "Configuring": "Configuring",
   "Configure modules for your application": "Configure modules for your application",
   "CLI": "CLI",
-  "CLI commands for scaffolding": "CLI commands for scaffolding"
+  "CLI commands for scaffolding": "CLI commands for scaffolding",
+  "Next Steps": "Next Steps",
+  "Your local environment is ready. Here's the recommended path forward:": "Your local environment is ready. Here's the recommended path forward:",
+  "Quickstart Tutorial": "Quickstart Tutorial",
+  "Build your first API endpoint in 15 minutes": "Build your first API endpoint in 15 minutes",
+  "Understand what each generated file and folder does": "Understand what each generated file and folder does",
+  "Architecture": "Architecture",
+  "Learn the CQRS and Event Sourcing concepts behind the framework": "Learn the CQRS and Event Sourcing concepts behind the framework",
+  "Backend Development": "Backend Development",
+  "Start implementing real features": "Start implementing real features"
 }
