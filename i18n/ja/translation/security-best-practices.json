@@ -96,5 +96,12 @@
   "Monitoring and Logging": "監視とログ",
   "Security event monitoring": "セキュリティイベント監視",
   "In a service class with dataService and commandService injected": "In a service class with dataService and commandService injected (dataServiceとcommandServiceが注入されたサービスクラス内で)",
-  "Check ownership — allow system_admin to bypass": "Check ownership — allow system_admin to bypass (所有権を確認 — system_adminはバイパス可能)"
+  "Check ownership — allow system_admin to bypass": "Check ownership — allow system_admin to bypass (所有権を確認 — system_adminはバイパス可能)",
+  "Strip all HTML": "すべての HTML を除去",
+  "Allow basic formatting": "基本的な書式設定のみ許可",
+  "Disable self-registration if not needed": "不要な場合はセルフ登録を無効化",
+  "32 bytes for AES-256": "AES-256 用の 32 バイト",
+  "DynamoDB access - specific tables only": "DynamoDB アクセス - 特定テーブルのみ",
+  "S3 access - specific bucket and prefix": "S3 アクセス - 特定バケットとプレフィックスのみ",
+  "Secrets Manager - specific secrets only": "Secrets Manager - 特定シークレットのみ"
 }

@@ -96,5 +96,12 @@
   "Monitoring and Logging": "Monitoring and Logging",
   "Security event monitoring": "Security event monitoring",
   "In a service class with dataService and commandService injected": "In a service class with dataService and commandService injected",
-  "Check ownership — allow system_admin to bypass": "Check ownership — allow system_admin to bypass"
+  "Check ownership — allow system_admin to bypass": "Check ownership — allow system_admin to bypass",
+  "Strip all HTML": "Strip all HTML",
+  "Allow basic formatting": "Allow basic formatting",
+  "Disable self-registration if not needed": "Disable self-registration if not needed",
+  "32 bytes for AES-256": "32 bytes for AES-256",
+  "DynamoDB access - specific tables only": "DynamoDB access - specific tables only",
+  "S3 access - specific bucket and prefix": "S3 access - specific bucket and prefix",
+  "Secrets Manager - specific secrets only": "Secrets Manager - specific secrets only"
 }
