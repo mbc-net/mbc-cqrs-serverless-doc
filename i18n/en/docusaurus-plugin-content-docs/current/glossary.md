@@ -97,6 +97,18 @@ A constant with value `0` used as the version when creating a new entity that do
 
 A constant with value `-1` used to instruct the framework to auto-resolve to the latest version of an entity, bypassing optimistic locking. Use only when "last writer wins" semantics are intentional. Import from `@mbc-cqrs-serverless/core`.
 
+### Repository
+
+A drop-in replacement for `DataService` that adds Read-Your-Writes (RYW) session caching. When a user publishes a command via `publishAsync`, the pending data is stored in a DynamoDB session table. Subsequent `getItem` and `listItemsByPk` calls merge pending data with the persisted read model, so the user sees their own writes before the DynamoDB Stream propagates the change. Enabled by setting `RYW_SESSION_TTL_MINUTES` in the environment.
+
+### History Table
+
+A DynamoDB table that stores every past version of a command as an immutable record. Written by `publishSync` (since v1.1.4) and by the Stream-based async pipeline. Used by `HistoryService.getItem()` to retrieve a specific historical version for audit trails or rollback. The sort key includes the version suffix: `sk@N`.
+
+### ULID (Universally Unique Lexicographically Sortable Identifier)
+
+A time-ordered unique identifier format used as sort keys for DynamoDB items. ULIDs are 26 characters, URL-safe, monotonically sortable by creation time within a millisecond, and globally unique. Generated with `ulid()` from the `ulidx` package. Using ULID as the sort key enables time-based range queries and predictable ordering of items.
+
 ## AWS Services {#aws-services}
 
 ### Amazon DynamoDB

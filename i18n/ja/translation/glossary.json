@@ -144,5 +144,11 @@
   "CQRS Flow": "CQRSフロー",
   "Detailed CQRS implementation": "CQRSの詳細実装",
   "Getting Started": "はじめに",
-  "Introduction to key concepts": "主要概念の紹介"
+  "Introduction to key concepts": "主要概念の紹介",
+  "Repository": "リポジトリ",
+  "A drop-in replacement for `DataService` that adds Read-Your-Writes (RYW) session caching. When a user publishes a command via `publishAsync`, the pending data is stored in a DynamoDB session table. Subsequent `getItem` and `listItemsByPk` calls merge pending data with the persisted read model, so the user sees their own writes before the DynamoDB Stream propagates the change. Enabled by setting `RYW_SESSION_TTL_MINUTES` in the environment.": "`DataService` のドロップイン代替品で、Read-Your-Writes (RYW) セッションキャッシュ機能を追加します。ユーザーが `publishAsync` でコマンドを発行すると、保留中のデータが DynamoDB セッションテーブルに保存されます。その後の `getItem` と `listItemsByPk` 呼び出しでは、DynamoDB Stream が変更を伝播する前から、ユーザー自身の書き込みが見えるように、保留データと永続化済みの読み取りモデルをマージします。環境変数 `RYW_SESSION_TTL_MINUTES` を設定することで有効になります。",
+  "History Table": "履歴テーブル",
+  "A DynamoDB table that stores every past version of a command as an immutable record. Written by `publishSync` (since v1.1.4) and by the Stream-based async pipeline. Used by `HistoryService.getItem()` to retrieve a specific historical version for audit trails or rollback. The sort key includes the version suffix: `sk@N`.": "コマンドのすべての過去バージョンをイミュータブルなレコードとして保存する DynamoDB テーブルです。`publishSync`（v1.1.4 以降）と Stream ベースの非同期パイプラインによって書き込まれます。監査証跡やロールバックのために特定の履歴バージョンを取得する際に `HistoryService.getItem()` で使用されます。ソートキーにはバージョンサフィックスが含まれます: `sk@N`。",
+  "ULID (Universally Unique Lexicographically Sortable Identifier)": "ULID（汎用一意辞書式ソート可能識別子）",
+  "A time-ordered unique identifier format used as sort keys for DynamoDB items. ULIDs are 26 characters, URL-safe, monotonically sortable by creation time within a millisecond, and globally unique. Generated with `ulid()` from the `ulidx` package. Using ULID as the sort key enables time-based range queries and predictable ordering of items.": "DynamoDB アイテムのソートキーとして使用される時刻順のユニーク識別子フォーマットです。ULID は26文字、URL セーフで、ミリ秒単位の作成時刻で単調にソート可能、かつグローバルにユニークです。`ulidx` パッケージの `ulid()` で生成されます。ソートキーとして ULID を使用することで、時刻ベースの範囲クエリとアイテムの予測可能な並び順が可能になります。"
 }
