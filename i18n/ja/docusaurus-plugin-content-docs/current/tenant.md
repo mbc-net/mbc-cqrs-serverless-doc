@@ -67,6 +67,7 @@ export class AppModule {}
 プライマリキーでテナントを取得します。
 
 ```ts
+import { Injectable } from "@nestjs/common";
 import { TenantService } from "@mbc-cqrs-serverless/tenant";
 
 @Injectable()

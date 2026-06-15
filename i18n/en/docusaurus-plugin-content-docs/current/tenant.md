@@ -67,6 +67,7 @@ export class AppModule {}
 Retrieves a tenant by its primary key.
 
 ```ts
+import { Injectable } from "@nestjs/common";
 import { TenantService } from "@mbc-cqrs-serverless/tenant";
 
 @Injectable()

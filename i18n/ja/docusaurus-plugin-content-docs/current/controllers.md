@@ -128,7 +128,7 @@ export class ItemController {
 
 ```ts
 import { Roles } from '@mbc-cqrs-serverless/core';
-import { UseGuards } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { CustomGuard } from './guards/custom.guard';
 
 @Controller('custom')
