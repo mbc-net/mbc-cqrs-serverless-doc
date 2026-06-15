@@ -83,7 +83,7 @@ export class CatModule {}
 
 {{**Return Value:** Returns `Promise<CommandModel | null>` — the CommandModel on success, or `null` when the command is not dirty (no changes detected compared to the existing command).}}
 
-{{For example, you can publish a new cat command as bellow:}}
+{{For example, you can publish a new cat command as below:}}
 
 ```ts
 import { basename } from 'path';
@@ -262,7 +262,7 @@ const item = await this.commandService.publishPartialUpdateSync(catCommand, {
 
 :::
 
-{{For example, you can publish a new cat command as bellow:}}
+{{For example, you can publish a new cat command as below:}}
 
 ```ts
 import { basename } from 'path';

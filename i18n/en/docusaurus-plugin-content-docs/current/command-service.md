@@ -83,7 +83,7 @@ The method provides immediate feedback by returning the command data right away,
 
 **Return Value:** Returns `Promise<CommandModel | null>` — the CommandModel on success, or `null` when the command is not dirty (no changes detected compared to the existing command).
 
-For example, you can publish a new cat command as bellow:
+For example, you can publish a new cat command as below:
 
 ```ts
 import { basename } from 'path';
@@ -262,7 +262,7 @@ This method was removed in [v1.1.0](/docs/changelog#v110). Use [`publishAsync` m
 
 :::
 
-For example, you can publish a new cat command as bellow:
+For example, you can publish a new cat command as below:
 
 ```ts
 import { basename } from 'path';

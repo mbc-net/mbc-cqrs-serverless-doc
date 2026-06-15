@@ -25,7 +25,6 @@
   "Utilize this method to publish a full command, as it will insert the command data into the **command** table.": "Utilize this method to publish a full command, as it will insert the command data into the **command** table.",
   "The method provides immediate feedback by returning the command data right away, allowing you to proceed without waiting for the command to be processed. Subsequently, the command is handled asynchronously in the background, ensuring that your application remains responsive while the processing occurs.": "The method provides immediate feedback by returning the command data right away, allowing you to proceed without waiting for the command to be processed. Subsequently, the command is handled asynchronously in the background, ensuring that your application remains responsive while the processing occurs.",
   "**Return Value:** Returns `Promise<CommandModel | null>` — the CommandModel on success, or `null` when the command is not dirty (no changes detected compared to the existing command).": "**Return Value:** Returns `Promise<CommandModel | null>` — the CommandModel on success, or `null` when the command is not dirty (no changes detected compared to the existing command).",
-  "For example, you can publish a new cat command as bellow:": "For example, you can publish a new cat command as bellow:",
   "*async* `publishPartialUpdateAsync( input: CommandPartialInputModel, options: ICommandOptions): Promise<CommandModel | null>`": "*async* `publishPartialUpdateAsync( input: CommandPartialInputModel, options: ICommandOptions): Promise<CommandModel | null>`",
   "This method allows you to create new command data based on the previous command with the same `pk` and `sk` (primary key) values.": "This method allows you to create new command data based on the previous command with the same `pk` and `sk` (primary key) values.",
   "As same as the `publishAsync` method, the method immediately returns the updated command data without waiting for the command to be processed.": "As same as the `publishAsync` method, the method immediately returns the updated command data without waiting for the command to be processed.",
@@ -220,5 +219,6 @@
   "Version Conflict Guide": "Version Conflict Guide",
   "Handling optimistic locking conflicts": "Handling optimistic locking conflicts",
   "Interfaces": "Interfaces",
-  "TypeScript interfaces for CommandInputModel and more": "TypeScript interfaces for CommandInputModel and more"
+  "TypeScript interfaces for CommandInputModel and more": "TypeScript interfaces for CommandInputModel and more",
+  "For example, you can publish a new cat command as below:": "For example, you can publish a new cat command as below:"
 }
