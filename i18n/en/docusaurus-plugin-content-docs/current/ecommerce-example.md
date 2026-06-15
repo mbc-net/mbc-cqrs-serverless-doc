@@ -422,6 +422,7 @@ import {
   CommandModel,
   DataSyncHandler,
   IDataSyncHandler,
+  VERSION_FIRST,
 } from '@mbc-cqrs-serverless/core';
 import { InventoryService } from '../inventory/inventory.service';
 import { NotificationService } from '../notification/notification.service';
@@ -442,8 +443,8 @@ export class OrderDataSyncHandler implements IDataSyncHandler {
       return;
     }
 
-    // Version 1 means a newly created item
-    if (cmd.version === 1) {
+    // VERSION_FIRST (version 1) means a newly created item
+    if (cmd.version === VERSION_FIRST) {
       this.logger.log(`New order created: ${cmd.code}`);
       await this.handleNewOrder(cmd);
       return;

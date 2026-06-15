@@ -1067,7 +1067,7 @@ export class CreateZipImportDto {
   // If not provided, it will be extracted from the filename (指定されない場合、ファイル名から抽出)
   @IsString()
   @IsOptional()
-  tableName?: string = null   // Optional table name override (オプションのテーブル名オーバーライド)
+  tableName?: string   // Optional table name override (オプションのテーブル名オーバーライド)
 }
 ```
 
