@@ -22,8 +22,7 @@ import { Role } from "@/auth/role.enum";
 
 {{An example of this configuration:}}
 
-```json
-# tsconfig.json
+```json title="tsconfig.json"
 {
   "compilerOptions": {
     "baseUrl": "."
@@ -38,8 +37,7 @@ import { Role } from "@/auth/role.enum";
 
 {{For example, the following configuration maps `@/auth/*` to `auth/*`:}}
 
-```json
-# tsconfig.json
+```json title="tsconfig.json"
 {
   "compilerOptions": {
     "baseUrl": ".",
