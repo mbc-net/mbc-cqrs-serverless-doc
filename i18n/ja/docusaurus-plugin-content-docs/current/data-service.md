@@ -228,29 +228,36 @@ async listByType(tenantCode: string, type: string): Promise<CatDataEntity[]> {
 
 ```ts
 import {
+  Injectable,
   InternalServerErrorException,
   Logger,
   NotFoundException,
 } from '@nestjs/common';
+import { DataService } from '@mbc-cqrs-serverless/core';
 
-async getItemSafely(pk: string, sk: string): Promise<CatDataEntity> {
-  const logger = new Logger('CatService');
+@Injectable()
+export class CatService {
+  private readonly logger = new Logger(CatService.name);
 
-  try {
-    const item = await this.dataService.getItem({ pk, sk });
+  constructor(private readonly dataService: DataService) {}
 
-    if (!item) {
-      throw new NotFoundException(`Item not found: ${pk}/${sk}`);
+  async getItemSafely(pk: string, sk: string): Promise<CatDataEntity> {
+    try {
+      const item = await this.dataService.getItem({ pk, sk });
+
+      if (!item) {
+        throw new NotFoundException(`Item not found: ${pk}/${sk}`);
+      }
+
+      return new CatDataEntity(item);
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      // Log and rethrow unexpected errors (予期しないエラーをログに記録して再スロー)
+      this.logger.error('Unexpected error querying item:', error);
+      throw new InternalServerErrorException('Failed to retrieve item');
     }
-
-    return new CatDataEntity(item);
-  } catch (error) {
-    if (error instanceof NotFoundException) {
-      throw error;
-    }
-    // Log and rethrow unexpected errors (予期しないエラーをログに記録して再スロー)
-    logger.error('Unexpected error querying item:', error);
-    throw new InternalServerErrorException('Failed to retrieve item');
   }
 }
 ```
