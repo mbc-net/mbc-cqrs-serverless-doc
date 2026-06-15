@@ -39,7 +39,7 @@ sequenceDiagram
 ## 2. Usage
 
 
-The solution for customizing the behavior of the `SequenceModule` is to pass it an options `object` in the static `register()` method. The options object is only contain one property:
+The solution for customizing the behavior of the `SequenceModule` is to pass it an options `object` in the static `register()` method. The options object contains only one property:
 
 - `enableController`: enable or disable default sequence controller.
 
@@ -114,6 +114,8 @@ The data transfer object that customizes the behavior of the sequence generation
   - Required: No.
   - Description: Defines parameters to identify the sequence.
     ```ts
+    import { IsString, IsOptional } from 'class-validator';
+
     export class SequenceParamsDto {
       @IsString()
       code1: string
@@ -151,7 +153,7 @@ The data transfer object that customizes the behavior of the sequence generation
   - Example: If postfix is `'-DRAFT'` and format produces `'2024-001'`, the result will be `'2024-001-DRAFT'`.
 
 ####  Response
-The return value of this function  has type of `SequenceEntity` as follows:
+The return value of this function is of type `SequenceEntity` as follows:
   ```ts
   export class SequenceEntity {
     id: string
@@ -209,7 +211,7 @@ If you want to calculate the fiscal_year starting from any specific month, you c
 In this case:
 - startMonth: Defines the month to start the fiscal year (e.g., 3 for March). Defaults to 4 (April), following the Japanese fiscal year convention (April–March).
 
-If you want to calculate the fiscal year starting from a specific date (e.x 2005-01-01), you can add the `registerDate` field, like this:
+If you want to calculate the fiscal year starting from a specific date (e.g. 2005-01-01), you can add the `registerDate` field, like this:
 
 ```
 {

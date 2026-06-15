@@ -114,6 +114,8 @@ GenerateFormattedSequenceDto オブジェクトで提供されたパラメータ
   - 必須: いいえ
   - 説明: シーケンスを識別するためのパラメータを定義します。
     ```ts
+    import { IsString, IsOptional } from 'class-validator';
+
     export class SequenceParamsDto {
       @IsString()
       code1: string
