@@ -106,14 +106,14 @@ aws dynamodb list-tables --endpoint-url http://localhost:8000
 
 **解決策**:
 
-1. データベースコンテナが起動していることを確認します（スキャフォールドされたプロジェクトはデフォルトでPostgreSQLを使用します）：
+1. データベースコンテナが起動していることを確認します（スキャフォールドされたプロジェクトはデフォルトでMySQLを使用します）：
 ```bash
-docker ps | grep postgres
+docker ps | grep mysql
 ```
 
-2. .envのDATABASE_URLがデータベースと一致していることを確認します：
+2. .envのDATABASE_URLがデータベースと一致していることを確認します。スキャフォールドされたプロジェクトのデフォルトはMySQLです：
 ```bash
-DATABASE_URL="postgresql://postgres:postgres@localhost:5432/myapp?schema=public"
+DATABASE_URL="mysql://root:RootCqrs@localhost:3306/cqrs?schema=public&connection_limit=1"
 ```
 
 3. リセットしてマイグレーションを再実行：

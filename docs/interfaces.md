@@ -510,7 +510,7 @@ export class OrderModule {}
 
 ### SequencesModuleOptions
 
-{{Configuration options for SequenceModule.}}
+{{Configuration options for SequencesModule.}}
 
 ```ts
 export interface SequencesModuleOptions {

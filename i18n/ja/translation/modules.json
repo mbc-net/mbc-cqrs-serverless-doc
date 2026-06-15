@@ -72,7 +72,7 @@
   "Modules that export providers needed by strategies": "Modules that export providers needed by strategies (ストラテジーが必要とするプロバイダーをエクスポートするモジュール)",
   "Array of import profiles for each entity type": "各エンティティタイプのインポートプロファイルの配列",
   "Modules that export providers needed by strategy classes": "ストラテジークラスが必要とするプロバイダーをエクスポートするモジュール",
-  "Enable built-in `/import` and `/import/csv` endpoints": "組み込みの`/import`および`/import/csv`エンドポイントを有効化",
+  "Enable built-in `/imports`, `/imports/csv`, and `/imports/zip` endpoints": "組み込みの`/imports`、`/imports/csv`、`/imports/zip`エンドポイントを有効化",
   "Each `ImportEntityProfile` requires:": "各`ImportEntityProfile`には以下が必要です：",
   "Property": "プロパティ",
   "Unique identifier for the data type (e.g., 'policy', 'user')": "データタイプの一意識別子（例：'policy'、'user'）",

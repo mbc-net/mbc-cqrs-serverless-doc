@@ -234,7 +234,7 @@ export class AppModule {}
 |--------|------|---------|-------------|
 | `profiles` | `ImportEntityProfile[]` | Required | Array of import profiles for each entity type |
 | `imports` | `ModuleMetadata['imports']` | `[]` | Modules that export providers needed by strategy classes |
-| `enableController` | `boolean` | `false` | Enable built-in `/import` and `/import/csv` endpoints |
+| `enableController` | `boolean` | `false` | Enable built-in `/imports`, `/imports/csv`, and `/imports/zip` endpoints |
 
 Each `ImportEntityProfile` requires:
 

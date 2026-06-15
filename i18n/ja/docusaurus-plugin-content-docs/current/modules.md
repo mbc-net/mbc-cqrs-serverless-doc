@@ -234,7 +234,7 @@ export class AppModule {}
 |--------|------|---------|-------------|
 | `profiles` | `ImportEntityProfile[]` | 必須 | 各エンティティタイプのインポートプロファイルの配列 |
 | `imports` | `ModuleMetadata['imports']` | `[]` | ストラテジークラスが必要とするプロバイダーをエクスポートするモジュール |
-| `enableController` | `boolean` | `false` | 組み込みの`/import`および`/import/csv`エンドポイントを有効化 |
+| `enableController` | `boolean` | `false` | 組み込みの`/imports`、`/imports/csv`、`/imports/zip`エンドポイントを有効化 |
 
 各`ImportEntityProfile`には以下が必要です：
 

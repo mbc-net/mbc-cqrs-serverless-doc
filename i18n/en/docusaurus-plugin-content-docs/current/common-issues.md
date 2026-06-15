@@ -106,14 +106,14 @@ aws dynamodb list-tables --endpoint-url http://localhost:8000
 
 **Solution**:
 
-1. Verify the database container is running (the scaffolded project uses PostgreSQL by default):
+1. Verify the database container is running (the scaffolded project uses MySQL by default):
 ```bash
-docker ps | grep postgres
+docker ps | grep mysql
 ```
 
-2. Check DATABASE_URL in .env matches your database:
+2. Check DATABASE_URL in .env matches your database. The scaffolded project default uses MySQL:
 ```bash
-DATABASE_URL="postgresql://postgres:postgres@localhost:5432/myapp?schema=public"
+DATABASE_URL="mysql://root:RootCqrs@localhost:3306/cqrs?schema=public&connection_limit=1"
 ```
 
 3. Reset and re-run migrations:

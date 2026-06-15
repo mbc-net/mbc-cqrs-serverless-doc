@@ -377,7 +377,7 @@ app.enableCors({
 
 ### 環境ベースの設定
 
-環境ごとに異なる設定を設定します。
+環境ごとに異なる設定を行います。
 
 ```typescript
 // config/configuration.ts

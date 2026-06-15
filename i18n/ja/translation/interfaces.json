@@ -88,7 +88,7 @@
   "Configuration for sending email notifications.": "メール通知送信用の設定。",
   "Module Configuration Interfaces": "モジュール設定インターフェース",
   "Configuration options for CommandModule.": "CommandModuleの設定オプション。",
-  "Configuration options for SequenceModule.": "SequenceModuleの設定オプション。",
+  "Configuration options for SequencesModule.": "SequencesModuleの設定オプション。",
   "Event Interfaces": "イベントインターフェース",
   "Event structure from AWS Step Functions.": "AWS Step Functionsからのイベント構造。",
   "Execution ID": "Execution ID (実行ID)",

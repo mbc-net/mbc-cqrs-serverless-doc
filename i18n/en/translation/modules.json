@@ -72,7 +72,7 @@
   "Modules that export providers needed by strategies": "Modules that export providers needed by strategies",
   "Array of import profiles for each entity type": "Array of import profiles for each entity type",
   "Modules that export providers needed by strategy classes": "Modules that export providers needed by strategy classes",
-  "Enable built-in `/import` and `/import/csv` endpoints": "Enable built-in `/import` and `/import/csv` endpoints",
+  "Enable built-in `/imports`, `/imports/csv`, and `/imports/zip` endpoints": "Enable built-in `/imports`, `/imports/csv`, and `/imports/zip` endpoints",
   "Each `ImportEntityProfile` requires:": "Each `ImportEntityProfile` requires:",
   "Property": "Property",
   "Unique identifier for the data type (e.g., 'policy', 'user')": "Unique identifier for the data type (e.g., 'policy', 'user')",

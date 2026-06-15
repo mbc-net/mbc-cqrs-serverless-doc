@@ -55,7 +55,7 @@
   "Set up Cross-Origin Resource Sharing.": "クロスオリジンリソース共有を設定します。",
   "Stage-Specific Configuration": "ステージ固有の設定",
   "Environment-Based Settings": "環境ベースの設定",
-  "Configure different settings per environment.": "環境ごとに異なる設定を設定します。",
+  "Configure different settings per environment.": "環境ごとに異なる設定を行います。",
   "Related Documentation": "関連ドキュメント",
   "Environment Variables": "環境変数",
   "All available environment variables": "利用可能な全環境変数",
