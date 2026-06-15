@@ -24,6 +24,8 @@ MBC サーバーレス フレームワークでのコントローラーの定義
 import { Controller, Post, Body } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ROLE_SYSTEM_ADMIN, INVOKE_CONTEXT, IInvoke, Auth } from '@mbc-cqrs-serverless/core';
+import { CatService } from './cat.service';
+import { CreateCatDto } from './create-cat.dto';
 
 @Auth(ROLE_SYSTEM_ADMIN)
 @Controller("api/cat")
