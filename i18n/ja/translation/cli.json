@@ -96,7 +96,7 @@
   "Available Skills": "利用可能なスキル",
   "Skill": "スキル",
   "Generate boilerplate code (modules, services, controllers, DTOs, handlers)": "ボイラープレートコードを生成（モジュール、サービス、コントローラー、DTO、ハンドラー）",
-  "Review code for best practices and anti-patterns (20 patterns)": "ベストプラクティスとアンチパターン（20パターン）のコードレビュー",
+  "Review code for best practices and anti-patterns (22 patterns)": "ベストプラクティスとアンチパターン（22パターン）のコードレビュー",
   "Guide version migrations and breaking changes": "バージョンマイグレーションと破壊的変更のガイド",
   "Debug and troubleshoot common issues": "一般的な問題のデバッグとトラブルシューティング",
   "Version Note": "バージョンノート",

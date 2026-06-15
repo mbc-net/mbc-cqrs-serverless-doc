@@ -325,7 +325,7 @@ mbc install-skills --force
 | {{Skill}} | {{Description}} |
 |-------|-------------|
 | `/mbc-generate` | {{Generate boilerplate code (modules, services, controllers, DTOs, handlers)}} |
-| `/mbc-review` | {{Review code for best practices and anti-patterns (20 patterns)}} |
+| `/mbc-review` | {{Review code for best practices and anti-patterns (22 patterns)}} |
 | `/mbc-migrate` | {{Guide version migrations and breaking changes}} |
 | `/mbc-debug` | {{Debug and troubleshoot common issues}} |
 
