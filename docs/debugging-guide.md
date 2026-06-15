@@ -526,7 +526,7 @@ aws stepfunctions describe-execution \
 ```
 # {{Find version conflicts}}
 fields @timestamp, @message
-| filter @message like /version not match|ConditionalCheckFailed/
+| filter @message like /version mismatch|version not match|ConditionalCheckFailed/
 | sort @timestamp desc
 | limit 50
 
@@ -603,7 +603,7 @@ async function updateWithRetry(pk: string, sk: string, updates: any, maxRetries 
         ...updates,
       }, options);
     } catch (error) {
-      if (error.message.includes('version not match') && i < maxRetries - 1) {
+      if (error.message.includes('version mismatch') && i < maxRetries - 1) {
         await new Promise(r => setTimeout(r, 100 * Math.pow(2, i)));
         continue;
       }
