@@ -190,7 +190,7 @@ export class ResourceService {
 export class ResourceQueryService {
   constructor(private readonly dataService: DataService) {}
 
-  async findOne(pk: string, sk: string): Promise<DataModel> {
+  async findOne(pk: string, sk: string): Promise<DataModel | undefined> {
     return this.dataService.getItem({ pk, sk });
   }
 }

@@ -23,7 +23,7 @@ Each example follows consistent patterns:
 ```typescript
 // Define your entity with proper key structure
 export class OrderEntity extends DataEntity {
-  pk: string;           // TENANT#tenantCode
+  pk: string;           // ORDER#tenantCode
   sk: string;           // ORDER#orderId
   id: string;
   tenantCode: string;

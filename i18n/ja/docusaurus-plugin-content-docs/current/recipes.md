@@ -23,7 +23,7 @@ description: MBC CQRS Serverlessフレームワークでの一般的なユース
 ```typescript
 // 適切なキー構造でエンティティを定義
 export class OrderEntity extends DataEntity {
-  pk: string;           // TENANT#tenantCode
+  pk: string;           // ORDER#tenantCode
   sk: string;           // ORDER#orderId
   id: string;
   tenantCode: string;
