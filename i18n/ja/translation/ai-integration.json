@@ -13,6 +13,8 @@
   "Comprehensive documentation and context": "包括的なドキュメントとコンテキスト",
   "Using llms.txt": "llms.txtの使用方法",
   "AI tools can directly fetch these files to build context about the framework:": "AIツールはこれらのファイルを直接取得してフレームワークのコンテキストを構築できます：",
+  "Short version for quick context": "クイックコンテキスト用の短縮版",
+  "Full version for comprehensive context": "包括的なコンテキスト用のフル版",
   "MCP Server Integration": "MCPサーバー統合",
   "The Model Context Protocol (MCP) server provides a more dynamic way for AI tools to interact with the framework.": "Model Context Protocol（MCP）サーバーは、AIツールがフレームワークと対話するためのより動的な方法を提供します。",
   "Context7 Integration": "Context7統合",
@@ -61,9 +63,5 @@
   "Error Catalog": "エラーカタログ",
   "Error reference with solutions": "解決策付きエラーリファレンス",
   "Architecture": "アーキテクチャ",
-  "System architecture overview": "システムアーキテクチャの概要",
-  "Related Documentation": "関連ドキュメント",
-  "CLI": "CLI",
-  "Short version for quick context": "クイックコンテキスト用の短縮版",
-  "Full version for comprehensive context": "包括的なコンテキスト用のフル版"
+  "System architecture overview": "システムアーキテクチャの概要"
 }

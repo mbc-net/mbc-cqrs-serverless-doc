@@ -3,9 +3,13 @@
   "EmailService": "EmailService",
   "Description": "Description",
   "This service is designed to send emails using [AWS SES (Simple Email Service)](https://aws.amazon.com/ses/).": "This service is designed to send emails using [AWS SES (Simple Email Service)](https://aws.amazon.com/ses/).",
+  "Usage": "Usage",
+  "`EmailService` is exported from `@mbc-cqrs-serverless/core` and is registered as a global provider automatically by the framework. Inject it into any service using the standard NestJS constructor injection:": "`EmailService` is exported from `@mbc-cqrs-serverless/core` and is registered as a global provider automatically by the framework. Inject it into any service using the standard NestJS constructor injection:",
+  "Set the `SES_REGION` and optionally `SES_FROM_EMAIL` environment variables for SES configuration. See [Environment Variables](/docs/environment-variables) for details.": "Set the `SES_REGION` and optionally `SES_FROM_EMAIL` environment variables for SES configuration. See [Environment Variables](/docs/environment-variables) for details.",
   "Methods": "Methods",
   "*async* `sendEmail(msg: EmailNotification): Promise<any>`": "*async* `sendEmail(msg: EmailNotification): Promise<any>`",
-  "Composes an email message and immediately queues it for sending.": "Composes an email message and immediately queues it for sending.",
+  "Composes an email message and immediately queues it for sending. Returns `Promise<SendEmailCommandOutput>` — the AWS SES response includes a `MessageId` string you can capture for tracking:": "Composes an email message and immediately queues it for sending. Returns `Promise<SendEmailCommandOutput>` — the AWS SES response includes a `MessageId` string you can capture for tracking:",
+  "Log MessageId for email tracking": "Log MessageId for email tracking",
   "Basic Example": "Basic Example",
   "With CC and BCC": "With CC and BCC",
   "With Attachments": "With Attachments",
@@ -36,10 +40,5 @@
   "Environment Variables": "Environment Variables",
   "SES configuration environment variables": "SES configuration environment variables",
   "Interfaces": "Interfaces",
-  "EmailNotification interface reference": "EmailNotification interface reference",
-  "Composes an email message and immediately queues it for sending. Returns `Promise<SendEmailCommandOutput>` — the AWS SES response includes a `MessageId` string you can capture for tracking:": "Composes an email message and immediately queues it for sending. Returns `Promise<SendEmailCommandOutput>` — the AWS SES response includes a `MessageId` string you can capture for tracking:",
-  "Log MessageId for email tracking": "Log MessageId for email tracking",
-  "Usage": "Usage",
-  "`EmailService` is exported from `@mbc-cqrs-serverless/core` and is registered as a global provider automatically by the framework. Inject it into any service using the standard NestJS constructor injection:": "`EmailService` is exported from `@mbc-cqrs-serverless/core` and is registered as a global provider automatically by the framework. Inject it into any service using the standard NestJS constructor injection:",
-  "Set the `SES_REGION` and optionally `SES_FROM_EMAIL` environment variables for SES configuration. See [Environment Variables](/docs/environment-variables) for details.": "Set the `SES_REGION` and optionally `SES_FROM_EMAIL` environment variables for SES configuration. See [Environment Variables](/docs/environment-variables) for details."
+  "EmailNotification interface reference": "EmailNotification interface reference"
 }

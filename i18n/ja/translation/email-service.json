@@ -3,9 +3,13 @@
   "EmailService": "EmailService",
   "Description": "説明",
   "This service is designed to send emails using [AWS SES (Simple Email Service)](https://aws.amazon.com/ses/).": "このサービスは、[AWS SES (Simple Email Service)](https://aws.amazon.com/ses/)を使用してメールを送信するように設計されています。",
+  "Usage": "使い方",
+  "`EmailService` is exported from `@mbc-cqrs-serverless/core` and is registered as a global provider automatically by the framework. Inject it into any service using the standard NestJS constructor injection:": "`EmailService`は`@mbc-cqrs-serverless/core`からエクスポートされ、フレームワークによってグローバルプロバイダーとして自動登録されます。標準のNestJSコンストラクタインジェクションを使って任意のサービスに注入できます：",
+  "Set the `SES_REGION` and optionally `SES_FROM_EMAIL` environment variables for SES configuration. See [Environment Variables](/docs/environment-variables) for details.": "`SES_REGION`と任意で`SES_FROM_EMAIL`環境変数を設定してSESを構成してください。詳細は[環境変数](/docs/environment-variables)を参照。",
   "Methods": "メソッド",
   "*async* `sendEmail(msg: EmailNotification): Promise<any>`": "*async* `sendEmail(msg: EmailNotification): Promise<any>`",
-  "Composes an email message and immediately queues it for sending.": "メールメッセージを作成し、送信のためにすぐにキューに入れます。",
+  "Composes an email message and immediately queues it for sending. Returns `Promise<SendEmailCommandOutput>` — the AWS SES response includes a `MessageId` string you can capture for tracking:": "メールを作成してすぐに送信キューに追加します。`Promise<SendEmailCommandOutput>`を返します — AWS SESレスポンスには追跡に使用できる`MessageId`文字列が含まれます：",
+  "Log MessageId for email tracking": "Log MessageId for email tracking (メール追跡用にMessageIdをログ出力)",
   "Basic Example": "基本的な例",
   "With CC and BCC": "CCとBCCを使用",
   "With Attachments": "添付ファイル付き",
@@ -36,10 +40,5 @@
   "Environment Variables": "環境変数",
   "SES configuration environment variables": "SES設定の環境変数",
   "Interfaces": "インターフェース",
-  "EmailNotification interface reference": "EmailNotificationインターフェースリファレンス",
-  "Composes an email message and immediately queues it for sending. Returns `Promise<SendEmailCommandOutput>` — the AWS SES response includes a `MessageId` string you can capture for tracking:": "メールを作成してすぐに送信キューに追加します。`Promise<SendEmailCommandOutput>`を返します — AWS SESレスポンスには追跡に使用できる`MessageId`文字列が含まれます：",
-  "Log MessageId for email tracking": "Log MessageId for email tracking (メール追跡用にMessageIdをログ出力)",
-  "Usage": "使い方",
-  "`EmailService` is exported from `@mbc-cqrs-serverless/core` and is registered as a global provider automatically by the framework. Inject it into any service using the standard NestJS constructor injection:": "`EmailService`は`@mbc-cqrs-serverless/core`からエクスポートされ、フレームワークによってグローバルプロバイダーとして自動登録されます。標準のNestJSコンストラクタインジェクションを使って任意のサービスに注入できます：",
-  "Set the `SES_REGION` and optionally `SES_FROM_EMAIL` environment variables for SES configuration. See [Environment Variables](/docs/environment-variables) for details.": "`SES_REGION`と任意で`SES_FROM_EMAIL`環境変数を設定してSESを構成してください。詳細は[環境変数](/docs/environment-variables)を参照。"
+  "EmailNotification interface reference": "EmailNotificationインターフェースリファレンス"
 }

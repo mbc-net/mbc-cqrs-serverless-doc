@@ -19,7 +19,6 @@
   "Module Implementation": "Module Implementation",
   "Order Module": "Order Module",
   "Order Service": "Order Service",
-  "Order PK helper: tenantCode#ORDER": "Order PK helper: tenantCode#ORDER",
   "Example helper: per-tenant partition key": "Example helper: per-tenant partition key",
   "Create a new order": "Create a new order",
   "Generate unique order number": "Generate unique order number",
@@ -35,6 +34,8 @@
   "Inventory Management": "Inventory Management",
   "Inventory Service": "Inventory Service",
   "Reserve inventory for order": "Reserve inventory for order",
+  "tenantCode is passed directly so this method can be called from both": "tenantCode is passed directly so this method can be called from both",
+  "controllers (use getUserContext) and DataSyncHandlers (use cmd.tenantCode)": "controllers (use getUserContext) and DataSyncHandlers (use cmd.tenantCode)",
   "Update with optimistic locking": "Update with optimistic locking",
   "Retry on concurrent modification": "Retry on concurrent modification",
   "Release reserved inventory": "Release reserved inventory",
@@ -77,7 +78,5 @@
   "Service Patterns": "Service Patterns",
   "CRUD patterns used": "CRUD patterns used",
   "Multi-Tenant Patterns": "Multi-Tenant Patterns",
-  "Multi-tenant design": "Multi-tenant design",
-  "tenantCode is passed directly so this method can be called from both": "tenantCode is passed directly so this method can be called from both",
-  "controllers (use getUserContext) and DataSyncHandlers (use cmd.tenantCode)": "controllers (use getUserContext) and DataSyncHandlers (use cmd.tenantCode)"
+  "Multi-tenant design": "Multi-tenant design"
 }

@@ -179,7 +179,7 @@
   "/mbc-migrate Skill": "/mbc-migrate Skill",
   "Guides version migrations for MBC CQRS Serverless framework.": "Guides version migrations for MBC CQRS Serverless framework.",
   "Features:": "Features:",
-  "Version migration matrix (v1.0.16 to v1.0.23)": "Version migration matrix (v1.0.16 to v1.0.23)",
+  "Version migration matrix (v1.0.16 to v1.3.1)": "Version migration matrix (v1.0.16 to v1.3.1)",
   "Detailed migration guides for each version": "Detailed migration guides for each version",
   "Deprecated API migration instructions": "Deprecated API migration instructions",
   "Migration checklist (before, during, after)": "Migration checklist (before, during, after)",
@@ -202,6 +202,5 @@
   "AI Prompts Library": "AI Prompts Library",
   "Optimized prompts for common tasks": "Optimized prompts for common tasks",
   "CLI": "CLI",
-  "MBC CLI code generation tool": "MBC CLI code generation tool",
-  "Version migration matrix (v1.0.16 to v1.3.1)": "Version migration matrix (v1.0.16 to v1.3.1)"
+  "MBC CLI code generation tool": "MBC CLI code generation tool"
 }

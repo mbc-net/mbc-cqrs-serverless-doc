@@ -13,6 +13,8 @@
   "Comprehensive documentation and context": "Comprehensive documentation and context",
   "Using llms.txt": "Using llms.txt",
   "AI tools can directly fetch these files to build context about the framework:": "AI tools can directly fetch these files to build context about the framework:",
+  "Short version for quick context": "Short version for quick context",
+  "Full version for comprehensive context": "Full version for comprehensive context",
   "MCP Server Integration": "MCP Server Integration",
   "The Model Context Protocol (MCP) server provides a more dynamic way for AI tools to interact with the framework.": "The Model Context Protocol (MCP) server provides a more dynamic way for AI tools to interact with the framework.",
   "Context7 Integration": "Context7 Integration",
@@ -61,9 +63,5 @@
   "Error Catalog": "Error Catalog",
   "Error reference with solutions": "Error reference with solutions",
   "Architecture": "Architecture",
-  "System architecture overview": "System architecture overview",
-  "Related Documentation": "Related Documentation",
-  "CLI": "CLI",
-  "Short version for quick context": "Short version for quick context",
-  "Full version for comprehensive context": "Full version for comprehensive context"
+  "System architecture overview": "System architecture overview"
 }

@@ -179,7 +179,7 @@
   "/mbc-migrate Skill": "/mbc-migrate Skill",
   "Guides version migrations for MBC CQRS Serverless framework.": "MBC CQRS Serverlessフレームワークのバージョン移行をガイドします。",
   "Features:": "機能：",
-  "Version migration matrix (v1.0.16 to v1.0.23)": "バージョン移行マトリックス（v1.0.16からv1.0.23）",
+  "Version migration matrix (v1.0.16 to v1.3.1)": "バージョン移行マトリックス（v1.0.16 から v1.3.1）",
   "Detailed migration guides for each version": "各バージョンの詳細な移行ガイド",
   "Deprecated API migration instructions": "非推奨APIの移行手順",
   "Migration checklist (before, during, after)": "移行チェックリスト（移行前、移行中、移行後）",
@@ -202,6 +202,5 @@
   "AI Prompts Library": "AIプロンプトライブラリ",
   "Optimized prompts for common tasks": "よく使うタスクに最適化されたプロンプト",
   "CLI": "CLI",
-  "MBC CLI code generation tool": "MBC CLIコード生成ツール",
-  "Version migration matrix (v1.0.16 to v1.3.1)": "バージョン移行マトリックス（v1.0.16 から v1.3.1）"
+  "MBC CLI code generation tool": "MBC CLIコード生成ツール"
 }
