@@ -116,6 +116,8 @@ export class MyService {
 ### 設定の作成
 
 ```typescript
+import { CreateSettingDto } from '@mbc-cqrs-serverless/ui-setting';
+
 const createDto: CreateSettingDto = {
   code: 'user-preferences',
   name: 'User Preferences',

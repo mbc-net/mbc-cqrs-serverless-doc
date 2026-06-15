@@ -231,6 +231,7 @@ function ProductPage() {
 // sdk/app-client.ts
 import axios, { AxiosInstance } from 'axios'
 import { Auth, withSSRContext } from 'aws-amplify'
+import { GetServerSidePropsContext } from 'next'
 
 export abstract class TokenHandlerBase {
   public constructor(protected serverSideContext?: GetServerSidePropsContext) {}
