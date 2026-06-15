@@ -48,7 +48,7 @@ export enum Role {
 フレームワークには、組み込みのシステム管理者バイパス機構が含まれています。ユーザーが`system_admin`ロール（`ROLE_SYSTEM_ADMIN`定数として定義）を持っている場合、エンドポイントで要求される特定のロールに関係なく、すべてのロールベースの認可チェックを自動的にパスします。
 
 ```ts
-// The RolesGuard automatically checks for system_admin role (RolesGuardはsystem_adminロールを自動的にチェック)
+// Checks required roles from the @Auth() decorator (@Auth()デコレーターから必要なロールを確認)
 protected async verifyRole(context: ExecutionContext): Promise<boolean> {
   const requiredRoles = this.reflector.getAllAndOverride<string[]>(...)
 
@@ -57,14 +57,17 @@ protected async verifyRole(context: ExecutionContext): Promise<boolean> {
     return true
   }
 
-  const userRole = await this.getUserRole(context)
+  const { tenantRoles, tenantGroupIds } = getUserContext(context)
 
   // System admin bypasses all role checks (システム管理者はすべてのロールチェックをバイパス)
-  if (userRole === ROLE_SYSTEM_ADMIN) {
+  if (tenantRoles.includes(ROLE_SYSTEM_ADMIN)) {
     return true
   }
 
-  return requiredRoles.includes(userRole)
+  // Check direct tenant roles, then group-derived roles (直接テナントロールを確認し、次にグループ由来のロールを確認)
+  if (this.hasAnyRole(requiredRoles, tenantRoles)) return true
+  const groupRoles = await this.resolveGroupRoles(context, tenantGroupIds)
+  return this.hasAnyRole(requiredRoles, groupRoles)
 }
 ```
 
@@ -277,7 +280,7 @@ export class AppGroupRoleResolver implements IGroupRoleResolver {
 | メソッド | 説明 | デフォルト動作 |
 |------------|-----------------|----------------------|
 | `isHeaderOverride()` | テナントコードがヘッダーからのものかを検出 | JWTに`custom:tenant`クレームが存在せず、テナントコードが指定されている場合にtrueを返す |
-| `canOverrideTenant()` | ユーザーがテナントをオーバーライドできるかチェック | system_adminロールの場合trueを返す |
+| `canOverrideTenant()` | ユーザーがテナントをオーバーライドできるかチェック | 共通テナントコードの場合、またはクロステナントロール（例: system_admin）を持つユーザーの場合にtrueを返す |
 | `getCommonTenantCodes()` | 共通テナントコードのリストを取得 | commonまたはCOMMON_TENANT_CODES環境変数の値を返す |
 | `getCrossTenantRoles()` | クロステナントアクセス可能なロールを取得 | system_adminまたはCROSS_TENANT_ROLES環境変数の値を返す |
 
@@ -288,8 +291,12 @@ export class AppGroupRoleResolver implements IGroupRoleResolver {
 ```ts
 // Default behavior in RolesGuard (RolesGuardのデフォルト動作)
 protected canOverrideTenant(context: ExecutionContext, userContext: UserContext): boolean {
-  const crossTenantRoles = this.getCrossTenantRoles();
-  return crossTenantRoles.includes(userContext.tenantRole);
+  // Allow access to common tenant codes (e.g., 'common') (共通テナントコードへのアクセスを許可（例: 'common'）)
+  if (this.getCommonTenantCodes().includes(userContext.tenantCode)) {
+    return true;
+  }
+  // Allow users with cross-tenant roles (e.g., system_admin) (クロステナントロールを持つユーザーを許可（例: system_admin）)
+  return this.getCrossTenantRoles().includes(userContext.tenantRole);
 }
 ```
 

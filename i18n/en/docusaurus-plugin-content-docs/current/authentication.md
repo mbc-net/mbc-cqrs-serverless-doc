@@ -48,7 +48,7 @@ In more sophisticated systems, you may store roles within a database, or pull th
 The framework includes a built-in system admin bypass mechanism. When a user has the `system_admin` role (defined as `ROLE_SYSTEM_ADMIN` constant), they automatically pass all role-based authorization checks, regardless of the specific roles required by the endpoint.
 
 ```ts
-// The RolesGuard automatically checks for system_admin role
+// Checks required roles from the @Auth() decorator
 protected async verifyRole(context: ExecutionContext): Promise<boolean> {
   const requiredRoles = this.reflector.getAllAndOverride<string[]>(...)
 
@@ -57,14 +57,17 @@ protected async verifyRole(context: ExecutionContext): Promise<boolean> {
     return true
   }
 
-  const userRole = await this.getUserRole(context)
+  const { tenantRoles, tenantGroupIds } = getUserContext(context)
 
   // System admin bypasses all role checks
-  if (userRole === ROLE_SYSTEM_ADMIN) {
+  if (tenantRoles.includes(ROLE_SYSTEM_ADMIN)) {
     return true
   }
 
-  return requiredRoles.includes(userRole)
+  // Check direct tenant roles, then group-derived roles
+  if (this.hasAnyRole(requiredRoles, tenantRoles)) return true
+  const groupRoles = await this.resolveGroupRoles(context, tenantGroupIds)
+  return this.hasAnyRole(requiredRoles, groupRoles)
 }
 ```
 
@@ -277,7 +280,7 @@ The following protected methods can be overridden to customize tenant verificati
 | Method | Description | Default Behavior |
 |------------|-----------------|----------------------|
 | `isHeaderOverride()` | Detect if tenant code comes from header | Returns true when `custom:tenant` is absent from the JWT and a tenant code is present |
-| `canOverrideTenant()` | Check if user can override tenant | Returns true for system_admin role |
+| `canOverrideTenant()` | Check if user can override tenant | Returns true for common tenant codes, or for users with a cross-tenant role (e.g., system_admin) |
 | `getCommonTenantCodes()` | Get list of common tenant codes | Returns common or value from COMMON_TENANT_CODES env var |
 | `getCrossTenantRoles()` | Get roles that can access cross-tenant | Returns system_admin or value from CROSS_TENANT_ROLES env var |
 
@@ -288,8 +291,12 @@ By default, only users with the `system_admin` role can override the tenant code
 ```ts
 // Default behavior in RolesGuard
 protected canOverrideTenant(context: ExecutionContext, userContext: UserContext): boolean {
-  const crossTenantRoles = this.getCrossTenantRoles();
-  return crossTenantRoles.includes(userContext.tenantRole);
+  // Allow access to common tenant codes (e.g., 'common')
+  if (this.getCommonTenantCodes().includes(userContext.tenantCode)) {
+    return true;
+  }
+  // Allow users with cross-tenant roles (e.g., system_admin)
+  return this.getCrossTenantRoles().includes(userContext.tenantRole);
 }
 ```
 

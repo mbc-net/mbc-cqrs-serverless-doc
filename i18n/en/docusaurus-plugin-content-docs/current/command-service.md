@@ -20,7 +20,7 @@ The `CommandModule` is a dynamic module used to register data sync handlers and 
 | ----------------------------- | -------------------------------------------------------------------- |
 | `tableName: string`           | Provide table name                                               |
 | `skipError?: boolean`         | Reserved for future use. Not yet implemented.                    |
-| `dataSyncHandlers?: Type[]`   | Register data sync handlers                                      |
+| `dataSyncHandlers?: Type<IDataSyncHandler>[]` | Register data sync handlers                         |
 | `disableDefaultHandler?: boolean` | If set to `true`, disables the default DynamoDB data sync handler|
 
 ### Registration Example

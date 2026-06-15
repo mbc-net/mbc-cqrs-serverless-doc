@@ -411,7 +411,7 @@ const masterData = await this.masterDataService.getDetail({
 新しいマスターデータエンティティを作成します。シーケンスが指定されていない場合は自動生成されます。
 
 :::warning 新規作成のみの操作
-`createSetting`はマスターデータが既に存在する場合（例: `"Master data already exists: {code}"`）、`BadRequestException`をスローします。upsert動作（作成または更新）が必要な場合は、以下の[Upsertパターン](#upsert-pattern)セクションを参照してください。
+`createSetting`はマスターデータが既に存在する場合（例: `"Master data already exists"`）、`BadRequestException`をスローします。upsert動作（作成または更新）が必要な場合は、以下の[Upsertパターン](#upsert-pattern)セクションを参照してください。
 :::
 
 ```ts

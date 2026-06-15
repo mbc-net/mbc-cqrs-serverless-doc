@@ -1014,11 +1014,10 @@ export class RollbackService {
     invokeContext: IInvoke,
   ): Promise<void> {
     // Get historical version (履歴バージョンを取得)
-    const historicalData = await this.historyService.getVersion(
+    const historicalData = await this.historyService.getItem({
       pk,
-      sk,
-      targetVersion,
-    );
+      sk: addSortKeyVersion(sk, targetVersion),
+    });
 
     if (!historicalData) {
       throw new Error(`Version ${targetVersion} not found for ${pk}#${sk}`);
@@ -1066,22 +1065,15 @@ export class RollbackService {
       // Check if item was part of the migration (アイテムが移行の一部だったか確認)
       if (item.attributes?._migratedAt === migrationTimestamp) {
         try {
-          // Find version before migration (移行前のバージョンを検索)
-          const history = await this.historyService.listVersions(
-            item.pk,
-            item.sk,
-          );
+          // Use the stored pre-migration version for rollback (保存済みの移行前バージョンをロールバックに使用)
+          // Store _sourceVersion in migration metadata when migrating (移行時に _sourceVersion を移行メタデータに保存)
+          const sourceVersion = item.attributes?._sourceVersion as number | undefined;
 
-          const preVersion = history.find(h =>
-            !h.attributes?._migrated ||
-            new Date(h.updatedAt) < new Date(migrationTimestamp)
-          );
-
-          if (preVersion) {
+          if (sourceVersion !== undefined) {
             await this.rollbackToVersion(
               item.pk,
               item.sk,
-              preVersion.version,
+              sourceVersion,
               invokeContext,
             );
             rolledBack++;
@@ -1409,11 +1401,11 @@ export class MigrationVerificationService {
 DynamoDBトランザクションはアトミック操作を保証します：
 
 ```typescript
-// Use batch writes for related items (関連アイテムにバッチ書き込みを使用)
-await this.dataService.transactWrite([
-  { put: sourceUpdateItem },
-  { put: targetCreateItem },
-]);
+// CommandService.publishSync() provides atomic write for a single command (CommandService.publishSync() は単一コマンドのアトミック書き込みを提供)
+await this.commandService.publishSync(sourceUpdateCommand, { invokeContext });
+
+// For cross-entity atomic operations, use the AWS DynamoDB SDK directly (エンティティをまたぐアトミック操作には AWS DynamoDB SDK を直接使用)
+// await dynamoDB.transactWrite({ TransactItems: [sourceUpdateItem, targetCreateItem] }).promise();
 ```
 
 ### 2. 移行メタデータの追跡

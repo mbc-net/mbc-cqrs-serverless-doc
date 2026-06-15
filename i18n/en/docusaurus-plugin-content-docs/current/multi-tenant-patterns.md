@@ -763,7 +763,6 @@ Creates a common tenant that is shared across the entire system.
 ```typescript
 const tenant = await tenantService.createCommonTenant({
   name: 'Common',
-  description: 'Shared tenant for common data',
 }, { invokeContext });
 ```
 
@@ -775,7 +774,6 @@ Creates a tenant for an individual entity.
 const tenant = await tenantService.createTenant({
   name: 'MBC tenant',
   code: 'mbc',
-  description: 'Main business tenant',
 }, { invokeContext });
 ```
 
@@ -786,7 +784,7 @@ Updates an existing tenant's details.
 ```typescript
 const tenant = await tenantService.updateTenant(
   { pk: 'TENANT#mbc', sk: 'MASTER' },
-  { name: 'Updated MBC tenant', description: 'Updated description' },
+  { name: 'Updated MBC tenant' },
   { invokeContext },
 );
 ```

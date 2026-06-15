@@ -243,6 +243,7 @@ interface JwtClaims {
   name: string;                    // User's name (ユーザー名)
   'custom:tenant'?: string;        // User's default tenant code (ユーザーのデフォルトテナントコード)
   'custom:roles'?: string;         // JSON array of tenant roles (テナントロールのJSON配列)
+  'custom:groups'?: string;        // JSON array of TenantGroupMembership (TenantGroupMembership のJSON配列)
   exp: number;                     // Expiration timestamp (有効期限タイムスタンプ)
   email: string;                   // User's email address (ユーザーのメールアドレス)
   email_verified?: boolean;        // Email verification status (メール検証ステータス)

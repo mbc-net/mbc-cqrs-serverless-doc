@@ -147,7 +147,7 @@ Code analysis tools (`mbc_check_anti_patterns`, `mbc_health_check`, `mbc_explain
 ### Anti-Pattern Detection {#anti-pattern-detection}
 
 :::info Version Note
-AP011–AP015 were added in [v1.2.x](/docs/changelog#v120) (publishSync null check, deprecated APIs, TaskModule duplication). AP016–AP020 were added in [v1.2.5](/docs/changelog#v125). AP021 (event emit after publishAsync) was added in [v1.2.6](/docs/changelog#v126). AP022–AP025 (eval, shell injection, HTTP timeout, sensitive logging) were added in [v1.3.0](/docs/changelog#v130).
+AP011–AP015 were added in [v1.2.x](/docs/changelog#v120) (publishSync null check, deprecated APIs, TaskModule duplication). AP016–AP020 were added in [v1.2.5](/docs/changelog#v125). AP021 (event emit after publishAsync) was added in [v1.2.6](/docs/changelog#v126). AP022–AP025 (eval, shell injection, HTTP timeout, sensitive logging) and AP026 (@Injectable instead of @NotificationTransport) were added in [v1.3.0](/docs/changelog#v130). AP027 (GroupRoleResolver + @Injectable) was added in [v1.3.1](/docs/changelog#v131).
 :::
 
 The `mbc_check_anti_patterns` tool detects common code issues. The detector emits **detector AP codes** (this table), which use a separate numbering system from the **skill-doc AP codes** in `/mbc-review` skill. The detector output annotates each hit with the corresponding skill-doc code, e.g. `AP005: Hardcoded Tenant (skill-doc: AP002)`. Only AP016–AP019 and AP021 share the same code in both systems.
@@ -179,6 +179,8 @@ The `mbc_check_anti_patterns` tool detects common code issues. The detector emit
 | AP023 | Shell Command Built from String Concatenation | Critical | — |
 | AP024 | HTTP Request Without Timeout | Medium | — |
 | AP025 | Logging `process.env` or full request object | High | — |
+| AP026 | `@Injectable` instead of `@NotificationTransport` on transport class | High | — |
+| AP027 | `@GroupRoleResolver` class also annotated with `@Injectable` | High | — |
 
 ### Health Check
 
@@ -215,7 +217,7 @@ Claude Code Skills provide guided assistance for MBC CQRS Serverless development
 | Skill | Description |
 |-------|-------------|
 | `/mbc-generate` | Generate boilerplate code (modules, services, controllers, DTOs, handlers) |
-| `/mbc-review` | Review code for best practices and anti-patterns (21 patterns) |
+| `/mbc-review` | Review code for best practices and anti-patterns (22 patterns) |
 | `/mbc-migrate` | Guide version migrations and breaking changes |
 | `/mbc-debug` | Debug and troubleshoot common issues |
 
@@ -274,7 +276,7 @@ Create an Order module with RDS synchronization
 
 Reviews code for MBC CQRS Serverless best practices and identifies anti-patterns.
 
-**Anti-Patterns Detected (21 patterns):**
+**Anti-Patterns Detected (22 patterns):**
 
 These are the **skill-doc AP codes** used in `/mbc-review` reviews and human-facing documentation. They use a separate numbering system from the **detector AP codes** emitted by the `mbc_check_anti_patterns` tool. See the [Anti-Pattern Detection table](#code-analysis-tools) above for the detector→skill-doc mapping. AP021 was added in [v1.2.6](/docs/changelog#v126).
 
@@ -301,6 +303,7 @@ These are the **skill-doc AP codes** used in `/mbc-review` reviews and human-fac
 | AP019 | Not handling pagination correctly | Warning |
 | AP020 | Circular module dependencies | Error |
 | AP021 | Emitting events directly in CommandService after publishAsync | Error |
+| AP022 | Incorrect group-based role resolver implementation (v1.3.1+) | Error |
 
 **Example Usage:**
 ```

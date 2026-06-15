@@ -271,7 +271,7 @@ export class CsvParserService {
 ```typescript
 // csv-import/event/csv-import.event.handler.ts
 import { Injectable, Logger } from '@nestjs/common';
-import { EventHandler, IEventHandler, SNSService } from '@mbc-cqrs-serverless/core';
+import { EventHandler, IEventHandler, SnsService } from '@mbc-cqrs-serverless/core';
 import { ConfigService } from '@nestjs/config';
 import { CsvParserService } from '../csv-parser.service';
 import { ProductService } from '../../product/product.service';
@@ -292,7 +292,7 @@ export class CsvImportEventHandler implements IEventHandler<CsvImportEvent> {
   constructor(
     private readonly csvParser: CsvParserService,
     private readonly productService: ProductService,
-    private readonly snsService: SNSService,
+    private readonly snsService: SnsService,
     private readonly configService: ConfigService,
   ) {
     this.alarmTopicArn = this.configService.get<string>('SNS_ALARM_TOPIC_ARN');
@@ -362,14 +362,11 @@ export class CsvImportEventHandler implements IEventHandler<CsvImportEvent> {
 
   private async sendAlarm(event: CsvImportEvent, error: Error) {
     await this.snsService.publish({
-      topicArn: this.alarmTopicArn,
-      subject: 'CSV Import Error',
-      message: JSON.stringify({
-        key: event.key,
-        error: error.message,
-        timestamp: new Date().toISOString(),
-      }),
-    });
+      action: 'CSV_IMPORT_ERROR',
+      key: event.key,
+      error: error.message,
+      timestamp: new Date().toISOString(),
+    }, this.alarmTopicArn);
   }
 }
 ```

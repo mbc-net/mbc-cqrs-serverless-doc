@@ -523,7 +523,7 @@ interface CreateTaskDto {
   tenantCode: string;  // Required: Tenant identifier (必須: テナント識別子)
   taskType: string;    // Required: Type/category of the task (必須: タスクのタイプ/カテゴリ)
   name?: string;       // Optional: Display name (defaults to taskType) (オプション: 表示名、デフォルトはtaskType)
-  input: Record<string, any> | any[];  // Required: Task input data (必須: タスク入力データ)
+  input: Record<string, any>;  // Required: Task input data (必須: タスク入力データ)
 }
 ```
 

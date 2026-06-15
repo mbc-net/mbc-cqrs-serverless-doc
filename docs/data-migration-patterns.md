@@ -1014,11 +1014,10 @@ export class RollbackService {
     invokeContext: IInvoke,
   ): Promise<void> {
     // {{Get historical version}}
-    const historicalData = await this.historyService.getVersion(
+    const historicalData = await this.historyService.getItem({
       pk,
-      sk,
-      targetVersion,
-    );
+      sk: addSortKeyVersion(sk, targetVersion),
+    });
 
     if (!historicalData) {
       throw new Error(`Version ${targetVersion} not found for ${pk}#${sk}`);
@@ -1066,22 +1065,15 @@ export class RollbackService {
       // {{Check if item was part of the migration}}
       if (item.attributes?._migratedAt === migrationTimestamp) {
         try {
-          // {{Find version before migration}}
-          const history = await this.historyService.listVersions(
-            item.pk,
-            item.sk,
-          );
+          // {{Use the stored pre-migration version for rollback}}
+          // {{Store _sourceVersion in migration metadata when migrating}}
+          const sourceVersion = item.attributes?._sourceVersion as number | undefined;
 
-          const preVersion = history.find(h =>
-            !h.attributes?._migrated ||
-            new Date(h.updatedAt) < new Date(migrationTimestamp)
-          );
-
-          if (preVersion) {
+          if (sourceVersion !== undefined) {
             await this.rollbackToVersion(
               item.pk,
               item.sk,
-              preVersion.version,
+              sourceVersion,
               invokeContext,
             );
             rolledBack++;
@@ -1409,11 +1401,11 @@ export class MigrationVerificationService {
 {{DynamoDB transactions ensure atomic operations:}}
 
 ```typescript
-// {{Use batch writes for related items}}
-await this.dataService.transactWrite([
-  { put: sourceUpdateItem },
-  { put: targetCreateItem },
-]);
+// {{CommandService.publishSync() provides atomic write for a single command}}
+await this.commandService.publishSync(sourceUpdateCommand, { invokeContext });
+
+// {{For cross-entity atomic operations, use the AWS DynamoDB SDK directly}}
+// await dynamoDB.transactWrite({ TransactItems: [sourceUpdateItem, targetCreateItem] }).promise();
 ```
 
 ### {{2. Track Migration Metadata}}

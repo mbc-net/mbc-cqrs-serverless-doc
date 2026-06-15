@@ -183,5 +183,9 @@
   "[Data Sync Handler Examples](/docs/data-sync-handler-examples) - Sync handler patterns": "[Data Sync Handler Examples](/docs/data-sync-handler-examples) - Sync handler patterns",
   "[Version Conflict Guide](/docs/version-conflict-guide) - Handling version conflicts": "[Version Conflict Guide](/docs/version-conflict-guide) - Handling version conflicts",
   "Partition key": "Partition key",
-  "Sort key": "Sort key"
+  "Sort key": "Sort key",
+  "Use the stored pre-migration version for rollback": "Use the stored pre-migration version for rollback",
+  "Store _sourceVersion in migration metadata when migrating": "Store _sourceVersion in migration metadata when migrating",
+  "CommandService.publishSync() provides atomic write for a single command": "CommandService.publishSync() provides atomic write for a single command",
+  "For cross-entity atomic operations, use the AWS DynamoDB SDK directly": "For cross-entity atomic operations, use the AWS DynamoDB SDK directly"
 }

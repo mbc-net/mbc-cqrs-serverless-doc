@@ -183,5 +183,9 @@
   "[Data Sync Handler Examples](/docs/data-sync-handler-examples) - Sync handler patterns": "[データ同期ハンドラー例](/docs/data-sync-handler-examples) - 同期ハンドラーパターン",
   "[Version Conflict Guide](/docs/version-conflict-guide) - Handling version conflicts": "[バージョンコンフリクトガイド](/docs/version-conflict-guide) - バージョンコンフリクトの処理",
   "Partition key": "Partition key (パーティションキー)",
-  "Sort key": "Sort key (ソートキー)"
+  "Sort key": "Sort key (ソートキー)",
+  "Use the stored pre-migration version for rollback": "Use the stored pre-migration version for rollback (保存済みの移行前バージョンをロールバックに使用)",
+  "Store _sourceVersion in migration metadata when migrating": "Store _sourceVersion in migration metadata when migrating (移行時に _sourceVersion を移行メタデータに保存)",
+  "CommandService.publishSync() provides atomic write for a single command": "CommandService.publishSync() provides atomic write for a single command (CommandService.publishSync() は単一コマンドのアトミック書き込みを提供)",
+  "For cross-entity atomic operations, use the AWS DynamoDB SDK directly": "For cross-entity atomic operations, use the AWS DynamoDB SDK directly (エンティティをまたぐアトミック操作には AWS DynamoDB SDK を直接使用)"
 }
