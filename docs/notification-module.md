@@ -180,6 +180,47 @@ export class NotificationEventHandler implements IEventHandler<NotificationEvent
 
 {{Opt in by setting `NOTIFICATION_TRANSPORTS=appsync-event`. When `NOTIFICATION_TRANSPORTS=appsync-graphql,appsync-event` and both endpoints are set, the framework **dual-publishes** to both transports simultaneously, enabling a zero-downtime migration.}}
 
+### {{Method: `sendMessage(msg: INotification): Promise<void>`}}
+
+{{Publishes a notification to an AppSync Events channel. The notification is delivered to all subscribed clients.}}
+
+```ts
+await this.appSyncEventsService.sendMessage({
+  id: "command-123",
+  table: "orders-table",
+  pk: "ORDER#tenant1",
+  sk: "ORDER#001",
+  tenantCode: "tenant1",
+  action: "MODIFY",
+  content: { status: "confirmed" },
+});
+```
+
+### {{Usage}}
+
+```ts
+import { AppSyncEventsService, INotification } from "@mbc-cqrs-serverless/core";
+
+@Injectable()
+export class MyService {
+  constructor(private readonly appSyncEventsService: AppSyncEventsService) {}
+
+  async notifyClients() {
+    const notification: INotification = {
+      id: "notification-456",
+      table: "my-table",
+      pk: "ITEM#tenant1",
+      sk: "ITEM#item001",
+      tenantCode: "tenant1",
+      action: "MODIFY",
+      content: { status: "updated" },
+    };
+
+    await this.appSyncEventsService.sendMessage(notification);
+  }
+}
+```
+
 ### {{Channel Structure}}
 
 {{Every notification is published to a single most-specific channel. Clients subscribe at whatever level of granularity they need using the AppSync Events wildcard (`/*`):}}
