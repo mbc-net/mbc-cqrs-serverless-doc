@@ -243,13 +243,13 @@ import { CommandModel, IDataSyncHandler } from '@mbc-cqrs-serverless/core';
 
 export class SurveyTemplateDataSyncHandler implements IDataSyncHandler {
   async up(cmd: CommandModel): Promise<any> {
-    // {{Called on INSERT and MODIFY — sync to RDS, notify users, etc.}}
+    // {{Called automatically on every command event — sync to RDS, notify users, etc.}}
     console.log('Survey template upserted:', cmd.name);
   }
 
   async down(cmd: CommandModel): Promise<any> {
-    // {{Called on REMOVE — clean up derived data}}
-    console.log('Survey template deleted:', cmd.name);
+    // {{Reserved for manual rollback — not called automatically by the framework}}
+    console.log('Survey template rollback:', cmd.name);
   }
 }
 ```

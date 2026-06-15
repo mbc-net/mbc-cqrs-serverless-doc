@@ -353,6 +353,8 @@ async function processOrder(orderId: string): Promise<void> {
 Add correlation IDs to trace requests:
 
 ```typescript
+import { v4 as uuidv4 } from 'uuid';
+
 @Injectable()
 export class CorrelationMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {

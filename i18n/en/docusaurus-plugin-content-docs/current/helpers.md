@@ -187,11 +187,15 @@ Extracts the invocation context from a NestJS execution context. Supports both L
 
 ```ts
 import { extractInvokeContext } from '@mbc-cqrs-serverless/core';
+import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 
-@Get()
-async getItem(@Req() request: Request) {
-  const ctx = extractInvokeContext(this.executionContext);
-  // Use ctx for further operations
+@Injectable()
+export class MyGuard implements CanActivate {
+  canActivate(ctx: ExecutionContext) {
+    const invokeContext = extractInvokeContext(ctx);
+    // Use ctx for further operations
+    return true;
+  }
 }
 ```
 

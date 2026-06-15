@@ -462,13 +462,13 @@ import { CommandModel, IDataSyncHandler } from '@mbc-cqrs-serverless/core';
 
 export class DirectoryDataSyncHandler implements IDataSyncHandler {
   async up(cmd: CommandModel): Promise<any> {
-    // Called on INSERT and MODIFY — sync to RDS, notify users, update indexes, etc. (INSERT/MODIFY時に呼び出し — RDSへの同期、ユーザーへの通知、インデックスの更新など)
+    // Called automatically on every command event — sync to RDS, notify users, update indexes, etc. (すべてのコマンドイベントで自動呼び出し — RDSへの同期、ユーザーへの通知、インデックスの更新など)
     console.log('Directory upserted:', cmd.name);
   }
 
   async down(cmd: CommandModel): Promise<any> {
-    // Called on REMOVE — clean up derived data (REMOVE時に呼び出し — 派生データのクリーンアップ)
-    console.log('Directory deleted:', cmd.name);
+    // Reserved for manual rollback — not called automatically by the framework (手動ロールバック用 — フレームワークから自動的には呼び出されません)
+    console.log('Directory rollback:', cmd.name);
   }
 }
 ```
