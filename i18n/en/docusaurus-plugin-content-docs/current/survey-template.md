@@ -242,12 +242,11 @@ Templates are automatically isolated by tenant through the invoke context:
 
 ```typescript
 import { Controller, Get, Query } from '@nestjs/common';
-import { getUserContext, IInvoke, INVOKE_CONTEXT } from '@mbc-cqrs-serverless/core';
+import { getUserContext, IInvoke, INVOKE_CONTEXT, SearchDto } from '@mbc-cqrs-serverless/core';
 import {
   SurveyTemplateDataListEntity,
   SurveyTemplateService,
 } from '@mbc-cqrs-serverless/survey-template';
-import { SearchDto } from './dto/search.dto';
 
 @Controller('api/survey-template')
 export class SurveyTemplateController {
