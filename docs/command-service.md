@@ -123,7 +123,7 @@ const item = await this.commandService.publishAsync(catCommand, {
 
 {{This method allows you to create new command data based on the previous command with the same `pk` and `sk` (primary key) values.}}
 
-{{As same as the `publishAsync` method, the method immediately returns the updated command data without waiting for the command to be processed.}}
+{{Like `publishAsync`, this method immediately returns the updated command data without waiting for the command to be processed.}}
 
 {{**Return Value:** Returns `Promise<CommandModel | null>` — the CommandModel on success, or `null` when the command is not dirty (no changes detected compared to the existing partial command).}}
 

@@ -27,7 +27,6 @@
   "**Return Value:** Returns `Promise<CommandModel | null>` — the CommandModel on success, or `null` when the command is not dirty (no changes detected compared to the existing command).": "**戻り値:** `Promise<CommandModel | null>` を返します — 成功時はCommandModel、コマンドがdirtyでない場合（既存のコマンドと比較して変更が検出されない場合）は`null`を返します。",
   "*async* `publishPartialUpdateAsync( input: CommandPartialInputModel, options: ICommandOptions): Promise<CommandModel | null>`": "*async* `publishPartialUpdateAsync( input: CommandPartialInputModel, options: ICommandOptions): Promise<CommandModel | null>`",
   "This method allows you to create new command data based on the previous command with the same `pk` and `sk` (primary key) values.": "この方法を使用すると、同じ `pk` および `sk` (主キー) 値を持つ前のコマンドに基づいて新しいコマンド データを作成できます。",
-  "As same as the `publishAsync` method, the method immediately returns the updated command data without waiting for the command to be processed.": "`publishAsync` メソッドと同様に、このメソッドはコマンドの処理を待たずに、更新されたコマンド データをすぐに返します。",
   "**Return Value:** Returns `Promise<CommandModel | null>` — the CommandModel on success, or `null` when the command is not dirty (no changes detected compared to the existing partial command).": "**戻り値:** `Promise<CommandModel | null>` を返します — 成功時はCommandModel、コマンドがdirtyでない場合（既存の部分コマンドと比較して変更が検出されない場合）は`null`を返します。",
   "For example, you want to update cat's name:": "たとえば、猫の名前を更新したいとします。",
   "*async* `publishSync( input: CommandInputModel, options: ICommandOptions): Promise\\<CommandModel | null\\>`": "*async* `publishSync( input: CommandInputModel, options: ICommandOptions): Promise<CommandModel | null>`",
@@ -220,5 +219,6 @@
   "Handling optimistic locking conflicts": "楽観的ロック競合の処理",
   "Interfaces": "インターフェース",
   "TypeScript interfaces for CommandInputModel and more": "CommandInputModelなどのTypeScriptインターフェース",
-  "For example, you can publish a new cat command as below:": "たとえば、次のように新しい cat コマンドを発行できます。"
+  "For example, you can publish a new cat command as below:": "たとえば、次のように新しい cat コマンドを発行できます。",
+  "Like `publishAsync`, this method immediately returns the updated command data without waiting for the command to be processed.": "`publishAsync` メソッドと同様に、このメソッドはコマンドの処理を待たずに、更新されたコマンド データをすぐに返します。"
 }
