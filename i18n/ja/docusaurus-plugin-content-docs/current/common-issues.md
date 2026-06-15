@@ -347,10 +347,10 @@ const handler = new lambda_nodejs.NodejsFunction(this, 'Handler', {
 **解決策**:
 
 1. Cognito設定を確認：
-```typescript
-// Check USER_POOL_ID and CLIENT_ID match (USER_POOL_IDとCLIENT_IDが一致することを確認)
+```bash
+# Check USER_POOL_ID and USER_POOL_CLIENT_ID match (USER_POOL_IDとUSER_POOL_CLIENT_IDが一致することを確認)
 COGNITO_USER_POOL_ID=ap-northeast-1_xxxxxx
-COGNITO_CLIENT_ID=xxxxxxxxxxxxxxxxxxxxxxxxxx
+COGNITO_USER_POOL_CLIENT_ID=xxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
 2. トークンの有効期限を確認：

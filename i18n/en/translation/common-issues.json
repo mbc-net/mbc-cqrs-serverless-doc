@@ -77,7 +77,7 @@
   "Cognito token invalid": "Cognito token invalid",
   "401 Unauthorized or token validation fails.": "401 Unauthorized or token validation fails.",
   "Verify Cognito configuration:": "Verify Cognito configuration:",
-  "Check USER_POOL_ID and CLIENT_ID match": "Check USER_POOL_ID and CLIENT_ID match",
+  "Check USER_POOL_ID and USER_POOL_CLIENT_ID match": "Check USER_POOL_ID and USER_POOL_CLIENT_ID match",
   "Check token expiration:": "Check token expiration:",
   "Access tokens expire after 1 hour by default": "Access tokens expire after 1 hour by default",
   "Implement token refresh logic": "Implement token refresh logic",

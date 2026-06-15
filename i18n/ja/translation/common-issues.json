@@ -77,7 +77,7 @@
   "Cognito token invalid": "Cognitoトークンが無効",
   "401 Unauthorized or token validation fails.": "401 Unauthorizedまたはトークン検証の失敗。",
   "Verify Cognito configuration:": "Cognito設定を確認：",
-  "Check USER_POOL_ID and CLIENT_ID match": "Check USER_POOL_ID and CLIENT_ID match (USER_POOL_IDとCLIENT_IDが一致することを確認)",
+  "Check USER_POOL_ID and USER_POOL_CLIENT_ID match": "Check USER_POOL_ID and USER_POOL_CLIENT_ID match (USER_POOL_IDとUSER_POOL_CLIENT_IDが一致することを確認)",
   "Check token expiration:": "トークンの有効期限を確認：",
   "Access tokens expire after 1 hour by default": "アクセストークンはデフォルトで1時間後に期限切れ",
   "Implement token refresh logic": "トークンリフレッシュロジックを実装",

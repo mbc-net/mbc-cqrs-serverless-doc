@@ -347,10 +347,10 @@ const handler = new lambda_nodejs.NodejsFunction(this, 'Handler', {
 **Solution**:
 
 1. Verify Cognito configuration:
-```typescript
-// Check USER_POOL_ID and CLIENT_ID match
+```bash
+# Check USER_POOL_ID and USER_POOL_CLIENT_ID match
 COGNITO_USER_POOL_ID=ap-northeast-1_xxxxxx
-COGNITO_CLIENT_ID=xxxxxxxxxxxxxxxxxxxxxxxxxx
+COGNITO_USER_POOL_CLIENT_ID=xxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
 2. Check token expiration:
