@@ -239,20 +239,17 @@ export class SurveyTemplateController {
 {{Handle survey template data synchronization using data sync handlers:}}
 
 ```typescript
-import { IDataSyncHandler, DataEntity } from '@mbc-cqrs-serverless/core';
+import { CommandModel, IDataSyncHandler } from '@mbc-cqrs-serverless/core';
 
 export class SurveyTemplateDataSyncHandler implements IDataSyncHandler {
-  async onCreated(data: DataEntity): Promise<void> {
-    console.log('Survey template created:', data.name);
-    // {{Sync to RDS, notify users, etc.}}
+  async up(cmd: CommandModel): Promise<any> {
+    // {{Called on INSERT and MODIFY — sync to RDS, notify users, etc.}}
+    console.log('Survey template upserted:', cmd.name);
   }
 
-  async onUpdated(data: DataEntity): Promise<void> {
-    console.log('Survey template updated:', data.name);
-  }
-
-  async onDeleted(data: DataEntity): Promise<void> {
-    console.log('Survey template deleted:', data.name);
+  async down(cmd: CommandModel): Promise<any> {
+    // {{Called on REMOVE — clean up derived data}}
+    console.log('Survey template deleted:', cmd.name);
   }
 }
 ```

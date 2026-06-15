@@ -458,20 +458,17 @@ export class DirectoryController {
 Handle directory data synchronization using data sync handlers:
 
 ```typescript
-import { IDataSyncHandler, DataEntity } from '@mbc-cqrs-serverless/core';
+import { CommandModel, IDataSyncHandler } from '@mbc-cqrs-serverless/core';
 
 export class DirectoryDataSyncHandler implements IDataSyncHandler {
-  async onCreated(data: DataEntity): Promise<void> {
-    console.log('Directory created:', data.name);
-    // Sync to RDS, notify users, update indexes, etc.
+  async up(cmd: CommandModel): Promise<any> {
+    // Called on INSERT and MODIFY — sync to RDS, notify users, update indexes, etc.
+    console.log('Directory upserted:', cmd.name);
   }
 
-  async onUpdated(data: DataEntity): Promise<void> {
-    console.log('Directory updated:', data.name);
-  }
-
-  async onDeleted(data: DataEntity): Promise<void> {
-    console.log('Directory deleted:', data.name);
+  async down(cmd: CommandModel): Promise<any> {
+    // Called on REMOVE — clean up derived data
+    console.log('Directory deleted:', cmd.name);
   }
 }
 ```
