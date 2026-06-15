@@ -172,6 +172,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
   - {{Return type changes from `Promise<CommandModel>` to `Promise<CommandModel | null>`}}
   - {{Matches the existing behavior of `publishAsync()` and `publishPartialUpdateAsync()`}}
   - {{Migration: add a null check before accessing any property on the result}}
+
 ### {{Features}}
 
 - **core:** {{Add Read-Your-Writes (RYW) consistency via `SessionService` and `Repository`}} ([{{See Details}}](/docs/command-service#read-your-writes)) ([PR #375](https://github.com/mbc-net/mbc-cqrs-serverless/pull/375))
