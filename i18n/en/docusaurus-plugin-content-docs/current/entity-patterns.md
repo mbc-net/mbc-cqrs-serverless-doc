@@ -6,7 +6,7 @@ description: Learn how to define entities, DTOs, and attributes for your domain.
 
 This guide explains how to define entities, DTOs, and attributes in MBC CQRS Serverless applications. Proper entity definition ensures type safety, clear separation of read and write operations, and maintainable code.
 
-## When to Use This Guide
+## When to Use This Guide {#when-to-use}
 
 Use this guide when you need to:
 
@@ -15,7 +15,7 @@ Use this guide when you need to:
 - Structure data for DynamoDB storage and RDS synchronization
 - Implement pagination for list queries
 
-## Problems This Pattern Solves
+## Problems This Pattern Solves {#problems-solved}
 
 | Problem | Solution |
 |---------|----------|
@@ -24,7 +24,7 @@ Use this guide when you need to:
 | Inconsistent validation across endpoints | Use DTOs with class-validator decorators |
 | Missing audit fields (createdAt, updatedAt) | Base classes include standard audit fields |
 
-## Entity Types Overview
+## Entity Types Overview {#entity-types-overview}
 
 The framework provides three base entity classes:
 
@@ -34,7 +34,7 @@ The framework provides three base entity classes:
 | `CommandEntity` | Write operations | Commands sent to DynamoDB |
 | `DataListEntity` | Paginated lists | List responses with metadata |
 
-## Data Entity
+## Data Entity {#data-entity}
 
 ### Use Case: Return Data from API Queries
 
@@ -94,7 +94,7 @@ The `DataEntity` base class includes:
 
 The `key` getter returns a `DetailKey` object with `pk` and `sk` for DynamoDB operations.
 
-## Command Entity
+## Command Entity {#command-entity}
 
 ### Use Case: Create or Update Data via Commands
 
@@ -165,7 +165,7 @@ The main differences between `CommandEntity` and `DataEntity` are:
 
 :::
 
-## Data List Entity
+## Data List Entity {#data-list-entity}
 
 ### Use Case: Return Paginated Lists
 
@@ -199,7 +199,7 @@ The `DataListEntity` base class includes:
 }
 ```
 
-## Command DTO
+## Command DTO {#command-dto}
 
 ### Use Case: Prepare Data for Command Publishing
 
@@ -237,7 +237,7 @@ The base `CommandDto` class includes:
 Note: `tenantCode` is marked as optional (`@IsOptional()`) in the base class, allowing the framework to extract it from the invoke context if not provided.
 :::
 
-## Attributes DTO
+## Attributes DTO {#attributes-dto}
 
 ### Use Case: Define Business Data Structure
 
@@ -297,7 +297,7 @@ enum PaymentMethod {
 }
 ```
 
-## Create/Update DTOs
+## Create/Update DTOs {#create-update-dtos}
 
 ### Use Case: Validate API Input
 
@@ -339,7 +339,7 @@ export class UpdateProductDto {
 }
 ```
 
-## Detail/Search DTOs
+## Detail/Search DTOs {#detail-search-dtos}
 
 ### Use Case: Query Parameters for List and Detail Endpoints
 
@@ -392,7 +392,7 @@ export class SearchProductDto {
 }
 ```
 
-## Complete Domain Example
+## Complete Domain Example {#complete-example}
 
 ### Use Case: Full E-Commerce Order Domain
 
@@ -778,7 +778,7 @@ export class SearchOrderDto {
 }
 ```
 
-## Best Practices
+## Best Practices {#best-practices}
 
 ### 1. Separate Read and Write Entities
 
