@@ -743,7 +743,7 @@ import { TenantModule } from '@mbc-cqrs-serverless/tenant';
   imports: [
     TenantModule.register({
       enableController: true,
-      dataSyncHandlers: [TenantRdsSyncHandler], // Optional: sync to external systems
+      dataSyncHandlers: [TenantRdsSyncHandler], // {{Optional: sync to external systems}}
     }),
   ],
 })

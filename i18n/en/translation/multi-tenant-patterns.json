@@ -133,5 +133,6 @@
   "Owner tenant (COMMON_TENANT)": "Owner tenant (COMMON_TENANT)",
   "Associated tenant code": "Associated tenant code",
   "Role within this tenant": "Role within this tenant",
-  "Default tenant for user": "Default tenant for user"
+  "Default tenant for user": "Default tenant for user",
+  "Optional: sync to external systems": "Optional: sync to external systems"
 }

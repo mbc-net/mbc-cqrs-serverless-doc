@@ -27,10 +27,10 @@ description: {{Learn how to use serialization helpers for data structure convers
 ### {{External Flat Structure}}
 ```typescript
 {
-  id: "PROJECT#tenant001#proj-001",  // Combination of pk and sk
-  code: "proj-001",                   // Same as sk
-  name: "Test Project",               // First level in DynamoDB
-  details: {                          // Flattened from attributes
+  id: "PROJECT#tenant001#proj-001",  // {{Combination of pk and sk}}
+  code: "proj-001",                   // {{Same as sk}}
+  name: "Test Project",               // {{First level in DynamoDB}}
+  details: {                          // {{Flattened from attributes}}
     status: "active",
     category: "development"
   }

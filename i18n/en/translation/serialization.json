@@ -73,5 +73,9 @@
   "Entity Patterns": "Entity Patterns",
   "Entity structure for serialization": "Entity structure for serialization",
   "Data Sync Handler Examples": "Data Sync Handler Examples",
-  "Sync with deserialization": "Sync with deserialization"
+  "Sync with deserialization": "Sync with deserialization",
+  "Combination of pk and sk": "Combination of pk and sk",
+  "Same as sk": "Same as sk",
+  "First level in DynamoDB": "First level in DynamoDB",
+  "Flattened from attributes": "Flattened from attributes"
 }

@@ -133,5 +133,6 @@
   "Owner tenant (COMMON_TENANT)": "オーナーテナント（COMMON_TENANT）",
   "Associated tenant code": "関連するテナントコード",
   "Role within this tenant": "このテナント内のロール",
-  "Default tenant for user": "ユーザーのデフォルトテナント"
+  "Default tenant for user": "ユーザーのデフォルトテナント",
+  "Optional: sync to external systems": "オプション: 外部システムへの同期"
 }

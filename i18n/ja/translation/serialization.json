@@ -73,5 +73,9 @@
   "Entity Patterns": "エンティティパターン",
   "Entity structure for serialization": "シリアライズ用エンティティ構造",
   "Data Sync Handler Examples": "データ同期ハンドラー例",
-  "Sync with deserialization": "デシリアライズを使った同期"
+  "Sync with deserialization": "デシリアライズを使った同期",
+  "Combination of pk and sk": "pkとskの組み合わせ",
+  "Same as sk": "skと同じ",
+  "First level in DynamoDB": "DynamoDBの第一レベル",
+  "Flattened from attributes": "attributesからフラット化"
 }

@@ -150,7 +150,7 @@ describe('Version Conflicts', () => {
       .send(updatePayload)
 
     expect(res1.statusCode).toBe(200)
-    expect(res2.statusCode).toBe(409) // Conflict
+    expect(res2.statusCode).toBe(409) // {{Conflict}}
   })
 })
 ```
