@@ -88,6 +88,7 @@ APPSYNC_API_KEY=da2-xxxxxxxxxx  # Optional: Use API key auth instead of IAM (オ
 #### 使用方法
 
 ```ts
+import { Injectable } from "@nestjs/common";
 import { AppSyncService, INotification } from "@mbc-cqrs-serverless/core";
 
 @Injectable()
@@ -199,6 +200,7 @@ await this.appSyncEventsService.sendMessage({
 ### 使用方法
 
 ```ts
+import { Injectable } from "@nestjs/common";
 import { AppSyncEventsService, INotification } from "@mbc-cqrs-serverless/core";
 
 @Injectable()
@@ -447,6 +449,7 @@ SES_ENDPOINT=                            # Optional: Custom endpoint for LocalSt
 #### 基本的な使い方
 
 ```ts
+import { Injectable } from "@nestjs/common";
 import { EmailService, EmailNotification } from "@mbc-cqrs-serverless/core";
 
 @Injectable()
@@ -500,6 +503,7 @@ await this.emailService.sendEmail(email);
 #### 基本的な使い方
 
 ```ts
+import { Injectable } from "@nestjs/common";
 import { EmailService, TemplatedEmailNotification } from "@mbc-cqrs-serverless/core";
 
 @Injectable()
