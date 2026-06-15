@@ -232,6 +232,7 @@ export default function ProductsPage() {
 // src/components/ui/Button/Button.tsx
 import { forwardRef } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
+import { Spinner } from '@/components/ui/spinner';
 
 const buttonVariants = cva(
   'inline-flex items-center justify-center rounded-md font-medium transition-colors',
