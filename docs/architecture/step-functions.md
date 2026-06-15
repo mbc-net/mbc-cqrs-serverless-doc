@@ -1331,7 +1331,7 @@ async publishAlarm(
 
 ## {{Related Documentation}}
 
-- {{[Task Module](/docs/tasks) - Task management with Step Functions}}
-- {{[Import/Export Patterns](/docs/import-export-patterns) - CSV import with Distributed Map}}
-- {{[Event Sourcing](/docs/architecture/event-sourcing) - Event-driven architecture}}
-- {{[CQRS Flow](/docs/architecture/cqrs-flow) - Command and query separation}}
+- [{{Task Module}}](/docs/tasks) - {{Task management with Step Functions}}
+- [{{Import/Export Patterns}}](/docs/import-export-patterns) - {{CSV import with Distributed Map}}
+- [{{Event Sourcing}}](/docs/architecture/event-sourcing) - {{Event-driven architecture}}
+- [{{CQRS Flow}}](/docs/architecture/cqrs-flow) - {{Command and query separation}}

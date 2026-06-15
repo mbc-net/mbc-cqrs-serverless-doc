@@ -1065,6 +1065,6 @@ flowchart LR
 
 ## {{Related Documentation}}
 
-- {{[Step Functions](/docs/architecture/step-functions) - Workflow orchestration details}}
-- {{[System Overview](/docs/architecture/system-overview) - High-level architecture}}
-- {{[Installation](/docs/installation) - Getting started guide}}
+- [{{Step Functions}}](/docs/architecture/step-functions) - {{Workflow orchestration details}}
+- [{{System Overview}}](/docs/architecture/system-overview) - {{High-level architecture}}
+- [{{Installation}}](/docs/installation) - {{Getting started guide}}

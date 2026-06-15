@@ -61,9 +61,6 @@
   "**X-Ray Tracing**: Enable distributed tracing for debugging": "**X-Ray Tracing**: Enable distributed tracing for debugging",
   "**CloudWatch Alarms**: Set up alerts for failures and latency": "**CloudWatch Alarms**: Set up alerts for failures and latency",
   "Related Documentation": "Related Documentation",
-  "[Step Functions](/docs/architecture/step-functions) - Workflow orchestration details": "[Step Functions](/docs/architecture/step-functions) - Workflow orchestration details",
-  "[System Overview](/docs/architecture/system-overview) - High-level architecture": "[System Overview](/docs/architecture/system-overview) - High-level architecture",
-  "[Installation](/docs/installation) - Getting started guide": "[Installation](/docs/installation) - Getting started guide",
   "Create User Pool": "Create User Pool",
   "Create User Pool Client": "Create User Pool Client",
   "Create HTTP API": "Create HTTP API",
@@ -125,5 +122,11 @@
   "See [AppSync Events API documentation](/docs/notification-module#appsync-events-service) for server-side usage and [Client-Side Subscription](/docs/notification-module#client-side-subscription) for browser integration.": "See [AppSync Events API documentation](/docs/notification-module#appsync-events-service) for server-side usage and [Client-Side Subscription](/docs/notification-module#client-side-subscription) for browser integration.",
   "Config type definition": "Config type definition",
   "Environment config example": "Environment config example",
-  "Version Note": "Version Note"
+  "Version Note": "Version Note",
+  "Step Functions": "Step Functions",
+  "Workflow orchestration details": "Workflow orchestration details",
+  "System Overview": "System Overview",
+  "High-level architecture": "High-level architecture",
+  "Installation": "Installation",
+  "Getting started guide": "Getting started guide"
 }

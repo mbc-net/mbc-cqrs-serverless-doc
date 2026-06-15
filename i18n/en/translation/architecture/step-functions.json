@@ -163,10 +163,6 @@
   "**CloudWatch Logs**: Capture detailed execution logs": "**CloudWatch Logs**: Capture detailed execution logs",
   "**Alarms**: Set up alerts for failure rates and execution times": "**Alarms**: Set up alerts for failure rates and execution times",
   "Related Documentation": "Related Documentation",
-  "[Task Module](/docs/tasks) - Task management with Step Functions": "[Task Module](/docs/tasks) - Task management with Step Functions",
-  "[Import/Export Patterns](/docs/import-export-patterns) - CSV import with Distributed Map": "[Import/Export Patterns](/docs/import-export-patterns) - CSV import with Distributed Map",
-  "[Event Sourcing](/docs/architecture/event-sourcing) - Event-driven architecture": "[Event Sourcing](/docs/architecture/event-sourcing) - Event-driven architecture",
-  "[CQRS Flow](/docs/architecture/cqrs-flow) - Command and query separation": "[CQRS Flow](/docs/architecture/cqrs-flow) - Command and query separation",
   "Command Service automatically handles versioning": "Command Service automatically handles versioning",
   "DynamoDB ConditionExpression ensures optimistic locking": "DynamoDB ConditionExpression ensures optimistic locking",
   "ConditionExpression: 'attribute_not_exists(pk) OR version = :currentVersion'": "ConditionExpression: 'attribute_not_exists(pk) OR version = :currentVersion'",
@@ -201,5 +197,13 @@
   "The import-csv state machine will:": "The import-csv state machine will:",
   "In your state machine definition": "In your state machine definition",
   "In your handler, store the task token": "In your handler, store the task token",
-  "When approval is received, resume the workflow": "When approval is received, resume the workflow"
+  "When approval is received, resume the workflow": "When approval is received, resume the workflow",
+  "Task Module": "Task Module",
+  "Task management with Step Functions": "Task management with Step Functions",
+  "Import/Export Patterns": "Import/Export Patterns",
+  "CSV import with Distributed Map": "CSV import with Distributed Map",
+  "Event Sourcing": "Event Sourcing",
+  "Event-driven architecture": "Event-driven architecture",
+  "CQRS Flow": "CQRS Flow",
+  "Command and query separation": "Command and query separation"
 }
