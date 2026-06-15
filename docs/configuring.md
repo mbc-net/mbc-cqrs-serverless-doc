@@ -14,7 +14,7 @@ description: {{Configuration guide for MBC CQRS Serverless framework including T
 {{The main configuration file for your serverless application.}}
 
 :::info {{Table Prefix}}
-{{The framework generates DynamoDB table prefixes automatically using `NODE_ENV` and `APP_NAME` environment variables. The format is `{NODE_ENV}-{APP_NAME}-{tableName}`. For example, with `NODE_ENV=dev` and `APP_NAME=my-app`, a command table would be named `dev-my-app-command`.}}
+{{The framework generates DynamoDB table names automatically using `NODE_ENV` and `APP_NAME` environment variables plus a type suffix. The format is `{NODE_ENV}-{APP_NAME}-{tableName}-command` for command tables and `{NODE_ENV}-{APP_NAME}-{tableName}-data` for data tables. For example, with `NODE_ENV=dev`, `APP_NAME=my-app`, and `tableName: 'order'`, the tables are `dev-my-app-order-command` and `dev-my-app-order-data`.}}
 :::
 
 ```yaml

@@ -344,7 +344,7 @@ await this.commandService.reSyncData();
 
 ### {{*async* `getItem(key: DetailKey): Promise<CommandModel | null>`}}
 
-{{Retrieves a command item by its primary key. If the sort key does not include a version separator, it automatically calls `getLatestItem` to get the latest version. Returns `null` when no matching item is found.}}
+{{Retrieves a command item by its primary key. If the sort key does not include the version separator (`@`, e.g. `CAT#cat001@2`), it automatically calls `getLatestItem` to get the latest version. Returns `null` when no matching item is found.}}
 
 ```ts
 import { DetailKey } from "@mbc-cqrs-serverless/core";

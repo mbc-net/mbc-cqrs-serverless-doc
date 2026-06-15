@@ -65,7 +65,7 @@
   "*async* `reSyncData(): Promise<void>`": "*async* `reSyncData(): Promise<void>`",
   "If you want to reapply the data sync handler, this method is designed for you to use. You only need to call the function as follows:": "データ同期ハンドラーを再適用する場合は、このメソッドを使用できるように設計されています。次のように関数を呼び出すだけです。",
   "*async* `getItem(key: DetailKey): Promise<CommandModel | null>`": "*async* `getItem(key: DetailKey): Promise<CommandModel | null>`",
-  "Retrieves a command item by its primary key. If the sort key does not include a version separator, it automatically calls `getLatestItem` to get the latest version. Returns `null` when no matching item is found.": "プライマリキーでコマンドアイテムを取得します。ソートキーにバージョン区切り文字が含まれていない場合、自動的に`getLatestItem`を呼び出して最新バージョンを取得します。アイテムが見つからない場合は`null`を返します。",
+  "Retrieves a command item by its primary key. If the sort key does not include the version separator (`@`, e.g. `CAT#cat001@2`), it automatically calls `getLatestItem` to get the latest version. Returns `null` when no matching item is found.": "プライマリキーでコマンドアイテムを取得します。ソートキーにバージョン区切り文字（`@`、例：`CAT#cat001@2`）が含まれていない場合、自動的に`getLatestItem`を呼び出して最新バージョンを取得します。アイテムが見つからない場合は`null`を返します。",
   "Get a specific version of a command": "Get a specific version of a command (特定バージョンのコマンドを取得)",
   "Includes version number": "Includes version number (バージョン番号を含む)",
   "If no version in sk, automatically gets latest version": "If no version in sk, automatically gets latest version (skにバージョンがない場合、自動的に最新バージョンを取得)",

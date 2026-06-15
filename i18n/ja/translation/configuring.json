@@ -6,7 +6,7 @@
   "serverless.yml": "serverless.yml",
   "The main configuration file for your serverless application.": "サーバーレスアプリケーションのメイン設定ファイルです。",
   "Table Prefix": "テーブルプレフィックス",
-  "The framework generates DynamoDB table prefixes automatically using `NODE_ENV` and `APP_NAME` environment variables. The format is `{NODE_ENV}-{APP_NAME}-{tableName}`. For example, with `NODE_ENV=dev` and `APP_NAME=my-app`, a command table would be named `dev-my-app-command`.": "フレームワークは `NODE_ENV` と `APP_NAME` 環境変数を使用してDynamoDBテーブルプレフィックスを自動生成します。形式は `{NODE_ENV}-{APP_NAME}-{tableName}` です。例えば、`NODE_ENV=dev` と `APP_NAME=my-app` の場合、コマンドテーブルは `dev-my-app-command` という名前になります。",
+  "The framework generates DynamoDB table names automatically using `NODE_ENV` and `APP_NAME` environment variables plus a type suffix. The format is `{NODE_ENV}-{APP_NAME}-{tableName}-command` for command tables and `{NODE_ENV}-{APP_NAME}-{tableName}-data` for data tables. For example, with `NODE_ENV=dev`, `APP_NAME=my-app`, and `tableName: 'order'`, the tables are `dev-my-app-order-command` and `dev-my-app-order-data`.": "フレームワークは `NODE_ENV` と `APP_NAME` 環境変数にタイプサフィックスを付加してDynamoDBテーブル名を自動生成します。コマンドテーブルは `{NODE_ENV}-{APP_NAME}-{tableName}-command`、データテーブルは `{NODE_ENV}-{APP_NAME}-{tableName}-data` の形式になります。例えば、`NODE_ENV=dev`、`APP_NAME=my-app`、`tableName: 'order'` の場合、テーブル名は `dev-my-app-order-command` と `dev-my-app-order-data` になります。",
   "NestJS Configuration": "NestJS設定",
   "Configure NestJS modules in your application.": "アプリケーションでNestJSモジュールを設定します。",
   "Load environment variables": "Load environment variables (環境変数をロード)",
