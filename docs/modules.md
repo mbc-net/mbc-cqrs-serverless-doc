@@ -284,7 +284,8 @@ export class AppModule {}
 
 {{This module exports:}}
 - `EmailService` - {{Send emails via Amazon SES}}
-- `AppSyncService` - {{Send real-time notifications via AppSync}}
+- `AppSyncService` - {{Send real-time notifications via AppSync (GraphQL Subscriptions)}}
+- `AppSyncEventsService` - {{Send real-time notifications via AppSync Events API (opt-in, added in v1.3.0)}}
 
 ## {{Creating Custom Modules}}
 

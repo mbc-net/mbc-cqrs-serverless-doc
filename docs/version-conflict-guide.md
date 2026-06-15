@@ -223,6 +223,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
+import { IInvoke, InvokeContext } from '@mbc-cqrs-serverless/core';
 
 @Controller('cats')
 export class CatController {

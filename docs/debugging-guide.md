@@ -104,7 +104,8 @@ export class TodoService {
     this.logger.debug(`Creating todo: ${JSON.stringify(dto)}`);
 
     try {
-      const result = await this.commandService.publishAsync(entity, { invokeContext });
+      const command = { pk: dto.pk, sk: dto.sk, version: 0, name: dto.name, attributes: dto };
+      const result = await this.commandService.publishAsync(command, { invokeContext });
       if (!result) throw new Error('Command publish returned null (no-op)');
       this.logger.log(`Todo created: ${result.id}`);
       return result;
