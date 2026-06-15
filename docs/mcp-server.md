@@ -278,7 +278,7 @@ Create an Order module with RDS synchronization
 
 **{{Anti-Patterns Detected (22 patterns):}}**
 
-{{These are the **skill-doc AP codes** used in `/mbc-review` reviews and human-facing documentation. They use a separate numbering system from the **detector AP codes** emitted by the `mbc_check_anti_patterns` tool. See the [Anti-Pattern Detection table](#code-analysis-tools) above for the detector→skill-doc mapping. AP021 was added in [v1.2.6](/docs/changelog#v126).}}
+{{These are the **skill-doc AP codes** used in `/mbc-review` reviews and human-facing documentation. They use a separate numbering system from the **detector AP codes** emitted by the `mbc_check_anti_patterns` tool. See the [Anti-Pattern Detection table](#code-analysis-tools) above for the detector→skill-doc mapping. AP021 was added in [v1.2.6](/docs/changelog#v126). AP022 was added in [v1.3.1](/docs/changelog#v131).}}
 
 | {{Code}} | {{Description}} | {{Severity}} |
 |------|-------------|----------|

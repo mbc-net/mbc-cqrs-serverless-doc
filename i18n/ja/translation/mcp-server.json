@@ -149,7 +149,7 @@
   "/mbc-review Skill": "/mbc-review Skill",
   "Reviews code for MBC CQRS Serverless best practices and identifies anti-patterns.": "MBC CQRS Serverlessのベストプラクティスに基づいてコードをレビューし、アンチパターンを特定します。",
   "Anti-Patterns Detected (22 patterns):": "検出されるアンチパターン（22パターン）：",
-  "These are the **skill-doc AP codes** used in `/mbc-review` reviews and human-facing documentation. They use a separate numbering system from the **detector AP codes** emitted by the `mbc_check_anti_patterns` tool. See the [Anti-Pattern Detection table](#code-analysis-tools) above for the detector→skill-doc mapping. AP021 was added in [v1.2.6](/docs/changelog#v126).": "これらは `/mbc-review` のレビューおよび人向けドキュメントで使用される **skill-doc AP番号** です。`mbc_check_anti_patterns` ツールが出力する **検出器AP番号** とは別の番号体系です。検出器→skill-doc のマッピングは上記の[アンチパターン検出表](#code-analysis-tools)を参照してください。AP021 は [v1.2.6](/docs/changelog#v126) で追加されました。",
+  "These are the **skill-doc AP codes** used in `/mbc-review` reviews and human-facing documentation. They use a separate numbering system from the **detector AP codes** emitted by the `mbc_check_anti_patterns` tool. See the [Anti-Pattern Detection table](#code-analysis-tools) above for the detector→skill-doc mapping. AP021 was added in [v1.2.6](/docs/changelog#v126). AP022 was added in [v1.3.1](/docs/changelog#v131).": "これらは `/mbc-review` のレビューおよび人向けドキュメントで使用される **skill-doc AP番号** です。`mbc_check_anti_patterns` ツールが出力する **検出器AP番号** とは別の番号体系です。検出器→skill-doc のマッピングは上記の[アンチパターン検出表](#code-analysis-tools)を参照してください。AP021 は [v1.2.6](/docs/changelog#v126) で追加されました。AP022 は [v1.3.1](/docs/changelog#v131) で追加されました。",
   "Code": "コード",
   "Using publishSync instead of publishAsync": "publishAsyncの代わりにpublishSyncを使用",
   "Warning": "警告",
