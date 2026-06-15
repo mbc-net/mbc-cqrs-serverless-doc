@@ -576,7 +576,10 @@ export class ProjectController {
   @Post()
   @UseGuards(QuotaGuard)
   @SetMetadata('quota_metric', 'projectCount')
-  async create(@Body() dto: CreateProjectDto, @Req() req: IInvoke) {
+  async create(
+    @Body() dto: CreateProjectDto,
+    @INVOKE_CONTEXT() invokeContext: IInvoke,
+  ) {
     // ...
   }
 }

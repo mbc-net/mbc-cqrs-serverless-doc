@@ -260,9 +260,9 @@ export class OrderService {
 
 ```typescript
 // order.controller.ts
-import { Controller, Get, Post, Patch, Body, Param, Query, Req } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Body, Param, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { IInvoke } from '@mbc-cqrs-serverless/core';
+import { INVOKE_CONTEXT, IInvoke } from '@mbc-cqrs-serverless/core';
 import { OrderService } from './order.service';
 
 @ApiTags('orders')
@@ -272,14 +272,20 @@ export class OrderController {
 
   @Post()
   @ApiOperation({ summary: 'Create a new order' })
-  async create(@Body() dto: CreateOrderDto, @Req() req: IInvoke) {
-    return this.orderService.createOrder(dto, req);
+  async create(
+    @Body() dto: CreateOrderDto,
+    @INVOKE_CONTEXT() invokeContext: IInvoke,
+  ) {
+    return this.orderService.createOrder(dto, invokeContext);
   }
 
   @Get()
   @ApiOperation({ summary: 'List orders' })
-  async list(@Query() options: ListOrdersDto, @Req() req: IInvoke) {
-    return this.orderService.listOrders(options, req);
+  async list(
+    @Query() options: ListOrdersDto,
+    @INVOKE_CONTEXT() invokeContext: IInvoke,
+  ) {
+    return this.orderService.listOrders(options, invokeContext);
   }
 
   @Patch(':code/status')
@@ -287,9 +293,9 @@ export class OrderController {
   async updateStatus(
     @Param('code') code: string,
     @Body() dto: UpdateStatusDto,
-    @Req() req: IInvoke,
+    @INVOKE_CONTEXT() invokeContext: IInvoke,
   ) {
-    return this.orderService.updateOrderStatus(code, dto.status, req);
+    return this.orderService.updateOrderStatus(code, dto.status, invokeContext);
   }
 }
 ```
