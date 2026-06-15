@@ -272,11 +272,11 @@ SK: <provider>#<userId>
 
 // 例
 PK: USER#common
-SK: local#user123           // Local authentication
-SK: sso#abc123def456        // SSO provider
-SK: oauth#google789         // OAuth provider
-SK: temp#session456         // Temporary session
-SK: profile#user123         // User profile data
+SK: local#user123           // ローカル認証
+SK: sso#abc123def456        // SSOプロバイダー
+SK: oauth#google789         // OAuthプロバイダー
+SK: temp#session456         // 一時セッション
+SK: profile#user123         // ユーザープロファイルデータ
 ```
 
 ```ts
@@ -306,7 +306,7 @@ SK: <tenantCode>#<userCode>
 // 例
 PK: USER_TENANT#common
 SK: tenant001#user123
-SK: tenant002#user123   // Same user in different tenant
+SK: tenant002#user123   // 異なるテナントの同一ユーザー
 ```
 
 ```ts
@@ -458,9 +458,9 @@ export function generateEntityId(
 // Data table: Stores latest version only (no version suffix) (データテーブル: 最新バージョンのみ保存（バージョンサフィックスなし）)
 
 // Version in SK (Command table) (SKのバージョン（コマンドテーブル）)
-SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M@1  // Version 1
-SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M@2  // Version 2
-SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M@3  // Version 3
+SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M@1  // バージョン1
+SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M@2  // バージョン2
+SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M@3  // バージョン3
 
 // Data table SK (no version suffix) (データテーブルSK（バージョンサフィックスなし）)
 SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M
@@ -546,7 +546,7 @@ export const PRODUCT_PK_PREFIX = "PRODUCT";
 const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
 
 // 避けること
-const pk = `PRODUCT#${tenantCode}`; // Magic string
+const pk = `PRODUCT#${tenantCode}`; // マジックストリング
 ```
 
 ### 2. ソート可能なIDにはULIDを使用する
@@ -568,7 +568,7 @@ const sk = ulid();
 ```ts
 // If you need to query all items for an order: (注文の全アイテムを取得する必要がある場合:)
 PK: ORDER#tenant001
-SK: ORDER_ITEM#orderId#itemId  // Query by SK prefix
+SK: ORDER_ITEM#orderId#itemId  // SKプレフィックスでクエリ
 
 // If you need to query items by product across orders: (注文を横断して商品別にアイテムを取得する必要がある場合:)
 // Consider a GSI or separate table (GSIまたは別テーブルを検討)
@@ -583,7 +583,7 @@ SK: ORDER_ITEM#orderId#itemId  // Query by SK prefix
 PK: PRODUCT#tenant001
 
 // Avoid - unbounded by users (避ける - ユーザーで制限されない)
-PK: USER_ACTIVITY#user123  // Could create millions of partitions
+PK: USER_ACTIVITY#user123  // 数百万のパーティションが生成される可能性
 ```
 
 ### 5. PKにテナントを含める
@@ -595,8 +595,8 @@ PK: USER_ACTIVITY#user123  // Could create millions of partitions
 PK: PRODUCT#tenant001
 
 // 避けること
-PK: PRODUCT  // No tenant isolation
-SK: tenant001#productId  // Tenant in SK is less efficient
+PK: PRODUCT  // テナント分離なし
+SK: tenant001#productId  // SKにテナントを入れると効率が悪い
 ```
 
 :::danger テナントコード正規化 - 破壊的変更
@@ -653,7 +653,7 @@ attributes: {
 
 ```ts
 // Avoid - status changes (避ける - ステータスが変わる)
-SK: ORDER#pending#01HX7M...  // What happens when status changes?
+SK: ORDER#pending#01HX7M...  // ステータスが変わったらどうなる?
 
 // Better - use attributes (良い - 属性を使用)
 SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M

@@ -316,7 +316,7 @@ const handler = new lambda.Function(this, 'Handler', {
 
 ```typescript
 const handler = new lambda.Function(this, 'Handler', {
-  memorySize: 1024, // Increase memory
+  memorySize: 1024, // {{Increase memory}}
 });
 ```
 
@@ -331,7 +331,7 @@ const handler = new lambda.Function(this, 'Handler', {
 // {{Ensure dependencies are bundled}}
 const handler = new lambda_nodejs.NodejsFunction(this, 'Handler', {
   bundling: {
-    externalModules: [], // Don't exclude anything
+    externalModules: [], // {{Don't exclude anything}}
   },
 });
 ```

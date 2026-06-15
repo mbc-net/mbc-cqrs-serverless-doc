@@ -176,5 +176,6 @@
   "Reserved for future use (not yet implemented)": "将来の使用のために予約済み（未実装）",
   "Disable the default DynamoDB data sync handler": "デフォルトの DynamoDB データ同期ハンドラーを無効化",
   "Enable or disable default sequence controller": "デフォルトのシーケンスコントローラーの有効・無効",
-  "Pagination": "ページネーション"
+  "Pagination": "ページネーション",
+  "Optional type identifier": "オプションの型識別子"
 }

@@ -380,7 +380,7 @@ if (result.lastSk) {
 
 ```ts
 export interface IDataSyncHandler<TExecuteResult = any, TRollbackResult = any> {
-  readonly type?: string  // Optional type identifier
+  readonly type?: string  // {{Optional type identifier}}
 
   /**
    * Sync data when a command is executed.

@@ -99,5 +99,10 @@
   "Frontend state management": "Frontend state management",
   "Form Handling Patterns": "Form Handling Patterns",
   "Form handling": "Form handling",
-  "After backend API changes": "After backend API changes"
+  "After backend API changes": "After backend API changes",
+  "or URL to OpenAPI spec": "or URL to OpenAPI spec",
+  "Required for optimistic locking": "Required for optimistic locking",
+  "Get from Zustand store": "Get from Zustand store",
+  "1 minute": "1 minute",
+  "Don't retry mutations by default": "Don't retry mutations by default"
 }

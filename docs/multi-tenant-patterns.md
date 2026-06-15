@@ -148,7 +148,7 @@ export class TenantGuard implements CanActivate {
                         this.extractTenantFromPk(request.body?.pk);
 
     if (!targetTenant) {
-      return true; // No tenant specified, will use user's tenant
+      return true; // {{No tenant specified, will use user's tenant}}
     }
 
     if (!hasTenantAccess(userContext, targetTenant)) {
@@ -224,12 +224,12 @@ async function getEmailTemplates() {
 export interface UserTenantAssociation {
   pk: string;           // USER_TENANT#common
   sk: string;           // {tenantCode}#{userCode}
-  tenantCode: string;   // Owner tenant (COMMON_TENANT)
+  tenantCode: string;   // {{Owner tenant (COMMON_TENANT)}}
   attributes: {
     userCode: string;
-    tenantCode: string; // Associated tenant code
-    role: string;       // Role within this tenant
-    isDefault: boolean; // Default tenant for user
+    tenantCode: string; // {{Associated tenant code}}
+    role: string;       // {{Role within this tenant}}
+    isDefault: boolean; // {{Default tenant for user}}
   };
 }
 

@@ -673,7 +673,7 @@ export interface ProductImportInput {
   category?: string;
   price?: string;
   description?: string;
-  tenantCode: string; // Passed from import context
+  tenantCode: string; // {{Passed from import context}}
 }
 
 @Injectable()

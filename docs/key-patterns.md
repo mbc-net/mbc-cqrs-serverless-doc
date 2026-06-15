@@ -272,11 +272,11 @@ SK: <provider>#<userId>
 
 // {{Examples}}
 PK: USER#common
-SK: local#user123           // Local authentication
-SK: sso#abc123def456        // SSO provider
-SK: oauth#google789         // OAuth provider
-SK: temp#session456         // Temporary session
-SK: profile#user123         // User profile data
+SK: local#user123           // {{Local authentication}}
+SK: sso#abc123def456        // {{SSO provider}}
+SK: oauth#google789         // {{OAuth provider}}
+SK: temp#session456         // {{Temporary session}}
+SK: profile#user123         // {{User profile data}}
 ```
 
 ```ts
@@ -306,7 +306,7 @@ SK: <tenantCode>#<userCode>
 // {{Example}}
 PK: USER_TENANT#common
 SK: tenant001#user123
-SK: tenant002#user123   // Same user in different tenant
+SK: tenant002#user123   // {{Same user in different tenant}}
 ```
 
 ```ts
@@ -458,9 +458,9 @@ export function generateEntityId(
 // {{Data table: Stores latest version only (no version suffix)}}
 
 // {{Version in SK (Command table)}}
-SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M@1  // Version 1
-SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M@2  // Version 2
-SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M@3  // Version 3
+SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M@1  // {{Version 1}}
+SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M@2  // {{Version 2}}
+SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M@3  // {{Version 3}}
 
 // {{Data table SK (no version suffix)}}
 SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M
@@ -546,7 +546,7 @@ export const PRODUCT_PK_PREFIX = "PRODUCT";
 const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
 
 // {{Avoid}}
-const pk = `PRODUCT#${tenantCode}`; // Magic string
+const pk = `PRODUCT#${tenantCode}`; // {{Magic string}}
 ```
 
 ### {{2. Use ULID for Sortable IDs}}
@@ -568,7 +568,7 @@ const sk = ulid();
 ```ts
 // {{If you need to query all items for an order:}}
 PK: ORDER#tenant001
-SK: ORDER_ITEM#orderId#itemId  // Query by SK prefix
+SK: ORDER_ITEM#orderId#itemId  // {{Query by SK prefix}}
 
 // {{If you need to query items by product across orders:}}
 // {{Consider a GSI or separate table}}
@@ -583,7 +583,7 @@ SK: ORDER_ITEM#orderId#itemId  // Query by SK prefix
 PK: PRODUCT#tenant001
 
 // {{Avoid - unbounded by users}}
-PK: USER_ACTIVITY#user123  // Could create millions of partitions
+PK: USER_ACTIVITY#user123  // {{Could create millions of partitions}}
 ```
 
 ### {{5. Include Tenant in PK}}
@@ -595,8 +595,8 @@ PK: USER_ACTIVITY#user123  // Could create millions of partitions
 PK: PRODUCT#tenant001
 
 // {{Avoid}}
-PK: PRODUCT  // No tenant isolation
-SK: tenant001#productId  // Tenant in SK is less efficient
+PK: PRODUCT  // {{No tenant isolation}}
+SK: tenant001#productId  // {{Tenant in SK is less efficient}}
 ```
 
 :::danger {{Tenant Code Normalization - Breaking Change}}
@@ -653,7 +653,7 @@ attributes: {
 
 ```ts
 // {{Avoid - status changes}}
-SK: ORDER#pending#01HX7M...  // What happens when status changes?
+SK: ORDER#pending#01HX7M...  // {{What happens when status changes?}}
 
 // {{Better - use attributes}}
 SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M

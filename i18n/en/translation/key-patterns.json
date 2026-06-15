@@ -235,5 +235,20 @@
   "Entity Definition Patterns": "Entity Definition Patterns",
   "How to define entities that use these key patterns": "How to define entities that use these key patterns",
   "Backend Development Guide": "Backend Development Guide",
-  "Complete module implementation patterns": "Complete module implementation patterns"
+  "Complete module implementation patterns": "Complete module implementation patterns",
+  "Local authentication": "Local authentication",
+  "SSO provider": "SSO provider",
+  "OAuth provider": "OAuth provider",
+  "Temporary session": "Temporary session",
+  "User profile data": "User profile data",
+  "Same user in different tenant": "Same user in different tenant",
+  "Version 1": "Version 1",
+  "Version 2": "Version 2",
+  "Version 3": "Version 3",
+  "Magic string": "Magic string",
+  "Query by SK prefix": "Query by SK prefix",
+  "Could create millions of partitions": "Could create millions of partitions",
+  "No tenant isolation": "No tenant isolation",
+  "Tenant in SK is less efficient": "Tenant in SK is less efficient",
+  "What happens when status changes?": "What happens when status changes?"
 }

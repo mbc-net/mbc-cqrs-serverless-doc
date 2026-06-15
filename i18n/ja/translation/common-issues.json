@@ -186,5 +186,7 @@
   "Check IAM permissions — Lambda/ECS execution role must have `appsync:EventPublish` on the Event API ARN. The CDK template adds this automatically via `grantPublish()`.": "IAM 権限を確認する — Lambda/ECS 実行ロールに、Event API ARN に対する `appsync:EventPublish` が必要。CDK テンプレートは `grantPublish()` で自動的に追加する。",
   "Verify the channel namespace — `APPSYNC_EVENTS_NAMESPACE` must match a pre-created namespace in your AppSync Event API (default: `default`).": "チャネルの名前空間を確認する — `APPSYNC_EVENTS_NAMESPACE` は AppSync Event API に事前作成された名前空間と一致する必要がある（デフォルト: `default`）。",
   "Check CloudWatch Logs for publish errors:": "CloudWatch ログでパブリッシュエラーを確認する：",
-  "See [AppSync Events API](/docs/notification-module#appsync-events-service) for full setup instructions.": "完全なセットアップ手順は [AppSync Events API](/docs/notification-module#appsync-events-service) を参照してください。"
+  "See [AppSync Events API](/docs/notification-module#appsync-events-service) for full setup instructions.": "完全なセットアップ手順は [AppSync Events API](/docs/notification-module#appsync-events-service) を参照してください。",
+  "Increase memory": "メモリを増やす",
+  "Don't exclude anything": "何も除外しない"
 }

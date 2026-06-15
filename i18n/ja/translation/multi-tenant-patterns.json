@@ -128,5 +128,10 @@
   "Key Patterns": "キーパターン",
   "PK/SK design for multi-tenant": "マルチテナント用PK/SK設計",
   "Authentication": "認証",
-  "User authentication": "ユーザー認証"
+  "User authentication": "ユーザー認証",
+  "No tenant specified, will use user's tenant": "テナント未指定のため、ユーザーのテナントを使用",
+  "Owner tenant (COMMON_TENANT)": "オーナーテナント（COMMON_TENANT）",
+  "Associated tenant code": "関連するテナントコード",
+  "Role within this tenant": "このテナント内のロール",
+  "Default tenant for user": "ユーザーのデフォルトテナント"
 }

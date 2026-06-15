@@ -418,11 +418,11 @@ export class ProductDataSyncRdsHandler implements IDataSyncHandler {
 // prisma/schema.prisma
 model Product {
   // {{CQRS composite keys}}
-  id     String @id            // PK#SK without version
-  cpk    String                // Command PK
-  csk    String                // Command SK with version
-  pk     String                // Data PK
-  sk     String                // Data SK without version
+  id     String @id            // {{PK#SK without version}}
+  cpk    String                // {{Command PK}}
+  csk    String                // {{Command SK with version}}
+  pk     String                // {{Data PK}}
+  sk     String                // {{Data SK without version}}
 
   // {{Domain fields}}
   code   String
@@ -465,9 +465,9 @@ model Product {
 ```typescript
 const opts = {
   source: getCommandSource(
-    basename(__dirname),      // Module name
-    this.constructor.name,    // Class name
-    'methodName',             // Method name
+    basename(__dirname),      // {{Module name}}
+    this.constructor.name,    // {{Class name}}
+    'methodName',             // {{Method name}}
   ),
   invokeContext,
 };

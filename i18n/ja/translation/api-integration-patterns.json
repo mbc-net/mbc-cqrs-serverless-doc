@@ -99,5 +99,10 @@
   "Frontend state management": "フロントエンドステート管理",
   "Form Handling Patterns": "フォーム処理パターン",
   "Form handling": "フォーム処理",
-  "After backend API changes": "バックエンド API 変更後"
+  "After backend API changes": "バックエンド API 変更後",
+  "or URL to OpenAPI spec": "またはOpenAPI仕様のURL",
+  "Required for optimistic locking": "楽観的ロックに必要",
+  "Get from Zustand store": "Zustandストアから取得",
+  "1 minute": "1分",
+  "Don't retry mutations by default": "デフォルトでミューテーションを再試行しない"
 }

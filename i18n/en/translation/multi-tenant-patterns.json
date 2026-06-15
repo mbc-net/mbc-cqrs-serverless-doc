@@ -128,5 +128,10 @@
   "Key Patterns": "Key Patterns",
   "PK/SK design for multi-tenant": "PK/SK design for multi-tenant",
   "Authentication": "Authentication",
-  "User authentication": "User authentication"
+  "User authentication": "User authentication",
+  "No tenant specified, will use user's tenant": "No tenant specified, will use user's tenant",
+  "Owner tenant (COMMON_TENANT)": "Owner tenant (COMMON_TENANT)",
+  "Associated tenant code": "Associated tenant code",
+  "Role within this tenant": "Role within this tenant",
+  "Default tenant for user": "Default tenant for user"
 }

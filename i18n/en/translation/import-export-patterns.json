@@ -323,5 +323,6 @@
   "Step Functions": "Step Functions",
   "Workflow orchestration": "Workflow orchestration",
   "Data Sync Handler Examples": "Data Sync Handler Examples",
-  "Sync handler patterns": "Sync handler patterns"
+  "Sync handler patterns": "Sync handler patterns",
+  "Passed from import context": "Passed from import context"
 }

@@ -49,7 +49,7 @@ import { defineConfig } from '@hey-api/openapi-ts';
 
 export default defineConfig({
   client: '@hey-api/client-fetch',
-  input: './openapi.json', // or URL to OpenAPI spec
+  input: './openapi.json', // またはOpenAPI仕様のURL
   output: {
     path: 'src/services/sdk',
     format: 'prettier',
@@ -119,7 +119,7 @@ export interface UpdateProductDto {
   price?: number;
   status?: ProductStatus;
   attributes?: ProductAttributes;
-  version: number; // Required for optimistic locking
+  version: number; // 楽観的ロックに必要
 }
 
 export interface ProductListResponse {
@@ -183,7 +183,7 @@ client.interceptors.request.use(async (request) => {
 
 // Add tenant header interceptor (テナントヘッダーインターセプターを追加)
 client.interceptors.request.use((request) => {
-  const tenantCode = getTenantFromStore(); // Get from Zustand store
+  const tenantCode = getTenantFromStore(); // Zustandストアから取得
   if (tenantCode) {
     request.headers.set('X-Tenant-Code', tenantCode);
   }
@@ -320,7 +320,7 @@ export function useProducts(filters: ProductFilters = {}) {
   return useQuery({
     queryKey: productKeys.list(filters),
     queryFn: () => productApi.list(filters),
-    staleTime: 60 * 1000, // 1 minute
+    staleTime: 60 * 1000, // 1分
   });
 }
 
@@ -761,7 +761,7 @@ export const queryClient = new QueryClient({
       },
     },
     mutations: {
-      retry: false, // Don't retry mutations by default
+      retry: false, // デフォルトでミューテーションを再試行しない
     },
   },
 });

@@ -418,11 +418,11 @@ CQRSフィールドを含むPrismaモデルを定義します：
 // prisma/schema.prisma
 model Product {
   // CQRS composite keys (CQRSの複合キー)
-  id     String @id            // PK#SK without version
-  cpk    String                // Command PK
-  csk    String                // Command SK with version
-  pk     String                // Data PK
-  sk     String                // Data SK without version
+  id     String @id            // バージョンなしのPK#SK
+  cpk    String                // コマンドPK
+  csk    String                // バージョンありのコマンドSK
+  pk     String                // データPK
+  sk     String                // バージョンなしのデータSK
 
   // Domain fields (ドメインフィールド)
   code   String
@@ -465,9 +465,9 @@ model Product {
 ```typescript
 const opts = {
   source: getCommandSource(
-    basename(__dirname),      // Module name
-    this.constructor.name,    // Class name
-    'methodName',             // Method name
+    basename(__dirname),      // モジュール名
+    this.constructor.name,    // クラス名
+    'methodName',             // メソッド名
   ),
   invokeContext,
 };
