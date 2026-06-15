@@ -384,9 +384,9 @@ if (latestCommand) {
 }
 ```
 
-### *async* `getNextCommand(currentKey: DetailKey): Promise<CommandModel>`
+### *async* `getNextCommand(currentKey: DetailKey): Promise<CommandModel | undefined>`
 
-Retrieves the next version of a command based on the current command's key. This is useful for processing command chains or implementing retry logic.
+Retrieves the next version of a command based on the current command's key. Returns `undefined` if the next version does not exist. This is useful for processing command chains or implementing retry logic.
 
 ```ts
 import { DetailKey } from "@mbc-cqrs-serverless/core";
@@ -397,7 +397,10 @@ const currentKey: DetailKey = {
 };
 
 const nextCommand = await this.commandService.getNextCommand(currentKey);
-// Returns command with sk: "CAT#cat001@3" if exists
+// Returns command with sk: "CAT#cat001@3" if it exists, otherwise undefined
+if (nextCommand) {
+  // Process the next command
+}
 ```
 
 ### *async* `updateStatus(key: DetailKey, status: string, notifyId?: string): Promise<void>`

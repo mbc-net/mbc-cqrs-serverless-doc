@@ -384,9 +384,9 @@ if (latestCommand) {
 }
 ```
 
-### *async* `getNextCommand(currentKey: DetailKey): Promise<CommandModel>`
+### *async* `getNextCommand(currentKey: DetailKey): Promise<CommandModel | undefined>`
 
-現在のコマンドのキーに基づいて、次のバージョンのコマンドを取得します。これは、コマンドチェーンの処理やリトライロジックの実装に役立ちます。
+現在のコマンドのキーに基づいて、次のバージョンのコマンドを取得します。次のバージョンが存在しない場合は`undefined`を返します。コマンドチェーンの処理やリトライロジックの実装に役立ちます。
 
 ```ts
 import { DetailKey } from "@mbc-cqrs-serverless/core";
@@ -397,7 +397,10 @@ const currentKey: DetailKey = {
 };
 
 const nextCommand = await this.commandService.getNextCommand(currentKey);
-// Returns command with sk: "CAT#cat001@3" if exists (存在する場合、sk: "CAT#cat001@3"のコマンドを返す)
+// Returns command with sk: "CAT#cat001@3" if it exists, otherwise undefined (存在する場合はsk: "CAT#cat001@3"のコマンドを返し、存在しない場合はundefined)
+if (nextCommand) {
+  // Process the next command (次のコマンドを処理する)
+}
 ```
 
 ### *async* `updateStatus(key: DetailKey, status: string, notifyId?: string): Promise<void>`
