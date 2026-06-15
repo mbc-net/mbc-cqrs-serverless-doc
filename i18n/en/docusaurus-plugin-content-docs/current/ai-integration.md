@@ -30,10 +30,10 @@ AI tools can directly fetch these files to build context about the framework:
 
 ```bash
 # Short version for quick context
-curl https://raw.githubusercontent.com/mbc-net/mbc-cqrs-serverless/main/llms.txt
+curl https://mbc-cqrs-serverless.mbc-net.com/llms.txt
 
 # Full version for comprehensive context
-curl https://raw.githubusercontent.com/mbc-net/mbc-cqrs-serverless/main/llms-full.txt
+curl https://mbc-cqrs-serverless.mbc-net.com/llms-full.txt
 ```
 
 ## MCP Server Integration {#mcp-server-integration}

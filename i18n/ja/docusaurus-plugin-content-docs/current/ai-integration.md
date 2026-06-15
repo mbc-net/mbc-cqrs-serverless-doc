@@ -30,10 +30,10 @@ AIツールはこれらのファイルを直接取得してフレームワーク
 
 ```bash
 # Short version for quick context
-curl https://raw.githubusercontent.com/mbc-net/mbc-cqrs-serverless/main/llms.txt
+curl https://mbc-cqrs-serverless.mbc-net.com/llms.txt
 
 # Full version for comprehensive context
-curl https://raw.githubusercontent.com/mbc-net/mbc-cqrs-serverless/main/llms-full.txt
+curl https://mbc-cqrs-serverless.mbc-net.com/llms-full.txt
 ```
 
 ## MCPサーバー統合 {#mcp-server-integration}
