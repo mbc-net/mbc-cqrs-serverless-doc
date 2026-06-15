@@ -125,8 +125,8 @@ await Promise.all(promises);
 
 ```typescript
 // ❌ Anti-Pattern: N+1 queries (アンチパターン: N+1クエリ)
-const orders = await this.dataService.listItems({ pk: tenantPk });
-for (const order of orders) {
+const orders = await this.dataService.listItemsByPk(tenantPk);
+for (const order of orders.items) {
   // Each iteration makes a DB call! (各反復でDBコールが発生！)
   const customer = await this.dataService.getItem({
     pk: order.customerPk,
@@ -138,11 +138,14 @@ for (const order of orders) {
 
 ```typescript
 // ✅ Correct: Batch fetch or denormalize (正解: バッチ取得または非正規化)
-const orders = await this.dataService.listItems({ pk: tenantPk });
-const customerKeys = orders.map(o => ({ pk: o.customerPk, sk: o.customerSk }));
-const customers = await this.dataService.batchGetItems(customerKeys);
-const customerMap = new Map(customers.map(c => [c.sk, c]));
-orders.forEach(order => {
+// Option 1: Denormalize — store customer snapshot inside the order item (recommended for CQRS) (オプション1: 非正規化 — 注文アイテム内に顧客スナップショットを保存（CQRSで推奨）)
+// Option 2: Parallel fetch — use Promise.all to avoid sequential blocking (オプション2: 並列取得 — Promise.allで逐次ブロッキングを回避)
+const orders = await this.dataService.listItemsByPk(tenantPk);
+const customers = await Promise.all(
+  orders.items.map(o => this.dataService.getItem({ pk: o.customerPk, sk: o.customerSk }))
+);
+const customerMap = new Map(customers.filter(Boolean).map(c => [c.sk, c]));
+orders.items.forEach(order => {
   order.customer = customerMap.get(order.customerSk);
 });
 ```
@@ -162,17 +165,23 @@ orders.forEach(order => {
 
 ```typescript
 // ❌ Anti-Pattern: Full table scan (アンチパターン: フルテーブルスキャン)
-const allItems = await this.dataService.scan({ TableName: 'data-table' });
-const filteredItems = allItems.filter(item => item.status === 'active');
+// Avoid Scan via DynamoDB SDK directly — reads all items regardless of tenant/key (DynamoDB SDKのScanを直接使用しない — テナント/キーに関係なく全アイテムを読み取る)
+const result = await this.dynamoDbService.client.send(
+  new ScanCommand({ TableName: 'data-table' })
+);
+const filteredItems = result.Items?.filter(item => item.status?.S === 'active');
 ```
 
 ```typescript
 // ✅ Correct: Query with proper key conditions (正解: 適切なキー条件でクエリ)
-const activeItems = await this.dataService.listItems({
-  pk: tenantPk,
-  sk: { $beginsWith: 'ITEM#' },
-  filter: { status: 'active' }
+const result = await this.dataService.listItemsByPk(tenantPk, {
+  sk: {
+    skExpression: 'begins_with(sk, :skPrefix)',
+    skAttributeValues: { ':skPrefix': 'ITEM#' },
+  },
 });
+// Filter by non-key attributes in application code after fetching (取得後にアプリケーションコードで非キー属性によるフィルタリングを実施)
+const activeItems = result.items.filter(item => item.attributes?.status === 'active');
 ```
 
 **なぜこれが問題なのか：**

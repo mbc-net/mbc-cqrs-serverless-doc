@@ -125,8 +125,8 @@ await Promise.all(promises);
 
 ```typescript
 // ❌ {{Anti-Pattern: N+1 queries}}
-const orders = await this.dataService.listItems({ pk: tenantPk });
-for (const order of orders) {
+const orders = await this.dataService.listItemsByPk(tenantPk);
+for (const order of orders.items) {
   // {{Each iteration makes a DB call!}}
   const customer = await this.dataService.getItem({
     pk: order.customerPk,
@@ -138,11 +138,14 @@ for (const order of orders) {
 
 ```typescript
 // ✅ {{Correct: Batch fetch or denormalize}}
-const orders = await this.dataService.listItems({ pk: tenantPk });
-const customerKeys = orders.map(o => ({ pk: o.customerPk, sk: o.customerSk }));
-const customers = await this.dataService.batchGetItems(customerKeys);
-const customerMap = new Map(customers.map(c => [c.sk, c]));
-orders.forEach(order => {
+// {{Option 1: Denormalize — store customer snapshot inside the order item (recommended for CQRS)}}
+// {{Option 2: Parallel fetch — use Promise.all to avoid sequential blocking}}
+const orders = await this.dataService.listItemsByPk(tenantPk);
+const customers = await Promise.all(
+  orders.items.map(o => this.dataService.getItem({ pk: o.customerPk, sk: o.customerSk }))
+);
+const customerMap = new Map(customers.filter(Boolean).map(c => [c.sk, c]));
+orders.items.forEach(order => {
   order.customer = customerMap.get(order.customerSk);
 });
 ```
@@ -162,17 +165,23 @@ orders.forEach(order => {
 
 ```typescript
 // ❌ {{Anti-Pattern: Full table scan}}
-const allItems = await this.dataService.scan({ TableName: 'data-table' });
-const filteredItems = allItems.filter(item => item.status === 'active');
+// {{Avoid Scan via DynamoDB SDK directly — reads all items regardless of tenant/key}}
+const result = await this.dynamoDbService.client.send(
+  new ScanCommand({ TableName: 'data-table' })
+);
+const filteredItems = result.Items?.filter(item => item.status?.S === 'active');
 ```
 
 ```typescript
 // ✅ {{Correct: Query with proper key conditions}}
-const activeItems = await this.dataService.listItems({
-  pk: tenantPk,
-  sk: { $beginsWith: 'ITEM#' },
-  filter: { status: 'active' }
+const result = await this.dataService.listItemsByPk(tenantPk, {
+  sk: {
+    skExpression: 'begins_with(sk, :skPrefix)',
+    skAttributeValues: { ':skPrefix': 'ITEM#' },
+  },
 });
+// {{Filter by non-key attributes in application code after fetching}}
+const activeItems = result.items.filter(item => item.attributes?.status === 'active');
 ```
 
 **{{Why this is problematic:}}**
