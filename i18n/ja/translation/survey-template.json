@@ -65,5 +65,9 @@
   "Backend Development": "バックエンド開発",
   "Core backend patterns": "コアバックエンドパターン",
   "Service Patterns": "サービスパターン",
-  "Service implementation": "サービス実装"
+  "Service implementation": "サービス実装",
+  "text question options": "text question options (テキスト質問オプション)",
+  "multiple_choice options": "multiple_choice options (複数選択オプション)",
+  "rating options": "rating options (評価オプション)",
+  "date options": "date options (日付オプション)"
 }

@@ -286,7 +286,7 @@ export class AppModule {}
 This module exports:
 - `EmailService` - Send emails via Amazon SES
 - `AppSyncService` - Send real-time notifications via AppSync (GraphQL Subscriptions)
-- `AppSyncEventsService` - Send real-time notifications via AppSync Events API (opt-in, added in v1.3.0)
+- `AppSyncEventsService` - Send real-time notifications via AppSync Events API (opt-in, added in v1.3.0) → [Notification Module](/docs/notification-module#appsync-events-service)
 
 ## Creating Custom Modules {#custom-modules}
 
@@ -344,3 +344,4 @@ export class AppModule {}
 - [NestJS Modules](https://docs.nestjs.com/modules): Official NestJS module documentation
 - [CommandService](/docs/command-service): Detailed CommandModule configuration
 - [Event Handling Patterns](/docs/event-handling-patterns): Creating data sync handlers
+- [Notification Module](/docs/notification-module): Real-time notifications and email via AppSync and SES

@@ -169,6 +169,27 @@ interface TemplateSettings {
   showProgressBar: boolean;
   randomizeQuestions: boolean;
 }
+
+type QuestionType = 'text' | 'multiple_choice' | 'rating' | 'boolean' | 'date';
+
+interface Question {
+  type: QuestionType;
+  text: string;
+  required: boolean;
+  // text question options
+  maxLength?: number;
+  placeholder?: string;
+  // multiple_choice options
+  allowMultiple?: boolean;
+  options?: Array<{ value: string; label: string }>;
+  // rating options
+  min?: number;
+  max?: number;
+  labels?: Record<string, string>;
+  // date options
+  minDate?: string;
+  maxDate?: string;
+}
 ```
 
 ## Searching Templates {#searching-templates}

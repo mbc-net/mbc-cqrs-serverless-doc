@@ -107,5 +107,7 @@
   "CommandService": "CommandService",
   "Detailed CommandModule configuration": "Detailed CommandModule configuration",
   "Event Handling Patterns": "Event Handling Patterns",
-  "Creating data sync handlers": "Creating data sync handlers"
+  "Creating data sync handlers": "Creating data sync handlers",
+  "Notification Module": "Notification Module",
+  "Real-time notifications and email via AppSync and SES": "Real-time notifications and email via AppSync and SES"
 }

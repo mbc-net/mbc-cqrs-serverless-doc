@@ -107,5 +107,7 @@
   "CommandService": "CommandService",
   "Detailed CommandModule configuration": "CommandModuleの詳細設定",
   "Event Handling Patterns": "イベント処理パターン",
-  "Creating data sync handlers": "データ同期ハンドラーの作成"
+  "Creating data sync handlers": "データ同期ハンドラーの作成",
+  "Notification Module": "通知モジュール",
+  "Real-time notifications and email via AppSync and SES": "AppSyncとSESによるリアルタイム通知とメール"
 }

@@ -169,6 +169,27 @@ interface TemplateSettings {
   showProgressBar: boolean;
   randomizeQuestions: boolean;
 }
+
+type QuestionType = 'text' | 'multiple_choice' | 'rating' | 'boolean' | 'date';
+
+interface Question {
+  type: QuestionType;
+  text: string;
+  required: boolean;
+  // text question options (テキスト質問オプション)
+  maxLength?: number;
+  placeholder?: string;
+  // multiple_choice options (複数選択オプション)
+  allowMultiple?: boolean;
+  options?: Array<{ value: string; label: string }>;
+  // rating options (評価オプション)
+  min?: number;
+  max?: number;
+  labels?: Record<string, string>;
+  // date options (日付オプション)
+  minDate?: string;
+  maxDate?: string;
+}
 ```
 
 ## テンプレートの検索 {#searching-templates}

@@ -65,5 +65,9 @@
   "Backend Development": "Backend Development",
   "Core backend patterns": "Core backend patterns",
   "Service Patterns": "Service Patterns",
-  "Service implementation": "Service implementation"
+  "Service implementation": "Service implementation",
+  "text question options": "text question options",
+  "multiple_choice options": "multiple_choice options",
+  "rating options": "rating options",
+  "date options": "date options"
 }

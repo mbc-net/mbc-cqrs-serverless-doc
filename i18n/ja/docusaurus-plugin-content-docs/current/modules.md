@@ -286,7 +286,7 @@ export class AppModule {}
 このモジュールは以下をエクスポートします：
 - `EmailService` - Amazon SES経由でメールを送信
 - `AppSyncService` - AppSync（GraphQLサブスクリプション）経由でリアルタイム通知を送信
-- `AppSyncEventsService` - AppSync Events API経由でリアルタイム通知を送信（オプトイン、v1.3.0で追加）
+- `AppSyncEventsService` - AppSync Events API経由でリアルタイム通知を送信（オプトイン、v1.3.0で追加） → [通知モジュール](/docs/notification-module#appsync-events-service)
 
 ## カスタムモジュールの作成 {#custom-modules}
 
@@ -344,3 +344,4 @@ export class AppModule {}
 - [NestJS Modules](https://docs.nestjs.com/modules): NestJS公式モジュールドキュメント
 - [CommandService](/docs/command-service): CommandModuleの詳細設定
 - [イベント処理パターン](/docs/event-handling-patterns): データ同期ハンドラーの作成
+- [通知モジュール](/docs/notification-module): AppSyncとSESによるリアルタイム通知とメール
