@@ -100,5 +100,8 @@
   "Frontend Project Structure": "Frontend Project Structure",
   "UI integration": "UI integration",
   "Interfaces": "Interfaces",
-  "UI setting interfaces": "UI setting interfaces"
+  "UI setting interfaces": "UI setting interfaces",
+  "pk: MASTER#<tenantCode>": "pk: MASTER#<tenantCode>",
+  "sk: MASTER_SETTING#<code>": "sk: MASTER_SETTING#<code>",
+  "sk: <settingCode>#<code>": "sk: <settingCode>#<code>"
 }

@@ -284,12 +284,12 @@ const createDto: CreateDataSettingDto = {
 
 ```typescript
 // {{Settings are stored with tenant-prefixed keys:}}
-// pk: MASTER#<tenantCode>
-// sk: MASTER_SETTING#<code>
+// {{pk: MASTER#<tenantCode>}}
+// {{sk: MASTER_SETTING#<code>}}
 
 // {{Data settings are stored with setting-prefixed keys:}}
-// pk: MASTER#<tenantCode>
-// sk: <settingCode>#<code>
+// {{pk: MASTER#<tenantCode>}}
+// {{sk: <settingCode>#<code>}}
 ```
 
 ## {{Example Use Cases}} {#example-use-cases}

@@ -103,5 +103,6 @@
   "Monitoring and Logging": "Monitoring and Logging",
   "Set up observability": "Set up observability",
   "Environment Variables": "Environment Variables",
-  "CI/CD environment configuration": "CI/CD environment configuration"
+  "CI/CD environment configuration": "CI/CD environment configuration",
+  "Pipeline": "Pipeline"
 }

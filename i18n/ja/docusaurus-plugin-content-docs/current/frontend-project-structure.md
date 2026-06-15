@@ -395,15 +395,15 @@ export default function RootLayout({
 ```bash
 # .env.local
 
-# API Configuration
+# API設定
 NEXT_PUBLIC_API_URL=http://localhost:3000
 
-# AWS Cognito Configuration
+# AWS Cognito設定
 NEXT_PUBLIC_AWS_REGION=ap-northeast-1
 NEXT_PUBLIC_COGNITO_USER_POOL_ID=your-user-pool-id
 NEXT_PUBLIC_COGNITO_CLIENT_ID=your-client-id
 
-# Feature Flags
+# 機能フラグ
 NEXT_PUBLIC_ENABLE_ANALYTICS=false
 ```
 

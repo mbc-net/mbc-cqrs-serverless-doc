@@ -100,5 +100,8 @@
   "Frontend Project Structure": "フロントエンドプロジェクト構成",
   "UI integration": "UI統合",
   "Interfaces": "インターフェース",
-  "UI setting interfaces": "UI設定インターフェース"
+  "UI setting interfaces": "UI設定インターフェース",
+  "pk: MASTER#<tenantCode>": "pk: MASTER#<テナントコード>",
+  "sk: MASTER_SETTING#<code>": "sk: MASTER_SETTING#<コード>",
+  "sk: <settingCode>#<code>": "sk: <設定コード>#<コード>"
 }

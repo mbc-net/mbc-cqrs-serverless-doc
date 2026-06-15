@@ -103,5 +103,6 @@
   "Monitoring and Logging": "監視とログ",
   "Set up observability": "オブザーバビリティの設定",
   "Environment Variables": "環境変数",
-  "CI/CD environment configuration": "CI/CD環境設定"
+  "CI/CD environment configuration": "CI/CD環境設定",
+  "Pipeline": "パイプライン"
 }

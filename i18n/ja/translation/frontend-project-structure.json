@@ -124,5 +124,8 @@
   "Frontend state": "フロントエンドステート",
   "Cognito frontend integration": "Cognitoのフロントエンド統合",
   "Master Web": "マスターWeb",
-  "Master data frontend": "マスターデータのフロントエンド"
+  "Master data frontend": "マスターデータのフロントエンド",
+  "API Configuration": "API設定",
+  "AWS Cognito Configuration": "AWS Cognito設定",
+  "Feature Flags": "機能フラグ"
 }

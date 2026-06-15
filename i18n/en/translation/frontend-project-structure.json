@@ -124,5 +124,8 @@
   "Frontend state": "Frontend state",
   "Cognito frontend integration": "Cognito frontend integration",
   "Master Web": "Master Web",
-  "Master data frontend": "Master data frontend"
+  "Master data frontend": "Master data frontend",
+  "API Configuration": "API Configuration",
+  "AWS Cognito Configuration": "AWS Cognito Configuration",
+  "Feature Flags": "Feature Flags"
 }

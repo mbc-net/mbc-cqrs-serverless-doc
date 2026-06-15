@@ -284,12 +284,12 @@ const createDto: CreateDataSettingDto = {
 
 ```typescript
 // Settings are stored with tenant-prefixed keys: (設定はテナントプレフィックス付きキーで保存されます)
-// pk: MASTER#<tenantCode>
-// sk: MASTER_SETTING#<code>
+// pk: MASTER#<テナントコード>
+// sk: MASTER_SETTING#<コード>
 
 // Data settings are stored with setting-prefixed keys: (データ設定は設定プレフィックス付きキーで保存されます)
-// pk: MASTER#<tenantCode>
-// sk: <settingCode>#<code>
+// pk: MASTER#<テナントコード>
+// sk: <設定コード>#<コード>
 ```
 
 ## 使用例 {#example-use-cases}
