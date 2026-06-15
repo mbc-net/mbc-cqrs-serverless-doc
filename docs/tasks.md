@@ -523,7 +523,7 @@ interface CreateTaskDto {
   tenantCode: string;  // {{Required: Tenant identifier}}
   taskType: string;    // {{Required: Type/category of the task}}
   name?: string;       // {{Optional: Display name (defaults to taskType)}}
-  input: Record<string, any> | any[];  // {{Required: Task input data}}
+  input: Record<string, any>;  // {{Required: Task input data}}
 }
 ```
 

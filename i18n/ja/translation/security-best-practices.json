@@ -38,7 +38,6 @@
   "Resource-Level Authorization": "リソースレベルの認可",
   "Check ownership before allowing operations.": "操作を許可する前に所有権を確認します。",
   "Derive user identity from verified JWT — never from request parameters": "Derive user identity from verified JWT — never from request parameters (JWTから検証済みのユーザーIDを取得する — リクエストパラメーターから取得しない)",
-  "Check ownership": "Check ownership (所有権を確認)",
   "Data Protection": "データ保護",
   "Encrypt Sensitive Data": "機密データの暗号化",
   "Encrypt sensitive data before storing.": "保存前に機密データを暗号化します。",
