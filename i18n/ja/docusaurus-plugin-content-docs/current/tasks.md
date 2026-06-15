@@ -161,7 +161,7 @@ export class CustomEventFactory extends EventFactoryAddedTask {
 
 ### Step Functionsを使用したタスク処理
 
-1. Step Functionタスクイベントの定義
+1. Step Functionsタスクイベントの定義
 
 ```ts
 import { StepFunctionTaskEvent } from "@mbc-cqrs-serverless/task";
@@ -169,7 +169,7 @@ import { StepFunctionTaskEvent } from "@mbc-cqrs-serverless/task";
 export class SfnTaskEvent extends StepFunctionTaskEvent {}
 ```
 
-2. Step Functionタスクイベントハンドラーの定義
+2. Step Functionsタスクイベントハンドラーの定義
 
 ```ts
 import {
@@ -266,7 +266,7 @@ export class CustomEventFactory extends EventFactoryAddedTask {
 }
 ```
 
-6. Step Functionタスクの作成
+6. Step Functionsタスクの作成
 
 ```ts
 const item = [

@@ -5,7 +5,7 @@ description: Learn about the Master Service for managing master data and setting
 # Master
 
 
-The Master Service provides functionality for managing master data and settings in a multi-tenant environment
+The Master Service provides functionality for managing master data and settings in a multi-tenant environment.
 ## Overview
 
 The Master Service consists of two main components:
@@ -81,7 +81,7 @@ import { MasterModule } from '@mbc-cqrs-serverless/master'
 ## API Reference
 
 ### MasterSettingService
-The MasterSettingService interface manages settings at various levels user, group, tenant, common. It allows retrieving, updating, creating, and deleting settings.
+The MasterSettingService interface manages settings at various levels: user, group, tenant, and common. It allows retrieving, updating, creating, and deleting settings.
 
 ##### `getSetting(dto: GetSettingDto, context: { invokeContext: IInvoke }): Promise<MasterSettingEntity>`
 Retrieves a specific setting based on the provided setting code.

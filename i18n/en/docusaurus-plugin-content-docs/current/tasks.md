@@ -161,7 +161,7 @@ export class CustomEventFactory extends EventFactoryAddedTask {
 
 ### Task processing with Step Functions
 
-1. Define step function task event
+1. Define Step Functions task event
 
 ```ts
 import { StepFunctionTaskEvent } from "@mbc-cqrs-serverless/task";
@@ -169,7 +169,7 @@ import { StepFunctionTaskEvent } from "@mbc-cqrs-serverless/task";
 export class SfnTaskEvent extends StepFunctionTaskEvent {}
 ```
 
-2. Define step function task event handler
+2. Define Step Functions task event handler
 
 ```ts
 import {
@@ -266,7 +266,7 @@ export class CustomEventFactory extends EventFactoryAddedTask {
 }
 ```
 
-6. Create a step function task
+6. Create a Step Functions task
 
 ```ts
 const item = [

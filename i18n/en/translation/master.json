@@ -1,7 +1,7 @@
 {
   "Learn about the Master Service for managing master data and settings in a multi-tenant environment.": "Learn about the Master Service for managing master data and settings in a multi-tenant environment.",
   "Master": "Master",
-  "The Master Service provides functionality for managing master data and settings in a multi-tenant environment": "The Master Service provides functionality for managing master data and settings in a multi-tenant environment",
+  "The Master Service provides functionality for managing master data and settings in a multi-tenant environment.": "The Master Service provides functionality for managing master data and settings in a multi-tenant environment.",
   "Overview": "Overview",
   "The Master Service consists of two main components:": "The Master Service consists of two main components:",
   "Implements hierarchical settings management": "Implements hierarchical settings management",
@@ -38,7 +38,7 @@
   "When `enableController: true`, the `prismaService` parameter is **required**. The module will throw an error at startup if `prismaService` is not provided when the controller is enabled.": "When `enableController: true`, the `prismaService` parameter is **required**. The module will throw an error at startup if `prismaService` is not provided when the controller is enabled.",
   "API Reference": "API Reference",
   "MasterSettingService": "MasterSettingService",
-  "The MasterSettingService interface manages settings at various levels user, group, tenant, common. It allows retrieving, updating, creating, and deleting settings.": "The MasterSettingService interface manages settings at various levels user, group, tenant, common. It allows retrieving, updating, creating, and deleting settings.",
+  "The MasterSettingService interface manages settings at various levels: user, group, tenant, and common. It allows retrieving, updating, creating, and deleting settings.": "The MasterSettingService interface manages settings at various levels: user, group, tenant, and common. It allows retrieving, updating, creating, and deleting settings.",
   "Retrieves a specific setting based on the provided setting code.": "Retrieves a specific setting based on the provided setting code.",
   "Creates a common tenant setting that is shared across the system.": "Creates a common tenant setting that is shared across the system.",
   "Creates a tenant-specific setting.": "Creates a tenant-specific setting.",

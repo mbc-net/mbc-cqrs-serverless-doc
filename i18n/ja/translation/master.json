@@ -1,7 +1,7 @@
 {
   "Learn about the Master Service for managing master data and settings in a multi-tenant environment.": "マルチテナント環境でのマスターデータと設定を管理するためのマスターサービスについて学びます。",
   "Master": "マスターモジュール",
-  "The Master Service provides functionality for managing master data and settings in a multi-tenant environment": "マスターサービスは、マルチテナント環境でのマスターデータと設定の管理機能を提供します。",
+  "The Master Service provides functionality for managing master data and settings in a multi-tenant environment.": "マスターサービスは、マルチテナント環境でのマスターデータと設定の管理機能を提供します。",
   "Overview": "概要",
   "The Master Service consists of two main components:": "マスターサービスは2つの主要コンポーネントで構成されています。",
   "Implements hierarchical settings management": "階層的な設定管理を実装",
@@ -38,7 +38,7 @@
   "When `enableController: true`, the `prismaService` parameter is **required**. The module will throw an error at startup if `prismaService` is not provided when the controller is enabled.": "`enableController: true` の場合、`prismaService` パラメータは **必須** です。コントローラーが有効な状態で `prismaService` が提供されていない場合、起動時にエラーがスローされます。",
   "API Reference": "APIリファレンス",
   "MasterSettingService": "マスター設定サービス",
-  "The MasterSettingService interface manages settings at various levels user, group, tenant, common. It allows retrieving, updating, creating, and deleting settings.": "MasterSettingService インターフェースは、ユーザー、グループ、テナント、共通のさまざまなレベルで設定を管理します。設定の取得、更新、作成、削除を可能にします。",
+  "The MasterSettingService interface manages settings at various levels: user, group, tenant, and common. It allows retrieving, updating, creating, and deleting settings.": "MasterSettingService インターフェースは、ユーザー、グループ、テナント、共通のさまざまなレベルで設定を管理します。設定の取得、更新、作成、削除を可能にします。",
   "Retrieves a specific setting based on the provided setting code.": "指定された設定コードに基づいて特定の設定を取得します。",
   "Creates a common tenant setting that is shared across the system.": "システム全体で共有される共通のテナント設定を作成します。",
   "Creates a tenant-specific setting.": "テナント固有の設定を作成します。",
