@@ -405,7 +405,7 @@ export default () => ({
   },
 });
 
-// Usage
+// {{Usage}}
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()

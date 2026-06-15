@@ -155,5 +155,7 @@
   "Interfaces": "Interfaces",
   "DataEntity and CommandEntity interfaces": "DataEntity and CommandEntity interfaces",
   "Service Patterns": "Service Patterns",
-  "Service layer with entities": "Service layer with entities"
+  "Service layer with entities": "Service layer with entities",
+  "Not this:": "Not this:",
+  "In DTO": "In DTO"
 }

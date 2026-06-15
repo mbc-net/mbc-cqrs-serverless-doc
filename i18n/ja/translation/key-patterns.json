@@ -222,5 +222,17 @@
   "Version Conflict Guide": "バージョン競合ガイド",
   "Concurrency control using version keys": "バージョンキーを使った並行制御",
   "Helpers": "ヘルパー",
-  "Key helper functions reference": "キーヘルパー関数リファレンス"
+  "Key helper functions reference": "キーヘルパー関数リファレンス",
+  "Example": "例",
+  "Examples": "例",
+  "Good": "良い例",
+  "Avoid": "避けること",
+  "Result: \"PRODUCT#tenant001\"": "結果: \"PRODUCT#tenant001\"",
+  "Result: \"01HX7MBJK3V9WQBZ7XNDK5ZT2M\"": "結果: \"01HX7MBJK3V9WQBZ7XNDK5ZT2M\"",
+  "Result: \"PRODUCT#tenant001#01HX7MBJK3V9WQBZ7XNDK5ZT2M\"": "結果: \"PRODUCT#tenant001#01HX7MBJK3V9WQBZ7XNDK5ZT2M\"",
+  "Result: \"01HX7MBJK3V9WQBZ7XNDK5ZT2M@3\"": "結果: \"01HX7MBJK3V9WQBZ7XNDK5ZT2M@3\"",
+  "Result: 3": "結果: 3",
+  "Result: -1 (VERSION_LATEST)": "結果: -1 (VERSION_LATEST)",
+  "Result: \"tenant001\"": "結果: \"tenant001\"",
+  "Result: undefined": "結果: undefined"
 }

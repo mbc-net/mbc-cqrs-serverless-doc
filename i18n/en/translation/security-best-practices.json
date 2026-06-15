@@ -103,5 +103,6 @@
   "32 bytes for AES-256": "32 bytes for AES-256",
   "DynamoDB access - specific tables only": "DynamoDB access - specific tables only",
   "S3 access - specific bucket and prefix": "S3 access - specific bucket and prefix",
-  "Secrets Manager - specific secrets only": "Secrets Manager - specific secrets only"
+  "Secrets Manager - specific secrets only": "Secrets Manager - specific secrets only",
+  "Usage": "Usage"
 }

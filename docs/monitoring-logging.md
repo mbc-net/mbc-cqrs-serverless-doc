@@ -163,7 +163,7 @@ async function publishMetric(
   }));
 }
 
-// Usage
+// {{Usage}}
 await publishMetric('TodosCreated', 1);
 await publishMetric('ProcessingTime', 150, 'Milliseconds');
 ```

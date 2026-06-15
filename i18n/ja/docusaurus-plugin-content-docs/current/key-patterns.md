@@ -144,15 +144,15 @@ const PRODUCT_PK_PREFIX = "PRODUCT";
 
 // Generate PK (PKを生成)
 const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
-// Result: "PRODUCT#tenant001"
+// 結果: "PRODUCT#tenant001"
 
 // Generate SK (using ULID for uniqueness and sortability) (SKを生成（一意性とソート可能性のためにULIDを使用）)
 const sk = ulid();
-// Result: "01HX7MBJK3V9WQBZ7XNDK5ZT2M"
+// 結果: "01HX7MBJK3V9WQBZ7XNDK5ZT2M"
 
 // Generate ID (combination of PK and SK) (IDを生成（PKとSKの組み合わせ）)
 const id = generateId(pk, sk);
-// Result: "PRODUCT#tenant001#01HX7MBJK3V9WQBZ7XNDK5ZT2M"
+// 結果: "PRODUCT#tenant001#01HX7MBJK3V9WQBZ7XNDK5ZT2M"
 ```
 
 ### バージョン管理
@@ -160,19 +160,19 @@ const id = generateId(pk, sk);
 ```ts
 // Add version to SK (SKにバージョンを追加)
 const skWithVersion = addSortKeyVersion(sk, 3);
-// Result: "01HX7MBJK3V9WQBZ7XNDK5ZT2M@3"
+// 結果: "01HX7MBJK3V9WQBZ7XNDK5ZT2M@3"
 
 // Remove version from SK (SKからバージョンを削除)
 const baseSk = removeSortKeyVersion(skWithVersion);
-// Result: "01HX7MBJK3V9WQBZ7XNDK5ZT2M"
+// 結果: "01HX7MBJK3V9WQBZ7XNDK5ZT2M"
 
 // Get version number from SK (SKからバージョン番号を取得)
 const version = getSortKeyVersion(skWithVersion);
-// Result: 3
+// 結果: 3
 
 // Get version from SK without version suffix (バージョンサフィックスなしのSKからバージョンを取得)
 const latestVersion = getSortKeyVersion(sk);
-// Result: -1 (VERSION_LATEST)
+// 結果: -1 (VERSION_LATEST)
 ```
 
 ### テナントコード抽出
@@ -182,11 +182,11 @@ import { getTenantCode } from "@mbc-cqrs-serverless/core";
 
 // Extract tenant code from PK (PKからテナントコードを抽出)
 const tenantCode = getTenantCode("PRODUCT#tenant001");
-// Result: "tenant001"
+// 結果: "tenant001"
 
 // Returns undefined if no separator found (セパレーターが見つからない場合はundefinedを返す)
 const noTenant = getTenantCode("PRODUCT");
-// Result: undefined
+// 結果: undefined
 ```
 
 ## 一般的なキーパターン {#common-patterns}
@@ -204,7 +204,7 @@ const noTenant = getTenantCode("PRODUCT");
 PK: PRODUCT#<tenantCode>
 SK: <ulid>
 
-// Example
+// 例
 PK: PRODUCT#tenant001
 SK: 01HX7MBJK3V9WQBZ7XNDK5ZT2M
 ID: PRODUCT#tenant001#01HX7MBJK3V9WQBZ7XNDK5ZT2M
@@ -233,7 +233,7 @@ SK: ORDER#<orderId>
 PK: ORDER#<tenantCode>
 SK: ORDER_ITEM#<orderId>#<itemId>
 
-// Example
+// 例
 Order:
   PK: ORDER#tenant001
   SK: ORDER#01HX7MBJK3V9WQBZ7XNDK5ZT2M
@@ -270,7 +270,7 @@ const itemSk = `${ORDER_ITEM_SK_PREFIX}${KEY_SEPARATOR}${orderId}${KEY_SEPARATOR
 PK: USER#<tenantCode>
 SK: <provider>#<userId>
 
-// Examples
+// 例
 PK: USER#common
 SK: local#user123           // Local authentication
 SK: sso#abc123def456        // SSO provider
@@ -303,7 +303,7 @@ const sk = generateUserSk("sso", cognitoSubId);
 PK: USER_TENANT#<commonTenant>
 SK: <tenantCode>#<userCode>
 
-// Example
+// 例
 PK: USER_TENANT#common
 SK: tenant001#user123
 SK: tenant002#user123   // Same user in different tenant
@@ -329,7 +329,7 @@ SK: <type>#<category>#<code>
 
 // Types: SETTING, DATA, COPY (タイプ: SETTING、DATA、COPY)
 // Master data is shared across all tenants under the COMMON partition (マスターデータはCOMMONパーティションの下で全テナント間で共有されます)
-// Examples
+// 例
 PK: MASTER#COMMON
 SK: SETTING#notification#email_template
 SK: DATA#product_category#electronics
@@ -362,7 +362,7 @@ const sk = generateMasterSk(DATA_PREFIX, "product_category", "electronics");
 PK: LOG#<tenantCode>#<year-month>
 SK: <timestamp>#<eventId>
 
-// Example
+// 例
 PK: LOG#tenant001#2024-01
 SK: 2024-01-15T10:30:00Z#evt001
 SK: 2024-01-15T10:31:00Z#evt002
@@ -541,11 +541,11 @@ const items = await dataService.listItemsByPk(
 プレフィックスを定数として定義します：
 
 ```ts
-// Good
+// 良い例
 export const PRODUCT_PK_PREFIX = "PRODUCT";
 const pk = `${PRODUCT_PK_PREFIX}${KEY_SEPARATOR}${tenantCode}`;
 
-// Avoid
+// 避けること
 const pk = `PRODUCT#${tenantCode}`; // Magic string
 ```
 
@@ -557,7 +557,7 @@ ULIDは一意性と時間ベースのソートの両方を提供します：
 import { ulid } from "ulid";
 
 const sk = ulid();
-// Result: "01HX7MBJK3V9WQBZ7XNDK5ZT2M"
+// 結果: "01HX7MBJK3V9WQBZ7XNDK5ZT2M"
 // Sortable by creation time (作成時刻でソート可能)
 ```
 
@@ -591,10 +591,10 @@ PK: USER_ACTIVITY#user123  // Could create millions of partitions
 マルチテナント分離のために、常にPKにテナントコードを含めます：
 
 ```ts
-// Good
+// 良い例
 PK: PRODUCT#tenant001
 
-// Avoid
+// 避けること
 PK: PRODUCT  // No tenant isolation
 SK: tenant001#productId  // Tenant in SK is less efficient
 ```

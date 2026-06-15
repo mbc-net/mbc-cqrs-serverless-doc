@@ -803,7 +803,7 @@ interface ProductAttributes {
   // ...
 }
 
-// Not this:
+// 非推奨の書き方:
 attributes: Record<string, any>  // Avoid
 ```
 
@@ -853,7 +853,7 @@ enum OrderStatus {
   // ...
 }
 
-// In DTO
+// DTO 内
 @IsEnum(OrderStatus)
 status: OrderStatus;
 ```

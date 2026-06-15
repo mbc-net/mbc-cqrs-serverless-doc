@@ -235,7 +235,7 @@ export { retry, sleep, syncDataFinished };
     sudo mkdir -p /var/lib/docker/volumes
     sudo chmod -R 777 /var/lib/docker/volumes
     
-    # Create required directories
+    # {{Create required directories}}
     sudo mkdir -p infra-local/docker-data/{.cognito,.dynamodb,.mysql,.localstack,.elasticmq}
     sudo chown -R $USER:$USER infra-local
     sudo chmod -R 777 infra-local/docker-data

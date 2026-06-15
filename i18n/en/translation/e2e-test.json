@@ -62,5 +62,6 @@
   "Testing overview": "Testing overview",
   "Deployment Guide": "Deployment Guide",
   "Deploy for integration testing": "Deploy for integration testing",
-  "Adjust to self-hosted if your environment requires access to private VPC resources": "Adjust to self-hosted if your environment requires access to private VPC resources"
+  "Adjust to self-hosted if your environment requires access to private VPC resources": "Adjust to self-hosted if your environment requires access to private VPC resources",
+  "Create required directories": "Create required directories"
 }

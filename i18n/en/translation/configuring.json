@@ -66,5 +66,6 @@
   "Required: Default sender email address": "Required: Default sender email address",
   "Optional: AWS SES endpoint (for local development)": "Optional: AWS SES endpoint (for local development)",
   "Optional: AWS SES region": "Optional: AWS SES region",
-  "For local dev": "For local dev"
+  "For local dev": "For local dev",
+  "Usage": "Usage"
 }

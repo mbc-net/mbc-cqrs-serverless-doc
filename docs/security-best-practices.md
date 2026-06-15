@@ -359,7 +359,7 @@ function decrypt(encryptedText: string): string {
   return decrypted;
 }
 
-// Usage
+// {{Usage}}
 const sensitiveData = {
   ssn: encrypt('123-45-6789'),
   creditCard: encrypt('4111111111111111'),
@@ -394,7 +394,7 @@ function maskSensitiveData(obj: any): any {
   return masked;
 }
 
-// Usage
+// {{Usage}}
 console.log('Request:', maskSensitiveData(requestBody));
 ```
 

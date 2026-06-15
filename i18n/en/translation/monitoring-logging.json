@@ -147,5 +147,6 @@
   "Error analysis": "Error analysis",
   "Slow requests": "Slow requests",
   "Request volume by endpoint": "Request volume by endpoint",
-  "Cold starts": "Cold starts"
+  "Cold starts": "Cold starts",
+  "Usage": "Usage"
 }

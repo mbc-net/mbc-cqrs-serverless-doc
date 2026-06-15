@@ -384,10 +384,10 @@ try {
 
 **解決策**:
 ```bash
-# Verify table exists
+# テーブルの存在確認
 aws dynamodb describe-table --table-name your-table-name
 
-# Check environment variable
+# 環境変数の確認
 echo $DYNAMODB_TABLE_NAME
 ```
 
@@ -659,7 +659,7 @@ try {
 
 **解決策**:
 ```yaml
-# Add required permissions in serverless.yml
+# serverless.yml に必要な権限を追加
 provider:
   iam:
     role:

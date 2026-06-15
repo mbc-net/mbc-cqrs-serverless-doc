@@ -147,5 +147,6 @@
   "Error analysis": "エラー分析",
   "Slow requests": "スローリクエスト",
   "Request volume by endpoint": "エンドポイント別リクエスト数",
-  "Cold starts": "コールドスタート"
+  "Cold starts": "コールドスタート",
+  "Usage": "使用例"
 }

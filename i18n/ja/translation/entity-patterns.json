@@ -155,5 +155,7 @@
   "Interfaces": "インターフェース",
   "DataEntity and CommandEntity interfaces": "DataEntityとCommandEntityインターフェース",
   "Service Patterns": "サービスパターン",
-  "Service layer with entities": "エンティティを使ったサービス層"
+  "Service layer with entities": "エンティティを使ったサービス層",
+  "Not this:": "非推奨の書き方:",
+  "In DTO": "DTO 内"
 }

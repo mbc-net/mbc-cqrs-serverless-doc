@@ -62,5 +62,6 @@
   "Testing overview": "テストの概要",
   "Deployment Guide": "デプロイガイド",
   "Deploy for integration testing": "結合テスト用のデプロイ",
-  "Adjust to self-hosted if your environment requires access to private VPC resources": "プライベートVPCリソースへのアクセスが必要な場合はself-hostedに変更してください"
+  "Adjust to self-hosted if your environment requires access to private VPC resources": "プライベートVPCリソースへのアクセスが必要な場合はself-hostedに変更してください",
+  "Create required directories": "必要なディレクトリを作成"
 }

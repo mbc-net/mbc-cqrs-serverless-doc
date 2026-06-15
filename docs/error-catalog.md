@@ -384,10 +384,10 @@ try {
 
 **{{Solution}}**:
 ```bash
-# Verify table exists
+# {{Verify table exists}}
 aws dynamodb describe-table --table-name your-table-name
 
-# Check environment variable
+# {{Check environment variable}}
 echo $DYNAMODB_TABLE_NAME
 ```
 
@@ -659,7 +659,7 @@ try {
 
 **{{Solution}}**:
 ```yaml
-# Add required permissions in serverless.yml
+# {{Add required permissions in serverless.yml}}
 provider:
   iam:
     role:
