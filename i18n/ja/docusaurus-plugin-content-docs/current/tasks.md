@@ -13,7 +13,7 @@ Taskパッケージは、MBC CQRS Serverlessフレームワークにおいて包
 - タスクキュー管理
 - タスク履歴とロギング
 
-## アーキテクチャ
+## アーキテクチャ {#architecture}
 
 ```mermaid
 sequenceDiagram
@@ -39,13 +39,13 @@ sequenceDiagram
     StepFunctions->>DynamoDB: Update parent task status
 ```
 
-## インストール
+## インストール {#installation}
 
 ```bash
 npm install @mbc-cqrs-serverless/task
 ```
 
-## 使用方法
+## 使用方法 {#usage}
 
 タスク処理には2つのタイプがあります：
 
@@ -288,7 +288,7 @@ await this.taskService.createStepFunctionTask(
 );
 ```
 
-## APIリファレンス
+## APIリファレンス {#api-reference}
 
 ### TaskServiceメソッド
 

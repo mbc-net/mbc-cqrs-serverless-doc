@@ -6,7 +6,7 @@ description: {{Learn how to manage state effectively in your frontend applicatio
 
 {{This guide explains how to manage different types of state in frontend applications. Understanding when to use each tool prevents common problems like stale data, unnecessary re-renders, and complex debugging.}}
 
-## {{When to Use This Guide}}
+## {{When to Use This Guide}} {#when-to-use}
 
 {{Use this guide when you need to:}}
 
@@ -16,7 +16,7 @@ description: {{Learn how to manage state effectively in your frontend applicatio
 - {{Implement optimistic updates for better user experience}}
 - {{Manage multi-tenant context in a SaaS application}}
 
-## {{Choosing the Right Tool}}
+## {{Choosing the Right Tool}} {#choosing-tools}
 
 {{The most common mistake is using one tool for all state. Different types of state have different requirements:}}
 
@@ -28,7 +28,7 @@ description: {{Learn how to manage state effectively in your frontend applicatio
 | {{Form State}} | React Hook Form | {{Form inputs, validation}} | {{Optimized for form performance, built-in validation}} |
 | {{URL State}} | Next.js Router | {{Query params, path params}} | {{Shareable URLs, browser history integration}} |
 
-## {{Current Implementation}}
+## {{Current Implementation}} {#current-implementation}
 
 {{The MBC CQRS Serverless Web package uses the following state management architecture:}}
 
@@ -105,7 +105,7 @@ export function useUserContext(): UserContext {
 }
 ```
 
-## {{Context API for Client State}}
+## {{Context API for Client State}} {#context-api}
 
 ### {{Use Case: Global Loading State}}
 
@@ -219,7 +219,7 @@ function ProductPage() {
 }
 ```
 
-## {{axios for HTTP Requests}}
+## {{axios for HTTP Requests}} {#axios-http}
 
 ### {{Use Case: Centralized HTTP Client with Authentication}}
 
@@ -347,7 +347,7 @@ function ProductList() {
 }
 ```
 
-## {{Apollo Client for Real-time Subscriptions}}
+## {{Apollo Client for Real-time Subscriptions}} {#apollo-client}
 
 ### {{Use Case: GraphQL Subscriptions with AppSync}}
 
@@ -451,7 +451,7 @@ function CommandStatusDisplay({ commandId }: { commandId: string }) {
 }
 ```
 
-## {{Best Practices}}
+## {{Best Practices}} {#best-practices}
 
 ### {{1. Use Context Selectively}}
 
@@ -519,7 +519,7 @@ useEffect(() => {
 }, [client, filters])
 ```
 
-## {{Alternative Options}}
+## {{Alternative Options}} {#alternative-options}
 
 {{While the current implementation uses Context API with axios and Apollo Client, there are alternative state management solutions you may consider for specific use cases:}}
 

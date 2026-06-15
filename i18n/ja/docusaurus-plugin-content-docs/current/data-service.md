@@ -4,7 +4,7 @@ description: DynamoDBテーブルからデータをクエリするためのDataS
 
 # DataService
 
-## 概要
+## 概要 {#overview}
 
 `DataService`はCQRSパターンのクエリ側であり、DynamoDBに保存されたデータに対する効率的な読み取り操作を提供します。クエリに最適化されたデータテーブル（読み取りモデル）からのすべての読み取り操作を処理します。
 
@@ -23,7 +23,7 @@ graph LR
 
 DataServiceを使用する前に、[CommandServiceセクション](/docs/command-service)で説明されているようにCommandModuleをセットアップする必要があります。
 
-## メソッド
+## メソッド {#methods}
 
 ### *async* `getItem(key: DetailKey): Promise<DataModel | undefined>`
 
@@ -185,7 +185,7 @@ export class CustomDataSyncHandler implements IDataSyncHandler {
 - 更新メタデータを更新（updatedAt、updatedBy、updatedIp）
 - データをデータテーブルに保存
 
-## 共通パターン
+## 共通パターン {#common-patterns}
 
 ### コードで検索
 
@@ -255,7 +255,7 @@ async getItemSafely(pk: string, sk: string): Promise<CatDataEntity> {
 }
 ```
 
-## 型定義
+## 型定義 {#type-definitions}
 
 ### DetailKey
 
@@ -304,7 +304,7 @@ const result = await this.dataService.listItemsByPk(pk);
 const listEntity = new DataListEntity(result);
 ```
 
-## ベストプラクティス
+## ベストプラクティス {#best-practices}
 
 1. **プロジェクション式を使用**: データ転送を削減するために必要な属性のみを取得
 2. **ページネーションを実装**: メモリ問題を避けるため、大きな結果セットは常にページネーション

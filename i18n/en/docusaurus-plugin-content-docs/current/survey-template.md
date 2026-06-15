@@ -7,17 +7,17 @@ description: Survey template management module for building dynamic multi-tenant
 
 Survey template management functionality for the MBC CQRS Serverless framework.
 
-## Installation
+## Installation {#installation}
 
 ```bash
 npm install @mbc-cqrs-serverless/survey-template
 ```
 
-## Overview
+## Overview {#overview}
 
 The Survey Template package provides comprehensive survey template management in a multi-tenant CQRS architecture. It enables the creation, management, and storage of survey templates with flexible JSON-based definitions supporting various question types.
 
-## Features
+## Features {#features}
 
 - **Survey Template CRUD Operations**: Create, read, update, and delete survey templates
 - **Multi-tenant Support**: Tenant-isolated survey template management
@@ -27,7 +27,7 @@ The Survey Template package provides comprehensive survey template management in
 - **Event-Driven Architecture**: Built on CQRS pattern with command/event handling
 - **RESTful API**: Complete REST API for survey template operations
 
-## Basic Setup
+## Basic Setup {#basic-setup}
 
 ### Module Configuration
 
@@ -46,7 +46,7 @@ import { Module } from '@nestjs/common';
 export class AppModule {}
 ```
 
-## API Endpoints
+## API Endpoints {#api-endpoints}
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
@@ -56,7 +56,7 @@ export class AppModule {}
 | PUT | `/api/survey-template/:id` | Update a survey template |
 | DELETE | `/api/survey-template/:id` | Delete a survey template |
 
-## Creating a Survey Template
+## Creating a Survey Template {#creating-survey-template}
 
 ```typescript
 import { SurveyTemplateService } from '@mbc-cqrs-serverless/survey-template';
@@ -76,7 +76,7 @@ export class SurveyService {
 }
 ```
 
-## Question Types
+## Question Types {#question-types}
 
 ### Text Question
 
@@ -145,7 +145,7 @@ export class SurveyService {
 }
 ```
 
-## Survey Template Structure
+## Survey Template Structure {#template-structure}
 
 ```typescript
 interface SurveyTemplate {
@@ -171,7 +171,7 @@ interface TemplateSettings {
 }
 ```
 
-## Searching Templates
+## Searching Templates {#searching-templates}
 
 ```typescript
 async searchTemplates(
@@ -186,7 +186,7 @@ async getTemplate(key: DetailKey): Promise<SurveyTemplateDataEntity> {
 }
 ```
 
-## Updating Templates
+## Updating Templates {#updating-templates}
 
 ```typescript
 async updateTemplate(
@@ -198,7 +198,7 @@ async updateTemplate(
 }
 ```
 
-## Deleting Templates
+## Deleting Templates {#deleting-templates}
 
 ```typescript
 async deleteTemplate(
@@ -209,7 +209,7 @@ async deleteTemplate(
 }
 ```
 
-## Multi-tenant Usage
+## Multi-tenant Usage {#multi-tenant-usage}
 
 Templates are automatically isolated by tenant through the invoke context:
 
@@ -234,7 +234,7 @@ export class SurveyTemplateController {
 }
 ```
 
-## Event Handling
+## Event Handling {#event-handling}
 
 Handle survey template data synchronization using data sync handlers:
 
@@ -254,7 +254,7 @@ export class SurveyTemplateDataSyncHandler implements IDataSyncHandler {
 }
 ```
 
-## Best Practices
+## Best Practices {#best-practices}
 
 1. **Use Sections**: Organize questions into logical sections for better user experience
 2. **Validate Questions**: Ensure required fields are properly marked

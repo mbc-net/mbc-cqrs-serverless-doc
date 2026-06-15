@@ -7,7 +7,7 @@ description: Learn how to handle version conflicts and implement concurrency con
 
 This guide explains how version conflicts occur in the MBC CQRS Serverless Framework and provides strategies for prevention and recovery.
 
-## What Causes Version Conflicts
+## What Causes Version Conflicts {#what-causes-conflicts}
 
 Version conflicts occur when two or more operations attempt to update the same item simultaneously. In a distributed system like serverless applications, this is a common scenario that must be handled properly.
 
@@ -22,7 +22,7 @@ User B updates item (version 1 -> 2) - CONFLICT!
 
 In this scenario, User B's update fails because the item has already been updated by User A. The framework uses DynamoDB's conditional writes to detect this situation.
 
-## How Optimistic Locking Works
+## How Optimistic Locking Works {#optimistic-locking}
 
 The framework implements optimistic locking through the `version` field on each item. This approach assumes conflicts are rare and handles them when they occur, rather than locking resources preemptively.
 
@@ -54,7 +54,7 @@ await this.dynamoDbService.putItem(
 );
 ```
 
-## Prevention Strategies
+## Prevention Strategies {#prevention-strategies}
 
 ### 1. Always Include Version in Updates
 
@@ -127,7 +127,7 @@ await this.commandService.publishAsync(newCatCommand, {
 });
 ```
 
-## Recovery Patterns
+## Recovery Patterns {#recovery-patterns}
 
 ### Basic Retry Logic
 
@@ -255,7 +255,7 @@ export class CatController {
 }
 ```
 
-## When to Use VERSION_FIRST vs VERSION_LATEST
+## When to Use VERSION_FIRST vs VERSION_LATEST {#version-first-vs-latest}
 
 | Scenario | Use | Reason |
 |---|---|---|
@@ -299,7 +299,7 @@ const updateCommand = {
 Using `VERSION_LATEST` bypasses conflict detection. Only use it when you intentionally want to overwrite any concurrent changes. For most use cases, you should use the actual version number from the current item.
 :::
 
-## Best Practices
+## Best Practices {#best-practices}
 
 ### 1. Design for Concurrency
 

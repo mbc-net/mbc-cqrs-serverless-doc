@@ -6,7 +6,7 @@ description: Learn how to manage UI settings and data configurations with the UI
 
 The UI Setting package provides a flexible framework for managing dynamic application settings without code changes. It enables administrators to define custom fields and users to store data conforming to those schemas.
 
-## When to Use This Package
+## When to Use This Package {#when-to-use}
 
 Use this package when you need to:
 
@@ -15,7 +15,7 @@ Use this package when you need to:
 - Create user-editable notification or email template settings
 - Build configurable dropdown lists or master data tables
 
-## Problems This Package Solves
+## Problems This Package Solves {#problems-solved}
 
 | Problem | Solution |
 |---------|----------|
@@ -24,7 +24,7 @@ Use this package when you need to:
 | No validation for user-entered settings | Field definitions enforce data types and constraints |
 | Hard to build admin UI for settings | REST API with schema introspection |
 
-## Core Concepts
+## Core Concepts {#core-concepts}
 
 The module operates with two main components:
 
@@ -32,13 +32,13 @@ The module operates with two main components:
 
 2. **Data Settings**: Actual data entries that conform to a setting's schema. Each data setting belongs to a specific setting code.
 
-## Installation
+## Installation {#installation}
 
 ```bash
 npm install @mbc-cqrs-serverless/ui-setting
 ```
 
-## Module Configuration
+## Module Configuration {#module-configuration}
 
 Register the `SettingModule` in your application:
 
@@ -64,7 +64,7 @@ export class AppModule {}
 | `enableSettingController` | boolean | Enable the settings REST API controller |
 | `enableDataController` | boolean | Enable the data settings REST API controller |
 
-## Setting Service
+## Setting Service {#setting-service}
 
 The `SettingService` manages setting definitions.
 
@@ -172,7 +172,7 @@ Each field in a setting can have the following properties:
 | `isShowedOnList` | boolean | Yes | Whether to display in list views |
 | `dataFormat` | string | No | Format specification for the data |
 
-## Data Setting Service
+## Data Setting Service {#data-setting-service}
 
 The `DataSettingService` manages data entries for defined settings.
 
@@ -240,7 +240,7 @@ const createDto: CreateDataSettingDto = {
 };
 ```
 
-## REST API Endpoints
+## REST API Endpoints {#rest-api-endpoints}
 
 When controllers are enabled, the following endpoints are available:
 
@@ -278,7 +278,7 @@ The unified bulk upsert endpoint was added in [version 1.1.2](/docs/changelog#v1
 
 This endpoint accepts a mixed array of settings and data items. Items with `settingCode` are routed to the data service; items without are routed to the setting service. See [Unified Bulk Upsert API](/docs/master#unified-bulk-upsert) for details.
 
-## Multi-Tenant Support
+## Multi-Tenant Support {#multi-tenant-support}
 
 The module automatically handles multi-tenant data isolation. Each tenant's settings and data are stored with tenant-specific keys:
 
@@ -292,7 +292,7 @@ The module automatically handles multi-tenant data isolation. Each tenant's sett
 // sk: <settingCode>#<code>
 ```
 
-## Example Use Cases
+## Example Use Cases {#example-use-cases}
 
 ### Use Case 1: User Notification Preferences
 

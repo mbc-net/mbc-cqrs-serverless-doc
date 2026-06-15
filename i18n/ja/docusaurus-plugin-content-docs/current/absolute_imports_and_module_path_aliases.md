@@ -16,7 +16,7 @@ import { Role } from "../../../auth/role.enum";
 import { Role } from "@/auth/role.enum";
 ```
 
-## 絶対パスインポート
+## 絶対パスインポート {#absolute-imports}
 
 「baseUrl」設定オプションを使用すると、プロジェクトのルートから直接インポートできます。
 
@@ -31,7 +31,7 @@ import { Role } from "@/auth/role.enum";
 }
 ```
 
-## モジュールエイリアス
+## モジュールエイリアス {#module-aliases}
 
 
 「baseUrl」パスの設定に加えて、「paths」オプションを使用してモジュール パスを「エイリアス」することもできます。

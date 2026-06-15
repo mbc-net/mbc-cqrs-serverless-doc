@@ -6,7 +6,7 @@ description: Learn about the Survey Web package for building survey and question
 
 Frontend component library for survey template management and form rendering in MBC CQRS Serverless applications.
 
-## Installation
+## Installation {#installation}
 
 ```bash
 npm install @mbc-cqrs-serverless/survey-web
@@ -16,11 +16,11 @@ npm install @mbc-cqrs-serverless/survey-web
 In [v0.0.42](/docs/web-changelog#v0042), React and React DOM were externalized as peer dependencies, resolving the Context isolation issue. If you are using v0.0.41 or earlier, upgrade to v0.0.42 or later for the fix.
 :::
 
-## Overview
+## Overview {#overview}
 
 The Survey Web package (`@mbc-cqrs-serverless/survey-web`) provides React components for creating, editing, and rendering survey templates. It supports multiple question types, drag-and-drop section reordering, and real-time collaboration through AWS AppSync.
 
-## Features
+## Features {#features}
 
 - **Template Management**: Create, edit, and delete survey templates
 - **Multiple Question Types**: 9 built-in question types for various data collection needs
@@ -30,7 +30,7 @@ The Survey Web package (`@mbc-cqrs-serverless/survey-web`) provides React compon
 - **Responsive Design**: Mobile-friendly survey forms
 - **Section-based Structure**: Organize questions into logical sections
 
-## Main Components
+## Main Components {#main-components}
 
 ### SurveyTemplatePage
 
@@ -106,7 +106,7 @@ export default function SurveyResponsePage({ schema }: Props) {
 | `disabled` | `boolean` | No | Disable form interactions (default: false) |
 | `children` | `React.ReactNode` | No | Optional content rendered inside the current section |
 
-## Question Types
+## Question Types {#question-types}
 
 The Survey Web package supports 9 question types:
 
@@ -289,7 +289,7 @@ Time picker for time or duration input.
 |----------|------|---------|-------------|
 | `answerType` | `'time' \| 'duration'` | `'time'` | Input mode: specific time or duration |
 
-## Custom Hooks
+## Custom Hooks {#custom-hooks}
 
 :::warning Internal Hooks
 The hooks documented below (`useSurveyTemplates`, `useEditSurveyTemplate`, `useDeleteSurveyTemplate`) are internal hooks used by the page components. They are NOT exported from the main package index and cannot be imported directly. The import paths shown are for illustration purposes only. Use the page components (`SurveyTemplatePage`, `EditSurveyTemplatePage`) instead for standard use cases.
@@ -415,7 +415,7 @@ function DeleteButton({ surveyId }: { surveyId: string }) {
 }
 ```
 
-## Survey Template Structure
+## Survey Template Structure {#template-structure}
 
 Survey templates use a flat list structure with section headers:
 
@@ -501,7 +501,7 @@ Example survey structure:
 }
 ```
 
-## SurveyTemplateDataEntity Type
+## SurveyTemplateDataEntity Type {#survey-entity-type}
 
 The `SurveyTemplateDataEntity` type represents the actual DynamoDB entity structure:
 
@@ -546,7 +546,7 @@ type SurveyTemplateDataEntity = {
 }
 ```
 
-## Validation Rules
+## Validation Rules {#validation-rules}
 
 Validation rules are defined inside the `validation` object with a discriminated union structure:
 
@@ -690,7 +690,7 @@ Example with multiple choice validation (min/max selections):
 }
 ```
 
-## Environment Variables
+## Environment Variables {#environment-variables}
 
 Configure the following environment variables:
 
@@ -719,7 +719,7 @@ NEXT_PUBLIC_AWS_APPSYNC_APIKEY=da2-xxxxxxxxxxxxxxxxxxxxxxxxxx
 NEXT_PUBLIC_AWS_APPSYNC_REGION=us-east-1
 ```
 
-## Styling
+## Styling {#styling}
 
 Import the package styles in your application:
 
@@ -733,7 +733,7 @@ The components use Tailwind CSS. Ensure your project has Tailwind CSS configured
 - Tailwind CSS 3.x
 - tailwindcss-animate plugin
 
-## Dependencies
+## Dependencies {#dependencies}
 
 Key dependencies used by this package:
 
@@ -748,7 +748,7 @@ Key dependencies used by this package:
 - date-fns for date handling
 - lucide-react for icons
 
-## Changelog
+## Changelog {#changelog}
 
 :::info Version History
 See [Web Packages Changelog](/docs/web-changelog) for all version history and release notes.

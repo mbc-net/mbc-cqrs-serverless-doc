@@ -7,17 +7,17 @@ description: Directory management module with S3 integration for file and folder
 
 Directory management functionality with S3 integration for the MBC CQRS Serverless framework.
 
-## Installation
+## Installation {#installation}
 
 ```bash
 npm install @mbc-cqrs-serverless/directory
 ```
 
-## Overview
+## Overview {#overview}
 
 The Directory package provides comprehensive file and folder management in a multi-tenant CQRS architecture. It integrates with Amazon S3 for file storage and supports granular access permissions.
 
-## Features
+## Features {#features}
 
 - **Directory CRUD Operations**: Create, read, update, and delete folders and files
 - **S3 Integration**: Full file management with Amazon S3
@@ -27,7 +27,7 @@ The Directory package provides comprehensive file and folder management in a mul
 - **RESTful API**: Complete REST API for directory operations
 - **Version History**: Track and restore previous versions of files and folders
 
-## Basic Setup
+## Basic Setup {#basic-setup}
 
 ### Module Configuration
 
@@ -48,7 +48,7 @@ import { PrismaService } from './prisma.service';
 export class AppModule {}
 ```
 
-## API Endpoints
+## API Endpoints {#api-endpoints}
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
@@ -68,7 +68,7 @@ export class AppModule {}
 | POST | `/api/directory/file/view` | Generate a presigned URL for viewing a file |
 | POST | `/api/directory/file` | Generate a presigned URL for uploading a file |
 
-## Creating Folders
+## Creating Folders {#creating-folders}
 
 ```typescript
 import { DirectoryService, DirectoryCreateDto, DirectoryDataEntity } from '@mbc-cqrs-serverless/directory';
@@ -88,7 +88,7 @@ export class FolderService {
 }
 ```
 
-## Uploading Files
+## Uploading Files {#uploading-files}
 
 ```typescript
 async uploadFile(
@@ -100,7 +100,7 @@ async uploadFile(
 }
 ```
 
-## Listing Contents
+## Listing Contents {#listing-contents}
 
 ```typescript
 async getDirectory(
@@ -120,7 +120,7 @@ async getDirectoryHistory(
 }
 ```
 
-## File Operations
+## File Operations {#file-operations}
 
 ```typescript
 // Get file attributes
@@ -152,7 +152,7 @@ async removeFile(
 }
 ```
 
-## Updating Items
+## Updating Items {#updating-items}
 
 ```typescript
 import { DirectoryUpdateDto } from '@mbc-cqrs-serverless/directory';
@@ -166,7 +166,7 @@ async updateItem(
 }
 ```
 
-## Renaming Items
+## Renaming Items {#renaming-items}
 
 ```typescript
 import { DirectoryRenameDto } from '@mbc-cqrs-serverless/directory';
@@ -180,7 +180,7 @@ async renameItem(
 }
 ```
 
-## Managing Permissions
+## Managing Permissions {#managing-permissions}
 
 ### Permission Types
 
@@ -283,7 +283,7 @@ async getEffectiveRole(
 }
 ```
 
-## Moving and Copying
+## Moving and Copying {#moving-copying}
 
 ### Move Item
 
@@ -313,7 +313,7 @@ async copyItem(
 }
 ```
 
-## Version History
+## Version History {#version-history}
 
 ### Restore Previous Version
 
@@ -340,7 +340,7 @@ async restoreTemporary(
 }
 ```
 
-## Directory DTOs
+## Directory DTOs {#directory-dtos}
 
 The directory package provides several DTOs for different operations:
 
@@ -413,7 +413,7 @@ interface DirectoryUpdatePermissionDto {
 }
 ```
 
-## Directory Structure
+## Directory Structure {#directory-structure}
 
 Example directory structure:
 
@@ -432,7 +432,7 @@ Example directory structure:
     └── invoice-template.docx
 ```
 
-## Multi-tenant Isolation
+## Multi-tenant Isolation {#multi-tenant-isolation}
 
 Directories are automatically isolated by tenant through the invoke context:
 
@@ -453,7 +453,7 @@ export class DirectoryController {
 }
 ```
 
-## Event Handling
+## Event Handling {#event-handling}
 
 Handle directory data synchronization using data sync handlers:
 
@@ -473,7 +473,7 @@ export class DirectoryDataSyncHandler implements IDataSyncHandler {
 }
 ```
 
-## Best Practices
+## Best Practices {#best-practices}
 
 1. **Use Folders for Organization**: Create a logical folder structure for easy navigation
 2. **Set Permissions Early**: Configure permissions when creating directories

@@ -7,7 +7,7 @@ description: Understand the optimistic locking strategy using version numbers fo
 
 The MBC CQRS Serverless Framework implements optimistic locking using version numbers to ensure data consistency in distributed systems. This guide explains the versioning rules and provides examples of their implementation.
 
-## Basic Rules
+## Basic Rules {#basic-rules}
 
 1. Sequential Versioning for Same PK/SK   
    - The first command for a pk/sk is sent with version 0 (`VERSION_FIRST`); the stored item then becomes version 1, and later versions increase sequentially
@@ -27,7 +27,7 @@ The MBC CQRS Serverless Framework implements optimistic locking using version nu
    - Throws ConditionalCheckFailedException for concurrent duplicate key writes (DynamoDB-level)
    - Ensures data consistency in distributed environments
 
-## Implementation Examples
+## Implementation Examples {#implementation-examples}
 
 ### Basic Version Handling
 
@@ -162,7 +162,7 @@ describe('Independent Versioning', () => {
 })
 ```
 
-## Best Practices
+## Best Practices {#best-practices}
 
 1. Always include version number in update operations
 2. Handle version conflict errors gracefully in your application

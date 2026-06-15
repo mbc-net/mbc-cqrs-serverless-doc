@@ -7,7 +7,7 @@ description: {{Learn how to implement multi-tenant data isolation and cross-tena
 
 {{This guide covers patterns for implementing multi-tenant applications with proper data isolation, shared resources, and cross-tenant operations.}}
 
-## {{When to Use This Guide}}
+## {{When to Use This Guide}} {#when-to-use}
 
 {{Use this guide when you need to:}}
 
@@ -17,7 +17,7 @@ description: {{Learn how to implement multi-tenant data isolation and cross-tena
 - {{Implement tenant-specific configuration}}
 - {{Sync data between tenants}}
 
-## {{Multi-Tenant Architecture}}
+## {{Multi-Tenant Architecture}} {#multi-tenant-architecture}
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -38,7 +38,7 @@ description: {{Learn how to implement multi-tenant data isolation and cross-tena
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-## {{Tenant Context}}
+## {{Tenant Context}} {#tenant-context}
 
 :::info {{Tenant Code Normalization}}
 {{All tenant codes returned by `getUserContext()` are normalized to lowercase. This means `TenantA`, `TENANTA`, and `tenanta` are all treated as `tenanta`. When defining tenant codes in Cognito custom claims or HTTP headers, the case doesn't matter - internally they are always lowercase for consistent matching.}}
@@ -170,7 +170,7 @@ export class TenantGuard implements CanActivate {
 }
 ```
 
-## {{Data Isolation Patterns}}
+## {{Data Isolation Patterns}} {#data-isolation}
 
 ### {{Pattern 1: Tenant in Partition Key}}
 
@@ -323,7 +323,7 @@ export class UserService {
 }
 ```
 
-## {{Cross-Tenant Operations}}
+## {{Cross-Tenant Operations}} {#cross-tenant-operations}
 
 ### {{Pattern 1: Data Sync Between Tenants}}
 
@@ -471,7 +471,7 @@ export class CrossTenantReportService {
 }
 ```
 
-## {{Tenant Configuration}}
+## {{Tenant Configuration}} {#tenant-configuration}
 
 ### {{Tenant Settings Pattern}}
 
@@ -571,7 +571,7 @@ export interface TenantSettings {
 }
 ```
 
-## {{Prisma Multi-Tenant Schema}}
+## {{Prisma Multi-Tenant Schema}} {#prisma-multi-tenant}
 
 ### {{RDS Schema for Multi-Tenant}}
 
@@ -636,7 +636,7 @@ model TenantSettings {
 }
 ```
 
-## {{Best Practices}}
+## {{Best Practices}} {#best-practices}
 
 ### {{1. Always Include Tenant in Queries}}
 
@@ -710,7 +710,7 @@ export class ProductController {
 }
 ```
 
-## {{TenantModule API Reference}}
+## {{TenantModule API Reference}} {#tenant-module-api}
 
 {{The `@mbc-cqrs-serverless/tenant` module provides ready-to-use tenant management functionality.}}
 

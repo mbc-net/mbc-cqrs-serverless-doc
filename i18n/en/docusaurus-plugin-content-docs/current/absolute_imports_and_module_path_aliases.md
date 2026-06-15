@@ -16,7 +16,7 @@ import { Role } from "../../../auth/role.enum";
 import { Role } from "@/auth/role.enum";
 ```
 
-## Absolute Imports
+## Absolute Imports {#absolute-imports}
 
 The `baseUrl` configuration option allows you to import directly from the root of the project.
 
@@ -31,7 +31,7 @@ An example of this configuration:
 }
 ```
 
-## Module Aliases
+## Module Aliases {#module-aliases}
 
 In addition to configuring the `baseUrl` path, you can use the "paths" option to "alias" module paths.
 

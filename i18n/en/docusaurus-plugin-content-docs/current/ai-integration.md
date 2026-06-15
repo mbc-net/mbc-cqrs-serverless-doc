@@ -7,11 +7,11 @@ description: Integrate AI development tools with MBC CQRS Serverless using llms.
 
 The MBC CQRS Serverless framework is designed with AI tool integration in mind.
 
-## Overview
+## Overview {#overview}
 
 Modern development workflows increasingly include AI assistance for code generation, debugging, and documentation lookup. This framework supports AI development tools through llms.txt files and MCP server.
 
-## llms.txt Convention
+## llms.txt Convention {#llms-txt}
 
 ### What is llms.txt?
 
@@ -36,7 +36,7 @@ curl https://raw.githubusercontent.com/mbc-net/mbc-cqrs-serverless/main/llms.txt
 curl https://raw.githubusercontent.com/mbc-net/mbc-cqrs-serverless/main/llms-full.txt
 ```
 
-## MCP Server Integration
+## MCP Server Integration {#mcp-server-integration}
 
 The Model Context Protocol (MCP) server provides a more dynamic way for AI tools to interact with the framework.
 
@@ -84,7 +84,7 @@ Add to Claude Code or other MCP-compatible tools:
 
 Learn more: [MCP Server Documentation](/docs/mcp-server)
 
-## Best Practices
+## Best Practices {#best-practices}
 
 ### Documentation First
 
@@ -110,7 +110,7 @@ When encountering errors, AI can use the error catalog to find solutions:
 "I'm getting error 'version not match'. What should I do?"
 ```
 
-## Supported Tools
+## Supported Tools {#supported-tools}
 
 The following AI tools can integrate with MBC CQRS Serverless:
 
@@ -120,7 +120,7 @@ The following AI tools can integrate with MBC CQRS Serverless:
 | Cursor | Full Support | MCP support available |
 | GitHub Copilot | Partial Support | Via llms.txt |
 
-## Related Resources
+## Related Resources {#related-resources}
 
 - [AI Prompts Library](/docs/ai-prompts) - Optimized prompts for common tasks
 - [MCP Server](/docs/mcp-server) - Detailed MCP server documentation

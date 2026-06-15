@@ -7,7 +7,7 @@ description: MBC CQRS Serverlessでマルチテナントのデータ分離とテ
 
 このガイドでは、適切なデータ分離、共有リソース、テナント間操作を備えたマルチテナントアプリケーションの実装パターンについて説明します。
 
-## このガイドを使用するタイミング
+## このガイドを使用するタイミング {#when-to-use}
 
 以下の場合にこのガイドを使用してください：
 
@@ -17,7 +17,7 @@ description: MBC CQRS Serverlessでマルチテナントのデータ分離とテ
 - テナント固有の設定を実装する
 - テナント間でデータを同期する
 
-## マルチテナントアーキテクチャ
+## マルチテナントアーキテクチャ {#multi-tenant-architecture}
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -38,7 +38,7 @@ description: MBC CQRS Serverlessでマルチテナントのデータ分離とテ
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-## テナントコンテキスト
+## テナントコンテキスト {#tenant-context}
 
 :::info テナントコードの正規化
 `getUserContext()` が返すすべてのテナントコードは小文字に正規化されます。つまり、`TenantA`、`TENANTA`、`tenanta` はすべて `tenanta` として扱われます。CognitoのカスタムクレームやHTTPヘッダーでテナントコードを定義する際、大文字小文字は問いません。内部的には一貫したマッチングのため常に小文字になります。
@@ -170,7 +170,7 @@ export class TenantGuard implements CanActivate {
 }
 ```
 
-## データ分離パターン
+## データ分離パターン {#data-isolation}
 
 ### パターン1: パーティションキーにテナントを含める
 
@@ -323,7 +323,7 @@ export class UserService {
 }
 ```
 
-## テナント間操作
+## テナント間操作 {#cross-tenant-operations}
 
 ### パターン1: テナント間のデータ同期
 
@@ -471,7 +471,7 @@ export class CrossTenantReportService {
 }
 ```
 
-## テナント設定
+## テナント設定 {#tenant-configuration}
 
 ### テナント設定パターン
 
@@ -571,7 +571,7 @@ export interface TenantSettings {
 }
 ```
 
-## Prismaマルチテナントスキーマ
+## Prismaマルチテナントスキーマ {#prisma-multi-tenant}
 
 ### マルチテナント用RDSスキーマ
 
@@ -636,7 +636,7 @@ model TenantSettings {
 }
 ```
 
-## ベストプラクティス
+## ベストプラクティス {#best-practices}
 
 ### 1. クエリには常にテナントを含める
 
@@ -710,7 +710,7 @@ export class ProductController {
 }
 ```
 
-## TenantModule APIリファレンス
+## TenantModule APIリファレンス {#tenant-module-api}
 
 `@mbc-cqrs-serverless/tenant`モジュールは、すぐに使えるテナント管理機能を提供します。
 

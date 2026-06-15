@@ -6,7 +6,7 @@ description: MBC CQRS Serverlessでマルチテナント管理を行うための
 
 TenantModuleは、MBC CQRS Serverlessフレームワークでマルチテナント管理機能を提供します。テナントの作成、更新、およびグループ構成の管理が可能です。
 
-## アーキテクチャ
+## アーキテクチャ {#architecture}
 
 ```mermaid
 graph TB
@@ -23,7 +23,7 @@ graph TB
     end
 ```
 
-## インストール
+## インストール {#installation}
 
 ```bash
 npm install @mbc-cqrs-serverless/tenant
@@ -35,7 +35,7 @@ npm install @mbc-cqrs-serverless/tenant
 **v1.0.xからアップグレードする場合** データマイグレーションの手順については[v1.1.0 マイグレーションガイド](/docs/migration/v1.1.0)を参照してください。
 :::
 
-## モジュール登録
+## モジュール登録 {#module-registration}
 
 ```ts
 import { TenantModule } from "@mbc-cqrs-serverless/tenant";
@@ -51,14 +51,14 @@ import { TenantModule } from "@mbc-cqrs-serverless/tenant";
 export class AppModule {}
 ```
 
-## モジュールオプション
+## モジュールオプション {#module-options}
 
 | オプション | 型 | 必須 | 説明 |
 |------------|----------|--------------|-----------------|
 | `enableController` | `boolean` | いいえ | 組み込みのTenantControllerを有効または無効にする |
 | `dataSyncHandlers` | `Type<IDataSyncHandler>[]` | いいえ | テナントデータを外部システムに同期するためのカスタムハンドラー |
 
-## APIリファレンス
+## APIリファレンス {#api-reference}
 
 ### TenantServiceメソッド
 
@@ -192,7 +192,7 @@ const tenantGroup = await this.tenantService.createTenantGroup(
 );
 ```
 
-## DTO
+## DTO {#dtos}
 
 ### TenantCreateDto
 
@@ -233,7 +233,7 @@ const tenantGroup = await this.tenantService.createTenantGroup(
 | `name` | `string` | いいえ | テナント表示名 |
 | `attributes` | `object` | いいえ | 追加のテナント属性 |
 
-## インターフェース
+## インターフェース {#interfaces}
 
 ### ITenantService
 

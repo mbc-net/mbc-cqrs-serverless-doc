@@ -7,11 +7,11 @@ description: llms.txt、MCPサーバー、AI最適化ドキュメントを使用
 
 MBC CQRS ServerlessフレームワークはAIツールとの統合を念頭に設計されています。
 
-## 概要
+## 概要 {#overview}
 
 モダンな開発ワークフローには、コード生成、デバッグ、ドキュメント参照においてAI支援が含まれることが増えています。このフレームワークはllms.txtファイルとMCPサーバーを通じてAI開発ツールをサポートしています。
 
-## llms.txt規約
+## llms.txt規約 {#llms-txt}
 
 ### llms.txtとは？
 
@@ -36,7 +36,7 @@ curl https://raw.githubusercontent.com/mbc-net/mbc-cqrs-serverless/main/llms.txt
 curl https://raw.githubusercontent.com/mbc-net/mbc-cqrs-serverless/main/llms-full.txt
 ```
 
-## MCPサーバー統合
+## MCPサーバー統合 {#mcp-server-integration}
 
 Model Context Protocol（MCP）サーバーは、AIツールがフレームワークと対話するためのより動的な方法を提供します。
 
@@ -84,7 +84,7 @@ Claude Codeまたは他のMCP互換ツールに追加：
 
 詳細はこちら: [MCPサーバードキュメント](/docs/mcp-server)
 
-## ベストプラクティス
+## ベストプラクティス {#best-practices}
 
 ### ドキュメント優先
 
@@ -110,7 +110,7 @@ AIにモジュールを生成させる際は、具体的に記述してくださ
 "I'm getting error 'version not match'. What should I do?"
 ```
 
-## 対応ツール
+## 対応ツール {#supported-tools}
 
 以下のAIツールはMBC CQRS Serverlessと統合できます：
 
@@ -120,7 +120,7 @@ AIにモジュールを生成させる際は、具体的に記述してくださ
 | Cursor | フルサポート | MCPサポートあり |
 | GitHub Copilot | 部分サポート | llms.txt経由 |
 
-## 関連リソース
+## 関連リソース {#related-resources}
 
 - [AIプロンプトライブラリ](/docs/ai-prompts) - 一般的なタスク用に最適化されたプロンプト
 - [MCPサーバー](/docs/mcp-server) - 詳細なMCPサーバードキュメント

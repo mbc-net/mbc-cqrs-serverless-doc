@@ -6,7 +6,7 @@ description: {{Build your first MBC CQRS Serverless application in 15 minutes.}}
 
 {{This tutorial will guide you through creating your first MBC CQRS Serverless application. By the end, you'll have a working API running locally.}}
 
-## {{Prerequisites}}
+## {{Prerequisites}} {#prerequisites}
 
 {{Before you begin, ensure you have the following installed:}}
 
@@ -15,7 +15,7 @@ description: {{Build your first MBC CQRS Serverless application in 15 minutes.}}
 - {{AWS CLI (real credentials are not required for local development — set `AWS_ACCESS_KEY_ID=local` and `AWS_SECRET_ACCESS_KEY=local` in your `.env` file)}}
 - {{Git}}
 
-## {{Step 1: Create a New Project}}
+## {{Step 1: Create a New Project}} {#step1-create}
 
 {{Use the MBC CQRS CLI to scaffold a new project:}}
 
@@ -41,13 +41,13 @@ my-app/
 └── ...
 ```
 
-## {{Step 2: Install Dependencies}}
+## {{Step 2: Install Dependencies}} {#step2-install}
 
 ```bash
 npm install
 ```
 
-## {{Step 3: Configure Environment}}
+## {{Step 3: Configure Environment}} {#step3-configure}
 
 {{Copy the example environment file and set dummy AWS credentials for local development:}}
 
@@ -68,7 +68,7 @@ AWS_SECRET_ACCESS_KEY=local
 npm run build
 ```
 
-## {{Step 4: Start Local Infrastructure}}
+## {{Step 4: Start Local Infrastructure}} {#step4-infrastructure}
 
 {{Start the local development environment using Docker Compose:}}
 
@@ -82,7 +82,7 @@ npm run offline:docker
 - {{MySQL (port 3306)}}
 - {{LocalStack for AWS services}}
 
-## {{Step 5: Initialize the Database}}
+## {{Step 5: Initialize the Database}} {#step5-database}
 
 {{Wait ~30 seconds for MySQL to fully start, then run Prisma migrations to set up your database schema:}}
 
@@ -90,7 +90,7 @@ npm run offline:docker
 npm run migrate
 ```
 
-## {{Step 6: Start the Development Server}}
+## {{Step 6: Start the Development Server}} {#step6-server}
 
 {{In a new terminal, start the Serverless Offline server:}}
 
@@ -100,7 +100,7 @@ npm run offline:sls
 
 {{Your API is now running at `http://localhost:3000`.}}
 
-## {{Step 7: Test Your API}}
+## {{Step 7: Test Your API}} {#step7-test}
 
 {{Open the Swagger UI in your browser to explore and test your API:}}
 
@@ -110,7 +110,7 @@ http://localhost:3000/swagger-ui/
 
 {{You should see the Swagger UI with all available endpoints listed.}}
 
-## {{Creating Your First Endpoint}}
+## {{Creating Your First Endpoint}} {#first-endpoint}
 
 {{Let's create a simple "Hello World" endpoint.}}
 
@@ -171,7 +171,7 @@ curl http://localhost:3000/hello
 
 {{You should see: `Hello, MBC CQRS Serverless!`}}
 
-## {{Next Steps}}
+## {{Next Steps}} {#next-steps}
 
 {{Congratulations! You've created your first MBC CQRS Serverless application. Here's what to explore next:}}
 
@@ -179,7 +179,7 @@ curl http://localhost:3000/hello
 - {{[Core Concepts](/docs/architecture) - Understand the CQRS and Event Sourcing architecture}}
 - {{[Deployment Guide](/docs/deployment-guide) - Deploy your application to AWS}}
 
-## {{Common Commands}}
+## {{Common Commands}} {#common-commands}
 
 | {{Command}} | {{Description}} |
 |-------------|-----------------|
@@ -190,7 +190,7 @@ curl http://localhost:3000/hello
 | `npm run test` | {{Run unit tests}} |
 | `npm run test:e2e` | {{Run end-to-end tests}} |
 
-## {{Troubleshooting}}
+## {{Troubleshooting}} {#troubleshooting}
 
 ### {{Docker services won't start}}
 

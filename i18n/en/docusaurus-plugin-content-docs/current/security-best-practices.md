@@ -7,7 +7,7 @@ description: Security best practices for building secure applications with MBC C
 
 This guide covers security best practices for building secure applications with MBC CQRS Serverless, including input validation, authentication, authorization, and data protection.
 
-## Input Validation
+## Input Validation {#input-validation}
 
 ### Validate All Input
 
@@ -128,7 +128,7 @@ async function validateUpload(file: Express.Multer.File): Promise<void> {
 }
 ```
 
-## Authentication
+## Authentication {#authentication}
 
 ### Configure Cognito Securely
 
@@ -232,7 +232,7 @@ async function refreshTokenIfNeeded(): Promise<string> {
 }
 ```
 
-## Authorization
+## Authorization {#authorization}
 
 ### Implement Role-Based Access Control
 
@@ -314,7 +314,7 @@ async updateOrder(
 }
 ```
 
-## Data Protection
+## Data Protection {#data-protection}
 
 ### Encrypt Sensitive Data
 
@@ -432,7 +432,7 @@ async function getDatabasePassword(): Promise<string> {
 }
 ```
 
-## API Security
+## API Security {#api-security}
 
 ### Rate Limiting
 
@@ -514,7 +514,7 @@ async uploadFile(@UploadedFile() file: Express.Multer.File) {
 }
 ```
 
-## Infrastructure Security
+## Infrastructure Security {#infrastructure-security}
 
 ### Least Privilege IAM Policies
 
@@ -605,7 +605,7 @@ trail.addEventSelector(cloudtrail.DataResourceType.DYNAMODB_TABLE, [
 ]);
 ```
 
-## Security Checklist
+## Security Checklist {#security-checklist}
 
 ### Pre-Deployment
 

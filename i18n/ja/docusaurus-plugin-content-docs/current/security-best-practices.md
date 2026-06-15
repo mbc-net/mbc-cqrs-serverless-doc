@@ -7,7 +7,7 @@ description: MBC CQRS Serverlessで安全なアプリケーションを構築す
 
 このガイドでは、入力バリデーション、認証、認可、データ保護など、MBC CQRS Serverlessで安全なアプリケーションを構築するためのセキュリティベストプラクティスについて説明します。
 
-## 入力バリデーション
+## 入力バリデーション {#input-validation}
 
 ### すべての入力をバリデーション
 
@@ -128,7 +128,7 @@ async function validateUpload(file: Express.Multer.File): Promise<void> {
 }
 ```
 
-## 認証
+## 認証 {#authentication}
 
 ### Cognitoのセキュア設定
 
@@ -232,7 +232,7 @@ async function refreshTokenIfNeeded(): Promise<string> {
 }
 ```
 
-## 認可
+## 認可 {#authorization}
 
 ### ロールベースアクセス制御の実装
 
@@ -314,7 +314,7 @@ async updateOrder(
 }
 ```
 
-## データ保護
+## データ保護 {#data-protection}
 
 ### 機密データの暗号化
 
@@ -432,7 +432,7 @@ async function getDatabasePassword(): Promise<string> {
 }
 ```
 
-## APIセキュリティ
+## APIセキュリティ {#api-security}
 
 ### レート制限
 
@@ -514,7 +514,7 @@ async uploadFile(@UploadedFile() file: Express.Multer.File) {
 }
 ```
 
-## インフラストラクチャセキュリティ
+## インフラストラクチャセキュリティ {#infrastructure-security}
 
 ### 最小権限IAMポリシー
 
@@ -605,7 +605,7 @@ trail.addEventSelector(cloudtrail.DataResourceType.DYNAMODB_TABLE, [
 ]);
 ```
 
-## セキュリティチェックリスト
+## セキュリティチェックリスト {#security-checklist}
 
 ### デプロイ前
 

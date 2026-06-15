@@ -6,7 +6,7 @@ description: {{Practical examples and implementation guides for common use cases
 
 {{This section provides practical examples and implementation guides for common use cases. Each example demonstrates real-world scenarios with complete, production-ready code.}}
 
-## {{Available Examples}}
+## {{Available Examples}} {#available-examples}
 
 | {{Example}} | {{Description}} | {{Key Concepts}} |
 |-------------|-----------------|------------------|
@@ -14,7 +14,7 @@ description: {{Practical examples and implementation guides for common use cases
 | [{{SaaS Application}}](/docs/saas-example) | {{Multi-tenant subscription and usage metering}} | {{Tenant isolation, quota enforcement, billing integration}} |
 | [{{Survey Template}}](/docs/survey-template) | {{Dynamic form builder with validation}} | {{Schema design, versioning, complex attributes}} |
 
-## {{Implementation Patterns}}
+## {{Implementation Patterns}} {#implementation-patterns}
 
 {{Each example follows consistent patterns:}}
 
@@ -94,7 +94,7 @@ export class OrderDataSyncHandler implements IEventHandler<OrderDataSyncEvent> {
 }
 ```
 
-## {{Best Practices}}
+## {{Best Practices}} {#best-practices}
 
 ### {{Key Design}}
 
@@ -130,7 +130,7 @@ describe('OrderService', () => {
 });
 ```
 
-## {{Explore Examples}}
+## {{Explore Examples}} {#explore-examples}
 
 ```mdx-code-block
 import DocCardList from '@theme/DocCardList';

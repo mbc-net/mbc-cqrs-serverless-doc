@@ -6,7 +6,7 @@ description: MBC CQRS Serverlessフレームワークでの一般的なユース
 
 このセクションでは、一般的なユースケースの実践例と実装ガイドを提供します。各サンプルは、本番環境対応の完全なコードで実際のシナリオを示しています。
 
-## 利用可能なサンプル
+## 利用可能なサンプル {#available-examples}
 
 | サンプル | 説明 | 主要な概念 |
 |-------------|-----------------|------------------|
@@ -14,7 +14,7 @@ description: MBC CQRS Serverlessフレームワークでの一般的なユース
 | [SaaSアプリケーション](/docs/saas-example) | マルチテナントサブスクリプションと使用量計測 | テナント分離、クォータ強制、課金連携 |
 | [アンケートテンプレート](/docs/survey-template) | バリデーション付き動的フォームビルダー | スキーマ設計、バージョニング、複雑な属性 |
 
-## 実装パターン
+## 実装パターン {#implementation-patterns}
 
 各サンプルは一貫したパターンに従っています:
 
@@ -94,7 +94,7 @@ export class OrderDataSyncHandler implements IEventHandler<OrderDataSyncEvent> {
 }
 ```
 
-## ベストプラクティス
+## ベストプラクティス {#best-practices}
 
 ### キー設計
 
@@ -130,7 +130,7 @@ describe('OrderService', () => {
 });
 ```
 
-## サンプルを探索
+## サンプルを探索 {#explore-examples}
 
 ```mdx-code-block
 import DocCardList from '@theme/DocCardList';

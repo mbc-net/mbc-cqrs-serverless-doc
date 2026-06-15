@@ -6,7 +6,7 @@ description: {{Set up monitoring and logging for your MBC CQRS Serverless applic
 
 {{This guide covers setting up comprehensive monitoring and logging for MBC CQRS Serverless applications on AWS.}}
 
-## {{Overview}}
+## {{Overview}} {#overview}
 
 {{A complete observability strategy includes:}}
 
@@ -28,7 +28,7 @@ description: {{Set up monitoring and logging for your MBC CQRS Serverless applic
 {{The sections below provide guidance on setting up additional AWS CloudWatch features (metrics, dashboards, alarms). These are not built into the framework but are recommended patterns for production deployments.}}
 :::
 
-## {{CloudWatch Logs}}
+## {{CloudWatch Logs}} {#cloudwatch-logs}
 
 ### {{Lambda Logging}}
 
@@ -128,7 +128,7 @@ interface LogEntry {
 }
 ```
 
-## {{CloudWatch Metrics}}
+## {{CloudWatch Metrics}} {#cloudwatch-metrics}
 
 :::info {{Implementation Required}}
 {{Custom metrics are not built into the framework. The following examples show how you can implement custom metrics in your application using the AWS SDK.}}
@@ -223,7 +223,7 @@ dashboard.addWidgets(
 );
 ```
 
-## {{CloudWatch Alarms}}
+## {{CloudWatch Alarms}} {#cloudwatch-alarms}
 
 :::info {{CDK Customization}}
 {{Alarms are not included in the default CDK template. Add the following to your CDK stack for production monitoring.}}
@@ -282,7 +282,7 @@ throttleAlarm.addAlarmAction(new actions.SnsAction(alertTopic));
 | {{5XX Errors}} | `API Gateway 5XXError` | {{> 1%}} | {{Server errors}} |
 | {{Dead Letter Queue}} | `SQS ApproximateNumberOfMessages` | {{> 0}} | {{Failed messages}} |
 
-## {{AWS X-Ray Tracing}}
+## {{AWS X-Ray Tracing}} {#xray-tracing}
 
 :::tip {{Built-in Feature}}
 {{X-Ray tracing is enabled by default in the MBC CQRS Serverless CDK template for Lambda functions and Step Functions.}}
@@ -333,7 +333,7 @@ subsegment?.addMetadata('request', requestData);
 subsegment?.close();
 ```
 
-## {{Centralized Logging}}
+## {{Centralized Logging}} {#centralized-logging}
 
 :::info {{CDK Customization}}
 {{Centralized logging is not included in the default template. The following patterns show how to aggregate logs for complex applications.}}
@@ -388,7 +388,7 @@ fields @timestamp, @message
 | stats avg(initDuration), max(initDuration), count(*)
 ```
 
-## {{Application Performance Monitoring}}
+## {{Application Performance Monitoring}} {#apm}
 
 :::info {{Implementation Required}}
 {{The framework does not include built-in APM features. The following examples show patterns you can implement in your application.}}
@@ -464,7 +464,7 @@ export class HealthController {
 }
 ```
 
-## {{Best Practices}}
+## {{Best Practices}} {#best-practices}
 
 ### {{Logging}}
 
@@ -488,7 +488,7 @@ export class HealthController {
 - {{Include runbooks in alert descriptions}}
 - {{Use escalation policies}}
 
-## {{Next Steps}}
+## {{Next Steps}} {#next-steps}
 
 - {{[Deployment Guide](/docs/deployment-guide) - Deploy with monitoring enabled}}
 - {{[CI/CD with CodePipeline](/docs/codepipeline-cicd) - Automate deployments}}

@@ -6,7 +6,7 @@ description: {{Complete E-commerce implementation example with order management,
 
 {{This example demonstrates a complete e-commerce implementation with order management, inventory tracking, and multi-tenant support using MBC CQRS Serverless.}}
 
-## {{Overview}}
+## {{Overview}} {#overview}
 
 {{The e-commerce example covers:}}
 
@@ -15,7 +15,7 @@ description: {{Complete E-commerce implementation example with order management,
 - {{Multi-tenant storefront isolation}}
 - {{Event-driven order processing}}
 
-## {{Data Model}}
+## {{Data Model}} {#data-model}
 
 ### {{Key Structure}}
 
@@ -76,7 +76,7 @@ export interface InventoryAttributes {
 }
 ```
 
-## {{Module Implementation}}
+## {{Module Implementation}} {#module-implementation}
 
 ### {{Order Module}}
 
@@ -280,7 +280,7 @@ export class OrderController {
 }
 ```
 
-## {{Inventory Management}}
+## {{Inventory Management}} {#inventory-management}
 
 ### {{Inventory Service}}
 
@@ -411,7 +411,7 @@ export class InventoryService {
 }
 ```
 
-## {{Event-Driven Processing}}
+## {{Event-Driven Processing}} {#event-driven-processing}
 
 ### {{Order Data Sync Handler}}
 
@@ -501,7 +501,7 @@ export class OrderDataSyncHandler implements IDataSyncHandler {
 }
 ```
 
-## {{API Endpoints}}
+## {{API Endpoints}} {#api-endpoints}
 
 | {{Method}} | {{Endpoint}} | {{Description}} |
 |------------|--------------|-----------------|
@@ -513,7 +513,7 @@ export class OrderDataSyncHandler implements IDataSyncHandler {
 | GET | `/products` | {{List products}} |
 | PATCH | `/inventory/:productCode` | {{Update inventory}} |
 
-## {{Request/Response Examples}}
+## {{Request/Response Examples}} {#request-response-examples}
 
 ### {{Create Order}}
 
@@ -558,7 +558,7 @@ export class OrderDataSyncHandler implements IDataSyncHandler {
 }
 ```
 
-## {{Best Practices}}
+## {{Best Practices}} {#best-practices}
 
 ### {{1. Inventory Consistency}}
 

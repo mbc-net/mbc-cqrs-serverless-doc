@@ -7,7 +7,7 @@ description: {{Comprehensive glossary of terms used in MBC CQRS Serverless frame
 
 {{This glossary provides definitions for key terms and concepts used throughout the MBC CQRS Serverless framework documentation.}}
 
-## {{Design Patterns}}
+## {{Design Patterns}} {#design-patterns}
 
 ### {{CQRS (Command Query Responsibility Segregation)}}
 
@@ -35,7 +35,7 @@ description: {{Comprehensive glossary of terms used in MBC CQRS Serverless frame
 
 {{A cluster of domain objects that can be treated as a single unit. An aggregate has a root entity (the aggregate root) and boundary that defines what's inside the aggregate. In MBC CQRS Serverless, each command table typically represents an aggregate.}}
 
-## {{Framework Concepts}}
+## {{Framework Concepts}} {#framework-concepts}
 
 ### {{Command}}
 
@@ -97,7 +97,7 @@ description: {{Comprehensive glossary of terms used in MBC CQRS Serverless frame
 
 {{A constant with value `-1` used to instruct the framework to auto-resolve to the latest version of an entity, bypassing optimistic locking. Use only when "last writer wins" semantics are intentional. Import from `@mbc-cqrs-serverless/core`.}}
 
-## {{AWS Services}}
+## {{AWS Services}} {#aws-services}
 
 ### {{Amazon DynamoDB}}
 
@@ -147,7 +147,7 @@ description: {{Comprehensive glossary of terms used in MBC CQRS Serverless frame
 
 {{A monitoring and observability service. Used for logging, metrics, and alarms in MBC CQRS Serverless applications.}}
 
-## {{Tooling & Libraries}}
+## {{Tooling & Libraries}} {#tooling-libraries}
 
 ### {{NestJS}}
 
@@ -175,7 +175,7 @@ description: {{Comprehensive glossary of terms used in MBC CQRS Serverless frame
 
 {{A library for transforming plain objects into class instances and vice versa. Works with class-validator for type-safe request handling.}}
 
-## {{API Concepts}}
+## {{API Concepts}} {#api-concepts}
 
 ### {{DTO (Data Transfer Object)}}
 
@@ -209,7 +209,7 @@ description: {{Comprehensive glossary of terms used in MBC CQRS Serverless frame
 
 {{A function called before the route handler. Can perform operations like logging, authentication, and request modification.}}
 
-## {{Data Operations}}
+## {{Data Operations}} {#data-operations}
 
 ### {{Publish (publishAsync/publishSync)}}
 
@@ -231,7 +231,7 @@ description: {{Comprehensive glossary of terms used in MBC CQRS Serverless frame
 
 {{An auto-incrementing number generator. Used to generate unique codes like order numbers. Rotation modes: `DAILY`, `MONTHLY`, `YEARLY`, `FISCAL_YEARLY`, or `NONE` (no rotation).}}
 
-## {{Architecture Terms}}
+## {{Architecture Terms}} {#architecture-terms}
 
 ### {{Cold Start}}
 
@@ -265,7 +265,7 @@ description: {{Comprehensive glossary of terms used in MBC CQRS Serverless frame
 
 {{An index with the same partition key as the table but a different sort key. Must be created at table creation time.}}
 
-## {{Security Terms}}
+## {{Security Terms}} {#security-terms}
 
 ### {{JWT (JSON Web Token)}}
 

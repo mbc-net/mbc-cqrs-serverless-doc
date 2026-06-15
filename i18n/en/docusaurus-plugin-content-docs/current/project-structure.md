@@ -4,7 +4,7 @@ description: Overview of the MBC CQRS Serverless project file and folder structu
 
 # Project structure
 
-## MBC CQRS serverless Project Structure
+## MBC CQRS serverless Project Structure {#project-structure}
 
 This page provides an overview of the project structure of an mbc-cqrs-serverless application. It covers top-level files and folders, configuration files.
 
@@ -39,7 +39,7 @@ Top-level files are used to configure your application, manage dependencies, and
 | tsconfig.build.json | Configuration for TypeScript compiler options |
 | tsconfig.json       | Configuration file for TypeScript       |
 
-## Application module conventions
+## Application module conventions {#module-conventions}
 
 The following file conventions are used to define a new module in the src folder.
 

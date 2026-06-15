@@ -7,7 +7,7 @@ description: Learn patterns for handling events from S3, Step Functions, SQS, an
 
 This guide covers patterns for implementing event-driven architectures using various AWS event sources including S3, Step Functions, SQS, and DynamoDB streams.
 
-## When to Use This Guide
+## When to Use This Guide {#when-to-use}
 
 Use this guide when you need to:
 
@@ -18,7 +18,7 @@ Use this guide when you need to:
 - Implement error handling and retry logic
 - Send notifications and alarms
 
-## Event Architecture Overview
+## Event Architecture Overview {#event-architecture}
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -37,7 +37,7 @@ Use this guide when you need to:
 └─────────────┘     └─────────────┘     └─────────────┘
 ```
 
-## Event Factory
+## Event Factory {#event-factory}
 
 ### Custom Event Factory
 
@@ -180,7 +180,7 @@ import { CustomEventFactory } from './event-factory';
 export class MainModule {}
 ```
 
-## Event Handler Patterns
+## Event Handler Patterns {#event-handler-patterns}
 
 ### Basic Event Handler
 
@@ -524,7 +524,7 @@ export class SendNotificationHandler
 }
 ```
 
-## DynamoDB Stream Handler
+## DynamoDB Stream Handler {#dynamodb-stream-handler}
 
 ### Data Change Event Handler
 
@@ -616,7 +616,7 @@ export class DataChangeHandler implements IEventHandler<DataChangeEvent, DataSyn
 }
 ```
 
-## Error Handling and Retry
+## Error Handling and Retry {#error-handling-retry}
 
 The following patterns show how you can implement error handling and retry logic in your application. These are example implementations that you need to create in your own project.
 
@@ -693,7 +693,7 @@ For production use, consider using AWS-native retry mechanisms:
 - **Lambda Retry**: Configure retry settings on the Lambda function for asynchronous invocations
 - **Step Functions Retry**: Use the `Retry` field in your state machine definition
 
-## Best Practices
+## Best Practices {#best-practices}
 
 ### 1. Idempotent Event Handlers
 
@@ -792,7 +792,7 @@ async execute(event: BatchEvent): Promise<BatchProcessingResult> {
 }
 ```
 
-## Data Sync Handler
+## Data Sync Handler {#data-sync-handler}
 
 The data sync event is a particularly significant custom event because it is one of the most commonly registered events within the application. Handlers for this event play a crucial role in ensuring data consistency and synchronization between different databases.
 
@@ -892,7 +892,7 @@ CommandModule.register({
 }),
 ```
 
-## Creating Custom Events
+## Creating Custom Events {#creating-custom-events}
 
 To create a custom event, implement the `IEvent` interface from `@mbc-cqrs-serverless/core`. Depending on the event source, you should typically implement a second interface from the `aws-lambda` library, such as `SNSEventRecord`, `SQSRecord`, `DynamoDBRecord`, `EventBridgeEvent`, `S3EventRecord`, etc.
 

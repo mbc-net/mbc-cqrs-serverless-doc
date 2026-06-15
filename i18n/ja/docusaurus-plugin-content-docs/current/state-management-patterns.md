@@ -6,7 +6,7 @@ description: フロントエンドアプリケーションでContext API、axios
 
 このガイドでは、フロントエンドアプリケーションにおける様々な種類の状態の管理方法を説明します。各ツールをいつ使用するかを理解することで、古いデータ、不要な再レンダリング、複雑なデバッグなどの一般的な問題を防ぐことができます。
 
-## このガイドを使用するタイミング
+## このガイドを使用するタイミング {#when-to-use}
 
 以下が必要な場合にこのガイドを使用してください：
 
@@ -16,7 +16,7 @@ description: フロントエンドアプリケーションでContext API、axios
 - より良いユーザー体験のための楽観的更新を実装する
 - SaaSアプリケーションでマルチテナントコンテキストを管理する
 
-## 適切なツールの選択
+## 適切なツールの選択 {#choosing-tools}
 
 最も一般的な間違いは、すべての状態に1つのツールを使用することです。状態の種類によって要件が異なります：
 
@@ -28,7 +28,7 @@ description: フロントエンドアプリケーションでContext API、axios
 | フォーム状態 | React Hook Form | フォーム入力、バリデーション | フォームパフォーマンスに最適化、組み込みバリデーション |
 | URL状態 | Next.js Router | クエリパラメータ、パスパラメータ | 共有可能なURL、ブラウザ履歴の統合 |
 
-## 現在の実装
+## 現在の実装 {#current-implementation}
 
 MBC CQRS Serverless Webパッケージは以下の状態管理アーキテクチャを使用しています：
 
@@ -105,7 +105,7 @@ export function useUserContext(): UserContext {
 }
 ```
 
-## クライアント状態のためのContext API
+## クライアント状態のためのContext API {#context-api}
 
 ### ユースケース: グローバルローディング状態
 
@@ -219,7 +219,7 @@ function ProductPage() {
 }
 ```
 
-## HTTPリクエストのためのaxios
+## HTTPリクエストのためのaxios {#axios-http}
 
 ### ユースケース: 認証付き集中HTTPクライアント
 
@@ -347,7 +347,7 @@ function ProductList() {
 }
 ```
 
-## リアルタイムサブスクリプションのためのApollo Client
+## リアルタイムサブスクリプションのためのApollo Client {#apollo-client}
 
 ### ユースケース: AppSyncでのGraphQLサブスクリプション
 
@@ -451,7 +451,7 @@ function CommandStatusDisplay({ commandId }: { commandId: string }) {
 }
 ```
 
-## ベストプラクティス
+## ベストプラクティス {#best-practices}
 
 ### 1. コンテキストを選択的に使用する
 
@@ -519,7 +519,7 @@ useEffect(() => {
 }, [client, filters])
 ```
 
-## 代替オプション
+## 代替オプション {#alternative-options}
 
 現在の実装ではContext APIとaxios、Apollo Clientを使用していますが、特定のユースケースに対して検討できる代替の状態管理ソリューションがあります：
 

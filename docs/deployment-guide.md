@@ -6,7 +6,7 @@ description: {{Learn how to deploy your MBC CQRS Serverless application to AWS.}
 
 {{This guide covers deploying your MBC CQRS Serverless application to AWS using AWS CDK.}}
 
-## {{Prerequisites}}
+## {{Prerequisites}} {#prerequisites}
 
 {{Before deploying, ensure you have:}}
 
@@ -15,7 +15,7 @@ description: {{Learn how to deploy your MBC CQRS Serverless application to AWS.}
 - {{AWS CDK CLI installed (`npm install -g aws-cdk`)}}
 - {{An AWS account with necessary permissions}}
 
-## {{AWS Account Preparation}}
+## {{AWS Account Preparation}} {#aws-account-preparation}
 
 ### {{Required AWS Services}}
 
@@ -41,7 +41,7 @@ description: {{Learn how to deploy your MBC CQRS Serverless application to AWS.}
 - {{CloudWatch Logs}}
 - {{VPC (if using RDS)}}
 
-## {{CDK Bootstrap}}
+## {{CDK Bootstrap}} {#cdk-bootstrap}
 
 {{Before your first deployment, bootstrap CDK in your AWS account:}}
 
@@ -55,7 +55,7 @@ cdk bootstrap aws://YOUR_ACCOUNT_ID/YOUR_REGION
 cdk bootstrap aws://123456789012/ap-northeast-1
 ```
 
-## {{Environment Configuration}}
+## {{Environment Configuration}} {#environment-configuration}
 
 ### {{Create Environment Config}}
 
@@ -131,7 +131,7 @@ COGNITO_USER_POOL_ID=ap-northeast-1_xxxxxxx
 COGNITO_USER_POOL_CLIENT_ID=xxxxxxxxxxxxxxxxxx
 ```
 
-## {{CDK Stack Structure}}
+## {{CDK Stack Structure}} {#cdk-stack-structure}
 
 {{A typical MBC CQRS Serverless CDK project has the following structure:}}
 
@@ -156,7 +156,7 @@ infra/
     └── pipeline-infra-stage.ts # {{Pipeline infrastructure stage}}
 ```
 
-## {{Known Issues and Workarounds}}
+## {{Known Issues and Workarounds}} {#known-issues}
 
 ### {{npm install Errors with Legacy Dependencies}}
 
@@ -198,7 +198,7 @@ const cdkEnv: cdk.Environment = {
 AWS_PROFILE=your-profile cdk synth
 ```
 
-## {{Deploying with CDK}}
+## {{Deploying with CDK}} {#deploying-with-cdk}
 
 ### {{Configure Target Environments}}
 
@@ -247,7 +247,7 @@ cdk deploy dev-your-app-pipeline-stack
 cdk deploy --all --require-approval broadening
 ```
 
-## {{Post-Deployment Verification}}
+## {{Post-Deployment Verification}} {#post-deployment}
 
 ### {{Check Stack Status}}
 
@@ -272,7 +272,7 @@ aws cloudformation describe-stacks \
 curl https://your-api-endpoint.execute-api.ap-northeast-1.amazonaws.com/health
 ```
 
-## {{Multi-Environment Strategy}}
+## {{Multi-Environment Strategy}} {#multi-environment-strategy}
 
 ### {{Environment Isolation}}
 
@@ -298,7 +298,7 @@ curl https://your-api-endpoint.execute-api.ap-northeast-1.amazonaws.com/health
 - `dev-myapp-dynamodb-command`
 - `prod-myapp-lambda-handler`
 
-## {{Rollback}}
+## {{Rollback}} {#rollback}
 
 ### {{Automatic Rollback}}
 
@@ -317,7 +317,7 @@ git checkout <previous-commit>
 cdk deploy --all
 ```
 
-## {{Cleanup}}
+## {{Cleanup}} {#cleanup}
 
 ### {{Destroy Stack}}
 

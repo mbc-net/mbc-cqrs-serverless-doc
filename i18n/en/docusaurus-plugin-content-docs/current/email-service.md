@@ -4,11 +4,11 @@ description: Send emails using AWS SES with the EmailService module, including a
 
 # EmailService
 
-## Description
+## Description {#description}
 
 This service is designed to send emails using [AWS SES (Simple Email Service)](https://aws.amazon.com/ses/).
 
-## Methods
+## Methods {#methods}
 
 ### *async* `sendEmail(msg: EmailNotification): Promise<any>`
 
@@ -86,7 +86,7 @@ await this.emailService.sendEmail({
 });
 ```
 
-## EmailNotification Interface
+## EmailNotification Interface {#email-notification-interface}
 
 | Property | Type | Required | Description |
 |----------|------|----------|-------------|
@@ -100,7 +100,7 @@ await this.emailService.sendEmail({
 | `attachments` | `Attachment[]` | No | File attachments |
 | `emailTags` | `EmailTag[]` | No | AWS SES tags for categorization and filtering |
 
-## Attachment Interface
+## Attachment Interface {#attachment-interface}
 
 | Property | Type | Required | Description |
 |----------|------|----------|-------------|

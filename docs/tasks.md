@@ -13,7 +13,7 @@ description: {{Learn how to create and manage long-running background tasks with
 - {{Task queue management}}
 - {{Task history and logging}}
 
-## {{Architecture}}
+## {{Architecture}} {#architecture}
 
 ```mermaid
 sequenceDiagram
@@ -39,13 +39,13 @@ sequenceDiagram
     StepFunctions->>DynamoDB: Update parent task status
 ```
 
-## {{Installation}}
+## {{Installation}} {#installation}
 
 ```bash
 npm install @mbc-cqrs-serverless/task
 ```
 
-## {{Usage}}
+## {{Usage}} {#usage}
 
 {{There are 2 types of task processing:}}
 
@@ -288,7 +288,7 @@ await this.taskService.createStepFunctionTask(
 );
 ```
 
-## {{API Reference}}
+## {{API Reference}} {#api-reference}
 
 ### {{TaskService Methods}}
 

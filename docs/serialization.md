@@ -5,9 +5,9 @@ description: {{Learn how to use serialization helpers for data structure convers
 
 # {{Serialization Helpers}}
 
-## {{Overview}}
+## {{Overview}} {#overview}
 {{The MBC CQRS Serverless Framework provides helper functions for converting between internal DynamoDB structures and external flat structures. These helpers ensure consistent data transformation while maintaining type safety.}}
-## {{Data Structure Conversion}}
+## {{Data Structure Conversion}} {#data-structure-conversion}
 
 ### {{Internal DynamoDB Structure}}
 ```typescript
@@ -37,7 +37,7 @@ description: {{Learn how to use serialization helpers for data structure convers
 }
 ```
 
-## {{Usage}}
+## {{Usage}} {#usage}
 
 ### {{Converting Internal to External Format}}
 ```typescript
@@ -80,7 +80,7 @@ const internal = deserializeToInternal(external, DataEntity);
 {{When deserializing, if the `id` field doesn't contain the `#` separator to split into `pk` and `sk`, the `code` field is used as the `sk` value. Any fields not in the metadata field list are automatically placed in the `attributes` object.}}
 :::
 
-## {{API Reference}}
+## {{API Reference}} {#api-reference}
 
 ### {{serializeToExternal}}
 ```typescript
@@ -121,7 +121,7 @@ function deserializeToInternal<T extends CommandEntity | DataEntity>(
 {{Returns:}}
 - {{Internal entity instance or null if input is null/undefined}}
 
-## {{Field Mapping}}
+## {{Field Mapping}} {#field-mapping}
 
 ### {{Metadata Fields}}
 | {{Field}} | {{Description}} |

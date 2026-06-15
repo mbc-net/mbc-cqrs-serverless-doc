@@ -24,7 +24,7 @@ DATABASE_URL="mysql://root:RootCqrs@localhost:3306/cqrs"
 
 > {{You could view [prisma-client documentation](https://www.prisma.io/docs/orm/prisma-client) for more information}}
 
-## {{Design table convention}}
+## {{Design table convention}} {#design-table-convention}
 
 {{When creating an RDS table that maps to a DynamoDB table, ensure you add the necessary fields and indexes to the RDS table accordingly. The `cpk`/`csk` fields store the original command table keys (used to link back to the DynamoDB command record). Include them when you need full traceability from RDS to DynamoDB; omit them if you only need the data table keys (`pk`/`sk`).}}
 

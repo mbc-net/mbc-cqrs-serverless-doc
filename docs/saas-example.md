@@ -6,7 +6,7 @@ description: {{Multi-tenant SaaS application example with subscription managemen
 
 {{This example demonstrates a multi-tenant SaaS application with subscription management, usage tracking, and billing integration using MBC CQRS Serverless.}}
 
-## {{Overview}}
+## {{Overview}} {#overview}
 
 {{The SaaS example covers:}}
 
@@ -15,7 +15,7 @@ description: {{Multi-tenant SaaS application example with subscription managemen
 - {{Usage metering and quota enforcement}}
 - {{Billing event generation}}
 
-## {{Data Model}}
+## {{Data Model}} {#data-model}
 
 ### {{Key Structure}}
 
@@ -81,7 +81,7 @@ export interface UsageAttributes {
 }
 ```
 
-## {{Tenant Management}}
+## {{Tenant Management}} {#tenant-management}
 
 ### {{Tenant Service Extension}}
 
@@ -167,7 +167,7 @@ export class TenantSetupService {
 }
 ```
 
-## {{Subscription Management}}
+## {{Subscription Management}} {#subscription-management}
 
 ### {{Subscription Service}}
 
@@ -328,7 +328,7 @@ export class SubscriptionService {
 }
 ```
 
-## {{Usage Metering}}
+## {{Usage Metering}} {#usage-metering}
 
 ### {{Usage Service}}
 
@@ -538,7 +538,7 @@ export class ProjectController {
 }
 ```
 
-## {{Billing Integration}}
+## {{Billing Integration}} {#billing-integration}
 
 ### {{Billing Event Handler}}
 
@@ -669,7 +669,7 @@ export class BillingEventHandler implements IDataSyncHandler {
 }
 ```
 
-## {{API Key Management}}
+## {{API Key Management}} {#api-key-management}
 
 ### {{API Key Service}}
 
@@ -808,7 +808,7 @@ export class ApiKeyService {
 }
 ```
 
-## {{API Endpoints}}
+## {{API Endpoints}} {#api-endpoints}
 
 | {{Method}} | {{Endpoint}} | {{Description}} |
 |------------|--------------|-----------------|
@@ -821,7 +821,7 @@ export class ApiKeyService {
 | POST | `/api-keys` | {{Create API key}} |
 | DELETE | `/api-keys/:prefix` | {{Revoke API key}} |
 
-## {{Best Practices}}
+## {{Best Practices}} {#best-practices}
 
 ### {{1. Tenant Isolation}}
 

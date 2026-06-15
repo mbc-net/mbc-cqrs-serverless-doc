@@ -4,7 +4,7 @@ description: {{Learn how to use DataService for querying data from DynamoDB tabl
 
 # {{DataService}}
 
-## {{Overview}}
+## {{Overview}} {#overview}
 
 {{The `DataService` is the query side of the CQRS pattern, providing efficient read operations for data stored in DynamoDB. It handles all read operations from the data table (the read model) which is optimized for queries.}}
 
@@ -23,7 +23,7 @@ graph LR
 
 {{Before using the DataService, you need to set up the CommandModule as described in [the CommandService section](/docs/command-service).}}
 
-## {{Methods}}
+## {{Methods}} {#methods}
 
 ### {{*async* `getItem(key: DetailKey): Promise<DataModel | undefined>`}}
 
@@ -185,7 +185,7 @@ export class CustomDataSyncHandler implements IDataSyncHandler {
 - {{Updates modification metadata (updatedAt, updatedBy, updatedIp)}}
 - {{Stores the data in the data table}}
 
-## {{Common Patterns}}
+## {{Common Patterns}} {#common-patterns}
 
 ### {{Search by Code}}
 
@@ -255,7 +255,7 @@ async getItemSafely(pk: string, sk: string): Promise<CatDataEntity> {
 }
 ```
 
-## {{Type Definitions}}
+## {{Type Definitions}} {#type-definitions}
 
 ### {{DetailKey}}
 
@@ -304,7 +304,7 @@ const result = await this.dataService.listItemsByPk(pk);
 const listEntity = new DataListEntity(result);
 ```
 
-## {{Best Practices}}
+## {{Best Practices}} {#best-practices}
 
 1. **{{Use projection expressions}}**: {{Only retrieve the attributes you need to reduce data transfer}}
 2. **{{Implement pagination}}**: {{Always paginate large result sets to avoid memory issues}}

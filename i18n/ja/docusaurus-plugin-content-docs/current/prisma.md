@@ -24,7 +24,7 @@ DATABASE_URL="mysql://root:RootCqrs@localhost:3306/cqrs"
 
 > 詳細については、[prisma-client ドキュメント](https://www.prisma.io/docs/orm/prisma-client) をご覧ください。
 
-## テーブル設計の規則
+## テーブル設計の規則 {#design-table-convention}
 
 DynamoDB テーブルにマップする RDS テーブルを作成するときは、必要なフィールドとインデックスをそれに応じて RDS テーブルに追加してください。`cpk`/`csk` フィールドにはコマンドテーブルの元のキーを格納します（DynamoDB コマンドレコードへの参照用）。RDS から DynamoDB への完全なトレーサビリティが必要な場合は含めてください。データテーブルのキー（`pk`/`sk`）だけで十分な場合は省略できます。
 
