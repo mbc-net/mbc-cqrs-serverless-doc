@@ -209,7 +209,7 @@
   "Use for cross-tenant shared data": "クロステナント共有データに使用",
   "Default for single-tenant mode": "シングルテナントモードのデフォルト",
   "Common tenant codes list, configurable via COMMON_TENANT_CODES env var": "共通テナントコードのリスト（環境変数 COMMON_TENANT_CODES で設定可能）",
-  "Master data is shared across all tenants under the COMMON partition": "Master data is shared across all tenants under the COMMON partition (マスターデータはCOMMONパーティションの下で全テナント間で共有されます)",
+  "Master data is shared across all tenants under the common partition": "Master data is shared across all tenants under the common partition (マスターデータはcommonパーティションの下で全テナント間で共有されます)",
   "Entity Patterns": "エンティティパターン",
   "Define entities that use these key patterns": "これらのキーパターンを使用するエンティティの定義",
   "Data Service": "データサービス",

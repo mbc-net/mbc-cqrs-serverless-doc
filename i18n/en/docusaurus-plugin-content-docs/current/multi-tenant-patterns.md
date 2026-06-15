@@ -89,19 +89,17 @@ export const TENANT_COMMON = 'common';
 export const DEFAULT_TENANT_CODE = 'single';
 ```
 
-:::warning Important: COMMON Constant in Master and Tenant Modules
-The `@mbc-cqrs-serverless/master` and `@mbc-cqrs-serverless/tenant` packages define an internal constant `'COMMON'` (uppercase) for the common tenant code.
+:::info Consistent Tenant Code in Master and Tenant Modules
+The `@mbc-cqrs-serverless/master` and `@mbc-cqrs-serverless/tenant` packages use `SettingTypeEnum.TENANT_COMMON = 'common'` (lowercase), consistent with `getUserContext()` normalization.
 
-When using these modules' built-in methods (e.g., `createCommonTenantSetting`, `createCommonTenant`), they automatically use this `'COMMON'` value internally for data storage.
+When using built-in methods (e.g., `createCommonTenantSetting`, `createCommonTenant`), data is stored under the `'common'` tenant code, which can be queried using the normalized lowercase tenant code.
 
 ```typescript
 // In @mbc-cqrs-serverless/master and @mbc-cqrs-serverless/tenant
 export enum SettingTypeEnum {
-  TENANT_COMMON = 'COMMON',  // Internal constant for data storage
+  TENANT_COMMON = 'common',  // Common tenant code (lowercase)
 }
 ```
-
-Note: Even though the stored value is `'COMMON'`, when you send `x-tenant-code: COMMON` in HTTP headers, `getUserContext()` returns `'common'` (lowercase) due to normalization. For custom implementations, use lowercase `'common'` for consistency with the normalized tenant codes.
 :::
 
 ```typescript

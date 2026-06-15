@@ -89,19 +89,17 @@ export const TENANT_COMMON = 'common';
 export const DEFAULT_TENANT_CODE = 'single';
 ```
 
-:::warning 重要: MasterモジュールとTenantモジュールのCOMMON定数
-`@mbc-cqrs-serverless/master`と`@mbc-cqrs-serverless/tenant`パッケージでは、共通テナントコード用の内部定数として`'COMMON'`（大文字）を定義しています。
+:::info MasterモジュールとTenantモジュールの一貫したテナントコード
+`@mbc-cqrs-serverless/master`と`@mbc-cqrs-serverless/tenant`パッケージは`SettingTypeEnum.TENANT_COMMON = 'common'`（小文字）を使用しており、`getUserContext()`の正規化と一貫しています。
 
-これらのモジュールの組み込みメソッド（例：`createCommonTenantSetting`、`createCommonTenant`）を使用する場合、データ保存時に内部的にこの`'COMMON'`値が自動的に使用されます。
+組み込みメソッド（例：`createCommonTenantSetting`、`createCommonTenant`）を使用する場合、データは`'common'`テナントコードで保存され、正規化された小文字のテナントコードを使用してクエリできます。
 
 ```typescript
 // In @mbc-cqrs-serverless/master and @mbc-cqrs-serverless/tenant (@mbc-cqrs-serverless/masterと@mbc-cqrs-serverless/tenantで)
 export enum SettingTypeEnum {
-  TENANT_COMMON = 'COMMON',  // Internal constant for data storage (データ保存用の内部定数)
+  TENANT_COMMON = 'common',  // Common tenant code (lowercase) (共通テナントコード（小文字）)
 }
 ```
-
-注意: 保存される値は`'COMMON'`ですが、HTTPヘッダーで`x-tenant-code: COMMON`を送信すると、正規化により`getUserContext()`は`'common'`（小文字）を返します。カスタム実装では、正規化されたテナントコードとの一貫性のため小文字の`'common'`を使用してください。
 :::
 
 ```typescript

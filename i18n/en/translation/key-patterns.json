@@ -209,7 +209,7 @@
   "Use for cross-tenant shared data": "Use for cross-tenant shared data",
   "Default for single-tenant mode": "Default for single-tenant mode",
   "Common tenant codes list, configurable via COMMON_TENANT_CODES env var": "Common tenant codes list, configurable via COMMON_TENANT_CODES env var",
-  "Master data is shared across all tenants under the COMMON partition": "Master data is shared across all tenants under the COMMON partition",
+  "Master data is shared across all tenants under the common partition": "Master data is shared across all tenants under the common partition",
   "Entity Patterns": "Entity Patterns",
   "Define entities that use these key patterns": "Define entities that use these key patterns",
   "Data Service": "Data Service",

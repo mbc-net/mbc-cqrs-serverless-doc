@@ -324,13 +324,13 @@ const sk = `${tenantCode}${KEY_SEPARATOR}${userCode}`;
 
 ```ts
 // Key Structure (キー構造)
-PK: MASTER#COMMON
+PK: MASTER#common
 SK: <type>#<category>#<code>
 
 // Types: SETTING, DATA, COPY (タイプ: SETTING、DATA、COPY)
-// Master data is shared across all tenants under the COMMON partition (マスターデータはCOMMONパーティションの下で全テナント間で共有されます)
+// Master data is shared across all tenants under the common partition (マスターデータはcommonパーティションの下で全テナント間で共有されます)
 // 例
-PK: MASTER#COMMON
+PK: MASTER#common
 SK: SETTING#notification#email_template
 SK: DATA#product_category#electronics
 SK: DATA#product_category#clothing
@@ -345,7 +345,7 @@ function generateMasterSk(type: string, category: string, code: string): string 
   return `${type}${KEY_SEPARATOR}${category}${KEY_SEPARATOR}${code}`;
 }
 
-const pk = `MASTER${KEY_SEPARATOR}COMMON`;
+const pk = `MASTER${KEY_SEPARATOR}common`;
 const sk = generateMasterSk(DATA_PREFIX, "product_category", "electronics");
 ```
 
