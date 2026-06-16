@@ -855,4 +855,5 @@ async function getCommandHistory(pk: string, baseSk: string) {
 - [よくある問題](/docs/common-issues) - よく発生する問題と解決策
 - [監視とログ](/docs/monitoring-logging) - 包括的な監視の設定
 - [エラーカタログ](/docs/error-catalog) - エラーコードと解決手順
+- [バージョン競合ガイド](/docs/version-conflict-guide) - 楽観的ロックの競合解決
 - [E2Eテスト](/docs/e2e-test) - デバッグ用エンドツーエンドテスト

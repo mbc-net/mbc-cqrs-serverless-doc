@@ -209,5 +209,7 @@
   "Find errors": "Find errors",
   "Analyze cold starts": "Analyze cold starts",
   "Find slow requests": "Find slow requests",
-  "Get execution details": "Get execution details"
+  "Get execution details": "Get execution details",
+  "Version Conflict Guide": "Version Conflict Guide",
+  "Resolving optimistic locking conflicts": "Resolving optimistic locking conflicts"
 }

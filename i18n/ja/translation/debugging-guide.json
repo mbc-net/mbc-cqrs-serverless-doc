@@ -209,5 +209,7 @@
   "Find errors": "エラーを検索",
   "Analyze cold starts": "コールドスタートを分析",
   "Find slow requests": "スロークエリを検索",
-  "Get execution details": "実行詳細を取得"
+  "Get execution details": "実行詳細を取得",
+  "Version Conflict Guide": "バージョン競合ガイド",
+  "Resolving optimistic locking conflicts": "楽観的ロックの競合解決"
 }
