@@ -33,23 +33,47 @@ import { Role } from "@/auth/role.enum";
 
 ## モジュールエイリアス {#module-aliases}
 
-
-「baseUrl」パスの設定に加えて、「paths」オプションを使用してモジュール パスを「エイリアス」することもできます。
-
-たとえば、次の設定は `@/auth/*` を `auth/*` にマップします。
+`baseUrl`の設定に加えて、`"paths"`オプションでモジュールパスエイリアスを設定できます。MBC CQRS Serverlessの慣例では`@/*`を`src/*`にマップします：
 
 ```json title="tsconfig.json"
 {
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/auth/*": ["auth/*"]
+      "@/*": ["src/*"],
+      "@shared/*": ["src/shared/*"]
     }
   },
-  "include": ["src/*", "src/**/*"]
+  "include": ["src/**/*"]
 }
 ```
 
+これにより、クリーンでリファクタリングしやすいインポートが書けます：
+
+```ts
+// エイリアスなし
+import { OrderService } from "../../../orders/order.service";
+
+// エイリアスあり
+import { OrderService } from "@/orders/order.service";
+```
+
+## Jestの設定 {#jest-configuration}
+
+TypeScriptのパスエイリアスはJestにも登録する必要があります。`jest.config.json`に`moduleNameMapper`を追加してください：
+
+```json title="jest.config.json"
+{
+  "moduleNameMapper": {
+    "^@/(.*)$": "<rootDir>/src/$1",
+    "^@shared/(.*)$": "<rootDir>/src/shared/$1"
+  }
+}
+```
+
+:::info
+`moduleNameMapper`のパターンを`tsconfig.json`の`paths`エントリと同期させてください。マッパーが欠けていると、テストのみで`Cannot find module`エラーが発生し、原因の特定が難しくなります。
+:::
 
 ## 関連ドキュメント
 

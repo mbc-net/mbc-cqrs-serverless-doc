@@ -33,22 +33,47 @@ An example of this configuration:
 
 ## Module Aliases {#module-aliases}
 
-In addition to configuring the `baseUrl` path, you can use the "paths" option to "alias" module paths.
-
-For example, the following configuration maps `@/auth/*` to `auth/*`:
+In addition to configuring the `baseUrl` path, you can use the `"paths"` option to create module path aliases. The MBC CQRS Serverless convention maps `@/*` to `src/*`:
 
 ```json title="tsconfig.json"
 {
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/auth/*": ["auth/*"]
+      "@/*": ["src/*"],
+      "@shared/*": ["src/shared/*"]
     }
   },
-  "include": ["src/*", "src/**/*"]
+  "include": ["src/**/*"]
 }
 ```
 
+This lets you write clean, refactoring-friendly imports:
+
+```ts
+// without alias
+import { OrderService } from "../../../orders/order.service";
+
+// with alias
+import { OrderService } from "@/orders/order.service";
+```
+
+## Jest Configuration {#jest-configuration}
+
+TypeScript path aliases must also be registered in Jest so tests resolve the same paths. Add a `moduleNameMapper` to your `jest.config.json`:
+
+```json title="jest.config.json"
+{
+  "moduleNameMapper": {
+    "^@/(.*)$": "<rootDir>/src/$1",
+    "^@shared/(.*)$": "<rootDir>/src/shared/$1"
+  }
+}
+```
+
+:::info
+Keep the `moduleNameMapper` patterns in sync with the `paths` entries in `tsconfig.json`. A missing mapper causes `Cannot find module` errors only in tests, which can be hard to diagnose.
+:::
 
 ## Related Documentation
 
