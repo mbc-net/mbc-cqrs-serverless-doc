@@ -59,3 +59,4 @@ description: {{Overview of the MBC CQRS Serverless project file and folder struc
 - [{{Modules}}](/docs/modules) - {{Module configuration and usage}}
 - [{{Configuring}}](/docs/configuring) - {{Configuration options}}
 - [{{CLI}}](/docs/cli) - {{Generate project with CLI}}
+- [{{Absolute Imports and Module Path Aliases}}](/docs/absolute_imports_and_module_path_aliases) - {{TypeScript path alias configuration}}

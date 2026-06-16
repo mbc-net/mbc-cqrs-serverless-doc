@@ -158,6 +158,8 @@
   "Key Patterns": "Key Patterns",
   "PK/SK key design": "PK/SK key design",
   "Data Service": "Data Service",
+  "Serialization Helpers": "Serialization Helpers",
+  "Convert between DynamoDB and external structures": "Convert between DynamoDB and external structures",
   "Query entities with DataService": "Query entities with DataService",
   "Interfaces": "Interfaces",
   "DataEntity and CommandEntity interfaces": "DataEntity and CommandEntity interfaces",

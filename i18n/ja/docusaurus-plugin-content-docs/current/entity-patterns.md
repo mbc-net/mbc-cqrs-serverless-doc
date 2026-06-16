@@ -869,5 +869,6 @@ status: OrderStatus;
 
 - [キーパターン](/docs/key-patterns) - PK/SKキー設計
 - [データサービス](/docs/data-service) - DataServiceでエンティティをクエリ
+- [シリアライズヘルパー](/docs/serialization) - DynamoDB構造と外部構造間の変換
 - [インターフェース](/docs/interfaces) - DataEntityとCommandEntityインターフェース
 - [サービスパターン](/docs/service-patterns) - エンティティを使ったサービス層

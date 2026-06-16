@@ -40,5 +40,7 @@
   "Configuring": "設定",
   "Configuration options": "設定オプション",
   "CLI": "CLI",
+  "Absolute Imports and Module Path Aliases": "絶対インポートとモジュールパスエイリアス",
+  "TypeScript path alias configuration": "TypeScriptパスエイリアスの設定",
   "Generate project with CLI": "CLIでプロジェクトを生成"
 }

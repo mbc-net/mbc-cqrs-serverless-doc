@@ -40,5 +40,7 @@
   "Configuring": "Configuring",
   "Configuration options": "Configuration options",
   "CLI": "CLI",
-  "Generate project with CLI": "Generate project with CLI"
+  "Generate project with CLI": "Generate project with CLI",
+  "Absolute Imports and Module Path Aliases": "Absolute Imports and Module Path Aliases",
+  "TypeScript path alias configuration": "TypeScript path alias configuration"
 }
