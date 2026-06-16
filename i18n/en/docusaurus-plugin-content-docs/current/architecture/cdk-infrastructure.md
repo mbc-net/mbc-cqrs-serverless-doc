@@ -179,7 +179,7 @@ const userPool = new cognito.UserPool(this, 'UserPool', {
   customAttributes: {
     tenant: new cognito.StringAttribute({ maxLen: 50, mutable: true }),
     company_code: new cognito.StringAttribute({ maxLen: 50, mutable: true }),
-    member_id: new cognito.StringAttribute({ maxLen: 2024, mutable: true }),
+    member_id: new cognito.StringAttribute({ maxLen: 2048, mutable: true }),
     roles: new cognito.StringAttribute({ mutable: true }),
   },
 });
