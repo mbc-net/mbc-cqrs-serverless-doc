@@ -486,7 +486,7 @@ try {
 
 ## {{Import Module Errors}} {#import-module-errors}
 
-:::tip Related Documentation
+:::tip {{Related Documentation}}
 {{For API details and usage patterns, see [ImportStatusHandler API](/docs/import-export-patterns#importstatushandler-api). For version history, see [Changelog v1.0.18](/docs/changelog#v1018).}}
 :::
 

@@ -486,7 +486,7 @@ try {
 
 ## インポートモジュールエラー {#import-module-errors}
 
-:::tip Related Documentation
+:::tip 関連ドキュメント
 APIの詳細と使用パターンについては[ImportStatusHandler API](/docs/import-export-patterns#importstatushandler-api)を参照してください。バージョン履歴については[変更履歴 v1.0.18](/docs/changelog#v1018)を参照してください。
 :::
 
