@@ -413,6 +413,9 @@ AP001〜AP010 は上記のセクション（ガイドコード）に対応しま
 ## 関連ドキュメント
 
 - [サービスパターン](/docs/service-patterns) - 推奨パターン
+- [コマンドサービス](/docs/command-service) - 正しいコマンドハンドリング（AP001–AP003）
+- [イベントハンドリングパターン](/docs/event-handling-patterns) - 正しい同期ハンドラーパターン（AP009–AP010）
+- [バックエンド開発](/docs/backend-development) - コアバックエンド実装ガイド
 - [セキュリティベストプラクティス](/docs/security-best-practices) - セキュリティガイドライン
 - [よくある問題](/docs/common-issues) - トラブルシューティングガイド
 - [MCPサーバー](/docs/mcp-server) - アンチパターン検出ツール

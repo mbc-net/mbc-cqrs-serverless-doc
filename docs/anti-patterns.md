@@ -413,6 +413,9 @@ export class MyDataSyncHandler implements IDataSyncHandler {
 ## {{Related Documentation}}
 
 - [{{Service Patterns}}](/docs/service-patterns) - {{Recommended patterns}}
+- [{{Command Service}}](/docs/command-service) - {{Correct command handling (AP001–AP003)}}
+- [{{Event Handling Patterns}}](/docs/event-handling-patterns) - {{Correct sync handler patterns (AP009–AP010)}}
+- [{{Backend Development}}](/docs/backend-development) - {{Core backend implementation guide}}
 - [{{Security Best Practices}}](/docs/security-best-practices) - {{Security guidelines}}
 - [{{Common Issues}}](/docs/common-issues) - {{Troubleshooting guide}}
 - [{{MCP Server}}](/docs/mcp-server) - {{Anti-pattern detection tools}}
