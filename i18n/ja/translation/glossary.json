@@ -27,6 +27,8 @@
   "A handler that processes DynamoDB Stream events to synchronize data between tables or to external systems like RDS. Implements the IDataSyncHandler interface.": "DynamoDB Streamイベントを処理してテーブル間またはRDSなどの外部システムとデータを同期するハンドラー。IDataSyncHandlerインターフェースを実装します。",
   "Invoke Context": "呼び出しコンテキスト",
   "The context object passed to service methods containing user information, tenant context, and request metadata. Created from the Lambda event and used for authorization and auditing.": "ユーザー情報、テナントコンテキスト、リクエストメタデータを含むサービスメソッドに渡されるコンテキストオブジェクト。Lambdaイベントから作成され、認可と監査に使用されます。",
+  "UserContext": "UserContext",
+  "A structured object extracted from the Invoke Context via `getUserContext(invokeContext)`. Contains the authenticated user's information: `userId`, `email`, `tenantCode`, `roles` (from `custom:roles` JWT claim), `tenantRole` (first role, for backward compatibility), and — since v1.3.1 — `tenantRoles` (all direct roles) and `tenantGroupIds` (Cognito group IDs for the active tenant). See [Helpers — getUserContext](/docs/helpers#context-helpers).": "`getUserContext(invokeContext)` で呼び出しコンテキストから取り出す構造化オブジェクト。認証済みユーザーの情報（`userId`、`email`、`tenantCode`、`roles`（`custom:roles` JWTクレームから）、`tenantRole`（後方互換性のため最初のロール））を含みます。v1.3.1 以降は `tenantRoles`（全直接ロール）と `tenantGroupIds`（アクティブテナントのCognitoグループID）も追加されています。詳細は [Helpers — コンテキストヘルパー](/docs/helpers#context-helpers) を参照。",
   "Partition Key (PK)": "パーティションキー（PK）",
   "The primary key component in DynamoDB that determines data distribution across partitions. In MBC CQRS Serverless, typically formatted as `TYPE#tenantCode` (e.g., `ORDER#tenant001`).": "パーティション間のデータ分散を決定するDynamoDBのプライマリキーコンポーネント。MBC CQRS Serverlessでは、通常`TYPE#tenantCode`形式（例：`ORDER#tenant001`）。",
   "Sort Key (SK)": "ソートキー（SK）",
