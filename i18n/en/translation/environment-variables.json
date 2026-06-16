@@ -94,6 +94,8 @@
   "SNS and SQS usage": "SNS and SQS usage",
   "Notification Module": "Notification Module",
   "SES and AppSync Events configuration": "SES and AppSync Events configuration",
+  "Directory": "Directory",
+  "S3 file and folder management with presigned URLs": "S3 file and folder management with presigned URLs",
   "Deployment Guide": "Deployment Guide",
   "Deployment environment setup": "Deployment environment setup",
   "Security Best Practices": "Security Best Practices",

@@ -250,6 +250,7 @@ export const handler = createHandler({
 - [Configuring](/docs/configuring) - Module-level configuration options
 - [Queue Module](/docs/queue) - SNS and SQS usage
 - [Notification Module](/docs/notification-module) - SES and AppSync Events configuration
+- [Directory](/docs/directory) - S3 file and folder management with presigned URLs
 - [Deployment Guide](/docs/deployment-guide) - Deployment environment setup
 - [Security Best Practices](/docs/security-best-practices) - Secure handling of credentials and secrets
 - [Installation](/docs/installation) - Initial environment setup

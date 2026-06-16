@@ -250,6 +250,7 @@ export const handler = createHandler({
 - [設定](/docs/configuring) - モジュールレベルの設定オプション
 - [Queueモジュール](/docs/queue) - SNSおよびSQSの使用
 - [通知モジュール](/docs/notification-module) - SESおよびAppSync Eventsの設定
+- [ディレクトリ](/docs/directory) - 署名付きURLを使用したS3ファイル・フォルダ管理
 - [デプロイガイド](/docs/deployment-guide) - デプロイ環境のセットアップ
 - [セキュリティベストプラクティス](/docs/security-best-practices) - 認証情報とシークレットの安全な取り扱い
 - [インストール](/docs/installation) - 初期環境セットアップ

@@ -94,6 +94,8 @@
   "SNS and SQS usage": "SNSおよびSQSの使用",
   "Notification Module": "通知モジュール",
   "SES and AppSync Events configuration": "SESおよびAppSync Eventsの設定",
+  "Directory": "ディレクトリ",
+  "S3 file and folder management with presigned URLs": "署名付きURLを使用したS3ファイル・フォルダ管理",
   "Deployment Guide": "デプロイガイド",
   "Deployment environment setup": "デプロイ環境のセットアップ",
   "Security Best Practices": "セキュリティベストプラクティス",
