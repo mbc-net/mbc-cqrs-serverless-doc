@@ -26,7 +26,7 @@ mbc new project-name
 ## {{Run the Development Server}} {#run-dev-server}
 
 1. {{Run `npm run build` to build the project in watch mode.}}
-2. {{Open in other terminal session and run `npm run offline:docker` to start Docker services (DynamoDB Local, MySQL, LocalStack).}}
+2. {{Open another terminal session and run `npm run offline:docker` to start Docker services (DynamoDB Local, MySQL, LocalStack).}}
 3. {{Wait ~30 seconds for MySQL to fully start, then open another terminal and run `npm run migrate` to migrate RDS and DynamoDB tables.}}
 4. {{Finally, run `npm run offline:sls` to start serverless offline mode.}}
 

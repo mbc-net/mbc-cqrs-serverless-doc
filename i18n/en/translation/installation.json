@@ -12,7 +12,7 @@
   "If you're new to mbc-cqrs-serverless, see the [project structure](/docs/project-structure) docs for an overview of all the possible files and folders in your application.": "If you're new to mbc-cqrs-serverless, see the [project structure](/docs/project-structure) docs for an overview of all the possible files and folders in your application.",
   "Run the Development Server": "Run the Development Server",
   "Run `npm run build` to build the project in watch mode.": "Run `npm run build` to build the project in watch mode.",
-  "Open in other terminal session and run `npm run offline:docker` to start Docker services (DynamoDB Local, MySQL, LocalStack).": "Open in other terminal session and run `npm run offline:docker` to start Docker services (DynamoDB Local, MySQL, LocalStack).",
+  "Open another terminal session and run `npm run offline:docker` to start Docker services (DynamoDB Local, MySQL, LocalStack).": "Open another terminal session and run `npm run offline:docker` to start Docker services (DynamoDB Local, MySQL, LocalStack).",
   "Wait ~30 seconds for MySQL to fully start, then open another terminal and run `npm run migrate` to migrate RDS and DynamoDB tables.": "Wait ~30 seconds for MySQL to fully start, then open another terminal and run `npm run migrate` to migrate RDS and DynamoDB tables.",
   "Finally, run `npm run offline:sls` to start serverless offline mode.": "Finally, run `npm run offline:sls` to start serverless offline mode.",
   "AWS Credentials for Local Development": "AWS Credentials for Local Development",
