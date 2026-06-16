@@ -96,5 +96,7 @@
   "Retrieves a specific versioned item from the history table. The sort key must include the version suffix (use `addSortKeyVersion` to build it). Returns `undefined` if the version does not exist.": "履歴テーブルから特定バージョンのアイテムを取得します。ソートキーにはバージョンサフィックスが必要です（`addSortKeyVersion` を使用して構築してください）。バージョンが存在しない場合は `undefined` を返します。",
   "The history table uses the same key structure as the data table, but the sort key includes the version suffix: `sk@version`. Always use `addSortKeyVersion(sk, version)` to construct the key.": "履歴テーブルはデータテーブルと同じキー構造を使用しますが、ソートキーにはバージョンサフィックスが含まれます: `sk@version`。キーの構築には常に `addSortKeyVersion(sk, version)` を使用してください。",
   "Partition key": "パーティションキー",
-  "Sort key": "ソートキー"
+  "Sort key": "ソートキー",
+  "Data Sync Handler Examples": "データ同期ハンドラー例",
+  "Using DataService.publish() in sync handlers": "同期ハンドラーでのDataService.publish()の使用"
 }

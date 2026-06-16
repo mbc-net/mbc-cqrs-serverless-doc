@@ -96,5 +96,7 @@
   "Retrieves a specific versioned item from the history table. The sort key must include the version suffix (use `addSortKeyVersion` to build it). Returns `undefined` if the version does not exist.": "Retrieves a specific versioned item from the history table. The sort key must include the version suffix (use `addSortKeyVersion` to build it). Returns `undefined` if the version does not exist.",
   "The history table uses the same key structure as the data table, but the sort key includes the version suffix: `sk@version`. Always use `addSortKeyVersion(sk, version)` to construct the key.": "The history table uses the same key structure as the data table, but the sort key includes the version suffix: `sk@version`. Always use `addSortKeyVersion(sk, version)` to construct the key.",
   "Partition key": "Partition key",
-  "Sort key": "Sort key"
+  "Sort key": "Sort key",
+  "Data Sync Handler Examples": "Data Sync Handler Examples",
+  "Using DataService.publish() in sync handlers": "Using DataService.publish() in sync handlers"
 }

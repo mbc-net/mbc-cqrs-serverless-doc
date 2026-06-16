@@ -361,3 +361,4 @@ export class ProductService {
 - [{{Service Patterns}}](/docs/service-patterns) - {{Complete service layer patterns}}
 - [{{Key Patterns}}](/docs/key-patterns) - {{DynamoDB key design for efficient queries}}
 - [{{Entity Patterns}}](/docs/entity-patterns) - {{Entity definition with DataEntity}}
+- [{{Data Sync Handler Examples}}](/docs/data-sync-handler-examples) - {{Using DataService.publish() in sync handlers}}
