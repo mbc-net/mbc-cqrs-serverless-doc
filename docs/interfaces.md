@@ -449,7 +449,7 @@ export class OrderRdsSyncHandler implements IDataSyncHandler {
 }
 ```
 
-### {{Authorization Interfaces}}
+### {{Authorization Interfaces}} {#authorization-interfaces}
 
 #### IGroupRoleResolver
 
