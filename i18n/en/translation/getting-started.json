@@ -35,6 +35,8 @@
   "Understand the generated file layout": "Understand the generated file layout",
   "CQRS and Event Sourcing concepts": "CQRS and Event Sourcing concepts",
   "Implement features with the CQRS pattern": "Implement features with the CQRS pattern",
+  "Authentication": "Authentication",
+  "Role-based access control and group-based authorization": "Role-based access control and group-based authorization",
   "Backend Development": "Backend Development",
   "E-commerce": "E-commerce",
   "SaaS": "SaaS",

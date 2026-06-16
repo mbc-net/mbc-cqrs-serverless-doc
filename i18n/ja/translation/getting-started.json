@@ -35,6 +35,8 @@
   "Understand the generated file layout": "生成されたファイル構成を理解する",
   "CQRS and Event Sourcing concepts": "CQRSとイベントソーシングの概念",
   "Implement features with the CQRS pattern": "CQRSパターンで機能を実装する",
+  "Authentication": "認証",
+  "Role-based access control and group-based authorization": "ロールベースアクセス制御とグループベースの認可",
   "Backend Development": "バックエンド開発",
   "E-commerce": "Eコマース",
   "SaaS": "SaaS",

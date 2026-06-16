@@ -41,7 +41,8 @@ description: {{Introduction to MBC CQRS Serverless framework - a production-read
 | 3 | [{{Project Structure}}](/docs/project-structure) | {{Understand the generated file layout}} |
 | 4 | [{{Architecture}}](/docs/architecture) | {{CQRS and Event Sourcing concepts}} |
 | 5 | [{{Backend Development}}](/docs/backend-development) | {{Implement features with the CQRS pattern}} |
-| 6 | {{Examples}} | [{{E-commerce}}](/docs/ecommerce-example) · [{{SaaS}}](/docs/saas-example) |
+| 6 | [{{Authentication}}](/docs/authentication) | {{Role-based access control and group-based authorization}} |
+| 7 | {{Examples}} | [{{E-commerce}}](/docs/ecommerce-example) · [{{SaaS}}](/docs/saas-example) |
 
 ## {{Related Documentation}}
 
