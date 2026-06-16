@@ -147,7 +147,7 @@ await this.emailService.sendEmail({
 `sendInlineTemplateEmail()`は[バージョン1.0.23](/docs/changelog#v1023)で追加されました。
 :::
 
-件名と本文に`{{variableName}}`プレースホルダーを使ったテンプレートメールを送信します。SES登録テンプレートとは異なり、テンプレートをリクエストにインラインで指定するため、事前登録は不要です。
+件名と本文に `{{variableName}}` プレースホルダーを使ったテンプレートメールを送信します。SES登録テンプレートとは異なり、テンプレートをリクエストにインラインで指定するため、事前登録は不要です。
 
 ```ts
 import { EmailService, TemplatedEmailNotification } from '@mbc-cqrs-serverless/core';

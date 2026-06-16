@@ -147,7 +147,7 @@ await this.emailService.sendEmail({
 {{`sendInlineTemplateEmail()` was added in [version 1.0.23](/docs/changelog#v1023).}}
 :::
 
-{{Sends a templated email using `{{variableName}}` placeholders in the subject and body. Unlike SES registered templates, the template is inlined in the request — no pre-registration required.}}
+{{Sends a templated email using}} `{{variableName}}` {{placeholders in the subject and body. Unlike SES registered templates, the template is inlined in the request — no pre-registration required.}}
 
 ```ts
 import { EmailService, TemplatedEmailNotification } from '@mbc-cqrs-serverless/core';
