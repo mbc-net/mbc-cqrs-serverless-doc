@@ -85,7 +85,7 @@
   "Deprecated Method Usage (`publish()`)": "Deprecated Method Usage (`publish()`)",
   "Uppercase COMMON Tenant Key (pre-v1.1.0)": "Uppercase COMMON Tenant Key (pre-v1.1.0)",
   "`publishSync` Null Return Unchecked (v1.2.0+)": "`publishSync` Null Return Unchecked (v1.2.0+)",
-  "Deprecated `genNewSequence` (v1.2.0)": "Deprecated `genNewSequence` (v1.2.0)",
+  "Removed `genNewSequence()` call (removed in v1.1.0)": "Removed `genNewSequence()` call (removed in v1.1.0)",
   "Duplicate `TaskModule.register()` (v1.2.4)": "Duplicate `TaskModule.register()` (v1.2.4)",
   "Missing Error Logging Before Rethrow": "Missing Error Logging Before Rethrow",
   "Incorrect Attribute Merging on Partial Update": "Incorrect Attribute Merging on Partial Update",

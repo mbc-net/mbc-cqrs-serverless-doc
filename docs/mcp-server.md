@@ -167,7 +167,7 @@ npx @mbc-cqrs-serverless/mcp-server
 | AP011 | {{Deprecated Method Usage (`publish()`)}} | {{High}} | AP010 |
 | AP012 | {{Uppercase COMMON Tenant Key (pre-v1.1.0)}} | {{Critical}} | — |
 | AP013 | {{`publishSync` Null Return Unchecked (v1.2.0+)}} | {{High}} | AP001 |
-| AP014 | {{Deprecated `genNewSequence` (v1.2.0)}} | {{High}} | AP010 |
+| AP014 | {{Removed `genNewSequence()` call (removed in v1.1.0)}} | {{High}} | AP010 |
 | AP015 | {{Duplicate `TaskModule.register()` (v1.2.4)}} | {{High}} | — |
 | AP016 | {{Missing Error Logging Before Rethrow}} | {{High}} | AP016 |
 | AP017 | {{Incorrect Attribute Merging on Partial Update}} | {{High}} | AP017 |
