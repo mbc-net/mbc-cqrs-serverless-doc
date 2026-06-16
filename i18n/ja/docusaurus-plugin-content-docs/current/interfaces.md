@@ -574,6 +574,18 @@ export interface SequencesModuleOptions {
 
 ## イベントインターフェース {#event-interfaces}
 
+### SnsEvent
+
+`SnsService`で送信するすべてのSNSメッセージの基底インターフェース。すべてのメッセージは`action`フィールドを含める必要があります。ドメイン固有のフィールドを追加するには、このインターフェースを継承してください。
+
+```ts
+export interface SnsEvent {
+  action: string  // Message action identifier (e.g. 'order-created', 'user-updated') (メッセージアクション識別子、例：'order-created'、'user-updated')
+}
+```
+
+使用例と継承パターンについては、[Queue — SnsEvent](/docs/queue#type-definitions)を参照してください。
+
 ### StepFunctionsEvent
 
 AWS Step Functionsからのイベント構造。

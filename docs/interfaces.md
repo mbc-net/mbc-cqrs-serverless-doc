@@ -574,6 +574,18 @@ export interface SequencesModuleOptions {
 
 ## {{Event Interfaces}} {#event-interfaces}
 
+### SnsEvent
+
+{{Base interface for all SNS messages published via `SnsService`. Every message must include an `action` field. Extend this interface to add domain-specific payload fields.}}
+
+```ts
+export interface SnsEvent {
+  action: string  // {{Message action identifier (e.g. 'order-created', 'user-updated')}}
+}
+```
+
+{{See [Queue — SnsEvent](/docs/queue#type-definitions) for usage examples and extension patterns.}}
+
 ### StepFunctionsEvent
 
 {{Event structure from AWS Step Functions.}}

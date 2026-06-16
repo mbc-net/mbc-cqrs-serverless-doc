@@ -181,5 +181,8 @@
   "Disable the default DynamoDB data sync handler": "Disable the default DynamoDB data sync handler",
   "Enable or disable default sequence controller": "Enable or disable default sequence controller",
   "Pagination": "Pagination",
-  "Optional type identifier": "Optional type identifier"
+  "Optional type identifier": "Optional type identifier",
+  "Base interface for all SNS messages published via `SnsService`. Every message must include an `action` field. Extend this interface to add domain-specific payload fields.": "Base interface for all SNS messages published via `SnsService`. Every message must include an `action` field. Extend this interface to add domain-specific payload fields.",
+  "Message action identifier (e.g. 'order-created', 'user-updated')": "Message action identifier (e.g. 'order-created', 'user-updated')",
+  "See [Queue — SnsEvent](/docs/queue#type-definitions) for usage examples and extension patterns.": "See [Queue — SnsEvent](/docs/queue#type-definitions) for usage examples and extension patterns."
 }
