@@ -106,6 +106,8 @@
   "Step Functions": "Step Functions",
   "Workflow orchestration": "Workflow orchestration",
   "Data Sync Handler Examples": "Data Sync Handler Examples",
+  "Queue Module": "Queue Module",
+  "SQS and SNS messaging services": "SQS and SNS messaging services",
   "Comprehensive sync examples": "Comprehensive sync examples",
   "Sync to RDS for queries": "Sync to RDS for queries",
   "Sync to Elasticsearch for search": "Sync to Elasticsearch for search",

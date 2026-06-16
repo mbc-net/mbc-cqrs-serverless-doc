@@ -941,3 +941,4 @@ transformS3(event: S3Event): Promise<IEvent[]>;
 - [バックエンド開発ガイド](/docs/backend-development) - コアパターン
 - [Step Functions](/docs/architecture/step-functions) - ワークフローオーケストレーション
 - [データ同期ハンドラーの例](/docs/data-sync-handler-examples) - 包括的な同期の例
+- [キューモジュール](/docs/queue) - SQSとSNSメッセージングサービス
