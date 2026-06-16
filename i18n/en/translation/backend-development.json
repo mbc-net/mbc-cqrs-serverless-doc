@@ -64,6 +64,8 @@
   "Comprehensive sync handler examples": "Comprehensive sync handler examples",
   "Key Patterns": "Key Patterns",
   "PK/SK design patterns": "PK/SK design patterns",
+  "Authentication": "Authentication",
+  "Role-based access control with `@Auth` and `@Roles`": "Role-based access control with `@Auth` and `@Roles`",
   "Multi-Tenant Patterns": "Multi-Tenant Patterns",
   "Multi-tenant implementation": "Multi-tenant implementation",
   "Import/Export Patterns": "Import/Export Patterns",
