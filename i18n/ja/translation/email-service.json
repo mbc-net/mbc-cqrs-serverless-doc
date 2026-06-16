@@ -34,11 +34,17 @@
   "Filename shown to recipient": "受信者に表示されるファイル名",
   "File content as Buffer": "Bufferとしてのファイル内容",
   "MIME type (e.g., 'application/pdf')": "MIMEタイプ（例：'application/pdf'）",
+  "Testing": "テスト",
+  "Mock `EmailService` in unit tests to avoid making real SES calls:": "実際のSES呼び出しを避けるため、ユニットテストでは `EmailService` をモックします：",
+  "In your test module setup": "テストモジュールのセットアップ",
+  "Assert the email was sent with the expected parameters": "期待するパラメーターでメールが送信されたことを確認",
   "Related Documentation": "関連ドキュメント",
   "Notification Module": "通知モジュール",
   "Real-time notifications with AppSync": "AppSyncを使ったリアルタイム通知",
   "Environment Variables": "環境変数",
   "SES configuration environment variables": "SES設定の環境変数",
   "Interfaces": "インターフェース",
-  "EmailNotification interface reference": "EmailNotificationインターフェースリファレンス"
+  "EmailNotification interface reference": "EmailNotificationインターフェースリファレンス",
+  "Unit Testing": "ユニットテスト",
+  "Unit testing patterns for services": "サービスのユニットテストパターン"
 }

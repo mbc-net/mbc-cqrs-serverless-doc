@@ -142,8 +142,35 @@ await this.emailService.sendEmail({
 | `contentType` | `string` | いいえ | MIMEタイプ（例：'application/pdf'） |
 
 
+## テスト {#testing}
+
+実際のSES呼び出しを避けるため、ユニットテストでは `EmailService` をモックします：
+
+```typescript
+// テストモジュールのセットアップ
+const mockEmailService = {
+  sendEmail: jest.fn().mockResolvedValue({ MessageId: 'test-message-id' }),
+};
+
+const module = await Test.createTestingModule({
+  providers: [
+    YourService,
+    { provide: EmailService, useValue: mockEmailService },
+  ],
+}).compile();
+
+// 期待するパラメーターでメールが送信されたことを確認
+expect(mockEmailService.sendEmail).toHaveBeenCalledWith(
+  expect.objectContaining({
+    toAddrs: ['user@example.com'],
+    subject: expect.stringContaining('Welcome'),
+  }),
+);
+```
+
 ## 関連ドキュメント
 
 - [通知モジュール](/docs/notification-module) - AppSyncを使ったリアルタイム通知
 - [環境変数](/docs/environment-variables) - SES設定の環境変数
 - [インターフェース](/docs/interfaces) - EmailNotificationインターフェースリファレンス
+- [ユニットテスト](/docs/unit-test) - サービスのユニットテストパターン

@@ -142,8 +142,35 @@ await this.emailService.sendEmail({
 | `contentType` | `string` | {{No}} | {{MIME type (e.g., 'application/pdf')}} |
 
 
+## {{Testing}} {#testing}
+
+{{Mock `EmailService` in unit tests to avoid making real SES calls:}}
+
+```typescript
+// {{In your test module setup}}
+const mockEmailService = {
+  sendEmail: jest.fn().mockResolvedValue({ MessageId: 'test-message-id' }),
+};
+
+const module = await Test.createTestingModule({
+  providers: [
+    YourService,
+    { provide: EmailService, useValue: mockEmailService },
+  ],
+}).compile();
+
+// {{Assert the email was sent with the expected parameters}}
+expect(mockEmailService.sendEmail).toHaveBeenCalledWith(
+  expect.objectContaining({
+    toAddrs: ['user@example.com'],
+    subject: expect.stringContaining('Welcome'),
+  }),
+);
+```
+
 ## {{Related Documentation}}
 
 - [{{Notification Module}}](/docs/notification-module) - {{Real-time notifications with AppSync}}
 - [{{Environment Variables}}](/docs/environment-variables) - {{SES configuration environment variables}}
 - [{{Interfaces}}](/docs/interfaces) - {{EmailNotification interface reference}}
+- [{{Unit Testing}}](/docs/unit-test) - {{Unit testing patterns for services}}
