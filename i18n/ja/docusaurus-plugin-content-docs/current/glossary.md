@@ -109,6 +109,10 @@ AWS AppSync が提供する、GraphQL スキーマを必要としない HTTP pub
 
 Cognito グループ ID をアプリケーションロールにマッピングするユーザー提供のクラスです（`@GroupRoleResolver()` でアノテーション）。v1.3.1 で導入されました。グループベースのロール認可を使用するには、アプリケーションごとにリゾルバーを1つ登録する必要があります。`@Injectable()` を一緒に追加しないでください — `@GroupRoleResolver()` がすでにシングルトンプロバイダーとして登録します。
 
+### Read-Your-Writes (RYW)
+
+ユーザーが発行した書き込みを、非同期 DynamoDB Stream パイプラインが読み取りモデルに変更を伝播する前であっても、すぐに自分自身の最新書き込みが見える一貫性保証です。`Repository` クラスを介して実装され、`RYW_SESSION_TTL_MINUTES` を設定することで有効になります。詳細は[コマンドサービス — Read-Your-Writes](/docs/command-service#read-your-writes)を参照してください。
+
 ### リポジトリ
 
 `DataService` のドロップイン代替品で、Read-Your-Writes (RYW) セッションキャッシュ機能を追加します。ユーザーが `publishAsync` でコマンドを発行すると、保留中のデータが DynamoDB セッションテーブルに保存されます。その後の `getItem` と `listItemsByPk` 呼び出しでは、DynamoDB Stream が変更を伝播する前から、ユーザー自身の書き込みが見えるように、保留データと永続化済みの読み取りモデルをマージします。環境変数 `RYW_SESSION_TTL_MINUTES` を設定することで有効になります。

@@ -109,6 +109,10 @@ description: {{Comprehensive glossary of terms used in MBC CQRS Serverless frame
 
 {{A user-supplied class (annotated with `@GroupRoleResolver()`) that maps Cognito group IDs to application roles. Introduced in v1.3.1. Exactly one resolver must be registered per application to use group-based role authorization. Do not also annotate the class with `@Injectable()` — `@GroupRoleResolver()` already registers the singleton provider.}}
 
+### {{Read-Your-Writes (RYW)}}
+
+{{A consistency guarantee where a user sees their own most-recent write immediately after it is published, even before the async DynamoDB Stream pipeline has propagated the change to the read model. Implemented via the `Repository` class and enabled by setting `RYW_SESSION_TTL_MINUTES`. See [Command Service — Read-Your-Writes](/docs/command-service#read-your-writes) for details.}}
+
 ### {{Repository}}
 
 {{A drop-in replacement for `DataService` that adds Read-Your-Writes (RYW) session caching. When a user publishes a command via `publishAsync`, the pending data is stored in a DynamoDB session table. Subsequent `getItem` and `listItemsByPk` calls merge pending data with the persisted read model, so the user sees their own writes before the DynamoDB Stream propagates the change. Enabled by setting `RYW_SESSION_TTL_MINUTES` in the environment.}}

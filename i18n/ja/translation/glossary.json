@@ -145,6 +145,8 @@
   "Detailed CQRS implementation": "CQRSの詳細実装",
   "Getting Started": "はじめに",
   "Introduction to key concepts": "主要概念の紹介",
+  "Read-Your-Writes (RYW)": "Read-Your-Writes (RYW)",
+  "A consistency guarantee where a user sees their own most-recent write immediately after it is published, even before the async DynamoDB Stream pipeline has propagated the change to the read model. Implemented via the `Repository` class and enabled by setting `RYW_SESSION_TTL_MINUTES`. See [Command Service — Read-Your-Writes](/docs/command-service#read-your-writes) for details.": "ユーザーが発行した書き込みを、非同期 DynamoDB Stream パイプラインが読み取りモデルに変更を伝播する前であっても、すぐに自分自身の最新書き込みが見える一貫性保証です。`Repository` クラスを介して実装され、`RYW_SESSION_TTL_MINUTES` を設定することで有効になります。詳細は[コマンドサービス — Read-Your-Writes](/docs/command-service#read-your-writes)を参照してください。",
   "Repository": "リポジトリ",
   "A drop-in replacement for `DataService` that adds Read-Your-Writes (RYW) session caching. When a user publishes a command via `publishAsync`, the pending data is stored in a DynamoDB session table. Subsequent `getItem` and `listItemsByPk` calls merge pending data with the persisted read model, so the user sees their own writes before the DynamoDB Stream propagates the change. Enabled by setting `RYW_SESSION_TTL_MINUTES` in the environment.": "`DataService` のドロップイン代替品で、Read-Your-Writes (RYW) セッションキャッシュ機能を追加します。ユーザーが `publishAsync` でコマンドを発行すると、保留中のデータが DynamoDB セッションテーブルに保存されます。その後の `getItem` と `listItemsByPk` 呼び出しでは、DynamoDB Stream が変更を伝播する前から、ユーザー自身の書き込みが見えるように、保留データと永続化済みの読み取りモデルをマージします。環境変数 `RYW_SESSION_TTL_MINUTES` を設定することで有効になります。",
   "History Table": "履歴テーブル",
