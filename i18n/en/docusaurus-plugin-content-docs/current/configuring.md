@@ -424,5 +424,8 @@ export class AppService {
 
 - [Environment Variables](/docs/environment-variables) - All available environment variables
 - [Modules](/docs/modules) - Module configuration and registration
+- [Command Service](/docs/command-service) - CommandModule behavior and options
+- [Sequence](/docs/sequence) - SequencesModule for auto-incrementing IDs
+- [Tenant Module](/docs/tenant) - TenantModule configuration
 - [Notification Module](/docs/notification-module) - Email and real-time notification configuration
 - [Deployment Guide](/docs/deployment-guide) - Configure for production
