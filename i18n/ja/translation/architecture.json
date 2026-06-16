@@ -1,5 +1,4 @@
 {
-  "Comprehensive overview of MBC CQRS Serverless framework architecture including system overview, CQRS pattern flow, and event sourcing.": "システム概要、CQRSパターンフロー、イベントソーシングを含むMBC CQRS Serverlessフレームワークアーキテクチャの包括的な概要。",
   "Architecture": "アーキテクチャ",
   "This section provides a comprehensive overview of the MBC CQRS Serverless framework architecture.": "このセクションでは、MBC CQRS Serverlessフレームワークのアーキテクチャの概要を説明します。",
   "Overview": "概要",
