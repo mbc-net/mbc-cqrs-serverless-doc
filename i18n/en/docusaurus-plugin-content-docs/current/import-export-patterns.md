@@ -1682,5 +1682,7 @@ The `context.Execution.Input` contains:
 
 - [Backend Development Guide](/docs/backend-development) - Core backend patterns
 - [Service Patterns](/docs/service-patterns) - Service implementation
+- [Import Module](/docs/import) - ImportModule API reference and strategy interfaces
+- [Data Migration Patterns](/docs/data-migration-patterns) - Migrating data between schema versions
 - [Step Functions](/docs/architecture/step-functions) - Workflow orchestration
 - [Data Sync Handler Examples](/docs/data-sync-handler-examples) - Sync handler patterns
