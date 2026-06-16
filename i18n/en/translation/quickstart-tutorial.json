@@ -72,6 +72,8 @@
   "Complete CRUD service patterns": "Complete CRUD service patterns",
   "Command Service": "Command Service",
   "CommandService API reference": "CommandService API reference",
+  "Glossary": "Glossary",
+  "Framework terminology reference": "Framework terminology reference",
   "Open the Swagger UI in your browser to explore and test your API:": "Open the Swagger UI in your browser to explore and test your API:",
   "You should see the Swagger UI with all available endpoints listed.": "You should see the Swagger UI with all available endpoints listed."
 }

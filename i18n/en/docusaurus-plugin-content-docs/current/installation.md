@@ -175,3 +175,4 @@ Your local environment is ready. Here's the recommended path forward:
 - [Project Structure](/docs/project-structure) - Understanding the generated project layout
 - [Configuring](/docs/configuring) - Configure modules for your application
 - [CLI](/docs/cli) - CLI commands for scaffolding
+- [Glossary](/docs/glossary) - Framework terminology and concepts

@@ -228,3 +228,4 @@ LOCAL_DYNAMODB_PORT=9000
 - [バックエンド開発](/docs/backend-development) - バックエンドパターンの詳細
 - [サービスパターン](/docs/service-patterns) - 完全なCRUDサービスパターン
 - [コマンドサービス](/docs/command-service) - CommandService APIリファレンス
+- [用語集](/docs/glossary) - フレームワーク用語リファレンス

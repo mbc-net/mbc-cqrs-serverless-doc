@@ -87,5 +87,7 @@
   "Backend Development": "Backend Development",
   "Start implementing real features": "Start implementing real features",
   "Verify Your Setup": "Verify Your Setup",
-  "Open the [Swagger UI](http://localhost:3000/swagger-ui) in your browser to confirm the API server is running. You should see the interactive API documentation with all available endpoints.": "Open the [Swagger UI](http://localhost:3000/swagger-ui) in your browser to confirm the API server is running. You should see the interactive API documentation with all available endpoints."
+  "Open the [Swagger UI](http://localhost:3000/swagger-ui) in your browser to confirm the API server is running. You should see the interactive API documentation with all available endpoints.": "Open the [Swagger UI](http://localhost:3000/swagger-ui) in your browser to confirm the API server is running. You should see the interactive API documentation with all available endpoints.",
+  "Glossary": "Glossary",
+  "Framework terminology and concepts": "Framework terminology and concepts"
 }

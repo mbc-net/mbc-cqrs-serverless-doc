@@ -72,6 +72,8 @@
   "Complete CRUD service patterns": "完全なCRUDサービスパターン",
   "Command Service": "コマンドサービス",
   "CommandService API reference": "CommandService APIリファレンス",
+  "Glossary": "用語集",
+  "Framework terminology reference": "フレームワーク用語リファレンス",
   "Open the Swagger UI in your browser to explore and test your API:": "ブラウザでSwagger UIを開いてAPIを確認・テストしてください：",
   "You should see the Swagger UI with all available endpoints listed.": "Swagger UIが表示され、利用可能なエンドポイントが一覧表示されます。"
 }

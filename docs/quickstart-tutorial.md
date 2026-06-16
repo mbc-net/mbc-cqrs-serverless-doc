@@ -228,3 +228,4 @@ LOCAL_DYNAMODB_PORT=9000
 - [{{Backend Development}}](/docs/backend-development) - {{Deep dive into backend patterns}}
 - [{{Service Patterns}}](/docs/service-patterns) - {{Complete CRUD service patterns}}
 - [{{Command Service}}](/docs/command-service) - {{CommandService API reference}}
+- [{{Glossary}}](/docs/glossary) - {{Framework terminology reference}}

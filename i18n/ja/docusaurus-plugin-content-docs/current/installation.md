@@ -175,3 +175,4 @@ sudo chmod -R 777 ./infra-local/docker-data/dynamodb-local
 - [プロジェクト構成](/docs/project-structure) - 生成されたプロジェクト構成を理解
 - [設定](/docs/configuring) - アプリケーションのモジュール設定
 - [CLI](/docs/cli) - スキャフォールディング用CLIコマンド
+- [用語集](/docs/glossary) - フレームワークの用語と概念
