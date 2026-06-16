@@ -395,7 +395,7 @@ export class MyDataSyncHandler implements IDataSyncHandler {
 | AP011 | {{Deprecated `publish()` method}} | {{High}} |
 | AP012 | {{Uppercase COMMON tenant key (pre-v1.1.0)}} | {{Critical}} |
 | AP013 | {{`publishSync` null return unchecked (v1.2.0+)}} | {{High}} |
-| AP014 | {{Deprecated `genNewSequence` (v1.2.0)}} | {{High}} |
+| AP014 | {{Removed `genNewSequence()` call (removed in v1.1.0)}} | {{High}} |
 | AP015 | {{Duplicate `TaskModule.register()`}} | {{High}} |
 | AP016 | {{Missing error logging before rethrow}} | {{High}} |
 | AP017 | {{Incorrect attribute merging on partial update}} | {{High}} |

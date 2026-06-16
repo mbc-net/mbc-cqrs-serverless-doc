@@ -116,7 +116,7 @@
   "Deprecated `publish()` method": "非推奨の `publish()` メソッド",
   "Uppercase COMMON tenant key (pre-v1.1.0)": "大文字COMMON テナントキー（v1.1.0以前）",
   "`publishSync` null return unchecked (v1.2.0+)": "`publishSync` のnull戻り値未チェック（v1.2.0以降）",
-  "Deprecated `genNewSequence` (v1.2.0)": "非推奨の `genNewSequence`（v1.2.0）",
+  "Removed `genNewSequence()` call (removed in v1.1.0)": "削除された `genNewSequence()` の呼び出し（v1.1.0で削除）",
   "Duplicate `TaskModule.register()`": "`TaskModule.register()` の重複",
   "Missing error logging before rethrow": "再スロー前のエラーログ欠如",
   "Incorrect attribute merging on partial update": "部分更新での属性マージ誤り",
