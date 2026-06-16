@@ -633,3 +633,4 @@ type EntityInput<T> = Omit<T, 'createdAt' | 'createdBy' | 'updatedAt' | 'updated
 - [データサービス](/docs/data-service) - これらのインターフェースを使ったデータクエリ
 - [エンティティパターン](/docs/entity-patterns) - エンティティの設計
 - [エラーカタログ](/docs/error-catalog) - エラー処理
+- [認証](/docs/authentication#group-based-roles) - グループベースのロール認可（`IGroupRoleResolver` の使い方）

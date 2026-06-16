@@ -95,5 +95,7 @@
   "**Let failures propagate** — a resolver error surfaces as a 5xx, not a silent 403, so a backend outage is distinguishable from a genuine access denial. Do not catch-and-grant.": "**失敗は伝播させる** — リゾルバのエラーは暗黙の 403 ではなく 5xx として表面化するため、バックエンド障害を本来のアクセス拒否と区別できます。例外を握りつぶして許可しないでください。",
   "**Case-sensitive roles** — keep the role casing in `custom:roles` consistent with your `@Roles(...)` values.": "**ロール名は大文字小文字を区別** — `custom:roles` のロール名の大文字小文字を `@Roles(...)` の値と一致させてください。",
   "Common Issues — GroupRoleResolver DI conflict": "よくある問題 — GroupRoleResolver の DI 競合",
-  "Troubleshooting AP027": "AP027 のトラブルシューティング"
+  "Troubleshooting AP027": "AP027 のトラブルシューティング",
+  "Interfaces — IGroupRoleResolver": "インターフェース — IGroupRoleResolver",
+  "TypeScript interface reference": "TypeScript インターフェースリファレンス"
 }

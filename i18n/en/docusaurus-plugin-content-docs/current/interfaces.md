@@ -633,3 +633,4 @@ type EntityInput<T> = Omit<T, 'createdAt' | 'createdBy' | 'updatedAt' | 'updated
 - [Data Service](/docs/data-service) - Querying data with these interfaces
 - [Entity Patterns](/docs/entity-patterns) - Designing entities
 - [Error Catalog](/docs/error-catalog) - Error handling
+- [Authentication](/docs/authentication#group-based-roles) - Group-based role authorization (`IGroupRoleResolver` usage)

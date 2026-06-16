@@ -362,3 +362,4 @@ export class CustomRolesGuard extends RolesGuard {
 - [コントローラー](/docs/controllers) - コントローラーの認証デコレーター
 - [環境変数](/docs/environment-variables) - Cognito設定変数
 - [よくある問題 — GroupRoleResolver の DI 競合](/docs/common-issues#authentication-errors) - AP027 のトラブルシューティング
+- [インターフェース — IGroupRoleResolver](/docs/interfaces#authorization-interfaces) - TypeScript インターフェースリファレンス

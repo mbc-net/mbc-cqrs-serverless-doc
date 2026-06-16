@@ -117,6 +117,8 @@
   "Designing entities": "Designing entities",
   "Error Catalog": "Error Catalog",
   "Error handling": "Error handling",
+  "Authentication": "Authentication",
+  "Group-based role authorization (`IGroupRoleResolver` usage)": "Group-based role authorization (`IGroupRoleResolver` usage)",
   "Custom claim for tenant group memberships JSON array": "Custom claim for tenant group memberships JSON array",
   "Direct roles for the active tenant (excludes group-derived roles)": "Direct roles for the active tenant (excludes group-derived roles)",
   "Group IDs from custom:groups for the active tenant": "Group IDs from custom:groups for the active tenant",

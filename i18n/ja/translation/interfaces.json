@@ -117,6 +117,8 @@
   "Designing entities": "エンティティの設計",
   "Error Catalog": "エラーカタログ",
   "Error handling": "エラー処理",
+  "Authentication": "認証",
+  "Group-based role authorization (`IGroupRoleResolver` usage)": "グループベースのロール認可（`IGroupRoleResolver` の使い方）",
   "Custom claim for tenant group memberships JSON array": "Custom claim for tenant group memberships JSON array (テナントグループ所属のJSON配列カスタムクレーム)",
   "Direct roles for the active tenant (excludes group-derived roles)": "Direct roles for the active tenant (excludes group-derived roles) (アクティブテナントの直接ロール、グループ由来ロールを除く)",
   "Group IDs from custom:groups for the active tenant": "Group IDs from custom:groups for the active tenant (custom:groups由来のグループID)",
