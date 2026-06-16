@@ -91,7 +91,7 @@ MBC CQRS Serverless provides several ready-to-use modules:
 | Module | Package | Purpose |
 |--------|---------|---------|
 | `QueueModule` | `@mbc-cqrs-serverless/core` | SNS publish and SQS send/receive messaging |
-| `NotificationModule` | `@mbc-cqrs-serverless/core` | Email notifications via SES |
+| `NotificationModule` | `@mbc-cqrs-serverless/core` | Email via SES and real-time WebSocket notifications via AppSync |
 | `SettingModule` | `@mbc-cqrs-serverless/ui-setting` | User interface settings storage |
 
 ## Dynamic Module Registration {#dynamic-registration}

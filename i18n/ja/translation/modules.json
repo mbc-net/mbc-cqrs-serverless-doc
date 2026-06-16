@@ -37,7 +37,7 @@
   "Survey template management": "調査テンプレート管理",
   "Support Modules": "サポートモジュール",
   "SNS publish and SQS send/receive messaging": "SNSパブリッシュとSQS送受信メッセージング",
-  "Email notifications via SES": "SES経由のメール通知",
+  "Email via SES and real-time WebSocket notifications via AppSync": "SESによるメール送信とAppSyncによるリアルタイムWebSocket通知",
   "User interface settings storage": "ユーザーインターフェース設定の保存",
   "Dynamic Module Registration": "動的モジュール登録",
   "Most framework modules are dynamic modules that accept configuration:": "ほとんどのフレームワークモジュールは設定を受け付ける動的モジュールです：",
