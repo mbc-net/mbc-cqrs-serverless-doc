@@ -120,13 +120,10 @@
   "Forbidden — executes arbitrary code from user input": "禁止 — ユーザー入力から任意のコードを実行する",
   "Safe — use a fixed dispatch table instead": "安全 — 代わりに固定のディスパッチテーブルを使用する",
   "Look up only — never eval": "ルックアップのみ — evalは絶対に使用しない",
-  "Unknown operation": "不明な操作",
   "Avoid shell commands built from string concatenation": "文字列結合によるシェルコマンドを避ける",
   "Forbidden — shell injection risk when userInput contains special characters": "禁止 — userInputに特殊文字が含まれる場合のシェルインジェクションリスク",
   "Safe — use AWS SDK or fixed commands; never interpolate user input into shell strings": "安全 — AWS SDKまたは固定コマンドを使用する。シェル文字列にユーザー入力を補間しない",
   "Never log `process.env` or a full HTTP request/event object. `process.env` exposes every environment variable (including secrets and API keys) to the log stream. A full request object exposes all headers including the `Authorization` token. This is detected as AP025 by the MCP anti-pattern checker.": "`process.env`やHTTPリクエスト/イベントオブジェクト全体をログに記録しないでください。`process.env`はすべての環境変数（シークレットやAPIキーを含む）をログストリームに公開します。リクエストオブジェクト全体は`Authorization`トークンを含むすべてのヘッダーを公開します。これはMCPアンチパターンチェッカーによってAP025として検出されます。",
   "Forbidden — leaks all secrets in process.env and request auth headers": "禁止 — process.envのすべてのシークレットとリクエスト認証ヘッダーが漏洩する",
-  "Safe — log only specific, non-sensitive fields": "安全 — 特定の非機密フィールドのみをログに記録する",
-  "App:": "App:",
-  "Request:": "Request:"
+  "Safe — log only specific, non-sensitive fields": "安全 — 特定の非機密フィールドのみをログに記録する"
 }
