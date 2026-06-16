@@ -774,3 +774,4 @@ const items = await this.prismaService.product.findMany({
 - [Prisma](/docs/prisma) - ORM setup for RDS data sync
 - [Database Selection Guide](/docs/database-selection-guide) - DynamoDB vs RDS
 - [Version Conflict Guide](/docs/version-conflict-guide) - Handling HTTP 409 optimistic locking conflicts
+- [API Integration Guide](/docs/api-integration-guide) - Calling external APIs and handling webhooks

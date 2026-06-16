@@ -774,3 +774,4 @@ const items = await this.prismaService.product.findMany({
 - [Prisma](/docs/prisma) - RDSデータ同期用ORMセットアップ
 - [データベース選択ガイド](/docs/database-selection-guide) - DynamoDB対RDSの比較
 - [バージョン競合ガイド](/docs/version-conflict-guide) - HTTP 409楽観的ロック競合の対処法
+- [API連携ガイド](/docs/api-integration-guide) - 外部APIの呼び出しとWebhookの処理

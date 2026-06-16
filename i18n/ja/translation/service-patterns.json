@@ -126,5 +126,7 @@
   "Controllers": "コントローラー",
   "Controller layer that delegates to services": "サービスに委譲するコントローラーレイヤー",
   "Prisma": "Prisma",
-  "ORM setup for RDS data sync": "RDSデータ同期用ORMセットアップ"
+  "ORM setup for RDS data sync": "RDSデータ同期用ORMセットアップ",
+  "API Integration Guide": "API連携ガイド",
+  "Calling external APIs and handling webhooks": "外部APIの呼び出しとWebhookの処理"
 }

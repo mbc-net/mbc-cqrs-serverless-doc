@@ -126,5 +126,7 @@
   "Controllers": "Controllers",
   "Controller layer that delegates to services": "Controller layer that delegates to services",
   "Prisma": "Prisma",
-  "ORM setup for RDS data sync": "ORM setup for RDS data sync"
+  "ORM setup for RDS data sync": "ORM setup for RDS data sync",
+  "API Integration Guide": "API Integration Guide",
+  "Calling external APIs and handling webhooks": "Calling external APIs and handling webhooks"
 }
