@@ -386,6 +386,7 @@ export class AppModule {}
 
 - [NestJS Modules](https://docs.nestjs.com/modules): NestJS公式モジュールドキュメント
 - [CommandService](/docs/command-service): CommandModuleの詳細設定
+- [APIリファレンス](/docs/api-reference): 完全なモジュールAPIドキュメント
 - [Queueモジュール](/docs/queue): QueueModule — SNSおよびSQSメッセージング
 - [テナントモジュール](/docs/tenant): TenantModule — マルチテナント管理
 - [シーケンス](/docs/sequence): SequencesModule — シーケンシャルID生成

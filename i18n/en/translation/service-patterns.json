@@ -122,5 +122,7 @@
   "New items with VERSION_FIRST always publish successfully — result is never null": "New items with VERSION_FIRST always publish successfully — result is never null",
   "Use ULID for sortable unique ID": "Use ULID for sortable unique ID",
   "Required for optimistic locking": "Required for optimistic locking",
-  "This enables optimistic locking": "This enables optimistic locking"
+  "This enables optimistic locking": "This enables optimistic locking",
+  "Controllers": "Controllers",
+  "Controller layer that delegates to services": "Controller layer that delegates to services"
 }

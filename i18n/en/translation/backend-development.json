@@ -86,6 +86,8 @@
   "Module name": "Module name",
   "Class name": "Class name",
   "Method name": "Method name",
+  "Controllers": "Controllers",
+  "NestJS controller patterns with MBC decorators": "NestJS controller patterns with MBC decorators",
   "Examples": "Examples",
   "Practical implementation examples": "Practical implementation examples"
 }

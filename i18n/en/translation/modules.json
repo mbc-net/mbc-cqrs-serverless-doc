@@ -138,5 +138,7 @@
   "Survey Template": "Survey Template",
   "Survey template management with SurveyTemplateModule": "Survey template management with SurveyTemplateModule",
   "UI Setting": "UI Setting",
-  "SettingModule for UI configuration storage": "SettingModule for UI configuration storage"
+  "SettingModule for UI configuration storage": "SettingModule for UI configuration storage",
+  "API Reference": "API Reference",
+  "Full module API documentation": "Full module API documentation"
 }

@@ -86,6 +86,8 @@
   "Module name": "モジュール名",
   "Class name": "クラス名",
   "Method name": "メソッド名",
+  "Controllers": "コントローラー",
+  "NestJS controller patterns with MBC decorators": "MBCデコレーターを使用したNestJSコントローラーパターン",
   "Examples": "サンプル例",
   "Practical implementation examples": "実践的な実装例"
 }

@@ -577,6 +577,7 @@ async searchWithPagination(
 - [Key Patterns](/docs/key-patterns) - PK/SK design patterns
 - [Anti-Patterns](/docs/anti-patterns) - Common mistakes and how to avoid them
 - [Authentication](/docs/authentication) - Role-based access control with `@Auth` and `@Roles`
+- [Controllers](/docs/controllers) - NestJS controller patterns with MBC decorators
 - [Multi-Tenant Patterns](/docs/multi-tenant-patterns) - Multi-tenant implementation
 - [Import/Export Patterns](/docs/import-export-patterns) - Batch data processing
 - [Examples](/docs/recipes) - Practical implementation examples

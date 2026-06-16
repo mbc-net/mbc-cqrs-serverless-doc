@@ -577,6 +577,7 @@ async searchWithPagination(
 - [キーパターン](/docs/key-patterns) - PK/SK設計パターン
 - [アンチパターン](/docs/anti-patterns) - よくある間違いとその回避方法
 - [認証](/docs/authentication) - `@Auth` と `@Roles` によるロールベースアクセス制御
+- [コントローラー](/docs/controllers) - MBCデコレーターを使用したNestJSコントローラーパターン
 - [マルチテナントパターン](/docs/multi-tenant-patterns) - マルチテナント実装
 - [インポート/エクスポートパターン](/docs/import-export-patterns) - バッチデータ処理
 - [サンプル例](/docs/recipes) - 実践的な実装例

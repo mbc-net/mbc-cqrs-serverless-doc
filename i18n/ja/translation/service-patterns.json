@@ -122,5 +122,7 @@
   "New items with VERSION_FIRST always publish successfully — result is never null": "New items with VERSION_FIRST always publish successfully — result is never null (VERSION_FIRSTを使用した新しいアイテムは常に正常に公開される — 結果はnullにならない)",
   "Use ULID for sortable unique ID": "Use ULID for sortable unique ID (時系列ソート可能なユニークIDにULIDを使用)",
   "Required for optimistic locking": "Required for optimistic locking (楽観的ロックに必要)",
-  "This enables optimistic locking": "This enables optimistic locking (楽観的ロックを有効にする)"
+  "This enables optimistic locking": "This enables optimistic locking (楽観的ロックを有効にする)",
+  "Controllers": "コントローラー",
+  "Controller layer that delegates to services": "サービスに委譲するコントローラーレイヤー"
 }

@@ -138,5 +138,7 @@
   "Survey Template": "調査テンプレート",
   "Survey template management with SurveyTemplateModule": "SurveyTemplateModuleによる調査テンプレート管理",
   "UI Setting": "UI設定",
-  "SettingModule for UI configuration storage": "UI設定ストレージ用SettingModule"
+  "SettingModule for UI configuration storage": "UI設定ストレージ用SettingModule",
+  "API Reference": "APIリファレンス",
+  "Full module API documentation": "完全なモジュールAPIドキュメント"
 }

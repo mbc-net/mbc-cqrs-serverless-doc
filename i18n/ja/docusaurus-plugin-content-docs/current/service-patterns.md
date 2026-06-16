@@ -767,6 +767,7 @@ const items = await this.prismaService.product.findMany({
 ## 関連ドキュメント
 
 - [バックエンド開発](/docs/backend-development) - コアバックエンドパターン
+- [コントローラー](/docs/controllers) - サービスに委譲するコントローラーレイヤー
 - [コマンドサービス](/docs/command-service) - CommandService APIリファレンス
 - [データサービス](/docs/data-service) - DataServiceクエリメソッド
 - [アンチパターン](/docs/anti-patterns) - サービスレイヤーで避けるべきパターン
