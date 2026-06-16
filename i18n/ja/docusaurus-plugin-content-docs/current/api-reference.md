@@ -59,6 +59,7 @@ graph TB
 
 | モジュール | パッケージ | 説明 |
 |------------|-------------|-----------------|
+| Queueモジュール | `@mbc-cqrs-serverless/core` | SNSとSQSメッセージング（グローバル登録済み） |
 | Notificationモジュール | `@mbc-cqrs-serverless/core` | Amazon SESによるメール通知 |
 | Settingモジュール | `@mbc-cqrs-serverless/ui-setting` | ユーザーインターフェース設定のストレージ |
 

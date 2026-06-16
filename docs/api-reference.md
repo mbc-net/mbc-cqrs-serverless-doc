@@ -59,6 +59,7 @@ graph TB
 
 | {{Module}} | {{Package}} | {{Description}} |
 |------------|-------------|-----------------|
+| {{Queue Module}} | `@mbc-cqrs-serverless/core` | {{SNS and SQS messaging (globally registered)}} |
 | {{Notification Module}} | `@mbc-cqrs-serverless/core` | {{Email notifications via Amazon SES}} |
 | {{Setting Module}} | `@mbc-cqrs-serverless/ui-setting` | {{User interface configuration storage}} |
 

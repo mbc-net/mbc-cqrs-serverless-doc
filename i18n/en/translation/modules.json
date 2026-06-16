@@ -36,6 +36,7 @@
   "File and folder management with S3": "File and folder management with S3",
   "Survey template management": "Survey template management",
   "Support Modules": "Support Modules",
+  "SNS publish and SQS send/receive messaging": "SNS publish and SQS send/receive messaging",
   "Email notifications via SES": "Email notifications via SES",
   "User interface settings storage": "User interface settings storage",
   "Dynamic Module Registration": "Dynamic Module Registration",

@@ -35,6 +35,8 @@
   "S3-backed file and folder management": "S3バックのファイル・フォルダ管理",
   "Survey Template Module": "Survey Templateモジュール",
   "Survey template management": "調査テンプレート管理",
+  "Queue Module": "Queueモジュール",
+  "SNS and SQS messaging (globally registered)": "SNSとSQSメッセージング（グローバル登録済み）",
   "Notification Module": "Notificationモジュール",
   "Email notifications via Amazon SES": "Amazon SESによるメール通知",
   "Setting Module": "Settingモジュール",

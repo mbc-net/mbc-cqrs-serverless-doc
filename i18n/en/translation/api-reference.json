@@ -35,6 +35,8 @@
   "S3-backed file and folder management": "S3-backed file and folder management",
   "Survey Template Module": "Survey Template Module",
   "Survey template management": "Survey template management",
+  "Queue Module": "Queue Module",
+  "SNS and SQS messaging (globally registered)": "SNS and SQS messaging (globally registered)",
   "Notification Module": "Notification Module",
   "Email notifications via Amazon SES": "Email notifications via Amazon SES",
   "Setting Module": "Setting Module",

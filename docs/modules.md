@@ -90,6 +90,7 @@ export class CatModule {}
 
 | {{Module}} | {{Package}} | {{Purpose}} |
 |--------|---------|---------|
+| `QueueModule` | `@mbc-cqrs-serverless/core` | {{SNS publish and SQS send/receive messaging}} |
 | `NotificationModule` | `@mbc-cqrs-serverless/core` | {{Email notifications via SES}} |
 | `SettingModule` | `@mbc-cqrs-serverless/ui-setting` | {{User interface settings storage}} |
 
