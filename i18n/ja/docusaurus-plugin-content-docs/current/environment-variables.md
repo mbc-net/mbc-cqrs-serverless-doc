@@ -248,5 +248,7 @@ export const handler = createHandler({
 ## 関連ドキュメント
 
 - [設定](/docs/configuring) - モジュールレベルの設定オプション
+- [Queueモジュール](/docs/queue) - SNSおよびSQSの使用
+- [通知モジュール](/docs/notification-module) - SESおよびAppSync Eventsの設定
 - [デプロイガイド](/docs/deployment-guide) - デプロイ環境のセットアップ
 - [インストール](/docs/installation) - 初期環境セットアップ

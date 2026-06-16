@@ -248,5 +248,7 @@ export const handler = createHandler({
 ## Related Documentation
 
 - [Configuring](/docs/configuring) - Module-level configuration options
+- [Queue Module](/docs/queue) - SNS and SQS usage
+- [Notification Module](/docs/notification-module) - SES and AppSync Events configuration
 - [Deployment Guide](/docs/deployment-guide) - Deployment environment setup
 - [Installation](/docs/installation) - Initial environment setup
