@@ -124,6 +124,8 @@
   "Detailed key design strategies": "Detailed key design strategies",
   "Entity Patterns": "Entity Patterns",
   "Entity modeling guidelines": "Entity modeling guidelines",
+  "Database Selection Guide": "Database Selection Guide",
+  "When to use DynamoDB vs RDS": "When to use DynamoDB vs RDS",
   "Sequence": "Sequence",
   "CommandService": "CommandService",
   "Command handling and data sync": "Command handling and data sync"

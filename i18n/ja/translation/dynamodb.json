@@ -124,6 +124,8 @@
   "Detailed key design strategies": "詳細なキー設計戦略",
   "Entity Patterns": "Entity Patterns",
   "Entity modeling guidelines": "エンティティモデリングガイドライン",
+  "Database Selection Guide": "データベース選択ガイド",
+  "When to use DynamoDB vs RDS": "DynamoDBとRDSの使い分け",
   "Sequence": "Sequence",
   "CommandService": "CommandService",
   "Command handling and data sync": "コマンド処理とデータ同期"

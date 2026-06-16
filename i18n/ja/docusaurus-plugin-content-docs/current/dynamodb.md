@@ -243,5 +243,6 @@ DYNAMODB_REGION=ap-northeast-1
 
 - [Key Patterns](/docs/key-patterns): 詳細なキー設計戦略
 - [Entity Patterns](/docs/entity-patterns): エンティティモデリングガイドライン
+- [データベース選択ガイド](/docs/database-selection-guide): DynamoDBとRDSの使い分け
 - [Sequence](/docs/sequence): シーケンスID生成
 - [CommandService](/docs/command-service): コマンド処理とデータ同期
