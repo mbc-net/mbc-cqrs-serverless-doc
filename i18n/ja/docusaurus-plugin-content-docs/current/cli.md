@@ -370,4 +370,5 @@ npm install -g @mbc-cqrs-serverless/cli
 - [はじめに](/docs/getting-started) - はじめに・最初のステップ
 - [インストール](/docs/installation) - CLIのインストールとセットアップ
 - [MCPサーバー](/docs/mcp-server) - AI開発ツール統合
+- [AIプロンプトライブラリ](/docs/ai-prompts) - モジュール・サービス生成に最適化されたプロンプト集
 - [プロジェクト構成](/docs/project-structure) - 生成されたプロジェクト構成

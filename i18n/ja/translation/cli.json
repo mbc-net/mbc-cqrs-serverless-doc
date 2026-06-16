@@ -114,6 +114,8 @@
   "Install CLI and setup": "CLIのインストールとセットアップ",
   "MCP Server": "MCPサーバー",
   "AI development tool integration": "AI開発ツール統合",
+  "AI Prompts Library": "AIプロンプトライブラリ",
+  "Optimized prompts for generating modules and services": "モジュール・サービス生成に最適化されたプロンプト集",
   "Project Structure": "プロジェクト構成",
   "Generated project layout": "生成されたプロジェクト構成"
 }

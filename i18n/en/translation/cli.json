@@ -114,6 +114,8 @@
   "Install CLI and setup": "Install CLI and setup",
   "MCP Server": "MCP Server",
   "AI development tool integration": "AI development tool integration",
+  "AI Prompts Library": "AI Prompts Library",
+  "Optimized prompts for generating modules and services": "Optimized prompts for generating modules and services",
   "Project Structure": "Project Structure",
   "Generated project layout": "Generated project layout"
 }
