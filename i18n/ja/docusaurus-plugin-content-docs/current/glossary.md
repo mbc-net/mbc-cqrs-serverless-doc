@@ -113,6 +113,14 @@ AWS AppSync が提供する、GraphQL スキーマを必要としない HTTP pub
 
 Cognito グループ ID をアプリケーションロールにマッピングするユーザー提供のクラスです（`@GroupRoleResolver()` でアノテーション）。v1.3.1 で導入されました。グループベースのロール認可を使用するには、アプリケーションごとにリゾルバーを1つ登録する必要があります。`@Injectable()` を一緒に追加しないでください — `@GroupRoleResolver()` がすでにシングルトンプロバイダーとして登録します。
 
+### IGroupRoleResolverインターフェース
+
+`GroupRoleResolver` クラスが実装する必要のある TypeScript インターフェースです。現在のテナントの Cognito グループ ID を受け取り、対応するアプリケーションロールを返す単一のメソッド `resolveRoles(groupIds: string[]): Promise<string[]> | string[]` を定義します。v1.3.1 で導入されました。
+
+### custom:groups
+
+v1.3.1 で追加された Cognito ユーザープール属性（JWT クレーム）で、テナントスコープのグループメンバーシップを `{"tenant": "...", "groups": [...]}` オブジェクトの JSON エンコードされた配列として格納します。フレームワークはこのクレームを解析してアクティブなテナントのユーザーが属する Cognito グループを特定し、そのグループ ID をロール導出のために `GroupRoleResolver` に渡します。不正な値や値がない場合は、空のグループリストとして扱われます（フォールトトレラント解析）。
+
 ### Read-Your-Writes (RYW)
 
 ユーザーが発行した書き込みを、非同期 DynamoDB Stream パイプラインが読み取りモデルに変更を伝播する前であっても、すぐに自分自身の最新書き込みが見える一貫性保証です。`Repository` クラスを介して実装され、`RYW_SESSION_TTL_MINUTES` を設定することで有効になります。詳細は[コマンドサービス — Read-Your-Writes](/docs/command-service#read-your-writes)を参照してください。

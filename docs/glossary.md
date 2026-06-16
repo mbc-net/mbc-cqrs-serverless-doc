@@ -113,6 +113,14 @@ description: {{Comprehensive glossary of terms used in MBC CQRS Serverless frame
 
 {{A user-supplied class (annotated with `@GroupRoleResolver()`) that maps Cognito group IDs to application roles. Introduced in v1.3.1. Exactly one resolver must be registered per application to use group-based role authorization. Do not also annotate the class with `@Injectable()` — `@GroupRoleResolver()` already registers the singleton provider.}}
 
+### {{IGroupRoleResolver}}
+
+{{The TypeScript interface that a `GroupRoleResolver` class must implement. Defines a single method `resolveRoles(groupIds: string[]): Promise<string[]> | string[]` that receives the Cognito group IDs for the current tenant and returns the corresponding application roles. Introduced in v1.3.1.}}
+
+### {{custom:groups}}
+
+{{A Cognito user pool attribute (JWT claim) added in v1.3.1 that stores tenant-scoped group memberships as a JSON-encoded array of `{"tenant": "...", "groups": [...]}` objects. The framework parses this claim to determine which Cognito groups a user belongs to for the active tenant, then passes the group IDs to the `GroupRoleResolver` for role derivation. Malformed or absent values are treated as an empty group list (fault-tolerant parsing).}}
+
 ### {{Read-Your-Writes (RYW)}}
 
 {{A consistency guarantee where a user sees their own most-recent write immediately after it is published, even before the async DynamoDB Stream pipeline has propagated the change to the read model. Implemented via the `Repository` class and enabled by setting `RYW_SESSION_TTL_MINUTES`. See [Command Service — Read-Your-Writes](/docs/command-service#read-your-writes) for details.}}
