@@ -428,4 +428,5 @@ export class AppService {
 - [シーケンス](/docs/sequence) - 自動インクリメントID用SequencesModule
 - [テナントモジュール](/docs/tenant) - TenantModuleの設定
 - [通知モジュール](/docs/notification-module) - メールおよびリアルタイム通知の設定
+- [メールサービス](/docs/email-service) - テンプレート対応のSESメール送信
 - [デプロイガイド](/docs/deployment-guide) - 本番環境の設定

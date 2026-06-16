@@ -69,6 +69,8 @@
   "TenantModule configuration": "TenantModuleの設定",
   "Notification Module": "通知モジュール",
   "Email and real-time notification configuration": "メールおよびリアルタイム通知の設定",
+  "Email Service": "メールサービス",
+  "SES-based email with templates": "テンプレート対応のSESメール送信",
   "Deployment Guide": "デプロイガイド",
   "Configure for production": "本番環境の設定",
   "Required: Default sender email address": "必須: デフォルト送信者メールアドレス",

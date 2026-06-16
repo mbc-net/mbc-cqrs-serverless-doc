@@ -428,4 +428,5 @@ export class AppService {
 - [Sequence](/docs/sequence) - SequencesModule for auto-incrementing IDs
 - [Tenant Module](/docs/tenant) - TenantModule configuration
 - [Notification Module](/docs/notification-module) - Email and real-time notification configuration
+- [Email Service](/docs/email-service) - SES-based email with templates
 - [Deployment Guide](/docs/deployment-guide) - Configure for production

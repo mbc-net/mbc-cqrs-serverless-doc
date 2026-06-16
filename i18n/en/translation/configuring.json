@@ -69,6 +69,8 @@
   "TenantModule configuration": "TenantModule configuration",
   "Notification Module": "Notification Module",
   "Email and real-time notification configuration": "Email and real-time notification configuration",
+  "Email Service": "Email Service",
+  "SES-based email with templates": "SES-based email with templates",
   "Deployment Guide": "Deployment Guide",
   "Configure for production": "Configure for production",
   "Required: Default sender email address": "Required: Default sender email address",
