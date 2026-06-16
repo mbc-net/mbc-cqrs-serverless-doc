@@ -219,4 +219,5 @@ describe('Independent Versioning', () => {
 
 - [コマンドサービス](/docs/command-service) - バージョン処理を伴うpublishSync
 - [エラーカタログ](/docs/error-catalog) - バージョン競合エラー
+- [バージョン競合ガイド](/docs/version-conflict-guide) - リトライ戦略と復旧パターン
 - [サービスパターン](/docs/service-patterns) - 楽観的ロックパターン

@@ -50,6 +50,8 @@
   "publishSync with version handling": "バージョン処理を伴うpublishSync",
   "Error Catalog": "エラーカタログ",
   "Version conflict errors": "バージョン競合エラー",
+  "Version Conflict Guide": "バージョン競合ガイド",
+  "Retry strategies and recovery patterns": "リトライ戦略と復旧パターン",
   "Service Patterns": "サービスパターン",
   "Optimistic locking patterns": "楽観的ロックパターン"
 }

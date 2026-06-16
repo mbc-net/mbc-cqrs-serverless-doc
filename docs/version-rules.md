@@ -219,4 +219,5 @@ describe('Independent Versioning', () => {
 
 - [{{Command Service}}](/docs/command-service) - {{publishSync with version handling}}
 - [{{Error Catalog}}](/docs/error-catalog) - {{Version conflict errors}}
+- [{{Version Conflict Guide}}](/docs/version-conflict-guide) - {{Retry strategies and recovery patterns}}
 - [{{Service Patterns}}](/docs/service-patterns) - {{Optimistic locking patterns}}

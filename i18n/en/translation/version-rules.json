@@ -50,6 +50,8 @@
   "publishSync with version handling": "publishSync with version handling",
   "Error Catalog": "Error Catalog",
   "Version conflict errors": "Version conflict errors",
+  "Version Conflict Guide": "Version Conflict Guide",
+  "Retry strategies and recovery patterns": "Retry strategies and recovery patterns",
   "Service Patterns": "Service Patterns",
   "Optimistic locking patterns": "Optimistic locking patterns"
 }
