@@ -424,4 +424,5 @@ export class AppService {
 
 - [{{Environment Variables}}](/docs/environment-variables) - {{All available environment variables}}
 - [{{Modules}}](/docs/modules) - {{Module configuration and registration}}
+- [{{Notification Module}}](/docs/notification-module) - {{Email and real-time notification configuration}}
 - [{{Deployment Guide}}](/docs/deployment-guide) - {{Configure for production}}

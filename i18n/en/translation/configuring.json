@@ -61,6 +61,8 @@
   "All available environment variables": "All available environment variables",
   "Modules": "Modules",
   "Module configuration and registration": "Module configuration and registration",
+  "Notification Module": "Notification Module",
+  "Email and real-time notification configuration": "Email and real-time notification configuration",
   "Deployment Guide": "Deployment Guide",
   "Configure for production": "Configure for production",
   "Required: Default sender email address": "Required: Default sender email address",

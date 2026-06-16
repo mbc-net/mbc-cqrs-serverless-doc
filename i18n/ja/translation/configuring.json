@@ -61,6 +61,8 @@
   "All available environment variables": "利用可能な全環境変数",
   "Modules": "モジュール",
   "Module configuration and registration": "モジュールの設定と登録",
+  "Notification Module": "通知モジュール",
+  "Email and real-time notification configuration": "メールおよびリアルタイム通知の設定",
   "Deployment Guide": "デプロイガイド",
   "Configure for production": "本番環境の設定",
   "Required: Default sender email address": "必須: デフォルト送信者メールアドレス",
