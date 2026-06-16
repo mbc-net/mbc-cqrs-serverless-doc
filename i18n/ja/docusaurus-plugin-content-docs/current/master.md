@@ -96,7 +96,7 @@ import { MasterModule } from '@mbc-cqrs-serverless/master'
 ### マスター設定サービス
 MasterSettingService インターフェースは、ユーザー、グループ、テナント、共通のさまざまなレベルで設定を管理します。設定の取得、更新、作成、削除を可能にします。
 
-##### `getSetting(dto: GetSettingDto, context: { invokeContext: IInvoke }): Promise<MasterSettingEntity>`
+#### `getSetting(dto: GetSettingDto, context: { invokeContext: IInvoke }): Promise<MasterSettingEntity>`
 指定された設定コードに基づいて特定の設定を取得します。
 ```ts
 const masterSetting = await this.masterSettingService.getSetting(
