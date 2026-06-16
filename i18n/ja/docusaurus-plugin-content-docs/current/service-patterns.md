@@ -770,3 +770,4 @@ const items = await this.prismaService.product.findMany({
 - [コマンドサービス](/docs/command-service) - CommandService APIリファレンス
 - [データサービス](/docs/data-service) - DataServiceクエリメソッド
 - [データベース選択ガイド](/docs/database-selection-guide) - DynamoDB対RDSの比較
+- [バージョン競合ガイド](/docs/version-conflict-guide) - HTTP 409楽観的ロック競合の対処法

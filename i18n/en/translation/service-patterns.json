@@ -111,6 +111,8 @@
   "DataService query methods": "DataService query methods",
   "Database Selection Guide": "Database Selection Guide",
   "DynamoDB vs RDS": "DynamoDB vs RDS",
+  "Version Conflict Guide": "Version Conflict Guide",
+  "Handling HTTP 409 optimistic locking conflicts": "Handling HTTP 409 optimistic locking conflicts",
   "publishAsync returns null when the command is not dirty (no-op)": "publishAsync returns null when the command is not dirty (no-op)",
   "publishAsync returns null when command is a no-op (no changes detected)": "publishAsync returns null when command is a no-op (no changes detected)",
   "publishPartialUpdateAsync returns null when command is a no-op (no changes detected)": "publishPartialUpdateAsync returns null when command is a no-op (no changes detected)",

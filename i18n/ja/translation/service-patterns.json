@@ -111,6 +111,8 @@
   "DataService query methods": "DataServiceクエリメソッド",
   "Database Selection Guide": "データベース選択ガイド",
   "DynamoDB vs RDS": "DynamoDB対RDSの比較",
+  "Version Conflict Guide": "バージョン競合ガイド",
+  "Handling HTTP 409 optimistic locking conflicts": "HTTP 409楽観的ロック競合の対処法",
   "publishAsync returns null when the command is not dirty (no-op)": "publishAsync returns null when the command is not dirty (no-op) (変更がない場合 publishAsync は null を返す)",
   "publishAsync returns null when command is a no-op (no changes detected)": "publishAsync returns null when command is a no-op (no changes detected) (変更がない場合（no-op）null を返す)",
   "publishPartialUpdateAsync returns null when command is a no-op (no changes detected)": "publishPartialUpdateAsync returns null when command is a no-op (no changes detected) (変更がない場合（no-op）null を返す)",

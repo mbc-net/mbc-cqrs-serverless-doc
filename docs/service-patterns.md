@@ -770,3 +770,4 @@ const items = await this.prismaService.product.findMany({
 - [{{Command Service}}](/docs/command-service) - {{CommandService API reference}}
 - [{{Data Service}}](/docs/data-service) - {{DataService query methods}}
 - [{{Database Selection Guide}}](/docs/database-selection-guide) - {{DynamoDB vs RDS}}
+- [{{Version Conflict Guide}}](/docs/version-conflict-guide) - {{Handling HTTP 409 optimistic locking conflicts}}
