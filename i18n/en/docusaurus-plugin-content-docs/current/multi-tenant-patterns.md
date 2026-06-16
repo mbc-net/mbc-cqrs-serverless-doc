@@ -859,3 +859,4 @@ await tenantService.customizeSettingGroups({
 - [Backend Development Guide](/docs/backend-development) - Core patterns
 - [Key Patterns](/docs/key-patterns) - PK/SK design for multi-tenant
 - [Authentication](/docs/authentication) - User authentication
+- [Authentication — Group-Based Roles](/docs/authentication#group-based-roles) - Group-based role authorization using `IGroupRoleResolver` (v1.3.1+)

@@ -129,6 +129,8 @@
   "PK/SK design for multi-tenant": "マルチテナント用PK/SK設計",
   "Authentication": "認証",
   "User authentication": "ユーザー認証",
+  "Authentication — Group-Based Roles": "認証 — グループベースのロール",
+  "Group-based role authorization using `IGroupRoleResolver` (v1.3.1+)": "グループベースのロール認可（`IGroupRoleResolver` の実装、v1.3.1以降）",
   "No tenant specified, will use user's tenant": "テナント未指定のため、ユーザーのテナントを使用",
   "Owner tenant (COMMON_TENANT)": "オーナーテナント（COMMON_TENANT）",
   "Associated tenant code": "関連するテナントコード",

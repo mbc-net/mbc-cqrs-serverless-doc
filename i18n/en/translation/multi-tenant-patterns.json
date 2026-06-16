@@ -129,6 +129,8 @@
   "PK/SK design for multi-tenant": "PK/SK design for multi-tenant",
   "Authentication": "Authentication",
   "User authentication": "User authentication",
+  "Authentication — Group-Based Roles": "Authentication — Group-Based Roles",
+  "Group-based role authorization using `IGroupRoleResolver` (v1.3.1+)": "Group-based role authorization using `IGroupRoleResolver` (v1.3.1+)",
   "No tenant specified, will use user's tenant": "No tenant specified, will use user's tenant",
   "Owner tenant (COMMON_TENANT)": "Owner tenant (COMMON_TENANT)",
   "Associated tenant code": "Associated tenant code",
