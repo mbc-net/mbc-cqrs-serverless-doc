@@ -224,6 +224,10 @@ class UserContext {
 }
 ```
 
+:::info バージョンノート
+[バージョン1.3.1](/docs/changelog#v131)でグループベースのロール認可の一部として `UserContext` に `tenantRoles` と `tenantGroupIds` が追加されました。後方互換性のため `tenantRole`（単数形）は維持されています。使用方法については [認証 — グループベースのロール](/docs/authentication#group-based-roles) を参照してください。
+:::
+
 ## JwtClaimsインターフェース {#jwt-claims}
 
 ```ts

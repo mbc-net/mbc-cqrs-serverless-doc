@@ -224,6 +224,10 @@ class UserContext {
 }
 ```
 
+:::info {{Version Note}}
+{{`tenantRoles` and `tenantGroupIds` were added to `UserContext` in [version 1.3.1](/docs/changelog#v131) as part of group-based role authorization. `tenantRole` (singular) is kept for backward compatibility. See [Authentication — Group-Based Roles](/docs/authentication#group-based-roles) for usage.}}
+:::
+
 ## {{JwtClaims Interface}} {#jwt-claims}
 
 ```ts

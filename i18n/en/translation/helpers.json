@@ -44,6 +44,8 @@
   "Extracts JWT claims from the authorizer in the invocation context.": "Extracts JWT claims from the authorizer in the invocation context.",
   "Returns JWT claims including sub, email, custom:tenant, etc.": "Returns JWT claims including sub, email, custom:tenant, etc.",
   "UserContext Class": "UserContext Class",
+  "Version Note": "Version Note",
+  "`tenantRoles` and `tenantGroupIds` were added to `UserContext` in [version 1.3.1](/docs/changelog#v131) as part of group-based role authorization. `tenantRole` (singular) is kept for backward compatibility. See [Authentication — Group-Based Roles](/docs/authentication#group-based-roles) for usage.": "`tenantRoles` and `tenantGroupIds` were added to `UserContext` in [version 1.3.1](/docs/changelog#v131) as part of group-based role authorization. `tenantRole` (singular) is kept for backward compatibility. See [Authentication — Group-Based Roles](/docs/authentication#group-based-roles) for usage.",
   "User's unique identifier (sub claim)": "User's unique identifier (sub claim)",
   "Current tenant code": "Current tenant code",
   "User's role in the current tenant": "User's role in the current tenant",
