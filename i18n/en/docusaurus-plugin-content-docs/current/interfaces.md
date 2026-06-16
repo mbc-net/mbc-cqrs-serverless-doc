@@ -219,6 +219,10 @@ export interface JwtClaims {
 // - Specific tenant means the role applies only to that tenant
 ```
 
+:::info Version Note
+The `custom:groups` claim was added to `JwtClaims` in [version 1.3.1](/docs/changelog#v131) as part of group-based role authorization.
+:::
+
 #### UserContext
 
 User context class extracted from authentication token.
@@ -234,6 +238,10 @@ export class UserContext {
   constructor(partial: Partial<UserContext>)  // Initialize with partial properties
 }
 ```
+
+:::info Version Note
+`tenantRoles` and `tenantGroupIds` were added to `UserContext` in [version 1.3.1](/docs/changelog#v131) as part of group-based role authorization. `tenantRole` (singular) is kept for backward compatibility.
+:::
 
 **Usage Example**:
 ```typescript

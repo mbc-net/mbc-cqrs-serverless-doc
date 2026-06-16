@@ -219,6 +219,10 @@ export interface JwtClaims {
 // - Specific tenant means the role applies only to that tenant (特定のテナントはロールがそのテナントのみに適用されることを意味する)
 ```
 
+:::info バージョンノート
+`custom:groups` クレームはグループベースのロール認可の一環として[バージョン 1.3.1](/docs/changelog#v131)で `JwtClaims` に追加されました。
+:::
+
 #### UserContext
 
 認証トークンから抽出されるユーザーコンテキストクラス。
@@ -234,6 +238,10 @@ export class UserContext {
   constructor(partial: Partial<UserContext>)  // Initialize with partial properties (部分的なプロパティで初期化)
 }
 ```
+
+:::info バージョンノート
+`tenantRoles` と `tenantGroupIds` はグループベースのロール認可の一環として[バージョン 1.3.1](/docs/changelog#v131)で `UserContext` に追加されました。`tenantRole`（単数形）は後方互換性のために残されています。
+:::
 
 **使用例**:
 ```typescript

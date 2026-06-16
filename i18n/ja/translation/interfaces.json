@@ -123,6 +123,8 @@
   "'SYNC' when the command was applied via synchronous publish": "'SYNC' when the command was applied via synchronous publish (同期publishで適用されたコマンドは'SYNC')",
   "Authorization Interfaces": "認可インターフェース",
   "`IGroupRoleResolver` was added in [version 1.3.1](/docs/changelog#v131) for group-based role authorization.": "`IGroupRoleResolver` はグループベースのロール認可のために[バージョン 1.3.1](/docs/changelog#v131)で追加されました。",
+  "The `custom:groups` claim was added to `JwtClaims` in [version 1.3.1](/docs/changelog#v131) as part of group-based role authorization.": "`custom:groups` クレームはグループベースのロール認可の一環として[バージョン 1.3.1](/docs/changelog#v131)で `JwtClaims` に追加されました。",
+  "`tenantRoles` and `tenantGroupIds` were added to `UserContext` in [version 1.3.1](/docs/changelog#v131) as part of group-based role authorization. `tenantRole` (singular) is kept for backward compatibility.": "`tenantRoles` と `tenantGroupIds` はグループベースのロール認可の一環として[バージョン 1.3.1](/docs/changelog#v131)で `UserContext` に追加されました。`tenantRole`（単数形）は後方互換性のために残されています。",
   "Interface for resolving group-to-role mappings. Implement exactly one resolver per application and register it with `@GroupRoleResolver()`.": "グループからロールへのマッピングを解決するためのインターフェース。アプリケーションごとに1つだけ実装し、`@GroupRoleResolver()` で登録してください。",
   "Active tenant for which roles are being resolved": "ロールを解決する対象のアクティブテナント",
   "Group IDs from the `custom:groups` JWT claim for this tenant": "このテナントの `custom:groups` JWT クレームからのグループ ID",
