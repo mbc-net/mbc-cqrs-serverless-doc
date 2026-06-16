@@ -78,5 +78,8 @@
   "Service Patterns": "サービスパターン",
   "CRUD patterns used": "使用されるCRUDパターン",
   "Multi-Tenant Patterns": "マルチテナントパターン",
-  "Multi-tenant design": "マルチテナント設計"
+  "Multi-tenant design": "マルチテナント設計",
+  "Sequence": "シーケンス",
+  "Auto-incrementing order number generation": "自動インクリメントの注文番号生成",
+  "Event Handling Patterns": "イベント処理パターン"
 }

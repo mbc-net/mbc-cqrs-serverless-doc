@@ -618,3 +618,5 @@ const orderCode = `ORD-${String(sequence.value).padStart(6, '0')}`;
 - [SaaS例](/docs/saas-example) - SaaSアプリケーション例
 - [サービスパターン](/docs/service-patterns) - 使用されるCRUDパターン
 - [マルチテナントパターン](/docs/multi-tenant-patterns) - マルチテナント設計
+- [シーケンス](/docs/sequence) - 自動インクリメントの注文番号生成
+- [イベント処理パターン](/docs/event-handling-patterns) - イベント駆動の注文処理

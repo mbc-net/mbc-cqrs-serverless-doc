@@ -78,5 +78,8 @@
   "Service Patterns": "Service Patterns",
   "CRUD patterns used": "CRUD patterns used",
   "Multi-Tenant Patterns": "Multi-Tenant Patterns",
-  "Multi-tenant design": "Multi-tenant design"
+  "Multi-tenant design": "Multi-tenant design",
+  "Sequence": "Sequence",
+  "Auto-incrementing order number generation": "Auto-incrementing order number generation",
+  "Event Handling Patterns": "Event Handling Patterns"
 }
