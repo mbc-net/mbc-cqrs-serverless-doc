@@ -220,5 +220,11 @@
   "Current state name": "Current state name",
   "Retry attempt number": "Retry attempt number",
   "State machine ARN": "State machine ARN",
-  "State machine name": "State machine name"
+  "State machine name": "State machine name",
+  "API Layer": "API Layer",
+  "Compute Layer": "Compute Layer",
+  "Event-Driven Layer": "Event-Driven Layer",
+  "Storage Layer": "Storage Layer",
+  "ZIP Orchestrator State Machine": "ZIP Orchestrator State Machine",
+  "CSV State Machine (per file)": "CSV State Machine (per file)"
 }

@@ -131,34 +131,34 @@ flowchart TB
         Mobile[Mobile App]
     end
 
-    subgraph APILayer["API Layer"]
+    subgraph APILayer["{{API Layer}}"]
         APIGW[API Gateway]
         AppSync[AppSync GraphQL]
     end
 
-    subgraph Compute["Compute Layer"]
+    subgraph Compute["{{Compute Layer}}"]
         Lambda[Lambda Function<br/>NestJS Application]
     end
 
-    subgraph StepFunctions["Step Functions"]
+    subgraph StepFunctions["{{Step Functions}}"]
         CommandSFN[Command Handler<br/>State Machine]
         TaskSFN[Task Handler<br/>State Machine]
         ImportSFN[Import CSV<br/>State Machine]
     end
 
-    subgraph EventDriven["Event-Driven Layer"]
+    subgraph EventDriven["{{Event-Driven Layer}}"]
         SNS[SNS Topics]
         SQS[SQS Queues]
         DDBStream[DynamoDB Streams]
     end
 
-    subgraph Storage["Storage Layer"]
+    subgraph Storage["{{Storage Layer}}"]
         DDB[(DynamoDB<br/>Event Store)]
         S3[(S3<br/>File Storage)]
         RDS[(RDS Aurora<br/>Read Models)]
     end
 
-    subgraph Monitoring["Monitoring"]
+    subgraph Monitoring["{{Monitoring}}"]
         CWLogs[CloudWatch Logs]
         XRay[X-Ray Tracing]
         CWAlarms[CloudWatch Alarms]
@@ -956,7 +956,7 @@ const waitPrevCommand = new tasks.LambdaInvoke(this, 'wait_prev_command', {
 
 ```mermaid
 flowchart TB
-    subgraph ZipOrchestrator["ZIP Orchestrator State Machine"]
+    subgraph ZipOrchestrator["{{ZIP Orchestrator State Machine}}"]
         A[Start] --> B[Extract ZIP]
         B --> C[Map: Process Each CSV]
         C --> D1[CSV 1: trigger_single_csv_and_wait]
@@ -968,7 +968,7 @@ flowchart TB
         E --> F[End]
     end
 
-    subgraph CsvStateMachine["CSV State Machine (per file)"]
+    subgraph CsvStateMachine["{{CSV State Machine (per file)}}"]
         G[csv_loader] --> H[Distributed Map]
         H --> I[csv_rows_handler x N]
         I --> J[finalize_parent_job]

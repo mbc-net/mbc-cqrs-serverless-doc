@@ -134,5 +134,18 @@
   "e.g., graphql.example.com": "例: graphql.example.com",
   "Optional: use existing Cognito pool": "オプション: 既存のCognitoプールを使用",
   "SSM parameter for DB credentials": "DB認証情報のSSMパラメータ",
-  "Optional: WAF for CloudFront": "オプション: CloudFront用WAF"
+  "Optional: WAF for CloudFront": "オプション: CloudFront用WAF",
+  "Content Delivery": "コンテンツデリバリー",
+  "Authentication": "認証",
+  "API Layer": "APIレイヤー",
+  "Compute Layer": "コンピューティングレイヤー",
+  "Workflow Orchestration": "ワークフローオーケストレーション",
+  "Event-Driven Messaging": "イベント駆動メッセージング",
+  "Data Storage": "データストレージ",
+  "Change Data Capture": "変更データキャプチャ",
+  "Network": "ネットワーク",
+  "Observability": "オブザーバビリティ",
+  "Command Handler State Machine": "コマンドハンドラーステートマシン",
+  "Task Handler State Machine": "タスクハンドラーステートマシン",
+  "Import CSV State Machine": "CSVインポートステートマシン"
 }

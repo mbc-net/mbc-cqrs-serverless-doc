@@ -134,5 +134,18 @@
   "e.g., graphql.example.com": "e.g., graphql.example.com",
   "Optional: use existing Cognito pool": "Optional: use existing Cognito pool",
   "SSM parameter for DB credentials": "SSM parameter for DB credentials",
-  "Optional: WAF for CloudFront": "Optional: WAF for CloudFront"
+  "Optional: WAF for CloudFront": "Optional: WAF for CloudFront",
+  "Content Delivery": "Content Delivery",
+  "Authentication": "Authentication",
+  "API Layer": "API Layer",
+  "Compute Layer": "Compute Layer",
+  "Workflow Orchestration": "Workflow Orchestration",
+  "Event-Driven Messaging": "Event-Driven Messaging",
+  "Data Storage": "Data Storage",
+  "Change Data Capture": "Change Data Capture",
+  "Network": "Network",
+  "Observability": "Observability",
+  "Command Handler State Machine": "Command Handler State Machine",
+  "Task Handler State Machine": "Task Handler State Machine",
+  "Import CSV State Machine": "Import CSV State Machine"
 }

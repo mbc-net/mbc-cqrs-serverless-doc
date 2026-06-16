@@ -220,5 +220,11 @@
   "Current state name": "現在のステート名",
   "Retry attempt number": "リトライ試行回数",
   "State machine ARN": "ステートマシンARN",
-  "State machine name": "ステートマシン名"
+  "State machine name": "ステートマシン名",
+  "API Layer": "APIレイヤー",
+  "Compute Layer": "コンピューティングレイヤー",
+  "Event-Driven Layer": "イベント駆動レイヤー",
+  "Storage Layer": "ストレージレイヤー",
+  "ZIP Orchestrator State Machine": "ZIPオーケストレーターステートマシン",
+  "CSV State Machine (per file)": "CSVステートマシン（ファイルごと）"
 }

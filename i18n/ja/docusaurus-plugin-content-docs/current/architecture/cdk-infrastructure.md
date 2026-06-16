@@ -17,33 +17,33 @@ flowchart TB
         Client[Client Applications]
     end
 
-    subgraph CDN["Content Delivery"]
+    subgraph CDN["コンテンツデリバリー"]
         CF_API[CloudFront<br/>API Distribution]
         CF_Static[CloudFront<br/>Static Assets]
     end
 
-    subgraph Auth["Authentication"]
+    subgraph Auth["認証"]
         Cognito[Cognito User Pool]
         CognitoClient[User Pool Client]
     end
 
-    subgraph API["API Layer"]
+    subgraph API["APIレイヤー"]
         APIGW[API Gateway<br/>HTTP API]
         AppSync[AppSync<br/>GraphQL API]
     end
 
-    subgraph Compute["Compute Layer"]
+    subgraph Compute["コンピューティングレイヤー"]
         Lambda[Lambda Function<br/>NestJS Application]
         Layer[Lambda Layer<br/>Dependencies]
     end
 
-    subgraph Orchestration["Workflow Orchestration"]
+    subgraph Orchestration["ワークフローオーケストレーション"]
         SFN_Cmd[Command Handler<br/>State Machine]
         SFN_Task[Task Handler<br/>State Machine]
         SFN_Import[Import CSV<br/>State Machine]
     end
 
-    subgraph Messaging["Event-Driven Messaging"]
+    subgraph Messaging["イベント駆動メッセージング"]
         SNS_Main[SNS Main Topic]
         SNS_Alarm[SNS Alarm Topic]
         SQS_Task[Task Queue]
@@ -53,24 +53,24 @@ flowchart TB
         SQS_DLQ[Dead Letter Queue]
     end
 
-    subgraph Storage["Data Storage"]
+    subgraph Storage["データストレージ"]
         DDB[(DynamoDB<br/>Event Store)]
         S3_Data[(S3 DDB Bucket)]
         S3_Public[(S3 Public Bucket)]
         RDS[(RDS Aurora<br/>PostgreSQL)]
     end
 
-    subgraph Streams["Change Data Capture"]
+    subgraph Streams["変更データキャプチャ"]
         DDB_Stream[DynamoDB Streams]
     end
 
-    subgraph Network["Network"]
+    subgraph Network["ネットワーク"]
         VPC[VPC]
         Subnets[Private Subnets]
         SG[Security Groups]
     end
 
-    subgraph Monitoring["Observability"]
+    subgraph Monitoring["オブザーバビリティ"]
         CW_Logs[CloudWatch Logs]
         XRay[X-Ray Tracing]
         CW_Alarms[CloudWatch Alarms]
@@ -639,7 +639,7 @@ const config: Config = {
 
 ```mermaid
 flowchart TB
-    subgraph CommandSM["Command Handler State Machine"]
+    subgraph CommandSM["コマンドハンドラーステートマシン"]
         C1[check_version] --> C2{Version OK?}
         C2 -->|Yes| C3[set_ttl_command]
         C2 -->|No| C4[wait_prev_command]
@@ -652,13 +652,13 @@ flowchart TB
         C8 --> CS[Success]
     end
 
-    subgraph TaskSM["Task Handler State Machine"]
+    subgraph TaskSM["タスクハンドラーステートマシン"]
         T1[Map State<br/>Concurrency: 2]
         T1 --> T2[iterator]
         T2 --> T3[Complete]
     end
 
-    subgraph ImportSM["Import CSV State Machine"]
+    subgraph ImportSM["CSVインポートステートマシン"]
         I1[Distributed Map<br/>Concurrency: 50]
         I1 --> I2[csv_rows_handler]
         I2 --> I3[Complete]
