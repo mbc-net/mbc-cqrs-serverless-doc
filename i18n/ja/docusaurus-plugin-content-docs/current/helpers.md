@@ -543,3 +543,4 @@ if (IS_LAMBDA_RUNNING) {
 - [キーパターン](/docs/key-patterns) - DynamoDBキー設計
 - [コマンドサービス](/docs/command-service) - キーヘルパーの使用
 - [インターフェース](/docs/interfaces) - UserContextとIInvokeインターフェース
+- [認証](/docs/authentication) - UserContextにおけるJWTクレームとロールベースアクセス

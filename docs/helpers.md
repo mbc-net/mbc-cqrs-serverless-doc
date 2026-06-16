@@ -543,3 +543,4 @@ if (IS_LAMBDA_RUNNING) {
 - [{{Key Patterns}}](/docs/key-patterns) - {{DynamoDB key design}}
 - [{{Command Service}}](/docs/command-service) - {{Using key helpers}}
 - [{{Interfaces}}](/docs/interfaces) - {{UserContext and IInvoke interfaces}}
+- [{{Authentication}}](/docs/authentication) - {{JWT claims and role-based access in UserContext}}

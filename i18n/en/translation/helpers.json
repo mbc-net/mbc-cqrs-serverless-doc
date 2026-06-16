@@ -127,6 +127,8 @@
   "Using key helpers": "Using key helpers",
   "Interfaces": "Interfaces",
   "UserContext and IInvoke interfaces": "UserContext and IInvoke interfaces",
+  "Authentication": "Authentication",
+  "JWT claims and role-based access in UserContext": "JWT claims and role-based access in UserContext",
   "Direct roles for the active tenant (excludes group-derived roles)": "Direct roles for the active tenant (excludes group-derived roles)",
   "Group IDs from custom:groups for the active tenant": "Group IDs from custom:groups for the active tenant"
 }

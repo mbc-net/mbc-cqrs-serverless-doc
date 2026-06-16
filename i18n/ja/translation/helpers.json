@@ -127,6 +127,8 @@
   "Using key helpers": "キーヘルパーの使用",
   "Interfaces": "インターフェース",
   "UserContext and IInvoke interfaces": "UserContextとIInvokeインターフェース",
+  "Authentication": "認証",
+  "JWT claims and role-based access in UserContext": "UserContextにおけるJWTクレームとロールベースアクセス",
   "Direct roles for the active tenant (excludes group-derived roles)": "Direct roles for the active tenant (excludes group-derived roles) (アクティブテナントの直接ロール、グループ由来ロールを除く)",
   "Group IDs from custom:groups for the active tenant": "Group IDs from custom:groups for the active tenant (custom:groups由来のグループID)"
 }
