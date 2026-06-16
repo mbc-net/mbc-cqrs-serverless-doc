@@ -51,7 +51,7 @@ console.log(result.MessageId); // Log MessageId for email tracking (メール追
 
 ```ts
 const email = "cat@example.com";
-const subject = "Welcome to MBC CQRS serverless framework!";
+const subject = "Welcome to MBC CQRS Serverless framework!";
 const body = "<p>Enjoy</p>";
 
 await this.emailService.sendEmail({
