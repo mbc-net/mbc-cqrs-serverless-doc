@@ -31,6 +31,8 @@
   "Complete backend development guide": "Complete backend development guide",
   "Interfaces": "Interfaces",
   "IInvoke and IInvokeContext interfaces": "IInvoke and IInvokeContext interfaces",
+  "Service Patterns": "Service Patterns",
+  "Service layer with CQRS patterns": "Service layer with CQRS patterns",
   "Since [v1.3.1](/docs/changelog#v131), `RolesGuard` checks both direct roles (from `custom:roles`) and group-derived roles (from `custom:groups`, when a `@GroupRoleResolver()` is configured). Existing `@Roles()` calls benefit automatically — no code changes required. See [Group-Based Roles](/docs/authentication#group-based-roles).": "Since [v1.3.1](/docs/changelog#v131), `RolesGuard` checks both direct roles (from `custom:roles`) and group-derived roles (from `custom:groups`, when a `@GroupRoleResolver()` is configured). Existing `@Roles()` calls benefit automatically — no code changes required. See [Group-Based Roles](/docs/authentication#group-based-roles).",
   "Version Note": "Version Note",
   "Other Framework Decorators": "Other Framework Decorators",

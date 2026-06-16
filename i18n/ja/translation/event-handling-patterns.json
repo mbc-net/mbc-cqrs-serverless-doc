@@ -108,6 +108,8 @@
   "Data Sync Handler Examples": "データ同期ハンドラーの例",
   "Queue Module": "キューモジュール",
   "SQS and SNS messaging services": "SQSとSNSメッセージングサービス",
+  "Notification Module": "通知モジュール",
+  "Event-triggered notifications and email": "イベント駆動の通知とメール",
   "Comprehensive sync examples": "包括的な同期の例",
   "Sync to RDS for queries": "クエリ用にRDSへ同期",
   "Sync to Elasticsearch for search": "検索用にElasticsearchへ同期",

@@ -120,7 +120,7 @@ claude mcp add context7 -- npx -y @upstash/context7-mcp@latest
 | Cursor | {{Full Support}} | {{MCP support available}} |
 | GitHub Copilot | {{Partial Support}} | {{Via llms.txt}} |
 
-## {{Related Resources}} {#related-resources}
+## {{Related Documentation}} {#related-documentation}
 
 - [{{AI Prompts Library}}](/docs/ai-prompts) - {{Optimized prompts for common tasks}}
 - [{{MCP Server}}](/docs/mcp-server) - {{Detailed MCP server documentation}}

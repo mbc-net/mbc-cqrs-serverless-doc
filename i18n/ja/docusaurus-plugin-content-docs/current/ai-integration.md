@@ -120,7 +120,7 @@ AIにモジュールを生成させる際は、具体的に記述してくださ
 | Cursor | フルサポート | MCPサポートあり |
 | GitHub Copilot | 部分サポート | llms.txt経由 |
 
-## 関連リソース {#related-resources}
+## 関連ドキュメント {#related-documentation}
 
 - [AIプロンプトライブラリ](/docs/ai-prompts) - 一般的なタスク用に最適化されたプロンプト
 - [MCPサーバー](/docs/mcp-server) - 詳細なMCPサーバードキュメント

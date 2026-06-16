@@ -164,3 +164,4 @@ export class CustomController {
 - [モジュール](/docs/modules) - コントローラーのモジュール設定
 - [バックエンド開発](/docs/backend-development) - 包括的なバックエンド開発ガイド
 - [インターフェース](/docs/interfaces) - IInvokeとIInvokeContextインターフェース
+- [サービスパターン](/docs/service-patterns) - CQRSパターンを使ったサービス層

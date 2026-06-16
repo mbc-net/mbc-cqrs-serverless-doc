@@ -131,6 +131,8 @@
   "User authentication": "User authentication",
   "Authentication — Group-Based Roles": "Authentication — Group-Based Roles",
   "Group-based role authorization using `IGroupRoleResolver` (v1.3.1+)": "Group-based role authorization using `IGroupRoleResolver` (v1.3.1+)",
+  "Tenant Module": "Tenant Module",
+  "TenantModule configuration and interfaces": "TenantModule configuration and interfaces",
   "No tenant specified, will use user's tenant": "No tenant specified, will use user's tenant",
   "Owner tenant (COMMON_TENANT)": "Owner tenant (COMMON_TENANT)",
   "Associated tenant code": "Associated tenant code",

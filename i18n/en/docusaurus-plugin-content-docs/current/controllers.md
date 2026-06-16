@@ -164,3 +164,4 @@ The following decorators are used on provider classes rather than controllers â€
 - [Modules](/docs/modules) - Module configuration for controllers
 - [Backend Development](/docs/backend-development) - Complete backend development guide
 - [Interfaces](/docs/interfaces) - IInvoke and IInvokeContext interfaces
+- [Service Patterns](/docs/service-patterns) - Service layer with CQRS patterns

@@ -108,6 +108,8 @@
   "Data Sync Handler Examples": "Data Sync Handler Examples",
   "Queue Module": "Queue Module",
   "SQS and SNS messaging services": "SQS and SNS messaging services",
+  "Notification Module": "Notification Module",
+  "Event-triggered notifications and email": "Event-triggered notifications and email",
   "Comprehensive sync examples": "Comprehensive sync examples",
   "Sync to RDS for queries": "Sync to RDS for queries",
   "Sync to Elasticsearch for search": "Sync to Elasticsearch for search",

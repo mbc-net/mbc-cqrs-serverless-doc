@@ -860,3 +860,4 @@ await tenantService.customizeSettingGroups({
 - [キーパターン](/docs/key-patterns) - マルチテナント用PK/SK設計
 - [認証](/docs/authentication) - ユーザー認証
 - [認証 — グループベースのロール](/docs/authentication#group-based-roles) - グループベースのロール認可（`IGroupRoleResolver` の実装、v1.3.1以降）
+- [テナントモジュール](/docs/tenant) - TenantModuleの設定とインターフェース
