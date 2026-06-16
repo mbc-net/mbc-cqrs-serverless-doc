@@ -895,3 +895,4 @@ class CircuitBreaker {
 - [Debugging Guide](/docs/debugging-guide) - Detailed debugging procedures
 - [Common Issues](/docs/common-issues) - Frequently encountered problems
 - [Monitoring and Logging](/docs/monitoring-logging) - Production monitoring setup
+- [Version Conflict Guide](/docs/version-conflict-guide) - Optimistic locking patterns and retry strategies

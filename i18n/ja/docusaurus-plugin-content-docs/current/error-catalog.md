@@ -895,3 +895,4 @@ class CircuitBreaker {
 - [デバッグガイド](/docs/debugging-guide) - 詳細なデバッグ手順
 - [よくある問題](/docs/common-issues) - よく発生する問題
 - [監視とログ](/docs/monitoring-logging) - 本番監視の設定
+- [バージョン競合ガイド](/docs/version-conflict-guide) - 楽観的ロックのパターンとリトライ戦略

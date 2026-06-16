@@ -201,6 +201,8 @@
   "Frequently encountered problems": "Frequently encountered problems",
   "Monitoring and Logging": "Monitoring and Logging",
   "Production monitoring setup": "Production monitoring setup",
+  "Version Conflict Guide": "Version Conflict Guide",
+  "Optimistic locking patterns and retry strategies": "Optimistic locking patterns and retry strategies",
   "\"name must be a string\" -> Ensure name is string type": "\"name must be a string\" -> Ensure name is string type",
   "\"code should not be empty\" -> Provide code value": "\"code should not be empty\" -> Provide code value",
   "\"amount must not be less than 0\" -> Use positive number": "\"amount must not be less than 0\" -> Use positive number",
