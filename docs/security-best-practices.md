@@ -103,6 +103,41 @@ export class CommentDto {
 }
 ```
 
+### {{Code Injection Prevention}} {#code-injection}
+
+{{Never use dynamic code execution constructs or build shell commands from user-controlled strings. These patterns are flagged as AP022 and AP023 by the MCP anti-pattern checker.}}
+
+**{{Avoid `eval()` and `new Function()`}}**:
+
+```typescript
+// {{Forbidden — executes arbitrary code from user input}}
+const result = eval(userInput);
+const fn = new Function('return ' + userInput)();
+
+// {{Safe — use a fixed dispatch table instead}}
+const OPERATIONS: Record<string, (a: number, b: number) => number> = {
+  add: (a, b) => a + b,
+  subtract: (a, b) => a - b,
+};
+const op = OPERATIONS[userInput]; // {{Look up only — never eval}}
+if (!op) throw new BadRequestException('Unknown operation');
+const result = op(1, 2);
+```
+
+**{{Avoid shell commands built from string concatenation}}**:
+
+```typescript
+import { execSync } from 'child_process';
+
+// {{Forbidden — shell injection risk when userInput contains special characters}}
+const output = execSync(`ls ${userInput}`);
+
+// {{Safe — use AWS SDK or fixed commands; never interpolate user input into shell strings}}
+import { S3Client, ListObjectsV2Command } from '@aws-sdk/client-s3';
+const client = new S3Client({});
+await client.send(new ListObjectsV2Command({ Bucket: 'my-bucket', Prefix: sanitizedPrefix }));
+```
+
 ### {{Validate File Uploads}}
 
 {{Restrict file types, sizes, and scan for malware.}}
@@ -430,6 +465,20 @@ function maskSensitiveData(obj: any): any {
 // {{Usage}}
 console.log('Request:', maskSensitiveData(requestBody));
 ```
+
+:::warning
+{{Never log `process.env` or a full HTTP request/event object. `process.env` exposes every environment variable (including secrets and API keys) to the log stream. A full request object exposes all headers including the `Authorization` token. This is detected as AP025 by the MCP anti-pattern checker.}}
+
+```typescript
+// {{Forbidden — leaks all secrets in process.env and request auth headers}}
+this.logger.debug('Env:', process.env);
+this.logger.debug('Request:', event);
+
+// {{Safe — log only specific, non-sensitive fields}}
+this.logger.debug('App:', { name: process.env.APP_NAME, env: process.env.NODE_ENV });
+this.logger.debug('Request:', { path: event.rawPath, method: event.requestContext?.http?.method });
+```
+:::
 
 ### {{Secure Environment Variables}}
 

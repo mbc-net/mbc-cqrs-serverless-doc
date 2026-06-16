@@ -113,5 +113,20 @@
   "When implementing group-based role resolution (v1.3.1+), **do not annotate your resolver class with both `@GroupRoleResolver()` and `@Injectable()`**. `@GroupRoleResolver()` already registers the class as a singleton provider — adding `@Injectable()` creates a conflicting second registration that causes a NestJS DI error at startup.": "グループベースのロール解決（v1.3.1+）を実装する際、**リゾルバークラスに`@GroupRoleResolver()`と`@Injectable()`を両方注釈しないでください**。`@GroupRoleResolver()`はすでにシングルトンプロバイダーとしてクラスを登録します — `@Injectable()`を追加すると競合する2番目の登録が作成され、起動時にNestJS DIエラーが発生します。",
   "Wrong — AP027 anti-pattern": "誤り — AP027アンチパターン",
   "Correct — only @GroupRoleResolver()": "正しい — @GroupRoleResolver()のみ使用",
-  "See [Group-Based Roles](/docs/authentication#group-based-roles) for implementation details and [Common Issues](/docs/common-issues#authentication-errors) for troubleshooting.": "実装の詳細は[グループベースのロール](/docs/authentication#group-based-roles)、トラブルシューティングは[よくある問題](/docs/common-issues#authentication-errors)を参照してください。"
+  "See [Group-Based Roles](/docs/authentication#group-based-roles) for implementation details and [Common Issues](/docs/common-issues#authentication-errors) for troubleshooting.": "実装の詳細は[グループベースのロール](/docs/authentication#group-based-roles)、トラブルシューティングは[よくある問題](/docs/common-issues#authentication-errors)を参照してください。",
+  "Code Injection Prevention": "コードインジェクション防止",
+  "Never use dynamic code execution constructs or build shell commands from user-controlled strings. These patterns are flagged as AP022 and AP023 by the MCP anti-pattern checker.": "動的なコード実行構造を使用したり、ユーザーが制御する文字列からシェルコマンドを構築しないでください。これらのパターンはMCPアンチパターンチェッカーによりAP022およびAP023としてフラグされます。",
+  "Avoid `eval()` and `new Function()`": "`eval()`と`new Function()`を避ける",
+  "Forbidden — executes arbitrary code from user input": "禁止 — ユーザー入力から任意のコードを実行する",
+  "Safe — use a fixed dispatch table instead": "安全 — 代わりに固定のディスパッチテーブルを使用する",
+  "Look up only — never eval": "ルックアップのみ — evalは絶対に使用しない",
+  "Unknown operation": "不明な操作",
+  "Avoid shell commands built from string concatenation": "文字列結合によるシェルコマンドを避ける",
+  "Forbidden — shell injection risk when userInput contains special characters": "禁止 — userInputに特殊文字が含まれる場合のシェルインジェクションリスク",
+  "Safe — use AWS SDK or fixed commands; never interpolate user input into shell strings": "安全 — AWS SDKまたは固定コマンドを使用する。シェル文字列にユーザー入力を補間しない",
+  "Never log `process.env` or a full HTTP request/event object. `process.env` exposes every environment variable (including secrets and API keys) to the log stream. A full request object exposes all headers including the `Authorization` token. This is detected as AP025 by the MCP anti-pattern checker.": "`process.env`やHTTPリクエスト/イベントオブジェクト全体をログに記録しないでください。`process.env`はすべての環境変数（シークレットやAPIキーを含む）をログストリームに公開します。リクエストオブジェクト全体は`Authorization`トークンを含むすべてのヘッダーを公開します。これはMCPアンチパターンチェッカーによってAP025として検出されます。",
+  "Forbidden — leaks all secrets in process.env and request auth headers": "禁止 — process.envのすべてのシークレットとリクエスト認証ヘッダーが漏洩する",
+  "Safe — log only specific, non-sensitive fields": "安全 — 特定の非機密フィールドのみをログに記録する",
+  "App:": "App:",
+  "Request:": "Request:"
 }

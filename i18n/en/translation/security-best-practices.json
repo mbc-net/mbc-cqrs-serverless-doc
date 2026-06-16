@@ -113,5 +113,20 @@
   "When implementing group-based role resolution (v1.3.1+), **do not annotate your resolver class with both `@GroupRoleResolver()` and `@Injectable()`**. `@GroupRoleResolver()` already registers the class as a singleton provider — adding `@Injectable()` creates a conflicting second registration that causes a NestJS DI error at startup.": "When implementing group-based role resolution (v1.3.1+), **do not annotate your resolver class with both `@GroupRoleResolver()` and `@Injectable()`**. `@GroupRoleResolver()` already registers the class as a singleton provider — adding `@Injectable()` creates a conflicting second registration that causes a NestJS DI error at startup.",
   "Wrong — AP027 anti-pattern": "Wrong — AP027 anti-pattern",
   "Correct — only @GroupRoleResolver()": "Correct — only @GroupRoleResolver()",
-  "See [Group-Based Roles](/docs/authentication#group-based-roles) for implementation details and [Common Issues](/docs/common-issues#authentication-errors) for troubleshooting.": "See [Group-Based Roles](/docs/authentication#group-based-roles) for implementation details and [Common Issues](/docs/common-issues#authentication-errors) for troubleshooting."
+  "See [Group-Based Roles](/docs/authentication#group-based-roles) for implementation details and [Common Issues](/docs/common-issues#authentication-errors) for troubleshooting.": "See [Group-Based Roles](/docs/authentication#group-based-roles) for implementation details and [Common Issues](/docs/common-issues#authentication-errors) for troubleshooting.",
+  "Code Injection Prevention": "Code Injection Prevention",
+  "Never use dynamic code execution constructs or build shell commands from user-controlled strings. These patterns are flagged as AP022 and AP023 by the MCP anti-pattern checker.": "Never use dynamic code execution constructs or build shell commands from user-controlled strings. These patterns are flagged as AP022 and AP023 by the MCP anti-pattern checker.",
+  "Avoid `eval()` and `new Function()`": "Avoid `eval()` and `new Function()`",
+  "Forbidden — executes arbitrary code from user input": "Forbidden — executes arbitrary code from user input",
+  "Safe — use a fixed dispatch table instead": "Safe — use a fixed dispatch table instead",
+  "Look up only — never eval": "Look up only — never eval",
+  "Unknown operation": "Unknown operation",
+  "Avoid shell commands built from string concatenation": "Avoid shell commands built from string concatenation",
+  "Forbidden — shell injection risk when userInput contains special characters": "Forbidden — shell injection risk when userInput contains special characters",
+  "Safe — use AWS SDK or fixed commands; never interpolate user input into shell strings": "Safe — use AWS SDK or fixed commands; never interpolate user input into shell strings",
+  "Never log `process.env` or a full HTTP request/event object. `process.env` exposes every environment variable (including secrets and API keys) to the log stream. A full request object exposes all headers including the `Authorization` token. This is detected as AP025 by the MCP anti-pattern checker.": "Never log `process.env` or a full HTTP request/event object. `process.env` exposes every environment variable (including secrets and API keys) to the log stream. A full request object exposes all headers including the `Authorization` token. This is detected as AP025 by the MCP anti-pattern checker.",
+  "Forbidden — leaks all secrets in process.env and request auth headers": "Forbidden — leaks all secrets in process.env and request auth headers",
+  "Safe — log only specific, non-sensitive fields": "Safe — log only specific, non-sensitive fields",
+  "App:": "App:",
+  "Request:": "Request:"
 }

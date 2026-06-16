@@ -103,6 +103,41 @@ export class CommentDto {
 }
 ```
 
+### コードインジェクション防止 {#code-injection}
+
+動的なコード実行構造を使用したり、ユーザーが制御する文字列からシェルコマンドを構築しないでください。これらのパターンはMCPアンチパターンチェッカーによりAP022およびAP023としてフラグされます。
+
+**`eval()`と`new Function()`を避ける**:
+
+```typescript
+// 禁止 — ユーザー入力から任意のコードを実行する
+const result = eval(userInput);
+const fn = new Function('return ' + userInput)();
+
+// 安全 — 代わりに固定のディスパッチテーブルを使用する
+const OPERATIONS: Record<string, (a: number, b: number) => number> = {
+  add: (a, b) => a + b,
+  subtract: (a, b) => a - b,
+};
+const op = OPERATIONS[userInput]; // ルックアップのみ — evalは絶対に使用しない
+if (!op) throw new BadRequestException('Unknown operation');
+const result = op(1, 2);
+```
+
+**文字列結合によるシェルコマンドを避ける**:
+
+```typescript
+import { execSync } from 'child_process';
+
+// 禁止 — userInputに特殊文字が含まれる場合のシェルインジェクションリスク
+const output = execSync(`ls ${userInput}`);
+
+// 安全 — AWS SDKまたは固定コマンドを使用する。シェル文字列にユーザー入力を補間しない
+import { S3Client, ListObjectsV2Command } from '@aws-sdk/client-s3';
+const client = new S3Client({});
+await client.send(new ListObjectsV2Command({ Bucket: 'my-bucket', Prefix: sanitizedPrefix }));
+```
+
 ### ファイルアップロードのバリデーション
 
 ファイルタイプ、サイズを制限し、マルウェアをスキャンします。
@@ -430,6 +465,20 @@ function maskSensitiveData(obj: any): any {
 // 使用例
 console.log('Request:', maskSensitiveData(requestBody));
 ```
+
+:::warning
+`process.env`やHTTPリクエスト/イベントオブジェクト全体をログに記録しないでください。`process.env`はすべての環境変数（シークレットやAPIキーを含む）をログストリームに公開します。リクエストオブジェクト全体は`Authorization`トークンを含むすべてのヘッダーを公開します。これはMCPアンチパターンチェッカーによってAP025として検出されます。
+
+```typescript
+// 禁止 — process.envのすべてのシークレットとリクエスト認証ヘッダーが漏洩する
+this.logger.debug('Env:', process.env);
+this.logger.debug('Request:', event);
+
+// 安全 — 特定の非機密フィールドのみをログに記録する
+this.logger.debug('App:', { name: process.env.APP_NAME, env: process.env.NODE_ENV });
+this.logger.debug('Request:', { path: event.rawPath, method: event.requestContext?.http?.method });
+```
+:::
 
 ### 環境変数のセキュア管理
 
