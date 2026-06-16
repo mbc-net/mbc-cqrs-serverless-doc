@@ -102,7 +102,17 @@ function extractTitle(content: string): string {
 }
 
 function extractDescription(content: string): string {
-  // Remove frontmatter
+  // First, try to extract description from frontmatter block
+  const frontmatterBlock = content.match(/^---([\s\S]*?)---/);
+  if (frontmatterBlock) {
+    const frontmatterBody = frontmatterBlock[1];
+    const descMatch = frontmatterBody.match(/^description:\s*["']?(.+?)["']?\s*$/m);
+    if (descMatch) {
+      return descMatch[1].trim();
+    }
+  }
+
+  // Fall back to first paragraph in document body
   let body = content.replace(/^---[\s\S]*?---\s*/, "");
 
   // Remove title heading
