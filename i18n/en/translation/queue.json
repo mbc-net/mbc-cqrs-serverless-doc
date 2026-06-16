@@ -41,7 +41,6 @@
   "Message action identifier (e.g. 'order-created', 'user-updated')": "Message action identifier (e.g. 'order-created', 'user-updated')",
   "Example: defining a custom event type:": "Example: defining a custom event type:",
   "Interfaces": "Interfaces",
-  "SQS message interfaces": "SQS message interfaces",
   "TypeScript interfaces reference": "TypeScript interfaces reference",
   "Environment Variables": "Environment Variables",
   "SQS and SNS configuration": "SQS and SNS configuration"

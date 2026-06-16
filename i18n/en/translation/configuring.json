@@ -34,7 +34,6 @@
   "Optional: Enable or disable default tenant controller": "Optional: Enable or disable default tenant controller",
   "NotificationModule": "NotificationModule",
   "Configure email and real-time notifications via environment variables.": "Configure email and real-time notifications via environment variables.",
-  "Configure email notifications via environment variables.": "Configure email notifications via environment variables.",
   "Email (SES) configuration": "Email (SES) configuration",
   "Real-time transport configuration": "Real-time transport configuration",
   "Optional: Active transports — default is appsync-graphql (GraphQL Subscriptions)": "Optional: Active transports — default is appsync-graphql (GraphQL Subscriptions)",

@@ -41,7 +41,6 @@
   "Message action identifier (e.g. 'order-created', 'user-updated')": "Message action identifier (e.g. 'order-created', 'user-updated') (メッセージアクション識別子、例: 'order-created', 'user-updated')",
   "Example: defining a custom event type:": "カスタムイベント型の定義例：",
   "Interfaces": "インターフェース",
-  "SQS message interfaces": "SQSメッセージインターフェース",
   "TypeScript interfaces reference": "TypeScriptインターフェースリファレンス",
   "Environment Variables": "環境変数",
   "SQS and SNS configuration": "SQSとSNSの設定"
