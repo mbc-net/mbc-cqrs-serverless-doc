@@ -19,7 +19,7 @@ Use this guide when you need to:
 
 ## Multi-Tenant Architecture {#multi-tenant-architecture}
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────┐
 │                        Application                               │
 ├─────────────────────────────────────────────────────────────────┤

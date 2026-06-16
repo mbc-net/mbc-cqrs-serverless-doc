@@ -19,7 +19,7 @@ description: {{Learn data migration strategies for cross-tenant operations, sche
 
 ## {{Migration Architecture Overview}} {#migration-architecture}
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                        {{Data Migration Flow}}                           │
 ├─────────────────────────────────────────────────────────────────────────┤

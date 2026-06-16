@@ -19,7 +19,7 @@ The e-commerce example covers:
 
 ### Key Structure
 
-```
+```text
 Partition Key (pk)           Sort Key (sk)
 ──────────────────────────────────────────────────
 TENANT#shop-a                    ORDER#ORD-000001

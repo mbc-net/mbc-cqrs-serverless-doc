@@ -421,7 +421,7 @@ interface DirectoryUpdatePermissionDto {
 
 ディレクトリ構造の例：
 
-```
+```text
 /
 ├── documents/
 │   ├── reports/

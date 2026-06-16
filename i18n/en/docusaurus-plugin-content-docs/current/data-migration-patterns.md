@@ -19,7 +19,7 @@ Use this guide when you need to:
 
 ## Migration Architecture Overview {#migration-architecture}
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                        Data Migration Flow                           │
 ├─────────────────────────────────────────────────────────────────────────┤

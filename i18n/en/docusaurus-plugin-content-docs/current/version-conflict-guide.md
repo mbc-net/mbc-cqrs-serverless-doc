@@ -13,7 +13,7 @@ Version conflicts occur when two or more operations attempt to update the same i
 
 ### Conflict Scenario
 
-```
+```text
 User A reads item (version 1)
 User B reads item (version 1)
 User A updates item (version 1 -> 2) - Success

@@ -43,7 +43,7 @@ description: {{Learn how to structure your Next.js frontend project for MBC CQRS
 
 {{The following structure separates concerns clearly and scales well for medium to large applications:}}
 
-```
+```text
 src/
 ├── app/                      # Next.js App Router pages
 │   ├── (auth)/              # Authentication routes (login, etc.)

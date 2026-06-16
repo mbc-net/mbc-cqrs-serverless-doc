@@ -227,7 +227,7 @@ export class MyService {
 
 {{Every notification is published to a single most-specific channel. Clients subscribe at whatever level of granularity they need using the AppSync Events wildcard (`/*`):}}
 
-```
+```text
 /{namespace}/{tenantCode}/{action}/{sanitizedId}
   seg 1        seg 2       seg 3    seg 4
 ```

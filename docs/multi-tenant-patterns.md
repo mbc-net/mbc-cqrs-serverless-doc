@@ -19,7 +19,7 @@ description: {{Learn how to implement multi-tenant data isolation and cross-tena
 
 ## {{Multi-Tenant Architecture}} {#multi-tenant-architecture}
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────┐
 │                        Application                               │
 ├─────────────────────────────────────────────────────────────────┤

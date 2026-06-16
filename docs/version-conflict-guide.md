@@ -13,7 +13,7 @@ description: {{Learn how to handle version conflicts and implement concurrency c
 
 ### {{Conflict Scenario}}
 
-```
+```text
 {{User A reads item (version 1)}}
 {{User B reads item (version 1)}}
 {{User A updates item (version 1 -> 2) - Success}}

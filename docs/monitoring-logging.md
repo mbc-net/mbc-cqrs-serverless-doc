@@ -366,7 +366,7 @@ new logs.SubscriptionFilter(this, 'LambdaLogSubscription', {
 
 {{Useful CloudWatch Logs Insights queries:}}
 
-```
+```text
 # {{Error analysis}}
 fields @timestamp, @message
 | filter @message like /ERROR/

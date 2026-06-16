@@ -20,7 +20,7 @@ description: {{Learn patterns for handling events from S3, Step Functions, SQS, 
 
 ## {{Event Architecture Overview}} {#event-architecture}
 
-```
+```text
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
 │     S3      │────>│             │     │   Event     │
 │   Events    │     │             │────>│  Handler 1  │

@@ -408,7 +408,7 @@ This example shows how all entity patterns work together in a real domain:
 
 ### Directory Structure
 
-```
+```text
 src/order/
 ├── order.module.ts
 ├── order.service.ts

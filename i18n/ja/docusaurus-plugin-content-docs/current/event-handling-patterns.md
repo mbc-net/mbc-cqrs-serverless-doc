@@ -20,7 +20,7 @@ description: MBC CQRS ServerlessでS3、Step Functions、SQS、DynamoDBストリ
 
 ## イベントアーキテクチャの概要 {#event-architecture}
 
-```
+```text
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
 │     S3      │────>│             │     │   Event     │
 │   Events    │     │             │────>│  Handler 1  │

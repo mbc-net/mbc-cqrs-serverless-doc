@@ -408,7 +408,7 @@ export class SearchProductDto {
 
 ### {{Directory Structure}}
 
-```
+```text
 src/order/
 ├── order.module.ts
 ├── order.service.ts

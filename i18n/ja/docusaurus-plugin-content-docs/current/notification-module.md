@@ -227,7 +227,7 @@ export class MyService {
 
 すべての通知は最も具体的な単一チャンネルにパブリッシュされます。クライアントは AppSync Events のワイルドカード（`/*`）を使って必要な粒度でサブスクライブします：
 
-```
+```text
 /{namespace}/{tenantCode}/{action}/{sanitizedId}
   seg 1        seg 2       seg 3    seg 4
 ```

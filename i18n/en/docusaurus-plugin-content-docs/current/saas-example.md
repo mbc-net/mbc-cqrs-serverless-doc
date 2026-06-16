@@ -19,7 +19,7 @@ The SaaS example covers:
 
 ### Key Structure
 
-```
+```text
 Partition Key (pk)           Sort Key (sk)
 ──────────────────────────────────────────────────
 TENANT#acme-corp                 SUBSCRIPTION#SUB-001

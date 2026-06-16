@@ -19,7 +19,7 @@ description: {{Multi-tenant SaaS application example with subscription managemen
 
 ### {{Key Structure}}
 
-```
+```text
 {{Partition Key (pk)}}           {{Sort Key (sk)}}
 ──────────────────────────────────────────────────
 TENANT#acme-corp                 SUBSCRIPTION#SUB-001

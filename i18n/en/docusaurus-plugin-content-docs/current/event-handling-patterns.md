@@ -20,7 +20,7 @@ Use this guide when you need to:
 
 ## Event Architecture Overview {#event-architecture}
 
-```
+```text
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
 │     S3      │────>│             │     │   Event     │
 │   Events    │     │             │────>│  Handler 1  │

@@ -366,7 +366,7 @@ new logs.SubscriptionFilter(this, 'LambdaLogSubscription', {
 
 便利なCloudWatch Logs Insightsクエリ：
 
-```
+```text
 # エラー分析
 fields @timestamp, @message
 | filter @message like /ERROR/
