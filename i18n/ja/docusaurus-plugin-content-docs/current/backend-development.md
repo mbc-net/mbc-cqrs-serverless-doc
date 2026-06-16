@@ -13,7 +13,7 @@ description: MBC CQRS Serverlessフレームワークによるバックエンド
 
 すべてのドメインモジュールは、この一貫した構造に従います：
 
-```
+```text
 src/[domain]/
 ├── dto/
 │   ├── [domain]-command.dto.ts        # Command input validation

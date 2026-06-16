@@ -181,7 +181,7 @@ aws logs filter-log-events \
 
 {{Use CloudWatch Logs Insights for advanced queries:}}
 
-```
+```text
 # {{Find errors}}
 fields @timestamp, @message
 | filter @message like /ERROR/
@@ -204,7 +204,7 @@ fields @timestamp, @message, @duration
 
 {{If using structured logging:}}
 
-```
+```text
 fields @timestamp, level, message, context
 | filter level = "error"
 | sort @timestamp desc
@@ -532,7 +532,7 @@ aws stepfunctions describe-execution \
 
 {{Use these CloudWatch Logs Insights queries tailored for MBC CQRS applications:}}
 
-```
+```text
 # {{Find version conflicts}}
 fields @timestamp, @message
 | filter @message like /version mismatch|version not match|ConditionalCheckFailed/

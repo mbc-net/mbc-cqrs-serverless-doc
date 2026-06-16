@@ -1345,7 +1345,7 @@ import "@mbc-cqrs-serverless/master-web/styles.css";
 
 {{The JsonEditor component uses the `jsoneditor` library internally, which requires browser APIs (`self`, `window`) that are not available during SSR. This causes errors like:}}
 
-```
+```text
 ReferenceError: self is not defined
 ```
 
@@ -1686,7 +1686,7 @@ export function MasterTemplate({ tenantCode }: MasterTemplateProps) {
 
 #### {{Directory Structure}}
 
-```
+```text
 app/
 └── admin/
     └── [tenant]/

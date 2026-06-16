@@ -181,7 +181,7 @@ aws logs filter-log-events \
 
 高度なクエリにはCloudWatch Logs Insightsを使用：
 
-```
+```text
 # エラーを検索
 fields @timestamp, @message
 | filter @message like /ERROR/
@@ -204,7 +204,7 @@ fields @timestamp, @message, @duration
 
 構造化ログを使用している場合：
 
-```
+```text
 fields @timestamp, level, message, context
 | filter level = "error"
 | sort @timestamp desc
@@ -532,7 +532,7 @@ aws stepfunctions describe-execution \
 
 MBC CQRSアプリケーション向けにカスタマイズされたCloudWatch Logs Insightsクエリを使用します：
 
-```
+```text
 # Find version conflicts (バージョン競合を検索)
 fields @timestamp, @message
 | filter @message like /version mismatch|version not match|ConditionalCheckFailed/

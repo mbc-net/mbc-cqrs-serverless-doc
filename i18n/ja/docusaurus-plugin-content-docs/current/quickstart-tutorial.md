@@ -26,7 +26,7 @@ cd my-app
 
 CLIは以下の構造でプロジェクトを作成します：
 
-```
+```text
 my-app/
 ├── src/
 │   ├── main.ts
@@ -104,7 +104,7 @@ APIは `http://localhost:3000` で実行されています。
 
 ブラウザでSwagger UIを開いてAPIを確認・テストしてください：
 
-```
+```text
 http://localhost:3000/swagger-ui/
 ```
 

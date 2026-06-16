@@ -1345,7 +1345,7 @@ When using master-web components with Next.js App Router (v14+/v15), there are i
 
 The JsonEditor component uses the `jsoneditor` library internally, which requires browser APIs (`self`, `window`) that are not available during SSR. This causes errors like:
 
-```
+```text
 ReferenceError: self is not defined
 ```
 
@@ -1686,7 +1686,7 @@ For multi-tenant applications, set up dynamic routes with tenant code in the URL
 
 #### Directory Structure
 
-```
+```text
 app/
 └── admin/
     └── [tenant]/

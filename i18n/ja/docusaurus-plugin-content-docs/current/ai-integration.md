@@ -98,7 +98,7 @@ Claude Codeまたは他のMCP互換ツールに追加：
 
 AIにモジュールを生成させる際は、具体的に記述してください：
 
-```
+```text
 "Generate an Order module with async command handling and validation"
 ```
 
@@ -106,7 +106,7 @@ AIにモジュールを生成させる際は、具体的に記述してくださ
 
 エラーに遭遇した場合、AIはエラーカタログを使用して解決策を見つけることができます：
 
-```
+```text
 "I'm getting error 'version mismatch'. What should I do?"
 ```
 

@@ -11,7 +11,7 @@ This page provides optimized prompts for common development tasks when using AI 
 
 ### Create a New CQRS Module
 
-```
+```text
 Create a new CQRS module for [FEATURE_NAME] in MBC CQRS Serverless with:
 - CommandModule registration with table name "[TABLE_NAME]"
 - Command handlers: Create, Update, Delete (async processing)
@@ -23,7 +23,7 @@ Create a new CQRS module for [FEATURE_NAME] in MBC CQRS Serverless with:
 
 ### Create a Module with RDS Sync
 
-```
+```text
 Create a CQRS module for [FEATURE_NAME] that syncs data to RDS:
 - CommandModule with DataSyncHandler for RDS
 - Prisma model in prisma/schema.prisma for the RDS table
@@ -35,7 +35,7 @@ Create a CQRS module for [FEATURE_NAME] that syncs data to RDS:
 
 ### Implement Async Command
 
-```
+```text
 Implement an async command handler for [OPERATION] in MBC CQRS Serverless:
 - Use publishAsync for immediate response
 - Include input validation in DTO
@@ -46,7 +46,7 @@ Implement an async command handler for [OPERATION] in MBC CQRS Serverless:
 
 ### Implement Sync Command
 
-```
+```text
 Implement a synchronous command for [OPERATION] that waits for completion:
 - Use publishSync method
 - Return the fully processed result
@@ -58,7 +58,7 @@ Implement a synchronous command for [OPERATION] that waits for completion:
 
 ### List Query with Filters
 
-```
+```text
 Implement a list query for [ENTITY] with:
 - Pagination support (limit, cursor)
 - Filter by [FIELD_NAMES]
@@ -69,7 +69,7 @@ Implement a list query for [ENTITY] with:
 
 ### Detail Query
 
-```
+```text
 Implement a detail query to get [ENTITY] by ID:
 - Use DataService.getItem
 - Handle VERSION_LATEST for latest version
@@ -81,7 +81,7 @@ Implement a detail query to get [ENTITY] by ID:
 
 ### Create Custom Event Handler
 
-```
+```text
 Create a custom event handler for [EVENT_TYPE] in MBC CQRS Serverless:
 - Extend appropriate event class (DynamoDbEvent, SqsEvent, etc.)
 - Implement IEventHandler interface
@@ -92,7 +92,7 @@ Create a custom event handler for [EVENT_TYPE] in MBC CQRS Serverless:
 
 ### DynamoDB Stream Handler
 
-```
+```text
 Create a DynamoDB stream handler to [PURPOSE]:
 - Process INSERT, MODIFY, REMOVE events
 - Filter by table name if needed
@@ -105,7 +105,7 @@ Create a DynamoDB stream handler to [PURPOSE]:
 
 ### Create Data Sync Handler
 
-```
+```text
 Create a DataSyncHandler to sync [ENTITY] to [TARGET]:
 - Implement IDataSyncHandler interface
 - Handle up() for create/update operations
@@ -118,7 +118,7 @@ Create a DataSyncHandler to sync [ENTITY] to [TARGET]:
 
 ### Implement Tenant-Aware Feature
 
-```
+```text
 Implement [FEATURE] with multi-tenancy support:
 - Extract tenantCode from invocation context
 - Use tenant-prefixed partition keys
@@ -131,7 +131,7 @@ Implement [FEATURE] with multi-tenancy support:
 
 ### Implement Group-Based Role Resolver (v1.3.1+)
 
-```
+```text
 Implement a GroupRoleResolver for [APP_NAME]:
 - Group-to-role mapping stored in [DynamoDB / RDS / hardcoded config]
 - Map groups: [LIST_GROUPS] to roles: [LIST_ROLES]
@@ -143,7 +143,7 @@ Implement a GroupRoleResolver for [APP_NAME]:
 
 ### Add AppSync Events API Notifications (v1.3.0+)
 
-```
+```text
 Set up AppSync Events API real-time notifications for [FEATURE]:
 - Add NOTIFICATION_TRANSPORTS=appsync-event to environment
 - Configure APPSYNC_EVENTS_ENDPOINT and APPSYNC_EVENTS_NAMESPACE
@@ -156,7 +156,7 @@ Set up AppSync Events API real-time notifications for [FEATURE]:
 
 ### Unit Test for Command Handler
 
-```
+```text
 Write unit tests for [COMMAND_HANDLER]:
 - Mock CommandService and dependencies
 - Test successful command execution
@@ -167,7 +167,7 @@ Write unit tests for [COMMAND_HANDLER]:
 
 ### Integration Test
 
-```
+```text
 Write integration tests for [FEATURE]:
 - Set up test DynamoDB tables
 - Test full command-query flow
@@ -180,7 +180,7 @@ Write integration tests for [FEATURE]:
 
 ### Diagnose Version Conflict
 
-```
+```text
 I'm getting an "Invalid input: item not found or version mismatch" error when updating [ENTITY].
 Please help me:
 1. Understand why this error occurs in CQRS/Event Sourcing
@@ -191,7 +191,7 @@ Please help me:
 
 ### Diagnose Data Sync Issues
 
-```
+```text
 Data is not syncing to RDS for [ENTITY]. Please help me:
 1. Check if DataSyncHandler is properly registered
 2. Verify the sync handler implementation
@@ -201,7 +201,7 @@ Data is not syncing to RDS for [ENTITY]. Please help me:
 
 ### Diagnose Event Processing
 
-```
+```text
 Events are not being processed for [EVENT_TYPE]. Please check:
 1. Event handler registration in the module
 2. Event class implementation
@@ -213,7 +213,7 @@ Events are not being processed for [EVENT_TYPE]. Please check:
 
 ### Review Module Implementation
 
-```
+```text
 Review this [MODULE_NAME] module implementation for:
 - Proper CQRS pattern adherence (command/query separation)
 - Event sourcing best practices
@@ -225,7 +225,7 @@ Review this [MODULE_NAME] module implementation for:
 
 ### Review for Production Readiness
 
-```
+```text
 Review [FEATURE] for production readiness:
 - Error handling and recovery
 - Logging and monitoring
@@ -239,7 +239,7 @@ Review [FEATURE] for production readiness:
 
 ### Create Migration for Schema Change
 
-```
+```text
 Create a migration for [SCHEMA_CHANGE]:
 - Prisma migration (run npm run migrate:dev to create the migration file)
 - Handle existing data transformation

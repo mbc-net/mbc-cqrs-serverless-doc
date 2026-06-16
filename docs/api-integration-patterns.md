@@ -78,7 +78,7 @@ export default defineConfig({
 
 {{After running `npm run generate-sdk`, the following files are created:}}
 
-```
+```text
 src/services/sdk/
 ├── client/
 │   └── client.ts          # HTTP client configuration

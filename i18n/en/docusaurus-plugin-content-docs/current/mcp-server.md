@@ -118,7 +118,7 @@ Add to Cursor MCP configuration:
 
 You can ask Claude Code:
 
-```
+```text
 "Generate a new Order module with async command handling"
 ```
 
@@ -126,7 +126,7 @@ You can ask Claude Code:
 
 Analyze project structure.
 
-```
+```text
 "Analyze my project structure"
 ```
 
@@ -134,7 +134,7 @@ Analyze project structure.
 
 Get help debugging errors.
 
-```
+```text
 "I'm getting a version mismatch error, help me debug"
 ```
 
@@ -267,7 +267,7 @@ Generates boilerplate code following MBC CQRS Serverless best practices.
 - GraphQL Resolver
 
 **Example Usage:**
-```
+```text
 /mbc-generate
 Create an Order module with RDS synchronization
 ```
@@ -306,7 +306,7 @@ These are the **skill-doc AP codes** used in `/mbc-review` reviews and human-fac
 | AP022 | Incorrect group-based role resolver implementation (v1.3.1+) | Error |
 
 **Example Usage:**
-```
+```text
 /mbc-review
 Review the code in src/order/order.service.ts
 ```
@@ -323,7 +323,7 @@ Guides version migrations for MBC CQRS Serverless framework.
 - Version compatibility matrix
 
 **Example Usage:**
-```
+```text
 /mbc-migrate
 I need to upgrade from v1.2.x to v1.3.0
 ```
@@ -340,7 +340,7 @@ Helps debug and troubleshoot issues in MBC CQRS Serverless applications.
 - Troubleshooting decision tree
 
 **Example Usage:**
-```
+```text
 /mbc-debug
 I'm getting ConditionalCheckFailedException errors
 ```

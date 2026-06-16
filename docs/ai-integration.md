@@ -98,7 +98,7 @@ claude mcp add context7 -- npx -y @upstash/context7-mcp@latest
 
 {{When asking AI to generate modules, be specific:}}
 
-```
+```text
 "Generate an Order module with async command handling and validation"
 ```
 
@@ -106,7 +106,7 @@ claude mcp add context7 -- npx -y @upstash/context7-mcp@latest
 
 {{When encountering errors, AI can use the error catalog to find solutions:}}
 
-```
+```text
 "I'm getting error 'version mismatch'. What should I do?"
 ```
 

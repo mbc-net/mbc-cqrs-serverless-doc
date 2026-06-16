@@ -98,7 +98,7 @@ Before tackling complex tasks, let AI read the framework documentation:
 
 When asking AI to generate modules, be specific:
 
-```
+```text
 "Generate an Order module with async command handling and validation"
 ```
 
@@ -106,7 +106,7 @@ When asking AI to generate modules, be specific:
 
 When encountering errors, AI can use the error catalog to find solutions:
 
-```
+```text
 "I'm getting error 'version mismatch'. What should I do?"
 ```
 

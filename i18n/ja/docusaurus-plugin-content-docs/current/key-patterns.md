@@ -48,7 +48,7 @@ description: DynamoDBのパーティションキー（PK）とソートキー（
 
 ### デシジョンツリー
 
-```
+```text
 開始: どのような種類のデータを保存しますか？
 │
 ├─ スタンドアロンエンティティ（商品、顧客）
@@ -73,7 +73,7 @@ description: DynamoDBのパーティションキー（PK）とソートキー（
 
 フレームワークは一貫したキー構造を使用します：
 
-```
+```text
 PK = PREFIX#TENANT_CODE
 SK = IDENTIFIER[@VERSION]
 ID = PK#SK (without version)

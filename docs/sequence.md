@@ -220,7 +220,7 @@ export class SeqModule {}
 - {{`%%no#:0>3%%` ensures the sequence number (no) is formatted to be 3 digits long, padded with leading zeros if necessary.}}
 
 {{If you want to calculate the fiscal_year starting from any specific month, you can add the `startMonth` field. For example, if you want the fiscal year to start from March, the format would look like this:}}
-```
+```json
 {
   "format": "%%code2#:0>7%%-%%fiscal_year#:0>2%%-%%code3%%%%no#:0>3%%",
   "startMonth": 3
@@ -231,7 +231,7 @@ export class SeqModule {}
 
 {{If you want to calculate the fiscal year starting from a specific date (e.g. 2005-01-01), you can add the `registerDate` field, like this:}}
 
-```
+```json
 {
   "format": "%%code2#:0>7%%-%%fiscal_year#:0>2%%-%%code3%%%%no#:0>3%%",
   "registerDate": "2005-01-01"

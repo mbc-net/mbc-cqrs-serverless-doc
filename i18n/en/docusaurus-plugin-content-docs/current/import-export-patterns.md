@@ -19,7 +19,7 @@ Use this guide when you need to:
 
 ## Import Architecture Overview {#import-architecture}
 
-```
+```text
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
 │   Client    │────>│     S3      │────>│Step Function│────>│   Lambda    │
 │  (Upload)   │     │  (Storage)  │     │(Orchestrate)│     │ (Process)   │
@@ -1437,7 +1437,7 @@ The `ImportQueueEventHandler` processes individual import records from the SQS q
 
 #### Error Flow (v1.0.19+)
 
-```
+```text
 Child Job Error Occurs
          │
          ▼
@@ -1620,7 +1620,7 @@ To work around this, check the `failedRows` count in the result object to determ
 
 When processing CSV files from a ZIP archive, the handler extracts the table name from the filename:
 
-```
+```text
 Format: yyyymmddhhMMss-\{tableName\}.csv
 Example: 20240115120000-products.csv → extracts tableName = "products"
 ```
@@ -1629,7 +1629,7 @@ If `tableName` is provided in the `CreateZipImportDto`, it overrides the extract
 
 #### Processing Flow
 
-```
+```text
 ZIP File Uploaded to S3
          │
          ▼

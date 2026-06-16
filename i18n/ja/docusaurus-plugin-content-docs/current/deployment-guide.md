@@ -135,7 +135,7 @@ COGNITO_USER_POOL_CLIENT_ID=xxxxxxxxxxxxxxxxxx
 
 典型的なMBC CQRS Serverless CDKプロジェクトは以下の構造を持ちます：
 
-```
+```text
 infra/
 ├── bin/
 │   └── infra.ts              # CDKアプリエントリーポイント
@@ -162,7 +162,7 @@ infra/
 
 一部のserverless-offlineプラグインには、`npm install` 時にビルドエラーを引き起こす可能性のあるレガシー依存関係があります：
 
-```
+```text
 npm error path node_modules/zlib
 npm error command sh -c node-waf clean || true; node-waf configure build
 npm error sh: node-waf: command not found
@@ -179,7 +179,7 @@ npx prisma generate  # postinstallスクリプトを手動で実行
 
 デフォルトの `infra/bin/infra.ts` テンプレートでは account/region の値が空になっている場合があり、以下のようなエラーが発生することがあります：
 
-```
+```text
 Invalid S3 bucket name (value: cdk-hnb659fds-assets--)
 ```
 
@@ -291,7 +291,7 @@ curl https://your-api-endpoint.execute-api.ap-northeast-1.amazonaws.com/health
 
 リソースには一貫した命名を使用します：
 
-```
+```text
 {environment}-{app-name}-{resource-type}
 ```
 

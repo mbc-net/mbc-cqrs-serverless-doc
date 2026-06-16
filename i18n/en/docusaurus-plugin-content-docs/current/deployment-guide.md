@@ -135,7 +135,7 @@ COGNITO_USER_POOL_CLIENT_ID=xxxxxxxxxxxxxxxxxx
 
 A typical MBC CQRS Serverless CDK project has the following structure:
 
-```
+```text
 infra/
 ├── bin/
 │   └── infra.ts              # CDK app entry point
@@ -162,7 +162,7 @@ infra/
 
 Some serverless-offline plugins have legacy dependencies that may cause build errors during `npm install`:
 
-```
+```text
 npm error path node_modules/zlib
 npm error command sh -c node-waf clean || true; node-waf configure build
 npm error sh: node-waf: command not found
@@ -179,7 +179,7 @@ npx prisma generate  # Run postinstall script manually
 
 The default `infra/bin/infra.ts` template may have empty account/region values, causing errors like:
 
-```
+```text
 Invalid S3 bucket name (value: cdk-hnb659fds-assets--)
 ```
 
@@ -291,7 +291,7 @@ Best practices for managing multiple environments:
 
 Use consistent naming for resources:
 
-```
+```text
 {environment}-{app-name}-{resource-type}
 ```
 

@@ -48,7 +48,7 @@ description: {{Learn about partition key (PK) and sort key (SK) design patterns 
 
 ### {{Decision Tree}}
 
-```
+```text
 {{Start: What type of data are you storing?}}
 │
 ├─ {{Standalone entity (Product, Customer)}}
@@ -73,7 +73,7 @@ description: {{Learn about partition key (PK) and sort key (SK) design patterns 
 
 {{The framework uses a consistent key structure:}}
 
-```
+```text
 PK = PREFIX#TENANT_CODE
 SK = IDENTIFIER[@VERSION]
 ID = PK#SK (without version)

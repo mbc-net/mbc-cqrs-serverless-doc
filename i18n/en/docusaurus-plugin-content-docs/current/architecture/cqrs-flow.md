@@ -112,7 +112,7 @@ sequenceDiagram
 
 Because `publishAsync` writes to the command table and then returns immediately — before the SNS-triggered projector has updated the read store — there is a short window where a subsequent read will return stale data:
 
-```
+```text
 publishAsync()
      │
      ▼
@@ -130,7 +130,7 @@ This is expected behaviour in an eventually-consistent system, but can cause con
 
 MBC CQRS Serverless v1.2.0 introduced a session-based **Read-Your-Writes** layer that bridges this async window for the user who just issued the write:
 
-```
+```text
 publishAsync()
      │
      ├──► CommandTable ──► SNS ──► Lambda ──► ReadStore

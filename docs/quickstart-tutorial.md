@@ -26,7 +26,7 @@ cd my-app
 
 {{The CLI will create a project with the following structure:}}
 
-```
+```text
 my-app/
 ├── src/
 │   ├── main.ts
@@ -104,7 +104,7 @@ npm run offline:sls
 
 {{Open the Swagger UI in your browser to explore and test your API:}}
 
-```
+```text
 http://localhost:3000/swagger-ui/
 ```
 

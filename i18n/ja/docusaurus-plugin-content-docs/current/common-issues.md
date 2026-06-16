@@ -26,7 +26,7 @@ npm install -g npm@latest
 
 **症状**: npm installが `node-waf: command not found` エラーで失敗する（通常はzlibパッケージが原因）。
 
-```
+```text
 npm error path node_modules/zlib
 npm error command sh -c node-waf clean || true; node-waf configure build
 npm error sh: node-waf: command not found

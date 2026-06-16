@@ -575,7 +575,7 @@ Read-Your-Writes consistency was added in [v1.2.0](/docs/changelog#v120).
 
 `publishAsync` returns immediately after writing to the Command table, then the DynamoDB Stream pipeline asynchronously syncs the data to the read model (Data table). This creates a short window where a subsequent read by the same user returns stale data — for example, a "Create Order" button submits successfully, the user is redirected to the order list, but the new order does not appear yet.
 
-```
+```text
 User Action                 DynamoDB Stream          User Sees
 ──────────────────────────────────────────────────────────────────
 POST /orders ──────────► publishAsync() ─────► Command table ✓
@@ -591,7 +591,7 @@ GET  /orders ──────────► DataService.list() ─► Data ta
 
 RYW bridges this gap by temporarily caching the version number of the pending command in a short-lived session table. When reading through `Repository`, the session entry is detected and the pending command is fetched from the Command table and merged into the response — making the write immediately visible to the user who made it.
 
-```
+```text
 User Action                 With RYW                 User Sees
 ──────────────────────────────────────────────────────────────────
 POST /orders ──────────► publishAsync()

@@ -1345,7 +1345,7 @@ Next.js App Router（v14+/v15）で master-web コンポーネントを使用す
 
 JsonEditor コンポーネントは内部で `jsoneditor` ライブラリを使用しており、SSR 中には利用できないブラウザ API（`self`、`window`）を必要とします。これにより次のようなエラーが発生します：
 
-```
+```text
 ReferenceError: self is not defined
 ```
 
@@ -1686,7 +1686,7 @@ export function MasterTemplate({ tenantCode }: MasterTemplateProps) {
 
 #### ディレクトリ構造
 
-```
+```text
 app/
 └── admin/
     └── [tenant]/

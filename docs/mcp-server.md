@@ -118,7 +118,7 @@ npx @mbc-cqrs-serverless/mcp-server
 
 {{You can ask Claude Code}}:
 
-```
+```text
 "Generate a new Order module with async command handling"
 ```
 
@@ -126,7 +126,7 @@ npx @mbc-cqrs-serverless/mcp-server
 
 {{Analyze project structure.}}
 
-```
+```text
 "Analyze my project structure"
 ```
 
@@ -134,7 +134,7 @@ npx @mbc-cqrs-serverless/mcp-server
 
 {{Get help debugging errors.}}
 
-```
+```text
 "I'm getting a version mismatch error, help me debug"
 ```
 
@@ -267,7 +267,7 @@ cp -r node_modules/@mbc-cqrs-serverless/mcp-server/skills/* .claude/skills/
 - {{GraphQL Resolver}}
 
 **{{Example Usage:}}**
-```
+```text
 /mbc-generate
 Create an Order module with RDS synchronization
 ```
@@ -306,7 +306,7 @@ Create an Order module with RDS synchronization
 | AP022 | {{Incorrect group-based role resolver implementation (v1.3.1+)}} | {{Error}} |
 
 **{{Example Usage:}}**
-```
+```text
 /mbc-review
 Review the code in src/order/order.service.ts
 ```
@@ -323,7 +323,7 @@ Review the code in src/order/order.service.ts
 - {{Version compatibility matrix}}
 
 **{{Example Usage:}}**
-```
+```text
 /mbc-migrate
 I need to upgrade from v1.2.x to v1.3.0
 ```
@@ -340,7 +340,7 @@ I need to upgrade from v1.2.x to v1.3.0
 - {{Troubleshooting decision tree}}
 
 **{{Example Usage:}}**
-```
+```text
 /mbc-debug
 I'm getting ConditionalCheckFailedException errors
 ```

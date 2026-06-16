@@ -13,7 +13,7 @@ This guide provides comprehensive patterns and best practices for building backe
 
 Every domain module follows this consistent structure:
 
-```
+```text
 src/[domain]/
 ├── dto/
 │   ├── [domain]-command.dto.ts        # Command input validation

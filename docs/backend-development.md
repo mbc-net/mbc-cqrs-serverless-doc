@@ -13,7 +13,7 @@ description: {{Comprehensive guide for backend development with MBC CQRS Serverl
 
 {{Every domain module follows this consistent structure:}}
 
-```
+```text
 src/[domain]/
 ├── dto/
 │   ├── [domain]-command.dto.ts        # Command input validation

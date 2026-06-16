@@ -19,7 +19,7 @@ description: {{Learn patterns for importing and exporting data in CSV and Excel 
 
 ## {{Import Architecture Overview}} {#import-architecture}
 
-```
+```text
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
 │   Client    │────>│     S3      │────>│Step Function│────>│   Lambda    │
 │  (Upload)   │     │  (Storage)  │     │(Orchestrate)│     │ (Process)   │
@@ -1437,7 +1437,7 @@ export class CustomEventFactory extends EventFactoryAddedTask {
 
 #### {{Error Flow (v1.0.19+)}}
 
-```
+```text
 {{Child Job Error Occurs}}
          │
          ▼
@@ -1620,7 +1620,7 @@ const status = failedRows > 0
 
 {{When processing CSV files from a ZIP archive, the handler extracts the table name from the filename:}}
 
-```
+```text
 {{Format: yyyymmddhhMMss-\{tableName\}.csv}}
 {{Example: 20240115120000-products.csv → extracts tableName = "products"}}
 ```
@@ -1629,7 +1629,7 @@ const status = failedRows > 0
 
 #### {{Processing Flow}}
 
-```
+```text
 {{ZIP File Uploaded to S3}}
          │
          ▼

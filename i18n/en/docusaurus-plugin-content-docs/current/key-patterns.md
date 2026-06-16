@@ -48,7 +48,7 @@ Use this decision tree to choose the right key pattern for your use case:
 
 ### Decision Tree
 
-```
+```text
 Start: What type of data are you storing?
 │
 ├─ Standalone entity (Product, Customer)
@@ -73,7 +73,7 @@ Start: What type of data are you storing?
 
 The framework uses a consistent key structure:
 
-```
+```text
 PK = PREFIX#TENANT_CODE
 SK = IDENTIFIER[@VERSION]
 ID = PK#SK (without version)
