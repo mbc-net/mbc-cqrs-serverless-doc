@@ -136,6 +136,8 @@
   "S3 configuration": "S3 configuration",
   "Interfaces": "Interfaces",
   "Directory interfaces": "Directory interfaces",
+  "Data Sync Handler Examples": "Data Sync Handler Examples",
+  "Sync directory events to RDS": "Sync directory events to RDS",
   "`hasPermission()` returns `true` when the user holds at least one of the required roles on the item. `getEffectiveRole()` returns the highest role the user holds, or `null` if they have no access.": "`hasPermission()` returns `true` when the user holds at least one of the required roles on the item. `getEffectiveRole()` returns the highest role the user holds, or `null` if they have no access.",
   "Returns true if user holds any of the required roles on the item": "Returns true if user holds any of the required roles on the item",
   "Returns the effective FileRole the user holds, or null if no access": "Returns the effective FileRole the user holds, or null if no access"

@@ -501,3 +501,4 @@ export class DirectoryDataSyncHandler implements IDataSyncHandler {
 - [{{Multi-Tenant Patterns}}](/docs/multi-tenant-patterns) - {{Tenant file isolation}}
 - [{{Environment Variables}}](/docs/environment-variables) - {{S3 configuration}}
 - [{{Interfaces}}](/docs/interfaces) - {{Directory interfaces}}
+- [{{Data Sync Handler Examples}}](/docs/data-sync-handler-examples) - {{Sync directory events to RDS}}

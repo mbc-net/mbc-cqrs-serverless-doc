@@ -501,3 +501,4 @@ export class DirectoryDataSyncHandler implements IDataSyncHandler {
 - [マルチテナントパターン](/docs/multi-tenant-patterns) - テナントファイル分離
 - [環境変数](/docs/environment-variables) - S3設定
 - [インターフェース](/docs/interfaces) - ディレクトリインターフェース
+- [データ同期ハンドラー例](/docs/data-sync-handler-examples) - ディレクトリイベントをRDSに同期
