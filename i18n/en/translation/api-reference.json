@@ -39,7 +39,7 @@
   "Queue Module": "Queue Module",
   "SNS and SQS messaging (globally registered)": "SNS and SQS messaging (globally registered)",
   "Notification Module": "Notification Module",
-  "Real-time WebSocket notifications via AppSync Events API": "Real-time WebSocket notifications via AppSync Events API",
+  "Real-time notifications via AppSync (GraphQL subscriptions default; Events API opt-in since v1.3.0)": "Real-time notifications via AppSync (GraphQL subscriptions default; Events API opt-in since v1.3.0)",
   "Email Service": "Email Service",
   "Send transactional emails via Amazon SES": "Send transactional emails via Amazon SES",
   "Setting Module": "Setting Module",

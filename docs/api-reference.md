@@ -60,7 +60,7 @@ graph TB
 | {{Module}} | {{Package}} | {{Description}} |
 |------------|-------------|-----------------|
 | {{Queue Module}} | `@mbc-cqrs-serverless/core` | {{SNS and SQS messaging (globally registered)}} |
-| {{Notification Module}} | `@mbc-cqrs-serverless/core` | {{Real-time WebSocket notifications via AppSync Events API}} |
+| {{Notification Module}} | `@mbc-cqrs-serverless/core` | {{Real-time notifications via AppSync (GraphQL subscriptions default; Events API opt-in since v1.3.0)}} |
 | {{Email Service}} | `@mbc-cqrs-serverless/core` | {{Send transactional emails via Amazon SES}} |
 | {{Setting Module}} | `@mbc-cqrs-serverless/ui-setting` | {{User interface configuration storage}} |
 
