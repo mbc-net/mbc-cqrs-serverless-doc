@@ -712,6 +712,7 @@ await dataService.getItem({ pk, sk: cleanSk });
 
 ## Related Documentation
 
+- [DynamoDB](/docs/dynamodb) - Table architecture and attribute schema for these keys
 - [Entity Patterns](/docs/entity-patterns) - Define entities that use these key patterns
 - [Data Service](/docs/data-service) - Query data using designed keys
 - [Multi-Tenant Patterns](/docs/multi-tenant-patterns) - Tenant isolation and cross-tenant operations

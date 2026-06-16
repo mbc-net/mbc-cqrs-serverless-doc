@@ -156,6 +156,8 @@
   "In DTO": "In DTO",
   "Related Documentation": "Related Documentation",
   "Key Patterns": "Key Patterns",
+  "DynamoDB": "DynamoDB",
+  "Table structure where entities are stored": "Table structure where entities are stored",
   "PK/SK key design": "PK/SK key design",
   "Data Service": "Data Service",
   "Serialization Helpers": "Serialization Helpers",

@@ -867,6 +867,7 @@ status: OrderStatus;
 
 ## 関連ドキュメント
 
+- [DynamoDB](/docs/dynamodb) - エンティティが格納されるテーブル構造
 - [キーパターン](/docs/key-patterns) - PK/SKキー設計
 - [データサービス](/docs/data-service) - DataServiceでエンティティをクエリ
 - [シリアライズヘルパー](/docs/serialization) - DynamoDB構造と外部構造間の変換

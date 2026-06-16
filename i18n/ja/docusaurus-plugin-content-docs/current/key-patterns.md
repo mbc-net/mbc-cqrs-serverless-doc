@@ -712,6 +712,7 @@ await dataService.getItem({ pk, sk: cleanSk });
 
 ## 関連ドキュメント
 
+- [DynamoDB](/docs/dynamodb) - これらのキーに対応するテーブルアーキテクチャと属性スキーマ
 - [エンティティパターン](/docs/entity-patterns) - これらのキーパターンを使用するエンティティの定義
 - [データサービス](/docs/data-service) - 設計されたキーを使ったデータのクエリ
 - [マルチテナントパターン](/docs/multi-tenant-patterns) - テナント分離とクロステナント操作

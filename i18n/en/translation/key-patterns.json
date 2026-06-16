@@ -252,5 +252,7 @@
   "Could create millions of partitions": "Could create millions of partitions",
   "No tenant isolation": "No tenant isolation",
   "Tenant in SK is less efficient": "Tenant in SK is less efficient",
-  "What happens when status changes?": "What happens when status changes?"
+  "What happens when status changes?": "What happens when status changes?",
+  "DynamoDB": "DynamoDB",
+  "Table architecture and attribute schema for these keys": "Table architecture and attribute schema for these keys"
 }

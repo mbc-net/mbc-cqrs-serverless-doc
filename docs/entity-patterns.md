@@ -867,6 +867,7 @@ status: OrderStatus;
 
 ## {{Related Documentation}}
 
+- [{{DynamoDB}}](/docs/dynamodb) - {{Table structure where entities are stored}}
 - [{{Key Patterns}}](/docs/key-patterns) - {{PK/SK key design}}
 - [{{Data Service}}](/docs/data-service) - {{Query entities with DataService}}
 - [{{Serialization Helpers}}](/docs/serialization) - {{Convert between DynamoDB and external structures}}

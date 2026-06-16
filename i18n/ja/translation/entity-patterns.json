@@ -156,6 +156,8 @@
   "In DTO": "DTO 内",
   "Related Documentation": "関連ドキュメント",
   "Key Patterns": "キーパターン",
+  "DynamoDB": "DynamoDB",
+  "Table structure where entities are stored": "エンティティが格納されるテーブル構造",
   "PK/SK key design": "PK/SKキー設計",
   "Data Service": "データサービス",
   "Serialization Helpers": "シリアライズヘルパー",

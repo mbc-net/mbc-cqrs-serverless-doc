@@ -252,5 +252,7 @@
   "Could create millions of partitions": "数百万のパーティションが生成される可能性",
   "No tenant isolation": "テナント分離なし",
   "Tenant in SK is less efficient": "SKにテナントを入れると効率が悪い",
-  "What happens when status changes?": "ステータスが変わったらどうなる?"
+  "What happens when status changes?": "ステータスが変わったらどうなる?",
+  "DynamoDB": "DynamoDB",
+  "Table architecture and attribute schema for these keys": "これらのキーに対応するテーブルアーキテクチャと属性スキーマ"
 }
