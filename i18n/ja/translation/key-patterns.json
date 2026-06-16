@@ -216,6 +216,8 @@
   "Query data using designed keys": "設計されたキーを使ったデータのクエリ",
   "Multi-Tenant Patterns": "マルチテナントパターン",
   "Tenant isolation and cross-tenant operations": "テナント分離とクロステナント操作",
+  "Sequence": "シーケンス",
+  "SequencesModule for auto-incrementing sort keys": "自動インクリメントソートキー用SequencesModule",
   "Version Conflict Guide": "バージョン競合ガイド",
   "Concurrency control using version keys": "バージョンキーを使った並行制御",
   "Helpers": "ヘルパー",

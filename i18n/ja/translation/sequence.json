@@ -124,6 +124,8 @@
   "SequencesModule configuration options": "SequencesModuleの設定オプション",
   "Master": "マスター",
   "Master data settings for sequence format": "シーケンスフォーマット用のマスターデータ設定",
+  "Key Patterns": "キーパターン",
+  "PK/SK design using sequences as sort keys": "シーケンスをソートキーとして使用するPK/SK設計",
   "Build a Todo App": "Todoアプリを作る",
   "Practical example using sequences": "シーケンスを使った実践的な例",
   "Interfaces": "インターフェース",

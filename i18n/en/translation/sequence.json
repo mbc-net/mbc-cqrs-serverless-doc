@@ -124,6 +124,8 @@
   "SequencesModule configuration options": "SequencesModule configuration options",
   "Master": "Master",
   "Master data settings for sequence format": "Master data settings for sequence format",
+  "Key Patterns": "Key Patterns",
+  "PK/SK design using sequences as sort keys": "PK/SK design using sequences as sort keys",
   "Build a Todo App": "Build a Todo App",
   "Practical example using sequences": "Practical example using sequences",
   "Interfaces": "Interfaces",

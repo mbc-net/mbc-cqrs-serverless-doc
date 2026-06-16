@@ -355,5 +355,6 @@ This method was removed in [v1.1.0](/docs/changelog#v110). Use [`generateSequenc
 
 - [Configuring](/docs/configuring) - SequencesModule configuration options
 - [Master](/docs/master) - Master data settings for sequence format
+- [Key Patterns](/docs/key-patterns) - PK/SK design using sequences as sort keys
 - [Build a Todo App](/docs/build-todo-app) - Practical example using sequences
 - [Interfaces](/docs/interfaces) - SequencesModuleOptions interface

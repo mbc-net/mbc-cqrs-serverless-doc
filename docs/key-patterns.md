@@ -715,5 +715,6 @@ await dataService.getItem({ pk, sk: cleanSk });
 - [{{Entity Patterns}}](/docs/entity-patterns) - {{Define entities that use these key patterns}}
 - [{{Data Service}}](/docs/data-service) - {{Query data using designed keys}}
 - [{{Multi-Tenant Patterns}}](/docs/multi-tenant-patterns) - {{Tenant isolation and cross-tenant operations}}
+- [{{Sequence}}](/docs/sequence) - {{SequencesModule for auto-incrementing sort keys}}
 - [{{Version Conflict Guide}}](/docs/version-conflict-guide) - {{Concurrency control using version keys}}
 - [{{Helpers}}](/docs/helpers) - {{Key helper functions reference}}

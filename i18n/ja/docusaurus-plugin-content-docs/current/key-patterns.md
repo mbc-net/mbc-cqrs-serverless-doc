@@ -715,5 +715,6 @@ await dataService.getItem({ pk, sk: cleanSk });
 - [エンティティパターン](/docs/entity-patterns) - これらのキーパターンを使用するエンティティの定義
 - [データサービス](/docs/data-service) - 設計されたキーを使ったデータのクエリ
 - [マルチテナントパターン](/docs/multi-tenant-patterns) - テナント分離とクロステナント操作
+- [シーケンス](/docs/sequence) - 自動インクリメントソートキー用SequencesModule
 - [バージョン競合ガイド](/docs/version-conflict-guide) - バージョンキーを使った並行制御
 - [ヘルパー](/docs/helpers) - キーヘルパー関数リファレンス

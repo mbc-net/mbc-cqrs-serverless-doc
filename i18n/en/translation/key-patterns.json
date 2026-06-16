@@ -216,6 +216,8 @@
   "Query data using designed keys": "Query data using designed keys",
   "Multi-Tenant Patterns": "Multi-Tenant Patterns",
   "Tenant isolation and cross-tenant operations": "Tenant isolation and cross-tenant operations",
+  "Sequence": "Sequence",
+  "SequencesModule for auto-incrementing sort keys": "SequencesModule for auto-incrementing sort keys",
   "Version Conflict Guide": "Version Conflict Guide",
   "Concurrency control using version keys": "Concurrency control using version keys",
   "Helpers": "Helpers",

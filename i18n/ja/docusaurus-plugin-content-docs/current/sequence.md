@@ -355,5 +355,6 @@ const result = await this.sequencesService.generateSequenceItemWithProvideSettin
 
 - [設定](/docs/configuring) - SequencesModuleの設定オプション
 - [マスター](/docs/master) - シーケンスフォーマット用のマスターデータ設定
+- [キーパターン](/docs/key-patterns) - シーケンスをソートキーとして使用するPK/SK設計
 - [Todoアプリを作る](/docs/build-todo-app) - シーケンスを使った実践的な例
 - [インターフェース](/docs/interfaces) - SequencesModuleOptionsインターフェース
