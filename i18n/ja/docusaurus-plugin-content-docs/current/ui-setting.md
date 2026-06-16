@@ -359,6 +359,7 @@ export class AppConfigService {
 
 ## 関連ドキュメント
 
+- [モジュール](/docs/modules) - フレームワークモジュール概要
 - [マスター](/docs/master) - マスターデータ管理
 - [フロントエンドプロジェクト構成](/docs/frontend-project-structure) - UI統合
 - [インターフェース](/docs/interfaces) - UI設定インターフェース

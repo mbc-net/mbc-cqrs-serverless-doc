@@ -359,6 +359,7 @@ export class AppConfigService {
 
 ## Related Documentation
 
+- [Modules](/docs/modules) - Framework module overview
 - [Master](/docs/master) - Master data management
 - [Frontend Project Structure](/docs/frontend-project-structure) - UI integration
 - [Interfaces](/docs/interfaces) - UI setting interfaces
