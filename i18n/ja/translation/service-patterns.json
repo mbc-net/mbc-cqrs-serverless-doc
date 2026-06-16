@@ -124,5 +124,7 @@
   "Required for optimistic locking": "Required for optimistic locking (楽観的ロックに必要)",
   "This enables optimistic locking": "This enables optimistic locking (楽観的ロックを有効にする)",
   "Controllers": "コントローラー",
-  "Controller layer that delegates to services": "サービスに委譲するコントローラーレイヤー"
+  "Controller layer that delegates to services": "サービスに委譲するコントローラーレイヤー",
+  "Prisma": "Prisma",
+  "ORM setup for RDS data sync": "RDSデータ同期用ORMセットアップ"
 }

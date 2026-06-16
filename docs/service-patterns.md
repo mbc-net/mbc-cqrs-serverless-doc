@@ -771,5 +771,6 @@ const items = await this.prismaService.product.findMany({
 - [{{Command Service}}](/docs/command-service) - {{CommandService API reference}}
 - [{{Data Service}}](/docs/data-service) - {{DataService query methods}}
 - [{{Anti-Patterns}}](/docs/anti-patterns) - {{Patterns to avoid in service layer}}
+- [{{Prisma}}](/docs/prisma) - {{ORM setup for RDS data sync}}
 - [{{Database Selection Guide}}](/docs/database-selection-guide) - {{DynamoDB vs RDS}}
 - [{{Version Conflict Guide}}](/docs/version-conflict-guide) - {{Handling HTTP 409 optimistic locking conflicts}}

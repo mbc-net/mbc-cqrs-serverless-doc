@@ -124,5 +124,7 @@
   "Required for optimistic locking": "Required for optimistic locking",
   "This enables optimistic locking": "This enables optimistic locking",
   "Controllers": "Controllers",
-  "Controller layer that delegates to services": "Controller layer that delegates to services"
+  "Controller layer that delegates to services": "Controller layer that delegates to services",
+  "Prisma": "Prisma",
+  "ORM setup for RDS data sync": "ORM setup for RDS data sync"
 }
