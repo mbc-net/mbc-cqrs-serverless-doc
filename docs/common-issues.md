@@ -604,4 +604,5 @@ aws logs filter-log-events \
 
 - [{{Debugging Guide}}](/docs/debugging-guide) - {{Detailed debugging procedures}}
 - [{{Error Catalog}}](/docs/error-catalog) - {{Error codes and solutions}}
+- [{{Version Conflict Guide}}](/docs/version-conflict-guide) - {{Handling HTTP 409 version conflicts}}
 - [{{Monitoring and Logging}}](/docs/monitoring-logging) - {{Production monitoring setup}}

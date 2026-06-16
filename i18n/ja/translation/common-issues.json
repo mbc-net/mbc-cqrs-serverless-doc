@@ -183,6 +183,8 @@
   "Detailed debugging procedures": "詳細なデバッグ手順",
   "Error Catalog": "エラーカタログ",
   "Error codes and solutions": "エラーコードと解決策",
+  "Version Conflict Guide": "バージョン競合ガイド",
+  "Handling HTTP 409 version conflicts": "HTTP 409バージョン競合の対処法",
   "Monitoring and Logging": "監視とログ",
   "Production monitoring setup": "本番監視の設定"
 }

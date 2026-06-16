@@ -604,4 +604,5 @@ aws logs filter-log-events \
 
 - [デバッグガイド](/docs/debugging-guide) - 詳細なデバッグ手順
 - [エラーカタログ](/docs/error-catalog) - エラーコードと解決策
+- [バージョン競合ガイド](/docs/version-conflict-guide) - HTTP 409バージョン競合の対処法
 - [監視とログ](/docs/monitoring-logging) - 本番監視の設定

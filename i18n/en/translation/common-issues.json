@@ -183,6 +183,8 @@
   "Detailed debugging procedures": "Detailed debugging procedures",
   "Error Catalog": "Error Catalog",
   "Error codes and solutions": "Error codes and solutions",
+  "Version Conflict Guide": "Version Conflict Guide",
+  "Handling HTTP 409 version conflicts": "Handling HTTP 409 version conflicts",
   "Monitoring and Logging": "Monitoring and Logging",
   "Production monitoring setup": "Production monitoring setup"
 }
