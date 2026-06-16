@@ -575,6 +575,7 @@ async searchWithPagination(
 - [データサービス](/docs/data-service) - 読み取りモデルからのデータクエリ
 - [Data Sync Handlerの実装例](/docs/data-sync-handler-examples) - 包括的な同期ハンドラー例
 - [キーパターン](/docs/key-patterns) - PK/SK設計パターン
+- [アンチパターン](/docs/anti-patterns) - よくある間違いとその回避方法
 - [認証](/docs/authentication) - `@Auth` と `@Roles` によるロールベースアクセス制御
 - [マルチテナントパターン](/docs/multi-tenant-patterns) - マルチテナント実装
 - [インポート/エクスポートパターン](/docs/import-export-patterns) - バッチデータ処理

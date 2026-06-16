@@ -64,6 +64,8 @@
   "Comprehensive sync handler examples": "Comprehensive sync handler examples",
   "Key Patterns": "Key Patterns",
   "PK/SK design patterns": "PK/SK design patterns",
+  "Anti-Patterns": "Anti-Patterns",
+  "Common mistakes and how to avoid them": "Common mistakes and how to avoid them",
   "Authentication": "Authentication",
   "Role-based access control with `@Auth` and `@Roles`": "Role-based access control with `@Auth` and `@Roles`",
   "Multi-Tenant Patterns": "Multi-Tenant Patterns",

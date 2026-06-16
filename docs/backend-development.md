@@ -575,6 +575,7 @@ async searchWithPagination(
 - [{{Data Service}}](/docs/data-service) - {{Querying data from the read model}}
 - [{{Data Sync Handler Examples}}](/docs/data-sync-handler-examples) - {{Comprehensive sync handler examples}}
 - [{{Key Patterns}}](/docs/key-patterns) - {{PK/SK design patterns}}
+- [{{Anti-Patterns}}](/docs/anti-patterns) - {{Common mistakes and how to avoid them}}
 - [{{Authentication}}](/docs/authentication) - {{Role-based access control with `@Auth` and `@Roles`}}
 - [{{Multi-Tenant Patterns}}](/docs/multi-tenant-patterns) - {{Multi-tenant implementation}}
 - [{{Import/Export Patterns}}](/docs/import-export-patterns) - {{Batch data processing}}

@@ -64,6 +64,8 @@
   "Comprehensive sync handler examples": "包括的な同期ハンドラー例",
   "Key Patterns": "キーパターン",
   "PK/SK design patterns": "PK/SK設計パターン",
+  "Anti-Patterns": "アンチパターン",
+  "Common mistakes and how to avoid them": "よくある間違いとその回避方法",
   "Authentication": "認証",
   "Role-based access control with `@Auth` and `@Roles`": "`@Auth` と `@Roles` によるロールベースアクセス制御",
   "Multi-Tenant Patterns": "マルチテナントパターン",
