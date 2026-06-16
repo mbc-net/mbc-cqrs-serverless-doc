@@ -1685,4 +1685,5 @@ export class ZipImportSfnEvent implements IEvent {
 - [インポートモジュール](/docs/import) - ImportModule APIリファレンスとストラテジーインターフェース
 - [データ移行パターン](/docs/data-migration-patterns) - スキーマバージョン間のデータ移行
 - [Step Functions](/docs/architecture/step-functions) - ワークフローオーケストレーション
+- [ディレクトリ](/docs/directory) - 署名付きURLによるS3ファイル・フォルダ管理
 - [データ同期ハンドラー例](/docs/data-sync-handler-examples) - 同期ハンドラーパターン

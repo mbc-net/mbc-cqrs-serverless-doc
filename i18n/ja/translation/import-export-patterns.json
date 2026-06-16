@@ -326,6 +326,8 @@
   "Migrating data between schema versions": "スキーマバージョン間のデータ移行",
   "Step Functions": "Step Functions",
   "Workflow orchestration": "ワークフローオーケストレーション",
+  "Directory": "ディレクトリ",
+  "S3 file and folder management with presigned URLs": "署名付きURLによるS3ファイル・フォルダ管理",
   "Data Sync Handler Examples": "データ同期ハンドラー例",
   "Sync handler patterns": "同期ハンドラーパターン",
   "Passed from import context": "インポートコンテキストから渡される"

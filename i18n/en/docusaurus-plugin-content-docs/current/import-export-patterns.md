@@ -1685,4 +1685,5 @@ The `context.Execution.Input` contains:
 - [Import Module](/docs/import) - ImportModule API reference and strategy interfaces
 - [Data Migration Patterns](/docs/data-migration-patterns) - Migrating data between schema versions
 - [Step Functions](/docs/architecture/step-functions) - Workflow orchestration
+- [Directory](/docs/directory) - S3 file and folder management with presigned URLs
 - [Data Sync Handler Examples](/docs/data-sync-handler-examples) - Sync handler patterns
