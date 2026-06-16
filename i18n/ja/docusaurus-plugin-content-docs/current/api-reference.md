@@ -60,7 +60,7 @@ graph TB
 | モジュール | パッケージ | 説明 |
 |------------|-------------|-----------------|
 | Queueモジュール | `@mbc-cqrs-serverless/core` | SNSとSQSメッセージング（グローバル登録済み） |
-| Notificationモジュール | `@mbc-cqrs-serverless/core` | AppSync Events APIによるリアルタイムWebSocket通知 |
+| Notificationモジュール | `@mbc-cqrs-serverless/core` | AppSyncによるリアルタイム通知（デフォルトはGraphQLサブスクリプション。Events APIはv1.3.0以降でオプトイン） |
 | Emailサービス | `@mbc-cqrs-serverless/core` | Amazon SESによるトランザクションメール送信 |
 | Settingモジュール | `@mbc-cqrs-serverless/ui-setting` | ユーザーインターフェース設定のストレージ |
 

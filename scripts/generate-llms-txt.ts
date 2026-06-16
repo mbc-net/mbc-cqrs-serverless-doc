@@ -81,13 +81,19 @@ const CATEGORIES: Record<string, string[]> = {
 };
 
 function extractTitle(content: string): string {
-  // Try to extract title from frontmatter or first heading
-  const frontmatterMatch = content.match(/^---[\s\S]*?title:\s*["']?(.+?)["']?\s*[\n\r]/m);
-  if (frontmatterMatch) {
-    return frontmatterMatch[1].trim();
+  // Extract title from frontmatter block only (not from document body)
+  const frontmatterBlock = content.match(/^---([\s\S]*?)---/);
+  if (frontmatterBlock) {
+    const frontmatterBody = frontmatterBlock[1];
+    const titleMatch = frontmatterBody.match(/^title:\s*["']?(.+?)["']?\s*$/m);
+    if (titleMatch) {
+      return titleMatch[1].trim();
+    }
   }
 
-  const headingMatch = content.match(/^#\s+(.+)$/m);
+  // Strip frontmatter before searching for heading to avoid matching # inside code blocks
+  const body = content.replace(/^---[\s\S]*?---\s*/, "");
+  const headingMatch = body.match(/^#\s+(.+)$/m);
   if (headingMatch) {
     return headingMatch[1].trim();
   }
