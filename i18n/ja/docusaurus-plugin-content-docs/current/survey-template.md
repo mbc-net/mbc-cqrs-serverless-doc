@@ -299,3 +299,4 @@ export class SurveyTemplateDataSyncHandler implements IDataSyncHandler {
 - [アンケートWeb](/docs/survey-web) - フロントエンドのアンケートコンポーネント
 - [バックエンド開発](/docs/backend-development) - コアバックエンドパターン
 - [サービスパターン](/docs/service-patterns) - サービス実装
+- [マルチテナントパターン](/docs/multi-tenant-patterns) - アンケートテンプレートのテナント分離

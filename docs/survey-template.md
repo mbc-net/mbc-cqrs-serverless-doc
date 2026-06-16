@@ -299,3 +299,4 @@ export class SurveyTemplateDataSyncHandler implements IDataSyncHandler {
 - [{{Survey Web}}](/docs/survey-web) - {{Frontend survey components}}
 - [{{Backend Development}}](/docs/backend-development) - {{Core backend patterns}}
 - [{{Service Patterns}}](/docs/service-patterns) - {{Service implementation}}
+- [{{Multi-Tenant Patterns}}](/docs/multi-tenant-patterns) - {{Tenant isolation in survey templates}}

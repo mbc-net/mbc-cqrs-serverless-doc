@@ -68,6 +68,8 @@
   "Core backend patterns": "Core backend patterns",
   "Service Patterns": "Service Patterns",
   "Service implementation": "Service implementation",
+  "Multi-Tenant Patterns": "Multi-Tenant Patterns",
+  "Tenant isolation in survey templates": "Tenant isolation in survey templates",
   "text question options": "text question options",
   "multiple_choice options": "multiple_choice options",
   "rating options": "rating options",
