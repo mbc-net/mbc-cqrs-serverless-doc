@@ -96,6 +96,8 @@
   "Step Functions integration for imports": "Step Functions integration for imports",
   "Architecture: Step Functions": "Architecture: Step Functions",
   "Workflow orchestration": "Workflow orchestration",
+  "Queue Module": "Queue Module",
+  "SNS notifications used by task status updates": "SNS notifications used by task status updates",
   "Interfaces": "Interfaces",
   "StepFunctionsEvent interface": "StepFunctionsEvent interface"
 }

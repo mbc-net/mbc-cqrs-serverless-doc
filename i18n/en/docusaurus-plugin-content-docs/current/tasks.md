@@ -561,4 +561,5 @@ Note: Both methods are optional. Implement `transformTask` for single task proce
 
 - [Import/Export Patterns](/docs/import-export-patterns) - Step Functions integration for imports
 - [Architecture: Step Functions](/docs/architecture/step-functions) - Workflow orchestration
+- [Queue Module](/docs/queue) - SNS notifications used by task status updates
 - [Interfaces](/docs/interfaces) - StepFunctionsEvent interface

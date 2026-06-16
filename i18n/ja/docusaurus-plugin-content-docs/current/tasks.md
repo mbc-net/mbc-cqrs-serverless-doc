@@ -561,4 +561,5 @@ interface ITaskQueueEventFactory<TEvent extends IEvent = any> {
 
 - [インポート/エクスポートパターン](/docs/import-export-patterns) - インポートのStep Functions統合
 - [アーキテクチャ: Step Functions](/docs/architecture/step-functions) - ワークフローオーケストレーション
+- [Queueモジュール](/docs/queue) - タスクステータス更新で使用されるSNS通知
 - [インターフェース](/docs/interfaces) - StepFunctionsEventインターフェース
