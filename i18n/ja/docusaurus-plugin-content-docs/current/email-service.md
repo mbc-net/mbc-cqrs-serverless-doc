@@ -141,6 +141,33 @@ await this.emailService.sendEmail({
 | `content` | `Buffer` | はい | Bufferとしてのファイル内容 |
 | `contentType` | `string` | いいえ | MIMEタイプ（例：'application/pdf'） |
 
+### *async* `sendInlineTemplateEmail(msg: TemplatedEmailNotification): Promise<any>` {#send-inline-template-email}
+
+:::info バージョン情報
+`sendInlineTemplateEmail()`は[バージョン1.0.23](/docs/changelog#v1023)で追加されました。
+:::
+
+件名と本文に`{{variableName}}`プレースホルダーを使ったテンプレートメールを送信します。SES登録テンプレートとは異なり、テンプレートをリクエストにインラインで指定するため、事前登録は不要です。
+
+```ts
+import { EmailService, TemplatedEmailNotification } from '@mbc-cqrs-serverless/core';
+
+await this.emailService.sendInlineTemplateEmail({
+  toAddrs: ['user@example.com'],
+  template: {
+    subject: '{{orderType}} Confirmation — Order {{orderId}}',
+    html: '<h1>Hello {{name}}!</h1><p>Your order #{{orderId}} is confirmed.</p>',
+    text: 'Hello {{name}}, your order #{{orderId}} is confirmed.',
+  },
+  data: {
+    name: 'Jane Doe',
+    orderId: '12345',
+    orderType: 'Purchase',
+  },
+});
+```
+
+完全なインターフェース定義と高度なテンプレート機能（空白のトリミング、ネストデータ）については、[通知モジュール — インラインテンプレートメール](/docs/notification-module#inline-template-emails)を参照してください。
 
 ## テスト {#testing}
 

@@ -141,6 +141,33 @@ await this.emailService.sendEmail({
 | `content` | `Buffer` | {{Yes}} | {{File content as Buffer}} |
 | `contentType` | `string` | {{No}} | {{MIME type (e.g., 'application/pdf')}} |
 
+### {{*async* `sendInlineTemplateEmail(msg: TemplatedEmailNotification): Promise<any>`}} {#send-inline-template-email}
+
+:::info {{Version Note}}
+{{`sendInlineTemplateEmail()` was added in [version 1.0.23](/docs/changelog#v1023).}}
+:::
+
+{{Sends a templated email using `{{variableName}}` placeholders in the subject and body. Unlike SES registered templates, the template is inlined in the request — no pre-registration required.}}
+
+```ts
+import { EmailService, TemplatedEmailNotification } from '@mbc-cqrs-serverless/core';
+
+await this.emailService.sendInlineTemplateEmail({
+  toAddrs: ['user@example.com'],
+  template: {
+    subject: '{{orderType}} Confirmation — Order {{orderId}}',
+    html: '<h1>Hello {{name}}!</h1><p>Your order #{{orderId}} is confirmed.</p>',
+    text: 'Hello {{name}}, your order #{{orderId}} is confirmed.',
+  },
+  data: {
+    name: 'Jane Doe',
+    orderId: '12345',
+    orderType: 'Purchase',
+  },
+});
+```
+
+{{For the full interface definition and advanced template features (whitespace trimming, nested data), see [Notification Module — Inline Template Emails](/docs/notification-module#inline-template-emails).}}
 
 ## {{Testing}} {#testing}
 
