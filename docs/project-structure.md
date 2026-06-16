@@ -4,7 +4,7 @@ description: {{Overview of the MBC CQRS Serverless project file and folder struc
 
 # {{Project structure}}
 
-## {{MBC CQRS serverless Project Structure}} {#project-structure}
+## {{MBC CQRS Serverless Project Structure}} {#project-structure}
 
 {{This page provides an overview of the project structure of an mbc-cqrs-serverless application. It covers top-level files and folders, configuration files.}}
 

@@ -4,14 +4,14 @@ description: {{Learn how to add and validate your environment variables in your 
 
 # {{Environment Variables}}
 
-{{MBC CQRS serverless framework comes with built-in support for environment variables, which allows you to do the following:}}
+{{MBC CQRS Serverless framework comes with built-in support for environment variables, which allows you to do the following:}}
 
 - {{Use `.env` to load environment variables}}
 - {{Validate environment variables}}
 
 ## {{Loading Environment Variables}} {#loading-env-vars}
 
-{{MBC CQRS serverless framework has built-in support for loading environment variables from `.env*` files into `process.env.`}}
+{{MBC CQRS Serverless framework has built-in support for loading environment variables from `.env*` files into `process.env.`}}
 
 :::info {{Core vs Application Variables}}
 {{The environment variables listed below are categorized into two types:}}

@@ -4,9 +4,9 @@ description: Introduction to MBC CQRS Serverless framework - a production-ready 
 
 # Introduction
 
-Welcome to the MBC CQRS serverless framework documentation!
+Welcome to the MBC CQRS Serverless framework documentation!
 
-## What is MBC CQRS serverless framework? {#what-is-mbc-cqrs}
+## What is MBC CQRS Serverless framework? {#what-is-mbc-cqrs}
 
 This framework provides core functionalities for implementing the Command Query Responsibility Segregation (CQRS) pattern within AWS serverless architectures, powered by the incredible NestJS framework. It simplifies the development of highly scalable and decoupled systems that can handle complex business logic and high-volume data processing.
 

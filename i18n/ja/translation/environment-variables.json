@@ -1,11 +1,11 @@
 {
   "Learn how to add and validate your environment variables in your application.": "アプリケーションに環境変数を追加して検証する方法を学びます。",
   "Environment Variables": "環境変数",
-  "MBC CQRS serverless framework comes with built-in support for environment variables, which allows you to do the following:": "MBC CQRS サーバーレスフレームワークには、環境変数のサポートが組み込まれており、次のことが可能になります。",
+  "MBC CQRS Serverless framework comes with built-in support for environment variables, which allows you to do the following:": "MBC CQRS サーバーレスフレームワークには、環境変数のサポートが組み込まれており、次のことが可能になります。",
   "Use `.env` to load environment variables": "`.env` を使用して環境変数をロードします",
   "Validate environment variables": "環境変数を検証する",
   "Loading Environment Variables": "環境変数のロード",
-  "MBC CQRS serverless framework has built-in support for loading environment variables from `.env*` files into `process.env.`": "MBC CQRS サーバーレスフレームワークには、環境変数を `.env*` ファイルから `process.env` にロードするためのサポートが組み込まれています。",
+  "MBC CQRS Serverless framework has built-in support for loading environment variables from `.env*` files into `process.env.`": "MBC CQRS サーバーレスフレームワークには、環境変数を `.env*` ファイルから `process.env` にロードするためのサポートが組み込まれています。",
   "Core vs Application Variables": "コア変数とアプリケーション変数",
   "The environment variables listed below are categorized into two types:": "以下に記載する環境変数は2つのタイプに分類されます：",
   "Core Variables": "コア変数",

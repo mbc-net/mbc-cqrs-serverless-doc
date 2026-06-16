@@ -5,7 +5,7 @@ description: {{Configuration guide for MBC CQRS Serverless framework including T
 
 # {{Configuring}}
 
-{{MBC CQRS serverless framework allows you to customize your project to meet specific requirements. This guide covers all configuration options available in the framework.}}
+{{MBC CQRS Serverless framework allows you to customize your project to meet specific requirements. This guide covers all configuration options available in the framework.}}
 
 ## {{Project Configuration}} {#project-configuration}
 

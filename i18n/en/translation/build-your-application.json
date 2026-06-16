@@ -1,7 +1,7 @@
 {
   "Build scalable serverless applications with MBC CQRS Serverless framework using NestJS, DynamoDB, and AWS services.": "Build scalable serverless applications with MBC CQRS Serverless framework using NestJS, DynamoDB, and AWS services.",
   "Building your application": "Building your application",
-  "MBC CQRS serverless provides the core functionalities to create backend applications. These guides explain how to use these features and how to customize your application's behavior.": "MBC CQRS serverless provides the core functionalities to create backend applications. These guides explain how to use these features and how to customize your application's behavior.",
+  "MBC CQRS Serverless provides the core functionalities to create backend applications. These guides explain how to use these features and how to customize your application's behavior.": "MBC CQRS Serverless provides the core functionalities to create backend applications. These guides explain how to use these features and how to customize your application's behavior.",
   "Related Documentation": "Related Documentation",
   "Getting Started": "Getting Started",
   "Initial setup": "Initial setup",

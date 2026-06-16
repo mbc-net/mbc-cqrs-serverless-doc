@@ -4,7 +4,7 @@ description: {{Configure module path aliases that allow you to remap certain imp
 
 # {{Absolute Imports and Module Path Aliases}}
 
-{{MBC CQRS serverless framework has in-built support for the `"paths"` and `"baseUrl"` options of `tsconfig.json` file.}}
+{{MBC CQRS Serverless framework has in-built support for the `"paths"` and `"baseUrl"` options of `tsconfig.json` file.}}
 
 {{These options allow you to alias project directories to absolute paths, making it easier to import modules. For example:}}
 
