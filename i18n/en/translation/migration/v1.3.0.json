@@ -52,5 +52,10 @@
   "If you encounter issues during migration:": "If you encounter issues during migration:",
   "Documentation": "Documentation",
   "Related Documentation": "Related Documentation",
-  "Changelog": "Changelog"
+  "Changelog v1.3.0": "Changelog v1.3.0",
+  "v1.3.0 release notes": "v1.3.0 release notes",
+  "Email Service": "Email Service",
+  "nodemailer configuration and TLS security": "nodemailer configuration and TLS security",
+  "Notification Module": "Notification Module",
+  "AppSync Events setup and configuration": "AppSync Events setup and configuration"
 }
