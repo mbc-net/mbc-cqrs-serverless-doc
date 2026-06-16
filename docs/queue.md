@@ -121,9 +121,39 @@ await this.sqsService.deleteMessageBatch(queueUrl, [
 ```
 
 
+## {{Type Definitions}} {#type-definitions}
+
+### {{SnsEvent}}
+
+{{All SNS messages must include an `action` field. Extend `SnsEvent` to add domain-specific payload fields:}}
+
+```ts
+export interface SnsEvent {
+  action: string  // {{Message action identifier (e.g. 'order-created', 'user-updated')}}
+}
+```
+
+{{Example: defining a custom event type:}}
+
+```ts
+import { SnsEvent } from '@mbc-cqrs-serverless/core'
+
+interface OrderCreatedEvent extends SnsEvent {
+  action: 'order-created'
+  orderId: string
+  tenantCode: string
+}
+
+await this.snsService.publish<OrderCreatedEvent>({
+  action: 'order-created',
+  orderId: 'ORD-001',
+  tenantCode: 'tenant001',
+})
+```
+
 ## {{Related Documentation}}
 
 - [{{Notification Module}}](/docs/notification-module) - {{Real-time notifications with AppSync}}
 - [{{Event Handling Patterns}}](/docs/event-handling-patterns) - {{Event-driven architecture}}
-- [{{Interfaces}}](/docs/interfaces) - {{SQS message interfaces}}
+- [{{Interfaces}}](/docs/interfaces) - {{TypeScript interfaces reference}}
 - [{{Environment Variables}}](/docs/environment-variables) - {{SQS and SNS configuration}}

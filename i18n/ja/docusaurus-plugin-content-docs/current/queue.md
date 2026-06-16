@@ -121,9 +121,39 @@ await this.sqsService.deleteMessageBatch(queueUrl, [
 ```
 
 
+## 型定義 {#type-definitions}
+
+### SnsEvent
+
+すべてのSNSメッセージには`action`フィールドが必要です。ドメイン固有のペイロードフィールドを追加するには`SnsEvent`を拡張してください：
+
+```ts
+export interface SnsEvent {
+  action: string  // Message action identifier (e.g. 'order-created', 'user-updated') (メッセージアクション識別子、例: 'order-created', 'user-updated')
+}
+```
+
+カスタムイベント型の定義例：
+
+```ts
+import { SnsEvent } from '@mbc-cqrs-serverless/core'
+
+interface OrderCreatedEvent extends SnsEvent {
+  action: 'order-created'
+  orderId: string
+  tenantCode: string
+}
+
+await this.snsService.publish<OrderCreatedEvent>({
+  action: 'order-created',
+  orderId: 'ORD-001',
+  tenantCode: 'tenant001',
+})
+```
+
 ## 関連ドキュメント
 
 - [通知モジュール](/docs/notification-module) - AppSyncを使ったリアルタイム通知
 - [イベント処理パターン](/docs/event-handling-patterns) - イベント駆動アーキテクチャ
-- [インターフェース](/docs/interfaces) - SQSメッセージインターフェース
+- [インターフェース](/docs/interfaces) - TypeScriptインターフェースリファレンス
 - [環境変数](/docs/environment-variables) - SQSとSNSの設定
