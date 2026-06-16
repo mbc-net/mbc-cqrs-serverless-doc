@@ -839,6 +839,7 @@ export class OrderService {
 ## 関連ドキュメント
 
 - [データサービス](/docs/data-service) - DynamoDBを使ったデータクエリ
+- [ユニットテスト](/docs/unit-test) - モックを使用したCommandServiceのユニットテスト
 - [サービスパターン](/docs/service-patterns) - 完全なCRUDサービス実装パターン
 - [イベント処理パターン](/docs/event-handling-patterns) - データ同期ハンドラーの作成
 - [バージョン競合ガイド](/docs/version-conflict-guide) - 楽観的ロック競合の処理

@@ -839,6 +839,7 @@ export class OrderService {
 ## Related Documentation
 
 - [Data Service](/docs/data-service) - Querying data with DynamoDB
+- [Unit Testing](/docs/unit-test) - Unit testing CommandService with mocks
 - [Service Patterns](/docs/service-patterns) - Complete CRUD service implementation patterns
 - [Event Handling Patterns](/docs/event-handling-patterns) - Creating data sync handlers
 - [Version Conflict Guide](/docs/version-conflict-guide) - Handling optimistic locking conflicts

@@ -358,6 +358,7 @@ The history table uses the same key structure as the data table, but the sort ke
 ## Related Documentation
 
 - [Command Service](/docs/command-service) - Writing commands with CommandService
+- [Unit Testing](/docs/unit-test) - Unit testing DataService with mocks
 - [Service Patterns](/docs/service-patterns) - Complete service layer patterns
 - [Key Patterns](/docs/key-patterns) - DynamoDB key design for efficient queries
 - [Entity Patterns](/docs/entity-patterns) - Entity definition with DataEntity

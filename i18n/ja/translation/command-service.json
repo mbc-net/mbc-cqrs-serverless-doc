@@ -210,6 +210,8 @@
   "**Session table cost**: Each `publishAsync` call writes one DynamoDB item per updated entity. With `RYW_SESSION_TTL_MINUTES=5` the items are small and short-lived. Cost is negligible for typical workloads.": "**セッションテーブルのコスト**: `publishAsync`の呼び出しごとに更新エンティティ1件につきDynamoDBアイテムを1件書き込みます。`RYW_SESSION_TTL_MINUTES=5`の場合、アイテムは小さく短命です。一般的なワークロードではコストは無視できます。",
   "Related Documentation": "関連ドキュメント",
   "Data Service": "データサービス",
+  "Unit Testing": "ユニットテスト",
+  "Unit testing CommandService with mocks": "モックを使用したCommandServiceのユニットテスト",
   "Querying data with DynamoDB": "DynamoDBを使ったデータクエリ",
   "Service Patterns": "サービスパターン",
   "Complete CRUD service implementation patterns": "完全なCRUDサービス実装パターン",

@@ -372,4 +372,6 @@ describe('OrderDataSyncHandler', () => {
 
 - [{{E2E Testing}}](/docs/e2e-test) - {{End-to-end testing guide}}
 - [{{Testing}}](/docs/testing) - {{Testing overview}}
+- [{{Command Service}}](/docs/command-service) - {{CommandService API (the subject of most unit tests)}}
+- [{{Data Service}}](/docs/data-service) - {{DataService API (query operations to mock in tests)}}
 - [{{Debugging Guide}}](/docs/debugging-guide) - {{Debug test failures}}

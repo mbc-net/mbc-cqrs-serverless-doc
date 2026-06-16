@@ -372,4 +372,6 @@ If your handler does not use Prisma (e.g., writes directly to DynamoDB), inject 
 
 - [E2Eテスト](/docs/e2e-test) - エンドツーエンドテストガイド
 - [テスト](/docs/testing) - テストの概要
+- [コマンドサービス](/docs/command-service) - CommandService API（ほとんどのユニットテストの対象）
+- [データサービス](/docs/data-service) - DataService API（テストでモック化するクエリ操作）
 - [デバッグガイド](/docs/debugging-guide) - テスト失敗のデバッグ

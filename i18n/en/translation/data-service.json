@@ -85,6 +85,8 @@
   "Related Documentation": "Related Documentation",
   "Command Service": "Command Service",
   "Writing commands with CommandService": "Writing commands with CommandService",
+  "Unit Testing": "Unit Testing",
+  "Unit testing DataService with mocks": "Unit testing DataService with mocks",
   "Service Patterns": "Service Patterns",
   "Complete service layer patterns": "Complete service layer patterns",
   "Key Patterns": "Key Patterns",

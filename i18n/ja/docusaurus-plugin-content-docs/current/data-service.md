@@ -358,6 +358,7 @@ export class ProductService {
 ## 関連ドキュメント
 
 - [コマンドサービス](/docs/command-service) - CommandServiceを使ったコマンド操作
+- [ユニットテスト](/docs/unit-test) - モックを使用したDataServiceのユニットテスト
 - [サービスパターン](/docs/service-patterns) - 完全なサービス層パターン
 - [キーパターン](/docs/key-patterns) - 効率的なクエリのためのDynamoDBキー設計
 - [エンティティパターン](/docs/entity-patterns) - DataEntityを使ったエンティティ定義

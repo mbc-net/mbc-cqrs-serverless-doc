@@ -84,6 +84,8 @@
   "Always check if the item exists before using it": "使用する前に常にアイテムが存在するか確認",
   "Related Documentation": "関連ドキュメント",
   "Command Service": "コマンドサービス",
+  "Unit Testing": "ユニットテスト",
+  "Unit testing DataService with mocks": "モックを使用したDataServiceのユニットテスト",
   "Writing commands with CommandService": "CommandServiceを使ったコマンド操作",
   "Service Patterns": "サービスパターン",
   "Complete service layer patterns": "完全なサービス層パターン",

@@ -211,6 +211,8 @@
   "Related Documentation": "Related Documentation",
   "Data Service": "Data Service",
   "Querying data with DynamoDB": "Querying data with DynamoDB",
+  "Unit Testing": "Unit Testing",
+  "Unit testing CommandService with mocks": "Unit testing CommandService with mocks",
   "Service Patterns": "Service Patterns",
   "Complete CRUD service implementation patterns": "Complete CRUD service implementation patterns",
   "Event Handling Patterns": "Event Handling Patterns",
