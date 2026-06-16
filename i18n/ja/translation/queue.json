@@ -36,5 +36,7 @@
   "Event Handling Patterns": "イベント処理パターン",
   "Event-driven architecture": "イベント駆動アーキテクチャ",
   "Interfaces": "インターフェース",
-  "SQS message interfaces": "SQSメッセージインターフェース"
+  "SQS message interfaces": "SQSメッセージインターフェース",
+  "Environment Variables": "環境変数",
+  "SQS and SNS configuration": "SQSとSNSの設定"
 }
