@@ -81,7 +81,7 @@
   "Check no uppercase data remains": "Check no uppercase data remains",
   "Cross-Tenant Data Migration": "Cross-Tenant Data Migration",
   "Pattern 1: Copy Data Between Tenants": "Pattern 1: Copy Data Between Tenants",
-  "Copy data from one tenant to another using the CommandService. This preserves the event sourcing history in the target tenant.": "Copy data from one tenant to another using the CommandService. This preserves the event sourcing history in the target tenant.",
+  "Copy data from one tenant to another using the CommandService. This preserves the Event Sourcing history in the target tenant.": "Copy data from one tenant to another using the CommandService. This preserves the Event Sourcing history in the target tenant.",
   "Copy all entities of a type from source to target tenant": "Copy all entities of a type from source to target tenant",
   "Create new keys for target tenant": "Create new keys for target tenant",
   "Track migration source": "Track migration source",

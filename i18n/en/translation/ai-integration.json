@@ -37,7 +37,7 @@
   "Documentation First": "Documentation First",
   "Before tackling complex tasks, let AI read the framework documentation:": "Before tackling complex tasks, let AI read the framework documentation:",
   "Use MCP resources to fetch architecture documentation": "Use MCP resources to fetch architecture documentation",
-  "Review CQRS patterns and event sourcing concepts": "Review CQRS patterns and event sourcing concepts",
+  "Review CQRS patterns and Event Sourcing concepts": "Review CQRS patterns and Event Sourcing concepts",
   "Examine existing modules as reference patterns": "Examine existing modules as reference patterns",
   "Code Generation": "Code Generation",
   "When asking AI to generate modules, be specific:": "When asking AI to generate modules, be specific:",

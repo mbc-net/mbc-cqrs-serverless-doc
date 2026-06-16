@@ -81,7 +81,7 @@
   "Check no uppercase data remains": "Check no uppercase data remains (大文字データが残っていないか確認)",
   "Cross-Tenant Data Migration": "テナント間データ移行",
   "Pattern 1: Copy Data Between Tenants": "パターン1：テナント間でデータをコピー",
-  "Copy data from one tenant to another using the CommandService. This preserves the event sourcing history in the target tenant.": "CommandServiceを使用してあるテナントから別のテナントにデータをコピーします。これにより、ターゲットテナントでイベントソーシング履歴が保持されます。",
+  "Copy data from one tenant to another using the CommandService. This preserves the Event Sourcing history in the target tenant.": "CommandServiceを使用してあるテナントから別のテナントにデータをコピーします。これにより、ターゲットテナントでイベントソーシング履歴が保持されます。",
   "Copy all entities of a type from source to target tenant": "Copy all entities of a type from source to target tenant (ソースからターゲットテナントにすべてのエンティティをコピー)",
   "Create new keys for target tenant": "Create new keys for target tenant (ターゲットテナント用の新しいキーを作成)",
   "Track migration source": "Track migration source (移行ソースを追跡)",

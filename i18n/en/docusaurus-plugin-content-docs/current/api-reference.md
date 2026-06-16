@@ -41,7 +41,7 @@ graph TB
 
 | Module | Package | Description |
 |------------|-------------|-----------------|
-| Command Module | `@mbc-cqrs-serverless/core` | CQRS command handling, data synchronization, event sourcing |
+| Command Module | `@mbc-cqrs-serverless/core` | CQRS command handling, data synchronization, Event Sourcing |
 | Sequence Module | `@mbc-cqrs-serverless/sequence` | Thread-safe sequential ID generation |
 | Tenant Module | `@mbc-cqrs-serverless/tenant` | Multi-tenant data isolation and management |
 

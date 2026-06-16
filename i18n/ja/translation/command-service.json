@@ -38,7 +38,7 @@
   "Version Note (v1.1.4+)": "バージョンノート (v1.1.4+)",
   "Since [v1.1.4](/docs/changelog#v114), `publishSync` writes a full audit trail matching the async pipeline:": "[v1.1.4](/docs/changelog#v114)以降、`publishSync`は非同期パイプラインと同等の完全な監査証跡を書き込みます：",
   "An immutable event is written to the Command table with `syncMode: 'SYNC'` marker": "`syncMode: 'SYNC'`マーカー付きの不変イベントがCommandテーブルに書き込まれます",
-  "The History table is populated, providing complete event sourcing parity": "Historyテーブルにデータが書き込まれ、完全なイベントソーシングの一致が実現されます",
+  "The History table is populated, providing complete Event Sourcing parity": "Historyテーブルにデータが書き込まれ、完全なイベントソーシングの一致が実現されます",
   "Command lifecycle: `publish_sync:STARTED` → `finish:FINISHED` (or `publish_sync:FAILED` on error)": "コマンドライフサイクル: `publish_sync:STARTED` → `finish:FINISHED`（エラー時は`publish_sync:FAILED`）",
   "Returns `null` when the command is not dirty (no-op), matching `publishAsync` behavior": "コマンドに変更がない場合は`null`を返します（`publishAsync`の動作と同一）",
   "DynamoDB Stream filter excludes `syncMode=SYNC` records to prevent Step Functions double-execution": "DynamoDB Streamフィルターが`syncMode=SYNC`レコードを除外し、Step Functionsの二重実行を防止",

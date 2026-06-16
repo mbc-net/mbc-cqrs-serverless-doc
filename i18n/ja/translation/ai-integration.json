@@ -37,7 +37,7 @@
   "Documentation First": "ドキュメント優先",
   "Before tackling complex tasks, let AI read the framework documentation:": "複雑なタスクに取り組む前に、AIにフレームワークのドキュメントを読ませましょう：",
   "Use MCP resources to fetch architecture documentation": "MCPリソースを使用してアーキテクチャドキュメントを取得",
-  "Review CQRS patterns and event sourcing concepts": "CQRSパターンとイベントソーシングの概念を確認",
+  "Review CQRS patterns and Event Sourcing concepts": "CQRSパターンとイベントソーシングの概念を確認",
   "Examine existing modules as reference patterns": "既存のモジュールを参照パターンとして確認",
   "Code Generation": "コード生成",
   "When asking AI to generate modules, be specific:": "AIにモジュールを生成させる際は、具体的に記述してください：",

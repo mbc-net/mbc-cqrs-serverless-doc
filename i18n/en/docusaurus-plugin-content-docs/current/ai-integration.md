@@ -91,7 +91,7 @@ Learn more: [MCP Server Documentation](/docs/mcp-server)
 Before tackling complex tasks, let AI read the framework documentation:
 
 1. Use MCP resources to fetch architecture documentation
-2. Review CQRS patterns and event sourcing concepts
+2. Review CQRS patterns and Event Sourcing concepts
 3. Examine existing modules as reference patterns
 
 ### Code Generation

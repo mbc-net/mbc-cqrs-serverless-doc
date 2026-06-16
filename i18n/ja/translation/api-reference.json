@@ -19,7 +19,7 @@
   "Package": "パッケージ",
   "Description": "説明",
   "Command Module": "Commandモジュール",
-  "CQRS command handling, data synchronization, event sourcing": "CQRSコマンド処理、データ同期、イベントソーシング",
+  "CQRS command handling, data synchronization, Event Sourcing": "CQRSコマンド処理、データ同期、イベントソーシング",
   "Sequence Module": "Sequenceモジュール",
   "Thread-safe sequential ID generation": "スレッドセーフな連番ID生成",
   "Tenant Module": "Tenantモジュール",

@@ -21,7 +21,7 @@
   "Purpose": "Purpose",
   "Stores write commands (write model)": "Stores write commands (write model)",
   "Stores current state (read model)": "Stores current state (read model)",
-  "Stores all versions for event sourcing": "Stores all versions for event sourcing",
+  "Stores all versions for Event Sourcing": "Stores all versions for Event Sourcing",
   "Table": "Table",
   "Stores information about long-running asynchronous tasks": "Stores information about long-running asynchronous tasks",
   "Holds sequence data for ID generation": "Holds sequence data for ID generation",

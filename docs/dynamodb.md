@@ -36,7 +36,7 @@ graph TB
 |------------|-------------------|---------|
 | {{Command Table}} | `entity-command` | {{Stores write commands (write model)}} |
 | {{Data Table}} | `entity-data` | {{Stores current state (read model)}} |
-| {{History Table}} | `entity-history` | {{Stores all versions for event sourcing}} |
+| {{History Table}} | `entity-history` | {{Stores all versions for Event Sourcing}} |
 
 :::info {{Deployed Table Names}}
 {{The actual table names are prefixed with the environment and application name: `{NODE_ENV}-{APP_NAME}-{entity}-{type}` (for example `dev-myapp-order-command`). The names above are the logical suffixes used by `CommandModule.register({ tableName })`.}}

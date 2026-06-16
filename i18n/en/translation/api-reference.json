@@ -19,7 +19,7 @@
   "Package": "Package",
   "Description": "Description",
   "Command Module": "Command Module",
-  "CQRS command handling, data synchronization, event sourcing": "CQRS command handling, data synchronization, event sourcing",
+  "CQRS command handling, data synchronization, Event Sourcing": "CQRS command handling, data synchronization, Event Sourcing",
   "Sequence Module": "Sequence Module",
   "Thread-safe sequential ID generation": "Thread-safe sequential ID generation",
   "Tenant Module": "Tenant Module",

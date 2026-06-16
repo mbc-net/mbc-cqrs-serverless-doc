@@ -419,7 +419,7 @@ async function verifyMigration(
 
 ### {{Pattern 1: Copy Data Between Tenants}}
 
-{{Copy data from one tenant to another using the CommandService. This preserves the event sourcing history in the target tenant.}}
+{{Copy data from one tenant to another using the CommandService. This preserves the Event Sourcing history in the target tenant.}}
 
 ```typescript
 // migration/tenant-migration.service.ts

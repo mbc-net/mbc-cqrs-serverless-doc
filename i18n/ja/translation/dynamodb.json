@@ -21,7 +21,7 @@
   "Purpose": "用途",
   "Stores write commands (write model)": "書き込みコマンドを保存（書き込みモデル）",
   "Stores current state (read model)": "現在の状態を保存（読み取りモデル）",
-  "Stores all versions for event sourcing": "イベントソーシング用にすべてのバージョンを保存",
+  "Stores all versions for Event Sourcing": "イベントソーシング用にすべてのバージョンを保存",
   "Table": "テーブル",
   "Stores information about long-running asynchronous tasks": "長時間実行される非同期タスクの情報を保存",
   "Holds sequence data for ID generation": "ID生成用のシーケンスデータを保持",
