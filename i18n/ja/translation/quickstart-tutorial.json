@@ -81,5 +81,7 @@
   "Building Your Application": "アプリケーションを構築する",
   "Application development guides and patterns": "アプリケーション開発ガイドとパターン",
   "API Reference": "APIリファレンス",
-  "Module API documentation": "モジュールAPIドキュメント"
+  "Module API documentation": "モジュールAPIドキュメント",
+  "Examples": "サンプルアプリ",
+  "More examples and implementation patterns": "より多くのサンプルと実装パターン"
 }

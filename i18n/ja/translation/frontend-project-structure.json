@@ -127,5 +127,7 @@
   "Master data frontend": "マスターデータのフロントエンド",
   "API Configuration": "API設定",
   "AWS Cognito Configuration": "AWS Cognito設定",
-  "Feature Flags": "機能フラグ"
+  "Feature Flags": "機能フラグ",
+  "UI Setting": "UIセッティング",
+  "Dynamic UI settings and configuration management": "動的UIセッティングと設定管理"
 }

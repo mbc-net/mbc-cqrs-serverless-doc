@@ -529,3 +529,4 @@ export const ROUTES = {
 - [ステート管理パターン](/docs/state-management-patterns) - フロントエンドステート
 - [認証](/docs/authentication) - Cognitoのフロントエンド統合
 - [マスターWeb](/docs/master-web) - マスターデータのフロントエンド
+- [UIセッティング](/docs/ui-setting) - 動的UIセッティングと設定管理

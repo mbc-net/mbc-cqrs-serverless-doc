@@ -232,3 +232,4 @@ See [Configuring Local Service Ports](/docs/installation#configuring-local-ports
 - [Changelog](/docs/changelog) - Release history and what changed between versions
 - [Building Your Application](/docs/build-your-application) - Application development guides and patterns
 - [API Reference](/docs/api-reference) - Module API documentation
+- [Examples](/docs/recipes) - More examples and implementation patterns

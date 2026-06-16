@@ -529,3 +529,4 @@ export const ROUTES = {
 - [{{State Management Patterns}}](/docs/state-management-patterns) - {{Frontend state}}
 - [{{Authentication}}](/docs/authentication) - {{Cognito frontend integration}}
 - [{{Master Web}}](/docs/master-web) - {{Master data frontend}}
+- [{{UI Setting}}](/docs/ui-setting) - {{Dynamic UI settings and configuration management}}

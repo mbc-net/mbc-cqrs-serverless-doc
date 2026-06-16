@@ -232,3 +232,4 @@ LOCAL_DYNAMODB_PORT=9000
 - [変更履歴](/docs/changelog) - リリース履歴とバージョン間の変更点
 - [アプリケーションを構築する](/docs/build-your-application) - アプリケーション開発ガイドとパターン
 - [APIリファレンス](/docs/api-reference) - モジュールAPIドキュメント
+- [サンプルアプリ](/docs/recipes) - より多くのサンプルと実装パターン

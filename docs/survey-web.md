@@ -781,3 +781,4 @@ import "@mbc-cqrs-serverless/survey-web/styles.css";
 - [{{Form Handling Patterns}}](/docs/form-handling-patterns) - {{React Hook Form and Zod validation patterns}}
 - [{{Frontend Project Structure}}](/docs/frontend-project-structure) - {{Project structure}}
 - [{{API Integration Patterns}}](/docs/api-integration-patterns) - {{API patterns}}
+- [{{UI Setting}}](/docs/ui-setting) - {{Dynamic UI settings and configuration management}}

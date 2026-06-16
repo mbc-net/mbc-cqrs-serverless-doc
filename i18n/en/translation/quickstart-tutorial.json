@@ -81,5 +81,7 @@
   "Building Your Application": "Building Your Application",
   "Application development guides and patterns": "Application development guides and patterns",
   "API Reference": "API Reference",
-  "Module API documentation": "Module API documentation"
+  "Module API documentation": "Module API documentation",
+  "Examples": "Examples",
+  "More examples and implementation patterns": "More examples and implementation patterns"
 }

@@ -781,3 +781,4 @@ import "@mbc-cqrs-serverless/survey-web/styles.css";
 - [フォーム処理パターン](/docs/form-handling-patterns) - React Hook FormとZodバリデーションパターン
 - [フロントエンドプロジェクト構成](/docs/frontend-project-structure) - プロジェクト構成
 - [API統合パターン](/docs/api-integration-patterns) - APIパターン
+- [UIセッティング](/docs/ui-setting) - 動的UIセッティングと設定管理

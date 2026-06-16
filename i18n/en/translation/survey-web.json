@@ -221,5 +221,7 @@
   "API Integration Patterns": "API Integration Patterns",
   "API patterns": "API patterns",
   "Available question types": "Available question types",
-  "Discriminated union for the validation property on Question": "Discriminated union for the validation property on Question"
+  "Discriminated union for the validation property on Question": "Discriminated union for the validation property on Question",
+  "UI Setting": "UI Setting",
+  "Dynamic UI settings and configuration management": "Dynamic UI settings and configuration management"
 }

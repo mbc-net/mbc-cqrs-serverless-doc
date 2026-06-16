@@ -221,5 +221,7 @@
   "API Integration Patterns": "API統合パターン",
   "API patterns": "APIパターン",
   "Available question types": "Available question types (利用可能な質問タイプ)",
-  "Discriminated union for the validation property on Question": "Discriminated union for the validation property on Question (Questionのvalidationプロパティ用の判別共用体)"
+  "Discriminated union for the validation property on Question": "Discriminated union for the validation property on Question (Questionのvalidationプロパティ用の判別共用体)",
+  "UI Setting": "UIセッティング",
+  "Dynamic UI settings and configuration management": "動的UIセッティングと設定管理"
 }

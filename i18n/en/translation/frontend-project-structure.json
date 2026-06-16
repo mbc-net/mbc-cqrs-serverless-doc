@@ -127,5 +127,7 @@
   "Master data frontend": "Master data frontend",
   "API Configuration": "API Configuration",
   "AWS Cognito Configuration": "AWS Cognito Configuration",
-  "Feature Flags": "Feature Flags"
+  "Feature Flags": "Feature Flags",
+  "UI Setting": "UI Setting",
+  "Dynamic UI settings and configuration management": "Dynamic UI settings and configuration management"
 }
