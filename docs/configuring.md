@@ -137,6 +137,8 @@ export class AppModule {}
 }
 ```
 
+{{The `paths` option enables module path aliases (e.g. `@/` for `src/`). See [Absolute Imports and Module Path Aliases](/docs/absolute_imports_and_module_path_aliases) for details.}}
+
 ## {{ESLint Configuration}} {#eslint-configuration}
 
 ### {{.eslintrc.js}}

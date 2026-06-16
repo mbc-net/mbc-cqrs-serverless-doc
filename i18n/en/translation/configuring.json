@@ -78,5 +78,6 @@
   "Optional: AWS SES region": "Optional: AWS SES region",
   "For local dev": "For local dev",
   "Usage": "Usage",
-  "Your IDataSyncHandler implementation — see service-patterns": "Your IDataSyncHandler implementation — see service-patterns"
+  "Your IDataSyncHandler implementation — see service-patterns": "Your IDataSyncHandler implementation — see service-patterns",
+  "The `paths` option enables module path aliases (e.g. `@/` for `src/`). See [Absolute Imports and Module Path Aliases](/docs/absolute_imports_and_module_path_aliases) for details.": "The `paths` option enables module path aliases (e.g. `@/` for `src/`). See [Absolute Imports and Module Path Aliases](/docs/absolute_imports_and_module_path_aliases) for details."
 }

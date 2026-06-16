@@ -78,5 +78,6 @@
   "Optional: AWS SES region": "任意: AWS SES リージョン",
   "For local dev": "ローカル開発用",
   "Usage": "使用例",
-  "Your IDataSyncHandler implementation — see service-patterns": "Your IDataSyncHandler implementation — see service-patterns (IDataSyncHandlerの実装 — service-patternsを参照)"
+  "Your IDataSyncHandler implementation — see service-patterns": "Your IDataSyncHandler implementation — see service-patterns (IDataSyncHandlerの実装 — service-patternsを参照)",
+  "The `paths` option enables module path aliases (e.g. `@/` for `src/`). See [Absolute Imports and Module Path Aliases](/docs/absolute_imports_and_module_path_aliases) for details.": "`paths`オプションはモジュールパスエイリアス（例：`src/`に対する`@/`）を有効にします。詳細は[絶対インポートとモジュールパスエイリアス](/docs/absolute_imports_and_module_path_aliases)を参照してください。"
 }

@@ -137,6 +137,8 @@ MBC CQRS Serverlessプロジェクト向けの推奨TypeScript設定。
 }
 ```
 
+`paths`オプションはモジュールパスエイリアス（例：`src/`に対する`@/`）を有効にします。詳細は[絶対インポートとモジュールパスエイリアス](/docs/absolute_imports_and_module_path_aliases)を参照してください。
+
 ## ESLint設定 {#eslint-configuration}
 
 ### .eslintrc.js
