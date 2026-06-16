@@ -123,6 +123,8 @@
   "Related Documentation": "関連ドキュメント",
   "CI/CD with CodePipeline": "CodePipelineによるCI/CD",
   "Automate deployments with CodePipeline": "CodePipelineでデプロイを自動化",
+  "CDK Infrastructure": "CDKインフラストラクチャ",
+  "AWS infrastructure architecture details": "AWSインフラストラクチャアーキテクチャの詳細",
   "Monitoring and Logging": "監視とログ",
   "Set up observability after deployment": "デプロイ後のオブザーバビリティ設定",
   "Configure environment for deployment": "デプロイ用の環境設定",

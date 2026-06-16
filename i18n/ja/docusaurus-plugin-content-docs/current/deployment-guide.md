@@ -348,6 +348,7 @@ cdk destroy dev-your-app-pipeline-stack
 ## 関連ドキュメント
 
 - [CodePipelineによるCI/CD](/docs/codepipeline-cicd) - CodePipelineでデプロイを自動化
+- [CDKインフラストラクチャ](/docs/architecture/cdk-infrastructure) - AWSインフラストラクチャアーキテクチャの詳細
 - [監視とログ](/docs/monitoring-logging) - デプロイ後のオブザーバビリティ設定
 - [環境変数](/docs/environment-variables) - デプロイ用の環境設定
 - [トラブルシューティング](/docs/common-issues) - よくあるデプロイの問題

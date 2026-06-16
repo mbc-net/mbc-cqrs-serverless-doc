@@ -1067,4 +1067,5 @@ flowchart LR
 
 - [Step Functions](/docs/architecture/step-functions) - ワークフローオーケストレーションの詳細
 - [システム概要](/docs/architecture/system-overview) - 高レベルアーキテクチャ
+- [デプロイガイド](/docs/deployment-guide) - CDKインフラストラクチャをAWSにデプロイ
 - [インストール](/docs/installation) - はじめにガイド

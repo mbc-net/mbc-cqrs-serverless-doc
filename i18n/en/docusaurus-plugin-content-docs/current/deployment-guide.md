@@ -348,6 +348,7 @@ Some resources may have deletion protection. Disable before destroying:
 ## Related Documentation
 
 - [CI/CD with CodePipeline](/docs/codepipeline-cicd) - Automate deployments with CodePipeline
+- [CDK Infrastructure](/docs/architecture/cdk-infrastructure) - AWS infrastructure architecture details
 - [Monitoring and Logging](/docs/monitoring-logging) - Set up observability after deployment
 - [Environment Variables](/docs/environment-variables) - Configure environment for deployment
 - [Troubleshooting](/docs/common-issues) - Common deployment issues

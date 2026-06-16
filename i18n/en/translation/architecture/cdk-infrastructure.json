@@ -127,6 +127,8 @@
   "Workflow orchestration details": "Workflow orchestration details",
   "System Overview": "System Overview",
   "High-level architecture": "High-level architecture",
+  "Deployment Guide": "Deployment Guide",
+  "Deploying CDK infrastructure to AWS": "Deploying CDK infrastructure to AWS",
   "Installation": "Installation",
   "Getting started guide": "Getting started guide",
   "Unlimited": "Unlimited",

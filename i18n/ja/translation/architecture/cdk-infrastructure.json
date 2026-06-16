@@ -127,6 +127,8 @@
   "Workflow orchestration details": "ワークフローオーケストレーションの詳細",
   "System Overview": "システム概要",
   "High-level architecture": "高レベルアーキテクチャ",
+  "Deployment Guide": "デプロイガイド",
+  "Deploying CDK infrastructure to AWS": "CDKインフラストラクチャをAWSにデプロイ",
   "Installation": "インストール",
   "Getting started guide": "はじめにガイド",
   "Unlimited": "無制限",

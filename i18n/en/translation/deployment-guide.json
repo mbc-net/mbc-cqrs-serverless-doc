@@ -123,6 +123,8 @@
   "Related Documentation": "Related Documentation",
   "CI/CD with CodePipeline": "CI/CD with CodePipeline",
   "Automate deployments with CodePipeline": "Automate deployments with CodePipeline",
+  "CDK Infrastructure": "CDK Infrastructure",
+  "AWS infrastructure architecture details": "AWS infrastructure architecture details",
   "Monitoring and Logging": "Monitoring and Logging",
   "Set up observability after deployment": "Set up observability after deployment",
   "Configure environment for deployment": "Configure environment for deployment",
