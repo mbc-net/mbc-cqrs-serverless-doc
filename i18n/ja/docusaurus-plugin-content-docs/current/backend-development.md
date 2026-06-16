@@ -583,3 +583,5 @@ async searchWithPagination(
 - [マルチテナントパターン](/docs/multi-tenant-patterns) - マルチテナント実装
 - [インポート/エクスポートパターン](/docs/import-export-patterns) - バッチデータ処理
 - [サンプル例](/docs/recipes) - 実践的な実装例
+- [バージョニングルール](/docs/version-rules) - 楽観的ロックとバージョン競合の処理
+- [絶対インポート](/docs/absolute_imports_and_module_path_aliases) - `@/`プレフィックスを使用したTypeScriptパスエイリアス

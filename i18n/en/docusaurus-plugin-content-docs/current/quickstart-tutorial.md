@@ -229,3 +229,4 @@ See [Configuring Local Service Ports](/docs/installation#configuring-local-ports
 - [Service Patterns](/docs/service-patterns) - Complete CRUD service patterns
 - [Command Service](/docs/command-service) - CommandService API reference
 - [Glossary](/docs/glossary) - Framework terminology reference
+- [Changelog](/docs/changelog) - Release history and what changed between versions

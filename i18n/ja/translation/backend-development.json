@@ -93,5 +93,9 @@
   "Prisma": "Prisma",
   "ORM setup for RDS data sync": "RDSデータ同期用ORMセットアップ",
   "Examples": "サンプル例",
-  "Practical implementation examples": "実践的な実装例"
+  "Practical implementation examples": "実践的な実装例",
+  "Versioning Rules": "バージョニングルール",
+  "Optimistic locking and version conflict handling": "楽観的ロックとバージョン競合の処理",
+  "Absolute Imports": "絶対インポート",
+  "TypeScript path aliases with `@/` prefix": "`@/`プレフィックスを使用したTypeScriptパスエイリアス"
 }

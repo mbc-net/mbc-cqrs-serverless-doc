@@ -74,6 +74,8 @@
   "CommandService API reference": "CommandService API reference",
   "Glossary": "Glossary",
   "Framework terminology reference": "Framework terminology reference",
+  "Changelog": "Changelog",
+  "Release history and what changed between versions": "Release history and what changed between versions",
   "Open the Swagger UI in your browser to explore and test your API:": "Open the Swagger UI in your browser to explore and test your API:",
   "You should see the Swagger UI with all available endpoints listed.": "You should see the Swagger UI with all available endpoints listed."
 }

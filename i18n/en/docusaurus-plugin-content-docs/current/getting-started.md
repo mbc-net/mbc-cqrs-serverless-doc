@@ -52,3 +52,5 @@ If you're new to the framework, follow this sequence:
 - [Architecture](/docs/architecture) - CQRS and Event Sourcing concepts
 - [Building Your Application](/docs/build-your-application) - Application development guides and patterns
 - [Glossary](/docs/glossary) - Framework terminology and key concepts
+- [Changelog](/docs/changelog) - Release history and version notes
+- [AI Integration](/docs/ai-integration) - AI development tool support with llms.txt and MCP

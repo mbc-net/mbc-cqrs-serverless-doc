@@ -52,5 +52,9 @@
   "Building Your Application": "アプリケーションを構築する",
   "Application development guides and patterns": "アプリケーション開発ガイドとパターン",
   "Glossary": "用語集",
-  "Framework terminology and key concepts": "フレームワークの用語と主要概念"
+  "Framework terminology and key concepts": "フレームワークの用語と主要概念",
+  "Changelog": "変更履歴",
+  "Release history and version notes": "リリース履歴とバージョンノート",
+  "AI Integration": "AI連携",
+  "AI development tool support with llms.txt and MCP": "llms.txtとMCPによるAI開発ツールサポート"
 }

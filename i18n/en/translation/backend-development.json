@@ -93,5 +93,9 @@
   "Prisma": "Prisma",
   "ORM setup for RDS data sync": "ORM setup for RDS data sync",
   "Examples": "Examples",
-  "Practical implementation examples": "Practical implementation examples"
+  "Practical implementation examples": "Practical implementation examples",
+  "Versioning Rules": "Versioning Rules",
+  "Optimistic locking and version conflict handling": "Optimistic locking and version conflict handling",
+  "Absolute Imports": "Absolute Imports",
+  "TypeScript path aliases with `@/` prefix": "TypeScript path aliases with `@/` prefix"
 }

@@ -583,3 +583,5 @@ async searchWithPagination(
 - [{{Multi-Tenant Patterns}}](/docs/multi-tenant-patterns) - {{Multi-tenant implementation}}
 - [{{Import/Export Patterns}}](/docs/import-export-patterns) - {{Batch data processing}}
 - [{{Examples}}](/docs/recipes) - {{Practical implementation examples}}
+- [{{Versioning Rules}}](/docs/version-rules) - {{Optimistic locking and version conflict handling}}
+- [{{Absolute Imports}}](/docs/absolute_imports_and_module_path_aliases) - {{TypeScript path aliases with `@/` prefix}}
