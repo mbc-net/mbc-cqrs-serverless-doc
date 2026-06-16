@@ -250,7 +250,7 @@ export class AppModule {}
 
 ### NotificationModule
 
-環境変数を使用してメール通知を設定します。
+環境変数を使用してメールとリアルタイム通知を設定します。
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -268,6 +268,7 @@ export class AppModule {}
 NotificationModuleは環境変数で設定されます：
 
 ```bash
+# メール（SES）設定
 # 必須: デフォルト送信者メールアドレス
 SES_FROM_EMAIL=noreply@example.com
 
@@ -276,7 +277,21 @@ SES_ENDPOINT=http://localhost:4566
 
 # 任意: AWS SES リージョン
 SES_REGION=ap-northeast-1
+
+# リアルタイムトランスポート設定
+# オプション: アクティブトランスポート — デフォルトはappsync-graphql（GraphQLサブスクリプション）
+# AppSync Events API（v1.3.0+）はappsync-eventを設定、デュアルパブリッシュはカンマ区切りで指定
+NOTIFICATION_TRANSPORTS=appsync-graphql
+
+# NOTIFICATION_TRANSPORTSにappsync-graphqlが含まれる場合に必須
+APPSYNC_ENDPOINT=https://xxxx.appsync-api.ap-northeast-1.amazonaws.com/graphql
+APPSYNC_API_KEY=da2-xxxx
+
+# NOTIFICATION_TRANSPORTSにappsync-eventが含まれる場合に必須（v1.3.0+）
+# APPSYNC_EVENTS_ENDPOINT=https://xxxx.appsync-api.ap-northeast-1.amazonaws.com/event
 ```
+
+AppSyncトランスポートの完全なセットアップとリアルタイムサブスクリプションパターンは[通知モジュール](/docs/notification-module)を参照してください。
 
 ## ログ設定 {#logging-configuration}
 

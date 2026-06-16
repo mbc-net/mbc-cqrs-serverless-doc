@@ -250,7 +250,7 @@ export class AppModule {}
 
 ### NotificationModule
 
-Configure email notifications via environment variables.
+Configure email and real-time notifications via environment variables.
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -268,6 +268,7 @@ export class AppModule {}
 NotificationModule is configured through environment variables:
 
 ```bash
+# Email (SES) configuration
 # Required: Default sender email address
 SES_FROM_EMAIL=noreply@example.com
 
@@ -276,7 +277,21 @@ SES_ENDPOINT=http://localhost:4566
 
 # Optional: AWS SES region
 SES_REGION=ap-northeast-1
+
+# Real-time transport configuration
+# Optional: Active transports — default is appsync-graphql (GraphQL Subscriptions)
+# Set to appsync-event for AppSync Events API (v1.3.0+), or comma-separated for dual-publish
+NOTIFICATION_TRANSPORTS=appsync-graphql
+
+# Required when NOTIFICATION_TRANSPORTS includes appsync-graphql
+APPSYNC_ENDPOINT=https://xxxx.appsync-api.ap-northeast-1.amazonaws.com/graphql
+APPSYNC_API_KEY=da2-xxxx
+
+# Required when NOTIFICATION_TRANSPORTS includes appsync-event (v1.3.0+)
+# APPSYNC_EVENTS_ENDPOINT=https://xxxx.appsync-api.ap-northeast-1.amazonaws.com/event
 ```
+
+See [Notification Module](/docs/notification-module) for full AppSync transport setup and real-time subscription patterns.
 
 ## Logging Configuration {#logging-configuration}
 
