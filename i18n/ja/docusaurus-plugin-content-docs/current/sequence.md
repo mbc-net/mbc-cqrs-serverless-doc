@@ -78,7 +78,7 @@ export class SeqModule {}
 
 `SequencesService`には4つのパブリックメソッドがあります（現行2つ、非推奨1つ、v1.1.0で削除1つ）：
 
-### *async* `generateSequenceItem( dto: GenerateFormattedSequenceDto, options?: {invokeContext:IInvoke}):  Promise<SequenceEntity>` {#generate-sequence-item}
+### *async* `generateSequenceItem(dto: GenerateFormattedSequenceDto, options?: {invokeContext: IInvoke}): Promise<SequenceEntity>` {#generate-sequence-item}
 
 
 GenerateFormattedSequenceDto オブジェクトで提供されたパラメータに基づいて新しいシーケンスを生成します。

@@ -176,7 +176,7 @@ const masterSetting = await this.masterSettingService.createUserSetting(
 ```
 
 
-#### `updateSetting(params: DetailKey, dto: UpdateSettingDto, context: { invokeContext: IInvoke }): Promise<CommandModel>`
+#### `updateSetting(key: DetailKey, dto: UpdateSettingDto, context: { invokeContext: IInvoke }): Promise<CommandModel>`
 {{Updates an existing setting.}}
 ```ts
 const masterSetting = await this.masterSettingService.updateSetting(

@@ -78,7 +78,7 @@ Besides the controller, we can directly use `SequencesService` to generate seque
 
 The `SequencesService` has four public methods (two current, one deprecated, one removed in v1.1.0):
 
-### *async* `generateSequenceItem( dto: GenerateFormattedSequenceDto, options?: {invokeContext:IInvoke}):  Promise<SequenceEntity>` {#generate-sequence-item}
+### *async* `generateSequenceItem(dto: GenerateFormattedSequenceDto, options?: {invokeContext: IInvoke}): Promise<SequenceEntity>` {#generate-sequence-item}
 
 
 Generates a new sequence based on the parameters provided in the GenerateFormattedSequenceDto object.
