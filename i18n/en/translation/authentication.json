@@ -97,5 +97,7 @@
   "Common Issues — GroupRoleResolver DI conflict": "Common Issues — GroupRoleResolver DI conflict",
   "Troubleshooting AP027": "Troubleshooting AP027",
   "Interfaces — IGroupRoleResolver": "Interfaces — IGroupRoleResolver",
-  "TypeScript interface reference": "TypeScript interface reference"
+  "TypeScript interface reference": "TypeScript interface reference",
+  "Helpers": "Helpers",
+  "getUserContext and context helper functions": "getUserContext and context helper functions"
 }

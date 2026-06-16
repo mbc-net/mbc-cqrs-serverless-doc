@@ -88,6 +88,8 @@
   "Method name": "メソッド名",
   "Controllers": "コントローラー",
   "NestJS controller patterns with MBC decorators": "MBCデコレーターを使用したNestJSコントローラーパターン",
+  "Helpers": "ヘルパー",
+  "getUserContext and key helper functions": "getUserContextとキーヘルパー関数",
   "Prisma": "Prisma",
   "ORM setup for RDS data sync": "RDSデータ同期用ORMセットアップ",
   "Examples": "サンプル例",

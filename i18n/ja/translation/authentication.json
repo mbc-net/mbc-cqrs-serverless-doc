@@ -97,5 +97,7 @@
   "Common Issues — GroupRoleResolver DI conflict": "よくある問題 — GroupRoleResolver の DI 競合",
   "Troubleshooting AP027": "AP027 のトラブルシューティング",
   "Interfaces — IGroupRoleResolver": "インターフェース — IGroupRoleResolver",
-  "TypeScript interface reference": "TypeScript インターフェースリファレンス"
+  "TypeScript interface reference": "TypeScript インターフェースリファレンス",
+  "Helpers": "ヘルパー",
+  "getUserContext and context helper functions": "getUserContextとコンテキストヘルパー関数"
 }

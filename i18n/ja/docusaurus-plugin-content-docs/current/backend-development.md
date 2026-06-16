@@ -578,6 +578,7 @@ async searchWithPagination(
 - [アンチパターン](/docs/anti-patterns) - よくある間違いとその回避方法
 - [認証](/docs/authentication) - `@Auth` と `@Roles` によるロールベースアクセス制御
 - [コントローラー](/docs/controllers) - MBCデコレーターを使用したNestJSコントローラーパターン
+- [ヘルパー](/docs/helpers) - getUserContextとキーヘルパー関数
 - [Prisma](/docs/prisma) - RDSデータ同期用ORMセットアップ
 - [マルチテナントパターン](/docs/multi-tenant-patterns) - マルチテナント実装
 - [インポート/エクスポートパターン](/docs/import-export-patterns) - バッチデータ処理
