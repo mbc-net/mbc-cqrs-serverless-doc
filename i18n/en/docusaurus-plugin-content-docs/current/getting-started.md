@@ -50,3 +50,4 @@ If you're new to the framework, follow this sequence:
 - [Quickstart Tutorial](/docs/quickstart-tutorial) - Build your first API in 15 minutes
 - [Project Structure](/docs/project-structure) - Understanding the generated project layout
 - [Architecture](/docs/architecture) - CQRS and Event Sourcing concepts
+- [Glossary](/docs/glossary) - Framework terminology and key concepts

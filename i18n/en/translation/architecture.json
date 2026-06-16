@@ -26,6 +26,8 @@
   "Implement features using these patterns": "Implement features using these patterns",
   "Key Patterns": "Key Patterns",
   "PK/SK design in DynamoDB": "PK/SK design in DynamoDB",
+  "Glossary": "Glossary",
+  "Framework terminology reference": "Framework terminology reference",
   "Comprehensive overview of MBC CQRS Serverless framework architecture including system overview, CQRS pattern flow, event sourcing, Step Functions, and CDK infrastructure.": "Comprehensive overview of MBC CQRS Serverless framework architecture including system overview, CQRS pattern flow, event sourcing, Step Functions, and CDK infrastructure.",
   "Step Functions": "Step Functions",
   "Workflow orchestration for async task processing.": "Workflow orchestration for async task processing.",

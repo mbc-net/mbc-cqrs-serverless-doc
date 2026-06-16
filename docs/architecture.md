@@ -40,3 +40,4 @@ description: {{Comprehensive overview of MBC CQRS Serverless framework architect
 - [{{Installation}}](/docs/installation) - {{Set up your local environment}}
 - [{{Backend Development}}](/docs/backend-development) - {{Implement features using these patterns}}
 - [{{Key Patterns}}](/docs/key-patterns) - {{PK/SK design in DynamoDB}}
+- [{{Glossary}}](/docs/glossary) - {{Framework terminology reference}}
