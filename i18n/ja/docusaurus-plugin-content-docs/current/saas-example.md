@@ -939,6 +939,7 @@ async createSubscription() {
 ## 関連ドキュメント
 
 - [Eコマース例](/docs/ecommerce-example) - コマースアプリケーション例
+- [バックエンド開発](/docs/backend-development) - コアバックエンド実装パターン
 - [マルチテナントパターン](/docs/multi-tenant-patterns) - テナント分離
 - [認証](/docs/authentication) - サブスクリプション認証
 - [サービスパターン](/docs/service-patterns) - CRUDサービスパターン

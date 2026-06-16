@@ -939,6 +939,7 @@ async createSubscription() {
 ## Related Documentation
 
 - [E-commerce Example](/docs/ecommerce-example) - Commerce application example
+- [Backend Development](/docs/backend-development) - Core backend implementation patterns
 - [Multi-Tenant Patterns](/docs/multi-tenant-patterns) - Tenant isolation
 - [Authentication](/docs/authentication) - Subscription authentication
 - [Service Patterns](/docs/service-patterns) - CRUD service patterns

@@ -74,6 +74,8 @@
   "Use sequence numbers or UUIDs to ensure operations are idempotent:": "操作が冪等になるようにシーケンス番号またはUUIDを使用してください：",
   "Related Documentation": "関連ドキュメント",
   "SaaS Example": "SaaS例",
+  "Backend Development": "バックエンド開発",
+  "Core backend implementation patterns": "コアバックエンド実装パターン",
   "SaaS application example": "SaaSアプリケーション例",
   "Service Patterns": "サービスパターン",
   "CRUD patterns used": "使用されるCRUDパターン",

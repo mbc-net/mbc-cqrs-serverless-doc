@@ -88,6 +88,8 @@
   "Related Documentation": "Related Documentation",
   "E-commerce Example": "E-commerce Example",
   "Commerce application example": "Commerce application example",
+  "Backend Development": "Backend Development",
+  "Core backend implementation patterns": "Core backend implementation patterns",
   "Multi-Tenant Patterns": "Multi-Tenant Patterns",
   "Tenant isolation": "Tenant isolation",
   "Authentication": "Authentication",

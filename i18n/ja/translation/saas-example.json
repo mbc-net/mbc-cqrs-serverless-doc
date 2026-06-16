@@ -87,6 +87,8 @@
   "Can fail, blocks user": "Can fail, blocks user (失敗する可能性があり、ユーザーをブロック)",
   "Related Documentation": "関連ドキュメント",
   "E-commerce Example": "Eコマース例",
+  "Backend Development": "バックエンド開発",
+  "Core backend implementation patterns": "コアバックエンド実装パターン",
   "Commerce application example": "コマースアプリケーション例",
   "Multi-Tenant Patterns": "マルチテナントパターン",
   "Tenant isolation": "テナント分離",

@@ -769,5 +769,6 @@ const items = await this.prismaService.product.findMany({
 - [バックエンド開発](/docs/backend-development) - コアバックエンドパターン
 - [コマンドサービス](/docs/command-service) - CommandService APIリファレンス
 - [データサービス](/docs/data-service) - DataServiceクエリメソッド
+- [アンチパターン](/docs/anti-patterns) - サービスレイヤーで避けるべきパターン
 - [データベース選択ガイド](/docs/database-selection-guide) - DynamoDB対RDSの比較
 - [バージョン競合ガイド](/docs/version-conflict-guide) - HTTP 409楽観的ロック競合の対処法

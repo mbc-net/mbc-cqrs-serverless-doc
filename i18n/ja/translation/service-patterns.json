@@ -104,6 +104,8 @@
   "Complex query: Use Prisma (RDS)": "Complex query: Use Prisma (RDS) (複雑なクエリ: Prisma（RDS）を使用)",
   "Related Documentation": "関連ドキュメント",
   "Backend Development": "バックエンド開発",
+  "Anti-Patterns": "アンチパターン",
+  "Patterns to avoid in service layer": "サービスレイヤーで避けるべきパターン",
   "Core backend patterns": "コアバックエンドパターン",
   "Command Service": "コマンドサービス",
   "CommandService API reference": "CommandService APIリファレンス",

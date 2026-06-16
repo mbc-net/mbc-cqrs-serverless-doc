@@ -105,6 +105,8 @@
   "Related Documentation": "Related Documentation",
   "Backend Development": "Backend Development",
   "Core backend patterns": "Core backend patterns",
+  "Anti-Patterns": "Anti-Patterns",
+  "Patterns to avoid in service layer": "Patterns to avoid in service layer",
   "Command Service": "Command Service",
   "CommandService API reference": "CommandService API reference",
   "Data Service": "Data Service",

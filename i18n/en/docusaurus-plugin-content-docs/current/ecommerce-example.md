@@ -616,6 +616,7 @@ const orderCode = `ORD-${String(sequence.value).padStart(6, '0')}`;
 ## Related Documentation
 
 - [SaaS Example](/docs/saas-example) - SaaS application example
+- [Backend Development](/docs/backend-development) - Core backend implementation patterns
 - [Service Patterns](/docs/service-patterns) - CRUD patterns used
 - [Multi-Tenant Patterns](/docs/multi-tenant-patterns) - Multi-tenant design
 - [Sequence](/docs/sequence) - Auto-incrementing order number generation
