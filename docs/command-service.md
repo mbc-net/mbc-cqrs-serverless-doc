@@ -843,3 +843,4 @@ export class OrderService {
 - [{{Event Handling Patterns}}](/docs/event-handling-patterns) - {{Creating data sync handlers}}
 - [{{Version Conflict Guide}}](/docs/version-conflict-guide) - {{Handling optimistic locking conflicts}}
 - [{{Interfaces}}](/docs/interfaces) - {{TypeScript interfaces for CommandInputModel and more}}
+- [{{Versioning Rules}}](/docs/version-rules) - {{VERSION_FIRST, version sequences, and optimistic locking semantics}}
