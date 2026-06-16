@@ -117,6 +117,8 @@
   "Related Documentation": "関連ドキュメント",
   "API Integration Patterns": "API統合パターン",
   "API calls from forms": "フォームからのAPI呼び出し",
+  "Survey Web": "Survey用フロントパッケージ",
+  "Form components for survey use case": "アンケートユースケース向けフォームコンポーネント",
   "Frontend Project Structure": "フロントエンドプロジェクト構成",
   "Project organization": "プロジェクト構成",
   "State Management Patterns": "ステート管理パターン",

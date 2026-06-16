@@ -1000,5 +1000,6 @@ function FormWithServerErrors() {
 ## Related Documentation
 
 - [API Integration Patterns](/docs/api-integration-patterns) - API calls from forms
+- [Survey Web](/docs/survey-web) - Form components for survey use case
 - [Frontend Project Structure](/docs/frontend-project-structure) - Project organization
 - [State Management Patterns](/docs/state-management-patterns) - Form state

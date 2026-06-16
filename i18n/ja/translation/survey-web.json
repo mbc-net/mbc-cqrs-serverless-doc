@@ -214,6 +214,8 @@
   "Related Documentation": "関連ドキュメント",
   "Survey Template": "アンケートテンプレート",
   "Backend survey template service": "バックエンドのアンケートテンプレートサービス",
+  "Form Handling Patterns": "フォーム処理パターン",
+  "React Hook Form and Zod validation patterns": "React Hook FormとZodバリデーションパターン",
   "Frontend Project Structure": "フロントエンドプロジェクト構成",
   "Project structure": "プロジェクト構成",
   "API Integration Patterns": "API統合パターン",
