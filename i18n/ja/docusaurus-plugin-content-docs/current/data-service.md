@@ -362,4 +362,5 @@ export class ProductService {
 - [サービスパターン](/docs/service-patterns) - 完全なサービス層パターン
 - [キーパターン](/docs/key-patterns) - 効率的なクエリのためのDynamoDBキー設計
 - [エンティティパターン](/docs/entity-patterns) - DataEntityを使ったエンティティ定義
+- [シリアライズヘルパー](/docs/serialization) - DynamoDB構造をAPIレスポンス形式に変換
 - [データ同期ハンドラー例](/docs/data-sync-handler-examples) - 同期ハンドラーでのDataService.publish()の使用

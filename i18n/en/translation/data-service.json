@@ -99,6 +99,8 @@
   "The history table uses the same key structure as the data table, but the sort key includes the version suffix: `sk@version`. Always use `addSortKeyVersion(sk, version)` to construct the key.": "The history table uses the same key structure as the data table, but the sort key includes the version suffix: `sk@version`. Always use `addSortKeyVersion(sk, version)` to construct the key.",
   "Partition key": "Partition key",
   "Sort key": "Sort key",
+  "Serialization Helpers": "Serialization Helpers",
+  "Converting DynamoDB structures to API response format": "Converting DynamoDB structures to API response format",
   "Data Sync Handler Examples": "Data Sync Handler Examples",
   "Using DataService.publish() in sync handlers": "Using DataService.publish() in sync handlers"
 }
