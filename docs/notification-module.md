@@ -632,7 +632,7 @@ template: {
 {{If a variable is not found in the data object, the placeholder is preserved in the output. This helps identify missing data during development:}}
 
 ```ts
-// {{If 'missingKey' is not in data, output will contain '}} {{missingKey}} {{'}}
+// {{If 'missingKey' is not in data, the placeholder is preserved as-is}}
 template: {
   html: "<p>Value: {{missingKey}}</p>",
 }
