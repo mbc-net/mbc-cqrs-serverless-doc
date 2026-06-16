@@ -368,3 +368,4 @@ aws logs tail /aws/codebuild/your-build-project --follow
 - [Deployment Guide](/docs/deployment-guide) - Manual deployment options
 - [Monitoring and Logging](/docs/monitoring-logging) - Set up observability
 - [Environment Variables](/docs/environment-variables) - CI/CD environment configuration
+- [Testing](/docs/testing) - Testing setup for CI pipeline

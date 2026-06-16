@@ -100,5 +100,7 @@
   "Set up observability": "Set up observability",
   "Environment Variables": "Environment Variables",
   "CI/CD environment configuration": "CI/CD environment configuration",
+  "Testing": "Testing",
+  "Testing setup for CI pipeline": "Testing setup for CI pipeline",
   "Pipeline": "Pipeline"
 }

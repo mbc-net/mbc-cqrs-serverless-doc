@@ -368,3 +368,4 @@ aws logs tail /aws/codebuild/your-build-project --follow
 - [デプロイガイド](/docs/deployment-guide) - 手動デプロイオプション
 - [監視とログ](/docs/monitoring-logging) - オブザーバビリティの設定
 - [環境変数](/docs/environment-variables) - CI/CD環境設定
+- [テスト](/docs/testing) - CIパイプライン用テストセットアップ

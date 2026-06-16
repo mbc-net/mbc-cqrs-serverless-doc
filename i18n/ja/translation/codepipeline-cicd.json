@@ -100,5 +100,7 @@
   "Set up observability": "オブザーバビリティの設定",
   "Environment Variables": "環境変数",
   "CI/CD environment configuration": "CI/CD環境設定",
+  "Testing": "テスト",
+  "Testing setup for CI pipeline": "CIパイプライン用テストセットアップ",
   "Pipeline": "パイプライン"
 }
