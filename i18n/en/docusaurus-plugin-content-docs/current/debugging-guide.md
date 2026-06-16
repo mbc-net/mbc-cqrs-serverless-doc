@@ -857,3 +857,4 @@ Debugging steps:
 - [Error Catalog](/docs/error-catalog) - Error codes and resolution steps
 - [Version Conflict Guide](/docs/version-conflict-guide) - Resolving optimistic locking conflicts
 - [E2E Testing](/docs/e2e-test) - End-to-end testing for debugging
+- [Unit Testing](/docs/unit-test) - Unit testing with Jest

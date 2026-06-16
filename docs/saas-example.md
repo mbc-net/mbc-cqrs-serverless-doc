@@ -941,3 +941,4 @@ async createSubscription() {
 - [{{E-commerce Example}}](/docs/ecommerce-example) - {{Commerce application example}}
 - [{{Multi-Tenant Patterns}}](/docs/multi-tenant-patterns) - {{Tenant isolation}}
 - [{{Authentication}}](/docs/authentication) - {{Subscription authentication}}
+- [{{Service Patterns}}](/docs/service-patterns) - {{CRUD service patterns}}

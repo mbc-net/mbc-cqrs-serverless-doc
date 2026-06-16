@@ -91,5 +91,7 @@
   "Multi-Tenant Patterns": "マルチテナントパターン",
   "Tenant isolation": "テナント分離",
   "Authentication": "認証",
-  "Subscription authentication": "サブスクリプション認証"
+  "Subscription authentication": "サブスクリプション認証",
+  "Service Patterns": "サービスパターン",
+  "CRUD service patterns": "CRUDサービスパターン"
 }

@@ -596,5 +596,6 @@ Choose the right tool based on your project's complexity and requirements. The c
 ## Related Documentation
 
 - [API Integration Patterns](/docs/api-integration-patterns) - API client setup
+- [API Integration Guide](/docs/api-integration-guide) - API integration guidance
 - [Frontend Project Structure](/docs/frontend-project-structure) - Project structure
 - [Authentication](/docs/authentication) - Auth state management

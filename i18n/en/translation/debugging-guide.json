@@ -211,5 +211,7 @@
   "Find slow requests": "Find slow requests",
   "Get execution details": "Get execution details",
   "Version Conflict Guide": "Version Conflict Guide",
-  "Resolving optimistic locking conflicts": "Resolving optimistic locking conflicts"
+  "Resolving optimistic locking conflicts": "Resolving optimistic locking conflicts",
+  "Unit Testing": "Unit Testing",
+  "Unit testing with Jest": "Unit testing with Jest"
 }

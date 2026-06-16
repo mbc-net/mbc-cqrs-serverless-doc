@@ -91,5 +91,7 @@
   "Multi-Tenant Patterns": "Multi-Tenant Patterns",
   "Tenant isolation": "Tenant isolation",
   "Authentication": "Authentication",
-  "Subscription authentication": "Subscription authentication"
+  "Subscription authentication": "Subscription authentication",
+  "Service Patterns": "Service Patterns",
+  "CRUD service patterns": "CRUD service patterns"
 }

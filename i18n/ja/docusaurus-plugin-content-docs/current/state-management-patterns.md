@@ -596,5 +596,6 @@ function Profile() {
 ## 関連ドキュメント
 
 - [API統合パターン](/docs/api-integration-patterns) - APIクライアントのセットアップ
+- [API統合ガイド](/docs/api-integration-guide) - API統合ガイダンス
 - [フロントエンドプロジェクト構成](/docs/frontend-project-structure) - プロジェクト構成
 - [認証](/docs/authentication) - 認証ステート管理

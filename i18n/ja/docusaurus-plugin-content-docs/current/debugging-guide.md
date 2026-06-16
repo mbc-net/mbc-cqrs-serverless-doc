@@ -857,3 +857,4 @@ async function getCommandHistory(pk: string, baseSk: string) {
 - [エラーカタログ](/docs/error-catalog) - エラーコードと解決手順
 - [バージョン競合ガイド](/docs/version-conflict-guide) - 楽観的ロックの競合解決
 - [E2Eテスト](/docs/e2e-test) - デバッグ用エンドツーエンドテスト
+- [ユニットテスト](/docs/unit-test) - Jestによるユニットテスト
