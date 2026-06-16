@@ -26,8 +26,7 @@ Create a new CQRS module for [FEATURE_NAME] in MBC CQRS Serverless with:
 ```
 Create a CQRS module for [FEATURE_NAME] that syncs data to RDS:
 - CommandModule with DataSyncHandler for RDS
-- TypeORM entity for the RDS table
-- Prisma schema if using Prisma
+- Prisma model in prisma/schema.prisma for the RDS table
 - Handle create, update, and delete sync operations
 - Include error handling for sync failures
 ```
@@ -242,7 +241,7 @@ Review [FEATURE] for production readiness:
 
 ```
 Create a migration for [SCHEMA_CHANGE]:
-- TypeORM migration file
+- Prisma migration (run npm run migrate:dev to create the migration file)
 - Handle existing data transformation
 - Include rollback procedure
 - Test with sample data
