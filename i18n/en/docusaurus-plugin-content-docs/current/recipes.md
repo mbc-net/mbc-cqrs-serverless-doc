@@ -10,6 +10,7 @@ This section provides practical examples and implementation guides for common us
 
 | Example | Description | Key Concepts |
 |-------------|-----------------|------------------|
+| [Todo App Tutorial](/docs/build-todo-app) | Step-by-step CQRS app with full CRUD | Commands, queries, RDS sync, sequences |
 | [E-commerce](/docs/ecommerce-example) | Order management with inventory tracking | Optimistic locking, event-driven sync, status transitions |
 | [SaaS Application](/docs/saas-example) | Multi-tenant subscription and usage metering | Tenant isolation, quota enforcement, billing integration |
 | [Survey Template](/docs/survey-template) | Dynamic form builder with validation | Schema design, versioning, complex attributes |
