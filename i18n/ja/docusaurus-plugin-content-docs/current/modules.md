@@ -386,6 +386,12 @@ export class AppModule {}
 
 - [NestJS Modules](https://docs.nestjs.com/modules): NestJS公式モジュールドキュメント
 - [CommandService](/docs/command-service): CommandModuleの詳細設定
+- [Queueモジュール](/docs/queue): QueueModule — SNSおよびSQSメッセージング
+- [テナントモジュール](/docs/tenant): TenantModule — マルチテナント管理
+- [シーケンス](/docs/sequence): SequencesModule — シーケンシャルID生成
+- [タスク](/docs/tasks): TaskModule — 非同期Step Functions実行
+- [マスター](/docs/master): MasterModule — マスターデータと設定
+- [インポートモジュール](/docs/import): ImportModule — CSVデータインポート
 - [イベント処理パターン](/docs/event-handling-patterns): データ同期ハンドラーの作成
 - [通知モジュール](/docs/notification-module): AppSyncとSESによるリアルタイム通知とメール
 - [ディレクトリ](/docs/directory): DirectoryStorageModuleによるファイル・フォルダ管理
