@@ -60,7 +60,8 @@ graph TB
 | Module | Package | Description |
 |------------|-------------|-----------------|
 | Queue Module | `@mbc-cqrs-serverless/core` | SNS and SQS messaging (globally registered) |
-| Notification Module | `@mbc-cqrs-serverless/core` | Email notifications via Amazon SES |
+| Notification Module | `@mbc-cqrs-serverless/core` | Real-time WebSocket notifications via AppSync Events API |
+| Email Service | `@mbc-cqrs-serverless/core` | Send transactional emails via Amazon SES |
 | Setting Module | `@mbc-cqrs-serverless/ui-setting` | User interface configuration storage |
 
 ## Quick Start {#quick-start}
@@ -136,5 +137,7 @@ import DocCardList from '@theme/DocCardList';
 
 - [Command Service](/docs/command-service) - CommandService detailed documentation
 - [Data Service](/docs/data-service) - DataService query methods
+- [Notification Module](/docs/notification-module) - AppSync real-time notification documentation
+- [Email Service](/docs/email-service) - SES email sending documentation
 - [Interfaces](/docs/interfaces) - TypeScript interfaces reference
 - [Modules](/docs/modules) - Available modules

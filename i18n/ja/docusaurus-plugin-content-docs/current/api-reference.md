@@ -60,7 +60,8 @@ graph TB
 | モジュール | パッケージ | 説明 |
 |------------|-------------|-----------------|
 | Queueモジュール | `@mbc-cqrs-serverless/core` | SNSとSQSメッセージング（グローバル登録済み） |
-| Notificationモジュール | `@mbc-cqrs-serverless/core` | Amazon SESによるメール通知 |
+| Notificationモジュール | `@mbc-cqrs-serverless/core` | AppSync Events APIによるリアルタイムWebSocket通知 |
+| Emailサービス | `@mbc-cqrs-serverless/core` | Amazon SESによるトランザクションメール送信 |
 | Settingモジュール | `@mbc-cqrs-serverless/ui-setting` | ユーザーインターフェース設定のストレージ |
 
 ## クイックスタート {#quick-start}
@@ -136,5 +137,7 @@ import DocCardList from '@theme/DocCardList';
 
 - [コマンドサービス](/docs/command-service) - CommandServiceの詳細ドキュメント
 - [データサービス](/docs/data-service) - DataServiceクエリメソッド
+- [Notificationモジュール](/docs/notification-module) - AppSyncリアルタイム通知のドキュメント
+- [Emailサービス](/docs/email-service) - SESメール送信のドキュメント
 - [インターフェース](/docs/interfaces) - TypeScriptインターフェースリファレンス
 - [モジュール](/docs/modules) - 利用可能なモジュール
