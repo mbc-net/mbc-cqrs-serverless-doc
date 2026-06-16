@@ -667,3 +667,5 @@ trail.addEventSelector(cloudtrail.DataResourceType.DYNAMODB_TABLE, [
 - [{{Multi-Tenant Patterns}}](/docs/multi-tenant-patterns) - {{Tenant isolation and access control}}
 - [{{Error Catalog}}](/docs/error-catalog) - {{Security-related error codes}}
 - [{{Monitoring and Logging}}](/docs/monitoring-logging) - {{Security event monitoring}}
+- [{{Environment Variables}}](/docs/environment-variables) - {{Secret and credential configuration}}
+- [{{Anti-Patterns}}](/docs/anti-patterns) - {{Common security mistakes to avoid}}

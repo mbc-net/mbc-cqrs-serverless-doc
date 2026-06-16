@@ -667,3 +667,5 @@ trail.addEventSelector(cloudtrail.DataResourceType.DYNAMODB_TABLE, [
 - [マルチテナントパターン](/docs/multi-tenant-patterns) - テナント分離とアクセス制御
 - [エラーカタログ](/docs/error-catalog) - セキュリティ関連エラーコード
 - [監視とログ](/docs/monitoring-logging) - セキュリティイベント監視
+- [環境変数](/docs/environment-variables) - シークレットと認証情報の設定
+- [アンチパターン](/docs/anti-patterns) - 避けるべきよくあるセキュリティミス

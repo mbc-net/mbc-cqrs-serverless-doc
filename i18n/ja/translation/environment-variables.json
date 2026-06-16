@@ -96,6 +96,8 @@
   "SES and AppSync Events configuration": "SESおよびAppSync Eventsの設定",
   "Deployment Guide": "デプロイガイド",
   "Deployment environment setup": "デプロイ環境のセットアップ",
+  "Security Best Practices": "セキュリティベストプラクティス",
+  "Secure handling of credentials and secrets": "認証情報とシークレットの安全な取り扱い",
   "Installation": "インストール",
   "Initial environment setup": "初期環境セットアップ",
   "Set to `true` automatically by serverless-offline when running locally. The framework uses this flag to detect local development and skip production-only behaviors.": "ローカル実行時にserverless-offlineによって自動的に`true`に設定されます。フレームワークはこのフラグを使用してローカル開発を検出し、本番環境専用の動作をスキップします。"

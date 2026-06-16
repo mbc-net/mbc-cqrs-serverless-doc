@@ -251,4 +251,5 @@ export const handler = createHandler({
 - [Queueモジュール](/docs/queue) - SNSおよびSQSの使用
 - [通知モジュール](/docs/notification-module) - SESおよびAppSync Eventsの設定
 - [デプロイガイド](/docs/deployment-guide) - デプロイ環境のセットアップ
+- [セキュリティベストプラクティス](/docs/security-best-practices) - 認証情報とシークレットの安全な取り扱い
 - [インストール](/docs/installation) - 初期環境セットアップ

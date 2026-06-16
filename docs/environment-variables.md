@@ -251,4 +251,5 @@ export const handler = createHandler({
 - [{{Queue Module}}](/docs/queue) - {{SNS and SQS usage}}
 - [{{Notification Module}}](/docs/notification-module) - {{SES and AppSync Events configuration}}
 - [{{Deployment Guide}}](/docs/deployment-guide) - {{Deployment environment setup}}
+- [{{Security Best Practices}}](/docs/security-best-practices) - {{Secure handling of credentials and secrets}}
 - [{{Installation}}](/docs/installation) - {{Initial environment setup}}
