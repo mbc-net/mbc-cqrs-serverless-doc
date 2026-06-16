@@ -136,5 +136,7 @@
   "Directory": "ディレクトリ",
   "File and folder management with DirectoryStorageModule": "DirectoryStorageModuleによるファイル・フォルダ管理",
   "Survey Template": "調査テンプレート",
-  "Survey template management with SurveyTemplateModule": "SurveyTemplateModuleによる調査テンプレート管理"
+  "Survey template management with SurveyTemplateModule": "SurveyTemplateModuleによる調査テンプレート管理",
+  "UI Setting": "UI設定",
+  "SettingModule for UI configuration storage": "UI設定ストレージ用SettingModule"
 }

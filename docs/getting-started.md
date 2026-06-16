@@ -50,4 +50,5 @@ description: {{Introduction to MBC CQRS Serverless framework - a production-read
 - [{{Quickstart Tutorial}}](/docs/quickstart-tutorial) - {{Build your first API in 15 minutes}}
 - [{{Project Structure}}](/docs/project-structure) - {{Understanding the generated project layout}}
 - [{{Architecture}}](/docs/architecture) - {{CQRS and Event Sourcing concepts}}
+- [{{Building Your Application}}](/docs/build-your-application) - {{Application development guides and patterns}}
 - [{{Glossary}}](/docs/glossary) - {{Framework terminology and key concepts}}

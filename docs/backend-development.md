@@ -579,3 +579,4 @@ async searchWithPagination(
 - [{{Authentication}}](/docs/authentication) - {{Role-based access control with `@Auth` and `@Roles`}}
 - [{{Multi-Tenant Patterns}}](/docs/multi-tenant-patterns) - {{Multi-tenant implementation}}
 - [{{Import/Export Patterns}}](/docs/import-export-patterns) - {{Batch data processing}}
+- [{{Examples}}](/docs/recipes) - {{Practical implementation examples}}

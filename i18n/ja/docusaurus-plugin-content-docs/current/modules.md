@@ -396,3 +396,4 @@ export class AppModule {}
 - [通知モジュール](/docs/notification-module): AppSyncとSESによるリアルタイム通知とメール
 - [ディレクトリ](/docs/directory): DirectoryStorageModuleによるファイル・フォルダ管理
 - [調査テンプレート](/docs/survey-template): SurveyTemplateModuleによる調査テンプレート管理
+- [UI設定](/docs/ui-setting): UI設定ストレージ用SettingModule

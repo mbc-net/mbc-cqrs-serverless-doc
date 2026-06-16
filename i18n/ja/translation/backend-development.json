@@ -85,5 +85,7 @@
   "Data SK without version": "バージョンなしのデータSK",
   "Module name": "モジュール名",
   "Class name": "クラス名",
-  "Method name": "メソッド名"
+  "Method name": "メソッド名",
+  "Examples": "サンプル例",
+  "Practical implementation examples": "実践的な実装例"
 }

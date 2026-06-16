@@ -136,5 +136,7 @@
   "Directory": "Directory",
   "File and folder management with DirectoryStorageModule": "File and folder management with DirectoryStorageModule",
   "Survey Template": "Survey Template",
-  "Survey template management with SurveyTemplateModule": "Survey template management with SurveyTemplateModule"
+  "Survey template management with SurveyTemplateModule": "Survey template management with SurveyTemplateModule",
+  "UI Setting": "UI Setting",
+  "SettingModule for UI configuration storage": "SettingModule for UI configuration storage"
 }

@@ -396,3 +396,4 @@ export class AppModule {}
 - [Notification Module](/docs/notification-module): Real-time notifications and email via AppSync and SES
 - [Directory](/docs/directory): File and folder management with DirectoryStorageModule
 - [Survey Template](/docs/survey-template): Survey template management with SurveyTemplateModule
+- [UI Setting](/docs/ui-setting): SettingModule for UI configuration storage

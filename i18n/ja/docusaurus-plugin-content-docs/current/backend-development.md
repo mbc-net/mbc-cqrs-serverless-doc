@@ -579,3 +579,4 @@ async searchWithPagination(
 - [認証](/docs/authentication) - `@Auth` と `@Roles` によるロールベースアクセス制御
 - [マルチテナントパターン](/docs/multi-tenant-patterns) - マルチテナント実装
 - [インポート/エクスポートパターン](/docs/import-export-patterns) - バッチデータ処理
+- [サンプル例](/docs/recipes) - 実践的な実装例
