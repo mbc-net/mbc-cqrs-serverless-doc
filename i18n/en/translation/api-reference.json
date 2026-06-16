@@ -1,5 +1,6 @@
 {
   "Comprehensive API reference for MBC CQRS Serverless framework modules.": "Comprehensive API reference for MBC CQRS Serverless framework modules.",
+  "API Reference": "API Reference",
   "Modules": "Modules",
   "The MBC CQRS Serverless framework provides a comprehensive set of modules for building enterprise-grade serverless applications. Each module is designed to handle specific concerns while maintaining consistency with the CQRS and Event Sourcing patterns.": "The MBC CQRS Serverless framework provides a comprehensive set of modules for building enterprise-grade serverless applications. Each module is designed to handle specific concerns while maintaining consistency with the CQRS and Event Sourcing patterns.",
   "Module Overview": "Module Overview",
