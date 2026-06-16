@@ -89,5 +89,9 @@
   "Verify Your Setup": "セットアップの確認",
   "Open the [Swagger UI](http://localhost:3000/swagger-ui) in your browser to confirm the API server is running. You should see the interactive API documentation with all available endpoints.": "[Swagger UI](http://localhost:3000/swagger-ui) をブラウザで開き、APIサーバーが起動していることを確認してください。利用可能なすべてのエンドポイントを含むインタラクティブなAPIドキュメントが表示されるはずです。",
   "Glossary": "用語集",
-  "Framework terminology and concepts": "フレームワークの用語と概念"
+  "Framework terminology and concepts": "フレームワークの用語と概念",
+  "Building Your Application": "アプリケーションを構築する",
+  "Application development guides after setup": "セットアップ後のアプリケーション開発ガイド",
+  "CodePipeline CI/CD": "CodePipeline CI/CD",
+  "Automated deployment with AWS CodePipeline": "AWS CodePipelineによる自動デプロイ"
 }

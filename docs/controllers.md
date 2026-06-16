@@ -165,3 +165,5 @@ export class CustomController {
 - [{{Backend Development}}](/docs/backend-development) - {{Complete backend development guide}}
 - [{{Interfaces}}](/docs/interfaces) - {{IInvoke and IInvokeContext interfaces}}
 - [{{Service Patterns}}](/docs/service-patterns) - {{Service layer with CQRS patterns}}
+- [{{Form Handling Patterns}}](/docs/form-handling-patterns) - {{DTO validation and form data processing}}
+- [{{Serialization}}](/docs/serialization) - {{Date and class-transformer serialization}}

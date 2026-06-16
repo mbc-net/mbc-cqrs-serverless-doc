@@ -230,3 +230,5 @@ LOCAL_DYNAMODB_PORT=9000
 - [コマンドサービス](/docs/command-service) - CommandService APIリファレンス
 - [用語集](/docs/glossary) - フレームワーク用語リファレンス
 - [変更履歴](/docs/changelog) - リリース履歴とバージョン間の変更点
+- [アプリケーションを構築する](/docs/build-your-application) - アプリケーション開発ガイドとパターン
+- [APIリファレンス](/docs/api-reference) - モジュールAPIドキュメント

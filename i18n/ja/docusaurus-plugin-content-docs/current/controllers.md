@@ -165,3 +165,5 @@ export class CustomController {
 - [バックエンド開発](/docs/backend-development) - 包括的なバックエンド開発ガイド
 - [インターフェース](/docs/interfaces) - IInvokeとIInvokeContextインターフェース
 - [サービスパターン](/docs/service-patterns) - CQRSパターンを使ったサービス層
+- [フォーム処理パターン](/docs/form-handling-patterns) - DTOバリデーションとフォームデータ処理
+- [シリアライゼーション](/docs/serialization) - 日付とclass-transformerによるシリアライゼーション

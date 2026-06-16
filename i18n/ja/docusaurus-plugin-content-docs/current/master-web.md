@@ -1792,3 +1792,4 @@ class MasterUrlProvider extends BaseUrlProvider {
 - [マスター](/docs/master) - バックエンドのマスターデータサービス
 - [フロントエンドプロジェクト構成](/docs/frontend-project-structure) - プロジェクト構成
 - [API統合パターン](/docs/api-integration-patterns) - APIパターン
+- [UIセッティング](/docs/ui-setting) - 動的UIセッティングと設定管理

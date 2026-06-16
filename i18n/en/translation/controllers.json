@@ -45,5 +45,9 @@
   "Data Sync Handler Examples": "Data Sync Handler Examples",
   "Authentication — Group-Based Roles": "Authentication — Group-Based Roles",
   "Notification Module": "Notification Module",
-  "Tasks": "Tasks"
+  "Tasks": "Tasks",
+  "Form Handling Patterns": "Form Handling Patterns",
+  "DTO validation and form data processing": "DTO validation and form data processing",
+  "Serialization": "Serialization",
+  "Date and class-transformer serialization": "Date and class-transformer serialization"
 }

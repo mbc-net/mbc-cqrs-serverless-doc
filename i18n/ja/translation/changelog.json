@@ -385,5 +385,7 @@
   "Handling version conflicts in upgrades": "アップグレード時のバージョン競合処理",
   "Related Links": "関連リンク",
   "See [Migration Guide v1.3.1](/docs/migration/v1.3.1) for upgrade instructions.": "[移行ガイド v1.3.1](/docs/migration/v1.3.1) でアップグレード手順を確認してください。",
-  "See [Migration Guide v1.3.0](/docs/migration/v1.3.0) for upgrade instructions.": "[移行ガイド v1.3.0](/docs/migration/v1.3.0) でアップグレード手順を確認してください。"
+  "See [Migration Guide v1.3.0](/docs/migration/v1.3.0) for upgrade instructions.": "[移行ガイド v1.3.0](/docs/migration/v1.3.0) でアップグレード手順を確認してください。",
+  "Web Changelog": "Web変更履歴",
+  "Release notes for master-web and survey-web frontend packages": "master-webおよびsurvey-webフロントエンドパッケージのリリースノート"
 }

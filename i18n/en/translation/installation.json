@@ -89,5 +89,9 @@
   "Verify Your Setup": "Verify Your Setup",
   "Open the [Swagger UI](http://localhost:3000/swagger-ui) in your browser to confirm the API server is running. You should see the interactive API documentation with all available endpoints.": "Open the [Swagger UI](http://localhost:3000/swagger-ui) in your browser to confirm the API server is running. You should see the interactive API documentation with all available endpoints.",
   "Glossary": "Glossary",
-  "Framework terminology and concepts": "Framework terminology and concepts"
+  "Framework terminology and concepts": "Framework terminology and concepts",
+  "Building Your Application": "Building Your Application",
+  "Application development guides after setup": "Application development guides after setup",
+  "CodePipeline CI/CD": "CodePipeline CI/CD",
+  "Automated deployment with AWS CodePipeline": "Automated deployment with AWS CodePipeline"
 }

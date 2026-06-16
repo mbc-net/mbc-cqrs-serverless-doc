@@ -56,5 +56,8 @@
   "Changelog": "変更履歴",
   "Release history and version notes": "リリース履歴とバージョンノート",
   "AI Integration": "AI連携",
-  "AI development tool support with llms.txt and MCP": "llms.txtとMCPによるAI開発ツールサポート"
+  "AI development tool support with llms.txt and MCP": "llms.txtとMCPによるAI開発ツールサポート",
+  "Practical implementation examples and use cases": "実践的な実装例とユースケース",
+  "API Reference": "APIリファレンス",
+  "Complete module API reference": "完全なモジュールAPIリファレンス"
 }

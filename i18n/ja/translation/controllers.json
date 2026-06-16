@@ -45,5 +45,9 @@
   "Data Sync Handler Examples": "データ同期ハンドラーの例",
   "Authentication — Group-Based Roles": "認証 — グループベースロール",
   "Notification Module": "通知モジュール",
-  "Tasks": "タスク"
+  "Tasks": "タスク",
+  "Form Handling Patterns": "フォーム処理パターン",
+  "DTO validation and form data processing": "DTOバリデーションとフォームデータ処理",
+  "Serialization": "シリアライゼーション",
+  "Date and class-transformer serialization": "日付とclass-transformerによるシリアライゼーション"
 }

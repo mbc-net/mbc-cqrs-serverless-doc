@@ -54,3 +54,5 @@ If you're new to the framework, follow this sequence:
 - [Glossary](/docs/glossary) - Framework terminology and key concepts
 - [Changelog](/docs/changelog) - Release history and version notes
 - [AI Integration](/docs/ai-integration) - AI development tool support with llms.txt and MCP
+- [Examples](/docs/recipes) - Practical implementation examples and use cases
+- [API Reference](/docs/api-reference) - Complete module API reference

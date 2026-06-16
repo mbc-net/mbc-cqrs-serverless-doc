@@ -385,5 +385,7 @@
   "Handling version conflicts in upgrades": "Handling version conflicts in upgrades",
   "Related Links": "Related Links",
   "See [Migration Guide v1.3.1](/docs/migration/v1.3.1) for upgrade instructions.": "See [Migration Guide v1.3.1](/docs/migration/v1.3.1) for upgrade instructions.",
-  "See [Migration Guide v1.3.0](/docs/migration/v1.3.0) for upgrade instructions.": "See [Migration Guide v1.3.0](/docs/migration/v1.3.0) for upgrade instructions."
+  "See [Migration Guide v1.3.0](/docs/migration/v1.3.0) for upgrade instructions.": "See [Migration Guide v1.3.0](/docs/migration/v1.3.0) for upgrade instructions.",
+  "Web Changelog": "Web Changelog",
+  "Release notes for master-web and survey-web frontend packages": "Release notes for master-web and survey-web frontend packages"
 }

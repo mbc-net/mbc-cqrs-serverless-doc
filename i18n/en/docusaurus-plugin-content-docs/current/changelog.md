@@ -911,6 +911,7 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 - [Migration Guide v1.2.0](/docs/migration/v1.2.0) - Upgrade guide for v1.2.0 (publishSync null return value)
 - [Migration Guide v1.1.0](/docs/migration/v1.1.0) - Upgrade guide for v1.1.0 (TENANT_COMMON, tenant code normalization)
 - [Version Conflict Guide](/docs/version-conflict-guide) - Handling version conflicts in upgrades
+- [Web Changelog](/docs/web-changelog) - Release notes for master-web and survey-web frontend packages
 
 ## Related Links
 

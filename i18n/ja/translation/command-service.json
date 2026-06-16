@@ -224,5 +224,7 @@
   "Versioning Rules": "バージョン管理ルール",
   "VERSION_FIRST, version sequences, and optimistic locking semantics": "VERSION_FIRST、バージョンシーケンス、楽観的ロックのセマンティクス",
   "For example, you can publish a new cat command as below:": "たとえば、次のように新しい cat コマンドを発行できます。",
-  "Like `publishAsync`, this method immediately returns the updated command data without waiting for the command to be processed.": "`publishAsync` メソッドと同様に、このメソッドはコマンドの処理を待たずに、更新されたコマンド データをすぐに返します。"
+  "Like `publishAsync`, this method immediately returns the updated command data without waiting for the command to be processed.": "`publishAsync` メソッドと同様に、このメソッドはコマンドの処理を待たずに、更新されたコマンド データをすぐに返します。",
+  "Serialization": "シリアライゼーション",
+  "Serialization of command data with class-transformer": "class-transformerによるコマンドデータのシリアライゼーション"
 }

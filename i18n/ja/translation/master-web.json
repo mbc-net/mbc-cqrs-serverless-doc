@@ -423,5 +423,7 @@
   "Project structure": "プロジェクト構成",
   "API Integration Patterns": "API統合パターン",
   "API patterns": "APIパターン",
-  "The component takes no props — it reads pk and sk from the URL via useParams(), so place it under a route like [pk]/[sk]": "The component takes no props — it reads pk and sk from the URL via useParams(), so place it under a route like [pk]/[sk] (The component takes no props (このコンポーネントは props を受け取らず、useParams() で URL から pk と sk を読み取るため、[pk]/[sk] のようなルート配下に配置してください))"
+  "The component takes no props — it reads pk and sk from the URL via useParams(), so place it under a route like [pk]/[sk]": "The component takes no props — it reads pk and sk from the URL via useParams(), so place it under a route like [pk]/[sk] (The component takes no props (このコンポーネントは props を受け取らず、useParams() で URL から pk と sk を読み取るため、[pk]/[sk] のようなルート配下に配置してください))",
+  "UI Setting": "UIセッティング",
+  "Dynamic UI settings and configuration management": "動的UIセッティングと設定管理"
 }

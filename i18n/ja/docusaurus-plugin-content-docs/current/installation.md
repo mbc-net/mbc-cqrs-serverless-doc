@@ -176,3 +176,5 @@ sudo chmod -R 777 ./infra-local/docker-data/dynamodb-local
 - [設定](/docs/configuring) - アプリケーションのモジュール設定
 - [CLI](/docs/cli) - スキャフォールディング用CLIコマンド
 - [用語集](/docs/glossary) - フレームワークの用語と概念
+- [アプリケーションを構築する](/docs/build-your-application) - セットアップ後のアプリケーション開発ガイド
+- [CodePipeline CI/CD](/docs/codepipeline-cicd) - AWS CodePipelineによる自動デプロイ

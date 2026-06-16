@@ -77,5 +77,9 @@
   "Changelog": "変更履歴",
   "Release history and what changed between versions": "リリース履歴とバージョン間の変更点",
   "Open the Swagger UI in your browser to explore and test your API:": "ブラウザでSwagger UIを開いてAPIを確認・テストしてください：",
-  "You should see the Swagger UI with all available endpoints listed.": "Swagger UIが表示され、利用可能なエンドポイントが一覧表示されます。"
+  "You should see the Swagger UI with all available endpoints listed.": "Swagger UIが表示され、利用可能なエンドポイントが一覧表示されます。",
+  "Building Your Application": "アプリケーションを構築する",
+  "Application development guides and patterns": "アプリケーション開発ガイドとパターン",
+  "API Reference": "APIリファレンス",
+  "Module API documentation": "モジュールAPIドキュメント"
 }

@@ -1792,3 +1792,4 @@ class MasterUrlProvider extends BaseUrlProvider {
 - [{{Master}}](/docs/master) - {{Backend master data service}}
 - [{{Frontend Project Structure}}](/docs/frontend-project-structure) - {{Project structure}}
 - [{{API Integration Patterns}}](/docs/api-integration-patterns) - {{API patterns}}
+- [{{UI Setting}}](/docs/ui-setting) - {{Dynamic UI settings and configuration management}}

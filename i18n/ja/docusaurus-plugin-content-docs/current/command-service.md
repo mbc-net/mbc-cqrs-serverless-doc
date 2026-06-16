@@ -845,3 +845,4 @@ export class OrderService {
 - [バージョン競合ガイド](/docs/version-conflict-guide) - 楽観的ロック競合の処理
 - [インターフェース](/docs/interfaces) - CommandInputModelなどのTypeScriptインターフェース
 - [バージョン管理ルール](/docs/version-rules) - VERSION_FIRST、バージョンシーケンス、楽観的ロックのセマンティクス
+- [シリアライゼーション](/docs/serialization) - class-transformerによるコマンドデータのシリアライゼーション

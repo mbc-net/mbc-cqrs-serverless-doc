@@ -230,3 +230,5 @@ LOCAL_DYNAMODB_PORT=9000
 - [{{Command Service}}](/docs/command-service) - {{CommandService API reference}}
 - [{{Glossary}}](/docs/glossary) - {{Framework terminology reference}}
 - [{{Changelog}}](/docs/changelog) - {{Release history and what changed between versions}}
+- [{{Building Your Application}}](/docs/build-your-application) - {{Application development guides and patterns}}
+- [{{API Reference}}](/docs/api-reference) - {{Module API documentation}}

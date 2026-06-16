@@ -176,3 +176,5 @@ Your local environment is ready. Here's the recommended path forward:
 - [Configuring](/docs/configuring) - Configure modules for your application
 - [CLI](/docs/cli) - CLI commands for scaffolding
 - [Glossary](/docs/glossary) - Framework terminology and concepts
+- [Building Your Application](/docs/build-your-application) - Application development guides after setup
+- [CodePipeline CI/CD](/docs/codepipeline-cicd) - Automated deployment with AWS CodePipeline

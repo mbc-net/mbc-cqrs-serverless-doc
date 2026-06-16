@@ -1792,3 +1792,4 @@ See [Web Packages Changelog](/docs/web-changelog) for all version history and re
 - [Master](/docs/master) - Backend master data service
 - [Frontend Project Structure](/docs/frontend-project-structure) - Project structure
 - [API Integration Patterns](/docs/api-integration-patterns) - API patterns
+- [UI Setting](/docs/ui-setting) - Dynamic UI settings and configuration management

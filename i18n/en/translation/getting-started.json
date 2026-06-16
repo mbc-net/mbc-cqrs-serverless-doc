@@ -56,5 +56,8 @@
   "Changelog": "Changelog",
   "Release history and version notes": "Release history and version notes",
   "AI Integration": "AI Integration",
-  "AI development tool support with llms.txt and MCP": "AI development tool support with llms.txt and MCP"
+  "AI development tool support with llms.txt and MCP": "AI development tool support with llms.txt and MCP",
+  "Practical implementation examples and use cases": "Practical implementation examples and use cases",
+  "API Reference": "API Reference",
+  "Complete module API reference": "Complete module API reference"
 }

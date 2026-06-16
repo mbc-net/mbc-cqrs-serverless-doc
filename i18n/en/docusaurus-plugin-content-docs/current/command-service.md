@@ -845,3 +845,4 @@ export class OrderService {
 - [Version Conflict Guide](/docs/version-conflict-guide) - Handling optimistic locking conflicts
 - [Interfaces](/docs/interfaces) - TypeScript interfaces for CommandInputModel and more
 - [Versioning Rules](/docs/version-rules) - VERSION_FIRST, version sequences, and optimistic locking semantics
+- [Serialization](/docs/serialization) - Serialization of command data with class-transformer
