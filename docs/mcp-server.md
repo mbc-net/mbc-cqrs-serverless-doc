@@ -147,7 +147,7 @@ npx @mbc-cqrs-serverless/mcp-server
 ### {{Anti-Pattern Detection}} {#anti-pattern-detection}
 
 :::info {{Version Note}}
-{{AP011–AP015 were added in [v1.2.x](/docs/changelog#v120) (publishSync null check, deprecated APIs, TaskModule duplication). AP016–AP020 were added in [v1.2.5](/docs/changelog#v125). AP021 (event emit after publishAsync) was added in [v1.2.6](/docs/changelog#v126). AP022–AP025 (eval, shell injection, HTTP timeout, sensitive logging) and AP026 (@NotificationTransport + @Injectable conflict) were added in [v1.3.0](/docs/changelog#v130). AP027 (GroupRoleResolver + @Injectable) was added in [v1.3.1](/docs/changelog#v131).}}
+{{AP011–AP015 were added in [v1.2.x](/docs/changelog#v120) (publishSync null check, deprecated APIs, TaskModule duplication). AP016–AP020 were added in [v1.2.5](/docs/changelog#v125). AP021 (event emit after publishAsync) was added in [v1.2.6](/docs/changelog#v126). AP022–AP025 (eval, shell injection, HTTP timeout, sensitive logging) and AP026 (@NotificationTransport + @Injectable conflict) were added in [v1.3.0](/docs/changelog#v130). AP027 (GroupRoleResolver + @Injectable) was added in [v1.3.1](/docs/changelog#v131). AP028 (duplicate DataSyncHandler), AP029 (reserved `'dynamodb'` type in `@DataSyncHandler`), and AP030 (fully-qualified table name in `@DataSyncHandler`) were added in [v1.3.2](/docs/changelog#v132).}}
 :::
 
 {{The `mbc_check_anti_patterns` tool detects common code issues. The detector emits **detector AP codes** (this table), which use a separate numbering system from the **skill-doc AP codes** in `/mbc-review` skill. The detector output annotates each hit with the corresponding skill-doc code, e.g. `AP005: Hardcoded Tenant (skill-doc: AP002)`. Only AP016–AP019 and AP021 share the same code in both systems.}}
@@ -181,6 +181,9 @@ npx @mbc-cqrs-serverless/mcp-server
 | AP025 | {{Logging `process.env` or full request object}} | {{High}} | — |
 | AP026 | {{`@NotificationTransport` class also annotated with `@Injectable`}} | {{High}} | — |
 | AP027 | {{`@GroupRoleResolver` class also annotated with `@Injectable`}} | {{High}} | — |
+| AP028 | {{Duplicate `DataSyncHandler` Registration}} | {{High}} | — |
+| AP029 | {{Reserved `'dynamodb'` Type in `@DataSyncHandler`}} | {{High}} | — |
+| AP030 | {{Fully-Qualified Table Name in `@DataSyncHandler`}} | {{High}} | — |
 
 ### {{Health Check}}
 

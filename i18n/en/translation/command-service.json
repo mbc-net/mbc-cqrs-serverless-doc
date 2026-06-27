@@ -226,5 +226,8 @@
   "For example, you can publish a new cat command as below:": "For example, you can publish a new cat command as below:",
   "Like `publishAsync`, this method immediately returns the updated command data without waiting for the command to be processed.": "Like `publishAsync`, this method immediately returns the updated command data without waiting for the command to be processed.",
   "Serialization": "Serialization",
-  "Serialization of command data with class-transformer": "Serialization of command data with class-transformer"
+  "Serialization of command data with class-transformer": "Serialization of command data with class-transformer",
+  "Known Issue (Fixed in v1.3.2)": "Known Issue (Fixed in v1.3.2)",
+  "In versions prior to v1.3.2, `publishSync` had two bugs: the versioned `sk` was not assigned to `command.sk` before handler dispatch (causing `IDataSyncHandler.up()` to receive the wrong sort key), and errors from `updateStatus` were silently masked.": "In versions prior to v1.3.2, `publishSync` had two bugs: the versioned `sk` was not assigned to `command.sk` before handler dispatch (causing `IDataSyncHandler.up()` to receive the wrong sort key), and errors from `updateStatus` were silently masked.",
+  "See also: [Changelog v1.3.2](/docs/changelog#v132)": "See also: [Changelog v1.3.2](/docs/changelog#v132)"
 }

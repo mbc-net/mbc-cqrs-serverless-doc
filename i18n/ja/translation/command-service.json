@@ -226,5 +226,8 @@
   "For example, you can publish a new cat command as below:": "たとえば、次のように新しい cat コマンドを発行できます。",
   "Like `publishAsync`, this method immediately returns the updated command data without waiting for the command to be processed.": "`publishAsync` メソッドと同様に、このメソッドはコマンドの処理を待たずに、更新されたコマンド データをすぐに返します。",
   "Serialization": "シリアライゼーション",
-  "Serialization of command data with class-transformer": "class-transformerによるコマンドデータのシリアライゼーション"
+  "Serialization of command data with class-transformer": "class-transformerによるコマンドデータのシリアライゼーション",
+  "Known Issue (Fixed in v1.3.2)": "既知の問題（v1.3.2 で修正）",
+  "In versions prior to v1.3.2, `publishSync` had two bugs: the versioned `sk` was not assigned to `command.sk` before handler dispatch (causing `IDataSyncHandler.up()` to receive the wrong sort key), and errors from `updateStatus` were silently masked.": "v1.3.2 以前の `publishSync` には 2 つのバグがありました: ハンドラーディスパッチ前にバージョン付き `sk` が `command.sk` に代入されておらず（`IDataSyncHandler.up()` が誤ったソートキーを受け取っていた）、`updateStatus` のエラーがサイレントにマスクされていました。",
+  "See also: [Changelog v1.3.2](/docs/changelog#v132)": "参照: [変更履歴 v1.3.2](/docs/changelog#v132)"
 }
