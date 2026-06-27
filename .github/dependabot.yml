@@ -1,0 +1,21 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Tokyo"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "koichi-murakami"
+    labels:
+      - "dependencies"
+    groups:
+      docusaurus:
+        patterns:
+          - "@docusaurus/*"
+      aws-sdk:
+        patterns:
+          - "@aws-sdk/*"
