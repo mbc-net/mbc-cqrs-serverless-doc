@@ -178,6 +178,12 @@ console.log(result.pk); // {{safe after null check}}
 {{Prior to v1.1.4, `publishSync` bypassed the Command table to avoid triggering Step Functions, resulting in a missing audit trail and no History table entries.}}
 :::
 
+:::warning {{Known Issue (Fixed in v1.3.2)}}
+{{In versions prior to v1.3.2, `publishSync` had two bugs: the versioned `sk` was not assigned to `command.sk` before handler dispatch (causing `IDataSyncHandler.up()` to receive the wrong sort key), and errors from `updateStatus` were silently masked.}}
+
+{{See also: [Changelog v1.3.2](/docs/changelog#v132)}}
+:::
+
 {{Returns `null` if no changes are detected (dirty check optimization).}}
 
 {{For example:}}

@@ -1,18 +1,37 @@
 {
   "latest": {
-    "version": "1.3.1",
-    "date": "2026-06-02",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.1",
+    "version": "1.3.2",
+    "date": "2026-06-27",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.2",
     "features": [
-      "Add group-based role authorization — `RolesGuard` checks direct roles from `custom:roles` first, then roles derived from the user's groups in the new `custom:groups` claim",
-      "Update skills and analyzer for v1.3.1"
+      "Add AP028, AP029, AP030 anti-pattern detectors"
     ],
     "bugFixes": [
-      "Tolerate a malformed `custom:groups` claim (fail-closed to no group roles) instead of throwing, so a bad token degrades to direct-role-only checks rather than crashing the request"
+      "Fix `DataSyncHandler` duplicate registration — `ExplorerService` now deduplicates handlers via `Set`; `CommandService` deduplicates via `Map<constructor.name, instance>` and emits a `warn` log for each removed duplicate",
+      "Fix `publishSync` — versioned `sk` is now assigned to `command.sk` before handler dispatch so `IDataSyncHandler.up()` receives the correct key; `updateStatus` errors are no longer silently masked; `pk`/`sk` are now included in `checkNextToken` warn logs"
     ],
-    "security": []
+    "security": [
+      "Harden npm dependencies — resolve high/moderate vulnerabilities via `overrides` (`lodash`, `tmp`, `multer`, `ajv`, `picomatch`, `fast-xml-parser`) and targeted upgrades (`@nestjs/config` ^4.0.4, `@typescript-eslint` v8); root production audit: 0 critical/high",
+      "Add blocking CI gates: `npm audit --omit=dev --audit-level=high` and ESLint startup check run on every PR, failing the build on any production vulnerability"
+    ]
   },
   "recent": [
+    {
+      "version": "1.3.2",
+      "date": "2026-06-27",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.2",
+      "features": [
+        "Add AP028, AP029, AP030 anti-pattern detectors"
+      ],
+      "bugFixes": [
+        "Fix `DataSyncHandler` duplicate registration — `ExplorerService` now deduplicates handlers via `Set`; `CommandService` deduplicates via `Map<constructor.name, instance>` and emits a `warn` log for each removed duplicate",
+        "Fix `publishSync` — versioned `sk` is now assigned to `command.sk` before handler dispatch so `IDataSyncHandler.up()` receives the correct key; `updateStatus` errors are no longer silently masked; `pk`/`sk` are now included in `checkNextToken` warn logs"
+      ],
+      "security": [
+        "Harden npm dependencies — resolve high/moderate vulnerabilities via `overrides` (`lodash`, `tmp`, `multer`, `ajv`, `picomatch`, `fast-xml-parser`) and targeted upgrades (`@nestjs/config` ^4.0.4, `@typescript-eslint` v8); root production audit: 0 critical/high",
+        "Add blocking CI gates: `npm audit --omit=dev --audit-level=high` and ESLint startup check run on every PR, failing the build on any production vulnerability"
+      ]
+    },
     {
       "version": "1.3.1",
       "date": "2026-06-02",
@@ -51,19 +70,7 @@
         "`server.ts` was hardcoding the package version, which silently drifted on every `lerna version` bump. Now read at runtime from `package.json`"
       ],
       "security": []
-    },
-    {
-      "version": "1.2.5",
-      "date": "2026-04-10",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.5",
-      "features": [
-        "Refactor ZIP import processing — move ZIP job handling directly into `ImportService`, removing the separate `ZipImportQueueEventHandler`",
-        "Add AP016–AP020 anti-pattern detectors to `mbc_check_anti_patterns` tool (total: 20 patterns)",
-        "Update `mbc-migrate` and `mbc-debug` skills with v1.1.x and v1.2.x breaking change guidance"
-      ],
-      "bugFixes": [],
-      "security": []
     }
   ],
-  "generated": "2026-06-16T15:17:37.163Z"
+  "generated": "2026-06-27T16:41:39.208Z"
 }

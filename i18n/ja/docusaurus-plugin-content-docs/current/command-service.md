@@ -178,6 +178,12 @@ console.log(result.pk); // safe after null check (nullチェック後は安全)
 v1.1.4以前は、`publishSync`はStep Functionsのトリガーを避けるためCommandテーブルをバイパスしており、監査証跡の欠落とHistoryテーブルへの書き込みがない状態でした。
 :::
 
+:::warning 既知の問題（v1.3.2 で修正）
+v1.3.2 以前の `publishSync` には 2 つのバグがありました: ハンドラーディスパッチ前にバージョン付き `sk` が `command.sk` に代入されておらず（`IDataSyncHandler.up()` が誤ったソートキーを受け取っていた）、`updateStatus` のエラーがサイレントにマスクされていました。
+
+参照: [変更履歴 v1.3.2](/docs/changelog#v132)
+:::
+
 変更が検出されない場合は`null`を返します（ダーティチェック最適化）。
 
 例えば

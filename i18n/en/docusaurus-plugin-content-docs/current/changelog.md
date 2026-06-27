@@ -18,6 +18,28 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ## Stable Releases (1.x) {#stable-releases}
 
+## [1.3.2](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.2) (2026-06-27) {#v132}
+
+### Features
+
+- **mcp-server:** Add AP028, AP029, AP030 anti-pattern detectors ([See Details](/docs/mcp-server#anti-pattern-detection)) ([PR #460](https://github.com/mbc-net/mbc-cqrs-serverless/pull/460), [PR #461](https://github.com/mbc-net/mbc-cqrs-serverless/pull/461))
+  - AP028: Duplicate `DataSyncHandler` registration across NestJS modules — detected and deduplicated with a warning log
+  - AP029: Reserved `'dynamodb'` type on `@DataSyncHandler` causes the handler to be silently excluded from dispatch
+  - AP030: Fully-qualified table name (ending in `'-command'`) in `@DataSyncHandler` causes silent handler skip
+
+### Bug Fixes
+
+- **core:** Fix `DataSyncHandler` duplicate registration — `ExplorerService` now deduplicates handlers via `Set`; `CommandService` deduplicates via `Map<constructor.name, instance>` and emits a `warn` log for each removed duplicate ([PR #459](https://github.com/mbc-net/mbc-cqrs-serverless/pull/459))
+- **core:** Fix `publishSync` — versioned `sk` is now assigned to `command.sk` before handler dispatch so `IDataSyncHandler.up()` receives the correct key; `updateStatus` errors are no longer silently masked; `pk`/`sk` are now included in `checkNextToken` warn logs ([See Details](/docs/command-service#publishsync-audit-trail)) ([PR #460](https://github.com/mbc-net/mbc-cqrs-serverless/pull/460))
+
+### Security
+
+- Harden npm dependencies — resolve high/moderate vulnerabilities via `overrides` (`lodash`, `tmp`, `multer`, `ajv`, `picomatch`, `fast-xml-parser`) and targeted upgrades (`@nestjs/config` ^4.0.4, `@typescript-eslint` v8); root production audit: 0 critical/high ([PR #445](https://github.com/mbc-net/mbc-cqrs-serverless/pull/445)–[#453](https://github.com/mbc-net/mbc-cqrs-serverless/pull/453))
+- **cli:** Upgrade `multer` to v2.2.0 in scaffolded templates to fix CVE-2026-5079 (DoS via deeply nested multipart field names) ([PR #463](https://github.com/mbc-net/mbc-cqrs-serverless/pull/463))
+- Add blocking CI gates: `npm audit --omit=dev --audit-level=high` and ESLint startup check run on every PR, failing the build on any production vulnerability ([PR #448](https://github.com/mbc-net/mbc-cqrs-serverless/pull/448))
+
+---
+
 ## [1.3.1](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.1) (2026-06-02) {#v131}
 
 ### Features

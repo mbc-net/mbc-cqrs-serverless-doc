@@ -1,18 +1,39 @@
 {
   "latest": {
-    "version": "1.3.1",
-    "date": "2026-06-02",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.1",
+    "version": "1.3.2",
+    "date": "2026-06-27",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.2",
     "features": [
-      "グループベースのロール認可を追加 — `RolesGuard` はまず `custom:roles` の直接ロールを確認し、次に新しい `custom:groups` クレームに含まれるユーザーのグループから導出されたロールを確認します",
-      "v1.3.1 向けにスキルとアナライザを更新"
+      "AP028、AP029、AP030 のアンチパターン検出器を追加"
     ],
     "bugFixes": [
-      "不正な `custom:groups` クレームを例外ではなく許容（グループロールなしにフェイルクローズ）するようにし、不正なトークンでもリクエストをクラッシュさせず直接ロールのみのチェックに縮退します"
+      "`DataSyncHandler` の重複登録を修正 — `ExplorerService` が `Set` でハンドラーを重複排除し、`CommandService` が `Map<constructor.name, instance>` で重複排除して削除された重複ごとに `warn` ログを出力するように",
+      "`publishSync` を修正 — ハンドラーディスパッチ前にバージョン付き `sk` が `command.sk` に代入されるようになり `IDataSyncHandler.up()` が正しいキーを受け取る。`updateStatus` エラーがサイレントにマスクされなくなった。デバッグを容易にするため `checkNextToken` の警告ログに `pk`/`sk` を追加。"
     ],
-    "security": []
+    "security": [
+      "npm 依存関係を強化 — `overrides`（`lodash`、`tmp`、`multer`、`ajv`、`picomatch`、`fast-xml-parser`）と個別アップグレード（`@nestjs/config` ^4.0.4、`@typescript-eslint` v8）で high/moderate 脆弱性を解消。本番ルート監査: critical/high 0件 ([PR #445](https://github.com/mbc-net/mbc-cqrs-serverless/pull/445)–[#453](https://github.com/mbc-net/mbc-cqrs-serverless/pull/453))",
+      "**cli:** スキャフォールドテンプレートの `multer` を v2.2.0 にアップグレードして CVE-2026-5079（深いネストのマルチパートフィールド名による DoS）を修正 ([PR #463](https://github.com/mbc-net/mbc-cqrs-serverless/pull/463))",
+      "ブロッキング CI ゲートを追加: `npm audit --omit=dev --audit-level=high` と ESLint 起動チェックがすべての PR で実行され、本番脆弱性があるとビルドが失敗する ([PR #448](https://github.com/mbc-net/mbc-cqrs-serverless/pull/448))"
+    ]
   },
   "recent": [
+    {
+      "version": "1.3.2",
+      "date": "2026-06-27",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.2",
+      "features": [
+        "AP028、AP029、AP030 のアンチパターン検出器を追加"
+      ],
+      "bugFixes": [
+        "`DataSyncHandler` の重複登録を修正 — `ExplorerService` が `Set` でハンドラーを重複排除し、`CommandService` が `Map<constructor.name, instance>` で重複排除して削除された重複ごとに `warn` ログを出力するように",
+        "`publishSync` を修正 — ハンドラーディスパッチ前にバージョン付き `sk` が `command.sk` に代入されるようになり `IDataSyncHandler.up()` が正しいキーを受け取る。`updateStatus` エラーがサイレントにマスクされなくなった。デバッグを容易にするため `checkNextToken` の警告ログに `pk`/`sk` を追加。"
+      ],
+      "security": [
+        "npm 依存関係を強化 — `overrides`（`lodash`、`tmp`、`multer`、`ajv`、`picomatch`、`fast-xml-parser`）と個別アップグレード（`@nestjs/config` ^4.0.4、`@typescript-eslint` v8）で high/moderate 脆弱性を解消。本番ルート監査: critical/high 0件 ([PR #445](https://github.com/mbc-net/mbc-cqrs-serverless/pull/445)–[#453](https://github.com/mbc-net/mbc-cqrs-serverless/pull/453))",
+        "**cli:** スキャフォールドテンプレートの `multer` を v2.2.0 にアップグレードして CVE-2026-5079（深いネストのマルチパートフィールド名による DoS）を修正 ([PR #463](https://github.com/mbc-net/mbc-cqrs-serverless/pull/463))",
+        "ブロッキング CI ゲートを追加: `npm audit --omit=dev --audit-level=high` と ESLint 起動チェックがすべての PR で実行され、本番脆弱性があるとビルドが失敗する ([PR #448](https://github.com/mbc-net/mbc-cqrs-serverless/pull/448))"
+      ]
+    },
     {
       "version": "1.3.1",
       "date": "2026-06-02",
@@ -51,19 +72,7 @@
         "`server.ts` がパッケージバージョンをハードコードしており、`lerna version` のたびにサイレントにずれていた問題を修正。実行時に `package.json` から読み込むように変更"
       ],
       "security": []
-    },
-    {
-      "version": "1.2.5",
-      "date": "2026-04-10",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.5",
-      "features": [
-        "ZIPインポート処理をリファクタリング — ZIPジョブ処理を`ImportService`に直接統合し、独立した`ZipImportQueueEventHandler`を削除",
-        "`mbc_check_anti_patterns`ツールにAP016〜AP020のアンチパターン検出器を追加（合計20パターン）",
-        "`mbc-migrate`と`mbc-debug`スキルをv1.1.x・v1.2.x破壊的変更ガイドで更新"
-      ],
-      "bugFixes": [],
-      "security": []
     }
   ],
-  "generated": "2026-06-16T15:17:37.165Z"
+  "generated": "2026-06-27T16:41:39.210Z"
 }
