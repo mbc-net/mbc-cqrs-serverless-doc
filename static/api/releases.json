@@ -1,21 +1,25 @@
 {
   "latest": {
-    "version": "1.3.2",
-    "date": "2026-06-27",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.2",
-    "features": [
-      "Add AP028, AP029, AP030 anti-pattern detectors"
-    ],
+    "version": "1.3.3",
+    "date": "2026-07-17",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.3",
+    "features": [],
     "bugFixes": [
-      "Fix `DataSyncHandler` duplicate registration — `ExplorerService` now deduplicates handlers via `Set`; `CommandService` deduplicates via `Map<constructor.name, instance>` and emits a `warn` log for each removed duplicate",
-      "Fix `publishSync` — versioned `sk` is now assigned to `command.sk` before handler dispatch so `IDataSyncHandler.up()` receives the correct key; `updateStatus` errors are no longer silently masked; `pk`/`sk` are now included in `checkNextToken` warn logs"
+      "Lower the default `ATTRIBUTE_LIMIT_SIZE` from `389120` (380 KB) to `102400` (100 KB) in CDK infra templates and env examples — the previous default was sized for DynamoDB's 400 KB item limit, but Step Functions enforces a 256 KB payload limit per state, and the command state machine passes the DynamoDB stream event twice (`input.$` + `context.$`), so inline attributes above ~110 KB could trigger `States.DataLimitExceeded`"
     ],
-    "security": [
-      "Harden npm dependencies — resolve high/moderate vulnerabilities via `overrides` (`lodash`, `tmp`, `multer`, `ajv`, `picomatch`, `fast-xml-parser`) and targeted upgrades (`@nestjs/config` ^4.0.4, `@typescript-eslint` v8); root production audit: 0 critical/high",
-      "Add blocking CI gates: `npm audit --omit=dev --audit-level=high` and ESLint startup check run on every PR, failing the build on any production vulnerability"
-    ]
+    "security": []
   },
   "recent": [
+    {
+      "version": "1.3.3",
+      "date": "2026-07-17",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.3",
+      "features": [],
+      "bugFixes": [
+        "Lower the default `ATTRIBUTE_LIMIT_SIZE` from `389120` (380 KB) to `102400` (100 KB) in CDK infra templates and env examples — the previous default was sized for DynamoDB's 400 KB item limit, but Step Functions enforces a 256 KB payload limit per state, and the command state machine passes the DynamoDB stream event twice (`input.$` + `context.$`), so inline attributes above ~110 KB could trigger `States.DataLimitExceeded`"
+      ],
+      "security": []
+    },
     {
       "version": "1.3.2",
       "date": "2026-06-27",
@@ -56,21 +60,7 @@
       ],
       "bugFixes": [],
       "security": []
-    },
-    {
-      "version": "1.2.6",
-      "date": "2026-05-06",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.2.6",
-      "features": [
-        "Repository Read-Your-Writes (RYW) improvements — proactively purge stale RYW sessions when the data table catches up to or surpasses the session version, eliminating \"stale override\" reads",
-        "Add AP021 anti-pattern detector — `Event Emit Directly After publishAsync in CommandService` (Severity: High)",
-        "Add cross-reference table mapping detector AP codes (`analyze.ts`) to skill-doc AP codes (`skills/mbc-review/SKILL.md`) — the two systems use independent numbering and only AP016–AP019 and AP021 share codes"
-      ],
-      "bugFixes": [
-        "`server.ts` was hardcoding the package version, which silently drifted on every `lerna version` bump. Now read at runtime from `package.json`"
-      ],
-      "security": []
     }
   ],
-  "generated": "2026-06-27T16:41:39.208Z"
+  "generated": "2026-07-17T04:30:33.958Z"
 }

@@ -55,13 +55,23 @@ description: {{Learn how to add and validate your environment variables in your 
 | `AWS_SECRET_ACCESS_KEY` | {{AWS secret access key for local development}} | {{No}} | `local` |
 | `AWS_REGION` | {{Default AWS region}} | {{No}} | `ap-northeast-1` |
 
-### {{DynamoDB Configuration}}
+### {{DynamoDB Configuration}} {#dynamodb-configuration}
 
 | {{Variable}} | {{Description}} | {{Required}} | {{Example}} |
 |-------------|-----------------|--------------|-------------|
 | `DYNAMODB_ENDPOINT` | {{DynamoDB endpoint URL for local development}} | {{No}} | `http://localhost:8000` |
 | `DYNAMODB_REGION` | {{DynamoDB region}} | {{No}} | `ap-northeast-1` |
-| `ATTRIBUTE_LIMIT_SIZE` | {{Maximum size in bytes for DynamoDB item attributes}} | {{Yes}} | `389120` |
+| `ATTRIBUTE_LIMIT_SIZE` | {{Maximum size in bytes for DynamoDB item `attributes` before the framework offloads them to S3}} | {{Yes}} | `102400` |
+
+{{The default of `102400` (100 KB) is sized for the AWS Step Functions payload limit, not DynamoDB's own 400 KB item limit. The command state machine passes the DynamoDB stream event twice per state (`input.$` and `context.$`), so the safe inline size is approximately `(256 KB Step Functions limit − ~20 KB context overhead) ÷ 2 ≈ 110 KB`. Attributes larger than `ATTRIBUTE_LIMIT_SIZE` are automatically stored in S3 instead of inline.}}
+
+:::warning {{Known Issue (Fixed in v1.3.3)}}
+{{In versions prior to v1.3.3, the framework's default `ATTRIBUTE_LIMIT_SIZE` in generated CDK templates and env examples was `389120` (380 KB) — sized for DynamoDB's item limit rather than the Step Functions payload limit. Because the command state machine duplicates the event payload (`input.$` + `context.$`), attributes above ~110 KB could still be inlined and cause the state machine to fail with `States.DataLimitExceeded`.}}
+
+{{If your deployment still sets `ATTRIBUTE_LIMIT_SIZE=389120` (or another value above ~110 KB), lower it to `102400` or less.}}
+
+{{See also:}} [{{Changelog v1.3.3}}](/docs/changelog#v133)
+:::
 
 ### {{S3 Configuration}}
 
@@ -163,7 +173,7 @@ REQUEST_BODY_SIZE_LIMIT=100kb
 # {{DynamoDB Configuration}}
 DYNAMODB_ENDPOINT=http://localhost:8000
 DYNAMODB_REGION=ap-northeast-1
-ATTRIBUTE_LIMIT_SIZE=389120
+ATTRIBUTE_LIMIT_SIZE=102400
 
 # {{S3 Configuration}}
 S3_ENDPOINT=http://localhost:4566
