@@ -18,11 +18,12 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ## 安定版リリース (1.x) {#stable-releases}
 
-## [1.3.3](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.3) (2026-07-17) {#v133}
+## [1.3.4](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.4) (2026-07-17) {#v134}
 
 ### バグ修正
 
-- **cli:** CDKインフラのテンプレートおよび環境変数の例における `ATTRIBUTE_LIMIT_SIZE` のデフォルト値を `389120`（380 KB）から `102400`（100 KB）に引き下げ — 従来のデフォルト値はDynamoDBの400 KBアイテム上限を基準にしていましたが、Step Functionsは各ステートあたり256 KBのペイロード上限を課しており、かつコマンド用ステートマシンはDynamoDB Streamイベントを2重（`input.$` と `context.$`）に渡すため、~110 KBを超えるインライン属性は `States.DataLimitExceeded` を引き起こす可能性がありました ([詳細を見る](/docs/environment-variables#dynamodb-configuration)) ([PR #466](https://github.com/mbc-net/mbc-cqrs-serverless/pull/466))
+- **core, cli:** CDKインフラのテンプレートおよび環境変数の例における `ATTRIBUTE_LIMIT_SIZE` のデフォルト値を `389120`（380 KB）から `102400`（100 KB）に引き下げ — 従来のデフォルト値はDynamoDBの400 KBアイテム上限を基準にしていましたが、Step Functionsは各ステートあたり256 KBのペイロード上限を課しており、かつコマンド用ステートマシンはDynamoDB Streamイベントを2重（`input.$` と `context.$`）に渡すため、~110 KBを超えるインライン属性は `States.DataLimitExceeded` を引き起こす可能性がありました ([詳細を見る](/docs/environment-variables#dynamodb-configuration)) ([PR #466](https://github.com/mbc-net/mbc-cqrs-serverless/pull/466))
+- **mcp-server:** 新しい `ATTRIBUTE_LIMIT_SIZE` のデフォルト値に関するガイダンスをスキルに追加 ([PR #470](https://github.com/mbc-net/mbc-cqrs-serverless/pull/470))
 
 ---
 

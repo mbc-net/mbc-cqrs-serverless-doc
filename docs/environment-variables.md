@@ -65,12 +65,12 @@ description: {{Learn how to add and validate your environment variables in your 
 
 {{The default of `102400` (100 KB) is sized for the AWS Step Functions payload limit, not DynamoDB's own 400 KB item limit. The command state machine passes the DynamoDB stream event twice per state (`input.$` and `context.$`), so the safe inline size is approximately `(256 KB Step Functions limit − ~20 KB context overhead) ÷ 2 ≈ 110 KB`. Attributes larger than `ATTRIBUTE_LIMIT_SIZE` are automatically stored in S3 instead of inline.}}
 
-:::warning {{Known Issue (Fixed in v1.3.3)}}
-{{In versions prior to v1.3.3, the framework's default `ATTRIBUTE_LIMIT_SIZE` in generated CDK templates and env examples was `389120` (380 KB) — sized for DynamoDB's item limit rather than the Step Functions payload limit. Because the command state machine duplicates the event payload (`input.$` + `context.$`), attributes above ~110 KB could still be inlined and cause the state machine to fail with `States.DataLimitExceeded`.}}
+:::warning {{Known Issue (Fixed in v1.3.4)}}
+{{In versions prior to v1.3.4, the framework's default `ATTRIBUTE_LIMIT_SIZE` in generated CDK templates and env examples was `389120` (380 KB) — sized for DynamoDB's item limit rather than the Step Functions payload limit. Because the command state machine duplicates the event payload (`input.$` + `context.$`), attributes above ~110 KB could still be inlined and cause the state machine to fail with `States.DataLimitExceeded`.}}
 
 {{If your deployment still sets `ATTRIBUTE_LIMIT_SIZE=389120` (or another value above ~110 KB), lower it to `102400` or less.}}
 
-{{See also:}} [{{Changelog v1.3.3}}](/docs/changelog#v133)
+{{See also:}} [{{Changelog v1.3.4}}](/docs/changelog#v134)
 :::
 
 ### {{S3 Configuration}}

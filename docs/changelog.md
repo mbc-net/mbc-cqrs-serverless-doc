@@ -18,11 +18,12 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ## {{Stable Releases (1.x)}} {#stable-releases}
 
-## [1.3.3](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.3) (2026-07-17) {#v133}
+## [1.3.4](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.4) (2026-07-17) {#v134}
 
 ### {{Bug Fixes}}
 
-- **cli:** {{Lower the default `ATTRIBUTE_LIMIT_SIZE` from `389120` (380 KB) to `102400` (100 KB) in CDK infra templates and env examples — the previous default was sized for DynamoDB's 400 KB item limit, but Step Functions enforces a 256 KB payload limit per state, and the command state machine passes the DynamoDB stream event twice (`input.$` + `context.$`), so inline attributes above ~110 KB could trigger `States.DataLimitExceeded`}} ([{{See Details}}](/docs/environment-variables#dynamodb-configuration)) ([PR #466](https://github.com/mbc-net/mbc-cqrs-serverless/pull/466))
+- **core, cli:** {{Lower the default `ATTRIBUTE_LIMIT_SIZE` from `389120` (380 KB) to `102400` (100 KB) in CDK infra templates and env examples — the previous default was sized for DynamoDB's 400 KB item limit, but Step Functions enforces a 256 KB payload limit per state, and the command state machine passes the DynamoDB stream event twice (`input.$` + `context.$`), so inline attributes above ~110 KB could trigger `States.DataLimitExceeded`}} ([{{See Details}}](/docs/environment-variables#dynamodb-configuration)) ([PR #466](https://github.com/mbc-net/mbc-cqrs-serverless/pull/466))
+- **mcp-server:** {{Update skills with guidance on the new `ATTRIBUTE_LIMIT_SIZE` default}} ([PR #470](https://github.com/mbc-net/mbc-cqrs-serverless/pull/470))
 
 ---
 
