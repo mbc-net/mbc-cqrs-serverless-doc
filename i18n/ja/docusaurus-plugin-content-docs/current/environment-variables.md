@@ -55,13 +55,23 @@ MBC CQRS サーバーレスフレームワークには、環境変数を `.env*`
 | `AWS_SECRET_ACCESS_KEY` | ローカル開発用のAWSシークレットアクセスキー | いいえ | `local` |
 | `AWS_REGION` | デフォルトのAWSリージョン | いいえ | `ap-northeast-1` |
 
-### DynamoDB 設定
+### DynamoDB 設定 {#dynamodb-configuration}
 
 | 変数 | 説明 | 必須 | 例 |
 |-------------|-----------------|--------------|-------------|
 | `DYNAMODB_ENDPOINT` | ローカル開発用のDynamoDBエンドポイントURL | いいえ | `http://localhost:8000` |
 | `DYNAMODB_REGION` | DynamoDBリージョン | いいえ | `ap-northeast-1` |
-| `ATTRIBUTE_LIMIT_SIZE` | DynamoDBアイテム属性の最大サイズ（バイト） | はい | `389120` |
+| `ATTRIBUTE_LIMIT_SIZE` | DynamoDBアイテムの `attributes` がS3へオフロードされるまでの最大サイズ（バイト単位） | はい | `102400` |
+
+デフォルト値の `102400`（100 KB）は、DynamoDB自体の400 KBアイテム上限ではなく、AWS Step Functionsのペイロード上限を基準にしたサイズです。コマンド用ステートマシンは各ステートでDynamoDB Streamイベントを2回（`input.$` と `context.$`）渡すため、安全なインラインサイズはおおよそ `(256 KBのStep Functions上限 − 約20 KBのコンテキストオーバーヘッド) ÷ 2 ≈ 110 KB` となります。`ATTRIBUTE_LIMIT_SIZE` を超える属性は、インラインではなく自動的にS3に保存されます。
+
+:::warning 既知の問題（v1.3.3で修正）
+v1.3.3より前のバージョンでは、生成されるCDKテンプレートおよび環境変数の例における `ATTRIBUTE_LIMIT_SIZE` のデフォルト値は `389120`（380 KB）であり、Step Functionsのペイロード上限ではなくDynamoDBのアイテム上限を基準にしていました。コマンド用ステートマシンはイベントペイロードを2重（`input.$` + `context.$`）に渡すため、~110 KBを超える属性がインライン化されると、ステートマシンが `States.DataLimitExceeded` で失敗する可能性がありました。
+
+デプロイ環境で `ATTRIBUTE_LIMIT_SIZE=389120`（または~110 KBを超える値）を設定している場合は、`102400` 以下に引き下げてください。
+
+参照: [変更履歴 v1.3.3](/docs/changelog#v133)
+:::
 
 ### S3 設定
 
@@ -163,7 +173,7 @@ REQUEST_BODY_SIZE_LIMIT=100kb
 # DynamoDB 設定
 DYNAMODB_ENDPOINT=http://localhost:8000
 DYNAMODB_REGION=ap-northeast-1
-ATTRIBUTE_LIMIT_SIZE=389120
+ATTRIBUTE_LIMIT_SIZE=102400
 
 # S3 設定
 S3_ENDPOINT=http://localhost:4566
