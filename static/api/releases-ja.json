@@ -1,22 +1,24 @@
 {
   "latest": {
-    "version": "1.3.3",
+    "version": "1.3.4",
     "date": "2026-07-17",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.3",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.4",
     "features": [],
     "bugFixes": [
-      "CDKインフラのテンプレートおよび環境変数の例における `ATTRIBUTE_LIMIT_SIZE` のデフォルト値を `389120`（380 KB）から `102400`（100 KB）に引き下げ — 従来のデフォルト値はDynamoDBの400 KBアイテム上限を基準にしていましたが、Step Functionsは各ステートあたり256 KBのペイロード上限を課しており、かつコマンド用ステートマシンはDynamoDB Streamイベントを2重（`input.$` と `context.$`）に渡すため、~110 KBを超えるインライン属性は `States.DataLimitExceeded` を引き起こす可能性がありました"
+      "CDKインフラのテンプレートおよび環境変数の例における `ATTRIBUTE_LIMIT_SIZE` のデフォルト値を `389120`（380 KB）から `102400`（100 KB）に引き下げ — 従来のデフォルト値はDynamoDBの400 KBアイテム上限を基準にしていましたが、Step Functionsは各ステートあたり256 KBのペイロード上限を課しており、かつコマンド用ステートマシンはDynamoDB Streamイベントを2重（`input.$` と `context.$`）に渡すため、~110 KBを超えるインライン属性は `States.DataLimitExceeded` を引き起こす可能性がありました",
+      "新しい `ATTRIBUTE_LIMIT_SIZE` のデフォルト値に関するガイダンスをスキルに追加"
     ],
     "security": []
   },
   "recent": [
     {
-      "version": "1.3.3",
+      "version": "1.3.4",
       "date": "2026-07-17",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.3",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.4",
       "features": [],
       "bugFixes": [
-        "CDKインフラのテンプレートおよび環境変数の例における `ATTRIBUTE_LIMIT_SIZE` のデフォルト値を `389120`（380 KB）から `102400`（100 KB）に引き下げ — 従来のデフォルト値はDynamoDBの400 KBアイテム上限を基準にしていましたが、Step Functionsは各ステートあたり256 KBのペイロード上限を課しており、かつコマンド用ステートマシンはDynamoDB Streamイベントを2重（`input.$` と `context.$`）に渡すため、~110 KBを超えるインライン属性は `States.DataLimitExceeded` を引き起こす可能性がありました"
+        "CDKインフラのテンプレートおよび環境変数の例における `ATTRIBUTE_LIMIT_SIZE` のデフォルト値を `389120`（380 KB）から `102400`（100 KB）に引き下げ — 従来のデフォルト値はDynamoDBの400 KBアイテム上限を基準にしていましたが、Step Functionsは各ステートあたり256 KBのペイロード上限を課しており、かつコマンド用ステートマシンはDynamoDB Streamイベントを2重（`input.$` と `context.$`）に渡すため、~110 KBを超えるインライン属性は `States.DataLimitExceeded` を引き起こす可能性がありました",
+        "新しい `ATTRIBUTE_LIMIT_SIZE` のデフォルト値に関するガイダンスをスキルに追加"
       ],
       "security": []
     },
@@ -63,5 +65,5 @@
       "security": []
     }
   ],
-  "generated": "2026-07-17T04:30:33.960Z"
+  "generated": "2026-07-17T07:48:33.413Z"
 }

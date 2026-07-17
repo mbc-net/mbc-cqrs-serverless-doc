@@ -65,12 +65,12 @@ MBC CQRS サーバーレスフレームワークには、環境変数を `.env*`
 
 デフォルト値の `102400`（100 KB）は、DynamoDB自体の400 KBアイテム上限ではなく、AWS Step Functionsのペイロード上限を基準にしたサイズです。コマンド用ステートマシンは各ステートでDynamoDB Streamイベントを2回（`input.$` と `context.$`）渡すため、安全なインラインサイズはおおよそ `(256 KBのStep Functions上限 − 約20 KBのコンテキストオーバーヘッド) ÷ 2 ≈ 110 KB` となります。`ATTRIBUTE_LIMIT_SIZE` を超える属性は、インラインではなく自動的にS3に保存されます。
 
-:::warning 既知の問題（v1.3.3で修正）
-v1.3.3より前のバージョンでは、生成されるCDKテンプレートおよび環境変数の例における `ATTRIBUTE_LIMIT_SIZE` のデフォルト値は `389120`（380 KB）であり、Step Functionsのペイロード上限ではなくDynamoDBのアイテム上限を基準にしていました。コマンド用ステートマシンはイベントペイロードを2重（`input.$` + `context.$`）に渡すため、~110 KBを超える属性がインライン化されると、ステートマシンが `States.DataLimitExceeded` で失敗する可能性がありました。
+:::warning 既知の問題（v1.3.4で修正）
+v1.3.4より前のバージョンでは、生成されるCDKテンプレートおよび環境変数の例における `ATTRIBUTE_LIMIT_SIZE` のデフォルト値は `389120`（380 KB）であり、Step Functionsのペイロード上限ではなくDynamoDBのアイテム上限を基準にしていました。コマンド用ステートマシンはイベントペイロードを2重（`input.$` + `context.$`）に渡すため、~110 KBを超える属性がインライン化されると、ステートマシンが `States.DataLimitExceeded` で失敗する可能性がありました。
 
 デプロイ環境で `ATTRIBUTE_LIMIT_SIZE=389120`（または~110 KBを超える値）を設定している場合は、`102400` 以下に引き下げてください。
 
-参照: [変更履歴 v1.3.3](/docs/changelog#v133)
+参照: [変更履歴 v1.3.4](/docs/changelog#v134)
 :::
 
 ### S3 設定

@@ -1,4 +1,5 @@
 {
+  "Update skills with guidance on the new `ATTRIBUTE_LIMIT_SIZE` default": "Update skills with guidance on the new `ATTRIBUTE_LIMIT_SIZE` default",
   "Track all notable changes, new features, and bug fixes in MBC CQRS Serverless releases.": "Track all notable changes, new features, and bug fixes in MBC CQRS Serverless releases.",
   "Changelog": "Changelog",
   "All notable changes to MBC CQRS Serverless are documented here. This project follows [Semantic Versioning](https://semver.org/) and [Conventional Commits](https://conventionalcommits.org/).": "All notable changes to MBC CQRS Serverless are documented here. This project follows [Semantic Versioning](https://semver.org/) and [Conventional Commits](https://conventionalcommits.org/).",
