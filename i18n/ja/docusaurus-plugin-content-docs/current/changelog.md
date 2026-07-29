@@ -18,6 +18,23 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ## 安定版リリース (1.x) {#stable-releases}
 
+## [1.3.5](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.5) (2026-07-29) {#v135}
+
+### バグ修正
+
+- **core:** コマンドハンドラーの再開（resume）を read-after-write の競合に対して強化 — `waitConfirmToken` は先行コマンドが既に完了している場合に自己再開するようになり、`STARTED|FINISHED` のステータス確認で残存する TOCTOU ウィンドウを塞ぎ、先行コマンドの `getItem` を指数バックオフでリトライし、`checkNextToken` の再開失敗を分類して、再開が滞留した場合はサイレントに失敗せずアラームを発報します ([PR #465](https://github.com/mbc-net/mbc-cqrs-serverless/pull/465))
+- **core:** `DynamoDbService.getItem` に `ConsistentRead` サポートを追加し、`CommandService.getItem` / `getNextCommand` を通して伝播 — 再開の判定が、古いレプリカではなく最新のコミット済み状態を読むようになります ([PR #465](https://github.com/mbc-net/mbc-cqrs-serverless/pull/465))
+
+### 新機能
+
+- **infra:** コマンドハンドラーの Step Functions ステートマシンに CloudWatch アラーム（`ExecutionsFailed` と自己再開の劣化経路）を追加し、`wait_prev_command` に 24時間のタイムアウトと catch を追加し、`SendTaskSuccess` の IAM 権限をコマンド用ステートマシンの ARN に限定します ([PR #465](https://github.com/mbc-net/mbc-cqrs-serverless/pull/465))
+
+### セキュリティ
+
+- 一時的に無効化されていたブロッキング CI ゲート `npm audit --omit=dev --audit-level=high` を復活させ、`brace-expansion` を修正（トップレベル `brace-expansion@2` → `5.0.8`）。本番ルート監査: critical/high 0件 ([PR #482](https://github.com/mbc-net/mbc-cqrs-serverless/pull/482))
+
+---
+
 ## [1.3.4](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.4) (2026-07-17) {#v134}
 
 ### バグ修正

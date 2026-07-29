@@ -1,16 +1,35 @@
 {
   "latest": {
-    "version": "1.3.4",
-    "date": "2026-07-17",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.4",
-    "features": [],
-    "bugFixes": [
-      "Lower the default `ATTRIBUTE_LIMIT_SIZE` from `389120` (380 KB) to `102400` (100 KB) in CDK infra templates and env examples — the previous default was sized for DynamoDB's 400 KB item limit, but Step Functions enforces a 256 KB payload limit per state, and the command state machine passes the DynamoDB stream event twice (`input.$` + `context.$`), so inline attributes above ~110 KB could trigger `States.DataLimitExceeded`",
-      "Update skills with guidance on the new `ATTRIBUTE_LIMIT_SIZE` default"
+    "version": "1.3.5",
+    "date": "2026-07-29",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.5",
+    "features": [
+      "Add CloudWatch alarms on the command-handler Step Functions state machine (`ExecutionsFailed` and degraded self-resume paths), add a 24h timeout and catch on `wait_prev_command`, and scope the `SendTaskSuccess` IAM permission to the command state machine ARN"
     ],
-    "security": []
+    "bugFixes": [
+      "Harden command-handler resume against read-after-write races — `waitConfirmToken` now self-resumes when the predecessor command has already finished, closes the residual TOCTOU window via `STARTED|FINISHED` status checks, retries the predecessor `getItem` with exponential backoff, and classifies `checkNextToken` resume failures so a stuck resume raises an alarm instead of failing silently",
+      "Add `ConsistentRead` support to `DynamoDbService.getItem` and thread it through `CommandService.getItem` / `getNextCommand`, so resume decisions read the latest committed state instead of a possibly stale replica"
+    ],
+    "security": [
+      "Restore the blocking `npm audit --omit=dev --audit-level=high` CI gate that was temporarily disabled, and patch `brace-expansion` (top-level `brace-expansion@2` → `5.0.8`); root production audit: 0 critical/high"
+    ]
   },
   "recent": [
+    {
+      "version": "1.3.5",
+      "date": "2026-07-29",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.5",
+      "features": [
+        "Add CloudWatch alarms on the command-handler Step Functions state machine (`ExecutionsFailed` and degraded self-resume paths), add a 24h timeout and catch on `wait_prev_command`, and scope the `SendTaskSuccess` IAM permission to the command state machine ARN"
+      ],
+      "bugFixes": [
+        "Harden command-handler resume against read-after-write races — `waitConfirmToken` now self-resumes when the predecessor command has already finished, closes the residual TOCTOU window via `STARTED|FINISHED` status checks, retries the predecessor `getItem` with exponential backoff, and classifies `checkNextToken` resume failures so a stuck resume raises an alarm instead of failing silently",
+        "Add `ConsistentRead` support to `DynamoDbService.getItem` and thread it through `CommandService.getItem` / `getNextCommand`, so resume decisions read the latest committed state instead of a possibly stale replica"
+      ],
+      "security": [
+        "Restore the blocking `npm audit --omit=dev --audit-level=high` CI gate that was temporarily disabled, and patch `brace-expansion` (top-level `brace-expansion@2` → `5.0.8`); root production audit: 0 critical/high"
+      ]
+    },
     {
       "version": "1.3.4",
       "date": "2026-07-17",
@@ -50,19 +69,7 @@
         "Tolerate a malformed `custom:groups` claim (fail-closed to no group roles) instead of throwing, so a bad token degrades to direct-role-only checks rather than crashing the request"
       ],
       "security": []
-    },
-    {
-      "version": "1.3.0",
-      "date": "2026-05-21",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.0",
-      "features": [
-        "Add `AppSyncEventsService` — opt-in HTTP pub/sub transport for real-time notifications via AWS AppSync Events API",
-        "CDK infra template: add `appsyncEvents` and `notificationTransports` to `Config` type — provisions `EventApi` + `ChannelNamespace`, injects `NOTIFICATION_TRANSPORTS`, `APPSYNC_EVENTS_ENDPOINT`, and `APPSYNC_EVENTS_NAMESPACE` into Lambda and ECS, and grants `appsync:EventPublish` IAM permission via `grantPublish()` automatically",
-        "Update skills and analyzer for v1.3.0"
-      ],
-      "bugFixes": [],
-      "security": []
     }
   ],
-  "generated": "2026-07-17T07:48:33.411Z"
+  "generated": "2026-07-29T09:28:56.303Z"
 }

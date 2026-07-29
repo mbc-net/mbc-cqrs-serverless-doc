@@ -18,6 +18,23 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ## Stable Releases (1.x) {#stable-releases}
 
+## [1.3.5](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.5) (2026-07-29) {#v135}
+
+### Bug Fixes
+
+- **core:** Harden command-handler resume against read-after-write races — `waitConfirmToken` now self-resumes when the predecessor command has already finished, closes the residual TOCTOU window via `STARTED|FINISHED` status checks, retries the predecessor `getItem` with exponential backoff, and classifies `checkNextToken` resume failures so a stuck resume raises an alarm instead of failing silently ([PR #465](https://github.com/mbc-net/mbc-cqrs-serverless/pull/465))
+- **core:** Add `ConsistentRead` support to `DynamoDbService.getItem` and thread it through `CommandService.getItem` / `getNextCommand`, so resume decisions read the latest committed state instead of a possibly stale replica ([PR #465](https://github.com/mbc-net/mbc-cqrs-serverless/pull/465))
+
+### Features
+
+- **infra:** Add CloudWatch alarms on the command-handler Step Functions state machine (`ExecutionsFailed` and degraded self-resume paths), add a 24h timeout and catch on `wait_prev_command`, and scope the `SendTaskSuccess` IAM permission to the command state machine ARN ([PR #465](https://github.com/mbc-net/mbc-cqrs-serverless/pull/465))
+
+### Security
+
+- Restore the blocking `npm audit --omit=dev --audit-level=high` CI gate that was temporarily disabled, and patch `brace-expansion` (top-level `brace-expansion@2` → `5.0.8`); root production audit: 0 critical/high ([PR #482](https://github.com/mbc-net/mbc-cqrs-serverless/pull/482))
+
+---
+
 ## [1.3.4](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.4) (2026-07-17) {#v134}
 
 ### Bug Fixes

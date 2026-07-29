@@ -1,16 +1,35 @@
 {
   "latest": {
-    "version": "1.3.4",
-    "date": "2026-07-17",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.4",
-    "features": [],
-    "bugFixes": [
-      "CDKインフラのテンプレートおよび環境変数の例における `ATTRIBUTE_LIMIT_SIZE` のデフォルト値を `389120`（380 KB）から `102400`（100 KB）に引き下げ — 従来のデフォルト値はDynamoDBの400 KBアイテム上限を基準にしていましたが、Step Functionsは各ステートあたり256 KBのペイロード上限を課しており、かつコマンド用ステートマシンはDynamoDB Streamイベントを2重（`input.$` と `context.$`）に渡すため、~110 KBを超えるインライン属性は `States.DataLimitExceeded` を引き起こす可能性がありました",
-      "新しい `ATTRIBUTE_LIMIT_SIZE` のデフォルト値に関するガイダンスをスキルに追加"
+    "version": "1.3.5",
+    "date": "2026-07-29",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.5",
+    "features": [
+      "コマンドハンドラーの Step Functions ステートマシンに CloudWatch アラーム（`ExecutionsFailed` と自己再開の劣化経路）を追加し、`wait_prev_command` に 24時間のタイムアウトと catch を追加し、`SendTaskSuccess` の IAM 権限をコマンド用ステートマシンの ARN に限定します"
     ],
-    "security": []
+    "bugFixes": [
+      "コマンドハンドラーの再開（resume）を read-after-write の競合に対して強化 — `waitConfirmToken` は先行コマンドが既に完了している場合に自己再開するようになり、`STARTED|FINISHED` のステータス確認で残存する TOCTOU ウィンドウを塞ぎ、先行コマンドの `getItem` を指数バックオフでリトライし、`checkNextToken` の再開失敗を分類して、再開が滞留した場合はサイレントに失敗せずアラームを発報します",
+      "`DynamoDbService.getItem` に `ConsistentRead` サポートを追加し、`CommandService.getItem` / `getNextCommand` を通して伝播 — 再開の判定が、古いレプリカではなく最新のコミット済み状態を読むようになります"
+    ],
+    "security": [
+      "一時的に無効化されていたブロッキング CI ゲート `npm audit --omit=dev --audit-level=high` を復活させ、`brace-expansion` を修正（トップレベル `brace-expansion@2` → `5.0.8`）。本番ルート監査: critical/high 0件 ([PR #482](https://github.com/mbc-net/mbc-cqrs-serverless/pull/482))"
+    ]
   },
   "recent": [
+    {
+      "version": "1.3.5",
+      "date": "2026-07-29",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.5",
+      "features": [
+        "コマンドハンドラーの Step Functions ステートマシンに CloudWatch アラーム（`ExecutionsFailed` と自己再開の劣化経路）を追加し、`wait_prev_command` に 24時間のタイムアウトと catch を追加し、`SendTaskSuccess` の IAM 権限をコマンド用ステートマシンの ARN に限定します"
+      ],
+      "bugFixes": [
+        "コマンドハンドラーの再開（resume）を read-after-write の競合に対して強化 — `waitConfirmToken` は先行コマンドが既に完了している場合に自己再開するようになり、`STARTED|FINISHED` のステータス確認で残存する TOCTOU ウィンドウを塞ぎ、先行コマンドの `getItem` を指数バックオフでリトライし、`checkNextToken` の再開失敗を分類して、再開が滞留した場合はサイレントに失敗せずアラームを発報します",
+        "`DynamoDbService.getItem` に `ConsistentRead` サポートを追加し、`CommandService.getItem` / `getNextCommand` を通して伝播 — 再開の判定が、古いレプリカではなく最新のコミット済み状態を読むようになります"
+      ],
+      "security": [
+        "一時的に無効化されていたブロッキング CI ゲート `npm audit --omit=dev --audit-level=high` を復活させ、`brace-expansion` を修正（トップレベル `brace-expansion@2` → `5.0.8`）。本番ルート監査: critical/high 0件 ([PR #482](https://github.com/mbc-net/mbc-cqrs-serverless/pull/482))"
+      ]
+    },
     {
       "version": "1.3.4",
       "date": "2026-07-17",
@@ -51,19 +70,7 @@
         "不正な `custom:groups` クレームを例外ではなく許容（グループロールなしにフェイルクローズ）するようにし、不正なトークンでもリクエストをクラッシュさせず直接ロールのみのチェックに縮退します"
       ],
       "security": []
-    },
-    {
-      "version": "1.3.0",
-      "date": "2026-05-21",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.0",
-      "features": [
-        "`AppSyncEventsService` を追加 — AWS AppSync Events API によるリアルタイム通知のオプトイン HTTP pub/sub トランスポート",
-        "CDK インフラテンプレート: `Config` 型に `appsyncEvents` と `notificationTransports` を追加 — `EventApi` + `ChannelNamespace` をプロビジョニングし、Lambda/ECS に `NOTIFICATION_TRANSPORTS`、`APPSYNC_EVENTS_ENDPOINT`、`APPSYNC_EVENTS_NAMESPACE` を注入、`grantPublish()` で `appsync:EventPublish` IAM 権限を自動付与",
-        "v1.3.0 向けスキルとアナライザーを更新"
-      ],
-      "bugFixes": [],
-      "security": []
     }
   ],
-  "generated": "2026-07-17T07:48:33.413Z"
+  "generated": "2026-07-29T09:28:56.310Z"
 }
