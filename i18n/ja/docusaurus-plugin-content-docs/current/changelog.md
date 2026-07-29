@@ -24,6 +24,7 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 - **core:** コマンドハンドラーの再開（resume）を read-after-write の競合に対して強化 — `waitConfirmToken` は先行コマンドが既に完了している場合に自己再開するようになり、`STARTED|FINISHED` のステータス確認で残存する TOCTOU ウィンドウを塞ぎ、先行コマンドの `getItem` を指数バックオフでリトライし、`checkNextToken` の再開失敗を分類して、再開が滞留した場合はサイレントに失敗せずアラームを発報します ([PR #465](https://github.com/mbc-net/mbc-cqrs-serverless/pull/465))
 - **core:** `DynamoDbService.getItem` に `ConsistentRead` サポートを追加し、`CommandService.getItem` / `getNextCommand` を通して伝播 — 再開の判定が、古いレプリカではなく最新のコミット済み状態を読むようになります ([PR #465](https://github.com/mbc-net/mbc-cqrs-serverless/pull/465))
+- **cli:** `mbc new` で scaffold した infra テンプレートが `cdk synth`/`deploy` に失敗する問題を修正 — import-CSV の Step Functions 定義が未定義の `aws_stepfunctions` 識別子（`cdk.aws_stepfunctions` に修正）を参照しており、v1.3.4 で `mbc new` から作成した全プロジェクトが壊れていた。v1.3.5 にアップグレードすればデプロイ可能に戻る ([PR #465](https://github.com/mbc-net/mbc-cqrs-serverless/pull/465))
 
 ### 新機能
 
@@ -32,6 +33,7 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 ### セキュリティ
 
 - 一時的に無効化されていたブロッキング CI ゲート `npm audit --omit=dev --audit-level=high` を復活させ、`brace-expansion` を修正（トップレベル `brace-expansion@2` → `5.0.8`）。本番ルート監査: critical/high 0件 ([PR #482](https://github.com/mbc-net/mbc-cqrs-serverless/pull/482))
+  - スコープ注記: 「0 critical/high」は root workspace のみに適用される。scaffold される infra テンプレート（`packages/cli/templates/infra`）は npm workspace メンバーではなく、`@aws/pdk`（ビルド時の cdk-graph ツール）を同梱しており、その推移的依存には high 脆弱性が残る。現在は CI で非ブロッキング監査され、[issue #486](https://github.com/mbc-net/mbc-cqrs-serverless/issues/486) で別途追跡している
 
 ---
 

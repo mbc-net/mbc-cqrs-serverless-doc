@@ -24,6 +24,7 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 - **core:** Harden command-handler resume against read-after-write races — `waitConfirmToken` now self-resumes when the predecessor command has already finished, closes the residual TOCTOU window via `STARTED|FINISHED` status checks, retries the predecessor `getItem` with exponential backoff, and classifies `checkNextToken` resume failures so a stuck resume raises an alarm instead of failing silently ([PR #465](https://github.com/mbc-net/mbc-cqrs-serverless/pull/465))
 - **core:** Add `ConsistentRead` support to `DynamoDbService.getItem` and thread it through `CommandService.getItem` / `getNextCommand`, so resume decisions read the latest committed state instead of a possibly stale replica ([PR #465](https://github.com/mbc-net/mbc-cqrs-serverless/pull/465))
+- **cli:** Fix the scaffolded infra template failing `cdk synth`/`deploy` — the import-CSV Step Functions definition referenced an undefined `aws_stepfunctions` identifier (corrected to `cdk.aws_stepfunctions`), which broke every project scaffolded with `mbc new` on v1.3.4. Upgrade to v1.3.5 to restore deployability ([PR #465](https://github.com/mbc-net/mbc-cqrs-serverless/pull/465))
 
 ### Features
 
@@ -32,6 +33,7 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 ### Security
 
 - Restore the blocking `npm audit --omit=dev --audit-level=high` CI gate that was temporarily disabled, and patch `brace-expansion` (top-level `brace-expansion@2` → `5.0.8`); root production audit: 0 critical/high ([PR #482](https://github.com/mbc-net/mbc-cqrs-serverless/pull/482))
+  - Scope note: the "0 critical/high" figure applies to the root workspace only. The scaffolded infra template (`packages/cli/templates/infra`) is not an npm workspace member and ships `@aws/pdk` (build-time cdk-graph tooling) whose transitive tree still carries high advisories; it is now audited in CI (non-blocking) and tracked separately in [issue #486](https://github.com/mbc-net/mbc-cqrs-serverless/issues/486)
 
 ---
 

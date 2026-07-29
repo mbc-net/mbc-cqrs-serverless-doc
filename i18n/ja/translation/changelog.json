@@ -402,5 +402,7 @@
   "Handling version conflicts in upgrades": "アップグレード時のバージョン競合処理",
   "Web Changelog": "Web変更履歴",
   "Release notes for master-web and survey-web frontend packages": "master-webおよびsurvey-webフロントエンドパッケージのリリースノート",
-  "Related Links": "関連リンク"
+  "Related Links": "関連リンク",
+  "Scope note: the \"0 critical/high\" figure applies to the root workspace only. The scaffolded infra template (`packages/cli/templates/infra`) is not an npm workspace member and ships `@aws/pdk` (build-time cdk-graph tooling) whose transitive tree still carries high advisories; it is now audited in CI (non-blocking) and tracked separately in [issue #486](https://github.com/mbc-net/mbc-cqrs-serverless/issues/486)": "スコープ注記: 「0 critical/high」は root workspace のみに適用される。scaffold される infra テンプレート（`packages/cli/templates/infra`）は npm workspace メンバーではなく、`@aws/pdk`（ビルド時の cdk-graph ツール）を同梱しており、その推移的依存には high 脆弱性が残る。現在は CI で非ブロッキング監査され、[issue #486](https://github.com/mbc-net/mbc-cqrs-serverless/issues/486) で別途追跡している",
+  "Fix the scaffolded infra template failing `cdk synth`/`deploy` — the import-CSV Step Functions definition referenced an undefined `aws_stepfunctions` identifier (corrected to `cdk.aws_stepfunctions`), which broke every project scaffolded with `mbc new` on v1.3.4. Upgrade to v1.3.5 to restore deployability": "`mbc new` で scaffold した infra テンプレートが `cdk synth`/`deploy` に失敗する問題を修正 — import-CSV の Step Functions 定義が未定義の `aws_stepfunctions` 識別子（`cdk.aws_stepfunctions` に修正）を参照しており、v1.3.4 で `mbc new` から作成した全プロジェクトが壊れていた。v1.3.5 にアップグレードすればデプロイ可能に戻る"
 }
