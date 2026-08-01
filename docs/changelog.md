@@ -18,7 +18,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ## {{Stable Releases (1.x)}} {#stable-releases}
 
-## [1.3.5](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.5) (2026-07-29) {#v135}
+## [1.3.5](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.5) (2026-08-01) {#v135}
 
 ### {{Bug Fixes}}
 

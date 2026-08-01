@@ -1,7 +1,7 @@
 {
   "latest": {
     "version": "1.3.5",
-    "date": "2026-07-29",
+    "date": "2026-08-01",
     "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.5",
     "features": [
       "Add CloudWatch alarms on the command-handler Step Functions state machine (`ExecutionsFailed` and degraded self-resume paths), add a 24h timeout and catch on `wait_prev_command`, and scope the `SendTaskSuccess` IAM permission to the command state machine ARN",
@@ -19,7 +19,7 @@
   "recent": [
     {
       "version": "1.3.5",
-      "date": "2026-07-29",
+      "date": "2026-08-01",
       "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.5",
       "features": [
         "Add CloudWatch alarms on the command-handler Step Functions state machine (`ExecutionsFailed` and degraded self-resume paths), add a 24h timeout and catch on `wait_prev_command`, and scope the `SendTaskSuccess` IAM permission to the command state machine ARN",
@@ -75,5 +75,5 @@
       "security": []
     }
   ],
-  "generated": "2026-08-01T01:49:42.532Z"
+  "generated": "2026-08-01T02:32:59.306Z"
 }

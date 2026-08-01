@@ -1,7 +1,7 @@
 {
   "latest": {
     "version": "1.3.5",
-    "date": "2026-07-29",
+    "date": "2026-08-01",
     "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.5",
     "features": [
       "コマンドハンドラーの Step Functions ステートマシンに CloudWatch アラーム（`ExecutionsFailed` と自己再開の劣化経路）を追加し、`wait_prev_command` に 24時間のタイムアウトと catch を追加し、`SendTaskSuccess` の IAM 権限をコマンド用ステートマシンの ARN に限定します",
@@ -19,7 +19,7 @@
   "recent": [
     {
       "version": "1.3.5",
-      "date": "2026-07-29",
+      "date": "2026-08-01",
       "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.5",
       "features": [
         "コマンドハンドラーの Step Functions ステートマシンに CloudWatch アラーム（`ExecutionsFailed` と自己再開の劣化経路）を追加し、`wait_prev_command` に 24時間のタイムアウトと catch を追加し、`SendTaskSuccess` の IAM 権限をコマンド用ステートマシンの ARN に限定します",
@@ -76,5 +76,5 @@
       "security": []
     }
   ],
-  "generated": "2026-08-01T01:49:42.534Z"
+  "generated": "2026-08-01T02:32:59.308Z"
 }
