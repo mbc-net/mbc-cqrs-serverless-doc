@@ -18,6 +18,26 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ## 安定版リリース (1.x) {#stable-releases}
 
+## [1.3.5](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.5) (2026-08-01) {#v135}
+
+### バグ修正
+
+- **core:** コマンドハンドラーの再開（resume）を read-after-write の競合に対して強化 — `waitConfirmToken` は先行コマンドが既に完了している場合に自己再開するようになり、`STARTED|FINISHED` のステータス確認で残存する TOCTOU ウィンドウを塞ぎ、先行コマンドの `getItem` を指数バックオフでリトライし、`checkNextToken` の再開失敗を分類して、再開が滞留した場合はサイレントに失敗せずアラームを発報します ([PR #465](https://github.com/mbc-net/mbc-cqrs-serverless/pull/465))
+- **core:** `DynamoDbService.getItem` に `ConsistentRead` サポートを追加し、`CommandService.getItem` / `getNextCommand` を通して伝播 — 再開の判定が、古いレプリカではなく最新のコミット済み状態を読むようになります ([PR #465](https://github.com/mbc-net/mbc-cqrs-serverless/pull/465))
+- **cli:** `mbc new` で scaffold した infra テンプレートが `cdk synth`/`deploy` に失敗する問題を修正 — import-CSV の Step Functions 定義が未定義の `aws_stepfunctions` 識別子（`cdk.aws_stepfunctions` に修正）を参照しており、v1.3.4 で `mbc new` から作成した全プロジェクトが壊れていた。v1.3.5 にアップグレードすればデプロイ可能に戻る ([PR #465](https://github.com/mbc-net/mbc-cqrs-serverless/pull/465))
+
+### 新機能
+
+- **infra:** コマンドハンドラーの Step Functions ステートマシンに CloudWatch アラーム（`ExecutionsFailed` と自己再開の劣化経路）を追加し、`wait_prev_command` に 24時間のタイムアウトと catch を追加し、`SendTaskSuccess` の IAM 権限をコマンド用ステートマシンの ARN に限定します ([PR #465](https://github.com/mbc-net/mbc-cqrs-serverless/pull/465))
+- **cli:** `mbc new` プロジェクト向けのローカル開発ツール — ローカルインフラのポートを `LOCAL_*_PORT` 環境変数で可変化（デフォルトは不変）、cognito-local の JWT issuer を `LOCAL_COGNITO_PORT` に追従、Step Functions Local の事前登録を堅牢化（起動待ち・実エラー時の fail-fast・登録済みステートマシンの許容）。デプロイ済みアプリの実行時挙動には影響なし ([PR #337](https://github.com/mbc-net/mbc-cqrs-serverless/pull/337))
+
+### セキュリティ
+
+- 一時的に無効化されていたブロッキング CI ゲート `npm audit --omit=dev --audit-level=high` を復活させ、`brace-expansion` を修正（トップレベル `brace-expansion@2` → `5.0.8`）。本番ルート監査: critical/high 0件 ([PR #482](https://github.com/mbc-net/mbc-cqrs-serverless/pull/482))
+  - スコープ注記: 「0 critical/high」は root workspace のみに適用される。scaffold される infra テンプレート（`packages/cli/templates/infra`）は npm workspace メンバーではなく、`@aws/pdk`（ビルド時の cdk-graph ツール）を同梱しており、その推移的依存には high 脆弱性が残る。現在は CI で非ブロッキング監査され、[issue #486](https://github.com/mbc-net/mbc-cqrs-serverless/issues/486) で別途追跡している
+
+---
+
 ## [1.3.4](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.4) (2026-07-17) {#v134}
 
 ### バグ修正
