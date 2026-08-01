@@ -29,6 +29,7 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 ### 新機能
 
 - **infra:** コマンドハンドラーの Step Functions ステートマシンに CloudWatch アラーム（`ExecutionsFailed` と自己再開の劣化経路）を追加し、`wait_prev_command` に 24時間のタイムアウトと catch を追加し、`SendTaskSuccess` の IAM 権限をコマンド用ステートマシンの ARN に限定します ([PR #465](https://github.com/mbc-net/mbc-cqrs-serverless/pull/465))
+- **cli:** `mbc new` プロジェクト向けのローカル開発ツール — ローカルインフラのポートを `LOCAL_*_PORT` 環境変数で可変化（デフォルトは不変）、cognito-local の JWT issuer を `LOCAL_COGNITO_PORT` に追従、Step Functions Local の事前登録を堅牢化（起動待ち・実エラー時の fail-fast・登録済みステートマシンの許容）。デプロイ済みアプリの実行時挙動には影響なし ([PR #337](https://github.com/mbc-net/mbc-cqrs-serverless/pull/337))
 
 ### セキュリティ
 

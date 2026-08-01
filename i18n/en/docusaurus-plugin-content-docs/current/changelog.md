@@ -29,6 +29,7 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 ### Features
 
 - **infra:** Add CloudWatch alarms on the command-handler Step Functions state machine (`ExecutionsFailed` and degraded self-resume paths), add a 24h timeout and catch on `wait_prev_command`, and scope the `SendTaskSuccess` IAM permission to the command state machine ARN ([PR #465](https://github.com/mbc-net/mbc-cqrs-serverless/pull/465))
+- **cli:** Local development tooling for `mbc new` projects — make the local infra ports configurable via `LOCAL_*_PORT` env vars (defaults unchanged), keep cognito-local's JWT issuer in sync with `LOCAL_COGNITO_PORT`, and harden Step Functions Local pre-registration (readiness wait, fail-fast on real errors, tolerate already-registered state machines); no runtime impact on deployed apps ([PR #337](https://github.com/mbc-net/mbc-cqrs-serverless/pull/337))
 
 ### Security
 

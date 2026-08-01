@@ -4,7 +4,8 @@
     "date": "2026-07-29",
     "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.5",
     "features": [
-      "コマンドハンドラーの Step Functions ステートマシンに CloudWatch アラーム（`ExecutionsFailed` と自己再開の劣化経路）を追加し、`wait_prev_command` に 24時間のタイムアウトと catch を追加し、`SendTaskSuccess` の IAM 権限をコマンド用ステートマシンの ARN に限定します"
+      "コマンドハンドラーの Step Functions ステートマシンに CloudWatch アラーム（`ExecutionsFailed` と自己再開の劣化経路）を追加し、`wait_prev_command` に 24時間のタイムアウトと catch を追加し、`SendTaskSuccess` の IAM 権限をコマンド用ステートマシンの ARN に限定します",
+      "`mbc new` プロジェクト向けのローカル開発ツール — ローカルインフラのポートを `LOCAL_*_PORT` 環境変数で可変化（デフォルトは不変）、cognito-local の JWT issuer を `LOCAL_COGNITO_PORT` に追従、Step Functions Local の事前登録を堅牢化（起動待ち・実エラー時の fail-fast・登録済みステートマシンの許容）。デプロイ済みアプリの実行時挙動には影響なし"
     ],
     "bugFixes": [
       "コマンドハンドラーの再開（resume）を read-after-write の競合に対して強化 — `waitConfirmToken` は先行コマンドが既に完了している場合に自己再開するようになり、`STARTED|FINISHED` のステータス確認で残存する TOCTOU ウィンドウを塞ぎ、先行コマンドの `getItem` を指数バックオフでリトライし、`checkNextToken` の再開失敗を分類して、再開が滞留した場合はサイレントに失敗せずアラームを発報します",
@@ -21,7 +22,8 @@
       "date": "2026-07-29",
       "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.5",
       "features": [
-        "コマンドハンドラーの Step Functions ステートマシンに CloudWatch アラーム（`ExecutionsFailed` と自己再開の劣化経路）を追加し、`wait_prev_command` に 24時間のタイムアウトと catch を追加し、`SendTaskSuccess` の IAM 権限をコマンド用ステートマシンの ARN に限定します"
+        "コマンドハンドラーの Step Functions ステートマシンに CloudWatch アラーム（`ExecutionsFailed` と自己再開の劣化経路）を追加し、`wait_prev_command` に 24時間のタイムアウトと catch を追加し、`SendTaskSuccess` の IAM 権限をコマンド用ステートマシンの ARN に限定します",
+        "`mbc new` プロジェクト向けのローカル開発ツール — ローカルインフラのポートを `LOCAL_*_PORT` 環境変数で可変化（デフォルトは不変）、cognito-local の JWT issuer を `LOCAL_COGNITO_PORT` に追従、Step Functions Local の事前登録を堅牢化（起動待ち・実エラー時の fail-fast・登録済みステートマシンの許容）。デプロイ済みアプリの実行時挙動には影響なし"
       ],
       "bugFixes": [
         "コマンドハンドラーの再開（resume）を read-after-write の競合に対して強化 — `waitConfirmToken` は先行コマンドが既に完了している場合に自己再開するようになり、`STARTED|FINISHED` のステータス確認で残存する TOCTOU ウィンドウを塞ぎ、先行コマンドの `getItem` を指数バックオフでリトライし、`checkNextToken` の再開失敗を分類して、再開が滞留した場合はサイレントに失敗せずアラームを発報します",
@@ -74,5 +76,5 @@
       "security": []
     }
   ],
-  "generated": "2026-07-29T17:06:13.911Z"
+  "generated": "2026-08-01T01:49:42.534Z"
 }
