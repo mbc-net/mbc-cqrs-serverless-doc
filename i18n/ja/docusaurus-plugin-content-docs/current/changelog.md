@@ -18,6 +18,20 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ## 安定版リリース (1.x) {#stable-releases}
 
+## [1.4.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.4.0) (2026-08-02) {#v140}
+
+### 新機能
+
+- **core, master, directory, survey-template, ui-setting:** ドメインモジュールの DynamoDB テーブル名を後方互換オプション `tableName?` で設定可能にし、4モジュールすべてに `registerAsync` を追加。既定値は現行のまま（`master` / `directory` / `survey` / `master`）なので、既存アプリはコード変更なしにアップグレードできる ([詳細を見る](/docs/directory#configurable-table-name)) ([PR #493](https://github.com/mbc-net/mbc-cqrs-serverless/pull/493))
+  - `DirectoryStorageModule` はさらに `pkPrefix?`（既定 `DIRECTORY`）と `prismaModelName?`（既定 `directory`）を受け付ける
+  - `directory` → `document` の改名（[PR #469](https://github.com/mbc-net/mbc-cqrs-serverless/pull/469)）は、強制的な既定値ではなく opt-in の設定（`tableName: 'document'`、`pkPrefix: 'DOCUMENT'`、`prismaModelName: 'document'`）として表現されるようになった
+
+### 変更点
+
+- **master, directory, survey-template:** `prismaService` は登録時に常に必須になった（従来は `enableController: true` のときのみ検証）。未指定の場合、分かりにくい依存解決エラーではなく起動時に明確なメッセージで即座に失敗する。`enableController: false` で登録しグローバル提供トークンに依存していた場合は `prismaService` を明示的に渡すこと
+- **master, ui-setting:** `MasterModule` と `SettingModule` が既定の `master` テーブルを共有する場合、両者が `master_CommandEventHandler` alias を所有すると起動時に警告が出る（データ同期の所有権が import 順に依存する）。`SettingModule` に `registerEventHandlerAlias: false` を設定して `MasterModule` に alias を所有させること
+- **master:** `MasterModule` は `tableName` を上書きすると警告を出す。`master` テーブルは `TtlService` や sequence パッケージが固定名 `master-data` で読む framework 横断の設定ストアであり、改名は完全にはサポートされない
+
 ## [1.3.5](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.5) (2026-08-01) {#v135}
 
 ### バグ修正

@@ -40,13 +40,60 @@ import { PrismaService } from './prisma.service';
   imports: [
     DirectoryStorageModule.register({
       enableController: true,  // Enable REST API endpoints (REST APIエンドポイントを有効化)
-      prismaService: PrismaService,  // Required when enableController is true (enableControllerがtrueの場合に必須)
+      prismaService: PrismaService,  // 必須（directory サービスが注入する）
       dataSyncHandlers: [],  // Optional data sync handlers (オプションのデータ同期ハンドラー)
     }),
   ],
 })
 export class AppModule {}
 ```
+
+## テーブル名の設定 {#configurable-table-name}
+
+モジュールは既定で `directory` DynamoDB テーブルを使用する。後方互換オプションでテーブル名と関連識別子を上書きでき、省略すれば現行の挙動が維持される。`register` と `registerAsync` の両方が受け付ける。
+
+| オプション | 既定値 | 説明 |
+|--------|---------|-------------|
+| `tableName` | `directory` | DynamoDB の raw ベーステーブル名。物理テーブルは `${NODE_ENV}-${APP_NAME}-${tableName}` に `-command` / `-data` / `-history` サフィックスが付く。 |
+| `pkPrefix` | `DIRECTORY` | パーティションキーのプレフィックス（`#` 区切りの前）。 |
+| `prismaModelName` | `directory` | RDS 読み取りに使う Prisma モデルのアクセサ名。 |
+
+```typescript
+// directory モジュールを「document」として運用する opt-in 例
+DirectoryStorageModule.register({
+  enableController: true,
+  prismaService: PrismaService,
+  tableName: 'document',
+  pkPrefix: 'DOCUMENT',
+  prismaModelName: 'document',
+});
+
+// 非同期設定 — factory は PrismaService の**インスタンス**を解決して返すこと
+DirectoryStorageModule.registerAsync({
+  tableName: 'document',
+  pkPrefix: 'DOCUMENT',
+  prismaModelName: 'document',
+  imports: [PrismaModule],
+  inject: [PrismaService],
+  useFactory: (prisma) => ({ prismaService: prisma }),
+});
+```
+
+:::warning 3つのオプションはセットで設定する
+`tableName` だけを変更すると、パーティションキーは `DIRECTORY#` のまま `prismaService.directory` を読むという不整合になる。`tableName`・`pkPrefix`・`prismaModelName` をセットで設定すること。
+:::
+
+### プロビジョニングとデータ移行
+
+custom テーブル名を使うにはアプリ側のプロビジョニングが必要:
+
+1. **DynamoDB:** raw ベース名（例 `"document"`。`-command`/`-data`/`-history` 付きではない）を `prisma/dynamodbs/cqrs.json` に追加し、`npm run migrate:ddb` を実行する。これで3つの物理テーブルが作成される。custom 名は手動追加が必要（master モジュールの postinstall のみが既定名を自動追加）。IaC でも同テーブルを定義すること。
+2. **RDS:** 対応する Prisma モデル（例 `model Document { ... }`）を `schema.prisma` に追加し、`npm run migrate:rds` を実行する。
+3. **データ:** migrate コマンドは空テーブルを作成するだけである。既存データを `directory-*` / `DIRECTORY#` / `directory` モデルから新しい対象へコピーするのはアプリ側の責務である。
+
+:::info バージョン情報
+設定可能なテーブル名（`tableName`、`pkPrefix`、`prismaModelName`）と `registerAsync` は [バージョン 1.4.0](/docs/changelog#v140) で追加された。
+:::
 
 ## APIエンドポイント {#api-endpoints}
 

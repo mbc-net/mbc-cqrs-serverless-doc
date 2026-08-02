@@ -18,6 +18,20 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ## Stable Releases (1.x) {#stable-releases}
 
+## [1.4.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.4.0) (2026-08-02) {#v140}
+
+### Features
+
+- **core, master, directory, survey-template, ui-setting:** Make the DynamoDB table names of the domain modules configurable via a backward-compatible `tableName?` option, and add `registerAsync` support to all four modules. Defaults are unchanged (`master` / `directory` / `survey` / `master`), so existing apps upgrade with no code changes ([See Details](/docs/directory#configurable-table-name)) ([PR #493](https://github.com/mbc-net/mbc-cqrs-serverless/pull/493))
+  - `DirectoryStorageModule` additionally accepts `pkPrefix?` (default `DIRECTORY`) and `prismaModelName?` (default `directory`)
+  - The `directory` → `document` rename ([PR #469](https://github.com/mbc-net/mbc-cqrs-serverless/pull/469)) is now expressed as opt-in configuration (`tableName: 'document'`, `pkPrefix: 'DOCUMENT'`, `prismaModelName: 'document'`) rather than a forced default
+
+### Changes
+
+- **master, directory, survey-template:** `prismaService` is now always required at registration (previously validated only when `enableController: true`). A missing value now fails fast at startup with a clear message instead of a cryptic dependency-resolution error. Pass `prismaService` explicitly if you registered with `enableController: false` and relied on a globally-provided token
+- **master, ui-setting:** When `MasterModule` and `SettingModule` share the default `master` table, the framework logs a startup warning if both own the `master_CommandEventHandler` alias (data-sync ownership becomes import-order dependent). Set `registerEventHandlerAlias: false` on `SettingModule` so `MasterModule` owns the alias
+- **master:** `MasterModule` logs a warning if its `tableName` is overridden — the `master` table is a framework-wide config store read at a fixed `master-data` name by `TtlService` and the sequence package, so renaming it is not fully supported
+
 ## [1.3.5](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.5) (2026-08-01) {#v135}
 
 ### Bug Fixes
@@ -42,7 +56,123 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ### Bug Fixes
 
-- **core, cli:** Lower the default `ATTRIBUTE_LIMIT_SIZE` from `389120` (380 KB) to `102400` (100 KB) in CDK infra templates and env examples — the previous default was sized for DynamoDB's 400 KB item limit, but Step Functions enforces a 256 KB payload limit per state, and the command state machine passes the DynamoDB stream event twice (`input.$` + `context.$`), so inline attributes above ~110 KB could trigger `States.DataLimitExceeded` ([See Details](/docs/environment-variables#dynamodb-configuration)) ([PR #466](https://github.com/mbc-net/mbc-cqrs-serverless/pull/466))
+- **core, cli:** Lower the default `ATTRIBUTE_LIMIT_SIZE` from `389120` (380 KB) to `102400` (100 KB) in CDK infra templates and env examples — the previous default was sized for DynamoDB's 400 KB item limit, but Step Functions enforces a 256 KB payload limit per state, and the command state machine passes the DynamoDB stream event twice (`input.---
+sidebar_position: 100
+sidebar_label: "Backend (Framework)"
+description: Track all notable changes, new features, and bug fixes in MBC CQRS Serverless releases.
+---
+
+# Changelog
+
+All notable changes to MBC CQRS Serverless are documented here. This project follows [Semantic Versioning](https://semver.org/) and [Conventional Commits](https://conventionalcommits.org/).
+
+## Version Scheme {#version-scheme}
+
+- `x.y.z` - Production releases
+- `x.y.z-beta.n` - Beta releases for testing
+- `x.y.z-alpha.n` - Alpha releases for early access
+
+---
+
+## Stable Releases (1.x) {#stable-releases}
+
+## [1.4.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.4.0) (2026-08-02) {#v140}
+
+### Features
+
+- **core, master, directory, survey-template, ui-setting:** Make the DynamoDB table names of the domain modules configurable via a backward-compatible `tableName?` option, and add `registerAsync` support to all four modules. Defaults are unchanged (`master` / `directory` / `survey` / `master`), so existing apps upgrade with no code changes ([See Details](/docs/directory#configurable-table-name)) ([PR #493](https://github.com/mbc-net/mbc-cqrs-serverless/pull/493))
+  - `DirectoryStorageModule` additionally accepts `pkPrefix?` (default `DIRECTORY`) and `prismaModelName?` (default `directory`)
+  - The `directory` → `document` rename ([PR #469](https://github.com/mbc-net/mbc-cqrs-serverless/pull/469)) is now expressed as opt-in configuration (`tableName: 'document'`, `pkPrefix: 'DOCUMENT'`, `prismaModelName: 'document'`) rather than a forced default
+
+### Changes
+
+- **master, directory, survey-template:** `prismaService` is now always required at registration (previously validated only when `enableController: true`). A missing value now fails fast at startup with a clear message instead of a cryptic dependency-resolution error. Pass `prismaService` explicitly if you registered with `enableController: false` and relied on a globally-provided token
+- **master, ui-setting:** When `MasterModule` and `SettingModule` share the default `master` table, the framework logs a startup warning if both own the `master_CommandEventHandler` alias (data-sync ownership becomes import-order dependent). Set `registerEventHandlerAlias: false` on `SettingModule` so `MasterModule` owns the alias
+- **master:** `MasterModule` logs a warning if its `tableName` is overridden — the `master` table is a framework-wide config store read at a fixed `master-data` name by `TtlService` and the sequence package, so renaming it is not fully supported
+
+## [1.3.5](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.5) (2026-08-01) {#v135}
+
+### Bug Fixes
+
+- **core:** Harden command-handler resume against read-after-write races — `waitConfirmToken` now self-resumes when the predecessor command has already finished, closes the residual TOCTOU window via `STARTED|FINISHED` status checks, retries the predecessor `getItem` with exponential backoff, and classifies `checkNextToken` resume failures so a stuck resume raises an alarm instead of failing silently ([PR #465](https://github.com/mbc-net/mbc-cqrs-serverless/pull/465))
+- **core:** Add `ConsistentRead` support to `DynamoDbService.getItem` and thread it through `CommandService.getItem` / `getNextCommand`, so resume decisions read the latest committed state instead of a possibly stale replica ([PR #465](https://github.com/mbc-net/mbc-cqrs-serverless/pull/465))
+- **cli:** Fix the scaffolded infra template failing `cdk synth`/`deploy` — the import-CSV Step Functions definition referenced an undefined `aws_stepfunctions` identifier (corrected to `cdk.aws_stepfunctions`), which broke every project scaffolded with `mbc new` on v1.3.4. Upgrade to v1.3.5 to restore deployability ([PR #465](https://github.com/mbc-net/mbc-cqrs-serverless/pull/465))
+
+### Features
+
+- **infra:** Add CloudWatch alarms on the command-handler Step Functions state machine (`ExecutionsFailed` and degraded self-resume paths), add a 24h timeout and catch on `wait_prev_command`, and scope the `SendTaskSuccess` IAM permission to the command state machine ARN ([PR #465](https://github.com/mbc-net/mbc-cqrs-serverless/pull/465))
+- **cli:** Local development tooling for `mbc new` projects — make the local infra ports configurable via `LOCAL_*_PORT` env vars (defaults unchanged), keep cognito-local's JWT issuer in sync with `LOCAL_COGNITO_PORT`, and harden Step Functions Local pre-registration (readiness wait, fail-fast on real errors, tolerate already-registered state machines); no runtime impact on deployed apps ([PR #337](https://github.com/mbc-net/mbc-cqrs-serverless/pull/337))
+
+### Security
+
+- Restore the blocking `npm audit --omit=dev --audit-level=high` CI gate that was temporarily disabled, and patch `brace-expansion` (top-level `brace-expansion@2` → `5.0.8`); root production audit: 0 critical/high ([PR #482](https://github.com/mbc-net/mbc-cqrs-serverless/pull/482))
+  - Scope note: the "0 critical/high" figure applies to the root workspace only. The scaffolded infra template (`packages/cli/templates/infra`) is not an npm workspace member and ships `@aws/pdk` (build-time cdk-graph tooling) whose transitive tree still carries high advisories; it is now audited in CI (non-blocking) and tracked separately in [issue #486](https://github.com/mbc-net/mbc-cqrs-serverless/issues/486)
+
+---
+
+## [1.3.4](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.4) (2026-07-17) {#v134}
+
+### Bug Fixes
+
+- **core, cli:**  + `context.---
+sidebar_position: 100
+sidebar_label: "Backend (Framework)"
+description: Track all notable changes, new features, and bug fixes in MBC CQRS Serverless releases.
+---
+
+# Changelog
+
+All notable changes to MBC CQRS Serverless are documented here. This project follows [Semantic Versioning](https://semver.org/) and [Conventional Commits](https://conventionalcommits.org/).
+
+## Version Scheme {#version-scheme}
+
+- `x.y.z` - Production releases
+- `x.y.z-beta.n` - Beta releases for testing
+- `x.y.z-alpha.n` - Alpha releases for early access
+
+---
+
+## Stable Releases (1.x) {#stable-releases}
+
+## [1.4.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.4.0) (2026-08-02) {#v140}
+
+### Features
+
+- **core, master, directory, survey-template, ui-setting:** Make the DynamoDB table names of the domain modules configurable via a backward-compatible `tableName?` option, and add `registerAsync` support to all four modules. Defaults are unchanged (`master` / `directory` / `survey` / `master`), so existing apps upgrade with no code changes ([See Details](/docs/directory#configurable-table-name)) ([PR #493](https://github.com/mbc-net/mbc-cqrs-serverless/pull/493))
+  - `DirectoryStorageModule` additionally accepts `pkPrefix?` (default `DIRECTORY`) and `prismaModelName?` (default `directory`)
+  - The `directory` → `document` rename ([PR #469](https://github.com/mbc-net/mbc-cqrs-serverless/pull/469)) is now expressed as opt-in configuration (`tableName: 'document'`, `pkPrefix: 'DOCUMENT'`, `prismaModelName: 'document'`) rather than a forced default
+
+### Changes
+
+- **master, directory, survey-template:** `prismaService` is now always required at registration (previously validated only when `enableController: true`). A missing value now fails fast at startup with a clear message instead of a cryptic dependency-resolution error. Pass `prismaService` explicitly if you registered with `enableController: false` and relied on a globally-provided token
+- **master, ui-setting:** When `MasterModule` and `SettingModule` share the default `master` table, the framework logs a startup warning if both own the `master_CommandEventHandler` alias (data-sync ownership becomes import-order dependent). Set `registerEventHandlerAlias: false` on `SettingModule` so `MasterModule` owns the alias
+- **master:** `MasterModule` logs a warning if its `tableName` is overridden — the `master` table is a framework-wide config store read at a fixed `master-data` name by `TtlService` and the sequence package, so renaming it is not fully supported
+
+## [1.3.5](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.5) (2026-08-01) {#v135}
+
+### Bug Fixes
+
+- **core:** Harden command-handler resume against read-after-write races — `waitConfirmToken` now self-resumes when the predecessor command has already finished, closes the residual TOCTOU window via `STARTED|FINISHED` status checks, retries the predecessor `getItem` with exponential backoff, and classifies `checkNextToken` resume failures so a stuck resume raises an alarm instead of failing silently ([PR #465](https://github.com/mbc-net/mbc-cqrs-serverless/pull/465))
+- **core:** Add `ConsistentRead` support to `DynamoDbService.getItem` and thread it through `CommandService.getItem` / `getNextCommand`, so resume decisions read the latest committed state instead of a possibly stale replica ([PR #465](https://github.com/mbc-net/mbc-cqrs-serverless/pull/465))
+- **cli:** Fix the scaffolded infra template failing `cdk synth`/`deploy` — the import-CSV Step Functions definition referenced an undefined `aws_stepfunctions` identifier (corrected to `cdk.aws_stepfunctions`), which broke every project scaffolded with `mbc new` on v1.3.4. Upgrade to v1.3.5 to restore deployability ([PR #465](https://github.com/mbc-net/mbc-cqrs-serverless/pull/465))
+
+### Features
+
+- **infra:** Add CloudWatch alarms on the command-handler Step Functions state machine (`ExecutionsFailed` and degraded self-resume paths), add a 24h timeout and catch on `wait_prev_command`, and scope the `SendTaskSuccess` IAM permission to the command state machine ARN ([PR #465](https://github.com/mbc-net/mbc-cqrs-serverless/pull/465))
+- **cli:** Local development tooling for `mbc new` projects — make the local infra ports configurable via `LOCAL_*_PORT` env vars (defaults unchanged), keep cognito-local's JWT issuer in sync with `LOCAL_COGNITO_PORT`, and harden Step Functions Local pre-registration (readiness wait, fail-fast on real errors, tolerate already-registered state machines); no runtime impact on deployed apps ([PR #337](https://github.com/mbc-net/mbc-cqrs-serverless/pull/337))
+
+### Security
+
+- Restore the blocking `npm audit --omit=dev --audit-level=high` CI gate that was temporarily disabled, and patch `brace-expansion` (top-level `brace-expansion@2` → `5.0.8`); root production audit: 0 critical/high ([PR #482](https://github.com/mbc-net/mbc-cqrs-serverless/pull/482))
+  - Scope note: the "0 critical/high" figure applies to the root workspace only. The scaffolded infra template (`packages/cli/templates/infra`) is not an npm workspace member and ships `@aws/pdk` (build-time cdk-graph tooling) whose transitive tree still carries high advisories; it is now audited in CI (non-blocking) and tracked separately in [issue #486](https://github.com/mbc-net/mbc-cqrs-serverless/issues/486)
+
+---
+
+## [1.3.4](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.4) (2026-07-17) {#v134}
+
+### Bug Fixes
+
+- **core, cli:** ), so inline attributes above ~110 KB could trigger `States.DataLimitExceeded` ([See Details](/docs/environment-variables#dynamodb-configuration)) ([PR #466](https://github.com/mbc-net/mbc-cqrs-serverless/pull/466))
 - **mcp-server:** Update skills with guidance on the new `ATTRIBUTE_LIMIT_SIZE` default ([PR #470](https://github.com/mbc-net/mbc-cqrs-serverless/pull/470))
 
 ---
