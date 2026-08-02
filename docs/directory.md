@@ -40,13 +40,60 @@ import { PrismaService } from './prisma.service';
   imports: [
     DirectoryStorageModule.register({
       enableController: true,  // {{Enable REST API endpoints}}
-      prismaService: PrismaService,  // {{Required when enableController is true}}
+      prismaService: PrismaService,  // {{Required (the directory service injects it)}}
       dataSyncHandlers: [],  // {{Optional data sync handlers}}
     }),
   ],
 })
 export class AppModule {}
 ```
+
+## {{Configurable table name}} {#configurable-table-name}
+
+{{By default the module uses the `directory` DynamoDB table. You can override the table name and related identifiers with backward-compatible options — omitting them keeps the current behavior. Both `register` and `registerAsync` accept them.}}
+
+| {{Option}} | {{Default}} | {{Description}} |
+|--------|---------|-------------|
+| `tableName` | `directory` | {{Raw DynamoDB base table name. Physical tables become `${NODE_ENV}-${APP_NAME}-${tableName}` with `-command` / `-data` / `-history` suffixes.}} |
+| `pkPrefix` | `DIRECTORY` | {{Partition-key prefix (before the `#` separator).}} |
+| `prismaModelName` | `directory` | {{Prisma model accessor used for RDS reads.}} |
+
+```typescript
+// {{Opt in to running the directory module as "document"}}
+DirectoryStorageModule.register({
+  enableController: true,
+  prismaService: PrismaService,
+  tableName: 'document',
+  pkPrefix: 'DOCUMENT',
+  prismaModelName: 'document',
+});
+
+// {{Async configuration — the factory must resolve and return the PrismaService instance}}
+DirectoryStorageModule.registerAsync({
+  tableName: 'document',
+  pkPrefix: 'DOCUMENT',
+  prismaModelName: 'document',
+  imports: [PrismaModule],
+  inject: [PrismaService],
+  useFactory: (prisma) => ({ prismaService: prisma }),
+});
+```
+
+:::warning {{Set the three options together}}
+{{Changing only `tableName` leaves the partition key as `DIRECTORY#` and reads `prismaService.directory`, which is inconsistent. Set `tableName`, `pkPrefix`, and `prismaModelName` together.}}
+:::
+
+### {{Provisioning and data migration}}
+
+{{Using a custom table name requires application-side provisioning:}}
+
+1. {{**DynamoDB:** add the raw base name (e.g. `"document"`) — not the `-command`/`-data`/`-history` variants — to `prisma/dynamodbs/cqrs.json`, then run `npm run migrate:ddb`. This creates the three physical tables. A custom name must be added manually (only the master module's postinstall auto-adds its default). Mirror the tables in your IaC.}}
+2. {{**RDS:** add the matching Prisma model (e.g. `model Document { ... }`) to `schema.prisma`, then run `npm run migrate:rds`.}}
+3. {{**Data:** the migrate commands only create empty tables. Copying existing data from `directory-*` / `DIRECTORY#` / the `directory` model to the new targets is your responsibility.}}
+
+:::info {{Version Note}}
+{{Configurable table names (`tableName`, `pkPrefix`, `prismaModelName`) and `registerAsync` were added in [version 1.4.0](/docs/changelog#v140).}}
+:::
 
 ## {{API Endpoints}} {#api-endpoints}
 
