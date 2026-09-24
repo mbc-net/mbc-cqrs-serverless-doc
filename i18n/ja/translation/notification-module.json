@@ -91,7 +91,7 @@
   "The `EmailService` sends emails using AWS SES.": "`EmailService`はAWS SESを使用してメールを送信します。",
   "Required: Default sender address": "Required: Default sender address (必須: デフォルト送信者アドレス)",
   "Optional: SES region": "Optional: SES region (オプション: SESリージョン)",
-  "Optional: Custom endpoint for LocalStack": "Optional: Custom endpoint for LocalStack (オプション: LocalStack用カスタムエンドポイント)",
+  "Optional: Custom endpoint for a local emulator (e.g. http://localhost:8005)": "Optional: Custom endpoint for a local emulator (e.g. http://localhost:8005) (オプション: ローカルエミュレーター用のカスタムエンドポイント)",
   "Basic Usage": "基本的な使い方",
   "Email with Attachments": "添付ファイル付きメール",
   "Inline Template Emails": "インラインテンプレートメール",

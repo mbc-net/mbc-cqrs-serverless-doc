@@ -55,7 +55,7 @@ Copy the example environment file and set dummy AWS credentials for local develo
 cp .env.example .env
 ```
 
-Open `.env` and ensure these values are set (LocalStack emulates AWS — no real credentials needed):
+Open `.env` and ensure these values are set (local emulators stand in for AWS — no real credentials needed):
 
 ```bash
 AWS_ACCESS_KEY_ID=local
@@ -80,7 +80,7 @@ This starts the following services:
 
 - DynamoDB Local (port 8000)
 - MySQL (port 3306)
-- LocalStack for AWS services
+- Floci for S3 (port 4566) and other local AWS emulators
 
 ## Step 5: Initialize the Database {#step5-database}
 

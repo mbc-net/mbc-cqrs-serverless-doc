@@ -18,6 +18,27 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ## 安定版リリース (1.x) {#stable-releases}
 
+## [1.5.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.5.0) (2026-09-24) {#v150}
+
+### 破壊的変更
+
+- **cli:** スキャフォールドされるローカル開発スタックの S3 エミュレーターを LocalStack から Floci（`floci/floci:1.6.0`）に置き換え。LocalStack Community Edition は 2026 年 3 月にサポートが終了しました。Floci は同じポート（`4566`）・パス形式のアドレッシングで S3 を提供するため、アプリケーションコードと `.env` の値は変更不要で、デプロイ済みの環境にも影響はありません ([詳細を見る](/docs/installation#local-s3-floci)) ([PR #503](https://github.com/mbc-net/mbc-cqrs-serverless/pull/503))
+  - 既存プロジェクト: `infra-local/docker-compose.yml` の `localstack` サービスを置き換え、`serverless-localstack` を削除し、署名付きアップロード/表示 URL がブラウザで引き続き動作するようバケットに CORS ルールを追加してください
+
+### 新機能
+
+- **directory:** `DirectoryService` のメソッドが `ICommandOptions` を受け付けるように変更（これまでは `invokeContext` しか指定できない型でした）。呼び出し側から `source` と `requestId` をコマンドまで渡せるようになり、トレースに利用できます。必須項目は引き続き `invokeContext` だけなので、後方互換があります ([PR #505](https://github.com/mbc-net/mbc-cqrs-serverless/pull/505))
+
+### バグ修正
+
+- **cli:** `mbc new` が依存関係のインストール時に `EOVERRIDE: Override for js-yaml@^4.1.0 conflicts with direct dependency` で失敗する問題を修正（v1.3.5 以降）。テンプレートの `js-yaml` の override が直接依存の指定を参照するようにし、直接依存を `^4.3.2` に更新。これにより `js-yaml` の high の脆弱性も解消 ([PR #508](https://github.com/mbc-net/mbc-cqrs-serverless/pull/508))
+- **cli:** 新規に作成したプロジェクトで `npm run migrate` が失敗する問題を修正。Prisma は `DATABASE_URL` 内の `LOCAL_RDS_PORT` に使われていた `:-`（既定値）の書き方を展開できず（`P1013`）、`prisma/ddb.ts` はエンドポイントの変数をまったく展開していませんでした（`Invalid URL`）。既存プロジェクトも同じ修正を適用できます: `DATABASE_URL` では `LOCAL_RDS_PORT` を `:-` なしで参照し、`prisma/ddb.ts` では `dotenv-expand` の `expand(dotenv.config())` で `.env` を読み込んでください ([PR #508](https://github.com/mbc-net/mbc-cqrs-serverless/pull/508))
+- **mcp-server:** 公開 npm パッケージに Claude Code スキルを同梱。これまでパッケージに含まれていなかったため、`mbc install-skills` や手動の `cp -r node_modules/@mbc-cqrs-serverless/mcp-server/skills/*` でスキルが見つかりませんでした ([詳細を見る](/docs/mcp-server#installing-skills)) ([PR #506](https://github.com/mbc-net/mbc-cqrs-serverless/pull/506))
+
+### ドキュメント
+
+- **mcp-server:** `mbc-migrate` スキルに v1.4.0 → v1.5.0 の移行ガイド（LocalStack → Floci、バケット CORS）を追加し、`mbc-debug` スキルの Floci コマンドを更新 ([PR #506](https://github.com/mbc-net/mbc-cqrs-serverless/pull/506))
+
 ## [1.4.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.4.0) (2026-08-02) {#v140}
 
 ### 新機能

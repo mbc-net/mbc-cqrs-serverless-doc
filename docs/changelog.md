@@ -18,6 +18,27 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ## {{Stable Releases (1.x)}} {#stable-releases}
 
+## [1.5.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.5.0) (2026-09-24) {#v150}
+
+### {{Breaking Changes}}
+
+- **cli:** {{Replace LocalStack with Floci (`floci/floci:1.6.0`) as the local S3 emulator in the scaffolded local development stack. LocalStack Community Edition reached end of life in March 2026. Floci serves S3 on the same port (`4566`) with path-style addressing, so application code and `.env` values do not change, and deployed environments are not affected}} ([{{See Details}}](/docs/installation#local-s3-floci)) ([PR #503](https://github.com/mbc-net/mbc-cqrs-serverless/pull/503))
+  - {{Existing projects: replace the `localstack` service in `infra-local/docker-compose.yml`, remove `serverless-localstack`, and add a bucket CORS rule so presigned upload/view URLs keep working in the browser}}
+
+### {{Features}}
+
+- **directory:** {{`DirectoryService` methods now take `ICommandOptions` instead of an options type that only allowed `invokeContext`, so callers can pass `source` and `requestId` through to the command for tracing. Backward compatible: `invokeContext` is still the only required field}} ([PR #505](https://github.com/mbc-net/mbc-cqrs-serverless/pull/505))
+
+### {{Bug Fixes}}
+
+- **cli:** {{Fix `mbc new` failing at dependency installation with `EOVERRIDE: Override for js-yaml@^4.1.0 conflicts with direct dependency` (broken since v1.3.5). The template's `js-yaml` override now references the direct dependency, which moves to `^4.3.2` and also clears a high-severity `js-yaml` advisory}} ([PR #508](https://github.com/mbc-net/mbc-cqrs-serverless/pull/508))
+- **cli:** {{Fix `npm run migrate` in newly scaffolded projects. Prisma does not expand the `:-` default syntax used for `LOCAL_RDS_PORT` in `DATABASE_URL` (`P1013`), and `prisma/ddb.ts` did not expand the endpoint variables at all (`Invalid URL`). Existing projects can apply the same fix: reference `LOCAL_RDS_PORT` without a `:-` default in `DATABASE_URL`, and load `.env` in `prisma/ddb.ts` with `expand(dotenv.config())` from `dotenv-expand`}} ([PR #508](https://github.com/mbc-net/mbc-cqrs-serverless/pull/508))
+- **mcp-server:** {{Ship the Claude Code skills in the published npm package. They were missing from the package, so `mbc install-skills` and the manual `cp -r node_modules/@mbc-cqrs-serverless/mcp-server/skills/*` step could not find them}} ([{{See Details}}](/docs/mcp-server#installing-skills)) ([PR #506](https://github.com/mbc-net/mbc-cqrs-serverless/pull/506))
+
+### {{Documentation}}
+
+- **mcp-server:** {{Add the v1.4.0 → v1.5.0 migration guide (LocalStack → Floci, bucket CORS) to the `mbc-migrate` skill and update the Floci commands in the `mbc-debug` skill}} ([PR #506](https://github.com/mbc-net/mbc-cqrs-serverless/pull/506))
+
 ## [1.4.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.4.0) (2026-08-02) {#v140}
 
 ### {{Features}}

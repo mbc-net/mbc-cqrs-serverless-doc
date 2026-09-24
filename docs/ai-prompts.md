@@ -173,7 +173,7 @@ Write integration tests for [FEATURE]:
 - Test full command-query flow
 - Verify data sync if applicable
 - Clean up test data after each test
-- Use LocalStack for local testing
+- Use the local emulator stack (`npm run offline:docker`) for local testing
 ```
 
 ## {{Debugging}} {#debugging}

@@ -30,7 +30,7 @@ await this.snsService.publish({ action: 'my-action', ...payload }, 'arn:aws:sns:
 | 変数 | 説明 |
 |---|---|
 | `SNS_TOPIC_ARN` | `topicArn`未指定時に使用されるデフォルトのトピックARN |
-| `SNS_ENDPOINT` | カスタムエンドポイント（例: LocalStack用`http://localhost:4566`） |
+| `SNS_ENDPOINT` | カスタムエンドポイント（例: ローカル SNS エミュレーター用 `http://localhost:4002`） |
 | `SNS_REGION` | AWSリージョン |
 
 ---
@@ -47,7 +47,7 @@ await this.snsService.publish({ action: 'my-action', ...payload }, 'arn:aws:sns:
 
 | 変数 | 説明 |
 |---|---|
-| `SQS_ENDPOINT` | カスタムエンドポイント（例: LocalStack用`http://localhost:4566`） |
+| `SQS_ENDPOINT` | カスタムエンドポイント（例: ElasticMQ 用 `http://localhost:9324`） |
 | `SQS_REGION` | AWSリージョン |
 
 ### `sendMessage(queueUrl, body, opts?)`

@@ -1,5 +1,5 @@
 ---
-description: JestとLocalStackを使用したMBC CQRS Serverlessアプリケーションのエンドツーエンドテストの書き方と実行方法を学びます。
+description: Jest とローカルの AWS エミュレーターを使用した MBC CQRS Serverless アプリケーションの E2E テストの作成と実行方法を学びます。
 ---
 
 # エンドツーエンドテスト（E2E）
@@ -225,7 +225,7 @@ CI/CDパイプラインでE2Eテストを自動化するには、GitHub Actions�
 1. Dockerサービス:
    - DynamoDB Local
    - Cognito Local
-   - LocalStack
+   - Floci (S3)
    - ElasticMQ
 
 2. ディレクトリのパーミッション:
@@ -236,7 +236,7 @@ CI/CDパイプラインでE2Eテストを自動化するには、GitHub Actions�
     sudo chmod -R 777 /var/lib/docker/volumes
     
     # 必要なディレクトリを作成
-    sudo mkdir -p infra-local/docker-data/{.cognito,.dynamodb,.mysql,.localstack,.elasticmq}
+    sudo mkdir -p infra-local/docker-data/{.cognito,.dynamodb,.mysql,.elasticmq}
     sudo chown -R $USER:$USER infra-local
     sudo chmod -R 777 infra-local/docker-data
 ```
@@ -351,7 +351,7 @@ jobs:
           sudo chmod -R 777 /var/lib/docker/volumes
           
           # 必要なディレクトリを作成
-          sudo mkdir -p infra-local/docker-data/{.cognito,.dynamodb,.mysql,.localstack,.elasticmq}
+          sudo mkdir -p infra-local/docker-data/{.cognito,.dynamodb,.mysql,.elasticmq}
           sudo chown -R $USER:$USER infra-local
           sudo chmod -R 777 infra-local/docker-data
           

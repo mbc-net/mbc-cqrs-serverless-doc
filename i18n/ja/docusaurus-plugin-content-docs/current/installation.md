@@ -26,12 +26,12 @@ mbc-cqrs-serverless を初めて使う方は、[プロジェクト構造](/docs/
 ## 開発用サーバの実行 {#run-dev-server}
 
 1. `npm run build` を実行してウォッチモードでプロジェクトをビルドします。
-2. 別のターミナルセッションを開いて`npm run offline:docker`を実行し、Dockerサービス（DynamoDB Local、MySQL、LocalStack）を起動します。
+2. 別のターミナルセッションを開き、`npm run offline:docker` を実行して Docker サービス（DynamoDB Local、MySQL、S3 用の Floci など）を起動します。
 3. MySQLが完全に起動するまで約30秒待ってから、別のターミナルを開いて`npm run migrate`を実行し、RDSとDynamoDBのテーブルをマイグレーションします。
 4. 最後に `npm run offline:sls` コマンドを実行して serverless offline mode を実行します。
 
 :::info ローカル開発でのAWSクレデンシャル
-ローカル開発ではLocalStackを使用してAWSサービスをエミュレートします。実際のAWSクレデンシャルは不要です — `.env`ファイルにダミー値を設定してください：
+ローカル開発では AWS の代わりにローカルのエミュレーター（DynamoDB Local、S3 用の Floci、ElasticMQ など）を使用します。実際の AWS 認証情報は不要です。`.env` ファイルにダミー値を設定してください：
 
 ```bash
 AWS_ACCESS_KEY_ID=local
@@ -82,7 +82,7 @@ Server ready: http://localhost:3000 🚀
 - SNS: http://localhost:4002
 - SQS: http://localhost:9324
 - SQS管理画面: http://localhost:9325
-- Localstack: http://localhost:4566
+- Floci (S3): http://localhost:4566
 - AppSync: http://localhost:4001
 - Cognito: http://localhost:9229
 - EventBridge: http://localhost:4010
@@ -91,6 +91,48 @@ Server ready: http://localhost:3000 🚀
 
 :::tip セットアップの確認
 [Swagger UI](http://localhost:3000/swagger-ui) をブラウザで開き、APIサーバーが起動していることを確認してください。利用可能なすべてのエンドポイントを含むインタラクティブなAPIドキュメントが表示されるはずです。
+:::
+
+## ローカル S3 エミュレーター（Floci） {#local-s3-floci}
+
+ローカルスタックは [Floci](https://github.com/floci-io/floci)（`floci/floci:1.6.0`）でポート `4566`（`LOCAL_S3_PORT`）に S3 をエミュレートし、パス形式のアドレッシングを使用します。バケットは Docker ボリューム `floci-data` に保存され、`.env` の `COMPOSE_PROJECT_NAME` によってプロジェクトごとに分離されます。
+
+`infra-local/scripts/resources.sh`（Windows では `resources.ps1`）がバケットを作成し、CORS ルールを適用します。Floci はバケットに CORS ルールがないとブラウザのプリフライトリクエストを `403` で拒否するため、`DirectoryFileService` が発行する署名付きアップロード/表示 URL はこのルールに依存します。本番環境では CDK スタックでバケットに CORS を設定しており、このスクリプトはそのローカル版です。
+
+:::danger 破壊的変更 (v1.5.0)
+[バージョン 1.5.0](/docs/changelog#v150) より前に作成したプロジェクトは S3 に LocalStack を使用しています。LocalStack Community Edition は 2026 年 3 月にサポートが終了したため、ローカルスタックを Floci に移行してください。アプリケーションコードと `.env` の値は変更不要です。
+
+1. `infra-local/docker-compose.yml` の `localstack` サービスを置き換え、名前付きボリュームを宣言します：
+
+```yaml
+  floci:
+    image: floci/floci:1.6.0
+    ports:
+      - '${LOCAL_S3_PORT:-4566}:4566'
+    environment:
+      - FLOCI_DEFAULT_REGION=ap-northeast-1
+      - FLOCI_STORAGE_MODE=persistent
+    volumes:
+      - floci-data:/app/data
+
+volumes:
+  floci-data:
+```
+
+2. `package.json` から `serverless-localstack` を削除し、`npm install` を実行します。
+3. 最新テンプレートの `infra-local/scripts/resources.sh` / `resources.ps1` から `configure S3 bucket CORS` ブロックを自分のスクリプトにコピーします。Windows では JSON ファイルを BOM なしで書き込んでください。Windows PowerShell 5.1 は `Set-Content -Encoding utf8` で BOM を付け、AWS CLI はそれを受け付けません。
+4. `npm run offline:docker` でスタックを起動し（実行し続けます）、別のターミナルから `bash infra-local/scripts/resources.sh`（Windows では `npm run resources:win32`）でバケットを作り直します。LocalStack に保存していたオブジェクトは移行されません。
+
+`FLOCI_STORAGE_MODE=persistent` は必須です。既定値の `memory` では `docker compose down` のたびにすべてのバケットが破棄されます。スクリプトを更新していない場合は、バケット作成後に CORS ルールを一度手動で適用してください：
+
+```bash
+set -a; . ./.env; set +a
+aws --endpoint-url="$S3_ENDPOINT" s3api put-bucket-cors \
+  --bucket "$S3_BUCKET_NAME" \
+  --cors-configuration '{"CORSRules":[{"AllowedOrigins":["*"],"AllowedMethods":["GET","PUT","POST","DELETE","HEAD"],"AllowedHeaders":["*"],"ExposeHeaders":["ETag"]}]}'
+```
+
+参照: [変更履歴 v1.5.0](/docs/changelog#v150)
 :::
 
 ## ローカルサービスのポート設定 {#configuring-local-ports}
@@ -109,7 +151,7 @@ Server ready: http://localhost:3000 🚀
 | `LOCAL_LAMBDA_PORT` | `3002` | Lambda HTTPエンドポイント |
 | `LOCAL_DYNAMODB_PORT` | `8000` | DynamoDB Local |
 | `LOCAL_RDS_PORT` | `3306` | MySQL (RDS) |
-| `LOCAL_S3_PORT` | `4566` | LocalStack (S3) |
+| `LOCAL_S3_PORT` | `4566` | Floci (S3) |
 | `LOCAL_SNS_PORT` | `4002` | SNS |
 | `LOCAL_SQS_PORT` | `9324` | SQS (ElasticMQ) |
 | `LOCAL_SQS_UI_PORT` | `9325` | SQS管理画面 |
