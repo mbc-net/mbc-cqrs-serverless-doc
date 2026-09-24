@@ -443,7 +443,7 @@ NOTIFICATION_TRANSPORTS=appsync-graphql,appsync-event  # 両方の組み込み�
 ```bash
 SES_FROM_EMAIL=noreply@your-domain.com  # Required: Default sender address (必須: デフォルト送信者アドレス)
 SES_REGION=ap-northeast-1                # Optional: SES region (オプション: SESリージョン)
-SES_ENDPOINT=                            # Optional: Custom endpoint for LocalStack (オプション: LocalStack用カスタムエンドポイント)
+SES_ENDPOINT=                            # Optional: Custom endpoint for a local emulator (e.g. http://localhost:8005) (オプション: ローカルエミュレーター用のカスタムエンドポイント)
 ```
 
 #### 基本的な使い方

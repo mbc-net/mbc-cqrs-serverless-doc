@@ -224,7 +224,13 @@ Claude Code Skills provide guided assistance for MBC CQRS Serverless development
 | `/mbc-migrate` | Guide version migrations and breaking changes |
 | `/mbc-debug` | Debug and troubleshoot common issues |
 
-### Installing Skills
+### Installing Skills {#installing-skills}
+
+:::warning Known Issue (Fixed in v1.5.0)
+In versions prior to v1.5.0, the published `@mbc-cqrs-serverless/mcp-server` package did not include the `skills/` directory, so neither `mbc install-skills` nor the manual copy below could find the skills. Upgrade `@mbc-cqrs-serverless/mcp-server` to v1.5.0 or later.
+
+See also: [Changelog v1.5.0](/docs/changelog#v150)
+:::
 
 #### Using CLI (Recommended)
 
@@ -339,7 +345,7 @@ Helps debug and troubleshoot issues in MBC CQRS Serverless applications.
 - Error code quick lookup
 - 6 debugging workflows (Command, ConditionalCheckFailedException, DataSyncHandler, Tenant, Import, Performance)
 - CloudWatch log queries
-- Local development debugging (LocalStack, Serverless Offline)
+- Local development debugging (Floci, Serverless Offline)
 - Troubleshooting decision tree
 
 **Example Usage:**

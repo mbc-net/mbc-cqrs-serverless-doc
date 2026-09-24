@@ -1,5 +1,5 @@
 {
-  "Learn how to write and run end-to-end tests for MBC CQRS Serverless applications using Jest and LocalStack.": "Learn how to write and run end-to-end tests for MBC CQRS Serverless applications using Jest and LocalStack.",
+  "Learn how to write and run end-to-end tests for MBC CQRS Serverless applications using Jest and local AWS emulators.": "Learn how to write and run end-to-end tests for MBC CQRS Serverless applications using Jest and local AWS emulators.",
   "End-to-end Tests": "End-to-end Tests",
   "Unlike unit testing, which focuses on individual modules and classes, end-to-end (e2e) testing covers the interaction of classes and modules at a more aggregate level — closer to the kind of interaction that end-users will have with the production system. As an application grows, it becomes hard to manually test the end-to-end behavior of each API endpoint. Automated end-to-end tests help us ensure that the overall behavior of the system is correct and meets project requirements.": "Unlike unit testing, which focuses on individual modules and classes, end-to-end (e2e) testing covers the interaction of classes and modules at a more aggregate level — closer to the kind of interaction that end-users will have with the production system. As an application grows, it becomes hard to manually test the end-to-end behavior of each API endpoint. Automated end-to-end tests help us ensure that the overall behavior of the system is correct and meets project requirements.",
   "E2E tests run against the API in a real local environment so you do not need to mock any services. The main steps for writing an e2e test are:": "E2E tests run against the API in a real local environment so you do not need to mock any services. The main steps for writing an e2e test are:",
@@ -35,6 +35,7 @@
   "The workflow requires several services and configurations:": "The workflow requires several services and configurations:",
   "Docker Services": "Docker Services",
   "Directory Permissions": "Directory Permissions",
+  "Create required directories": "Create required directories",
   "Docker Container Health Checks": "Docker Container Health Checks",
   "Docker container health checks are important for monitoring container status. When configuring health checks, consider the following two contexts:": "Docker container health checks are important for monitoring container status. When configuring health checks, consider the following two contexts:",
   "Health check from inside Docker container": "Health check from inside Docker container",
@@ -55,13 +56,12 @@
   "Health check mechanisms": "Health check mechanisms",
   "Workflow Example": "Workflow Example",
   "Here's a complete example of a GitHub Actions workflow for E2E testing:": "Here's a complete example of a GitHub Actions workflow for E2E testing:",
+  "Adjust to self-hosted if your environment requires access to private VPC resources": "Adjust to self-hosted if your environment requires access to private VPC resources",
   "Related Documentation": "Related Documentation",
   "Unit Testing": "Unit Testing",
   "Unit testing with Jest": "Unit testing with Jest",
   "Testing": "Testing",
   "Testing overview": "Testing overview",
   "Deployment Guide": "Deployment Guide",
-  "Deploy for integration testing": "Deploy for integration testing",
-  "Adjust to self-hosted if your environment requires access to private VPC resources": "Adjust to self-hosted if your environment requires access to private VPC resources",
-  "Create required directories": "Create required directories"
+  "Deploy for integration testing": "Deploy for integration testing"
 }

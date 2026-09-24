@@ -224,7 +224,13 @@ Claude Code Skillsは、MBC CQRS Serverless開発のためのガイド付きア�
 | `/mbc-migrate` | バージョン移行と破壊的変更のガイド |
 | `/mbc-debug` | 一般的な問題のデバッグとトラブルシューティング |
 
-### Skillsのインストール
+### Skillsのインストール {#installing-skills}
+
+:::warning 既知の問題（v1.5.0 で修正済み）
+v1.5.0 より前のバージョンでは、公開された `@mbc-cqrs-serverless/mcp-server` パッケージに `skills/` ディレクトリが含まれていなかったため、`mbc install-skills` でも下記の手動コピーでもスキルが見つかりませんでした。`@mbc-cqrs-serverless/mcp-server` を v1.5.0 以降にアップグレードしてください。
+
+参照: [変更履歴 v1.5.0](/docs/changelog#v150)
+:::
 
 #### CLIを使用（推奨）
 
@@ -339,7 +345,7 @@ MBC CQRS Serverlessアプリケーションの問題のデバッグとトラブ�
 - エラーコードクイックルックアップ
 - 6つのデバッグワークフロー（コマンド、ConditionalCheckFailedException、DataSyncHandler、テナント、インポート、パフォーマンス）
 - CloudWatchログクエリ
-- ローカル開発デバッグ（LocalStack、Serverless Offline）
+- ローカル開発デバッグ（Floci、Serverless Offline）
 - トラブルシューティング決定木
 
 **使用例：**

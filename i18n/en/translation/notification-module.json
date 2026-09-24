@@ -91,7 +91,7 @@
   "The `EmailService` sends emails using AWS SES.": "The `EmailService` sends emails using AWS SES.",
   "Required: Default sender address": "Required: Default sender address",
   "Optional: SES region": "Optional: SES region",
-  "Optional: Custom endpoint for LocalStack": "Optional: Custom endpoint for LocalStack",
+  "Optional: Custom endpoint for a local emulator (e.g. http://localhost:8005)": "Optional: Custom endpoint for a local emulator (e.g. http://localhost:8005)",
   "Basic Usage": "Basic Usage",
   "Email with Attachments": "Email with Attachments",
   "Inline Template Emails": "Inline Template Emails",

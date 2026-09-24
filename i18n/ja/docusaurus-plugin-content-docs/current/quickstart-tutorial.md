@@ -55,7 +55,7 @@ npm install
 cp .env.example .env
 ```
 
-`.env`を開いて以下の値が設定されていることを確認してください（LocalStackがAWSをエミュレートするため、実際のクレデンシャルは不要）：
+`.env` を開いて以下の値が設定されていることを確認してください（ローカルのエミュレーターが AWS の代わりになるため、実際の認証情報は不要です）：
 
 ```bash
 AWS_ACCESS_KEY_ID=local
@@ -80,7 +80,7 @@ npm run offline:docker
 
 - DynamoDB Local（ポート8000）
 - MySQL（ポート3306）
-- AWSサービス用のLocalStack
+- S3 用の Floci（ポート 4566）とその他のローカル AWS エミュレーター
 
 ## ステップ5: データベースの初期化 {#step5-database}
 

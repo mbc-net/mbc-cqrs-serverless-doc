@@ -1,5 +1,5 @@
 ---
-description: Learn how to write and run end-to-end tests for MBC CQRS Serverless applications using Jest and LocalStack.
+description: Learn how to write and run end-to-end tests for MBC CQRS Serverless applications using Jest and local AWS emulators.
 ---
 
 # End-to-end Tests
@@ -225,7 +225,7 @@ The workflow requires several services and configurations:
 1. Docker Services:
    - DynamoDB Local
    - Cognito Local
-   - LocalStack
+   - Floci (S3)
    - ElasticMQ
 
 2. Directory Permissions:
@@ -236,7 +236,7 @@ The workflow requires several services and configurations:
     sudo chmod -R 777 /var/lib/docker/volumes
     
     # Create required directories
-    sudo mkdir -p infra-local/docker-data/{.cognito,.dynamodb,.mysql,.localstack,.elasticmq}
+    sudo mkdir -p infra-local/docker-data/{.cognito,.dynamodb,.mysql,.elasticmq}
     sudo chown -R $USER:$USER infra-local
     sudo chmod -R 777 infra-local/docker-data
 ```
@@ -351,7 +351,7 @@ jobs:
           sudo chmod -R 777 /var/lib/docker/volumes
           
           # Create required directories
-          sudo mkdir -p infra-local/docker-data/{.cognito,.dynamodb,.mysql,.localstack,.elasticmq}
+          sudo mkdir -p infra-local/docker-data/{.cognito,.dynamodb,.mysql,.elasticmq}
           sudo chown -R $USER:$USER infra-local
           sudo chmod -R 777 infra-local/docker-data
           

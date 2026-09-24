@@ -1,15 +1,33 @@
 {
   "latest": {
-    "version": "1.4.0",
-    "date": "2026-08-02",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.4.0",
+    "version": "1.5.0",
+    "date": "2026-09-24",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.5.0",
     "features": [
-      "ドメインモジュールの DynamoDB テーブル名を後方互換オプション `tableName?` で設定可能にし、4モジュールすべてに `registerAsync` を追加。既定値は現行のまま（`master` / `directory` / `survey` / `master`）なので、既存アプリはコード変更なしにアップグレードできる"
+      "`DirectoryService` のメソッドが `ICommandOptions` を受け付けるように変更（これまでは `invokeContext` しか指定できない型でした）。呼び出し側から `source` と `requestId` をコマンドまで渡せるようになり、トレースに利用できます。必須項目は引き続き `invokeContext` だけなので、後方互換があります"
     ],
-    "bugFixes": [],
+    "bugFixes": [
+      "`mbc new` が依存関係のインストール時に `EOVERRIDE: Override for js-yaml@^4.1.0 conflicts with direct dependency` で失敗する問題を修正（v1.3.5 以降）。テンプレートの `js-yaml` の override が直接依存の指定を参照するようにし、直接依存を `^4.3.2` に更新。これにより `js-yaml` の high の脆弱性も解消",
+      "新規に作成したプロジェクトで `npm run migrate` が失敗する問題を修正。Prisma は `DATABASE_URL` 内の `LOCAL_RDS_PORT` に使われていた `:-`（既定値）の書き方を展開できず（`P1013`）、`prisma/ddb.ts` はエンドポイントの変数をまったく展開していませんでした（`Invalid URL`）。既存プロジェクトも同じ修正を適用できます: `DATABASE_URL` では `LOCAL_RDS_PORT` を `:-` なしで参照し、`prisma/ddb.ts` では `dotenv-expand` の `expand(dotenv.config())` で `.env` を読み込んでください",
+      "公開 npm パッケージに Claude Code スキルを同梱。これまでパッケージに含まれていなかったため、`mbc install-skills` や手動の `cp -r node_modules/@mbc-cqrs-serverless/mcp-server/skills/*` でスキルが見つかりませんでした"
+    ],
     "security": []
   },
   "recent": [
+    {
+      "version": "1.5.0",
+      "date": "2026-09-24",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.5.0",
+      "features": [
+        "`DirectoryService` のメソッドが `ICommandOptions` を受け付けるように変更（これまでは `invokeContext` しか指定できない型でした）。呼び出し側から `source` と `requestId` をコマンドまで渡せるようになり、トレースに利用できます。必須項目は引き続き `invokeContext` だけなので、後方互換があります"
+      ],
+      "bugFixes": [
+        "`mbc new` が依存関係のインストール時に `EOVERRIDE: Override for js-yaml@^4.1.0 conflicts with direct dependency` で失敗する問題を修正（v1.3.5 以降）。テンプレートの `js-yaml` の override が直接依存の指定を参照するようにし、直接依存を `^4.3.2` に更新。これにより `js-yaml` の high の脆弱性も解消",
+        "新規に作成したプロジェクトで `npm run migrate` が失敗する問題を修正。Prisma は `DATABASE_URL` 内の `LOCAL_RDS_PORT` に使われていた `:-`（既定値）の書き方を展開できず（`P1013`）、`prisma/ddb.ts` はエンドポイントの変数をまったく展開していませんでした（`Invalid URL`）。既存プロジェクトも同じ修正を適用できます: `DATABASE_URL` では `LOCAL_RDS_PORT` を `:-` なしで参照し、`prisma/ddb.ts` では `dotenv-expand` の `expand(dotenv.config())` で `.env` を読み込んでください",
+        "公開 npm パッケージに Claude Code スキルを同梱。これまでパッケージに含まれていなかったため、`mbc install-skills` や手動の `cp -r node_modules/@mbc-cqrs-serverless/mcp-server/skills/*` でスキルが見つかりませんでした"
+      ],
+      "security": []
+    },
     {
       "version": "1.4.0",
       "date": "2026-08-02",
@@ -47,24 +65,7 @@
         "新しい `ATTRIBUTE_LIMIT_SIZE` のデフォルト値に関するガイダンスをスキルに追加"
       ],
       "security": []
-    },
-    {
-      "version": "1.3.2",
-      "date": "2026-06-27",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.2",
-      "features": [
-        "AP028、AP029、AP030 のアンチパターン検出器を追加"
-      ],
-      "bugFixes": [
-        "`DataSyncHandler` の重複登録を修正 — `ExplorerService` が `Set` でハンドラーを重複排除し、`CommandService` が `Map<constructor.name, instance>` で重複排除して削除された重複ごとに `warn` ログを出力するように",
-        "`publishSync` を修正 — ハンドラーディスパッチ前にバージョン付き `sk` が `command.sk` に代入されるようになり `IDataSyncHandler.up()` が正しいキーを受け取る。`updateStatus` エラーがサイレントにマスクされなくなった。デバッグを容易にするため `checkNextToken` の警告ログに `pk`/`sk` を追加。"
-      ],
-      "security": [
-        "npm 依存関係を強化 — `overrides`（`lodash`、`tmp`、`multer`、`ajv`、`picomatch`、`fast-xml-parser`）と個別アップグレード（`@nestjs/config` ^4.0.4、`@typescript-eslint` v8）で high/moderate 脆弱性を解消。本番ルート監査: critical/high 0件 ([PR #445](https://github.com/mbc-net/mbc-cqrs-serverless/pull/445)–[#453](https://github.com/mbc-net/mbc-cqrs-serverless/pull/453))",
-        "**cli:** スキャフォールドテンプレートの `multer` を v2.2.0 にアップグレードして CVE-2026-5079（深いネストのマルチパートフィールド名による DoS）を修正 ([PR #463](https://github.com/mbc-net/mbc-cqrs-serverless/pull/463))",
-        "ブロッキング CI ゲートを追加: `npm audit --omit=dev --audit-level=high` と ESLint 起動チェックがすべての PR で実行され、本番脆弱性があるとビルドが失敗する ([PR #448](https://github.com/mbc-net/mbc-cqrs-serverless/pull/448))"
-      ]
     }
   ],
-  "generated": "2026-08-02T13:36:32.269Z"
+  "generated": "2026-09-24T06:15:18.513Z"
 }

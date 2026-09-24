@@ -30,7 +30,7 @@ await this.snsService.publish({ action: 'my-action', ...payload }, 'arn:aws:sns:
 | Variable | Description |
 |---|---|
 | `SNS_TOPIC_ARN` | Default topic ARN used when `topicArn` is not provided |
-| `SNS_ENDPOINT` | Custom endpoint (e.g. `http://localhost:4566` for LocalStack) |
+| `SNS_ENDPOINT` | Custom endpoint (e.g. `http://localhost:4002` for the local SNS emulator) |
 | `SNS_REGION` | AWS region |
 
 ---
@@ -47,7 +47,7 @@ await this.snsService.publish({ action: 'my-action', ...payload }, 'arn:aws:sns:
 
 | Variable | Description |
 |---|---|
-| `SQS_ENDPOINT` | Custom endpoint (e.g. `http://localhost:4566` for LocalStack) |
+| `SQS_ENDPOINT` | Custom endpoint (e.g. `http://localhost:9324` for ElasticMQ) |
 | `SQS_REGION` | AWS region |
 
 ### `sendMessage(queueUrl, body, opts?)`

@@ -26,12 +26,12 @@ If you're new to mbc-cqrs-serverless, see the [project structure](/docs/project-
 ## Run the Development Server {#run-dev-server}
 
 1. Run `npm run build` to build the project in watch mode.
-2. Open another terminal session and run `npm run offline:docker` to start Docker services (DynamoDB Local, MySQL, LocalStack).
+2. Open another terminal session and run `npm run offline:docker` to start Docker services (DynamoDB Local, MySQL, Floci for S3, and more).
 3. Wait ~30 seconds for MySQL to fully start, then open another terminal and run `npm run migrate` to migrate RDS and DynamoDB tables.
 4. Finally, run `npm run offline:sls` to start serverless offline mode.
 
 :::info AWS Credentials for Local Development
-Local development uses LocalStack to emulate AWS services. You do not need real AWS credentials — set dummy values in your `.env` file:
+Local development runs local emulators (DynamoDB Local, Floci for S3, ElasticMQ, and others) instead of AWS. You do not need real AWS credentials — set dummy values in your `.env` file:
 
 ```bash
 AWS_ACCESS_KEY_ID=local
@@ -82,7 +82,7 @@ You can also use several endpoints:
 - SNS: http://localhost:4002
 - SQS: http://localhost:9324
 - SQS admin: http://localhost:9325
-- Localstack: http://localhost:4566
+- Floci (S3): http://localhost:4566
 - AppSync: http://localhost:4001
 - Cognito: http://localhost:9229
 - EventBridge: http://localhost:4010
@@ -91,6 +91,48 @@ You can also use several endpoints:
 
 :::tip Verify Your Setup
 Open the [Swagger UI](http://localhost:3000/swagger-ui) in your browser to confirm the API server is running. You should see the interactive API documentation with all available endpoints.
+:::
+
+## Local S3 Emulator (Floci) {#local-s3-floci}
+
+The local stack emulates S3 with [Floci](https://github.com/floci-io/floci) (`floci/floci:1.6.0`) on port `4566` (`LOCAL_S3_PORT`), using path-style addressing. Buckets are stored in the `floci-data` Docker volume, which is scoped to your project by `COMPOSE_PROJECT_NAME` in `.env`.
+
+`infra-local/scripts/resources.sh` (`resources.ps1` on Windows) creates the bucket and applies a CORS rule to it. Floci rejects browser preflight requests with `403` until the bucket has a CORS rule, so presigned upload/view URLs from `DirectoryFileService` depend on this rule. Production configures CORS on the bucket in the CDK stack; the script is the local equivalent.
+
+:::danger Breaking Change (v1.5.0)
+Projects created before [version 1.5.0](/docs/changelog#v150) use LocalStack for S3. LocalStack Community Edition reached end of life in March 2026, so migrate the local stack to Floci. Application code and `.env` values do not change.
+
+1. In `infra-local/docker-compose.yml`, replace the `localstack` service and declare the named volume:
+
+```yaml
+  floci:
+    image: floci/floci:1.6.0
+    ports:
+      - '${LOCAL_S3_PORT:-4566}:4566'
+    environment:
+      - FLOCI_DEFAULT_REGION=ap-northeast-1
+      - FLOCI_STORAGE_MODE=persistent
+    volumes:
+      - floci-data:/app/data
+
+volumes:
+  floci-data:
+```
+
+2. Remove `serverless-localstack` from `package.json` and run `npm install`.
+3. Copy the `configure S3 bucket CORS` block from the latest template's `infra-local/scripts/resources.sh` / `resources.ps1` into your scripts. On Windows, write the JSON file without a BOM — Windows PowerShell 5.1 adds one for `Set-Content -Encoding utf8`, and the AWS CLI rejects it.
+4. Start the stack with `npm run offline:docker` (it keeps running), then from a second terminal recreate the bucket with `bash infra-local/scripts/resources.sh` (`npm run resources:win32` on Windows). Objects stored in LocalStack are not migrated.
+
+`FLOCI_STORAGE_MODE=persistent` is required: the default is `memory`, which discards every bucket on `docker compose down`. If you did not update the scripts, apply the CORS rule once by hand after the bucket exists:
+
+```bash
+set -a; . ./.env; set +a
+aws --endpoint-url="$S3_ENDPOINT" s3api put-bucket-cors \
+  --bucket "$S3_BUCKET_NAME" \
+  --cors-configuration '{"CORSRules":[{"AllowedOrigins":["*"],"AllowedMethods":["GET","PUT","POST","DELETE","HEAD"],"AllowedHeaders":["*"],"ExposeHeaders":["ETag"]}]}'
+```
+
+See also: [Changelog v1.5.0](/docs/changelog#v150)
 :::
 
 ## Configuring Local Service Ports {#configuring-local-ports}
@@ -109,7 +151,7 @@ If you have port conflicts with other services (e.g., another MySQL instance, an
 | `LOCAL_LAMBDA_PORT` | `3002` | Lambda HTTP endpoint |
 | `LOCAL_DYNAMODB_PORT` | `8000` | DynamoDB Local |
 | `LOCAL_RDS_PORT` | `3306` | MySQL (RDS) |
-| `LOCAL_S3_PORT` | `4566` | LocalStack (S3) |
+| `LOCAL_S3_PORT` | `4566` | Floci (S3) |
 | `LOCAL_SNS_PORT` | `4002` | SNS |
 | `LOCAL_SQS_PORT` | `9324` | SQS (ElasticMQ) |
 | `LOCAL_SQS_UI_PORT` | `9325` | SQS Admin UI |
