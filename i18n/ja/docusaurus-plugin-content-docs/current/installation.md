@@ -6,11 +6,15 @@ description: システム要件、CLIスキャフォールディング、ロー�
 
 システム要件:
 
-- [Node.js](https://nodejs.org/en/download/package-manager) (20.x or later)
+- [Node.js](https://nodejs.org/en/download/package-manager) (22.x 以降。22.23.4 以降を推奨)
 - [JQ cli](https://jqlang.github.io/jq/download/)
 - [AWS cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 - [Docker](https://docs.docker.com/engine/install/)
 - Windows / macOS / Linux をサポートしています。
+
+:::danger 破壊的変更 (v1.6.0)
+[バージョン 1.6.0](/docs/changelog#v160) 以降、MBC CQRS Serverless のすべてのパッケージで Node.js 22 以降が必須です。Node.js 18 と 20 はサポート終了（EOL）のため、Node.js 22.23.4 で提供されている CVE-2026-111497（Node2Shell）の修正を受けられません。詳しくは [v1.6.0 マイグレーションガイド](/docs/migration/v1.6.0) を参照してください。
+:::
 
 ## 自動インストール {#automatic-installation}
 

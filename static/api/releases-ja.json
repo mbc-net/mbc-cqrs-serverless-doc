@@ -1,23 +1,44 @@
 {
   "latest": {
-    "version": "1.5.0",
-    "date": "2026-09-24",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.5.0",
-    "features": [
-      "`DirectoryService` のメソッドが `ICommandOptions` を受け付けるように変更（これまでは `invokeContext` しか指定できない型でした）。呼び出し側から `source` と `requestId` をコマンドまで渡せるようになり、トレースに利用できます。必須項目は引き続き `invokeContext` だけなので、後方互換があります"
+    "version": "1.6.0",
+    "date": "2026-11-03",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.6.0",
+    "breakingChanges": [
+      "Node.js 22 以降が必須になりました（`engines.node` は `>=22`）。Node.js 18 と 20 はサポート終了（EOL）のため、Node.js に同梱されている Brotli デコーダーのリモートコード実行脆弱性 CVE-2026-111497（Node2Shell）の修正が提供されません。修正は Node.js 22.23.4、24.22.1、26.12.1 で提供されています。また `@mbc-cqrs-serverless/core` は nodemailer 10 に依存するようになり、nodemailer 10 自体も Node.js 20 以降を必要とします。CI は Node.js 22 と 24 でテストします",
+      "nodemailer 10 は独自の型定義を同梱し、デフォルトエクスポートは名前空間ではなくなりました。`nodemailer.SendMailOptions`、`nodemailer.Transporter`、`nodemailer.SentMessageInfo` を使用しているコードは、これらの型を `nodemailer` から名前付きでインポートするように変更し、`@types/nodemailer` を削除してください。`EmailService` のみを使用しているアプリはコード変更不要です",
+      "新規プロジェクトは Node.js 22 を使用します。Lambda 関数とレイヤーは `NODEJS_22_X`、Docker イメージは `node:22-bookworm-slim` ベースで `openssl` をインストール（Prisma のクエリエンジンは libssl を必要としますが、bookworm-slim には含まれていません）、`infra-local` のイメージは `node:22-alpine`、`serverless.yml` は `nodejs22.x` と serverless-offline `^13.9.0` を使用します"
     ],
-    "bugFixes": [
-      "`mbc new` が依存関係のインストール時に `EOVERRIDE: Override for js-yaml@^4.1.0 conflicts with direct dependency` で失敗する問題を修正（v1.3.5 以降）。テンプレートの `js-yaml` の override が直接依存の指定を参照するようにし、直接依存を `^4.3.2` に更新。これにより `js-yaml` の high の脆弱性も解消",
-      "新規に作成したプロジェクトで `npm run migrate` が失敗する問題を修正。Prisma は `DATABASE_URL` 内の `LOCAL_RDS_PORT` に使われていた `:-`（既定値）の書き方を展開できず（`P1013`）、`prisma/ddb.ts` はエンドポイントの変数をまったく展開していませんでした（`Invalid URL`）。既存プロジェクトも同じ修正を適用できます: `DATABASE_URL` では `LOCAL_RDS_PORT` を `:-` なしで参照し、`prisma/ddb.ts` では `dotenv-expand` の `expand(dotenv.config())` で `.env` を読み込んでください",
-      "公開 npm パッケージに Claude Code スキルを同梱。これまでパッケージに含まれていなかったため、`mbc install-skills` や手動の `cp -r node_modules/@mbc-cqrs-serverless/mcp-server/skills/*` でスキルが見つかりませんでした"
-    ],
-    "security": []
+    "features": [],
+    "bugFixes": [],
+    "security": [
+      "本番依存関係の High / Critical 脆弱性を解消: proxy-addr 2.0.8、body-parser 1.20.9 / 2.4.0、multer 2.5.0、nodemailer 10.3.1、@modelcontextprotocol/sdk 1.32.2、zod 4.6.7 ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))",
+      "CLI プロジェクトテンプレートの依存関係 overrides で proxy-addr 2.0.8、body-parser 1.20.9 / 2.4.0、multer 2.5.0 も固定するようにしたため、新規作成したプロジェクトにこれらの脆弱性が含まれなくなりました ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))"
+    ]
   },
   "recent": [
+    {
+      "version": "1.6.0",
+      "date": "2026-11-03",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.6.0",
+      "breakingChanges": [
+        "Node.js 22 以降が必須になりました（`engines.node` は `>=22`）。Node.js 18 と 20 はサポート終了（EOL）のため、Node.js に同梱されている Brotli デコーダーのリモートコード実行脆弱性 CVE-2026-111497（Node2Shell）の修正が提供されません。修正は Node.js 22.23.4、24.22.1、26.12.1 で提供されています。また `@mbc-cqrs-serverless/core` は nodemailer 10 に依存するようになり、nodemailer 10 自体も Node.js 20 以降を必要とします。CI は Node.js 22 と 24 でテストします",
+        "nodemailer 10 は独自の型定義を同梱し、デフォルトエクスポートは名前空間ではなくなりました。`nodemailer.SendMailOptions`、`nodemailer.Transporter`、`nodemailer.SentMessageInfo` を使用しているコードは、これらの型を `nodemailer` から名前付きでインポートするように変更し、`@types/nodemailer` を削除してください。`EmailService` のみを使用しているアプリはコード変更不要です",
+        "新規プロジェクトは Node.js 22 を使用します。Lambda 関数とレイヤーは `NODEJS_22_X`、Docker イメージは `node:22-bookworm-slim` ベースで `openssl` をインストール（Prisma のクエリエンジンは libssl を必要としますが、bookworm-slim には含まれていません）、`infra-local` のイメージは `node:22-alpine`、`serverless.yml` は `nodejs22.x` と serverless-offline `^13.9.0` を使用します"
+      ],
+      "features": [],
+      "bugFixes": [],
+      "security": [
+        "本番依存関係の High / Critical 脆弱性を解消: proxy-addr 2.0.8、body-parser 1.20.9 / 2.4.0、multer 2.5.0、nodemailer 10.3.1、@modelcontextprotocol/sdk 1.32.2、zod 4.6.7 ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))",
+        "CLI プロジェクトテンプレートの依存関係 overrides で proxy-addr 2.0.8、body-parser 1.20.9 / 2.4.0、multer 2.5.0 も固定するようにしたため、新規作成したプロジェクトにこれらの脆弱性が含まれなくなりました ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))"
+      ]
+    },
     {
       "version": "1.5.0",
       "date": "2026-09-24",
       "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.5.0",
+      "breakingChanges": [
+        "スキャフォールドされるローカル開発スタックの S3 エミュレーターを LocalStack から Floci（`floci/floci:1.6.0`）に置き換え。LocalStack Community Edition は 2026 年 3 月にサポートが終了しました。Floci は同じポート（`4566`）・パス形式のアドレッシングで S3 を提供するため、アプリケーションコードと `.env` の値は変更不要で、デプロイ済みの環境にも影響はありません"
+      ],
       "features": [
         "`DirectoryService` のメソッドが `ICommandOptions` を受け付けるように変更（これまでは `invokeContext` しか指定できない型でした）。呼び出し側から `source` と `requestId` をコマンドまで渡せるようになり、トレースに利用できます。必須項目は引き続き `invokeContext` だけなので、後方互換があります"
       ],
@@ -32,6 +53,7 @@
       "version": "1.4.0",
       "date": "2026-08-02",
       "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.4.0",
+      "breakingChanges": [],
       "features": [
         "ドメインモジュールの DynamoDB テーブル名を後方互換オプション `tableName?` で設定可能にし、4モジュールすべてに `registerAsync` を追加。既定値は現行のまま（`master` / `directory` / `survey` / `master`）なので、既存アプリはコード変更なしにアップグレードできる"
       ],
@@ -42,6 +64,7 @@
       "version": "1.3.5",
       "date": "2026-08-01",
       "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.5",
+      "breakingChanges": [],
       "features": [
         "コマンドハンドラーの Step Functions ステートマシンに CloudWatch アラーム（`ExecutionsFailed` と自己再開の劣化経路）を追加し、`wait_prev_command` に 24時間のタイムアウトと catch を追加し、`SendTaskSuccess` の IAM 権限をコマンド用ステートマシンの ARN に限定します",
         "`mbc new` プロジェクト向けのローカル開発ツール — ローカルインフラのポートを `LOCAL_*_PORT` 環境変数で可変化（デフォルトは不変）、cognito-local の JWT issuer を `LOCAL_COGNITO_PORT` に追従、Step Functions Local の事前登録を堅牢化（起動待ち・実エラー時の fail-fast・登録済みステートマシンの許容）。デプロイ済みアプリの実行時挙動には影響なし"
@@ -54,18 +77,7 @@
       "security": [
         "一時的に無効化されていたブロッキング CI ゲート `npm audit --omit=dev --audit-level=high` を復活させ、`brace-expansion` を修正（トップレベル `brace-expansion@2` → `5.0.8`）。本番ルート監査: critical/high 0件 ([PR #482](https://github.com/mbc-net/mbc-cqrs-serverless/pull/482))"
       ]
-    },
-    {
-      "version": "1.3.4",
-      "date": "2026-07-17",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.4",
-      "features": [],
-      "bugFixes": [
-        "CDKインフラのテンプレートおよび環境変数の例における `ATTRIBUTE_LIMIT_SIZE` のデフォルト値を `389120`（380 KB）から `102400`（100 KB）に引き下げ — 従来のデフォルト値はDynamoDBの400 KBアイテム上限を基準にしていましたが、Step Functionsは各ステートあたり256 KBのペイロード上限を課しており、かつコマンド用ステートマシンはDynamoDB Streamイベントを2重（`input.$` と `context.$`）に渡すため、~110 KBを超えるインライン属性は `States.DataLimitExceeded` を引き起こす可能性がありました",
-        "新しい `ATTRIBUTE_LIMIT_SIZE` のデフォルト値に関するガイダンスをスキルに追加"
-      ],
-      "security": []
     }
   ],
-  "generated": "2026-09-24T06:15:18.513Z"
+  "generated": "2026-11-03T01:20:14.273Z"
 }

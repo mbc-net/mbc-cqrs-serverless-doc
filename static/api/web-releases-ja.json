@@ -3,6 +3,7 @@
     "version": "0.0.43",
     "date": "2026-02-26",
     "url": "https://github.com/mbc-net/mbc-cqrs-serverless-web/compare/v0.0.42...v0.0.43",
+    "breakingChanges": [],
     "features": [
       "ユーティリティ、バリデーション、フック、コンポーネントの包括的なユニットテストを追加",
       "レガシーデプロイワークフローをタグベースのCI/CDパイプラインに置き換え",
@@ -23,6 +24,7 @@
       "version": "0.0.43",
       "date": "2026-02-26",
       "url": "https://github.com/mbc-net/mbc-cqrs-serverless-web/compare/v0.0.42...v0.0.43",
+      "breakingChanges": [],
       "features": [
         "ユーティリティ、バリデーション、フック、コンポーネントの包括的なユニットテストを追加",
         "レガシーデプロイワークフローをタグベースのCI/CDパイプラインに置き換え",
@@ -42,6 +44,7 @@
       "version": "0.0.42",
       "date": "2026-02-11",
       "url": "https://github.com/mbc-net/mbc-cqrs-serverless-web/compare/v0.0.41...v0.0.42",
+      "breakingChanges": [],
       "features": [
         "テストフレームワークをVitestからJestに移行（87テスト）"
       ],
@@ -56,6 +59,7 @@
       "version": "0.0.41",
       "date": "2026-02-10",
       "url": "https://github.com/mbc-net/mbc-cqrs-serverless-web/compare/v0.0.40...v0.0.41",
+      "breakingChanges": [],
       "features": [
         "**master-web:** RichTextEditorとfield-editorのツールバーオプションとカラーパレットを強化"
       ],
@@ -66,6 +70,7 @@
       "version": "0.0.40",
       "date": "2026-01-27",
       "url": "https://github.com/mbc-net/mbc-cqrs-serverless-web/compare/v0.0.39...v0.0.40",
+      "breakingChanges": [],
       "features": [
         "**master-web:** カスタムブロック登録によるReactQuill統合の強化"
       ],
@@ -73,5 +78,5 @@
       "security": []
     }
   ],
-  "generated": "2026-09-24T06:15:18.514Z"
+  "generated": "2026-11-03T01:20:14.275Z"
 }

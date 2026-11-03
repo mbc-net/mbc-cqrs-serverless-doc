@@ -1,23 +1,44 @@
 {
   "latest": {
-    "version": "1.5.0",
-    "date": "2026-09-24",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.5.0",
-    "features": [
-      "`DirectoryService` methods now take `ICommandOptions` instead of an options type that only allowed `invokeContext`, so callers can pass `source` and `requestId` through to the command for tracing. Backward compatible: `invokeContext` is still the only required field"
+    "version": "1.6.0",
+    "date": "2026-11-03",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.6.0",
+    "breakingChanges": [
+      "Require Node.js 22 or later (`engines.node` is now `>=22`). Node.js 18 and 20 are end of life and will not receive the fix for CVE-2026-111497 (Node2Shell), a remote code execution vulnerability in the Brotli decoder bundled with Node.js. The fix ships in Node.js 22.23.4, 24.22.1 and 26.12.1. `@mbc-cqrs-serverless/core` also now depends on nodemailer 10, which itself requires Node.js 20 or later. CI tests Node.js 22 and 24",
+      "nodemailer 10 ships its own type definitions, and its default export is no longer a namespace. Code that uses `nodemailer.SendMailOptions`, `nodemailer.Transporter` or `nodemailer.SentMessageInfo` must import these types by name from `nodemailer` instead, and `@types/nodemailer` should be removed. Apps that only use `EmailService` need no code changes",
+      "New projects use Node.js 22. The Lambda function and layer use `NODEJS_22_X`, the Docker image is based on `node:22-bookworm-slim` and installs `openssl` (Prisma's query engine needs libssl, which bookworm-slim does not ship), the `infra-local` images use `node:22-alpine`, and `serverless.yml` uses `nodejs22.x` with serverless-offline `^13.9.0`"
     ],
-    "bugFixes": [
-      "Fix `mbc new` failing at dependency installation with `EOVERRIDE: Override for js-yaml@^4.1.0 conflicts with direct dependency` (broken since v1.3.5). The template's `js-yaml` override now references the direct dependency, which moves to `^4.3.2` and also clears a high-severity `js-yaml` advisory",
-      "Fix `npm run migrate` in newly scaffolded projects. Prisma does not expand the `:-` default syntax used for `LOCAL_RDS_PORT` in `DATABASE_URL` (`P1013`), and `prisma/ddb.ts` did not expand the endpoint variables at all (`Invalid URL`). Existing projects can apply the same fix: reference `LOCAL_RDS_PORT` without a `:-` default in `DATABASE_URL`, and load `.env` in `prisma/ddb.ts` with `expand(dotenv.config())` from `dotenv-expand`",
-      "Ship the Claude Code skills in the published npm package. They were missing from the package, so `mbc install-skills` and the manual `cp -r node_modules/@mbc-cqrs-serverless/mcp-server/skills/*` step could not find them"
-    ],
-    "security": []
+    "features": [],
+    "bugFixes": [],
+    "security": [
+      "Clear high and critical advisories in production dependencies: proxy-addr 2.0.8, body-parser 1.20.9 / 2.4.0, multer 2.5.0, nodemailer 10.3.1, @modelcontextprotocol/sdk 1.32.2, zod 4.6.7",
+      "The CLI project template's dependency overrides now also pin proxy-addr 2.0.8, body-parser 1.20.9 / 2.4.0 and multer 2.5.0, so newly scaffolded projects no longer ship these advisories"
+    ]
   },
   "recent": [
+    {
+      "version": "1.6.0",
+      "date": "2026-11-03",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.6.0",
+      "breakingChanges": [
+        "Require Node.js 22 or later (`engines.node` is now `>=22`). Node.js 18 and 20 are end of life and will not receive the fix for CVE-2026-111497 (Node2Shell), a remote code execution vulnerability in the Brotli decoder bundled with Node.js. The fix ships in Node.js 22.23.4, 24.22.1 and 26.12.1. `@mbc-cqrs-serverless/core` also now depends on nodemailer 10, which itself requires Node.js 20 or later. CI tests Node.js 22 and 24",
+        "nodemailer 10 ships its own type definitions, and its default export is no longer a namespace. Code that uses `nodemailer.SendMailOptions`, `nodemailer.Transporter` or `nodemailer.SentMessageInfo` must import these types by name from `nodemailer` instead, and `@types/nodemailer` should be removed. Apps that only use `EmailService` need no code changes",
+        "New projects use Node.js 22. The Lambda function and layer use `NODEJS_22_X`, the Docker image is based on `node:22-bookworm-slim` and installs `openssl` (Prisma's query engine needs libssl, which bookworm-slim does not ship), the `infra-local` images use `node:22-alpine`, and `serverless.yml` uses `nodejs22.x` with serverless-offline `^13.9.0`"
+      ],
+      "features": [],
+      "bugFixes": [],
+      "security": [
+        "Clear high and critical advisories in production dependencies: proxy-addr 2.0.8, body-parser 1.20.9 / 2.4.0, multer 2.5.0, nodemailer 10.3.1, @modelcontextprotocol/sdk 1.32.2, zod 4.6.7",
+        "The CLI project template's dependency overrides now also pin proxy-addr 2.0.8, body-parser 1.20.9 / 2.4.0 and multer 2.5.0, so newly scaffolded projects no longer ship these advisories"
+      ]
+    },
     {
       "version": "1.5.0",
       "date": "2026-09-24",
       "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.5.0",
+      "breakingChanges": [
+        "Replace LocalStack with Floci (`floci/floci:1.6.0`) as the local S3 emulator in the scaffolded local development stack. LocalStack Community Edition reached end of life in March 2026. Floci serves S3 on the same port (`4566`) with path-style addressing, so application code and `.env` values do not change, and deployed environments are not affected"
+      ],
       "features": [
         "`DirectoryService` methods now take `ICommandOptions` instead of an options type that only allowed `invokeContext`, so callers can pass `source` and `requestId` through to the command for tracing. Backward compatible: `invokeContext` is still the only required field"
       ],
@@ -32,6 +53,7 @@
       "version": "1.4.0",
       "date": "2026-08-02",
       "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.4.0",
+      "breakingChanges": [],
       "features": [
         "Make the DynamoDB table names of the domain modules configurable via a backward-compatible `tableName?` option, and add `registerAsync` support to all four modules. Defaults are unchanged (`master` / `directory` / `survey` / `master`), so existing apps upgrade with no code changes"
       ],
@@ -42,6 +64,7 @@
       "version": "1.3.5",
       "date": "2026-08-01",
       "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.5",
+      "breakingChanges": [],
       "features": [
         "Add CloudWatch alarms on the command-handler Step Functions state machine (`ExecutionsFailed` and degraded self-resume paths), add a 24h timeout and catch on `wait_prev_command`, and scope the `SendTaskSuccess` IAM permission to the command state machine ARN",
         "Local development tooling for `mbc new` projects — make the local infra ports configurable via `LOCAL_*_PORT` env vars (defaults unchanged), keep cognito-local's JWT issuer in sync with `LOCAL_COGNITO_PORT`, and harden Step Functions Local pre-registration (readiness wait, fail-fast on real errors, tolerate already-registered state machines); no runtime impact on deployed apps"
@@ -54,18 +77,7 @@
       "security": [
         "Restore the blocking `npm audit --omit=dev --audit-level=high` CI gate that was temporarily disabled, and patch `brace-expansion` (top-level `brace-expansion@2` → `5.0.8`); root production audit: 0 critical/high"
       ]
-    },
-    {
-      "version": "1.3.4",
-      "date": "2026-07-17",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.3.4",
-      "features": [],
-      "bugFixes": [
-        "Lower the default `ATTRIBUTE_LIMIT_SIZE` from `389120` (380 KB) to `102400` (100 KB) in CDK infra templates and env examples — the previous default was sized for DynamoDB's 400 KB item limit, but Step Functions enforces a 256 KB payload limit per state, and the command state machine passes the DynamoDB stream event twice (`input.$` + `context.$`), so inline attributes above ~110 KB could trigger `States.DataLimitExceeded`",
-        "Update skills with guidance on the new `ATTRIBUTE_LIMIT_SIZE` default"
-      ],
-      "security": []
     }
   ],
-  "generated": "2026-09-24T06:15:18.511Z"
+  "generated": "2026-11-03T01:20:14.271Z"
 }

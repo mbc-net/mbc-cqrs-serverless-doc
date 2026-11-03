@@ -11,6 +11,8 @@ interface Release {
   version: string;
   date: string;
   url: string;
+  /** Top-level Breaking Changes entries (sub-bullets such as migration notes are omitted) */
+  breakingChanges: string[];
   features: string[];
   bugFixes: string[];
   security: string[];
@@ -41,6 +43,7 @@ function parseChangelog(content: string, isJapanese: boolean = false): Release[]
   }
 
   // Section headers differ between English (placeholder) and Japanese (translated)
+  const breakingHeader = isJapanese ? '### 破壊的変更' : '### \\{\\{Breaking Changes\\}\\}';
   const featuresHeader = isJapanese ? '### 新機能' : '### \\{\\{Features\\}\\}';
   const bugFixesHeader = isJapanese ? '### バグ修正' : '### \\{\\{Bug Fixes\\}\\}';
   const securityHeader = isJapanese ? '### セキュリティ' : '### \\{\\{Security\\}\\}';
@@ -51,9 +54,37 @@ function parseChangelog(content: string, isJapanese: boolean = false): Release[]
     const nextIndex = matches[i + 1]?.index || content.length;
     const section = content.substring(current.index, nextIndex);
 
+    const breakingChanges: string[] = [];
     const features: string[] = [];
     const bugFixes: string[] = [];
     const security: string[] = [];
+
+    // Parse breaking changes (same "- **package:** text" format as features)
+    const breakingRegex = new RegExp(breakingHeader + '([\\s\\S]*?)(?=###|\\n---|\\n## |$)');
+    const breakingMatch = section.match(breakingRegex);
+    if (breakingMatch) {
+      if (isJapanese) {
+        const breakingLines = breakingMatch[1].match(/^- \*\*[^:]+:\*\* ([^\n]+)/gm);
+        if (breakingLines) {
+          breakingLines.forEach(line => {
+            const textMatch = line.match(/^- \*\*[^:]+:\*\* (.+?)(?:\s*\(\[|$)/);
+            if (textMatch) {
+              breakingChanges.push(textMatch[1].trim());
+            }
+          });
+        }
+      } else {
+        const breakingLines = breakingMatch[1].match(/^- \*\*[^:]+:\*\* \{\{([^}]+)\}\}/gm);
+        if (breakingLines) {
+          breakingLines.forEach(line => {
+            const textMatch = line.match(/\{\{([^}]+)\}\}/);
+            if (textMatch) {
+              breakingChanges.push(textMatch[1]);
+            }
+          });
+        }
+      }
+    }
 
     // Parse features
     const featuresRegex = new RegExp(featuresHeader + '([\\s\\S]*?)(?=###|\\n---|\\n## |$)');
@@ -142,6 +173,7 @@ function parseChangelog(content: string, isJapanese: boolean = false): Release[]
       version: current.version,
       date: current.date,
       url: current.url,
+      breakingChanges,
       features,
       bugFixes,
       security
@@ -273,6 +305,7 @@ function parseWebChangelog(content: string, isJapanese: boolean = false): Releas
       version: current.version,
       date: current.date,
       url: current.url,
+      breakingChanges: [],
       features,
       bugFixes,
       security

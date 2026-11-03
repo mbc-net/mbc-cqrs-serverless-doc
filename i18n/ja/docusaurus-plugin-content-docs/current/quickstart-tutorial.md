@@ -10,7 +10,7 @@ description: 15分で最初のMBC CQRS Serverlessアプリケーションを構�
 
 開始する前に、以下がインストールされていることを確認してください：
 
-- Node.js 20.x 以降
+- Node.js 22.x 以降（22.23.4 以降を推奨）
 - Docker と Docker Compose
 - AWS CLI（ローカル開発では実際のクレデンシャルは不要です — `.env`ファイルに`AWS_ACCESS_KEY_ID=local`と`AWS_SECRET_ACCESS_KEY=local`を設定してください）
 - Git

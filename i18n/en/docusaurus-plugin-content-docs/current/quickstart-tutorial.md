@@ -10,7 +10,7 @@ This tutorial will guide you through creating your first MBC CQRS Serverless app
 
 Before you begin, ensure you have the following installed:
 
-- Node.js 20.x or later
+- Node.js 22.x or later (22.23.4 or later recommended)
 - Docker and Docker Compose
 - AWS CLI (real credentials are not required for local development — set `AWS_ACCESS_KEY_ID=local` and `AWS_SECRET_ACCESS_KEY=local` in your `.env` file)
 - Git

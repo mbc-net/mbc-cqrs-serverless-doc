@@ -11,7 +11,7 @@ description: MBC CQRS ServerlessアプリケーションをAWSにデプロイす
 デプロイ前に、以下が準備されていることを確認してください：
 
 - AWS CLIがインストールされ、適切な認証情報で設定されている
-- Node.js 20.x 以降
+- Node.js 22.x 以降（22.23.4 以降を推奨）
 - AWS CDK CLIがインストールされている（`npm install -g aws-cdk`）
 - 必要な権限を持つAWSアカウント
 

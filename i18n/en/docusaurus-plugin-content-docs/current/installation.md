@@ -6,11 +6,15 @@ description: Install and set up MBC CQRS Serverless framework with system requir
 
 System Requirements:
 
-- [Node.js](https://nodejs.org/en/download/package-manager) (20.x or later)
+- [Node.js](https://nodejs.org/en/download/package-manager) (22.x or later. 22.23.4 or later is recommended)
 - [JQ cli](https://jqlang.github.io/jq/download/)
 - [AWS cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 - [Docker](https://docs.docker.com/engine/install/)
 - Windows, macOS and Linux are supported.
+
+:::danger Breaking Change (v1.6.0)
+Since [version 1.6.0](/docs/changelog#v160), all MBC CQRS Serverless packages require Node.js 22 or later. Node.js 18 and 20 are end of life and do not receive the fix for CVE-2026-111497 (Node2Shell), which ships in Node.js 22.23.4. See the [v1.6.0 migration guide](/docs/migration/v1.6.0).
+:::
 
 ## Automatic Installation {#automatic-installation}
 

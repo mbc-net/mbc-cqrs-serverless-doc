@@ -18,6 +18,25 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ## {{Stable Releases (1.x)}} {#stable-releases}
 
+## [1.6.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.6.0) (2026-11-03) {#v160}
+
+### {{Breaking Changes}}
+
+- **all packages:** {{Require Node.js 22 or later (`engines.node` is now `>=22`). Node.js 18 and 20 are end of life and will not receive the fix for CVE-2026-111497 (Node2Shell), a remote code execution vulnerability in the Brotli decoder bundled with Node.js. The fix ships in Node.js 22.23.4, 24.22.1 and 26.12.1. `@mbc-cqrs-serverless/core` also now depends on nodemailer 10, which itself requires Node.js 20 or later. CI tests Node.js 22 and 24}} ([{{See Details}}](/docs/migration/v1.6.0#nodejs-22)) ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))
+  - {{Migration: run your application, Lambda functions and Docker images on Node.js 22.23.4 or later. On Node.js 18 or 20, `npm install` reports `EBADENGINE`, and fails when `engine-strict` is enabled}}
+- **core:** {{nodemailer 10 ships its own type definitions, and its default export is no longer a namespace. Code that uses `nodemailer.SendMailOptions`, `nodemailer.Transporter` or `nodemailer.SentMessageInfo` must import these types by name from `nodemailer` instead, and `@types/nodemailer` should be removed. Apps that only use `EmailService` need no code changes}} ([{{See Details}}](/docs/migration/v1.6.0#nodemailer-10-types)) ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))
+- **cli:** {{New projects use Node.js 22. The Lambda function and layer use `NODEJS_22_X`, the Docker image is based on `node:22-bookworm-slim` and installs `openssl` (Prisma's query engine needs libssl, which bookworm-slim does not ship), the `infra-local` images use `node:22-alpine`, and `serverless.yml` uses `nodejs22.x` with serverless-offline `^13.9.0`}} ([{{See Details}}](/docs/migration/v1.6.0#cli-templates)) ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))
+  - {{Existing projects are not changed. To follow, update the same places by hand. If you move a Dockerfile to bookworm-slim and use Prisma, also install `openssl` in the image}}
+
+### {{Security}}
+
+- {{Clear high and critical advisories in production dependencies: proxy-addr 2.0.8, body-parser 1.20.9 / 2.4.0, multer 2.5.0, nodemailer 10.3.1, @modelcontextprotocol/sdk 1.32.2, zod 4.6.7}} ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))
+- {{The CLI project template's dependency overrides now also pin proxy-addr 2.0.8, body-parser 1.20.9 / 2.4.0 and multer 2.5.0, so newly scaffolded projects no longer ship these advisories}} ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))
+
+### {{Documentation}}
+
+- **mcp-server:** {{Add the v1.5.0 → v1.6.0 migration guide (Node.js 22, nodemailer 10 types) to the `mbc-migrate` skill and add Node.js 22 to its compatibility matrix}} ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))
+
 ## [1.5.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.5.0) (2026-09-24) {#v150}
 
 ### {{Breaking Changes}}

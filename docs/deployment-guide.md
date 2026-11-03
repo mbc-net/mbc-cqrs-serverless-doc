@@ -11,7 +11,7 @@ description: {{Learn how to deploy your MBC CQRS Serverless application to AWS.}
 {{Before deploying, ensure you have:}}
 
 - {{AWS CLI installed and configured with appropriate credentials}}
-- {{Node.js 20.x or later}}
+- {{Node.js 22.x or later (22.23.4 or later recommended)}}
 - {{AWS CDK CLI installed (`npm install -g aws-cdk`)}}
 - {{An AWS account with necessary permissions}}
 
