@@ -25,13 +25,13 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 - **all packages:** Node.js 22 以降が必須になりました（`engines.node` は `>=22`）。Node.js 18 と 20 はサポート終了（EOL）のため、Node.js に同梱されている Brotli デコーダーのリモートコード実行脆弱性 CVE-2026-111497（Node2Shell）の修正が提供されません。修正は Node.js 22.23.4、24.22.1、26.12.1 で提供されています。また `@mbc-cqrs-serverless/core` は nodemailer 10 に依存するようになり、nodemailer 10 自体も Node.js 20 以降を必要とします。CI は Node.js 22 と 24 でテストします ([詳細を見る](/docs/migration/v1.6.0#nodejs-22)) ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))
   - 移行方法: アプリケーション、Lambda 関数、Docker イメージを Node.js 22.23.4 以降で実行してください。Node.js 18 または 20 では `npm install` が `EBADENGINE` を報告し、`engine-strict` が有効な場合は失敗します
 - **core:** nodemailer 10 は独自の型定義を同梱し、デフォルトエクスポートは名前空間ではなくなりました。`nodemailer.SendMailOptions`、`nodemailer.Transporter`、`nodemailer.SentMessageInfo` を使用しているコードは、これらの型を `nodemailer` から名前付きでインポートするように変更し、`@types/nodemailer` を削除してください。`EmailService` のみを使用しているアプリはコード変更不要です ([詳細を見る](/docs/migration/v1.6.0#nodemailer-10-types)) ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))
-- **cli:** 新規プロジェクトは Node.js 22 を使用します。Lambda 関数とレイヤーは `NODEJS_22_X`、Docker イメージは `node:22-bookworm-slim` ベースで `openssl` をインストール（Prisma のクエリエンジンは libssl を必要としますが、bookworm-slim には含まれていません）、`infra-local` のイメージは `node:22-alpine`、`serverless.yml` は `nodejs22.x` と serverless-offline `^13.9.0` を使用します ([詳細を見る](/docs/migration/v1.6.0#cli-templates)) ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))
+- **cli:** 新規プロジェクトは Node.js 22 を使用します。Lambda 関数とレイヤーは `NODEJS_22_X`、Docker イメージは `node:22-bookworm-slim` ベースで `openssl` をインストール（Prisma のクエリエンジンは libssl を必要としますが、bookworm-slim には含まれていません）、`infra-local` のイメージは `node:22-alpine`、`serverless.yml` は `nodejs22.x` と serverless-offline `^13.9.0` を使用します。CDK パイプラインの CodeBuild は Node.js 22 に固定され、`@types/node` も 22 系になります ([詳細を見る](/docs/migration/v1.6.0#cli-templates)) ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))
   - 既存プロジェクトは変更されません。追従する場合は同じ箇所を手動で更新してください。Dockerfile を bookworm-slim に移行し、Prisma を使用している場合は、イメージに `openssl` もインストールしてください
 
 ### セキュリティ
 
 - 本番依存関係の High / Critical 脆弱性を解消: proxy-addr 2.0.8、body-parser 1.20.9 / 2.4.0、multer 2.5.0、nodemailer 10.3.1、@modelcontextprotocol/sdk 1.32.2、zod 4.6.7 ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))
-- CLI プロジェクトテンプレートの依存関係 overrides で proxy-addr 2.0.8、body-parser 1.20.9 / 2.4.0、multer 2.5.0 も固定するようにしたため、新規作成したプロジェクトにこれらの脆弱性が含まれなくなりました ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))
+- CLI プロジェクトテンプレートの依存関係 overrides で proxy-addr 2.0.8、body-parser 1.20.9 / 2.4.0、multer 2.5.0 も固定するようにしたため、新規作成したプロジェクトにこれらの脆弱性が含まれなくなりました。`qs` の override（フレームワークとテンプレート）も、修正版の body-parser と express 5 が要求する最小版 `^6.16.1` に引き上げました ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))
 
 ### ドキュメント
 
