@@ -4,7 +4,7 @@
   "This tutorial will guide you through creating your first MBC CQRS Serverless application. By the end, you'll have a working API running locally.": "This tutorial will guide you through creating your first MBC CQRS Serverless application. By the end, you'll have a working API running locally.",
   "Prerequisites": "Prerequisites",
   "Before you begin, ensure you have the following installed:": "Before you begin, ensure you have the following installed:",
-  "Node.js 20.x or later": "Node.js 20.x or later",
+  "Node.js 22.x or later (22.23.4 or later recommended)": "Node.js 22.x or later (22.23.4 or later recommended)",
   "Docker and Docker Compose": "Docker and Docker Compose",
   "AWS CLI (real credentials are not required for local development — set `AWS_ACCESS_KEY_ID=local` and `AWS_SECRET_ACCESS_KEY=local` in your `.env` file)": "AWS CLI (real credentials are not required for local development — set `AWS_ACCESS_KEY_ID=local` and `AWS_SECRET_ACCESS_KEY=local` in your `.env` file)",
   "Git": "Git",

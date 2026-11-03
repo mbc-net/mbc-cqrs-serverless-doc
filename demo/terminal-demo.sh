@@ -7,7 +7,7 @@
 # This script creates an animated terminal demo for the README/documentation.
 #
 # Prerequisites:
-#   - Node.js 18+
+#   - Node.js 22+
 #   - npm
 #   - Docker (for local development demo)
 #

@@ -282,14 +282,14 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 const lambdaLayer = new lambda.LayerVersion(this, 'MainLayer', {
   layerVersionName: `${env}-${appName}-main-layer`,
   code: lambda.Code.fromAsset('dist_layer'),
-  compatibleRuntimes: [lambda.Runtime.NODEJS_20_X],
+  compatibleRuntimes: [lambda.Runtime.NODEJS_22_X],
   compatibleArchitectures: [lambda.Architecture.ARM_64],
 });
 
 // {{Create Lambda Function}}
 const lambdaFunction = new lambda.Function(this, 'LambdaApi', {
   functionName: `${env}-${appName}-lambda-api`,
-  runtime: lambda.Runtime.NODEJS_20_X,
+  runtime: lambda.Runtime.NODEJS_22_X,
   architecture: lambda.Architecture.ARM_64,
   handler: 'main.handler',
   code: lambda.Code.fromAsset('dist'),
