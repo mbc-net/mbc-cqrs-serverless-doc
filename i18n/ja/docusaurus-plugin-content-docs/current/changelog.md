@@ -31,7 +31,7 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 ### セキュリティ
 
 - 本番依存関係の High / Critical 脆弱性を解消: proxy-addr 2.0.8、body-parser 1.20.9 / 2.4.0、multer 2.5.0、nodemailer 10.3.1、@modelcontextprotocol/sdk 1.32.2、zod 4.6.7 ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))
-- CLI プロジェクトテンプレートの依存関係 overrides で proxy-addr 2.0.8、body-parser 1.20.9 / 2.4.0、multer 2.5.0 も固定するようにしたため、新規作成したプロジェクトにこれらの脆弱性が含まれなくなりました。`qs` の override（フレームワークとテンプレート）も、修正版の body-parser と express 5 が受け付ける 6.16 系（`~6.16.1`）に固定しました ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))
+- CLI プロジェクトテンプレートの依存関係 overrides で proxy-addr 2.0.8、body-parser 1.20.9 / 2.4.0、multer 2.5.0 も固定するようにしたため、新規作成したプロジェクトにこれらの脆弱性が含まれなくなりました。`qs` の override（フレームワークとテンプレート）も、修正版の body-parser と express 5 が要求する最小版 `^6.16.1` に引き上げました ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))
 
 ### ドキュメント
 

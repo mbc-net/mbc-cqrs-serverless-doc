@@ -70,7 +70,7 @@
   "Projects created with `mbc new` on v1.6.0 use Node.js 22 out of the box. Existing projects are not changed. To follow, update the same places by hand:": "v1.6.0 の `mbc new` で作成したプロジェクトは、最初から Node.js 22 を使用します。既存プロジェクトは変更されません。追従する場合は、以下の箇所を手動で更新してください：",
   "File": "ファイル",
   "`node:22-bookworm-slim` + `openssl`": "`node:22-bookworm-slim` + `openssl`",
-  "The template's dependency overrides now also pin proxy-addr 2.0.8, body-parser 1.20.9 / 2.4.0 and multer 2.5.0, and keep `qs` on `~6.16.1` (the 6.16 line that the patched body-parser accepts). You can add the same overrides to an existing project to clear these advisories.": "テンプレートの依存関係 overrides で proxy-addr 2.0.8、body-parser 1.20.9 / 2.4.0、multer 2.5.0 も固定し、`qs` を修正版の body-parser が受け付ける 6.16 系（`~6.16.1`）に固定しました。既存プロジェクトにも同じ overrides を追加すると、これらの脆弱性を解消できます。",
+  "The template's dependency overrides now also pin proxy-addr 2.0.8, body-parser 1.20.9 / 2.4.0 and multer 2.5.0, and raise `qs` to `^6.16.1` (the minimum that the patched body-parser requires). You can add the same overrides to an existing project to clear these advisories.": "テンプレートの依存関係 overrides で proxy-addr 2.0.8、body-parser 1.20.9 / 2.4.0、multer 2.5.0 も固定し、`qs` を `^6.16.1`（修正版の body-parser が要求する最小版）に引き上げました。既存プロジェクトにも同じ overrides を追加すると、これらの脆弱性を解消できます。",
   "Upgrade Steps": "アップグレード手順",
   "Step 1: Switch to Node.js 22": "Step 1: Node.js 22 に切り替え",
   "Follow [Breaking Change 1](#nodejs-22) for local development, CI, Lambda and Docker.": "ローカル開発環境、CI、Lambda、Docker について [破壊的変更1](#nodejs-22) の手順に従ってください。",

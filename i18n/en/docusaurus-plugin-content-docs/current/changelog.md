@@ -31,7 +31,7 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 ### Security
 
 - Clear high and critical advisories in production dependencies: proxy-addr 2.0.8, body-parser 1.20.9 / 2.4.0, multer 2.5.0, nodemailer 10.3.1, @modelcontextprotocol/sdk 1.32.2, zod 4.6.7 ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))
-- The CLI project template's dependency overrides now also pin proxy-addr 2.0.8, body-parser 1.20.9 / 2.4.0 and multer 2.5.0, so newly scaffolded projects no longer ship these advisories. The `qs` override, in the framework and the template, moves to `~6.16.1`, the 6.16 line that the patched body-parser and express 5 accept ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))
+- The CLI project template's dependency overrides now also pin proxy-addr 2.0.8, body-parser 1.20.9 / 2.4.0 and multer 2.5.0, so newly scaffolded projects no longer ship these advisories. The `qs` override, in the framework and the template, moves to `^6.16.1`, the minimum that the patched body-parser and express 5 require ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))
 
 ### Documentation
 
@@ -129,7 +129,7 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 ### Security
 
 - Clear high and critical advisories in production dependencies: proxy-addr 2.0.8, body-parser 1.20.9 / 2.4.0, multer 2.5.0, nodemailer 10.3.1, @modelcontextprotocol/sdk 1.32.2, zod 4.6.7 ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))
-- The CLI project template's dependency overrides now also pin proxy-addr 2.0.8, body-parser 1.20.9 / 2.4.0 and multer 2.5.0, so newly scaffolded projects no longer ship these advisories. The `qs` override, in the framework and the template, moves to `~6.16.1`, the 6.16 line that the patched body-parser and express 5 accept ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))
+- The CLI project template's dependency overrides now also pin proxy-addr 2.0.8, body-parser 1.20.9 / 2.4.0 and multer 2.5.0, so newly scaffolded projects no longer ship these advisories. The `qs` override, in the framework and the template, moves to `^6.16.1`, the minimum that the patched body-parser and express 5 require ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))
 
 ### Documentation
 
@@ -227,7 +227,7 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 ### Security
 
 - Clear high and critical advisories in production dependencies: proxy-addr 2.0.8, body-parser 1.20.9 / 2.4.0, multer 2.5.0, nodemailer 10.3.1, @modelcontextprotocol/sdk 1.32.2, zod 4.6.7 ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))
-- The CLI project template's dependency overrides now also pin proxy-addr 2.0.8, body-parser 1.20.9 / 2.4.0 and multer 2.5.0, so newly scaffolded projects no longer ship these advisories. The `qs` override, in the framework and the template, moves to `~6.16.1`, the 6.16 line that the patched body-parser and express 5 accept ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))
+- The CLI project template's dependency overrides now also pin proxy-addr 2.0.8, body-parser 1.20.9 / 2.4.0 and multer 2.5.0, so newly scaffolded projects no longer ship these advisories. The `qs` override, in the framework and the template, moves to `^6.16.1`, the minimum that the patched body-parser and express 5 require ([PR #512](https://github.com/mbc-net/mbc-cqrs-serverless/pull/512))
 
 ### Documentation
 
