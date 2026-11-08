@@ -18,6 +18,23 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ## Stable Releases (1.x) {#stable-releases}
 
+## [1.7.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.7.0) (2026-11-09) {#v170}
+
+### Features
+
+- **core:** Add the protected `CommandService.getCommandAdmissionConditions` hook for atomic command admission. A `CommandService` subclass can return DynamoDB `ConditionCheck` entries, which are committed with the initial command write in a single `TransactWriteItems` request. A command is then accepted only if, for example, a maintenance gate is still open at the generation the request observed, which closes the race between a preflight gate check and a gate that closes in the meantime. The default returns no checks and keeps the plain `PutItem` path, so existing apps behave as before ([See Details](/docs/command-service#command-admission)) ([PR #515](https://github.com/mbc-net/mbc-cqrs-serverless/pull/515))
+  - The hook runs for `publishSync`, `publishAsync`, the partial update methods and `duplicate`, immediately before the initial command is written. An update that changes nothing still returns without calling the hook
+- **core:** Add `CommandAdmissionRejectedException` (HTTP 409) for a failed admission check and `CommandAdmissionContentionException` (HTTP 503) for a transaction cancelled by `TransactionConflict`. A version conflict on the command write is still reported as `ConditionalCheckFailedException` (409), and any other cancellation is rethrown as the original `TransactionCanceledException` (500). Core does not retry ([See Details](/docs/error-catalog#command-admission-rejected)) ([PR #515](https://github.com/mbc-net/mbc-cqrs-serverless/pull/515))
+- **cli:** The infrastructure template now grants `dynamodb:ConditionCheckItem` on the stack-prefixed DynamoDB tables, which the admission transaction needs on witness tables ([See Details](/docs/architecture/cdk-infrastructure#iam-permissions)) ([PR #515](https://github.com/mbc-net/mbc-cqrs-serverless/pull/515))
+
+### Upgrade Notes
+
+- No code changes are needed unless you override the new hook. Unit tests that run a real `CommandService` with a hand-written `DynamoDbService` mock that only defines `putItem` must also mock `putItemWithConditions`, because `CommandService` now writes every initial command through it ([See Details](/docs/unit-test#mocking-dynamodbservice))
+  - With a `createMock` auto-mock from `@golevelup/ts-jest`, the test does not throw, but `putItem` is never reached because `putItemWithConditions` is auto-mocked, so assertions on `putItem` fail without an obvious reason. Assert on `putItemWithConditions` instead, or stub it to call `putItem`. A spy on the `putItem` of a real `DynamoDbService` keeps working, because `putItemWithConditions` delegates to `putItem` when there are no conditions ([PR #516](https://github.com/mbc-net/mbc-cqrs-serverless/pull/516))
+- Using the hook requires `dynamodb:ConditionCheckItem` on every witness table. Projects generated from an earlier CLI template must add it by hand
+- Every item in a transaction consumes double write capacity, even when the transaction is cancelled. Concurrent commands that check the same witness item can cancel each other with `TransactionConflict`. This contention has not been measured on the DynamoDB service and DynamoDB Local does not reproduce it, so load test the expected concurrency in a real environment
+- See [Migration Guide v1.7.0](/docs/migration/v1.7.0) for upgrade instructions.
+
 ## [1.6.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.6.0) (2026-11-03) {#v160}
 
 ### Breaking Changes
@@ -116,6 +133,23 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ## Stable Releases (1.x) {#stable-releases}
 
+## [1.7.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.7.0) (2026-11-09) {#v170}
+
+### Features
+
+- **core:** Add the protected `CommandService.getCommandAdmissionConditions` hook for atomic command admission. A `CommandService` subclass can return DynamoDB `ConditionCheck` entries, which are committed with the initial command write in a single `TransactWriteItems` request. A command is then accepted only if, for example, a maintenance gate is still open at the generation the request observed, which closes the race between a preflight gate check and a gate that closes in the meantime. The default returns no checks and keeps the plain `PutItem` path, so existing apps behave as before ([See Details](/docs/command-service#command-admission)) ([PR #515](https://github.com/mbc-net/mbc-cqrs-serverless/pull/515))
+  - The hook runs for `publishSync`, `publishAsync`, the partial update methods and `duplicate`, immediately before the initial command is written. An update that changes nothing still returns without calling the hook
+- **core:** Add `CommandAdmissionRejectedException` (HTTP 409) for a failed admission check and `CommandAdmissionContentionException` (HTTP 503) for a transaction cancelled by `TransactionConflict`. A version conflict on the command write is still reported as `ConditionalCheckFailedException` (409), and any other cancellation is rethrown as the original `TransactionCanceledException` (500). Core does not retry ([See Details](/docs/error-catalog#command-admission-rejected)) ([PR #515](https://github.com/mbc-net/mbc-cqrs-serverless/pull/515))
+- **cli:** The infrastructure template now grants `dynamodb:ConditionCheckItem` on the stack-prefixed DynamoDB tables, which the admission transaction needs on witness tables ([See Details](/docs/architecture/cdk-infrastructure#iam-permissions)) ([PR #515](https://github.com/mbc-net/mbc-cqrs-serverless/pull/515))
+
+### Upgrade Notes
+
+- No code changes are needed unless you override the new hook. Unit tests that run a real `CommandService` with a hand-written `DynamoDbService` mock that only defines `putItem` must also mock `putItemWithConditions`, because `CommandService` now writes every initial command through it ([See Details](/docs/unit-test#mocking-dynamodbservice))
+  - With a `createMock` auto-mock from `@golevelup/ts-jest`, the test does not throw, but `putItem` is never reached because `putItemWithConditions` is auto-mocked, so assertions on `putItem` fail without an obvious reason. Assert on `putItemWithConditions` instead, or stub it to call `putItem`. A spy on the `putItem` of a real `DynamoDbService` keeps working, because `putItemWithConditions` delegates to `putItem` when there are no conditions ([PR #516](https://github.com/mbc-net/mbc-cqrs-serverless/pull/516))
+- Using the hook requires `dynamodb:ConditionCheckItem` on every witness table. Projects generated from an earlier CLI template must add it by hand
+- Every item in a transaction consumes double write capacity, even when the transaction is cancelled. Concurrent commands that check the same witness item can cancel each other with `TransactionConflict`. This contention has not been measured on the DynamoDB service and DynamoDB Local does not reproduce it, so load test the expected concurrency in a real environment
+- See [Migration Guide v1.7.0](/docs/migration/v1.7.0) for upgrade instructions.
+
 ## [1.6.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.6.0) (2026-11-03) {#v160}
 
 ### Breaking Changes
@@ -213,6 +247,23 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 ---
 
 ## Stable Releases (1.x) {#stable-releases}
+
+## [1.7.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.7.0) (2026-11-09) {#v170}
+
+### Features
+
+- **core:** Add the protected `CommandService.getCommandAdmissionConditions` hook for atomic command admission. A `CommandService` subclass can return DynamoDB `ConditionCheck` entries, which are committed with the initial command write in a single `TransactWriteItems` request. A command is then accepted only if, for example, a maintenance gate is still open at the generation the request observed, which closes the race between a preflight gate check and a gate that closes in the meantime. The default returns no checks and keeps the plain `PutItem` path, so existing apps behave as before ([See Details](/docs/command-service#command-admission)) ([PR #515](https://github.com/mbc-net/mbc-cqrs-serverless/pull/515))
+  - The hook runs for `publishSync`, `publishAsync`, the partial update methods and `duplicate`, immediately before the initial command is written. An update that changes nothing still returns without calling the hook
+- **core:** Add `CommandAdmissionRejectedException` (HTTP 409) for a failed admission check and `CommandAdmissionContentionException` (HTTP 503) for a transaction cancelled by `TransactionConflict`. A version conflict on the command write is still reported as `ConditionalCheckFailedException` (409), and any other cancellation is rethrown as the original `TransactionCanceledException` (500). Core does not retry ([See Details](/docs/error-catalog#command-admission-rejected)) ([PR #515](https://github.com/mbc-net/mbc-cqrs-serverless/pull/515))
+- **cli:** The infrastructure template now grants `dynamodb:ConditionCheckItem` on the stack-prefixed DynamoDB tables, which the admission transaction needs on witness tables ([See Details](/docs/architecture/cdk-infrastructure#iam-permissions)) ([PR #515](https://github.com/mbc-net/mbc-cqrs-serverless/pull/515))
+
+### Upgrade Notes
+
+- No code changes are needed unless you override the new hook. Unit tests that run a real `CommandService` with a hand-written `DynamoDbService` mock that only defines `putItem` must also mock `putItemWithConditions`, because `CommandService` now writes every initial command through it ([See Details](/docs/unit-test#mocking-dynamodbservice))
+  - With a `createMock` auto-mock from `@golevelup/ts-jest`, the test does not throw, but `putItem` is never reached because `putItemWithConditions` is auto-mocked, so assertions on `putItem` fail without an obvious reason. Assert on `putItemWithConditions` instead, or stub it to call `putItem`. A spy on the `putItem` of a real `DynamoDbService` keeps working, because `putItemWithConditions` delegates to `putItem` when there are no conditions ([PR #516](https://github.com/mbc-net/mbc-cqrs-serverless/pull/516))
+- Using the hook requires `dynamodb:ConditionCheckItem` on every witness table. Projects generated from an earlier CLI template must add it by hand
+- Every item in a transaction consumes double write capacity, even when the transaction is cancelled. Concurrent commands that check the same witness item can cancel each other with `TransactionConflict`. This contention has not been measured on the DynamoDB service and DynamoDB Local does not reproduce it, so load test the expected concurrency in a real environment
+- See [Migration Guide v1.7.0](/docs/migration/v1.7.0) for upgrade instructions.
 
 ## [1.6.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.6.0) (2026-11-03) {#v160}
 
@@ -1208,6 +1259,8 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ## Related Documentation
 
+- [Migration Guide v1.7.0](/docs/migration/v1.7.0) - Upgrade guide for v1.7.0 (command admission conditions)
+- [Migration Guide v1.6.0](/docs/migration/v1.6.0) - Upgrade guide for v1.6.0 (Node.js 22)
 - [Migration Guide v1.3.0](/docs/migration/v1.3.0) - Upgrade guide for v1.3.0 (nodemailer v8)
 - [Migration Guide v1.2.0](/docs/migration/v1.2.0) - Upgrade guide for v1.2.0 (publishSync null return value)
 - [Migration Guide v1.1.0](/docs/migration/v1.1.0) - Upgrade guide for v1.1.0 (TENANT_COMMON, tenant code normalization)

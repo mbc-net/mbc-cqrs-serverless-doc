@@ -160,6 +160,59 @@ describe('CommandService', () => {
 })
 ```
 
+### CommandService 向けの `DynamoDbService` のモック {#mocking-dynamodbservice}
+
+:::info バージョンノート
+[バージョン 1.7.0](/docs/changelog#v170) 以降、`CommandService` はすべての初回コマンドを、`putItem` を直接呼ぶ代わりに `DynamoDbService.putItemWithConditions` 経由で書き込みます。
+:::
+
+実際の `putItemWithConditions` は、[アドミッション条件](/docs/command-service#command-admission)が返されない場合に自身で `putItem` を呼びます。実際の `CommandService` を動かすテストへの影響は、`DynamoDbService` のモック方法によって異なります:
+
+| モックの方法 | v1.7.0 以降の動作 | 対応 |
+|---|---|---|
+| 実際の `DynamoDbService`（例: `aws-sdk-client-mock` を使用、または `putItem` に `jest.spyOn`） | 引き続き動作する: 条件がない場合、`putItemWithConditions` は `putItem` に委譲する | 不要 |
+| `putItem` だけを定義した手書きのモック | `putItemWithConditions is not a function` で失敗する | `putItemWithConditions` を追加する |
+| `createMock()`（`@golevelup/ts-jest`）による自動モック | 例外は出ないが、`putItemWithConditions` が自動モックされるため `putItem` に到達しない。`putItem` に対するアサーションが原因の分かりにくい形で失敗する | `putItemWithConditions` をアサートするか、`putItem` を呼ぶようにスタブする |
+
+`putItem` のモックに委譲すると、既存のアサーションはそのまま動作します:
+
+```ts
+{
+  provide: DynamoDbService,
+  useValue: {
+    getItem: jest.fn(),
+    putItem: jest.fn(async (tableName, item) => item),
+    // Delegate to putItem so existing putItem assertions still pass (既存の putItem のアサーションが通るように putItem に委譲する)
+    putItemWithConditions: jest.fn(function (tableName, item, condition) {
+      return this.putItem(tableName, item, condition)
+    }),
+  },
+},
+```
+
+自動モックの場合は、`putItemWithConditions` を直接アサートするか、同じようにスタブしてください:
+
+```ts
+const dynamoDbService = moduleRef.get(DynamoDbService)
+// Option 1: assert on the method CommandService now calls (方法 1: CommandService が呼ぶようになったメソッドをアサートする)
+expect(dynamoDbService.putItemWithConditions).toHaveBeenCalledWith(
+  'test-table',
+  expect.objectContaining({ pk: 'TENANT#test' }),
+  'attribute_not_exists(pk) AND attribute_not_exists(sk)',
+  [],
+)
+// Option 2: route it to the putItem auto-mock before the test runs (方法 2: テスト実行前に putItem の自動モックへ転送する)
+jest
+  .mocked(dynamoDbService.putItemWithConditions)
+  .mockImplementation((tableName, item, condition) =>
+    dynamoDbService.putItem(tableName, item, condition),
+  )
+```
+
+この動作はフレームワークのリリース準備（[PR #516](https://github.com/mbc-net/mbc-cqrs-serverless/pull/516)）で `@golevelup/ts-jest` 0.5.6 を使って確認されました。CLI テンプレートは `^0.6.1` に依存しています。
+
+`getCommandAdmissionConditions` をオーバーライドしたサブクラスをテストする場合は、`putItemWithConditions` の第 4 引数として渡されるチェックをアサートしてください。モックでは DynamoDB の atomic 性を証明できないため、そのようなコードは DynamoDB Local でも実行してください。
+
 ## 主要なテストパターン {#testing-patterns}
 
 ### テスト構造

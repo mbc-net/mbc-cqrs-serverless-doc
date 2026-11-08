@@ -18,6 +18,8 @@ Use this table to quickly identify errors and jump to solutions.
 | MBC-CMD-001 | Invalid input: item not found or version mismatch | High | Fetch latest version or use `version: -1` |
 | MBC-CMD-002 | Invalid input key: item not found | Medium | Check if item exists before update |
 | MBC-CMD-003 | Invalid input version | Medium | Use latest version from getItem() |
+| MBC-CMD-004 | Command admission rejected | Medium | Do not retry the same payload; capture the witness again, reread and rebuild |
+| MBC-CMD-005 | Command admission contention; retry with a fresh read | Medium | Retry later with a fresh witness; narrow the witness if frequent |
 
 ### Tenant Errors {#tenant-errors}
 
@@ -169,6 +171,49 @@ if (!existing) {
 **Cause**: Using a version in publishSync that does not match the latest saved version.
 
 **Solution**: Fetch the latest item and use its version, or use version: -1 with async methods.
+
+---
+
+### CommandAdmissionRejectedException {#command-admission-rejected}
+
+**Location**: `packages/core/src/data-store/dynamodb.service.ts`
+
+**Cause**: An admission check supplied by the application failed, for example because a maintenance gate closed or its generation changed after the request captured it. Returns HTTP 409 with the message "Command admission rejected". Only occurs when a `CommandService` subclass overrides `getCommandAdmissionConditions`.
+
+:::info Version Note
+`CommandAdmissionRejectedException` and `CommandAdmissionContentionException` were added in [version 1.7.0](/docs/changelog#v170).
+:::
+
+**Solution**: Do not retry the same payload. A new attempt must capture the witness again, reread the current state and rebuild the update. To return a different response during a planned maintenance window, catch the exception in the application. See [Command Admission Conditions](/docs/command-service#command-admission-errors).
+
+```typescript
+import { CommandAdmissionRejectedException } from '@mbc-cqrs-serverless/core';
+import { ServiceUnavailableException } from '@nestjs/common';
+
+try {
+  await commandService.publishAsync(input, options);
+} catch (error) {
+  if (error instanceof CommandAdmissionRejectedException) {
+    // The gate closed or changed: the command was not accepted
+    throw new ServiceUnavailableException('Configuration updates are paused');
+  }
+  throw error;
+}
+```
+
+---
+
+### CommandAdmissionContentionException {#command-admission-contention}
+
+**Location**: `packages/core/src/data-store/dynamodb.service.ts`
+
+**Cause**: The command transaction was cancelled by `TransactionConflict`, for example because many concurrent commands checked the same witness item. Returns HTTP 503. Only occurs when a `CommandService` subclass overrides `getCommandAdmissionConditions`.
+
+**Solution**: Retry later, capturing the witness again and rebuilding the update. If conflicts are frequent, narrow the scope of the witness. The framework does not retry automatically. See [Command Admission Conditions](/docs/command-service#command-admission-caveats).
+
+:::note
+When admission checks are used, a version conflict on the command write itself is still reported as `ConditionalCheckFailedException` (HTTP 409), and any other cancelled transaction is rethrown as the original `TransactionCanceledException` (HTTP 500).
+:::
 
 ---
 

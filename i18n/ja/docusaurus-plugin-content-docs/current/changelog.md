@@ -18,6 +18,23 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ## 安定版リリース (1.x) {#stable-releases}
 
+## [1.7.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.7.0) (2026-11-09) {#v170}
+
+### 新機能
+
+- **core:** atomic なコマンド受付（command admission）のための protected フック `CommandService.getCommandAdmissionConditions` を追加。`CommandService` のサブクラスが DynamoDB の `ConditionCheck` エントリを返すと、初回のコマンド書き込みと同じ 1 回の `TransactWriteItems` リクエストでコミットされます。これにより、たとえばメンテナンスゲートがリクエストの観測した世代のまま開いている場合にのみコマンドが受け付けられ、事前のゲート確認とその間にゲートが閉じる競合が解消されます。デフォルトはチェックを返さず従来の `PutItem` 経路のままなので、既存アプリの動作は変わりません ([詳細を見る](/docs/command-service#command-admission)) ([PR #515](https://github.com/mbc-net/mbc-cqrs-serverless/pull/515))
+  - フックは `publishSync`、`publishAsync`、部分更新メソッド、`duplicate` で、初回コマンドの書き込み直前に実行されます。何も変更しない更新は、これまでどおりフックを呼ばずに返ります
+- **core:** 失敗したアドミッションチェックに対する `CommandAdmissionRejectedException`（HTTP 409）と、`TransactionConflict` でキャンセルされたトランザクションに対する `CommandAdmissionContentionException`（HTTP 503）を追加。コマンド書き込み自体のバージョン競合は引き続き `ConditionalCheckFailedException`（409）として報告され、その他のキャンセルは元の `TransactionCanceledException`（500）として再スローされます。core はリトライしません ([詳細を見る](/docs/error-catalog#command-admission-rejected)) ([PR #515](https://github.com/mbc-net/mbc-cqrs-serverless/pull/515))
+- **cli:** インフラテンプレートが、スタックのプレフィックスを持つ DynamoDB テーブルに対して `dynamodb:ConditionCheckItem` を付与するようになりました。アドミッションのトランザクションは witness テーブルに対してこの権限を必要とします ([詳細を見る](/docs/architecture/cdk-infrastructure#iam-permissions)) ([PR #515](https://github.com/mbc-net/mbc-cqrs-serverless/pull/515))
+
+### アップグレード時の注意
+
+- 新しいフックをオーバーライドしない限りコード変更は不要です。`putItem` だけを定義した手書きの `DynamoDbService` モックで実際の `CommandService` を動かすユニットテストは、`putItemWithConditions` もモックする必要があります。`CommandService` はすべての初回コマンドをこのメソッド経由で書き込むようになったためです ([詳細を見る](/docs/unit-test#mocking-dynamodbservice))
+  - `@golevelup/ts-jest` の `createMock` による自動モックでは、テストは例外を出しませんが、`putItemWithConditions` が自動モックされるため `putItem` に到達せず、`putItem` に対するアサーションが原因の分かりにくい形で失敗します。代わりに `putItemWithConditions` をアサートするか、`putItem` を呼ぶようにスタブしてください。実際の `DynamoDbService` の `putItem` に対するスパイは引き続き動作します。条件が空の場合、`putItemWithConditions` は `putItem` に委譲するためです ([PR #516](https://github.com/mbc-net/mbc-cqrs-serverless/pull/516))
+- フックを使用するには、すべての witness テーブルに `dynamodb:ConditionCheckItem` が必要です。以前の CLI テンプレートから生成したプロジェクトは手動で追加してください
+- トランザクション内のすべての項目は、トランザクションがキャンセルされた場合でも 2 倍の書き込みキャパシティを消費します。同じ witness 項目をチェックする同時実行コマンドは、`TransactionConflict` で互いにキャンセルし合う可能性があります。この競合は DynamoDB サービス上で未計測であり、DynamoDB Local では再現しないため、想定される同時実行数で実環境の負荷テストを行ってください
+- アップグレード手順は[移行ガイド v1.7.0](/docs/migration/v1.7.0) を参照してください。
+
 ## [1.6.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.6.0) (2026-11-03) {#v160}
 
 ### 破壊的変更
@@ -1012,6 +1029,8 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ## 関連ドキュメント
 
+- [マイグレーションガイド v1.7.0](/docs/migration/v1.7.0) - v1.7.0アップグレードガイド（コマンドアドミッション条件）
+- [マイグレーションガイド v1.6.0](/docs/migration/v1.6.0) - v1.6.0アップグレードガイド（Node.js 22）
 - [マイグレーションガイド v1.3.0](/docs/migration/v1.3.0) - v1.3.0アップグレードガイド（nodemailer v8）
 - [マイグレーションガイド v1.2.0](/docs/migration/v1.2.0) - v1.2.0アップグレードガイド（publishSyncのnull返却）
 - [マイグレーションガイド v1.1.0](/docs/migration/v1.1.0) - v1.1.0アップグレードガイド（TENANT_COMMON、テナントコードの正規化）

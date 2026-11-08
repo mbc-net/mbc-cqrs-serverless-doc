@@ -160,6 +160,59 @@ describe('CommandService', () => {
 })
 ```
 
+### {{Mocking `DynamoDbService` for CommandService}} {#mocking-dynamodbservice}
+
+:::info {{Version Note}}
+{{Since [version 1.7.0](/docs/changelog#v170), `CommandService` writes every initial command through `DynamoDbService.putItemWithConditions` instead of calling `putItem` directly.}}
+:::
+
+{{The real `putItemWithConditions` calls `putItem` itself when no [admission conditions](/docs/command-service#command-admission) are returned. How this affects a test that runs a real `CommandService` depends on how `DynamoDbService` is mocked:}}
+
+| {{Mock style}} | {{Behavior since v1.7.0}} | {{What to do}} |
+|---|---|---|
+| {{Real `DynamoDbService` (for example with `aws-sdk-client-mock`, or with `jest.spyOn` on `putItem`)}} | {{Keeps working: with no conditions, `putItemWithConditions` delegates to `putItem`}} | {{Nothing}} |
+| {{Hand-written mock that only defines `putItem`}} | {{Fails with `putItemWithConditions is not a function`}} | {{Add `putItemWithConditions`}} |
+| {{Auto-mock from `createMock()` (`@golevelup/ts-jest`)}} | {{Does not throw, but `putItemWithConditions` is auto-mocked and never reaches `putItem`. Assertions on `putItem` fail without an obvious reason}} | {{Assert on `putItemWithConditions`, or stub it to call `putItem`}} |
+
+{{Delegating to the `putItem` mock keeps existing assertions working:}}
+
+```ts
+{
+  provide: DynamoDbService,
+  useValue: {
+    getItem: jest.fn(),
+    putItem: jest.fn(async (tableName, item) => item),
+    // {{Delegate to putItem so existing putItem assertions still pass}}
+    putItemWithConditions: jest.fn(function (tableName, item, condition) {
+      return this.putItem(tableName, item, condition)
+    }),
+  },
+},
+```
+
+{{With an auto-mock, either assert on `putItemWithConditions` directly or stub it the same way:}}
+
+```ts
+const dynamoDbService = moduleRef.get(DynamoDbService)
+// {{Option 1: assert on the method CommandService now calls}}
+expect(dynamoDbService.putItemWithConditions).toHaveBeenCalledWith(
+  'test-table',
+  expect.objectContaining({ pk: 'TENANT#test' }),
+  'attribute_not_exists(pk) AND attribute_not_exists(sk)',
+  [],
+)
+// {{Option 2: route it to the putItem auto-mock before the test runs}}
+jest
+  .mocked(dynamoDbService.putItemWithConditions)
+  .mockImplementation((tableName, item, condition) =>
+    dynamoDbService.putItem(tableName, item, condition),
+  )
+```
+
+{{This was verified in the framework release preparation ([PR #516](https://github.com/mbc-net/mbc-cqrs-serverless/pull/516)) with `@golevelup/ts-jest` 0.5.6; the CLI template depends on `^0.6.1`.}}
+
+{{When you test a subclass that overrides `getCommandAdmissionConditions`, assert on the checks passed as the fourth argument of `putItemWithConditions`. Mocks cannot prove DynamoDB atomicity, so also run such code against DynamoDB Local.}}
+
 ## {{Key Testing Patterns}} {#testing-patterns}
 
 ### {{Test Structure}}
