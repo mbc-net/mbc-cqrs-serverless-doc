@@ -903,7 +903,7 @@ export const config: Config = {
 };
 ```
 
-## {{IAM Permissions}}
+## {{IAM Permissions}} {#iam-permissions}
 
 {{The Lambda function is granted the following permissions:}}
 
@@ -963,6 +963,7 @@ lambdaFunction.addToRolePolicy(
       'dynamodb:UpdateItem',
       'dynamodb:GetItem',
       'dynamodb:Query',
+      'dynamodb:ConditionCheckItem', // {{Command admission checks (v1.7.0+)}}
     ],
     resources: [`arn:aws:dynamodb:${region}:${account}:table/${prefix}*`],
   })
@@ -996,6 +997,10 @@ alarmSnsTopic.grantPublish(lambdaFunction);
 taskQueue.grantSendMessages(lambdaFunction);
 notificationQueue.grantSendMessages(lambdaFunction);
 ```
+
+:::info {{Version Note}}
+{{Since [version 1.7.0](/docs/changelog#v170), the template also grants `dynamodb:ConditionCheckItem` on the stack-prefixed tables. It is needed only when a `CommandService` subclass returns [command admission conditions](/docs/command-service#command-admission); the transaction checks witness items with it. Projects generated from an earlier template must add the action by hand if they use the hook, and a witness table whose name does not start with the stack prefix needs a separate grant.}}
+:::
 
 ## {{Deployment Outputs}}
 

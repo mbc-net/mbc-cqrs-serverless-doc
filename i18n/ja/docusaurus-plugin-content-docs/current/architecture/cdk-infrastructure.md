@@ -903,7 +903,7 @@ export const config: Config = {
 };
 ```
 
-## IAM権限
+## IAM権限 {#iam-permissions}
 
 Lambda関数には以下の権限が付与されます：
 
@@ -963,6 +963,7 @@ lambdaFunction.addToRolePolicy(
       'dynamodb:UpdateItem',
       'dynamodb:GetItem',
       'dynamodb:Query',
+      'dynamodb:ConditionCheckItem', // Command admission checks (v1.7.0+) (コマンドアドミッションのチェック、v1.7.0 以降)
     ],
     resources: [`arn:aws:dynamodb:${region}:${account}:table/${prefix}*`],
   })
@@ -996,6 +997,10 @@ alarmSnsTopic.grantPublish(lambdaFunction);
 taskQueue.grantSendMessages(lambdaFunction);
 notificationQueue.grantSendMessages(lambdaFunction);
 ```
+
+:::info バージョン情報
+[バージョン 1.7.0](/docs/changelog#v170) 以降、テンプレートはスタックのプレフィックスを持つテーブルに `dynamodb:ConditionCheckItem` も付与します。これは `CommandService` のサブクラスが[コマンドアドミッション条件](/docs/command-service#command-admission)を返す場合にのみ必要で、トランザクションはこの権限で witness 項目をチェックします。以前のテンプレートから生成したプロジェクトでフックを使う場合は手動でアクションを追加し、名前がスタックのプレフィックスで始まらない witness テーブルには別途権限を付与してください。
+:::
 
 ## デプロイ出力
 

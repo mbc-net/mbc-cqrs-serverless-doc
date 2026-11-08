@@ -571,6 +571,135 @@ Changing the table name at runtime is an advanced use case. In most applications
 
 ---
 
+## Command Admission Conditions {#command-admission}
+
+:::info Version Note
+The `getCommandAdmissionConditions` hook and the command admission exceptions were added in [version 1.7.0](/docs/changelog#v170).
+:::
+
+Some operations must stop accepting certain commands for a while, for example freezing configuration updates during a maintenance window while other commands continue. Checking a maintenance gate before publishing leaves a race: the gate can close (and even reopen) after the check but before the command is written. Command version checks cannot detect this either, because the gate is a separate item.
+
+The admission hook closes this gap. A `CommandService` subclass returns DynamoDB `ConditionCheck` entries, and the framework writes them in the same `TransactWriteItems` request as the initial command. Either the command is written and every check passes, or nothing is written.
+
+### The Hook {#command-admission-hook}
+
+```ts
+protected async getCommandAdmissionConditions(
+  command: Readonly<CommandModel>,
+  options: ICommandOptions,
+): Promise<ConditionCheck[]> // ConditionCheck from @aws-sdk/client-dynamodb
+```
+
+- The default implementation returns an empty array. With no checks, the command is written with the ordinary conditional `PutItem`, exactly as before.
+- With checks, `DynamoDbService.putItemWithConditions` sends one `TransactWriteItems` request containing the command `Put` (which keeps its `attribute_not_exists(pk) AND attribute_not_exists(sk)` condition) followed by the checks. Serialization, S3 offload of large attributes, TTL, history and sessions behave as with an ordinary write.
+- The hook runs for `publishSync`, `publishAsync`, `publishPartialUpdateSync`, `publishPartialUpdateAsync` and `duplicate`, after input and version validation and immediately before the initial command is written. It receives the command with its versioned sort key (for example `CONFIG#main@13`). An update that changes nothing returns without calling the hook.
+- Status updates, TTL updates, task token updates, data sync handlers and commands that were already accepted do not call the hook. Closing a gate does not reject work that was already accepted.
+- Checks use DynamoDB AttributeValue maps. At most 99 checks are allowed, all tables must be in the same account and Region, and a check must not target the command item itself.
+
+### Example: Freeze Configuration Updates {#command-admission-example}
+
+The following subclass protects configuration commands (`CONFIG#` sort keys) with a tenant gate. `AdmissionContext` is an application-owned provider that captured the gate generation **before** the request read and built its update. The hook only turns that captured witness into a check; it must not read the gate again.
+
+```ts
+import { ConditionCheck } from '@aws-sdk/client-dynamodb';
+import { CommandModel, CommandService } from '@mbc-cqrs-serverless/core';
+import { Inject, Injectable } from '@nestjs/common';
+
+import { AdmissionContext } from './admission-context';
+
+@Injectable()
+export class ConfigurationCommandService extends CommandService {
+  @Inject(AdmissionContext)
+  private readonly admission: AdmissionContext;
+
+  protected async getCommandAdmissionConditions(
+    command: Readonly<CommandModel>,
+  ): Promise<ConditionCheck[]> {
+    // Decide from the server-owned key, never from a client-supplied flag
+    if (!command.sk.startsWith('CONFIG#')) return [];
+
+    // Witness captured before the update was read and built
+    const witness = this.admission.witness;
+    if (!witness) throw new Error('Missing admission witness');
+
+    return [
+      {
+        TableName: this.admission.gateTableName,
+        Key: {
+          pk: { S: `TENANT#${witness.tenant}` },
+          sk: { S: 'CONFIGURATION_ADMISSION' },
+        },
+        ConditionExpression: '#active = :active AND #generation = :generation',
+        ExpressionAttributeNames: {
+          '#active': 'active',
+          '#generation': 'generation',
+        },
+        ExpressionAttributeValues: {
+          ':active': { BOOL: true },
+          ':generation': { N: String(witness.generation) },
+        },
+      },
+    ];
+  }
+}
+```
+
+Closing and reopening the gate must each increment `generation`. A request that captured generation 7 is then rejected even if the gate has been closed and reopened since.
+
+Register the subclass in the **same** dynamic module that `CommandModule.register()` returns, so that the module's event handler and `Repository` resolve the subclass too. Providing it only in an importing module would leave the original `CommandService` inside `CommandModule`.
+
+```ts
+import { CommandModule, CommandService } from '@mbc-cqrs-serverless/core';
+import { DynamicModule } from '@nestjs/common';
+
+import { AdmissionContext } from './admission-context';
+import { ConfigurationCommandService } from './configuration-command.service';
+
+export function configurationCommandModule(tableName: string): DynamicModule {
+  const registered = CommandModule.register({ tableName });
+  return {
+    ...registered,
+    providers: [
+      ...(registered.providers ?? []),
+      AdmissionContext,
+      // Replace CommandService inside the registered CommandModule
+      { provide: CommandService, useClass: ConfigurationCommandService },
+    ],
+    exports: [...(registered.exports ?? []), AdmissionContext],
+  };
+}
+```
+
+For a complete, tested implementation (witness capture with `AsyncLocalStorage`, tenant checks, a data migration behind the gate and DynamoDB Local tests), see the framework's [command admission guide](https://github.com/mbc-net/mbc-cqrs-serverless/blob/v1.7.0/docs/development/command-admission.md) and the [runnable example](https://github.com/mbc-net/mbc-cqrs-serverless/tree/v1.7.0/examples/command-admission).
+
+### Rejections and HTTP Responses {#command-admission-errors}
+
+When the transaction is cancelled, the framework classifies it by its cancellation reasons. The first matching row applies:
+
+| Cancellation reasons | Exception | HTTP | What the caller should do |
+|---|---|---|---|
+| A check has `ConditionalCheckFailed` | `CommandAdmissionRejectedException` | 409 | Stop. A new attempt must capture the witness again, reread and rebuild the update |
+| The command `Put` has `ConditionalCheckFailed` | `ConditionalCheckFailedException` | 409 | Handle as an ordinary version conflict: reread and rebuild |
+| Any entry has `TransactionConflict` | `CommandAdmissionContentionException` | 503 | Retry later, still capturing the witness again and rebuilding |
+| Anything else, or no reasons | Original `TransactionCanceledException` | 500 | Treat as a server error |
+
+The framework does not retry. None of these outcomes means that the command was accepted. Both new exceptions keep the AWS error as `cause`, so an application can catch them and return a different response, such as 503 during a planned maintenance window. See the [Error Catalog](/docs/error-catalog#command-admission-rejected).
+
+### IAM Permissions {#command-admission-iam}
+
+The transaction needs `dynamodb:PutItem` on the command table and `dynamodb:ConditionCheckItem` on every witness table. Since v1.7.0 the CLI infrastructure template grants both on tables whose names start with the stack prefix. Projects generated from an earlier template must add `dynamodb:ConditionCheckItem` themselves (see [CDK Infrastructure](/docs/architecture/cdk-infrastructure#iam-permissions)). Without it, the request fails with an access-denied error rather than a rejection.
+
+### Caveats {#command-admission-caveats}
+
+- **Capture before reading**: capture the witness before reading and building the update, and keep the observed command version. Never read a fresh witness inside the hook, and never retry an old payload with a newer generation; that would authorize stale work.
+- **Capacity**: every item in a transaction consumes double write capacity, even when the transaction is cancelled. Each check adds to the cost of a protected command.
+- **Contention (not measured)**: according to the AWS documentation, concurrent transactions that include the same witness item can cancel each other with `TransactionConflict`, even while the gate is open. This has not been measured on the DynamoDB service, and DynamoDB Local does not reproduce it. Load test the expected concurrency in a real environment, and narrow the witness scope if conflicts are frequent. A controller that updates the gate must also retry on `TransactionConflictException`.
+- **S3 objects**: large attributes are uploaded to S3 before the transaction, so a rejected command can leave an orphaned S3 object, as a failed ordinary write can.
+- **Not a complete maintenance system**: the hook does not implement authentication, maintenance orchestration or draining of accepted commands. Writers that bypass `CommandService` need their own controls.
+- **Unit tests**: `CommandService` now writes through `DynamoDbService.putItemWithConditions`. See [Unit Tests](/docs/unit-test#mocking-dynamodbservice).
+
+---
+
 ## Read-Your-Writes (RYW) Consistency {#read-your-writes}
 
 :::info Version Note
@@ -849,6 +978,7 @@ export class OrderService {
 - [Service Patterns](/docs/service-patterns) - Complete CRUD service implementation patterns
 - [Event Handling Patterns](/docs/event-handling-patterns) - Creating data sync handlers
 - [Version Conflict Guide](/docs/version-conflict-guide) - Handling optimistic locking conflicts
+- [Error Catalog](/docs/error-catalog#command-admission-rejected) - Command admission exceptions
 - [Interfaces](/docs/interfaces) - TypeScript interfaces for CommandInputModel and more
 - [Versioning Rules](/docs/version-rules) - VERSION_FIRST, version sequences, and optimistic locking semantics
 - [Serialization](/docs/serialization) - Serialization of command data with class-transformer

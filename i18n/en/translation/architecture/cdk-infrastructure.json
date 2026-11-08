@@ -147,5 +147,7 @@
   "Observability": "Observability",
   "Command Handler State Machine": "Command Handler State Machine",
   "Task Handler State Machine": "Task Handler State Machine",
-  "Import CSV State Machine": "Import CSV State Machine"
+  "Import CSV State Machine": "Import CSV State Machine",
+  "Command admission checks (v1.7.0+)": "Command admission checks (v1.7.0+)",
+  "Since [version 1.7.0](/docs/changelog#v170), the template also grants `dynamodb:ConditionCheckItem` on the stack-prefixed tables. It is needed only when a `CommandService` subclass returns [command admission conditions](/docs/command-service#command-admission); the transaction checks witness items with it. Projects generated from an earlier template must add the action by hand if they use the hook, and a witness table whose name does not start with the stack prefix needs a separate grant.": "Since [version 1.7.0](/docs/changelog#v170), the template also grants `dynamodb:ConditionCheckItem` on the stack-prefixed tables. It is needed only when a `CommandService` subclass returns [command admission conditions](/docs/command-service#command-admission); the transaction checks witness items with it. Projects generated from an earlier template must add the action by hand if they use the hook, and a witness table whose name does not start with the stack prefix needs a separate grant."
 }

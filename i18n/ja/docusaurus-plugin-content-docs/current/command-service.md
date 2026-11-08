@@ -571,6 +571,135 @@ this.commandService.tableName = 'another-table';
 
 ---
 
+## コマンドアドミッション条件 {#command-admission}
+
+:::info バージョンノート
+`getCommandAdmissionConditions` フックとコマンドアドミッションの例外は [バージョン 1.7.0](/docs/changelog#v170) で追加されました。
+:::
+
+運用によっては、特定のコマンドの受け付けを一時的に止める必要があります。たとえば、メンテナンス中に他のコマンドは継続させつつ設定の更新だけを凍結する場合です。発行前にメンテナンスゲートを確認するだけでは競合が残ります。確認の後、コマンドが書き込まれる前にゲートが閉じる（さらに再び開く）可能性があるためです。ゲートは別の項目なので、コマンドのバージョンチェックでもこれは検出できません。
+
+アドミッションフックはこの隙間を埋めます。`CommandService` のサブクラスが DynamoDB の `ConditionCheck` エントリを返し、フレームワークがそれらを初回コマンドと同じ `TransactWriteItems` リクエストで書き込みます。コマンドが書き込まれてすべてのチェックが成功するか、何も書き込まれないかのどちらかです。
+
+### フック {#command-admission-hook}
+
+```ts
+protected async getCommandAdmissionConditions(
+  command: Readonly<CommandModel>,
+  options: ICommandOptions,
+): Promise<ConditionCheck[]> // ConditionCheck from @aws-sdk/client-dynamodb (@aws-sdk/client-dynamodb の ConditionCheck)
+```
+
+- デフォルト実装は空の配列を返します。チェックがない場合、コマンドは従来どおり通常の条件付き `PutItem` で書き込まれます。
+- チェックがある場合、`DynamoDbService.putItemWithConditions` は、コマンドの `Put`（`attribute_not_exists(pk) AND attribute_not_exists(sk)` 条件を維持）とそれに続くチェックを含む 1 つの `TransactWriteItems` リクエストを送信します。シリアライズ、大きな属性の S3 オフロード、TTL、履歴、セッションは通常の書き込みと同じように動作します。
+- フックは `publishSync`、`publishAsync`、`publishPartialUpdateSync`、`publishPartialUpdateAsync`、`duplicate` で、入力とバージョンの検証の後、初回コマンドの書き込み直前に実行されます。フックはバージョン付きのソートキー（例: `CONFIG#main@13`）を持つコマンドを受け取ります。何も変更しない更新は、フックを呼ばずに返ります。
+- ステータス更新、TTL 更新、タスクトークン更新、データ同期ハンドラー、すでに受け付けられたコマンドはフックを呼びません。ゲートを閉じても、すでに受け付けられた処理は拒否されません。
+- チェックには DynamoDB の AttributeValue マップを使います。チェックは最大 99 件で、すべてのテーブルが同じアカウント・リージョンにある必要があり、コマンド項目自体を対象にしてはいけません。
+
+### 例: 設定の更新を凍結する {#command-admission-example}
+
+次のサブクラスは、設定コマンド（`CONFIG#` ソートキー）をテナント単位のゲートで保護します。`AdmissionContext` はアプリケーションが所有するプロバイダーで、リクエストが更新内容を読み込んで構築する**前に**ゲートの世代を取得しています。フックは取得済みの witness をチェックに変換するだけで、ゲートを読み直してはいけません。
+
+```ts
+import { ConditionCheck } from '@aws-sdk/client-dynamodb';
+import { CommandModel, CommandService } from '@mbc-cqrs-serverless/core';
+import { Inject, Injectable } from '@nestjs/common';
+
+import { AdmissionContext } from './admission-context';
+
+@Injectable()
+export class ConfigurationCommandService extends CommandService {
+  @Inject(AdmissionContext)
+  private readonly admission: AdmissionContext;
+
+  protected async getCommandAdmissionConditions(
+    command: Readonly<CommandModel>,
+  ): Promise<ConditionCheck[]> {
+    // Decide from the server-owned key, never from a client-supplied flag (クライアントから渡されたフラグではなく、サーバー所有のキーで判定する)
+    if (!command.sk.startsWith('CONFIG#')) return [];
+
+    // Witness captured before the update was read and built (更新内容を読み込み・構築する前に取得した witness)
+    const witness = this.admission.witness;
+    if (!witness) throw new Error('Missing admission witness');
+
+    return [
+      {
+        TableName: this.admission.gateTableName,
+        Key: {
+          pk: { S: `TENANT#${witness.tenant}` },
+          sk: { S: 'CONFIGURATION_ADMISSION' },
+        },
+        ConditionExpression: '#active = :active AND #generation = :generation',
+        ExpressionAttributeNames: {
+          '#active': 'active',
+          '#generation': 'generation',
+        },
+        ExpressionAttributeValues: {
+          ':active': { BOOL: true },
+          ':generation': { N: String(witness.generation) },
+        },
+      },
+    ];
+  }
+}
+```
+
+ゲートを閉じるときも再び開くときも、それぞれ `generation` を増やす必要があります。これにより、世代 7 を取得したリクエストは、その後ゲートが閉じて再び開いた場合でも拒否されます。
+
+サブクラスは、`CommandModule.register()` が返す**同じ**動的モジュールに登録してください。そうすることで、モジュールのイベントハンドラーと `Repository` もサブクラスを解決します。インポート側のモジュールだけで提供すると、`CommandModule` 内には元の `CommandService` が残ります。
+
+```ts
+import { CommandModule, CommandService } from '@mbc-cqrs-serverless/core';
+import { DynamicModule } from '@nestjs/common';
+
+import { AdmissionContext } from './admission-context';
+import { ConfigurationCommandService } from './configuration-command.service';
+
+export function configurationCommandModule(tableName: string): DynamicModule {
+  const registered = CommandModule.register({ tableName });
+  return {
+    ...registered,
+    providers: [
+      ...(registered.providers ?? []),
+      AdmissionContext,
+      // Replace CommandService inside the registered CommandModule (登録した CommandModule 内の CommandService を置き換える)
+      { provide: CommandService, useClass: ConfigurationCommandService },
+    ],
+    exports: [...(registered.exports ?? []), AdmissionContext],
+  };
+}
+```
+
+テスト済みの完全な実装（`AsyncLocalStorage` による witness の取得、テナントのチェック、ゲートの背後でのデータマイグレーション、DynamoDB Local のテスト）については、フレームワークの[コマンドアドミッションガイド](https://github.com/mbc-net/mbc-cqrs-serverless/blob/v1.7.0/docs/development/command-admission.md)と[実行可能なサンプル](https://github.com/mbc-net/mbc-cqrs-serverless/tree/v1.7.0/examples/command-admission)を参照してください。
+
+### 拒否と HTTP レスポンス {#command-admission-errors}
+
+トランザクションがキャンセルされると、フレームワークはキャンセル理由によって分類します。最初に一致した行が適用されます:
+
+| キャンセル理由 | 例外 | HTTP | 呼び出し側の対応 |
+|---|---|---|---|
+| いずれかのチェックが `ConditionalCheckFailed` | `CommandAdmissionRejectedException` | 409 | 中止する。新たに試行する場合は witness を取得し直し、再読み込みして更新内容を構築し直す |
+| コマンドの `Put` が `ConditionalCheckFailed` | `ConditionalCheckFailedException` | 409 | 通常のバージョン競合として扱う: 再読み込みして構築し直す |
+| いずれかのエントリが `TransactionConflict` | `CommandAdmissionContentionException` | 503 | 後でリトライする。その場合も witness を取得し直し、構築し直す |
+| 上記以外、または理由なし | 元の `TransactionCanceledException` | 500 | サーバーエラーとして扱う |
+
+フレームワークはリトライしません。いずれの結果もコマンドが受け付けられたことを意味しません。新しい 2 つの例外は AWS のエラーを `cause` として保持するため、アプリケーションはこれらを捕捉して、計画メンテナンス中の 503 など別のレスポンスを返せます。[エラーカタログ](/docs/error-catalog#command-admission-rejected)を参照してください。
+
+### IAM 権限 {#command-admission-iam}
+
+トランザクションには、コマンドテーブルに対する `dynamodb:PutItem` と、すべての witness テーブルに対する `dynamodb:ConditionCheckItem` が必要です。v1.7.0 以降、CLI のインフラテンプレートは、名前がスタックのプレフィックスで始まるテーブルに両方を付与します。以前のテンプレートから生成したプロジェクトは `dynamodb:ConditionCheckItem` を自分で追加する必要があります（[CDK インフラストラクチャ](/docs/architecture/cdk-infrastructure#iam-permissions)を参照）。権限がない場合、リクエストは拒否ではなくアクセス拒否エラーで失敗します。
+
+### 注意事項 {#command-admission-caveats}
+
+- **読み込む前に取得する**: 更新内容を読み込んで構築する前に witness を取得し、観測したコマンドのバージョンを保持してください。フックの中で新しい witness を読み込んだり、古いペイロードを新しい世代でリトライしたりしないでください。古い処理を承認することになります。
+- **キャパシティ**: トランザクション内のすべての項目は、キャンセルされた場合でも 2 倍の書き込みキャパシティを消費します。チェックの分だけ、保護されたコマンドのコストが増えます。
+- **競合（未計測）**: AWS のドキュメントによると、同じ witness 項目を含む同時実行トランザクションは、ゲートが開いている間でも `TransactionConflict` で互いにキャンセルし合う可能性があります。これは DynamoDB サービス上で計測されておらず、DynamoDB Local では再現しません。想定される同時実行数で実環境の負荷テストを行い、競合が多い場合は witness の範囲を狭めてください。ゲートを更新するコントローラーも `TransactionConflictException` でリトライする必要があります。
+- **S3 オブジェクト**: 大きな属性はトランザクションの前に S3 にアップロードされるため、拒否されたコマンドは、通常の書き込みが失敗した場合と同様に孤立した S3 オブジェクトを残すことがあります。
+- **完全なメンテナンスシステムではない**: フックは認証、メンテナンスのオーケストレーション、受け付け済みコマンドのドレインを実装しません。`CommandService` を経由しない書き込みには別の制御が必要です。
+- **ユニットテスト**: `CommandService` は `DynamoDbService.putItemWithConditions` 経由で書き込むようになりました。[ユニットテスト](/docs/unit-test#mocking-dynamodbservice)を参照してください。
+
+---
+
 ## Read-Your-Writes（RYW）一貫性 {#read-your-writes}
 
 :::info バージョンノート
@@ -849,6 +978,7 @@ export class OrderService {
 - [サービスパターン](/docs/service-patterns) - 完全なCRUDサービス実装パターン
 - [イベント処理パターン](/docs/event-handling-patterns) - データ同期ハンドラーの作成
 - [バージョン競合ガイド](/docs/version-conflict-guide) - 楽観的ロック競合の処理
+- [エラーカタログ](/docs/error-catalog#command-admission-rejected) - コマンドアドミッションの例外
 - [インターフェース](/docs/interfaces) - CommandInputModelなどのTypeScriptインターフェース
 - [バージョン管理ルール](/docs/version-rules) - VERSION_FIRST、バージョンシーケンス、楽観的ロックのセマンティクス
 - [シリアライゼーション](/docs/serialization) - class-transformerによるコマンドデータのシリアライゼーション

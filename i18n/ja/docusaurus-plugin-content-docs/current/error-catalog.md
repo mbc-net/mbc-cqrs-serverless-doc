@@ -18,6 +18,8 @@ description: MBC CQRS Serverlessの原因、解決策、復旧戦略を含む包
 | MBC-CMD-001 | 入力が無効: アイテムが見つからないかバージョン不一致 | 高 | 最新バージョンを取得するか`version: -1`を使用 |
 | MBC-CMD-002 | 無効な入力キー: アイテムが見つからない | 中 | 更新前にアイテムが存在するか確認 |
 | MBC-CMD-003 | 無効な入力バージョン | 中 | getItem()から最新バージョンを使用 |
+| MBC-CMD-004 | コマンドアドミッションが拒否された | 中 | 同じペイロードでリトライしない。witness を取得し直し、再読み込みして構築し直す |
+| MBC-CMD-005 | コマンドアドミッションの競合（新しい読み込みでリトライ） | 中 | 新しい witness で後からリトライ。頻発する場合は witness の範囲を狭める |
 
 ### テナントエラー {#tenant-errors}
 
@@ -169,6 +171,49 @@ if (!existing) {
 **原因**: publishSyncで最新の保存バージョンと一致しないバージョンを使用しています。
 
 **解決策**: 最新のアイテムを取得してそのバージョンを使用するか、非同期メソッドでversion: -1を使用してください。
+
+---
+
+### CommandAdmissionRejectedException {#command-admission-rejected}
+
+**場所**: `packages/core/src/data-store/dynamodb.service.ts`
+
+**原因**: アプリケーションが指定したアドミッションチェックが失敗しました。たとえば、リクエストが取得した後にメンテナンスゲートが閉じた、またはその世代が変わった場合です。メッセージ "Command admission rejected" とともに HTTP 409 を返します。`CommandService` のサブクラスが `getCommandAdmissionConditions` をオーバーライドしている場合にのみ発生します。
+
+:::info バージョンに関する注記
+`CommandAdmissionRejectedException` と `CommandAdmissionContentionException` は [バージョン 1.7.0](/docs/changelog#v170) で追加されました。
+:::
+
+**解決策**: 同じペイロードでリトライしないでください。新たに試行する場合は、witness を取得し直し、現在の状態を再読み込みして更新内容を構築し直す必要があります。計画メンテナンス中に別のレスポンスを返すには、アプリケーションで例外を捕捉してください。[コマンドアドミッション条件](/docs/command-service#command-admission-errors)を参照してください。
+
+```typescript
+import { CommandAdmissionRejectedException } from '@mbc-cqrs-serverless/core';
+import { ServiceUnavailableException } from '@nestjs/common';
+
+try {
+  await commandService.publishAsync(input, options);
+} catch (error) {
+  if (error instanceof CommandAdmissionRejectedException) {
+    // The gate closed or changed: the command was not accepted (ゲートが閉じたか変わった: コマンドは受け付けられていない)
+    throw new ServiceUnavailableException('Configuration updates are paused');
+  }
+  throw error;
+}
+```
+
+---
+
+### CommandAdmissionContentionException {#command-admission-contention}
+
+**場所**: `packages/core/src/data-store/dynamodb.service.ts`
+
+**原因**: コマンドのトランザクションが `TransactionConflict` によってキャンセルされました。たとえば、多数の同時実行コマンドが同じ witness 項目をチェックした場合です。HTTP 503 を返します。`CommandService` のサブクラスが `getCommandAdmissionConditions` をオーバーライドしている場合にのみ発生します。
+
+**解決策**: witness を取得し直して更新内容を構築し直し、後でリトライしてください。競合が頻発する場合は witness の範囲を狭めてください。フレームワークは自動ではリトライしません。[コマンドアドミッション条件](/docs/command-service#command-admission-caveats)を参照してください。
+
+:::note
+アドミッションチェックを使用している場合も、コマンド書き込み自体のバージョン競合は引き続き `ConditionalCheckFailedException`（HTTP 409）として報告され、その他のキャンセルされたトランザクションは元の `TransactionCanceledException`（HTTP 500）として再スローされます。
+:::
 
 ---
 
