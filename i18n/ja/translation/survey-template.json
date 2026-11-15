@@ -73,5 +73,12 @@
   "text question options": "text question options (テキスト質問オプション)",
   "multiple_choice options": "multiple_choice options (複数選択オプション)",
   "rating options": "rating options (評価オプション)",
-  "date options": "date options (日付オプション)"
+  "date options": "date options (日付オプション)",
+  "Optional: 'postgresql' or 'mysql' (default: detected from the Prisma client)": "Optional: 'postgresql' or 'mysql' (default: detected from the Prisma client)（任意: 'postgresql' または 'mysql'。デフォルトは Prisma クライアントから検出）",
+  "Database Provider": "データベースプロバイダー",
+  "Template searches build Prisma filters for PostgreSQL or MySQL. By default the provider is detected from the Prisma client, falling back to PostgreSQL with a startup warning when it cannot be detected. Set `databaseProvider` to `'postgresql'` or `'mysql'` in `SurveyTemplateModule.register` (or `registerAsync`) to choose it explicitly. See [Master: Database Provider](/docs/master#database-provider).": "テンプレート検索は PostgreSQL または MySQL 向けの Prisma フィルターを組み立てます。デフォルトではプロバイダーを Prisma クライアントから検出し、検出できない場合は起動時に警告を出して PostgreSQL を使います。明示的に選ぶには、`SurveyTemplateModule.register`（または `registerAsync`）で `databaseProvider` に `'postgresql'` または `'mysql'` を設定してください。[マスター: データベースプロバイダー](/docs/master#database-provider) を参照してください。",
+  "Known Issue (Fixed in v1.8.0)": "既知の問題（v1.8.0で修正）",
+  "In versions prior to v1.8.0, keyword searches failed on MySQL because they always sent the PostgreSQL-only `mode: 'insensitive'`. If you patched the dist files to work around this, remove the patch after upgrading.": "v1.8.0 より前のバージョンでは、PostgreSQL 専用の `mode: 'insensitive'` を常に送っていたため、MySQL でキーワード検索が失敗していました。この問題を回避するために dist ファイルにパッチを当てていた場合は、アップグレード後にパッチを削除してください。",
+  "See also:": "参照:",
+  "Changelog v1.8.0": "変更履歴 v1.8.0"
 }

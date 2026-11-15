@@ -18,6 +18,52 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ## 安定版リリース (1.x) {#stable-releases}
 
+## [1.8.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.8.0) (2026-11-15) {#v180}
+
+### 破壊的変更
+
+- **master:** すべてのアプリケーションでキーのセグメントを検証するようになりました。設定コード、マスターデータの `settingCode` と `code`、グループ設定・ユーザー設定の `userId` と `groupId` は空であってはならず、`#` や `@` を含んではなりません。また設定コードは `MASTER_SETTING` であってはなりません。違反する場合、すべての作成・upsert・一括リクエスト、`getSetting`（`GET /api/master-setting/:code`）、`MasterDataService.list`（`GET /api/master-data`）は 400 を返します。キー指定の更新・削除（`PATCH`/`DELETE /api/master-setting/:pk/:sk`、`PUT`/`DELETE /api/master-data/:pk/:sk`）も、`@` を含むソートキーを拒否します。そのため、キーに `@` を含んで保存済みの行は API から到達できなくなり、有効なキーで作り直す必要があります ([詳細を見る](/docs/master#key-rules)) ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+  - 1.7.0 では、core がソートキーを最後の `@`（バージョン区切り文字）で切り捨てていました。`userId` やコードとして使われたメールアドレスのように `@` を 1 つ含む値は、切り詰められた別のキーに黙って保存され、`@` を 2 つ以上含むコード（例: `X@Y@Z`）では、キーに `@` が残った行（`MASTER_SETTING#X@Y`）が保存されることがありました。キーに `@` を含む行は、API から読み取り・更新・削除できなくなります。該当する行（DynamoDB のデータテーブルまたは RDS のマスターテーブルで、ソートキーに `@` を含むもの）を探し、有効なキーで作り直してください
+  - コードに含まれる `#` は、ユーザーの個人設定など別の行のキーを組み立てていました。`code` に `#` を含んだまま保存済みのマスターデータ行は引き続き読み取りでき、キー指定で更新・削除もできますが、そのようなコードを送る作成・upsert は拒否されます。アップグレード前に、`#` や `@` を含むコード・ユーザー ID・グループ ID を生成する連携処理を確認してください
+- **master:** 設定行とデータ行は、それぞれ専用のルートからのみ変更できるようになりました。`PUT`/`DELETE /api/master-data/:pk/:sk`（`MasterDataService.update`/`delete`）は `MASTER_SETTING#...` のキーを拒否し、`PATCH`/`DELETE /api/master-setting/:pk/:sk`（`MasterSettingService.updateSetting`/`deleteSetting`）は `MASTER_SETTING#` にコードが続く形式ではないキーを拒否します。`MASTER_SETTING#USER#u1#S1` のようなグループ・ユーザーのキーは引き続き受け付けます ([詳細を見る](/docs/master#key-rules)) ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+- **master:** マスターコピーはシステム管理者に限定されました。`controllerAuth` を設定している場合、`POST /api/master-setting/copy` には `custom:roles` クレームの `system_admin` ロールが必要で、`controllerAuth.write` のロールやグループ由来のロールでは実行できません。アクセスリゾルバーを登録している場合、`MasterSettingService.copy` にはさらに `systemId` と `settingCode` がどちらも `*` の書き込みグラントが必要です ([詳細を見る](/docs/master#master-copy-access)) ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+- **master:** `POST /api/master-bulk` は、設定とデータを同時に処理するのではなく、設定を先に、データ行を後に upsert するようになりました。これにより、同じリクエストで作成した設定をデータ行が利用できます。全項目のキーは最初の書き込み前に検証されますが、リクエストは設定とデータをまたいでアトミックではありません。アクセスリゾルバーを登録している場合、データ項目のアクセスチェックは設定の書き込み後に実行されるため、権限のないデータ項目があるとリクエストは失敗し、設定は書き込まれたまま残ります ([詳細を見る](/docs/master#unified-bulk-upsert)) ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+- **master:** `GET /api/tasks/sfn-task-parent` は、フレームワークの他の部分と同じ方法でテナントを解決するようになりました。`custom:tenant` クレームが `x-tenant-code` ヘッダーより優先されます。以前は誰も設定しない `custom:tenant_code` クレームを読んでいたため、常にヘッダーからテナントを取得していました ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+
+### 新機能
+
+- **master:** 組み込みマスタールートを保護するオプトインのモジュールオプション `controllerAuth` を追加。読み取りには `read` のロール（デフォルト: ログイン済みの任意のユーザー）、書き込みには `write` のロール（デフォルト: `system_admin`）が必要で、要求されたテナントは呼び出し元のテナントでなければなりません（共通テナントの読み取りのみの場合、または呼び出し元がクロステナントロールを持つ場合を除く）。設定しない場合、ルートは保護されないままで、モジュールは起動時に警告をログ出力します ([詳細を見る](/docs/master#controller-auth)) ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+- **master:** マスターデータをシステムごとにスコープできるようになりました。マスター設定は `systemId` を持つことができ（小文字で保存。`shared` はすべてのシステムが受け取るデータ用に予約）、そのデータ行はこれを継承します。`@MasterAccessResolver()` を付けたクラスを 1 つ登録すると、システムごと・設定ごとに読み取り・書き込みを許可できます。サービスはすべてのメソッドでグラントをチェックし、一覧エンドポイントは SQL クエリ内でフィルタするため、ページネーションと総件数は正しく保たれます ([詳細を見る](/docs/master#access-control)) ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+- **master:** UI 向けに、アクセス制御が有効かどうかと呼び出し元のグラントを返す `GET /api/master-access` と、設定コードの未タグ付けの既存行に `systemId` を付与する `MasterSettingService.assignSystem` を追加 ([詳細を見る](/docs/master#master-access-endpoint)) ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+- **master:** マスター設定とマスターデータの一覧検索に `includeCommon` を追加。呼び出し元のテナントが持っていないコードの共通テナントの行を追加します ([詳細を見る](/docs/master#include-common)) ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+- **master:** モジュールオプション `commonTenantCode`（共通マスターデータを保持するテナント。デフォルト `common`）と `enableCopyTask`（マスターコピーのハンドラーを登録。デフォルトは `enableController` の値）を追加 ([詳細を見る](/docs/master#module-options)) ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+- **master:** プロジェクトテンプレートの RDS マスターテーブルに NULL 許容の `system_id` カラムを追加（テンプレートの RDS ハンドラーが書き込み）。API レスポンスのトップレベルで `systemId` を返します ([詳細を見る](/docs/master#rds-system-id)) ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+- **master, survey-template:** モジュールオプション `databaseProvider`（`postgresql` または `mysql`）を追加。デフォルトでは Prisma クライアントから検出します ([詳細を見る](/docs/master#database-provider)) ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+
+### バグ修正
+
+- **master:** マスターコピーがソース設定のテナントからデータを読むようになりました。以前はハードコードされた `meltec` テナントから読んでいました ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+- **master:** マスターコピーがシーケンスをコピーするようになりました。以前は両方のキーがコピー先テナントから組み立てられていたため、何もコピーされませんでした。ソースより遅れているコピー先のシーケンスはソースの値まで進みます。書き込みは条件付きのため、その間に採番したコピー先が巻き戻されることはありません ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+- **master, survey-template:** MySQL（`mbc new` のデフォルトデータベース）で、名前・コード・キーワード検索が失敗していました。PostgreSQL 専用の `mode: 'insensitive'` を常に送っていたためです。設定の description 検索はどちらのデータベースにも合わない JSON パスを使っていましたが、PostgreSQL では `['description']`、MySQL では `'$.description'` を使うようになりました ([詳細を見る](/docs/master#database-provider)) ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+- **master:** `settingValue` を省略した設定の更新で設定の attributes がクリアされなくなり、`name` を省略した場合は名前を保持し、`seq` を省略したマスターデータの更新は `seq` を保持します ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+
+### アップグレード時の注意
+
+- `controllerAuth` もリゾルバーも設定しないアプリケーションへのその他の変更: クライアントが `attributes` で送った `__systemId` キーは常に削除されます。レスポンスは `toPublicRow` を通るため、クライアントが `__systemId` を埋め込んで以前に保存した行は、その値をトップレベルの `systemId` として返します。コントローラーが有効な場合 `GET /api/master-access` が追加されます。DTO は `systemId` と `includeCommon` を受け付けますが、リゾルバーがない場合は無視されます
+- 新規プロジェクトでは `src/master/master.module.ts` に空の `controllerAuth` オブジェクトが設定されるため、ロールを設定するまでマスターの書き込みには `system_admin` が必要です。既存プロジェクトは変更されません
+- リゾルバーを登録している場合、`invokeContext` なしで呼ばれた読み取りメソッドは拒否されます。サーバー側のコードは `invokeContext` を渡すか、信頼できる内部処理では `skipAccessCheck: true` を指定してください
+- 以前に生成したアプリケーションは、リゾルバーを登録する前に、NULL 許容の `system_id` カラムを追加し、独自の RDS ハンドラーで `systemId: getSystemId(cmd)` を書き込む必要があります。`update-scheme.ts` は既存のスキーマやハンドラーを変更しないためです。リゾルバーを登録している場合、Prisma の `Master` モデルに `systemId` フィールドがないとアプリケーションは起動しません
+- リゾルバーを登録している場合、`systemId` を持たない共通設定に対してテナントレベルの上書きを作成すると、その設定は `shared` として扱われます。`shared` 以外の `systemId` を指定すると 400 で拒否され、`shared` への書き込み権限が必要で、上書きには `systemId` が保存されません
+- `includeCommon` には上限があります。`includeCommon` 付きのマスターデータ一覧は、呼び出し元が共通テナントでない限り `settingCode` が必須で、一致する行を 10,000 件より多く持つテナントにはデータベースエラーではなく 400 が返ります。結果が切り捨てられることはありません。`includeCommon` 付きの設定一覧は、共通テナントのグループ設定・ユーザー設定の行をマージしません
+- `registerAsync` では、静的に指定した `commonTenantCode`、`databaseProvider`、`controllerAuth` オプションが、静的な値が undefined の場合でもファクトリーの返す値を上書きします。これらは静的に渡してください
+- 一覧検索が MySQL で動作するようになったため、dist ファイルから `mode: 'insensitive'` を取り除くパッチ（例: `patch-package`）を当てていたアプリケーションは、そのパッチを削除できます。データベースを検出できなかったという起動時の警告が出る場合は `databaseProvider` を設定してください
+- `controllerAuth` を使用している場合、トークンに `custom:tenant` クレームがなく `x-tenant-code` で共通テナントを指定する呼び出し元は、`commonTenantCode` が環境変数 `COMMON_TENANT_CODES` に含まれていないと 403 になる可能性があります。ベースガードのテナント上書きチェックがこの環境変数を参照するためです。両者を一致させてください
+- アップグレード手順は[移行ガイド v1.8.0](/docs/migration/v1.8.0) を参照してください。
+
+### ドキュメント
+
+- **master:** フレームワークのガイド [Master data access control and per-system sync](https://github.com/mbc-net/mbc-cqrs-serverless/blob/main/docs/development/master-access-and-sync.md) を追加。リゾルバー、ハブでの導入順序、システムごとの SNS への変更通知を解説しています ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+
 ## [1.7.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.7.0) (2026-11-09) {#v170}
 
 ### 新機能
@@ -1029,6 +1075,7 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ## 関連ドキュメント
 
+- [マイグレーションガイド v1.8.0](/docs/migration/v1.8.0) - v1.8.0アップグレードガイド（マスターのキールール、アクセス制御、コピー）
 - [マイグレーションガイド v1.7.0](/docs/migration/v1.7.0) - v1.7.0アップグレードガイド（コマンドアドミッション条件）
 - [マイグレーションガイド v1.6.0](/docs/migration/v1.6.0) - v1.6.0アップグレードガイド（Node.js 22）
 - [マイグレーションガイド v1.3.0](/docs/migration/v1.3.0) - v1.3.0アップグレードガイド（nodemailer v8）
