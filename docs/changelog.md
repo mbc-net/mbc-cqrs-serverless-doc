@@ -18,6 +18,52 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ## {{Stable Releases (1.x)}} {#stable-releases}
 
+## [1.8.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.8.0) (2026-11-15) {#v180}
+
+### {{Breaking Changes}}
+
+- **master:** {{Key segments are now validated for every application. A setting code, the `settingCode` and `code` of master data, and the `userId` and `groupId` of group and user settings must be non-empty and must not contain `#` or `@`, and a setting code must not be `MASTER_SETTING`. Otherwise every create, upsert and bulk request, `getSetting` (`GET /api/master-setting/:code`) and `MasterDataService.list` (`GET /api/master-data`) return 400. Updates and deletes by key (`PATCH`/`DELETE /api/master-setting/:pk/:sk`, `PUT`/`DELETE /api/master-data/:pk/:sk`) also reject a sort key that contains `@`. Rows already stored with `@` in their key are therefore no longer reachable through the API and must be re-created under a valid key}} ([{{See Details}}](/docs/master#key-rules)) ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+  - {{In 1.7.0, core cut a sort key at its last `@`, the version separator. A value with one `@`, such as an e-mail address used as a `userId` or code, was silently stored under a truncated, different key, and a code with two or more `@` (for example `X@Y@Z`) could store a row whose key still contains `@` (`MASTER_SETTING#X@Y`). Rows whose key contains `@` can no longer be read, updated or deleted through the API. Find them (a sort key containing `@` in the DynamoDB data table or the RDS master table) and re-create them under a valid key}}
+  - {{A `#` in a code built the key of another row, such as a user's personal setting. Master data rows already stored with `#` in their `code` stay readable and can still be updated or deleted by key, but a create or upsert that sends such a code is rejected. Check integrations that generate codes, user IDs or group IDs with `#` or `@` before upgrading}}
+- **master:** {{Setting rows and data rows are now changed only through their own routes. `PUT`/`DELETE /api/master-data/:pk/:sk` (`MasterDataService.update`/`delete`) reject a `MASTER_SETTING#...` key, and `PATCH`/`DELETE /api/master-setting/:pk/:sk` (`MasterSettingService.updateSetting`/`deleteSetting`) reject a key that is not `MASTER_SETTING#` followed by a code. Group and user keys such as `MASTER_SETTING#USER#u1#S1` are still accepted}} ([{{See Details}}](/docs/master#key-rules)) ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+- **master:** {{Master copy is restricted to system administrators. With `controllerAuth` set, `POST /api/master-setting/copy` requires the `system_admin` role from the `custom:roles` claim; roles in `controllerAuth.write` and group-derived roles do not allow it. With an access resolver registered, `MasterSettingService.copy` also requires a write grant whose `systemId` and `settingCode` are both `*`}} ([{{See Details}}](/docs/master#master-copy-access)) ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+- **master:** {{`POST /api/master-bulk` now upserts the settings first and the data rows after, instead of both at once, so data rows can use a setting created in the same request. The keys of every item are validated before the first write, but the request is not atomic across settings and data: with an access resolver registered, the access checks of the data items run after the settings are written, so a forbidden data item fails the request and leaves the settings written}} ([{{See Details}}](/docs/master#unified-bulk-upsert)) ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+- **master:** {{`GET /api/tasks/sfn-task-parent` now resolves the tenant like the rest of the framework: the `custom:tenant` claim wins over the `x-tenant-code` header. It used to read a `custom:tenant_code` claim that nobody sets, so it always took the tenant from the header}} ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+
+### {{Features}}
+
+- **master:** {{Add the opt-in `controllerAuth` module option, which guards the built-in master routes. Reads need a role in `read` (default: any logged-in user), writes need a role in `write` (default: `system_admin`), and the requested tenant must be the caller's tenant unless the request only reads the common tenant or the caller has a cross-tenant role. Without it the routes stay unguarded and the module logs a startup warning}} ([{{See Details}}](/docs/master#controller-auth)) ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+- **master:** {{Scope master data per system. A master setting can carry a `systemId` (stored in lower case; `shared` is reserved for data every system receives), and its data rows inherit it. Register one class with `@MasterAccessResolver()` to grant read and write per system and per setting. The services then check the grants in every method, and the list endpoints filter in the SQL query, so pagination and totals stay correct}} ([{{See Details}}](/docs/master#access-control)) ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+- **master:** {{Add `GET /api/master-access`, which tells a UI whether access control is enabled and returns the caller's grants, and `MasterSettingService.assignSystem`, which tags existing untagged rows of a setting code with a `systemId`}} ([{{See Details}}](/docs/master#master-access-endpoint)) ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+- **master:** {{Add `includeCommon` to the master setting and master data list searches. It adds the common tenant's rows whose code the caller's tenant does not have}} ([{{See Details}}](/docs/master#include-common)) ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+- **master:** {{Add the `commonTenantCode` module option (the tenant that holds common master data, default `common`) and the `enableCopyTask` module option (registers the master copy handler, default: the value of `enableController`)}} ([{{See Details}}](/docs/master#module-options)) ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+- **master:** {{Add a nullable `system_id` column to the RDS master table of the project template, written by the template's RDS handler, and return `systemId` at the top level of API responses}} ([{{See Details}}](/docs/master#rds-system-id)) ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+- **master, survey-template:** {{Add the `databaseProvider` module option (`postgresql` or `mysql`). By default it is detected from the Prisma client}} ([{{See Details}}](/docs/master#database-provider)) ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+
+### {{Bug Fixes}}
+
+- **master:** {{Master copy now reads data from the source setting's tenant. It used to read from a hard-coded `meltec` tenant}} ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+- **master:** {{Master copy now copies sequences. Both keys used to be built from the target tenant, so nothing was ever copied. A target sequence behind the source jumps to the source's value; the write is conditional, so a target that issued numbers in the meantime is never moved back}} ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+- **master, survey-template:** {{Name, code and keyword searches failed on MySQL, the default database of `mbc new`, because they always sent the PostgreSQL-only `mode: 'insensitive'`. The setting description search used a JSON path that fit neither database; it now uses `['description']` on PostgreSQL and `'$.description'` on MySQL}} ([{{See Details}}](/docs/master#database-provider)) ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+- **master:** {{A setting update that omits `settingValue` no longer clears the setting's attributes, one that omits `name` keeps the name, and a master data update that omits `seq` keeps it}} ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+
+### {{Upgrade Notes}}
+
+- {{For an application that sets neither `controllerAuth` nor a resolver, the other changes are: a `__systemId` key sent by a client in `attributes` is always removed; responses go through `toPublicRow`, so a row stored earlier with a client-planted `__systemId` returns it as a top-level `systemId`; `GET /api/master-access` is added when the controllers are enabled; and the DTOs accept `systemId` and `includeCommon`, which are ignored without a resolver}}
+- {{New projects get an empty `controllerAuth` object in `src/master/master.module.ts`, so master writes need `system_admin` until roles are configured. Existing projects are not changed}}
+- {{With a resolver registered, read methods called without `invokeContext` are denied. Server-side code must pass `invokeContext`, or `skipAccessCheck: true` for trusted internal work}}
+- {{Applications generated earlier must add a nullable `system_id` column and write `systemId: getSystemId(cmd)` in their own RDS handler before registering a resolver, because `update-scheme.ts` does not change an existing schema or handler. With a resolver registered, the application refuses to start if the Prisma `Master` model has no `systemId` field}}
+- {{With a resolver registered, creating a tenant-level override of a common setting that has no `systemId` treats that setting as `shared`: a requested `systemId` other than `shared` is rejected with 400, write access to `shared` is required, and the override stores no `systemId`}}
+- {{`includeCommon` is bounded. A master data list with `includeCommon` requires `settingCode` unless the caller is in the common tenant, and a tenant holding more than 10,000 matching rows gets a 400 instead of a database error; results are not truncated. A settings list with `includeCommon` does not merge the common tenant's group and user setting rows}}
+- {{With `registerAsync`, the static `commonTenantCode`, `databaseProvider` and `controllerAuth` options override the values the factory returns, even when the static value is undefined, so pass them statically}}
+- {{List searches now work on MySQL, so applications that patched `mode: 'insensitive'` out of the dist files (for example with `patch-package`) can drop the patch. Set `databaseProvider` if a startup warning says the database could not be detected}}
+- {{With `controllerAuth`, a caller whose token has no `custom:tenant` claim and who names the common tenant in `x-tenant-code` may get 403 when `commonTenantCode` is not listed in the `COMMON_TENANT_CODES` environment variable, because the tenant-override check of the base guard reads that variable. Keep the two in sync}}
+- {{See [Migration Guide v1.8.0](/docs/migration/v1.8.0) for upgrade instructions.}}
+
+### {{Documentation}}
+
+- **master:** {{Add the framework guide [Master data access control and per-system sync](https://github.com/mbc-net/mbc-cqrs-serverless/blob/main/docs/development/master-access-and-sync.md), which covers the resolver, the rollout order on the hub and publishing changes to SNS per system}} ([PR #518](https://github.com/mbc-net/mbc-cqrs-serverless/pull/518))
+
 ## [1.7.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.7.0) (2026-11-09) {#v170}
 
 ### {{Features}}
@@ -1029,6 +1075,7 @@ description: {{Track all notable changes, new features, and bug fixes in MBC CQR
 
 ## {{Related Documentation}}
 
+- [{{Migration Guide v1.8.0}}](/docs/migration/v1.8.0) - {{Upgrade guide for v1.8.0 (master key rules, access control and copy)}}
 - [{{Migration Guide v1.7.0}}](/docs/migration/v1.7.0) - {{Upgrade guide for v1.7.0 (command admission conditions)}}
 - [{{Migration Guide v1.6.0}}](/docs/migration/v1.6.0) - {{Upgrade guide for v1.6.0 (Node.js 22)}}
 - [{{Migration Guide v1.3.0}}](/docs/migration/v1.3.0) - {{Upgrade guide for v1.3.0 (nodemailer v8)}}

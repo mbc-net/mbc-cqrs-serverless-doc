@@ -73,5 +73,12 @@
   "text question options": "text question options",
   "multiple_choice options": "multiple_choice options",
   "rating options": "rating options",
-  "date options": "date options"
+  "date options": "date options",
+  "Optional: 'postgresql' or 'mysql' (default: detected from the Prisma client)": "Optional: 'postgresql' or 'mysql' (default: detected from the Prisma client)",
+  "Database Provider": "Database Provider",
+  "Template searches build Prisma filters for PostgreSQL or MySQL. By default the provider is detected from the Prisma client, falling back to PostgreSQL with a startup warning when it cannot be detected. Set `databaseProvider` to `'postgresql'` or `'mysql'` in `SurveyTemplateModule.register` (or `registerAsync`) to choose it explicitly. See [Master: Database Provider](/docs/master#database-provider).": "Template searches build Prisma filters for PostgreSQL or MySQL. By default the provider is detected from the Prisma client, falling back to PostgreSQL with a startup warning when it cannot be detected. Set `databaseProvider` to `'postgresql'` or `'mysql'` in `SurveyTemplateModule.register` (or `registerAsync`) to choose it explicitly. See [Master: Database Provider](/docs/master#database-provider).",
+  "Known Issue (Fixed in v1.8.0)": "Known Issue (Fixed in v1.8.0)",
+  "In versions prior to v1.8.0, keyword searches failed on MySQL because they always sent the PostgreSQL-only `mode: 'insensitive'`. If you patched the dist files to work around this, remove the patch after upgrading.": "In versions prior to v1.8.0, keyword searches failed on MySQL because they always sent the PostgreSQL-only `mode: 'insensitive'`. If you patched the dist files to work around this, remove the patch after upgrading.",
+  "See also:": "See also:",
+  "Changelog v1.8.0": "Changelog v1.8.0"
 }

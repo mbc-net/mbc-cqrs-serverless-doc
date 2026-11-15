@@ -1,18 +1,61 @@
 {
   "latest": {
-    "version": "1.7.0",
-    "date": "2026-11-09",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.7.0",
-    "breakingChanges": [],
-    "features": [
-      "atomic なコマンド受付（command admission）のための protected フック `CommandService.getCommandAdmissionConditions` を追加。`CommandService` のサブクラスが DynamoDB の `ConditionCheck` エントリを返すと、初回のコマンド書き込みと同じ 1 回の `TransactWriteItems` リクエストでコミットされます。これにより、たとえばメンテナンスゲートがリクエストの観測した世代のまま開いている場合にのみコマンドが受け付けられ、事前のゲート確認とその間にゲートが閉じる競合が解消されます。デフォルトはチェックを返さず従来の `PutItem` 経路のままなので、既存アプリの動作は変わりません",
-      "失敗したアドミッションチェックに対する `CommandAdmissionRejectedException`（HTTP 409）と、`TransactionConflict` でキャンセルされたトランザクションに対する `CommandAdmissionContentionException`（HTTP 503）を追加。コマンド書き込み自体のバージョン競合は引き続き `ConditionalCheckFailedException`（409）として報告され、その他のキャンセルは元の `TransactionCanceledException`（500）として再スローされます。core はリトライしません",
-      "インフラテンプレートが、スタックのプレフィックスを持つ DynamoDB テーブルに対して `dynamodb:ConditionCheckItem` を付与するようになりました。アドミッションのトランザクションは witness テーブルに対してこの権限を必要とします"
+    "version": "1.8.0",
+    "date": "2026-11-15",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.8.0",
+    "breakingChanges": [
+      "すべてのアプリケーションでキーのセグメントを検証するようになりました。設定コード、マスターデータの `settingCode` と `code`、グループ設定・ユーザー設定の `userId` と `groupId` は空であってはならず、`#` や `@` を含んではなりません。また設定コードは `MASTER_SETTING` であってはなりません。違反する場合、すべての作成・upsert・一括リクエスト、`getSetting`（`GET /api/master-setting/:code`）、`MasterDataService.list`（`GET /api/master-data`）は 400 を返します。キー指定の更新・削除（`PATCH`/`DELETE /api/master-setting/:pk/:sk`、`PUT`/`DELETE /api/master-data/:pk/:sk`）も、`@` を含むソートキーを拒否します。そのため、キーに `@` を含んで保存済みの行は API から到達できなくなり、有効なキーで作り直す必要があります",
+      "設定行とデータ行は、それぞれ専用のルートからのみ変更できるようになりました。`PUT`/`DELETE /api/master-data/:pk/:sk`（`MasterDataService.update`/`delete`）は `MASTER_SETTING#...` のキーを拒否し、`PATCH`/`DELETE /api/master-setting/:pk/:sk`（`MasterSettingService.updateSetting`/`deleteSetting`）は `MASTER_SETTING#` にコードが続く形式ではないキーを拒否します。`MASTER_SETTING#USER#u1#S1` のようなグループ・ユーザーのキーは引き続き受け付けます",
+      "マスターコピーはシステム管理者に限定されました。`controllerAuth` を設定している場合、`POST /api/master-setting/copy` には `custom:roles` クレームの `system_admin` ロールが必要で、`controllerAuth.write` のロールやグループ由来のロールでは実行できません。アクセスリゾルバーを登録している場合、`MasterSettingService.copy` にはさらに `systemId` と `settingCode` がどちらも `*` の書き込みグラントが必要です",
+      "`POST /api/master-bulk` は、設定とデータを同時に処理するのではなく、設定を先に、データ行を後に upsert するようになりました。これにより、同じリクエストで作成した設定をデータ行が利用できます。全項目のキーは最初の書き込み前に検証されますが、リクエストは設定とデータをまたいでアトミックではありません。アクセスリゾルバーを登録している場合、データ項目のアクセスチェックは設定の書き込み後に実行されるため、権限のないデータ項目があるとリクエストは失敗し、設定は書き込まれたまま残ります",
+      "`GET /api/tasks/sfn-task-parent` は、フレームワークの他の部分と同じ方法でテナントを解決するようになりました。`custom:tenant` クレームが `x-tenant-code` ヘッダーより優先されます。以前は誰も設定しない `custom:tenant_code` クレームを読んでいたため、常にヘッダーからテナントを取得していました"
     ],
-    "bugFixes": [],
+    "features": [
+      "組み込みマスタールートを保護するオプトインのモジュールオプション `controllerAuth` を追加。読み取りには `read` のロール（デフォルト: ログイン済みの任意のユーザー）、書き込みには `write` のロール（デフォルト: `system_admin`）が必要で、要求されたテナントは呼び出し元のテナントでなければなりません（共通テナントの読み取りのみの場合、または呼び出し元がクロステナントロールを持つ場合を除く）。設定しない場合、ルートは保護されないままで、モジュールは起動時に警告をログ出力します",
+      "マスターデータをシステムごとにスコープできるようになりました。マスター設定は `systemId` を持つことができ（小文字で保存。`shared` はすべてのシステムが受け取るデータ用に予約）、そのデータ行はこれを継承します。`@MasterAccessResolver()` を付けたクラスを 1 つ登録すると、システムごと・設定ごとに読み取り・書き込みを許可できます。サービスはすべてのメソッドでグラントをチェックし、一覧エンドポイントは SQL クエリ内でフィルタするため、ページネーションと総件数は正しく保たれます",
+      "UI 向けに、アクセス制御が有効かどうかと呼び出し元のグラントを返す `GET /api/master-access` と、設定コードの未タグ付けの既存行に `systemId` を付与する `MasterSettingService.assignSystem` を追加",
+      "マスター設定とマスターデータの一覧検索に `includeCommon` を追加。呼び出し元のテナントが持っていないコードの共通テナントの行を追加します",
+      "モジュールオプション `commonTenantCode`（共通マスターデータを保持するテナント。デフォルト `common`）と `enableCopyTask`（マスターコピーのハンドラーを登録。デフォルトは `enableController` の値）を追加",
+      "プロジェクトテンプレートの RDS マスターテーブルに NULL 許容の `system_id` カラムを追加（テンプレートの RDS ハンドラーが書き込み）。API レスポンスのトップレベルで `systemId` を返します",
+      "モジュールオプション `databaseProvider`（`postgresql` または `mysql`）を追加。デフォルトでは Prisma クライアントから検出します"
+    ],
+    "bugFixes": [
+      "マスターコピーがソース設定のテナントからデータを読むようになりました。以前はハードコードされた `meltec` テナントから読んでいました",
+      "マスターコピーがシーケンスをコピーするようになりました。以前は両方のキーがコピー先テナントから組み立てられていたため、何もコピーされませんでした。ソースより遅れているコピー先のシーケンスはソースの値まで進みます。書き込みは条件付きのため、その間に採番したコピー先が巻き戻されることはありません",
+      "MySQL（`mbc new` のデフォルトデータベース）で、名前・コード・キーワード検索が失敗していました。PostgreSQL 専用の `mode: 'insensitive'` を常に送っていたためです。設定の description 検索はどちらのデータベースにも合わない JSON パスを使っていましたが、PostgreSQL では `['description']`、MySQL では `'$.description'` を使うようになりました",
+      "`settingValue` を省略した設定の更新で設定の attributes がクリアされなくなり、`name` を省略した場合は名前を保持し、`seq` を省略したマスターデータの更新は `seq` を保持します"
+    ],
     "security": []
   },
   "recent": [
+    {
+      "version": "1.8.0",
+      "date": "2026-11-15",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.8.0",
+      "breakingChanges": [
+        "すべてのアプリケーションでキーのセグメントを検証するようになりました。設定コード、マスターデータの `settingCode` と `code`、グループ設定・ユーザー設定の `userId` と `groupId` は空であってはならず、`#` や `@` を含んではなりません。また設定コードは `MASTER_SETTING` であってはなりません。違反する場合、すべての作成・upsert・一括リクエスト、`getSetting`（`GET /api/master-setting/:code`）、`MasterDataService.list`（`GET /api/master-data`）は 400 を返します。キー指定の更新・削除（`PATCH`/`DELETE /api/master-setting/:pk/:sk`、`PUT`/`DELETE /api/master-data/:pk/:sk`）も、`@` を含むソートキーを拒否します。そのため、キーに `@` を含んで保存済みの行は API から到達できなくなり、有効なキーで作り直す必要があります",
+        "設定行とデータ行は、それぞれ専用のルートからのみ変更できるようになりました。`PUT`/`DELETE /api/master-data/:pk/:sk`（`MasterDataService.update`/`delete`）は `MASTER_SETTING#...` のキーを拒否し、`PATCH`/`DELETE /api/master-setting/:pk/:sk`（`MasterSettingService.updateSetting`/`deleteSetting`）は `MASTER_SETTING#` にコードが続く形式ではないキーを拒否します。`MASTER_SETTING#USER#u1#S1` のようなグループ・ユーザーのキーは引き続き受け付けます",
+        "マスターコピーはシステム管理者に限定されました。`controllerAuth` を設定している場合、`POST /api/master-setting/copy` には `custom:roles` クレームの `system_admin` ロールが必要で、`controllerAuth.write` のロールやグループ由来のロールでは実行できません。アクセスリゾルバーを登録している場合、`MasterSettingService.copy` にはさらに `systemId` と `settingCode` がどちらも `*` の書き込みグラントが必要です",
+        "`POST /api/master-bulk` は、設定とデータを同時に処理するのではなく、設定を先に、データ行を後に upsert するようになりました。これにより、同じリクエストで作成した設定をデータ行が利用できます。全項目のキーは最初の書き込み前に検証されますが、リクエストは設定とデータをまたいでアトミックではありません。アクセスリゾルバーを登録している場合、データ項目のアクセスチェックは設定の書き込み後に実行されるため、権限のないデータ項目があるとリクエストは失敗し、設定は書き込まれたまま残ります",
+        "`GET /api/tasks/sfn-task-parent` は、フレームワークの他の部分と同じ方法でテナントを解決するようになりました。`custom:tenant` クレームが `x-tenant-code` ヘッダーより優先されます。以前は誰も設定しない `custom:tenant_code` クレームを読んでいたため、常にヘッダーからテナントを取得していました"
+      ],
+      "features": [
+        "組み込みマスタールートを保護するオプトインのモジュールオプション `controllerAuth` を追加。読み取りには `read` のロール（デフォルト: ログイン済みの任意のユーザー）、書き込みには `write` のロール（デフォルト: `system_admin`）が必要で、要求されたテナントは呼び出し元のテナントでなければなりません（共通テナントの読み取りのみの場合、または呼び出し元がクロステナントロールを持つ場合を除く）。設定しない場合、ルートは保護されないままで、モジュールは起動時に警告をログ出力します",
+        "マスターデータをシステムごとにスコープできるようになりました。マスター設定は `systemId` を持つことができ（小文字で保存。`shared` はすべてのシステムが受け取るデータ用に予約）、そのデータ行はこれを継承します。`@MasterAccessResolver()` を付けたクラスを 1 つ登録すると、システムごと・設定ごとに読み取り・書き込みを許可できます。サービスはすべてのメソッドでグラントをチェックし、一覧エンドポイントは SQL クエリ内でフィルタするため、ページネーションと総件数は正しく保たれます",
+        "UI 向けに、アクセス制御が有効かどうかと呼び出し元のグラントを返す `GET /api/master-access` と、設定コードの未タグ付けの既存行に `systemId` を付与する `MasterSettingService.assignSystem` を追加",
+        "マスター設定とマスターデータの一覧検索に `includeCommon` を追加。呼び出し元のテナントが持っていないコードの共通テナントの行を追加します",
+        "モジュールオプション `commonTenantCode`（共通マスターデータを保持するテナント。デフォルト `common`）と `enableCopyTask`（マスターコピーのハンドラーを登録。デフォルトは `enableController` の値）を追加",
+        "プロジェクトテンプレートの RDS マスターテーブルに NULL 許容の `system_id` カラムを追加（テンプレートの RDS ハンドラーが書き込み）。API レスポンスのトップレベルで `systemId` を返します",
+        "モジュールオプション `databaseProvider`（`postgresql` または `mysql`）を追加。デフォルトでは Prisma クライアントから検出します"
+      ],
+      "bugFixes": [
+        "マスターコピーがソース設定のテナントからデータを読むようになりました。以前はハードコードされた `meltec` テナントから読んでいました",
+        "マスターコピーがシーケンスをコピーするようになりました。以前は両方のキーがコピー先テナントから組み立てられていたため、何もコピーされませんでした。ソースより遅れているコピー先のシーケンスはソースの値まで進みます。書き込みは条件付きのため、その間に採番したコピー先が巻き戻されることはありません",
+        "MySQL（`mbc new` のデフォルトデータベース）で、名前・コード・キーワード検索が失敗していました。PostgreSQL 専用の `mode: 'insensitive'` を常に送っていたためです。設定の description 検索はどちらのデータベースにも合わない JSON パスを使っていましたが、PostgreSQL では `['description']`、MySQL では `'$.description'` を使うようになりました",
+        "`settingValue` を省略した設定の更新で設定の attributes がクリアされなくなり、`name` を省略した場合は名前を保持し、`seq` を省略したマスターデータの更新は `seq` を保持します"
+      ],
+      "security": []
+    },
     {
       "version": "1.7.0",
       "date": "2026-11-09",
@@ -58,18 +101,7 @@
         "公開 npm パッケージに Claude Code スキルを同梱。これまでパッケージに含まれていなかったため、`mbc install-skills` や手動の `cp -r node_modules/@mbc-cqrs-serverless/mcp-server/skills/*` でスキルが見つかりませんでした"
       ],
       "security": []
-    },
-    {
-      "version": "1.4.0",
-      "date": "2026-08-02",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.4.0",
-      "breakingChanges": [],
-      "features": [
-        "ドメインモジュールの DynamoDB テーブル名を後方互換オプション `tableName?` で設定可能にし、4モジュールすべてに `registerAsync` を追加。既定値は現行のまま（`master` / `directory` / `survey` / `master`）なので、既存アプリはコード変更なしにアップグレードできる"
-      ],
-      "bugFixes": [],
-      "security": []
     }
   ],
-  "generated": "2026-11-08T15:27:52.011Z"
+  "generated": "2026-11-15T07:24:11.810Z"
 }

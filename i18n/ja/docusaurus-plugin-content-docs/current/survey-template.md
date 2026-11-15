@@ -40,11 +40,22 @@ import { Module } from '@nestjs/common';
     SurveyTemplateModule.register({
       enableController: true,  // Enable REST API endpoints (REST APIエンドポイントを有効化)
       prismaService: PrismaService,  // Required when enableController is true (enableController が true の場合に必須)
+      // databaseProvider: 'mysql',  // Optional: 'postgresql' or 'mysql' (default: detected from the Prisma client)（任意: 'postgresql' または 'mysql'。デフォルトは Prisma クライアントから検出）
     }),
   ],
 })
 export class AppModule {}
 ```
+
+### データベースプロバイダー {#database-provider}
+
+テンプレート検索は PostgreSQL または MySQL 向けの Prisma フィルターを組み立てます。デフォルトではプロバイダーを Prisma クライアントから検出し、検出できない場合は起動時に警告を出して PostgreSQL を使います。明示的に選ぶには、`SurveyTemplateModule.register`（または `registerAsync`）で `databaseProvider` に `'postgresql'` または `'mysql'` を設定してください。[マスター: データベースプロバイダー](/docs/master#database-provider) を参照してください。
+
+:::warning 既知の問題（v1.8.0で修正）
+v1.8.0 より前のバージョンでは、PostgreSQL 専用の `mode: 'insensitive'` を常に送っていたため、MySQL でキーワード検索が失敗していました。この問題を回避するために dist ファイルにパッチを当てていた場合は、アップグレード後にパッチを削除してください。
+
+参照: [変更履歴 v1.8.0](/docs/changelog#v180)
+:::
 
 ## APIエンドポイント {#api-endpoints}
 

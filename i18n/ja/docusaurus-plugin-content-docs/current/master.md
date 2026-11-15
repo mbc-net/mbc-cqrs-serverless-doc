@@ -64,13 +64,18 @@ npm install @mbc-cqrs-serverless/master
 
 `MasterModule` の動作をカスタマイズするには、静的な `register()` メソッドでオプションの `object` を渡します。
 
-### モジュールオプション
+### モジュールオプション {#module-options}
 
 | オプション | 型 | 説明 |
 |--------|------|-------------|
 | `enableController` | `boolean` | デフォルトのマスターコントローラーを有効または無効にする |
 | `dataSyncHandlers` | `Type<IDataSyncHandler>[]` | マスターデータを外部システム（例：RDS）に同期するオプションハンドラー |
 | `prismaService` | `Type<any>` | RDSバッククエリ用のPrismaサービス。`enableController: true` の場合は必須 |
+| `tableName` | `string` | DynamoDB のベーステーブル名（デフォルト: `master`） |
+| `commonTenantCode` | `string` | 共通マスターデータを保持するテナント（デフォルト: `common`） |
+| `controllerAuth` | `{ read?: string[]; write?: string[] }` | 組み込みルートに対するオプトインのガード。[コントローラー認可](#controller-auth)を参照 |
+| `enableCopyTask` | `boolean` | マスターコピーハンドラーを登録（デフォルト: `enableController` の値） |
+| `databaseProvider` | `'postgresql' \| 'mysql'` | Prisma クライアントが接続するデータベース（デフォルト: Prisma クライアントから検出）。[データベースプロバイダー](#database-provider)を参照 |
 
 :::warning prismaServiceの要件
 `enableController: true` の場合、`prismaService` パラメータは **必須** です。コントローラーが有効な状態で `prismaService` が提供されていない場合、起動時にエラーがスローされます。
@@ -84,12 +89,207 @@ import { MasterModule } from '@mbc-cqrs-serverless/master'
       enableController: true,
       dataSyncHandlers: [MasterDataRdsSyncHandler],
       prismaService: PrismaService,
+      controllerAuth: {}, // Require a login for reads and system_admin for writes (読み取りにはログイン、書き込みには system_admin を必須にする)
     })],
   controllers: [],
   exports: [],
 })
 
 ```
+
+## キーのルール {#key-rules}
+
+マスターのキーはリクエスト内のコードから組み立てられます。設定は `MASTER_SETTING#<code>`、データ行は `<settingCode>#<code>`、グループ設定とユーザー設定は `MASTER_SETTING#GROUP#<groupId>#<code>` と `MASTER_SETTING#USER#<userId>#<code>` に保存されます。これらの値はそれぞれ単一のキーセグメントでなければなりません:
+
+- 空であってはなりません。
+- キーの区切り文字である `#` を含んではなりません。含むと、その値が別の行のキーを組み立ててしまいます。たとえば設定コード `USER#u1#S1` はユーザーの個人設定になります。
+- ソートキーのバージョン区切り文字である `@` を含んではなりません。
+- 設定コードおよびマスターデータの `settingCode` は `MASTER_SETTING` であってはなりません。
+
+ルールに違反するリクエストは 400 で失敗します。このルールは、すべての設定の作成と upsert（共通、テナント、グループ、ユーザー、一括）、マスターデータの作成・upsert・2 つの一括エンドポイント、`getSetting`（`GET /api/master-setting/:code`）、`MasterDataService.list`（`GET /api/master-data`）に適用されます。一括リクエストは、最初の書き込みの前にすべての項目のキーを検証します。
+
+行はそれぞれ専用のルートからのみ変更されます。`PATCH`/`DELETE /api/master-setting/:pk/:sk`（`updateSetting`/`deleteSetting`）は設定キー（`MASTER_SETTING#<code>` とグループ・ユーザーのキー）のみを受け付け、`PUT`/`DELETE /api/master-data/:pk/:sk`（`update`/`delete`）は `MASTER_SETTING#...` キーを拒否します。どちらも `@` を含むソートキーを拒否します。
+
+:::warning 既知の問題（v1.8.0で修正）
+v1.8.0 より前のバージョンでは、コードが検証されていませんでした。core はソートキーを最後の `@` で切り詰めていたため、`@` を 1 つ含む値（`userId` やコードとして使われたメールアドレスなど）は、切り詰められた別のキーに黙って保存され、`@` を 2 つ以上含むコード（例: `X@Y@Z`）では、キーに `@` が残った行（`MASTER_SETTING#X@Y`）が保存される可能性がありました。v1.8.0 以降、このような行は API から読み取り・更新・削除できなくなります。該当行（DynamoDB のデータテーブルまたは RDS のマスターテーブルで `@` を含むソートキー）を探し、有効なキーで作り直してください。`code` に `#` を含む状態で既に保存されているマスターデータ行は、引き続き読み取ることができ、キー指定で更新・削除できます。
+
+参照： [マイグレーションガイド v1.8.0](/docs/migration/v1.8.0#key-segments)
+:::
+
+## コントローラー認可 {#controller-auth}
+
+組み込みのマスタールートを保護するには `controllerAuth` を設定します。空のオブジェクトであっても設定すると、`MasterDataController`、`MasterSettingController`、`MasterBulkController`、`MasterAccessController` およびタスクコントローラー（`/api/tasks`）で `MasterControllerGuard` が有効になります。
+
+```ts
+MasterModule.register({
+  enableController: true,
+  controllerAuth: { read: [], write: ['master_editor'] },
+  dataSyncHandlers: [MasterDataSyncRdsHandler],
+  prismaService: PrismaService,
+})
+```
+
+- `sub` クレームのないリクエストは拒否されます。
+- `read` が空または省略の場合は、ログイン済みの任意のユーザーを意味します。`write` が空または省略の場合は `system_admin` のみになります。`system_admin` は常に通過し、グループから解決されたロールも考慮されます。
+- `GET` ルートと 2 つの `POST .../check-exist` ルートは読み取りです。それ以外のルートはすべて書き込みです。
+- リクエストで指定されたテナント（パスのキー、ボディまたはクエリの `tenantCode`、コピー元とコピー先）は呼び出し元のテナントでなければなりません。ただし、共通テナントの読み取りのみの場合、または呼び出し元がクロステナントロールを持つ場合を除きます。それ以外の場合、ガードは 400 `Invalid tenant code` を返します。
+- `POST /api/master-setting/copy` は `write` の設定にかかわらず `system_admin` を必要とします（[マスターコピーのアクセス](#master-copy-access)を参照）。
+- `controllerAuth` がない場合、ルートは保護されないままで、コントローラーが有効なときは `MasterModule` が起動時に警告をログ出力します。
+
+:::info バージョンノート
+`controllerAuth`、`commonTenantCode`、`enableCopyTask`、`databaseProvider`、`systemId`、`@MasterAccessResolver()`、`GET /api/master-access`、`assignSystem`、`includeCommon` は[バージョン 1.8.0](/docs/changelog#v180) で追加されました。v1.8.0 以降の `mbc new` で作成したプロジェクトには空の `controllerAuth` オブジェクトが含まれるため、ロールを設定するまでマスターの書き込みには `system_admin` が必要です。
+:::
+
+:::caution ヘッダーで選択した共通テナント
+トークンに `custom:tenant` クレームがなく、`x-tenant-code` で共通テナントを指定した呼び出し元は、`commonTenantCode` が環境変数 `COMMON_TENANT_CODES` に含まれていない場合に 403 を受け取る可能性があります。ベースの `RolesGuard` のテナント上書きチェックは、モジュールオプションではなくこの環境変数を参照するためです。`commonTenantCode` を変更する場合は、同じ値を `COMMON_TENANT_CODES` にも追加してください。
+:::
+
+## システム単位のアクセス制御 {#access-control}
+
+複数のプロダクトが、1 つの中央サービスで管理されるマスターデータを共有できます。各マスター設定は、その設定とデータがどのプロダクト向けかを示す `systemId` を持つことができ、オプションのアクセスリゾルバーがシステム単位・設定単位で読み取りと書き込みを許可します。リゾルバーがない場合、`systemId` は無視され、サービスは従来どおりに動作します。
+
+全体の設計、導入順序、システム単位の SNS への変更通知については、フレームワークのガイド [Master data access control and per-system sync](https://github.com/mbc-net/mbc-cqrs-serverless/blob/main/docs/development/master-access-and-sync.md) を参照してください。
+
+### システム ID {#system-id}
+
+- `systemId` はキーの外側の `attributes.__systemId`（定数 `MASTER_SYSTEM_ATTRIBUTE`、読み取り関数 `getSystemId(row)`）に保存されるため、各設定コードはテナント内で 1 つのオーナーを持ちます。API レスポンスではトップレベルの `systemId` として返され、`attributes` からは `__systemId` が隠されます。
+- クライアントが `attributes` で送信した `__systemId` は、リゾルバーの有無にかかわらず常に削除されます。
+- `shared` は、すべてのシステムが受け取るデータ用に予約されています。`systemId` のない行は `shared` として扱われます。
+- 新しい設定は、`CommonSettingDto`、`TenantSettingDto` または一括の設定項目で `systemId` を指定できます。テナント→共通の順の検索で見える設定と同じコードを持つ設定は、その `systemId` を継承し、矛盾する明示的な値は 400 になります。`systemId` を持たない共通設定に対するテナントレベルの上書きは `shared` として扱われます。
+- データ行はクライアントから `systemId` を受け付けません。有効な設定（テナントの設定、次に共通テナントの設定）の値を引き継ぎます。
+- `systemId` は小文字で保存され、`*` にはできず、一度設定すると変更できません。
+- グループ設定とユーザー設定は `systemId` を保存しません。アクセスはベースとなる設定に従います。
+
+### リゾルバーの作成 {#access-resolver}
+
+`@MasterAccessResolver()` でクラスを 1 つだけ登録します。このデコレーターは `@Injectable()` を適用するため、自分で追加しないでください。クラスは `MasterModule` と一緒に読み込まれるモジュールの providers に追加します。リゾルバーが 2 つ以上あると起動時にエラーになります。
+
+```ts
+import {
+  IMasterAccessResolver,
+  MasterAccessGrant,
+  MasterAccessResolver,
+  ResolveMasterAccessInput,
+} from '@mbc-cqrs-serverless/master'
+
+@MasterAccessResolver()
+export class AppMasterAccessResolver implements IMasterAccessResolver {
+  async resolveGrants(
+    input: ResolveMasterAccessInput, // userId, tenantCode, roles, claims (ユーザーID、テナントコード、ロール、クレーム)
+  ): Promise<MasterAccessGrant[]> {
+    if (!input.userId) return []
+    if (input.roles.includes('system_admin')) {
+      return [{ systemId: '*', settingCode: '*', read: true, write: true }]
+    }
+    const grants: MasterAccessGrant[] = [
+      // Everyone may read shared data (全員が共有データを読み取り可能)
+      { systemId: 'shared', settingCode: '*', read: true, write: false },
+    ]
+    if (input.roles.includes('app_a_editor')) {
+      grants.push({ systemId: 'app-a', settingCode: '*', read: true, write: true })
+    }
+    return grants
+  }
+}
+```
+
+- グラントは `systemId`（または `*`）、`settingCode`（または `*`）、`read`、`write` を持ちます。書き込みは読み取りを含みます。
+- リゾルバーが登録されている場合、アクセスはデフォルトで拒否され、グラントは和集合として扱われます。リゾルバーが例外をスローすると、リクエストは失敗します。
+- `system_admin` 用の組み込みのバイパスはありません。通常は `*` のグラントを返すことで、リゾルバーが判断します。
+- グラントはリクエストイベントごとに 1 回解決されます。
+
+### サービスがチェックする内容 {#service-checks}
+
+`MasterSettingService` と `MasterDataService` は自らアクセスを強制するため、独自のルートもチェックされます。各メソッドは `invokeContext` と次のオプションフィールドを持つオプションオブジェクトを受け取ります:
+
+```ts
+interface MasterAccessOptions {
+  invokeContext?: IInvoke
+  scope?: { tenantCode?: string; systemId?: string } // Narrows only (絞り込みのみ)
+  skipAccessCheck?: boolean // Trusted internal work (信頼された内部処理)
+  systemId?: string // Internal callers only, used by copy (内部呼び出し専用、コピーで使用)
+}
+```
+
+リゾルバーが登録されている場合:
+
+1. `skipAccessCheck: true` は通過します。
+2. `invokeContext` のない呼び出しは、読み取りを含め 403 で拒否されます。サーバー側のコードは `invokeContext` を渡すか、信頼された内部処理では `skipAccessCheck: true` を指定する必要があります。
+3. レコードのテナントは、呼び出し元のテナントであるか、読み取りの場合は共通テナントであるか、呼び出し元がクロステナントロールを持っている必要があります。
+4. ログインしていない呼び出し元は書き込みできず、読み取りには `scope.tenantCode` が必要です。
+5. グラントは、レコードの `systemId`（または `shared`）と設定コードをカバーしている必要があります。
+
+一覧エンドポイントはグラントを Prisma の `where` に追加するため、ページネーションと `total` は正しく保たれます。グラントがない場合は空の一覧になります。検索の `systemId` は結果を絞り込むだけです。`checkExistCode` はテナントのみをチェックするため、フォームはユーザーが見ることのできないシステムが所有するコードについても警告できます。
+
+### アクセスエンドポイント {#master-access-endpoint}
+
+`GET /api/master-access` は `enabled` と `grants` を返すため、UI で操作の表示・非表示を切り替えられます。リゾルバーがない場合、`enabled` は false で `grants` は空です。ログインしていない呼び出し元の場合、`enabled` は true、`grants` は空で、リゾルバーは呼び出されません。独自のルートを持つアプリケーションは、`invokeContext` を指定して `MasterAccessService.getAccess` を呼び出せます。
+
+### 既存データのタグ付け {#assign-system}
+
+`MasterSettingService.assignSystem` は、設定コードのタグ付けされていない既存の行に所有システムを設定します:
+
+```ts
+const { updated } = await this.masterSettingService.assignSystem(
+  { code: 'APP_A_ROUTE_TYPE', systemId: 'app-a', tenantCode: 'acme' },
+  { invokeContext },
+)
+```
+
+- リゾルバーと、対象システムおよび `shared` への書き込みアクセスが必要です。`tenantCode` を指定しない場合はすべてのテナントが対象となり、クロステナントロールが必要です。
+- RDS から候補の行（`system_id` が `NULL`）を検索し、最新のコマンドが既に `systemId` を持つ行はスキップして、発行した行数を返します。グループ設定とユーザー設定は変更されません。
+- 組み込みのルートを持たない移行ツールです。コンシューマーがサブスクライブする前に実行し、Lambda のタイムアウト内に収まるようテナント単位で処理を分割してください。
+
+### 共通テナントの行を含める {#include-common}
+
+`MasterSettingService.list`（`GET /api/master-setting/list`）または `MasterDataService.listByRds`（`GET /api/master-data/list`）の検索で `includeCommon: true` を渡すと、呼び出し元のテナントが持たないコードの共通テナントの行が追加されます。デフォルトはオフで、リゾルバーの有無にかかわらず動作します。
+
+- `includeCommon` を指定したマスターデータの一覧では、呼び出し元が共通テナントに属する場合を除き `settingCode` が必要です。
+- テナントが保持できる一致行は、論理削除された行を含めて最大 10,000 件で、それを超えると 400 になります。結果が切り捨てられることはありません。
+- `includeCommon` を指定した設定の一覧では、共通テナントのグループ設定とユーザー設定の行はマージされません。
+
+### RDS の system_id カラム {#rds-system-id}
+
+一覧のアクセスフィルターは RDS マスターテーブルの `system_id` カラムを参照します。NULL 許容のカラムを追加し、RDS ハンドラーで書き込みます:
+
+```prisma
+systemId String? @map("system_id")
+@@index([tenantCode, systemId])
+```
+
+```ts
+update: { /* ... */ systemId: getSystemId(cmd) },
+create: { /* ... */ systemId: getSystemId(cmd) },
+```
+
+新規プロジェクトはテンプレートから両方を取得します。以前に生成したプロジェクトは手動で追加する必要があります。`update-scheme.ts` は既存のスキーマやハンドラーを変更しないためです。このカラムはリゾルバーを使う場合にのみ必要です。カラムを追加し、ハンドラーを更新してデプロイしてから、リゾルバーを登録してください。リゾルバーが登録されていて Prisma の `Master` モデルに `systemId` フィールドがない場合、アプリケーションは起動を拒否します。
+
+### マスターコピーのアクセス {#master-copy-access}
+
+- `controllerAuth` がある場合、`POST /api/master-setting/copy` は `controllerAuth.write` の設定にかかわらず `system_admin` を必要とします。
+- リゾルバーがある場合、`MasterSettingService.copy` は `system_admin` と、`systemId` と `settingCode` がどちらも `*` の書き込みグラントを必要とします。
+- コピーでは、`system_admin` は `custom:roles` クレームから得られたものでなければならず、グループから解決されたロールは考慮されません。別のテナントへのコピーは、`system_admin` がクロステナントロール（`CROSS_TENANT_ROLES`、デフォルト `system_admin`）であることを前提とします。
+- バックグラウンドのコピー処理は `skipAccessCheck` で実行されるため、ユーザーのクレームがなくても動作します。`enableCopyTask` がこれを登録し、デフォルトは `enableController` の値です。
+
+## データベースプロバイダー {#database-provider}
+
+master パッケージと survey template パッケージは、PostgreSQL または MySQL 用の Prisma 検索フィルターを組み立てます。デフォルトではプロバイダーは Prisma クライアントから検出され、検出できない場合は起動時に警告を出して PostgreSQL にフォールバックします。明示的に選択するには `databaseProvider` を設定します:
+
+```ts
+MasterModule.register({
+  enableController: true,
+  prismaService: PrismaService,
+  databaseProvider: 'mysql', // or 'postgresql' (または 'postgresql')
+})
+```
+
+PostgreSQL では部分一致検索に `mode: 'insensitive'` を使用し、MySQL ではデフォルトの大文字小文字を区別しない照合順序に依存します。`registerAsync` を使う場合は、`databaseProvider`、`commonTenantCode`、`controllerAuth` を静的に渡してください。静的な値はファクトリーが返す値を上書きします。
+
+:::warning 既知の問題（v1.8.0で修正）
+v1.8.0 より前のバージョンでは、MySQL（`mbc new` のデフォルトデータベース）で名前・コード・キーワード検索が失敗していました。PostgreSQL 専用の `mode: 'insensitive'` を常に送信していたためです。回避策として dist ファイルにパッチを当てている場合は、アップグレード後にパッチを削除してください。
+
+参照： [変更履歴 v1.8.0](/docs/changelog#v180)
+:::
 
 ## APIリファレンス {#api-reference}
 
@@ -322,11 +522,19 @@ const task = await this.masterSettingService.copy(
 - `DataCopyMode.ALL`: 設定下のすべてのマスターデータをコピー
 - `DataCopyMode.PARTIAL`: 指定されたIDのみをコピー
 
+`controllerAuth` またはアクセスリゾルバーを使う場合、コピーには `system_admin` が必要です（[マスターコピーのアクセス](#master-copy-access)を参照）。
+
+:::warning 既知の問題（v1.8.0で修正）
+v1.8.0 より前のバージョンでは、マスターコピーはコピー元の設定のテナントではなくハードコードされた `meltec` テナントからデータを読み取り、両方のキーがコピー先のテナントから組み立てられていたためシーケンスをコピーしていませんでした。v1.8.0 以降、コピーはコピー元のテナントを読み取り、シーケンスもコピーします。コピー元より遅れているコピー先のシーケンスはコピー元の値まで進み、その間に番号を発行したコピー先が巻き戻されることはありません。
+
+参照： [変更履歴 v1.8.0](/docs/changelog#v180)
+:::
+
 ### マスターデータサービス
 MasterDataService サービスは、マスターデータと操作を管理するためのメソッドを提供します。これには、リスト、取得、作成、更新、削除、および特定のコードの存在確認が含まれます。
 
 #### `list(searchDto: MasterDataSearchDto): Promise<MasterDataListEntity>`
-指定された検索条件に基づいてマスターデータをリストします。注: このメソッドはinvokeコンテキストを必要としません。
+指定した検索条件に基づいてマスターデータを一覧表示します。アクセスリゾルバーがない場合、このメソッドに invoke context は不要です。リゾルバーが登録されている場合は、第 2 引数に `invokeContext`（または `skipAccessCheck: true`）を渡します。呼び出し元が読み取れない行は除外されます（[サービスがチェックする内容](#service-checks)を参照）。
 ```ts
 const masterData = await this.masterDataService.list({
   tenantCode: "mbc",
@@ -534,6 +742,8 @@ const result = await this.masterDataService.listByRds(
 | `pageSize` | `number` | いいえ | - | 1ページあたりの項目数（デフォルト: 10） |
 | `orderBys` | `string[]` | いいえ | - | ソート順（デフォルト: ["seq", "masterCode"]） |
 | `isDeleted` | `boolean` | いいえ | 完全一致 | 削除ステータスでフィルタ |
+| `systemId` | `string` | いいえ | 完全一致（大文字小文字を区別しない） | 結果を 1 つのシステムに絞り込みます。アクセスリゾルバーを使う場合のみ使用されます |
+| `includeCommon` | `boolean` | いいえ | - | テナントが持たないコードの共通テナントの行を追加します（[共通テナントの行を含める](#include-common)を参照） |
 
 :::warning 既知の問題（v1.0.17で修正済み）
 v1.0.17より前のバージョンでは、`settingCode` パラメータが誤って完全一致ではなく部分一致（`contains`）を使用していました。これにより意図しない検索結果が返される問題がありました。例えば、「PRODUCT」を検索すると「PRODUCT_TYPE」や「MY_PRODUCT」も返されていました。
@@ -676,6 +886,12 @@ const requestBody = {
 
 レスポンスは元の入力順序を保持します。テナントコードバリデーションが適用されます：アイテムに`tenantCode`が指定されている場合、認証ユーザーのテナントと一致する必要があります。
 
+このエンドポイントはまずすべての設定を upsert し、その後にデータ行を upsert するため、データ行は同じリクエストで作成された設定を使用できます。最初の書き込みの前に、すべての項目のキーが検証されます。
+
+:::warning アトミックではありません
+一括リクエストは設定とデータにまたがってアトミックではありません。アクセスリゾルバーが登録されている場合、データ項目のアクセスチェックは設定の書き込み後に実行されるため、禁止されたデータ項目があるとリクエストは 403 で失敗し、同じリクエストの設定は書き込まれたまま残ります。v1.8.0 以降は設定がデータより先に upsert されます。以前のバージョンでは両方を同時に upsert していました。
+:::
+
 #### リクエストボディ
 
 | フィールド | 型 | 必須 | 説明 |
@@ -691,6 +907,7 @@ const requestBody = {
 | `tenantCode` | `string` | いいえ | テナントコード（指定する場合は認証ユーザーのテナントと一致する必要があります） |
 | `settingCode` | `string` | いいえ | 存在する場合はマスターデータ、存在しない場合はマスター設定として扱われます |
 | `seq` | `number` | いいえ | ソート順序（マスターデータで使用） |
+| `systemId` | `string` | いいえ | 新しい設定の所有システム（設定のみ。アクセスリゾルバーを使う場合のみ使用） |
 | `attributes` | `object` | はい | 属性オブジェクト。設定の場合、settingValueとして使用されます |
 
 ### Upsert動作の詳細 {#upsert-behavior}
@@ -717,3 +934,5 @@ upsertメソッドは以下のルールに従います：
 - [設定](/docs/configuring) - シーケンスローテーション設定
 - [サービスパターン](/docs/service-patterns) - マスターデータサービスパターン
 - [マスターWeb](/docs/master-web) - フロントエンドのマスターデータ管理
+- [マイグレーションガイド v1.8.0](/docs/migration/v1.8.0) - v1.8.0 のマスター関連の変更に関するアップグレードガイド
+- [Master data access control and per-system sync（マスターデータのアクセス制御とシステム単位の同期）](https://github.com/mbc-net/mbc-cqrs-serverless/blob/main/docs/development/master-access-and-sync.md) - フレームワークガイド

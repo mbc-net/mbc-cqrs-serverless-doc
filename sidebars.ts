@@ -231,6 +231,7 @@ const sidebars: SidebarsConfig = {
       type: "category",
       label: "Migration Guides",
       items: [
+        "migration/v1.8.0",
         "migration/v1.7.0",
         "migration/v1.6.0",
         "migration/v1.3.1",

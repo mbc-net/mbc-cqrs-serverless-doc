@@ -40,11 +40,22 @@ import { Module } from '@nestjs/common';
     SurveyTemplateModule.register({
       enableController: true,  // Enable REST API endpoints
       prismaService: PrismaService,  // Required when enableController is true
+      // databaseProvider: 'mysql',  // Optional: 'postgresql' or 'mysql' (default: detected from the Prisma client)
     }),
   ],
 })
 export class AppModule {}
 ```
+
+### Database Provider {#database-provider}
+
+Template searches build Prisma filters for PostgreSQL or MySQL. By default the provider is detected from the Prisma client, falling back to PostgreSQL with a startup warning when it cannot be detected. Set `databaseProvider` to `'postgresql'` or `'mysql'` in `SurveyTemplateModule.register` (or `registerAsync`) to choose it explicitly. See [Master: Database Provider](/docs/master#database-provider).
+
+:::warning Known Issue (Fixed in v1.8.0)
+In versions prior to v1.8.0, keyword searches failed on MySQL because they always sent the PostgreSQL-only `mode: 'insensitive'`. If you patched the dist files to work around this, remove the patch after upgrading.
+
+See also: [Changelog v1.8.0](/docs/changelog#v180)
+:::
 
 ## API Endpoints {#api-endpoints}
 
