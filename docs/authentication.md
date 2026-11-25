@@ -20,6 +20,26 @@ description: {{Learn how to use and customize authentication and authorization.}
 
 {{We recommend you use [AWS Amplify](https://docs.amplify.aws/nextjs/) to integrate Amazon Cognito with your web and mobile apps. <br/> Once authenticated, the server will issue a JWT that can be sent as a [bearer token](https://datatracker.ietf.org/doc/html/rfc6750) in an authorization header on subsequent requests to prove authentication.}}
 
+## {{App Client Write Permissions}} {#app-client-write-attributes}
+
+{{Configure the Cognito app client with an explicit allowlist that permits users to write only `name`. Authorization attributes such as `custom:roles`, `custom:tenant` and `custom:groups` must be managed server-side with `AdminUpdateUserAttributes` after checking the caller's permission.}}
+
+```ts
+const userPoolClient = new cdk.aws_cognito.UserPoolClient(this, 'apigw-client', {
+  userPool,
+  authFlows: { userPassword: true, userSrp: true },
+  writeAttributes: new cdk.aws_cognito.ClientAttributes().withStandardAttributes({
+    fullname: true,
+  }),
+})
+```
+
+:::warning {{Known Issue (Fixed in v1.8.1)}}
+{{Before v1.8.1, the CLI template omitted `writeAttributes`. Signed-in users could update authorization attributes with their own access token, granting themselves roles, changing tenant or joining privileged groups. The fix changes the template only: existing projects must edit and deploy their own stack, review frontend writes and audit all users. Upgrading packages alone is insufficient.}}
+
+{{See [Changelog v1.8.1](/docs/changelog#v181) and [Migration Guide v1.8.1](/docs/migration/v1.8.1) for ECS permissions, temporary remediation and audit steps.}}
+:::
+
 ## {{Authorization}} {#authorization}
 
 {{Once a user is authenticated, you can implement authorization to control what the user can access and do within your application. Authorization is orthogonal and independent from authentication. However, authorization requires an authentication mechanism. <br/> We use optimistic types of authorization check: Checks if the user is authorized to access a route or perform an action using the session data stored in the cookie. Specifically, we implement Role-Based Access Control (RBAC).}}

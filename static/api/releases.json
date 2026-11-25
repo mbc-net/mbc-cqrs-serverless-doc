@@ -1,33 +1,27 @@
 {
   "latest": {
-    "version": "1.8.0",
-    "date": "2026-11-15",
-    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.8.0",
-    "breakingChanges": [
-      "Key segments are now validated for every application. A setting code, the `settingCode` and `code` of master data, and the `userId` and `groupId` of group and user settings must be non-empty and must not contain `#` or `@`, and a setting code must not be `MASTER_SETTING`. Otherwise every create, upsert and bulk request, `getSetting` (`GET /api/master-setting/:code`) and `MasterDataService.list` (`GET /api/master-data`) return 400. Updates and deletes by key (`PATCH`/`DELETE /api/master-setting/:pk/:sk`, `PUT`/`DELETE /api/master-data/:pk/:sk`) also reject a sort key that contains `@`. Rows already stored with `@` in their key are therefore no longer reachable through the API and must be re-created under a valid key",
-      "Setting rows and data rows are now changed only through their own routes. `PUT`/`DELETE /api/master-data/:pk/:sk` (`MasterDataService.update`/`delete`) reject a `MASTER_SETTING#...` key, and `PATCH`/`DELETE /api/master-setting/:pk/:sk` (`MasterSettingService.updateSetting`/`deleteSetting`) reject a key that is not `MASTER_SETTING#` followed by a code. Group and user keys such as `MASTER_SETTING#USER#u1#S1` are still accepted",
-      "Master copy is restricted to system administrators. With `controllerAuth` set, `POST /api/master-setting/copy` requires the `system_admin` role from the `custom:roles` claim; roles in `controllerAuth.write` and group-derived roles do not allow it. With an access resolver registered, `MasterSettingService.copy` also requires a write grant whose `systemId` and `settingCode` are both `*`",
-      "`POST /api/master-bulk` now upserts the settings first and the data rows after, instead of both at once, so data rows can use a setting created in the same request. The keys of every item are validated before the first write, but the request is not atomic across settings and data: with an access resolver registered, the access checks of the data items run after the settings are written, so a forbidden data item fails the request and leaves the settings written",
-      "`GET /api/tasks/sfn-task-parent` now resolves the tenant like the rest of the framework: the `custom:tenant` claim wins over the `x-tenant-code` header. It used to read a `custom:tenant_code` claim that nobody sets, so it always took the tenant from the header"
-    ],
-    "features": [
-      "Add the opt-in `controllerAuth` module option, which guards the built-in master routes. Reads need a role in `read` (default: any logged-in user), writes need a role in `write` (default: `system_admin`), and the requested tenant must be the caller's tenant unless the request only reads the common tenant or the caller has a cross-tenant role. Without it the routes stay unguarded and the module logs a startup warning",
-      "Scope master data per system. A master setting can carry a `systemId` (stored in lower case; `shared` is reserved for data every system receives), and its data rows inherit it. Register one class with `@MasterAccessResolver()` to grant read and write per system and per setting. The services then check the grants in every method, and the list endpoints filter in the SQL query, so pagination and totals stay correct",
-      "Add `GET /api/master-access`, which tells a UI whether access control is enabled and returns the caller's grants, and `MasterSettingService.assignSystem`, which tags existing untagged rows of a setting code with a `systemId`",
-      "Add `includeCommon` to the master setting and master data list searches. It adds the common tenant's rows whose code the caller's tenant does not have",
-      "Add the `commonTenantCode` module option (the tenant that holds common master data, default `common`) and the `enableCopyTask` module option (registers the master copy handler, default: the value of `enableController`)",
-      "Add a nullable `system_id` column to the RDS master table of the project template, written by the template's RDS handler, and return `systemId` at the top level of API responses",
-      "Add the `databaseProvider` module option (`postgresql` or `mysql`). By default it is detected from the Prisma client"
-    ],
-    "bugFixes": [
-      "Master copy now reads data from the source setting's tenant. It used to read from a hard-coded `meltec` tenant",
-      "Master copy now copies sequences. Both keys used to be built from the target tenant, so nothing was ever copied. A target sequence behind the source jumps to the source's value; the write is conditional, so a target that issued numbers in the meantime is never moved back",
-      "Name, code and keyword searches failed on MySQL, the default database of `mbc new`, because they always sent the PostgreSQL-only `mode: 'insensitive'`. The setting description search used a JSON path that fit neither database; it now uses `['description']` on PostgreSQL and `'$.description'` on MySQL",
-      "A setting update that omits `settingValue` no longer clears the setting's attributes, one that omits `name` keeps the name, and a master data update that omits `seq` keeps it"
-    ],
-    "security": []
+    "version": "1.8.1",
+    "date": "2026-11-25",
+    "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.8.1",
+    "breakingChanges": [],
+    "features": [],
+    "bugFixes": [],
+    "security": [
+      "Restrict the generated Cognito app client to writing only `name`. Previously a signed-in user could rewrite `custom:roles`, `custom:tenant` and `custom:groups` with their own access token. Grant the ECS task role the same Cognito admin actions as Lambda for server-side user management."
+    ]
   },
   "recent": [
+    {
+      "version": "1.8.1",
+      "date": "2026-11-25",
+      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.8.1",
+      "breakingChanges": [],
+      "features": [],
+      "bugFixes": [],
+      "security": [
+        "Restrict the generated Cognito app client to writing only `name`. Previously a signed-in user could rewrite `custom:roles`, `custom:tenant` and `custom:groups` with their own access token. Grant the ECS task role the same Cognito admin actions as Lambda for server-side user management."
+      ]
+    },
     {
       "version": "1.8.0",
       "date": "2026-11-15",
@@ -84,24 +78,7 @@
         "Clear high and critical advisories in production dependencies: proxy-addr 2.0.8, body-parser 1.20.9 / 2.4.0, multer 2.5.0, nodemailer 10.3.1, @modelcontextprotocol/sdk 1.32.2, zod 4.6.7",
         "The CLI project template's dependency overrides now also pin proxy-addr 2.0.8, body-parser 1.20.9 / 2.4.0 and multer 2.5.0, so newly scaffolded projects no longer ship these advisories. The `qs` override, in the framework and the template, moves to `^6.16.1`, the minimum that the patched body-parser and express 5 require"
       ]
-    },
-    {
-      "version": "1.5.0",
-      "date": "2026-09-24",
-      "url": "https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.5.0",
-      "breakingChanges": [
-        "Replace LocalStack with Floci (`floci/floci:1.6.0`) as the local S3 emulator in the scaffolded local development stack. LocalStack Community Edition reached end of life in March 2026. Floci serves S3 on the same port (`4566`) with path-style addressing, so application code and `.env` values do not change, and deployed environments are not affected"
-      ],
-      "features": [
-        "`DirectoryService` methods now take `ICommandOptions` instead of an options type that only allowed `invokeContext`, so callers can pass `source` and `requestId` through to the command for tracing. Backward compatible: `invokeContext` is still the only required field"
-      ],
-      "bugFixes": [
-        "Fix `mbc new` failing at dependency installation with `EOVERRIDE: Override for js-yaml@^4.1.0 conflicts with direct dependency` (broken since v1.3.5). The template's `js-yaml` override now references the direct dependency, which moves to `^4.3.2` and also clears a high-severity `js-yaml` advisory",
-        "Fix `npm run migrate` in newly scaffolded projects. Prisma does not expand the `:-` default syntax used for `LOCAL_RDS_PORT` in `DATABASE_URL` (`P1013`), and `prisma/ddb.ts` did not expand the endpoint variables at all (`Invalid URL`). Existing projects can apply the same fix: reference `LOCAL_RDS_PORT` without a `:-` default in `DATABASE_URL`, and load `.env` in `prisma/ddb.ts` with `expand(dotenv.config())` from `dotenv-expand`",
-        "Ship the Claude Code skills in the published npm package. They were missing from the package, so `mbc install-skills` and the manual `cp -r node_modules/@mbc-cqrs-serverless/mcp-server/skills/*` step could not find them"
-      ],
-      "security": []
     }
   ],
-  "generated": "2026-11-15T07:24:11.808Z"
+  "generated": "2026-11-25T04:20:13.844Z"
 }
