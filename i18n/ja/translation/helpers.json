@@ -130,5 +130,8 @@
   "Authentication": "認証",
   "JWT claims and role-based access in UserContext": "UserContextにおけるJWTクレームとロールベースアクセス",
   "Direct roles for the active tenant (excludes group-derived roles)": "Direct roles for the active tenant (excludes group-derived roles) (アクティブテナントの直接ロール、グループ由来ロールを除く)",
-  "Group IDs from custom:groups for the active tenant": "Group IDs from custom:groups for the active tenant (custom:groups由来のグループID)"
+  "Group IDs from custom:groups for the active tenant": "Group IDs from custom:groups for the active tenant (custom:groups由来のグループID)",
+  "Explicit Selection and User Context": "明示的な選択とユーザーコンテキスト",
+  "`getUserContext()` applies the same explicit tenant selection as `RolesGuard`. The opt-in defaults to disabled. An eligible opted-in header can select a tenant different from `custom:tenant`; returned direct roles and group IDs belong to the selected tenant, with `system_admin` authority preserved. An unauthorized wildcard or literal wildcard selection resolves `tenantCode` to `undefined` and clears scoped roles/groups; services must not treat an unresolved tenant as a default tenant.": "`getUserContext()` は `RolesGuard` と同じ明示的テナント選択を適用します。既定ではオプトインは無効です。条件を満たす対象ヘッダーは `custom:tenant` と異なるテナントを選択でき、返される直接ロールとグループ ID は選択先に属し、`system_admin` 権限は維持されます。未許可のワイルドカードまたはリテラルのワイルドカード選択では `tenantCode` が `undefined` となり、スコープのロールとグループは空になります。サービスで未解決のテナントを既定テナントとして扱わないでください。",
+  "Added in [v1.8.2](/docs/changelog#v182). See [selection eligibility, named fallback and wildcard denial](/docs/authentication#explicit-tenant-selection) and [Migration Guide v1.8.2](/docs/migration/v1.8.2).": "[v1.8.2](/docs/changelog#v182)で追加されました。[選択条件、名前指定のフォールバックとワイルドカード拒否](/docs/authentication#explicit-tenant-selection)および[移行ガイド v1.8.2](/docs/migration/v1.8.2)を参照してください。"
 }

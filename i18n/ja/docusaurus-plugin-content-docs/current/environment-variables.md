@@ -38,8 +38,17 @@ MBC CQRS サーバーレスフレームワークには、環境変数を `.env*`
 
 | 変数 | 説明 | 必須 | デフォルト | 例 |
 |-------------|-----------------|--------------|-------------|-------------|
+| `EXPLICIT_TENANT_SELECTION_CODES` | 認可付きテナントヘッダー選択のための名前指定と任意のワイルドカード | いいえ | 空（無効） | `common,*` |
 | `COMMON_TENANT_CODES` | テナント間で共通／共有として扱うテナントコードのカンマ区切りリスト | いいえ | `common` | `common,shared,public` |
 | `CROSS_TENANT_ROLES` | テナント横断アクセスを許可するロールのカンマ区切りリスト | いいえ | `system_admin` | `system_admin,general_manager` |
+
+### 明示的なテナント選択 {#explicit-tenant-selection}
+
+`EXPLICIT_TENANT_SELECTION_CODES` は任意のカンマ区切りのランタイム設定で、既定は空（無効）です。名前指定には `common`、common の名前指定と他の対象には `common,*` を使用します。前後の空白と重複を除去して小文字化し、空のエントリは無視します。クライアントが未選択時にテナントヘッダーを省略するようになってから有効にしてください。
+
+このオプトインは `COMMON_TENANT_CODES`（既定 `common`）と `CROSS_TENANT_ROLES`（既定 `system_admin`）とは独立しており、既定値は変わりません。カスタムガードとパッケージ固有のポリシーも適用されます。特に master パッケージのオプションのアクセスポリシーは、core が選択を許可しても、ホームテナントがない呼び出し元による common 以外へのアクセスを独立して拒否する場合があります。
+
+[v1.8.2](/docs/changelog#v182)で追加されました。[認可とフォールバックのルール](/docs/authentication#explicit-tenant-selection)と[移行手順](/docs/migration/v1.8.2)を参照してください。
 
 ### Read-Your-Writes（RYW）設定 {#ryw-session-configuration}
 
@@ -164,6 +173,7 @@ EVENT_SOURCE_DISABLED=false
 REQUEST_BODY_SIZE_LIMIT=100kb
 
 # マルチテナント設定
+# EXPLICIT_TENANT_SELECTION_CODES=
 # COMMON_TENANT_CODES=common
 # CROSS_TENANT_ROLES=system_admin
 
@@ -253,7 +263,6 @@ export const handler = createHandler({
   envCls: EnvValidation,
 });
 ```
-
 
 ## 関連ドキュメント
 

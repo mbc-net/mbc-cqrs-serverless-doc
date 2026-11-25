@@ -181,6 +181,12 @@ const userContext = getUserContext(invokeContext);
 // {{Returns:}} { userId: '...', tenantCode: 'mbc', tenantRole: 'admin', tenantRoles: ['admin'], tenantGroupIds: [] }
 ```
 
+#### {{Explicit Selection and User Context}} {#explicit-tenant-context}
+
+{{`getUserContext()` applies the same explicit tenant selection as `RolesGuard`. The opt-in defaults to disabled. An eligible opted-in header can select a tenant different from `custom:tenant`; returned direct roles and group IDs belong to the selected tenant, with `system_admin` authority preserved. An unauthorized wildcard or literal wildcard selection resolves `tenantCode` to `undefined` and clears scoped roles/groups; services must not treat an unresolved tenant as a default tenant.}}
+
+{{Added in [v1.8.2](/docs/changelog#v182). See [selection eligibility, named fallback and wildcard denial](/docs/authentication#explicit-tenant-selection) and [Migration Guide v1.8.2](/docs/migration/v1.8.2).}}
+
 ### `extractInvokeContext(ctx?: ExecutionContext): IInvoke`
 
 {{Extracts the invocation context from a NestJS execution context. Supports both Lambda and local development environments.}}

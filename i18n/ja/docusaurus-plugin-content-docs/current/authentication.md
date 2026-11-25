@@ -144,7 +144,7 @@ import { ExecutionContext } from "@nestjs/common";
 
 :::tip
 
-`getUserContext` 関数は `@mbc-cqrs-serverless/core` から提供されています。`custom:tenant` クレームから `tenantCode` を自動的に抽出し、`custom:roles` JSON配列内のテナントとマッチングして `tenantRole` を決定します。
+ガードとサービスが同じテナント選択とスコープ別のロール・グループ解決を使用するよう、core の `getUserContext()` を使用してください。既定では JWT のホームテナントが優先され、明示的な選択のオプトインは以下で説明します。
 
 :::
 
@@ -156,79 +156,7 @@ import { ExecutionContext } from "@nestjs/common";
 **参照:** マイグレーション戦略については[テナントコード正規化マイグレーション](/docs/data-migration-patterns#tenant-code-normalization-migration)を参照してください。
 :::
 
-カスタムロジックが必要な場合は、独自のヘルパー関数を実装できます：
-
-```ts
-import {
-  extractInvokeContext,
-  getAuthorizerClaims,
-  HEADER_TENANT_CODE,
-  IInvoke,
-  CustomRole,
-} from "@mbc-cqrs-serverless/core";
-import { ExecutionContext } from "@nestjs/common";
-
-interface UserContext {
-  userId: string;
-  tenantRole: string;
-  tenantCode: string;
-}
-
-export const getCustomUserContext = (
-  ctx: IInvoke | ExecutionContext
-): UserContext => {
-  if ("getHandler" in ctx) {
-    ctx = extractInvokeContext(ctx);
-  }
-  const claims = getAuthorizerClaims(ctx);
-
-  const userId = claims.sub;
-  // Normalize tenant code to lowercase for case-insensitive matching (大文字小文字を区別しないマッチングのため小文字に正規化)
-  const tenantCode = (
-    claims["custom:tenant"] ||
-    (ctx?.event?.headers || {})[HEADER_TENANT_CODE]
-  )?.toLowerCase();
-
-  // Parse roles from JSON array and find matching tenant role (JSON配列からロールをパースし、マッチするテナントロールを見つける)
-  const roles = (
-    JSON.parse(claims["custom:roles"] || "[]") as CustomRole[]
-  ).map((role) => ({ ...role, tenant: (role.tenant || "").toLowerCase() }));
-
-  let tenantRole = "";
-  for (const { tenant, role } of roles) {
-    if (tenant === "" || tenant === tenantCode) {
-      tenantRole = role;
-      if (tenant !== "") {
-        break;
-      }
-    }
-  }
-
-  return {
-    userId,
-    tenantRole,
-    tenantCode,
-  };
-};
-```
-
-最後に現在のユーザーに割り当てられているロールと現在処理中のルートで必要なロールを比較するカスタムロールガードクラスを作成します。
-
-```ts
-import { RolesGuard } from "@mbc-cqrs-serverless/core";
-import { ExecutionContext, Injectable } from "@nestjs/common";
-
-import { getCustomUserContext } from "./user.context";
-
-@Injectable()
-export class CustomRoleGuard extends RolesGuard {
-  protected async verifyTenant(context: ExecutionContext): Promise<boolean> {
-    const userContext = getCustomUserContext(context);
-
-    return !!userContext.tenantCode;
-  }
-}
-```
+テナント検証を拡張する場合は `super.verifyTenant(context)` を維持し、その後にアプリケーションの検証を追加してください。ヘッダーを無条件に信頼するヘルパーで core のテナント解決を置き換えないでください。
 
 ## グループベースのロール {#group-based-roles}
 
@@ -285,6 +213,38 @@ export class AppGroupRoleResolver implements IGroupRoleResolver {
 - **ロール名は大文字小文字を区別** — `custom:roles` のロール名の大文字小文字を `@Roles(...)` の値と一致させてください。
 :::
 
+## 明示的なテナント選択（オプトイン） {#explicit-tenant-selection}
+
+既定では JWT の `custom:tenant` が `x-tenant-code` より優先されます。`EXPLICIT_TENANT_SELECTION_CODES=common` を設定すると、条件を満たす呼び出し元が `common` を明示的に選択できます。他の空でないテナントコードも対象にする場合は `common,*` を使用します。既定値は空（無効）で、リクエスト時に読み取られます。
+
+```bash
+EXPLICIT_TENANT_SELECTION_CODES=common,*
+```
+
+選択には、対象テナントの `custom:roles` に空でない直接ロールがあるか、いずれかのテナントまたはグローバルエントリに `system_admin` が必要です。グループ所属だけ、または無関係なグローバルの `admin` ロールだけでは選択できません。テナント選択後もルートのロール検証が適用されます。
+
+許可された明示的選択では、`tenantCode`、`tenantRole`、`tenantRoles`、`tenantGroupIds` は選択先テナントを表します。そのテナントの直接ロールとグループ ID のみを使用し、`admin` などの無関係なグローバルロールは引き継ぎません。どのスコープの `system_admin` も `tenantRoles` に維持され、`tenantRole` では優先されます。グループリゾルバーには選択先テナントとそのグループが渡されます。
+
+| リクエスト | 解決結果 |
+|---|---|
+| 名前指定の対象、条件を満たす呼び出し元 | JWT のホームと異なる場合もヘッダーのテナントを選択 |
+| 名前指定の対象、条件を満たさない呼び出し元 | JWT のホームを維持。ホームがなければテナント未解決 |
+| ワイルドカード対象、条件を満たさない呼び出し元 | テナント未解決として拒否。ホームへフォールバックしない |
+| 有効時にヘッダーなし、空、または空白 | ホームを維持。ホームがなければ拒否 |
+| 有効時にリテラルの `*` ヘッダー | `system_admin` でも拒否 |
+
+設定順に関係なく、名前指定は `*` より優先されます。そのため `common,*` は名前指定の `common` の互換フォールバックを維持しますが、`*` のみでは `common` もワイルドカード対象となり、選択条件が必要です。`RolesGuard` はロールメタデータのないルートでもテナント未解決を拒否します。
+
+設定値はカンマ区切りで、前後の空白と重複を除去し、大文字小文字を区別しません。空のエントリは無視します。オプトイン対象のヘッダー値と、それに対応するロール・グループのテナントコードは前後の空白を除去して小文字化します。対象外のヘッダーは従来の正規化を維持します。
+
+設定を有効にする前に、テナント未選択時は `x-tenant-code` を送信しないクライアントを先にデプロイしてください。条件を満たす呼び出し元にとって、以前に固定送信していた `common` も含め、対象ヘッダーは明示的な選択になります。ホームの admin でも選択先が user なら選択先の user 権限のみとなり、ホームの user でも選択先が admin なら選択先の admin 権限となります。
+
+このオプトインは `COMMON_TENANT_CODES`（既定 `common`）と `CROSS_TENANT_ROLES`（既定 `system_admin`）とは独立しており、既定値は変わりません。カスタムガードとパッケージ固有のポリシーも適用されます。特に master パッケージのオプションのアクセスポリシーは、core が選択を許可しても、ホームテナントがない呼び出し元による common 以外へのアクセスを独立して拒否する場合があります。
+
+:::info バージョン情報
+明示的なテナント選択は[バージョン 1.8.2](/docs/changelog#v182)で追加されました。[移行ガイド v1.8.2](/docs/migration/v1.8.2)、[環境変数設定](/docs/environment-variables#explicit-tenant-selection)、[コンテキストヘルパー](/docs/helpers#explicit-tenant-context)を参照してください。
+:::
+
 ## テナント検証 {#tenant-verification}
 
 `RolesGuard`にはテナント検証用の拡張可能なメソッドが含まれており、クロステナントアクセスの動作をカスタマイズできます。
@@ -299,26 +259,14 @@ export class AppGroupRoleResolver implements IGroupRoleResolver {
 
 | メソッド | 説明 | デフォルト動作 |
 |------------|-----------------|----------------------|
-| `isHeaderOverride()` | テナントコードがヘッダーからのものかを検出 | JWTに`custom:tenant`クレームが存在せず、テナントコードが指定されている場合にtrueを返す |
-| `canOverrideTenant()` | ユーザーがテナントをオーバーライドできるかチェック | 共通テナントコードの場合、またはクロステナントロール（例: system_admin）を持つユーザーの場合にtrueを返す |
+| `isHeaderOverride()` | テナントコードがヘッダーからのものかを検出 | 空でない解決済みテナントが JWT のホームテナントと異なる場合に true を返す |
+| `canOverrideTenant()` | ユーザーがテナントをオーバーライドできるかチェック | 検証済みの明示的選択を許可し、それ以外は従来の common テナントまたはクロステナントロールのポリシーを使用 |
 | `getCommonTenantCodes()` | 共通テナントコードのリストを取得 | commonまたはCOMMON_TENANT_CODES環境変数の値を返す |
 | `getCrossTenantRoles()` | クロステナントアクセス可能なロールを取得 | system_adminまたはCROSS_TENANT_ROLES環境変数の値を返す |
 
 ### セキュリティ: テナントコードヘッダーオーバーライド {#tenant-code-header-security}
 
-デフォルトでは、`system_admin`ロールを持つユーザーのみが`x-tenant-code`ヘッダーでテナントコードをオーバーライドできます。これにより、不正なクロステナントアクセスを防止します。
-
-```ts
-// Default behavior in RolesGuard (RolesGuardのデフォルト動作)
-protected canOverrideTenant(context: ExecutionContext, userContext: UserContext): boolean {
-  // Allow access to common tenant codes (e.g., 'common') (共通テナントコードへのアクセスを許可（例: 'common'）)
-  if (this.getCommonTenantCodes().includes(userContext.tenantCode)) {
-    return true;
-  }
-  // Allow users with cross-tenant roles (e.g., system_admin) (クロステナントロールを持つユーザーを許可（例: system_admin）)
-  return this.getCrossTenantRoles().includes(userContext.tenantRole);
-}
-```
+明示的な選択が無効な場合、JWT のホームテナントがヘッダーより優先されます。ホームと一致しないヘッダー由来のテナントには、従来の common テナントまたはクロステナントロールの検証が適用されます。明示的な選択が有効な場合、core は選択先に対する直接所属または `system_admin` 権限を先に検証し、[上記のルール](/docs/authentication#explicit-tenant-selection)を適用します。
 
 :::warning セキュリティ注意
 v1.1.0より前のバージョンでは、`custom:tenant` Cognito属性を持たないユーザーが`x-tenant-code`ヘッダー経由で任意のテナントを指定でき、他のテナントのデータにアクセスできる可能性がありました。このセキュリティ問題はv1.1.0で修正されました。

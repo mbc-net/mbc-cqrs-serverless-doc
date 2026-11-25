@@ -144,7 +144,7 @@ import { ExecutionContext } from "@nestjs/common";
 
 :::tip
 
-{{The `getUserContext` function is provided by `@mbc-cqrs-serverless/core`. It automatically extracts `tenantCode` from `custom:tenant` claim and determines `tenantRole` by matching the tenant in the `custom:roles` JSON array.}}
+{{Use the core `getUserContext()` helper so guards and services share tenant selection and scoped role/group resolution. By default the JWT home tenant wins; the explicit selection opt-in is described below.}}
 
 :::
 
@@ -156,79 +156,7 @@ import { ExecutionContext } from "@nestjs/common";
 {{**See also:** [Tenant Code Normalization Migration](/docs/data-migration-patterns#tenant-code-normalization-migration) for migration strategies.}}
 :::
 
-{{If you need custom logic, you can implement your own helper function:}}
-
-```ts
-import {
-  extractInvokeContext,
-  getAuthorizerClaims,
-  HEADER_TENANT_CODE,
-  IInvoke,
-  CustomRole,
-} from "@mbc-cqrs-serverless/core";
-import { ExecutionContext } from "@nestjs/common";
-
-interface UserContext {
-  userId: string;
-  tenantRole: string;
-  tenantCode: string;
-}
-
-export const getCustomUserContext = (
-  ctx: IInvoke | ExecutionContext
-): UserContext => {
-  if ("getHandler" in ctx) {
-    ctx = extractInvokeContext(ctx);
-  }
-  const claims = getAuthorizerClaims(ctx);
-
-  const userId = claims.sub;
-  // {{Normalize tenant code to lowercase for case-insensitive matching}}
-  const tenantCode = (
-    claims["custom:tenant"] ||
-    (ctx?.event?.headers || {})[HEADER_TENANT_CODE]
-  )?.toLowerCase();
-
-  // {{Parse roles from JSON array and find matching tenant role}}
-  const roles = (
-    JSON.parse(claims["custom:roles"] || "[]") as CustomRole[]
-  ).map((role) => ({ ...role, tenant: (role.tenant || "").toLowerCase() }));
-
-  let tenantRole = "";
-  for (const { tenant, role } of roles) {
-    if (tenant === "" || tenant === tenantCode) {
-      tenantRole = role;
-      if (tenant !== "") {
-        break;
-      }
-    }
-  }
-
-  return {
-    userId,
-    tenantRole,
-    tenantCode,
-  };
-};
-```
-
-{{Finally, we create a CustomRoleGuard class which will compare the roles assigned to the current user to the actual roles required by the current route being processed.}}
-
-```ts
-import { RolesGuard } from "@mbc-cqrs-serverless/core";
-import { ExecutionContext, Injectable } from "@nestjs/common";
-
-import { getCustomUserContext } from "./user.context";
-
-@Injectable()
-export class CustomRoleGuard extends RolesGuard {
-  protected async verifyTenant(context: ExecutionContext): Promise<boolean> {
-    const userContext = getCustomUserContext(context);
-
-    return !!userContext.tenantCode;
-  }
-}
-```
+{{When extending tenant verification, preserve `super.verifyTenant(context)` and add application checks after it. Do not replace core tenant resolution with a helper that always trusts a header.}}
 
 ## {{Group-Based Roles}} {#group-based-roles}
 
@@ -285,6 +213,38 @@ export class AppGroupRoleResolver implements IGroupRoleResolver {
 - {{**Case-sensitive roles** — keep the role casing in `custom:roles` consistent with your `@Roles(...)` values.}}
 :::
 
+## {{Explicit Tenant Selection (Opt-in)}} {#explicit-tenant-selection}
+
+{{By default, the JWT `custom:tenant` takes priority over `x-tenant-code`. Set `EXPLICIT_TENANT_SELECTION_CODES=common` to allow eligible callers to explicitly select `common`; use `common,*` to include other nonempty tenant codes. The setting defaults to empty (disabled) and is read at request time.}}
+
+```bash
+EXPLICIT_TENANT_SELECTION_CODES=common,*
+```
+
+{{Selection requires a nonempty direct `custom:roles` role for the target tenant, or `system_admin` in any tenant or global entry. Group membership alone and an unrelated global `admin` role do not qualify the caller. Route role checks still apply after tenant selection.}}
+
+{{For an eligible explicit selection, `tenantCode`, `tenantRole`, `tenantRoles` and `tenantGroupIds` refer to the selected tenant. Only that tenant's direct roles and group IDs are used; unrelated global roles such as `admin` are not inherited. A `system_admin` entry from any scope is preserved in `tenantRoles` and takes priority in `tenantRole`. The group resolver receives the selected tenant and its groups.}}
+
+| {{Request}} | {{Resolved behavior}} |
+|---|---|
+| {{Named target, eligible caller}} | {{Select the header tenant, even when the JWT home differs}} |
+| {{Named target, caller not eligible}} | {{Keep the JWT home; without a home, resolve no tenant}} |
+| {{Wildcard-selected target, caller not eligible}} | {{Resolve no tenant and deny; never fall back to the home}} |
+| {{Missing, empty or whitespace header while enabled}} | {{Keep the home; without a home, deny}} |
+| {{Literal `*` header while enabled}} | {{Reject even for `system_admin`}} |
+
+{{Named entries take precedence over `*`, regardless of configuration order. Therefore `common,*` preserves the named `common` compatibility fallback, while `*` alone treats `common` as a wildcard target and requires eligibility. `RolesGuard` denies unresolved tenants even on routes with no role metadata.}}
+
+{{Configuration entries are comma-separated, trimmed, case-insensitive and deduplicated; empty entries are ignored. Opted-in header values and matching role/group tenant codes are trimmed and lowercased. Headers outside the opt-in list keep legacy normalization.}}
+
+{{Deploy clients that omit `x-tenant-code` when no tenant is selected before enabling the setting. For an eligible caller, any opted-in header is an explicit choice, including a previously hard-coded `common` header. A home admin with a target user role receives only the target user permissions; a home user with a target admin role receives the target admin permissions.}}
+
+{{This opt-in is independent of `COMMON_TENANT_CODES` (default `common`) and `CROSS_TENANT_ROLES` (default `system_admin`); their defaults are unchanged. Custom guards and package policies still apply. In particular, the master package's optional access policy can independently reject no-home access to a non-common tenant even when core accepts the selection.}}
+
+:::info {{Version Note}}
+{{Explicit tenant selection was added in [version 1.8.2](/docs/changelog#v182). See [Migration Guide v1.8.2](/docs/migration/v1.8.2), [environment configuration](/docs/environment-variables#explicit-tenant-selection), and [context helpers](/docs/helpers#explicit-tenant-context).}}
+:::
+
 ## {{Tenant Verification}} {#tenant-verification}
 
 {{The `RolesGuard` includes extensible methods for tenant verification, allowing you to customize cross-tenant access behavior.}}
@@ -299,26 +259,14 @@ export class AppGroupRoleResolver implements IGroupRoleResolver {
 
 | {{Method}} | {{Description}} | {{Default Behavior}} |
 |------------|-----------------|----------------------|
-| `isHeaderOverride()` | {{Detect if tenant code comes from header}} | {{Returns true when `custom:tenant` is absent from the JWT and a tenant code is present}} |
-| `canOverrideTenant()` | {{Check if user can override tenant}} | {{Returns true for common tenant codes, or for users with a cross-tenant role (e.g., system_admin)}} |
+| `isHeaderOverride()` | {{Detect if tenant code comes from header}} | {{Returns true when a nonempty resolved tenant differs from the JWT home tenant}} |
+| `canOverrideTenant()` | {{Check if user can override tenant}} | {{Accepts validated explicit selections; otherwise uses the legacy common-tenant or cross-tenant-role policy}} |
 | `getCommonTenantCodes()` | {{Get list of common tenant codes}} | {{Returns common or value from COMMON_TENANT_CODES env var}} |
 | `getCrossTenantRoles()` | {{Get roles that can access cross-tenant}} | {{Returns system_admin or value from CROSS_TENANT_ROLES env var}} |
 
 ### {{Security: Tenant Code Header Override}} {#tenant-code-header-security}
 
-{{By default, only users with the `system_admin` role can override the tenant code via the `x-tenant-code` header. This prevents unauthorized cross-tenant access.}}
-
-```ts
-// {{Default behavior in RolesGuard}}
-protected canOverrideTenant(context: ExecutionContext, userContext: UserContext): boolean {
-  // {{Allow access to common tenant codes (e.g., 'common')}}
-  if (this.getCommonTenantCodes().includes(userContext.tenantCode)) {
-    return true;
-  }
-  // {{Allow users with cross-tenant roles (e.g., system_admin)}}
-  return this.getCrossTenantRoles().includes(userContext.tenantRole);
-}
-```
+{{With explicit selection disabled, a JWT home tenant keeps priority over the header. A header-derived tenant without a matching home must pass the legacy common-tenant or cross-tenant-role check. When explicit selection is enabled, core first validates direct membership or `system_admin` authority for the selected target; [the rules above](/docs/authentication#explicit-tenant-selection) apply.}}
 
 :::warning {{Security Note}}
 {{In versions prior to v1.1.0, users without a `custom:tenant` Cognito attribute could specify any tenant via the `x-tenant-code` header, potentially accessing data from other tenants. This security issue has been fixed in v1.1.0.}}

@@ -181,6 +181,12 @@ const userContext = getUserContext(invokeContext);
 // Returns: (戻り値:) { userId: '...', tenantCode: 'mbc', tenantRole: 'admin', tenantRoles: ['admin'], tenantGroupIds: [] }
 ```
 
+#### 明示的な選択とユーザーコンテキスト {#explicit-tenant-context}
+
+`getUserContext()` は `RolesGuard` と同じ明示的テナント選択を適用します。既定ではオプトインは無効です。条件を満たす対象ヘッダーは `custom:tenant` と異なるテナントを選択でき、返される直接ロールとグループ ID は選択先に属し、`system_admin` 権限は維持されます。未許可のワイルドカードまたはリテラルのワイルドカード選択では `tenantCode` が `undefined` となり、スコープのロールとグループは空になります。サービスで未解決のテナントを既定テナントとして扱わないでください。
+
+[v1.8.2](/docs/changelog#v182)で追加されました。[選択条件、名前指定のフォールバックとワイルドカード拒否](/docs/authentication#explicit-tenant-selection)および[移行ガイド v1.8.2](/docs/migration/v1.8.2)を参照してください。
+
 ### `extractInvokeContext(ctx?: ExecutionContext): IInvoke`
 
 NestJS実行コンテキストから呼び出しコンテキストを抽出します。Lambdaとローカル開発環境の両方をサポートします。

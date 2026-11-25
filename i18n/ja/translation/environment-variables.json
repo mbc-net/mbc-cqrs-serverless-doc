@@ -108,5 +108,11 @@
   "Security Best Practices": "セキュリティベストプラクティス",
   "Secure handling of credentials and secrets": "認証情報とシークレットの安全な取り扱い",
   "Installation": "インストール",
-  "Initial environment setup": "初期環境セットアップ"
+  "Initial environment setup": "初期環境セットアップ",
+  "Explicit Tenant Selection": "明示的なテナント選択",
+  "`EXPLICIT_TENANT_SELECTION_CODES` is an optional comma-separated runtime setting, empty by default (disabled). Use `common` for named selection or `common,*` for named common plus other targets. Entries are trimmed, lowercased and deduplicated; empty entries are ignored. Enable it only after clients omit the tenant header when nothing is selected.": "`EXPLICIT_TENANT_SELECTION_CODES` は任意のカンマ区切りのランタイム設定で、既定は空（無効）です。名前指定には `common`、common の名前指定と他の対象には `common,*` を使用します。前後の空白と重複を除去して小文字化し、空のエントリは無視します。クライアントが未選択時にテナントヘッダーを省略するようになってから有効にしてください。",
+  "Added in [v1.8.2](/docs/changelog#v182). See [authorization and fallback rules](/docs/authentication#explicit-tenant-selection) and [migration steps](/docs/migration/v1.8.2).": "[v1.8.2](/docs/changelog#v182)で追加されました。[認可とフォールバックのルール](/docs/authentication#explicit-tenant-selection)と[移行手順](/docs/migration/v1.8.2)を参照してください。",
+  "This opt-in is independent of `COMMON_TENANT_CODES` (default `common`) and `CROSS_TENANT_ROLES` (default `system_admin`); their defaults are unchanged. Custom guards and package policies still apply. In particular, the master package's optional access policy can independently reject no-home access to a non-common tenant even when core accepts the selection.": "このオプトインは `COMMON_TENANT_CODES`（既定 `common`）と `CROSS_TENANT_ROLES`（既定 `system_admin`）とは独立しており、既定値は変わりません。カスタムガードとパッケージ固有のポリシーも適用されます。特に master パッケージのオプションのアクセスポリシーは、core が選択を許可しても、ホームテナントがない呼び出し元による common 以外へのアクセスを独立して拒否する場合があります。",
+  "Opt-in named codes and optional wildcard for authorized tenant header selection": "認可付きテナントヘッダー選択のための名前指定と任意のワイルドカード",
+  "Empty (disabled)": "空（無効）"
 }
