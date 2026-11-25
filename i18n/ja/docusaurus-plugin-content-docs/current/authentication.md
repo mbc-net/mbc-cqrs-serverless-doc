@@ -20,6 +20,26 @@ description: 認証と認可の使用方法とカスタマイズ方法を学び�
 
 [AWS Amplify](https://docs.amplify.aws/nextjs/) を使用して、Amazon Cognito をウェブおよびモバイルアプリと統合することをお勧めします。 <br/> 認証が完了すると、サーバーは認証を証明するために、後続のリクエストの認証ヘッダーで [ベアラー トークン](https://datatracker.ietf.org/doc/html/rfc6750) として送信できる JWT を発行します 。
 
+## アプリクライアントの書き込み権限 {#app-client-write-attributes}
+
+Cognito アプリクライアントには、ユーザーが書き込める属性を `name` のみに制限する明示的な許可リストを設定します。`custom:roles`、`custom:tenant`、`custom:groups` などの認可属性は、呼び出し元の権限を確認したうえでサーバー側の `AdminUpdateUserAttributes` で管理してください。
+
+```ts
+const userPoolClient = new cdk.aws_cognito.UserPoolClient(this, 'apigw-client', {
+  userPool,
+  authFlows: { userPassword: true, userSrp: true },
+  writeAttributes: new cdk.aws_cognito.ClientAttributes().withStandardAttributes({
+    fullname: true,
+  }),
+})
+```
+
+:::warning 既知の問題（v1.8.1 で修正）
+v1.8.1 より前の CLI テンプレートは `writeAttributes` を省略していたため、ログイン済みユーザーは自身のアクセストークンで認可属性を書き換え、ロールの追加、テナントの変更、特権グループへの参加ができました。修正はテンプレートのみが対象です。既存プロジェクトでは自身のスタックを変更してデプロイし、フロントエンドの更新処理を見直し、全ユーザーを監査してください。パッケージ更新だけでは不十分です。
+
+ECS の権限、一時対処、監査手順は[変更履歴 v1.8.1](/docs/changelog#v181)と[移行ガイド v1.8.1](/docs/migration/v1.8.1)を参照してください。
+:::
+
 ## 認可 {#authorization}
 
 ユーザーが認証されると、ユーザーがアプリケーション内でアクセスおよび実行できる内容を制御するための認可を実装できます。認可は直交しており、認証とは独立しています。ただし、認可には認証メカニズムが必要です。 <br/> 当社はオプティミスティックタイプの認可チェックを使用します。ユーザーがルートにアクセスするか、Cookie に保存されているセッションデータを使用してアクションを実行することが認可されているかどうかをチェックします。具体的には、ロールベースのアクセス制御 (RBAC) を実装します。

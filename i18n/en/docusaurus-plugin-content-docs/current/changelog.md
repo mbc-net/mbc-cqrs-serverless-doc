@@ -18,6 +18,16 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ## Stable Releases (1.x) {#stable-releases}
 
+## [1.8.1](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.8.1) (2026-11-25) {#v181}
+
+### Security
+
+- Restrict the generated Cognito app client to writing only `name`. Previously a signed-in user could rewrite `custom:roles`, `custom:tenant` and `custom:groups` with their own access token. Grant the ECS task role the same Cognito admin actions as Lambda for server-side user management. ([See Details](/docs/authentication#app-client-write-attributes)) ([PR #523](https://github.com/mbc-net/mbc-cqrs-serverless/pull/523))
+
+### Upgrade Notes
+
+- Every existing scaffolded project must edit and deploy its own infrastructure; updating packages alone does not fix deployed pools. Review frontend attribute writes and audit all users. See [Migration Guide v1.8.1](/docs/migration/v1.8.1) for the stack change, temporary CLI remediation, ECS permissions and audit steps.
+
 ## [1.8.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.8.0) (2026-11-15) {#v180}
 
 ### Breaking Changes
@@ -179,6 +189,16 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ## Stable Releases (1.x) {#stable-releases}
 
+## [1.8.1](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.8.1) (2026-11-25) {#v181}
+
+### Security
+
+- Restrict the generated Cognito app client to writing only `name`. Previously a signed-in user could rewrite `custom:roles`, `custom:tenant` and `custom:groups` with their own access token. Grant the ECS task role the same Cognito admin actions as Lambda for server-side user management. ([See Details](/docs/authentication#app-client-write-attributes)) ([PR #523](https://github.com/mbc-net/mbc-cqrs-serverless/pull/523))
+
+### Upgrade Notes
+
+- Every existing scaffolded project must edit and deploy its own infrastructure; updating packages alone does not fix deployed pools. Review frontend attribute writes and audit all users. See [Migration Guide v1.8.1](/docs/migration/v1.8.1) for the stack change, temporary CLI remediation, ECS permissions and audit steps.
+
 ## [1.8.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.8.0) (2026-11-15) {#v180}
 
 ### Breaking Changes
@@ -339,6 +359,16 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 ---
 
 ## Stable Releases (1.x) {#stable-releases}
+
+## [1.8.1](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.8.1) (2026-11-25) {#v181}
+
+### Security
+
+- Restrict the generated Cognito app client to writing only `name`. Previously a signed-in user could rewrite `custom:roles`, `custom:tenant` and `custom:groups` with their own access token. Grant the ECS task role the same Cognito admin actions as Lambda for server-side user management. ([See Details](/docs/authentication#app-client-write-attributes)) ([PR #523](https://github.com/mbc-net/mbc-cqrs-serverless/pull/523))
+
+### Upgrade Notes
+
+- Every existing scaffolded project must edit and deploy its own infrastructure; updating packages alone does not fix deployed pools. Review frontend attribute writes and audit all users. See [Migration Guide v1.8.1](/docs/migration/v1.8.1) for the stack change, temporary CLI remediation, ECS permissions and audit steps.
 
 ## [1.8.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.8.0) (2026-11-15) {#v180}
 

@@ -18,6 +18,16 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ## 安定版リリース (1.x) {#stable-releases}
 
+## [1.8.1](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.8.1) (2026-11-25) {#v181}
+
+### セキュリティ
+
+- 生成する Cognito アプリクライアントの書き込み可能属性を `name` のみに制限しました。以前はログイン済みユーザーが自身のアクセストークンで `custom:roles`、`custom:tenant`、`custom:groups` を書き換えられました。サーバー側のユーザー管理のため、ECS タスクロールに Lambda と同じ Cognito 管理アクションも付与します。 ([詳細を見る](/docs/authentication#app-client-write-attributes)) ([PR #523](https://github.com/mbc-net/mbc-cqrs-serverless/pull/523))
+
+### アップグレード時の注意
+
+- 既存のすべての生成済みプロジェクトで、自身のインフラを変更してデプロイする必要があります。パッケージ更新だけではデプロイ済みプールは修正されません。フロントエンドの属性更新を見直し、全ユーザーを監査してください。スタック変更、一時的な CLI 対処、ECS 権限、監査手順は[移行ガイド v1.8.1](/docs/migration/v1.8.1)を参照してください。
+
 ## [1.8.0](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.8.0) (2026-11-15) {#v180}
 
 ### 破壊的変更

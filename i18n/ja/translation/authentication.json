@@ -99,5 +99,10 @@
   "Interfaces — IGroupRoleResolver": "インターフェース — IGroupRoleResolver",
   "TypeScript interface reference": "TypeScript インターフェースリファレンス",
   "Helpers": "ヘルパー",
-  "getUserContext and context helper functions": "getUserContextとコンテキストヘルパー関数"
+  "getUserContext and context helper functions": "getUserContextとコンテキストヘルパー関数",
+  "App Client Write Permissions": "アプリクライアントの書き込み権限",
+  "Configure the Cognito app client with an explicit allowlist that permits users to write only `name`. Authorization attributes such as `custom:roles`, `custom:tenant` and `custom:groups` must be managed server-side with `AdminUpdateUserAttributes` after checking the caller's permission.": "Cognito アプリクライアントには、ユーザーが書き込める属性を `name` のみに制限する明示的な許可リストを設定します。`custom:roles`、`custom:tenant`、`custom:groups` などの認可属性は、呼び出し元の権限を確認したうえでサーバー側の `AdminUpdateUserAttributes` で管理してください。",
+  "Known Issue (Fixed in v1.8.1)": "既知の問題（v1.8.1 で修正）",
+  "Before v1.8.1, the CLI template omitted `writeAttributes`. Signed-in users could update authorization attributes with their own access token, granting themselves roles, changing tenant or joining privileged groups. The fix changes the template only: existing projects must edit and deploy their own stack, review frontend writes and audit all users. Upgrading packages alone is insufficient.": "v1.8.1 より前の CLI テンプレートは `writeAttributes` を省略していたため、ログイン済みユーザーは自身のアクセストークンで認可属性を書き換え、ロールの追加、テナントの変更、特権グループへの参加ができました。修正はテンプレートのみが対象です。既存プロジェクトでは自身のスタックを変更してデプロイし、フロントエンドの更新処理を見直し、全ユーザーを監査してください。パッケージ更新だけでは不十分です。",
+  "See [Changelog v1.8.1](/docs/changelog#v181) and [Migration Guide v1.8.1](/docs/migration/v1.8.1) for ECS permissions, temporary remediation and audit steps.": "ECS の権限、一時対処、監査手順は[変更履歴 v1.8.1](/docs/changelog#v181)と[移行ガイド v1.8.1](/docs/migration/v1.8.1)を参照してください。"
 }
