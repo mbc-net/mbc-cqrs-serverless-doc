@@ -108,5 +108,11 @@
   "Security Best Practices": "Security Best Practices",
   "Secure handling of credentials and secrets": "Secure handling of credentials and secrets",
   "Installation": "Installation",
-  "Initial environment setup": "Initial environment setup"
+  "Initial environment setup": "Initial environment setup",
+  "Explicit Tenant Selection": "Explicit Tenant Selection",
+  "`EXPLICIT_TENANT_SELECTION_CODES` is an optional comma-separated runtime setting, empty by default (disabled). Use `common` for named selection or `common,*` for named common plus other targets. Entries are trimmed, lowercased and deduplicated; empty entries are ignored. Enable it only after clients omit the tenant header when nothing is selected.": "`EXPLICIT_TENANT_SELECTION_CODES` is an optional comma-separated runtime setting, empty by default (disabled). Use `common` for named selection or `common,*` for named common plus other targets. Entries are trimmed, lowercased and deduplicated; empty entries are ignored. Enable it only after clients omit the tenant header when nothing is selected.",
+  "Added in [v1.8.2](/docs/changelog#v182). See [authorization and fallback rules](/docs/authentication#explicit-tenant-selection) and [migration steps](/docs/migration/v1.8.2).": "Added in [v1.8.2](/docs/changelog#v182). See [authorization and fallback rules](/docs/authentication#explicit-tenant-selection) and [migration steps](/docs/migration/v1.8.2).",
+  "This opt-in is independent of `COMMON_TENANT_CODES` (default `common`) and `CROSS_TENANT_ROLES` (default `system_admin`); their defaults are unchanged. Custom guards and package policies still apply. In particular, the master package's optional access policy can independently reject no-home access to a non-common tenant even when core accepts the selection.": "This opt-in is independent of `COMMON_TENANT_CODES` (default `common`) and `CROSS_TENANT_ROLES` (default `system_admin`); their defaults are unchanged. Custom guards and package policies still apply. In particular, the master package's optional access policy can independently reject no-home access to a non-common tenant even when core accepts the selection.",
+  "Opt-in named codes and optional wildcard for authorized tenant header selection": "Opt-in named codes and optional wildcard for authorized tenant header selection",
+  "Empty (disabled)": "Empty (disabled)"
 }

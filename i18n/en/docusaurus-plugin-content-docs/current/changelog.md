@@ -18,6 +18,21 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ## Stable Releases (1.x) {#stable-releases}
 
+## [1.8.2](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.8.2) (2026-11-25) {#v182}
+
+### Features
+
+- **core:** Add opt-in explicit tenant selection through `EXPLICIT_TENANT_SELECTION_CODES`. `getUserContext()` and `RolesGuard` consistently select an authorized header tenant before the JWT home tenant, isolate the selected tenant's direct roles and groups, and retain `system_admin` authority. The default is empty (disabled). ([See Details](/docs/authentication#explicit-tenant-selection)) ([PR #522](https://github.com/mbc-net/mbc-cqrs-serverless/pull/522))
+
+### Bug Fixes
+
+- **core:** Reject unauthorized wildcard selections, literal wildcard headers while the opt-in is enabled, and no-home empty or whitespace headers instead of resolving an unintended tenant. `COMMON_TENANT_CODES` and `CROSS_TENANT_ROLES` defaults remain unchanged. ([See Details](/docs/authentication#explicit-tenant-selection))
+- **cli/build:** Await the CLI generation runner, isolate child-process tests, correct the JSONStream type alias and picomatch lock entry, and exclude raw EJS assets from coverage while keeping schematic implementation coverage. ([PR #522](https://github.com/mbc-net/mbc-cqrs-serverless/pull/522))
+
+### Upgrade Notes
+
+- Deploy clients that omit `x-tenant-code` when no tenant is selected before enabling the server setting. Use `common` for named selection or `common,*` for named common plus authorized selection of other tenants. See [Migration Guide v1.8.2](/docs/migration/v1.8.2).
+
 ## [1.8.1](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.8.1) (2026-11-25) {#v181}
 
 ### Security
@@ -189,6 +204,21 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 
 ## Stable Releases (1.x) {#stable-releases}
 
+## [1.8.2](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.8.2) (2026-11-25) {#v182}
+
+### Features
+
+- **core:** Add opt-in explicit tenant selection through `EXPLICIT_TENANT_SELECTION_CODES`. `getUserContext()` and `RolesGuard` consistently select an authorized header tenant before the JWT home tenant, isolate the selected tenant's direct roles and groups, and retain `system_admin` authority. The default is empty (disabled). ([See Details](/docs/authentication#explicit-tenant-selection)) ([PR #522](https://github.com/mbc-net/mbc-cqrs-serverless/pull/522))
+
+### Bug Fixes
+
+- **core:** Reject unauthorized wildcard selections, literal wildcard headers while the opt-in is enabled, and no-home empty or whitespace headers instead of resolving an unintended tenant. `COMMON_TENANT_CODES` and `CROSS_TENANT_ROLES` defaults remain unchanged. ([See Details](/docs/authentication#explicit-tenant-selection))
+- **cli/build:** Await the CLI generation runner, isolate child-process tests, correct the JSONStream type alias and picomatch lock entry, and exclude raw EJS assets from coverage while keeping schematic implementation coverage. ([PR #522](https://github.com/mbc-net/mbc-cqrs-serverless/pull/522))
+
+### Upgrade Notes
+
+- Deploy clients that omit `x-tenant-code` when no tenant is selected before enabling the server setting. Use `common` for named selection or `common,*` for named common plus authorized selection of other tenants. See [Migration Guide v1.8.2](/docs/migration/v1.8.2).
+
 ## [1.8.1](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.8.1) (2026-11-25) {#v181}
 
 ### Security
@@ -359,6 +389,21 @@ All notable changes to MBC CQRS Serverless are documented here. This project fol
 ---
 
 ## Stable Releases (1.x) {#stable-releases}
+
+## [1.8.2](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.8.2) (2026-11-25) {#v182}
+
+### Features
+
+- **core:** Add opt-in explicit tenant selection through `EXPLICIT_TENANT_SELECTION_CODES`. `getUserContext()` and `RolesGuard` consistently select an authorized header tenant before the JWT home tenant, isolate the selected tenant's direct roles and groups, and retain `system_admin` authority. The default is empty (disabled). ([See Details](/docs/authentication#explicit-tenant-selection)) ([PR #522](https://github.com/mbc-net/mbc-cqrs-serverless/pull/522))
+
+### Bug Fixes
+
+- **core:** Reject unauthorized wildcard selections, literal wildcard headers while the opt-in is enabled, and no-home empty or whitespace headers instead of resolving an unintended tenant. `COMMON_TENANT_CODES` and `CROSS_TENANT_ROLES` defaults remain unchanged. ([See Details](/docs/authentication#explicit-tenant-selection))
+- **cli/build:** Await the CLI generation runner, isolate child-process tests, correct the JSONStream type alias and picomatch lock entry, and exclude raw EJS assets from coverage while keeping schematic implementation coverage. ([PR #522](https://github.com/mbc-net/mbc-cqrs-serverless/pull/522))
+
+### Upgrade Notes
+
+- Deploy clients that omit `x-tenant-code` when no tenant is selected before enabling the server setting. Use `common` for named selection or `common,*` for named common plus authorized selection of other tenants. See [Migration Guide v1.8.2](/docs/migration/v1.8.2).
 
 ## [1.8.1](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.8.1) (2026-11-25) {#v181}
 

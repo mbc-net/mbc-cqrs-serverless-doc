@@ -38,8 +38,17 @@ description: {{Learn how to add and validate your environment variables in your 
 
 | {{Variable}} | {{Description}} | {{Required}} | {{Default}} | {{Example}} |
 |-------------|-----------------|--------------|-------------|-------------|
+| `EXPLICIT_TENANT_SELECTION_CODES` | {{Opt-in named codes and optional wildcard for authorized tenant header selection}} | {{No}} | {{Empty (disabled)}} | `common,*` |
 | `COMMON_TENANT_CODES` | {{Comma-separated list of tenant codes treated as common/shared across tenants}} | {{No}} | `common` | `common,shared,public` |
 | `CROSS_TENANT_ROLES` | {{Comma-separated list of roles granted cross-tenant access}} | {{No}} | `system_admin` | `system_admin,general_manager` |
+
+### {{Explicit Tenant Selection}} {#explicit-tenant-selection}
+
+{{`EXPLICIT_TENANT_SELECTION_CODES` is an optional comma-separated runtime setting, empty by default (disabled). Use `common` for named selection or `common,*` for named common plus other targets. Entries are trimmed, lowercased and deduplicated; empty entries are ignored. Enable it only after clients omit the tenant header when nothing is selected.}}
+
+{{This opt-in is independent of `COMMON_TENANT_CODES` (default `common`) and `CROSS_TENANT_ROLES` (default `system_admin`); their defaults are unchanged. Custom guards and package policies still apply. In particular, the master package's optional access policy can independently reject no-home access to a non-common tenant even when core accepts the selection.}}
+
+{{Added in [v1.8.2](/docs/changelog#v182). See [authorization and fallback rules](/docs/authentication#explicit-tenant-selection) and [migration steps](/docs/migration/v1.8.2).}}
 
 ### {{Read-Your-Writes (RYW) Configuration}} {#ryw-session-configuration}
 
@@ -164,6 +173,7 @@ EVENT_SOURCE_DISABLED=false
 REQUEST_BODY_SIZE_LIMIT=100kb
 
 # {{Multi-Tenancy Configuration}}
+# EXPLICIT_TENANT_SELECTION_CODES=
 # COMMON_TENANT_CODES=common
 # CROSS_TENANT_ROLES=system_admin
 
@@ -253,7 +263,6 @@ export const handler = createHandler({
   envCls: EnvValidation,
 });
 ```
-
 
 ## {{Related Documentation}}
 

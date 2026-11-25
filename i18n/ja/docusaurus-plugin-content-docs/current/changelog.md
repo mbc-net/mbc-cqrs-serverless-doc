@@ -18,6 +18,21 @@ MBC CQRS Serverlessのすべての注目すべき変更がここに記録され�
 
 ## 安定版リリース (1.x) {#stable-releases}
 
+## [1.8.2](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.8.2) (2026-11-25) {#v182}
+
+### 新機能
+
+- **core:** `EXPLICIT_TENANT_SELECTION_CODES` によるオプトインの明示的テナント選択を追加しました。`getUserContext()` と `RolesGuard` は、許可されたヘッダーのテナントを JWT のホームテナントより優先し、選択先の直接ロールとグループを分離して使用し、`system_admin` 権限を維持します。既定値は空（無効）です。 ([詳細を見る](/docs/authentication#explicit-tenant-selection)) ([PR #522](https://github.com/mbc-net/mbc-cqrs-serverless/pull/522))
+
+### バグ修正
+
+- **core:** オプトインが有効な場合、未許可のワイルドカード選択、リテラルのワイルドカードヘッダー、ホームテナントがない空または空白のヘッダーを拒否し、意図しないテナントへの解決を防ぎます。`COMMON_TENANT_CODES` と `CROSS_TENANT_ROLES` の既定値は変わりません。 ([詳細を見る](/docs/authentication#explicit-tenant-selection))
+- **cli/build:** CLI の生成ランナーの完了を待つようにし、子プロセスのテストを分離しました。JSONStream の型エイリアスと picomatch のロックエントリを修正し、スキーマティックの実装カバレッジを維持しながら EJS 素材をカバレッジ対象外にしました。 ([PR #522](https://github.com/mbc-net/mbc-cqrs-serverless/pull/522))
+
+### アップグレード時の注意
+
+- サーバー設定を有効にする前に、テナント未選択時は `x-tenant-code` を送信しないクライアントを先にデプロイしてください。名前指定の選択には `common`、common の名前指定と他のテナントの許可付き選択には `common,*` を使用します。[移行ガイド v1.8.2](/docs/migration/v1.8.2)を参照してください。
+
 ## [1.8.1](https://github.com/mbc-net/mbc-cqrs-serverless/releases/tag/v1.8.1) (2026-11-25) {#v181}
 
 ### セキュリティ
